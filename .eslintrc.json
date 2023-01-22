@@ -1,11 +1,15 @@
 {
   "plugins": ["@typescript-eslint"],
   "extends": [
+    "plugin:@next/next/recommended",
     "airbnb-base",
     "airbnb-typescript/base",
     "plugin:@typescript-eslint/recommended",
     "prettier"
   ],
+  "parserOptions": {
+    "project": ["./tsconfig.json"]
+  },
   "rules": {
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/no-explicit-any": "error",
@@ -14,6 +18,6 @@
     "spaced-comment": "error",
     "quotes": ["warn", "single"],
     "no-duplicate-imports": "error",
-    "unused-imports/no-unused-imports-ts": "on"
+    "import/extensions": 0
   }
 }
