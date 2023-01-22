@@ -6,14 +6,18 @@ import clsx from 'clsx'
 import { motion } from 'framer-motion'
 import SimpleBarReact from 'simplebar-react'
 
+// Components
+import NavItem from './NavItem'
+
+// Icons
 import { AiFillDashboard } from 'react-icons/ai'
 import { IoLogOut } from 'react-icons/io5'
 import { RiCustomerService2Fill, RiSettings3Fill } from 'react-icons/ri'
 import { MdContacts, MdGroups, MdInventory, MdPerson } from 'react-icons/md'
 import { BsKanbanFill } from 'react-icons/bs'
 import { FaMoneyCheckAlt, FaTruckLoading } from 'react-icons/fa'
-import NavItem from './NavItem'
 
+// Assets
 import logo from '../public/logo.svg'
 // import 'simplebar-react/dist/simplebar.min.css'
 
@@ -25,40 +29,16 @@ function SideBar() {
     setMounted(true)
   }, [])
   return (
-    <div className='relative top-0 left-0 flex min-h-screen items-center'>
-      <div className='group absolute z-10 flex h-screen flex-col items-start border-r border-gray-300 bg-white py-6 px-4 transition-all dark:border-gray-700 dark:bg-primary-900'>
+    <div className='relative'>
+      <div className='group absolute z-10 flex h-screen w-max flex-col items-start border-r border-dashed border-gray-400 bg-white py-6 px-4 transition-all dark:border-gray-600 dark:bg-primary-900'>
         <Image src={logo} alt='logo' className='mt-4 mb-12 aspect-auto h-10 w-full' />
         <nav className='flex w-full flex-1 flex-col items-center gap-2'>
-          <NavItem
-            tooltip='CRM'
-            icon={<RiCustomerService2Fill size={24} />}
-            isActive={true}
-            href='#'
-            asLink
-          />
-          <NavItem tooltip='HRM' icon={<MdGroups size={24} />} isActive={false} href='#' asLink />
-          <NavItem
-            tooltip='PM'
-            icon={<BsKanbanFill size={24} />}
-            isActive={false}
-            href='#'
-            asLink
-          />
-          <NavItem tooltip='IM' icon={<MdInventory size={24} />} isActive={false} href='#' asLink />
-          <NavItem
-            tooltip='SCM'
-            icon={<FaTruckLoading size={24} />}
-            isActive={false}
-            href='#'
-            asLink
-          />
-          <NavItem
-            tooltip='FM'
-            icon={<FaMoneyCheckAlt size={24} />}
-            isActive={false}
-            href='#'
-            asLink
-          />
+          <NavItem tooltip='CRM' icon={<RiCustomerService2Fill size={24} />} href='/crm' asLink />
+          <NavItem tooltip='HRM' icon={<MdGroups size={24} />} href='/hrm' asLink />
+          <NavItem tooltip='PM' icon={<BsKanbanFill size={24} />} href='/pm' asLink />
+          <NavItem tooltip='IM' icon={<MdInventory size={24} />} href='/im' asLink />
+          <NavItem tooltip='SCM' icon={<FaTruckLoading size={24} />} href='/scm' asLink />
+          <NavItem tooltip='FM' icon={<FaMoneyCheckAlt size={24} />} href='/fm' asLink />
         </nav>
         <div className='flex flex-col items-center justify-between gap-2'>
           {mounted && (
@@ -98,7 +78,7 @@ function SideBar() {
           <NavItem icon={<IoLogOut size={24} />} tooltip='Logout' />
         </div>
       </div>
-      <div className='absolute ml-[88px] flex h-screen flex-col bg-secondary-100 dark:bg-secondary-900 dark:text-white'>
+      <div className='ml-[88px] flex h-screen w-max flex-col bg-secondary-100 dark:bg-secondary-900 dark:text-white'>
         <SimpleBarReact className='h-full px-5'>
           <h1 className='mb-5 mt-28 font-medium'>General</h1>
           <div className='flex flex-col items-center gap-4'>
