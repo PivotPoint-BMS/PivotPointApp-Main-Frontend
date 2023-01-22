@@ -1,6 +1,5 @@
 import React from 'react'
-import { cva } from 'class-variance-authority'
-import type { VariantProps } from 'class-variance-authority'
+import { cva, VariantProps } from 'class-variance-authority'
 
 export const buttonContained = cva('py-2 px-3 select-none', {
   variants: {

@@ -6,9 +6,6 @@ import clsx from 'clsx'
 import { motion } from 'framer-motion'
 import SimpleBarReact from 'simplebar-react'
 
-// Components
-import NavItem from './NavItem'
-
 // Icons
 import { AiFillDashboard } from 'react-icons/ai'
 import { IoLogOut } from 'react-icons/io5'
@@ -16,6 +13,9 @@ import { RiCustomerService2Fill, RiSettings3Fill } from 'react-icons/ri'
 import { MdContacts, MdGroups, MdInventory, MdPerson } from 'react-icons/md'
 import { BsKanbanFill } from 'react-icons/bs'
 import { FaMoneyCheckAlt, FaTruckLoading } from 'react-icons/fa'
+
+// Components
+import NavItem from './NavItem'
 
 // Assets
 import logo from '../public/logo.svg'
@@ -28,6 +28,7 @@ function SideBar() {
   useEffect(() => {
     setMounted(true)
   }, [])
+
   return (
     <div className='relative'>
       <div className='group absolute z-10 flex h-screen w-max flex-col items-start border-r border-dashed border-gray-400 bg-white py-6 px-4 transition-all dark:border-gray-600 dark:bg-primary-900'>
