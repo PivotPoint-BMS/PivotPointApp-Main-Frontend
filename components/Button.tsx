@@ -5,7 +5,7 @@ export const buttonContained = cva('py-2 px-3 select-none', {
   variants: {
     intent: {
       primary:
-        'bg-primary-600 hover:bg-primary-700 transition-all text-white active:bg-primary-500',
+        'bg-primary-600 hover:bg-primary-700 transition-all text-white active:bg-primary-500 dark:bg-primary-500 dark:hover:bg-primary-600 dark:active:bg-primary-400',
       secondary:
         'bg-secondary-600 hover:bg-secondary-700 transition-all text-white active:bg-secondary-500',
     },

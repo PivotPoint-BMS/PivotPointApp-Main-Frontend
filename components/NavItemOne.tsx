@@ -18,21 +18,21 @@ type Props =
       href?: never
     }
 
-function NavItem({ tooltip, icon, asLink = false, href = '', onClick }: Props) {
+function NavItemOne({ tooltip, icon, asLink = false, href = '', onClick }: Props) {
   const router = useRouter()
 
   return asLink ? (
     <Link
       href={href}
       className={clsx([
-        'relative flex w-full items-center rounded-xl p-4 text-primary-900 transition-all dark:text-white',
+        'relative flex w-fit items-center rounded-xl p-4 text-primary-900 transition-all group-hover:w-full dark:text-white',
         router.asPath.split('/')[1] === href.split('/')[1]
           ? 'bg-primary-500/10 hover:bg-primary-500/25 dark:bg-gray-300/10 dark:hover:bg-gray-200/20'
           : 'hover:bg-primary-500/10 dark:hover:bg-gray-300/10',
       ])}
     >
       {icon}
-      <h3 className='w-max text-[0px] opacity-0 transition-all duration-300 group-hover:ml-3 group-hover:text-sm group-hover:opacity-100'>
+      <h3 className='w-max text-[0px] capitalize opacity-0 transition-all duration-300 group-hover:ml-3 group-hover:text-xs  group-hover:opacity-100'>
         {tooltip}
       </h3>
       {tooltip && (
@@ -47,7 +47,7 @@ function NavItem({ tooltip, icon, asLink = false, href = '', onClick }: Props) {
       onClick={onClick}
     >
       {icon}
-      <h3 className='w-max text-[0px] opacity-0 transition-all duration-300 group-hover:ml-3 group-hover:text-sm group-hover:opacity-100'>
+      <h3 className='w-max text-[0px] capitalize opacity-0 transition-all duration-300 group-hover:ml-3 group-hover:text-xs group-hover:opacity-100'>
         {tooltip}
       </h3>
       {tooltip && (
@@ -59,4 +59,4 @@ function NavItem({ tooltip, icon, asLink = false, href = '', onClick }: Props) {
   )
 }
 
-export default NavItem
+export default NavItemOne

@@ -1,29 +1,49 @@
-import { useEffect, useState } from 'react'
+/* eslint-disable no-constant-condition */
+import { useEffect, useState, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useTheme } from 'next-themes'
-import clsx from 'clsx'
 import { motion } from 'framer-motion'
 import SimpleBarReact from 'simplebar-react'
 
 // Icons
-import { AiFillDashboard } from 'react-icons/ai'
-import { IoLogOut } from 'react-icons/io5'
-import { RiCustomerService2Fill, RiSettings3Fill } from 'react-icons/ri'
-import { MdContacts, MdGroups, MdInventory, MdPerson } from 'react-icons/md'
-import { BsKanbanFill } from 'react-icons/bs'
-import { FaMoneyCheckAlt, FaTruckLoading } from 'react-icons/fa'
-
-// Components
-import NavItem from './NavItem'
+import { Icon as Iconify } from '@iconify/react'
 
 // Assets
-import logo from '../public/logo.svg'
+import logo from 'public/logo.svg'
+
+// hooks
+import useTranslate from 'hooks/useTranslate'
+
+// redux
+import { useAppSelector } from '../store/hooks'
+import { NavItemConfig } from '../store/sideBarSlice'
+
+// Components
+import NavItemOne from './NavItemOne'
+import NavItemTwo from './NavItemTwo'
+
+// css
 // import 'simplebar-react/dist/simplebar.min.css'
+
+const getSubItems = (sideBarConfig: NavItemConfig[], path: string) => {
+  const activePath = path.split('/')[1]
+  const activeItem = sideBarConfig.filter((item) => item.href === `/${activePath}`)
+
+  if (!activeItem[0]) return null
+  return activeItem[0].subItems
+}
 
 function SideBar() {
   const { theme, setTheme } = useTheme()
+  const router = useRouter()
   const [mounted, setMounted] = useState(false)
+  const { sideBarConfig } = useAppSelector((state) => state)
+
+  const t = useTranslate()
+
+  const subItems = useMemo(() => getSubItems(sideBarConfig, router.pathname), [router.pathname])
 
   useEffect(() => {
     setMounted(true)
@@ -32,24 +52,29 @@ function SideBar() {
   return (
     <div className='relative'>
       <div className='group absolute z-10 flex h-screen w-max flex-col items-start border-r border-dashed border-gray-400 bg-white py-6 px-4 transition-all dark:border-gray-600 dark:bg-primary-900'>
-        <Image src={logo} alt='logo' className='mt-4 mb-12 aspect-auto h-10 w-full' />
-        <nav className='flex w-full flex-1 flex-col items-center gap-2'>
-          <NavItem tooltip='CRM' icon={<RiCustomerService2Fill size={24} />} href='/crm' asLink />
-          <NavItem tooltip='HRM' icon={<MdGroups size={24} />} href='/hrm' asLink />
-          <NavItem tooltip='PM' icon={<BsKanbanFill size={24} />} href='/pm' asLink />
-          <NavItem tooltip='IM' icon={<MdInventory size={24} />} href='/im' asLink />
-          <NavItem tooltip='SCM' icon={<FaTruckLoading size={24} />} href='/scm' asLink />
-          <NavItem tooltip='FM' icon={<FaMoneyCheckAlt size={24} />} href='/fm' asLink />
+        <Link href='/' className='mt-4 mb-12 w-full'>
+          <Image src={logo} alt='logo' className='aspect-auto h-10 w-full' />
+        </Link>
+        <nav className='flex w-full flex-1 flex-col items-start gap-2'>
+          {sideBarConfig.map((item, i) => (
+            <NavItemOne
+              key={i}
+              tooltip={t[item.name]}
+              icon={<Iconify icon={item.icon} height={22} width={22} />}
+              href={item.href}
+              asLink
+            />
+          ))}
         </nav>
-        <div className='flex flex-col items-center justify-between gap-2'>
+        <div className='flex w-full flex-col items-start justify-between gap-2'>
           {mounted && (
-            <NavItem
+            <NavItemOne
               icon={
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   viewBox='0 0 24 24'
-                  height={24}
-                  width={24}
+                  height={22}
+                  width={22}
                   className='stroke-primary-900 stroke-[0.5px] dark:stroke-white'
                   style={{ strokeLinecap: 'round', strokeLinejoin: 'round' }}
                 >
@@ -72,56 +97,38 @@ function SideBar() {
                 </svg>
               }
               onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-              tooltip='Toggle Dark Mode'
+              tooltip={t['Toggle Dark Mode']}
             />
           )}
-          <NavItem icon={<RiSettings3Fill size={24} />} tooltip='Settings' />
-          <NavItem icon={<IoLogOut size={24} />} tooltip='Logout' />
+          <NavItemOne
+            icon={<Iconify icon='ri:settings-3-fill' height={22} width={22} />}
+            tooltip={t.Settings}
+          />
+          <NavItemOne
+            icon={<Iconify icon='majesticons:logout' height={22} width={22} />}
+            tooltip={t.Logout}
+          />
         </div>
       </div>
-      <div className='ml-[88px] flex h-screen w-max flex-col bg-secondary-100 dark:bg-secondary-900 dark:text-white'>
-        <SimpleBarReact className='h-full px-5'>
-          <h1 className='mb-5 mt-28 font-medium'>General</h1>
-          <div className='flex flex-col items-center gap-4'>
-            <Link
-              href='#'
-              className={clsx(
-                'flex w-full items-center gap-3 rounded-xl py-3 px-5',
-                true
-                  ? 'bg-secondary-600 text-gray-200 hover:bg-secondary-700 dark:text-gray-100'
-                  : 'bg-gray-100/40 text-secondary-600 hover:bg-gray-100/60 dark:bg-secondary-100/60 dark:text-gray-300 dark:hover:bg-secondary-200/50'
-              )}
-            >
-              <AiFillDashboard size={24} />
-              <h4 className='text-sm'>Dashboard</h4>
-            </Link>
-            <Link
-              href='#'
-              className={clsx(
-                'flex w-full items-center gap-3 rounded-xl py-3 px-4',
-                false
-                  ? 'bg-secondary-600 text-gray-200 dark:text-gray-100'
-                  : 'bg-gray-100/40 text-secondary-600 hover:bg-gray-100/60 dark:bg-secondary-100/60 dark:text-gray-300 dark:hover:bg-secondary-200/50'
-              )}
-            >
-              <MdPerson size={24} />
-              <h4 className='text-sm'>Leads</h4>
-            </Link>
-            <Link
-              href='#'
-              className={clsx(
-                'flex w-full items-center gap-3 rounded-xl py-3 px-4',
-                false
-                  ? 'bg-secondary-600 text-gray-200 dark:text-gray-100'
-                  : 'bg-gray-100/40 text-secondary-600 hover:bg-gray-100/60 dark:bg-secondary-100/60 dark:text-gray-300 dark:hover:bg-secondary-200/50'
-              )}
-            >
-              <MdContacts size={24} />
-              <h4 className='text-sm'>Contact</h4>
-            </Link>
-          </div>
-        </SimpleBarReact>
-      </div>
+      {subItems && (
+        <motion.div
+          initial={{ width: 0 }}
+          animate={{ width: 'max-content' }}
+          transition={{ duration: 0.2 }}
+          className='ml-[88px] flex h-screen flex-col bg-secondary-100 dark:bg-secondary-900 dark:text-white '
+        >
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
+            <SimpleBarReact className='h-full px-5'>
+              <h1 className='mb-5 mt-28 font-medium'>General</h1>
+              <div className='flex flex-col gap-4'>
+                {subItems.map((item, i) => (
+                  <NavItemTwo key={i} {...item} />
+                ))}
+              </div>
+            </SimpleBarReact>
+          </motion.div>
+        </motion.div>
+      )}
     </div>
   )
 }
