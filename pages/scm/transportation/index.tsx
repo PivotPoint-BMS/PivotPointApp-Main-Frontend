@@ -5,10 +5,10 @@ export default function index() {
   return (
     <>
       <Head>
-        <title>Customer Relationship Management | Pivot Point BMS</title>
+        <title>Supply Chain Management | Pivot Point BMS</title>
       </Head>
       <div className='flex h-full items-center justify-center'>
-        <h1 className='text-2xl font-medium'>Customer Service</h1>
+        <h1 className='text-2xl font-medium'>Transportation</h1>
       </div>
     </>
   )

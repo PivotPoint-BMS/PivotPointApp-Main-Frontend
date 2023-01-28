@@ -2,16 +2,22 @@
 module.exports = {
   darkMode: 'class',
   mode: 'jit',
+  plugins: [require('tailwindcss-radix')({})],
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',
     './components/**/*.{js,ts,jsx,tsx}',
     './app/**/*.{js,ts,jsx,tsx}',
+    './sections/**/*.{js,ts,jsx,tsx}',
+    './layout/**/*.{js,ts,jsx,tsx}',
     './stories/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
+      width: {
+        'navbar-main': '88px',
+      },
       fontFamily: {
-        sans: ['Poppins', 'sans-serif'],
+        sans: ['Poppins', 'Tajawal', 'sans-serif'],
       },
       colors: {
         'rich-black': '#081320',
