@@ -10,8 +10,9 @@ const useTranslate = () => {
   const { locale } = router
 
   // eslint-disable-next-line no-nested-ternary
-  const t = locale !== 'en' ? (locale === 'fr' ? fr : ar) : en
-  return t
+  const translation = locale !== 'en' ? (locale === 'fr' ? fr : ar) : en
+  const t = (key: string) => (translation[key] ? translation[key] : key)
+  return { t, locale }
 }
 
 export default useTranslate
