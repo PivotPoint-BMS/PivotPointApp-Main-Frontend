@@ -20,6 +20,7 @@ export interface NavItemConfig {
 interface SideBarConfig {
   items: NavItemConfig[]
   isOpen: boolean
+  isCollapsed: boolean
 }
 
 const initialState: SideBarConfig = {
@@ -244,6 +245,7 @@ const initialState: SideBarConfig = {
     },
   ],
   isOpen: false,
+  isCollapsed: false,
 }
 
 export const sideBarSlice = createSlice({
@@ -256,9 +258,15 @@ export const sideBarSlice = createSlice({
     close: (state) => {
       state.isOpen = false
     },
+    collapse: (state) => {
+      state.isCollapsed = true
+    },
+    extend: (state) => {
+      state.isCollapsed = false
+    },
   },
 })
 
-export const { close, open } = sideBarSlice.actions
+export const { close, open, collapse, extend } = sideBarSlice.actions
 
 export default sideBarSlice.reducer
