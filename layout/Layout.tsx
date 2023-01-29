@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 // hooks
 import useResponsive from 'hooks/useResponsive'
 import Header from './Header'
@@ -13,9 +13,7 @@ function Layout({ children }: { children: React.ReactNode | React.ReactNode[] })
     <div className='flex h-screen w-full'>
       <Header />
       {isDesktop ? <SidebarDesktop /> : <SidebarMobile />}
-      <div className='flex-1 p-2'>
-        <Suspense fallback={<p>Loading feed...</p>}>{children}</Suspense>
-      </div>
+      <div className='flex-1 p-2'>{children}</div>
     </div>
   )
 }
