@@ -17,7 +17,7 @@ type Props =
       name: string
       icon: React.ReactElement
       asLink?: boolean
-      onClick?: () => never
+      onClick?: () => void
       subItems: {
         name: string
         href: string
@@ -52,7 +52,7 @@ function NavItemMobile({ name, icon, asLink = false, href = '', onClick, subItem
           active && 'bg-primary-500/10 dark:bg-gray-300/10'
         )}
       >
-        <Link href={href} className='flex flex-1 items-center gap-2'>
+        <Link href={href} className='flex flex-1 items-center gap-2' onClick={onClick}>
           {icon}
           <h3 className='ml-3 truncate text-xs font-medium  capitalize group-hover:opacity-100'>
             {name}
@@ -83,6 +83,7 @@ function NavItemMobile({ name, icon, asLink = false, href = '', onClick, subItem
               item.disabled &&
                 'cursor-not-allowed opacity-40 hover:bg-gray-100/40 dark:hover:bg-secondary-100/60'
             )}
+            onClick={onClick}
           >
             <Iconify icon={item.icon} height={20} width={20} />
             <h4 className='flex-1 text-[10px] font-medium capitalize'>{name}</h4>

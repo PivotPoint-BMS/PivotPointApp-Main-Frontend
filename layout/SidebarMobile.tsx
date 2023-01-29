@@ -41,6 +41,13 @@ export default function SidebarMobile() {
     setOpened(isOpen)
   }, [isOpen])
 
+  const handleClose = () => {
+    setOpened(false)
+    setTimeout(() => {
+      dispatch(close())
+    }, 200)
+  }
+
   return (
     <div
       className={clsx(
@@ -59,7 +66,7 @@ export default function SidebarMobile() {
           style={{ width: NAVBAR.MAIN_NAVBAR_WIDTH_MOBILE }}
         >
           <div className='flex flex-col items-start'>
-            <Link href='/' className='mt-4 mb-12 w-full'>
+            <Link href='/' className='mt-4 mb-12 w-full' onClick={handleClose}>
               <Image src={logo} alt='logo' className='aspect-auto h-10 w-full' />
             </Link>
             <nav className='flex w-full flex-1 flex-col items-start gap-2'>
@@ -71,6 +78,7 @@ export default function SidebarMobile() {
                   href={item.href}
                   asLink
                   subItems={item.subItems}
+                  onClick={handleClose}
                 />
               ))}
             </nav>
@@ -120,15 +128,7 @@ export default function SidebarMobile() {
           </div>
         </Scrollbar>
       </motion.div>
-      <div
-        className='flex-1'
-        onClick={() => {
-          setOpened(false)
-          setTimeout(() => {
-            dispatch(close())
-          }, 200)
-        }}
-      ></div>
+      <div className='flex-1' onClick={handleClose}></div>
     </div>
   )
 }
