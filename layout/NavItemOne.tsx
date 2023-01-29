@@ -35,9 +35,9 @@ function NavItemOne({ name, icon, asLink = false, href = '', onClick }: Props) {
       ])}
     >
       {icon}
-      <h3 className='w-max text-[0px] font-medium capitalize opacity-0 transition-all duration-300 group-hover:ml-3 group-hover:text-xs  group-hover:opacity-100'>
+      <label className='w-max text-[0px] font-medium capitalize opacity-0 transition-all duration-300 group-hover:ml-3 group-hover:text-xs  group-hover:opacity-100'>
         {name}
-      </h3>
+      </label>
       {name && (
         <span className='absolute left-12 top-0 m-2 h-max w-max origin-left scale-0 rounded-lg bg-gray-300 p-2 text-xs font-medium text-rich-black shadow-xl transition-all duration-300'>
           {name}
@@ -50,9 +50,9 @@ function NavItemOne({ name, icon, asLink = false, href = '', onClick }: Props) {
       onClick={onClick}
     >
       {icon}
-      <h3 className='w-max text-[0px] font-medium capitalize opacity-0 transition-all duration-300 group-hover:ml-3 group-hover:text-xs group-hover:opacity-100'>
+      <label className='w-max text-[0px] font-medium capitalize opacity-0 transition-all duration-300 group-hover:ml-3 group-hover:text-xs group-hover:opacity-100'>
         {name}
-      </h3>
+      </label>
       {name && (
         <span className='absolute left-12 top-0 m-2 h-max w-max origin-left scale-0 rounded-lg bg-gray-300 p-2 text-xs font-medium text-rich-black shadow-xl transition-all duration-300'>
           {name}
