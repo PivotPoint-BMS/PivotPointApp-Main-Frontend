@@ -73,7 +73,11 @@ export default function Header() {
       <div className='flex flex-1 items-center justify-end gap-5'>
         <SelectPrimitive.Root onValueChange={changeLocale} value={currentLocale[0].value}>
           <SelectPrimitive.Trigger asChild aria-label='Language'>
-            <button className='group rounded-full p-2 outline-0 hover:bg-primary-500/10 dark:hover:bg-primary-300/10'>
+            <button
+              id='notifications-button'
+              aria-label='notifications'
+              className='group rounded-full p-2 outline-0 hover:bg-primary-500/10 dark:hover:bg-primary-300/10'
+            >
               <SelectPrimitive.Value>
                 <Image
                   src={currentLocale[0].icon}

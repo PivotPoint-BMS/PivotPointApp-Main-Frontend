@@ -86,7 +86,7 @@ function NavItemMobile({ name, icon, asLink = false, href = '', onClick, subItem
             onClick={onClick}
           >
             <Iconify icon={item.icon} height={20} width={20} />
-            <h4 className='flex-1 text-[10px] font-medium capitalize'>{item.name}</h4>
+            <label className='flex-1 text-[10px] font-medium capitalize'>{item.name}</label>
             {item.badge && (
               <Badge
                 icon={
@@ -109,7 +109,7 @@ function NavItemMobile({ name, icon, asLink = false, href = '', onClick, subItem
       onClick={onClick}
     >
       {icon}
-      <h3 className='ml-3 w-max text-xs font-medium capitalize'>{name}</h3>
+      <label className='ml-3 w-max text-xs font-medium capitalize'>{name}</label>
     </button>
   )
 }

@@ -19,10 +19,8 @@ export default function Scrollbar({ children, ...other }: ScrollbarProps) {
   }
 
   return (
-    <div className='h-full overflow-hidden'>
-      <SimpleBarReact clickOnTrack={false} {...other}>
-        {children}
-      </SimpleBarReact>
-    </div>
+    <SimpleBarReact clickOnTrack={false} {...other}>
+      {children}
+    </SimpleBarReact>
   )
 }

@@ -115,11 +115,11 @@ function SideBar() {
           initial={{ width: 0 }}
           animate={{ width: NAVBAR.SECONDARY_NAVBAR_WIDTH }}
           transition={{ duration: 0.2 }}
-          className='fixed top-0 left-0 flex h-screen flex-col bg-secondary-100 dark:bg-secondary-900 dark:text-white'
+          className='fixed top-0 left-0 flex h-screen flex-col bg-secondary-200 dark:bg-secondary-900 dark:text-white'
           style={{ marginLeft: NAVBAR.MAIN_NAVBAR_WIDTH }}
         >
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
-            <Scrollbar className='h-full px-5 pb-10' style={{ maxHeight: '100vh' }}>
+            <Scrollbar tabIndex={-1} className='h-full px-5 pb-10' style={{ maxHeight: '100vh' }}>
               <h1 className='mb-5 mt-28 font-medium'>General</h1>
               <div className='flex flex-col gap-4'>
                 {subItems.map(({ name, href, icon, badge, disabled }, i) => (
