@@ -6,8 +6,10 @@ import { Provider as ReduxProvider } from 'react-redux'
 import { IntlProvider } from 'react-intl'
 // redux
 import { store } from 'store'
-// Components
+// layout
 import Layout from 'layout/Layout'
+// Components
+import ProgressBar from '@/components/Progressbar'
 // css
 import 'simplebar-react/dist/simplebar.min.css'
 
@@ -29,6 +31,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <IntlProvider locale={locale}>
         <ThemeProvider attribute='class'>
           <Layout>
+            <ProgressBar />
             <Component {...pageProps} />
           </Layout>
         </ThemeProvider>
