@@ -14,7 +14,7 @@ import Button from '@/components/Button'
 
 export default function Custom404Page() {
   const router = useRouter()
-  const t = useTranslate()
+  const { t } = useTranslate()
   return (
     <div className='flex h-screen w-screen flex-col items-center justify-center dark:bg-primary-900'>
       <Image
@@ -34,9 +34,9 @@ export default function Custom404Page() {
         width={400}
       />
       <h1 className='mb-10 text-6xl font-semibold text-primary-600 dark:text-white'>
-        {t['Page Not Found']}
+        {t('Page Not Found')}
       </h1>
-      <Button onClick={() => router.push('/')}>{t['Back Home']}</Button>
+      <Button onClick={() => router.push('/')}>{t('Back Home')}</Button>
     </div>
   )
 }

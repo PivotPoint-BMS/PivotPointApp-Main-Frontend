@@ -5,31 +5,26 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useTheme } from 'next-themes'
 import { motion } from 'framer-motion'
-import SimpleBarReact from 'simplebar-react'
-
-// Icons
+import clsx from 'clsx'
+// config
+import { NAVBAR } from 'config'
+// icons
 import { Icon as Iconify } from '@iconify/react'
-
-// Assets
+// assets
 import logo from 'public/logo.svg'
-
 // hooks
 import useTranslate from 'hooks/useTranslate'
-
 // redux
-import { useAppSelector } from '../store/hooks'
-import { NavItemConfig } from '../store/sideBarSlice'
-
+import { useAppDispatch, useAppSelector } from 'store/hooks'
+import { collapse, extend, NavItemConfig } from 'store/sideBarSlice'
 // Components
+import Scrollbar from '@/components/Scrollbar'
 import NavItemOne from './NavItemOne'
 import NavItemTwo from './NavItemTwo'
 
-// css
-// import 'simplebar-react/dist/simplebar.min.css'
-
-const getSubItems = (sideBarConfig: NavItemConfig[], path: string) => {
+const getSubItems = (items: NavItemConfig[], path: string) => {
   const activePath = path.split('/')[1]
-  const activeItem = sideBarConfig.filter((item) => item.href === `/${activePath}`)
+  const activeItem = items.filter((item) => item.href === `/${activePath}`)
 
   if (!activeItem[0]) return null
   return activeItem[0].subItems
@@ -39,27 +34,45 @@ function SideBar() {
   const { theme, setTheme } = useTheme()
   const router = useRouter()
   const [mounted, setMounted] = useState(false)
-  const { sideBarConfig } = useAppSelector((state) => state)
+  const { items, isCollapsed } = useAppSelector((state) => state.sideBarConfig)
+  const dispatch = useAppDispatch()
 
-  const t = useTranslate()
+  const { t } = useTranslate()
 
-  const subItems = useMemo(() => getSubItems(sideBarConfig, router.pathname), [router.pathname])
+  const subItems = useMemo(() => getSubItems(items, router.pathname), [router.pathname])
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
+  const toggleCollapse = () => {
+    if (isCollapsed) {
+      dispatch(extend())
+    } else {
+      dispatch(collapse())
+    }
+  }
   return (
-    <div className='relative'>
-      <div className='group absolute z-10 flex h-screen w-max flex-col items-start border-r border-dashed border-gray-400 bg-white py-6 px-4 transition-all dark:border-gray-600 dark:bg-primary-900'>
+    <div
+      className='relative h-screen'
+      style={{
+        width: isCollapsed
+          ? NAVBAR.MAIN_NAVBAR_WIDTH + NAVBAR.SECONDARY_NAVBAR_COLLAPSE_WIDTH
+          : NAVBAR.MAIN_NAVBAR_WIDTH + NAVBAR.SECONDARY_NAVBAR_WIDTH,
+      }}
+    >
+      <div
+        className='group fixed z-10 flex h-screen flex-col items-start border-r border-dashed border-gray-400 bg-white py-6 px-4 transition-all motion-reduce:transition-none dark:border-gray-600 dark:bg-primary-900'
+        style={{ minWidth: NAVBAR.MAIN_NAVBAR_WIDTH }}
+      >
         <Link href='/' className='mt-4 mb-12 w-full'>
           <Image src={logo} alt='logo' className='aspect-auto h-10 w-full' />
         </Link>
         <nav className='flex w-full flex-1 flex-col items-start gap-2'>
-          {sideBarConfig.map((item, i) => (
+          {items.map((item, i) => (
             <NavItemOne
               key={i}
-              tooltip={t[item.name]}
+              name={t(item.name)}
               icon={<Iconify icon={item.icon} height={22} width={22} />}
               href={item.href}
               asLink
@@ -97,35 +110,69 @@ function SideBar() {
                 </svg>
               }
               onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-              tooltip={t['Toggle Dark Mode']}
+              name={theme === 'dark' ? t('Light Mode') : t('Dark Mode')}
             />
           )}
           <NavItemOne
             icon={<Iconify icon='ri:settings-3-fill' height={22} width={22} />}
-            tooltip={t.Settings}
+            name={t('Settings')}
           />
           <NavItemOne
             icon={<Iconify icon='majesticons:logout' height={22} width={22} />}
-            tooltip={t.Logout}
+            name={t('Logout')}
           />
         </div>
       </div>
       {subItems && (
         <motion.div
           initial={{ width: 0 }}
-          animate={{ width: 'max-content' }}
+          animate={{
+            width: isCollapsed
+              ? NAVBAR.SECONDARY_NAVBAR_COLLAPSE_WIDTH
+              : NAVBAR.SECONDARY_NAVBAR_WIDTH,
+          }}
+          whileHover={{ width: NAVBAR.SECONDARY_NAVBAR_WIDTH }}
           transition={{ duration: 0.2 }}
-          className='ml-[88px] flex h-screen flex-col bg-secondary-100 dark:bg-secondary-900 dark:text-white '
+          className='group fixed top-0 left-0 flex h-screen flex-col bg-secondary-200 dark:bg-secondary-900 dark:text-white'
+          style={{ marginLeft: NAVBAR.MAIN_NAVBAR_WIDTH }}
         >
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
-            <SimpleBarReact className='h-full px-5'>
-              <h1 className='mb-5 mt-28 font-medium'>General</h1>
+            <div
+              className={clsx(
+                'mb-16  mt-5 flex w-full px-5',
+                isCollapsed ? 'justify-center group-hover:justify-end' : 'justify-end'
+              )}
+            >
+              <button
+                className='group/collapse rounded-full p-2 outline-0 hover:bg-primary-500/10 dark:hover:bg-primary-300/10'
+                onClick={toggleCollapse}
+              >
+                <Iconify
+                  icon='system-uicons:window-collapse-left'
+                  className={clsx(
+                    'transition-all group-hover/collapse:scale-110 motion-reduce:transition-none',
+                    isCollapsed && 'rotate-180'
+                  )}
+                  height={18}
+                  width={18}
+                />
+              </button>
+            </div>
+            <Scrollbar tabIndex={-1} className='h-full px-5 pb-10' style={{ maxHeight: '100vh' }}>
               <div className='flex flex-col gap-4'>
-                {subItems.map((item, i) => (
-                  <NavItemTwo key={i} {...item} />
+                {subItems.map(({ name, href, icon, badge, disabled }, i) => (
+                  <NavItemTwo
+                    key={i}
+                    name={t(name)}
+                    href={href}
+                    icon={icon}
+                    badge={badge}
+                    disabled={disabled as boolean}
+                    isCollapsed={isCollapsed}
+                  />
                 ))}
               </div>
-            </SimpleBarReact>
+            </Scrollbar>
           </motion.div>
         </motion.div>
       )}
