@@ -56,9 +56,12 @@ function SideBar() {
     <div
       className='relative h-screen'
       style={{
-        width: isCollapsed
-          ? NAVBAR.MAIN_NAVBAR_WIDTH + NAVBAR.SECONDARY_NAVBAR_COLLAPSE_WIDTH
-          : NAVBAR.MAIN_NAVBAR_WIDTH + NAVBAR.SECONDARY_NAVBAR_WIDTH,
+        // eslint-disable-next-line no-nested-ternary
+        width: subItems
+          ? isCollapsed
+            ? NAVBAR.MAIN_NAVBAR_WIDTH + NAVBAR.SECONDARY_NAVBAR_COLLAPSE_WIDTH
+            : NAVBAR.MAIN_NAVBAR_WIDTH + NAVBAR.SECONDARY_NAVBAR_WIDTH
+          : NAVBAR.MAIN_NAVBAR_WIDTH,
       }}
     >
       <div

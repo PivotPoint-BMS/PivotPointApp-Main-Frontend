@@ -30,8 +30,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ReduxProvider store={store}>
       <IntlProvider locale={locale}>
         <ThemeProvider attribute='class'>
+          <ProgressBar />
           <Layout>
-            <ProgressBar />
             <Component {...pageProps} />
           </Layout>
         </ThemeProvider>

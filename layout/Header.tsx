@@ -44,6 +44,7 @@ export default function Header() {
   const isDesktop = useResponsive('lg', 'up')
   const router = useRouter()
   const { locale, pathname, asPath, query } = router
+  const isHome = Boolean(!pathname.split('/')[1])
   const dispatch = useAppDispatch()
 
   const currentLocale = useMemo(() => LANGS.filter((l) => l.value === locale), [locale])
@@ -58,7 +59,11 @@ export default function Header() {
       style={{
         height: HEADER.DESKTOP_HEIGHT,
         width: isDesktop
-          ? `calc(100% - ${NAVBAR.SECONDARY_NAVBAR_WIDTH + NAVBAR.MAIN_NAVBAR_WIDTH}px)`
+          ? `calc(100% - ${
+              isHome
+                ? NAVBAR.MAIN_NAVBAR_WIDTH
+                : NAVBAR.SECONDARY_NAVBAR_WIDTH + NAVBAR.MAIN_NAVBAR_WIDTH
+            }px)`
           : '100vw',
       }}
     >
