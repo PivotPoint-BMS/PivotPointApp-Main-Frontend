@@ -8,4 +8,5 @@ export const HEADER = {
 export const NAVBAR = {
   MAIN_NAVBAR_WIDTH: 88,
   SECONDARY_NAVBAR_WIDTH: 280,
+  MAIN_NAVBAR_WIDTH_MOBILE: 300,
 }

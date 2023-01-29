@@ -7,7 +7,9 @@ import { IntlProvider } from 'react-intl'
 // redux
 import { store } from 'store'
 // Components
-import Layout from 'sections/Layout'
+import Layout from 'layout/Layout'
+// css
+import 'simplebar-react/dist/simplebar.min.css'
 
 // function getDirection(locale: string) {
 //   if (locale === 'ar') {

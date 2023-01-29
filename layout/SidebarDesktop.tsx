@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useTheme } from 'next-themes'
 import { motion } from 'framer-motion'
-import SimpleBarReact from 'simplebar-react'
 // config
 import { NAVBAR } from 'config'
 // icons
@@ -18,14 +17,13 @@ import useTranslate from 'hooks/useTranslate'
 import { useAppSelector } from '../store/hooks'
 import { NavItemConfig } from '../store/sideBarSlice'
 // Components
+import Scrollbar from '@/components/Scrollbar'
 import NavItemOne from './NavItemOne'
 import NavItemTwo from './NavItemTwo'
-// css
-import 'simplebar-react/dist/simplebar.min.css'
 
-const getSubItems = (sideBarConfig: NavItemConfig[], path: string) => {
+const getSubItems = (items: NavItemConfig[], path: string) => {
   const activePath = path.split('/')[1]
-  const activeItem = sideBarConfig.filter((item) => item.href === `/${activePath}`)
+  const activeItem = items.filter((item) => item.href === `/${activePath}`)
 
   if (!activeItem[0]) return null
   return activeItem[0].subItems
@@ -35,11 +33,11 @@ function SideBar() {
   const { theme, setTheme } = useTheme()
   const router = useRouter()
   const [mounted, setMounted] = useState(false)
-  const { sideBarConfig } = useAppSelector((state) => state)
+  const { items } = useAppSelector((state) => state.sideBarConfig)
 
   const { t } = useTranslate()
 
-  const subItems = useMemo(() => getSubItems(sideBarConfig, router.pathname), [router.pathname])
+  const subItems = useMemo(() => getSubItems(items, router.pathname), [router.pathname])
 
   useEffect(() => {
     setMounted(true)
@@ -58,10 +56,10 @@ function SideBar() {
           <Image src={logo} alt='logo' className='aspect-auto h-10 w-full' />
         </Link>
         <nav className='flex w-full flex-1 flex-col items-start gap-2'>
-          {sideBarConfig.map((item, i) => (
+          {items.map((item, i) => (
             <NavItemOne
               key={i}
-              tooltip={t(item.name)}
+              name={t(item.name)}
               icon={<Iconify icon={item.icon} height={22} width={22} />}
               href={item.href}
               asLink
@@ -99,16 +97,16 @@ function SideBar() {
                 </svg>
               }
               onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-              tooltip={theme === 'dark' ? t('Light Mode') : t('Dark Mode')}
+              name={theme === 'dark' ? t('Light Mode') : t('Dark Mode')}
             />
           )}
           <NavItemOne
             icon={<Iconify icon='ri:settings-3-fill' height={22} width={22} />}
-            tooltip={t('Settings')}
+            name={t('Settings')}
           />
           <NavItemOne
             icon={<Iconify icon='majesticons:logout' height={22} width={22} />}
-            tooltip={t('Logout')}
+            name={t('Logout')}
           />
         </div>
       </div>
@@ -121,7 +119,7 @@ function SideBar() {
           style={{ marginLeft: NAVBAR.MAIN_NAVBAR_WIDTH }}
         >
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
-            <SimpleBarReact className='h-full px-5    '>
+            <Scrollbar className='h-full px-5 pb-10' style={{ maxHeight: '100vh' }}>
               <h1 className='mb-5 mt-28 font-medium'>General</h1>
               <div className='flex flex-col gap-4'>
                 {subItems.map(({ name, href, icon, badge, disabled }, i) => (
@@ -135,7 +133,7 @@ function SideBar() {
                   />
                 ))}
               </div>
-            </SimpleBarReact>
+            </Scrollbar>
           </motion.div>
         </motion.div>
       )}
