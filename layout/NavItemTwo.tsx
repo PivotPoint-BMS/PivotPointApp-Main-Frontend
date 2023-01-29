@@ -4,6 +4,8 @@ import Link from 'next/link'
 import clsx from 'clsx'
 // hooks
 import useTranslate from 'hooks/useTranslate'
+// utils
+import getActivePath from 'utils/getActivePath'
 // components
 import { Icon as Iconify } from '@iconify/react'
 import Badge from '@/components/Badge'
@@ -20,7 +22,8 @@ type Props = {
 }
 
 export default function NavItemTwo({ name, href, icon, badge, disabled }: Props) {
-  const router = useRouter()
+  const { pathname, asPath } = useRouter()
+  const active = getActivePath(href, pathname, asPath)
   const { t } = useTranslate()
 
   return (
@@ -28,7 +31,7 @@ export default function NavItemTwo({ name, href, icon, badge, disabled }: Props)
       href={disabled ? '' : href}
       className={clsx(
         'flex w-full items-center gap-3 rounded-xl py-3 px-5',
-        router.asPath.split('/')[2] === href.split('/')[2]
+        active
           ? 'bg-secondary-600 text-gray-200 hover:bg-secondary-700 dark:text-gray-100'
           : 'bg-gray-100/40 text-secondary-600 hover:bg-gray-100/60 dark:bg-secondary-100/60 dark:text-gray-300 dark:hover:bg-secondary-200/50',
         disabled &&
