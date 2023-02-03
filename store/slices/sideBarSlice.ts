@@ -248,7 +248,7 @@ const initialState: SideBarConfig = {
   isCollapsed: false,
 }
 
-export const sideBarSlice = createSlice({
+const sideBarSlice = createSlice({
   name: 'sideBar',
   initialState,
   reducers: {
@@ -269,4 +269,4 @@ export const sideBarSlice = createSlice({
 
 export const { close, open, collapse, extend } = sideBarSlice.actions
 
-export default sideBarSlice.reducer
+export default sideBarSlice

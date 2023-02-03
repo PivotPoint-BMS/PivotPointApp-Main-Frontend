@@ -15,7 +15,7 @@ import logo from 'public/logo.svg'
 import useTranslate from 'hooks/useTranslate'
 // redux
 import { useAppDispatch, useAppSelector } from 'store/hooks'
-import { close } from 'store/sideBarSlice'
+import { close } from 'store/slices/sideBarSlice'
 // Components
 import MobileNavItem from './MobileNavItem'
 import Scrollbar from '@/components/Scrollbar'
@@ -29,7 +29,7 @@ export default function SidebarMobile() {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [opened, setOpened] = useState(false)
-  const { items, isOpen } = useAppSelector((state) => state.sideBarConfig)
+  const { items, isOpen } = useAppSelector((state) => state.sideBar)
   const dispatch = useAppDispatch()
   const { t } = useTranslate()
 
