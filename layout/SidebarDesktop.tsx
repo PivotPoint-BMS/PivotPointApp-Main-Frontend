@@ -16,7 +16,7 @@ import logo from 'public/logo.svg'
 import useTranslate from 'hooks/useTranslate'
 // redux
 import { useAppDispatch, useAppSelector } from 'store/hooks'
-import { collapse, extend, NavItemConfig } from 'store/sideBarSlice'
+import { collapse, extend, NavItemConfig } from 'store/slices/sideBarSlice'
 // Components
 import Scrollbar from '@/components/Scrollbar'
 import NavItemOne from './NavItemOne'
@@ -34,7 +34,7 @@ function SideBar() {
   const { theme, setTheme } = useTheme()
   const router = useRouter()
   const [mounted, setMounted] = useState(false)
-  const { items, isCollapsed } = useAppSelector((state) => state.sideBarConfig)
+  const { items, isCollapsed } = useAppSelector((state) => state.sideBar)
   const dispatch = useAppDispatch()
 
   const { t } = useTranslate()
@@ -54,11 +54,14 @@ function SideBar() {
   }
   return (
     <div
-      className='relative h-screen'
+      className='relative z-50 h-screen'
       style={{
-        width: isCollapsed
-          ? NAVBAR.MAIN_NAVBAR_WIDTH + NAVBAR.SECONDARY_NAVBAR_COLLAPSE_WIDTH
-          : NAVBAR.MAIN_NAVBAR_WIDTH + NAVBAR.SECONDARY_NAVBAR_WIDTH,
+        // eslint-disable-next-line no-nested-ternary
+        width: subItems
+          ? isCollapsed
+            ? NAVBAR.MAIN_NAVBAR_WIDTH + NAVBAR.SECONDARY_NAVBAR_COLLAPSE_WIDTH
+            : NAVBAR.MAIN_NAVBAR_WIDTH + NAVBAR.SECONDARY_NAVBAR_WIDTH
+          : NAVBAR.MAIN_NAVBAR_WIDTH,
       }}
     >
       <div

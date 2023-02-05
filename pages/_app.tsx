@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { Provider as ReduxProvider } from 'react-redux'
 import { IntlProvider } from 'react-intl'
 // redux
-import { store } from 'store'
+import { wrapper } from 'store'
 // layout
 import Layout from 'layout/Layout'
 // Components
@@ -20,19 +20,21 @@ import 'simplebar-react/dist/simplebar.min.css'
 
 //   return 'ltr'
 // }
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, ...rest }: AppProps) {
   const router = useRouter()
   const { locale = 'en' } = router
 
-  if (router.route === '/404') return <Component {...pageProps} />
+  const { store, props } = wrapper.useWrappedStore(rest)
+
+  if (router.route === '/404') return <Component {...props.pageProps} />
 
   return (
     <ReduxProvider store={store}>
       <IntlProvider locale={locale}>
         <ThemeProvider attribute='class'>
+          <ProgressBar />
           <Layout>
-            <ProgressBar />
-            <Component {...pageProps} />
+            <Component {...props.pageProps} />
           </Layout>
         </ThemeProvider>
       </IntlProvider>

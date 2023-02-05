@@ -9,7 +9,7 @@ import * as SelectPrimitive from '@radix-ui/react-select'
 import useResponsive from 'hooks/useResponsive'
 // redux
 import { useAppDispatch } from 'store/hooks'
-import { open } from 'store/sideBarSlice'
+import { open } from 'store/slices/sideBarSlice'
 // config
 import { HEADER, NAVBAR } from 'config'
 // icons
@@ -44,6 +44,7 @@ export default function Header() {
   const isDesktop = useResponsive('lg', 'up')
   const router = useRouter()
   const { locale, pathname, asPath, query } = router
+  const isHome = Boolean(!pathname.split('/')[1])
   const dispatch = useAppDispatch()
 
   const currentLocale = useMemo(() => LANGS.filter((l) => l.value === locale), [locale])
@@ -54,11 +55,15 @@ export default function Header() {
 
   return (
     <motion.div
-      className='fixed right-0 top-0 z-50 flex items-center justify-between gap-5 px-6'
+      className='fixed right-0 top-0 z-40 flex items-center justify-between gap-5 bg-white/80 px-10 backdrop-blur-sm dark:bg-primary-900/80'
       style={{
         height: HEADER.DESKTOP_HEIGHT,
         width: isDesktop
-          ? `calc(100% - ${NAVBAR.SECONDARY_NAVBAR_WIDTH + NAVBAR.MAIN_NAVBAR_WIDTH}px)`
+          ? `calc(100% - ${
+              isHome
+                ? NAVBAR.MAIN_NAVBAR_WIDTH
+                : NAVBAR.SECONDARY_NAVBAR_WIDTH + NAVBAR.MAIN_NAVBAR_WIDTH
+            }px)`
           : '100vw',
       }}
     >
