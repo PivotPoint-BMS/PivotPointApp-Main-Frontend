@@ -65,7 +65,7 @@ function SideBar() {
       }}
     >
       <div
-        className='group fixed z-10 flex h-screen flex-col items-start border-r border-dashed border-gray-400 bg-white py-6 px-4 transition-all motion-reduce:transition-none dark:border-gray-600 dark:bg-primary-900'
+        className='group fixed z-10 flex h-screen flex-col items-start border-r border-dashed border-gray-400 bg-white py-6 px-4 transition-all motion-reduce:transition-none dark:border-gray-600 dark:bg-secondary-900'
         style={{ minWidth: NAVBAR.MAIN_NAVBAR_WIDTH }}
       >
         <Link href='/' className='mt-4 mb-12 w-full'>
@@ -91,7 +91,7 @@ function SideBar() {
                   viewBox='0 0 24 24'
                   height={22}
                   width={22}
-                  className='stroke-primary-900 stroke-[0.5px] dark:stroke-white'
+                  className='stroke-secondary-900 stroke-[0.5px] dark:stroke-white'
                   style={{ strokeLinecap: 'round', strokeLinejoin: 'round' }}
                 >
                   {theme === 'dark' && (
@@ -136,7 +136,7 @@ function SideBar() {
           }}
           whileHover={{ width: NAVBAR.SECONDARY_NAVBAR_WIDTH }}
           transition={{ duration: 0.2 }}
-          className='group fixed top-0 left-0 flex h-screen flex-col bg-secondary-200 dark:bg-secondary-900 dark:text-white'
+          className='group fixed top-0 left-0 flex h-screen flex-col bg-secondary-200 text-white dark:bg-secondary-500'
           style={{ marginLeft: NAVBAR.MAIN_NAVBAR_WIDTH }}
         >
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
@@ -147,7 +147,7 @@ function SideBar() {
               )}
             >
               <button
-                className='group/collapse rounded-full p-2 outline-0 hover:bg-primary-500/10 dark:hover:bg-primary-300/10'
+                className='group/collapse rounded-full p-2 outline-0 hover:bg-secondary-500/10 dark:hover:bg-secondary-300/10'
                 onClick={toggleCollapse}
               >
                 <Iconify

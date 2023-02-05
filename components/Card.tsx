@@ -1,7 +1,7 @@
 import { cva, VariantProps } from 'class-variance-authority'
 import React from 'react'
 
-const card = cva('rounded-xl divide-gray-300 bg-white dark:bg-primary-800', {
+const card = cva('rounded-xl divide-gray-300 bg-white dark:bg-secondary-700', {
   variants: {
     variant: {
       elevated: 'shadow-xl',

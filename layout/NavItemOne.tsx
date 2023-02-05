@@ -28,10 +28,10 @@ function NavItemOne({ name, icon, asLink = false, href = '', onClick }: Props) {
     <Link
       href={href}
       className={clsx([
-        'relative flex w-fit items-center rounded-xl p-4 text-primary-900 transition-all group-hover:w-full dark:text-white',
+        'relative flex w-fit items-center rounded-xl p-4 text-secondary-900 transition-all group-hover:w-full dark:text-white',
         active
-          ? 'bg-primary-500/10 hover:bg-primary-500/25 dark:bg-gray-300/10 dark:hover:bg-gray-200/20'
-          : 'hover:bg-primary-500/10 dark:hover:bg-gray-300/10',
+          ? 'bg-secondary-500/10 hover:bg-secondary-500/25 dark:bg-gray-300/10 dark:hover:bg-gray-200/20'
+          : 'hover:bg-secondary-500/10 dark:hover:bg-gray-300/10',
       ])}
     >
       {icon}
@@ -46,7 +46,7 @@ function NavItemOne({ name, icon, asLink = false, href = '', onClick }: Props) {
     </Link>
   ) : (
     <button
-      className='relative flex w-full items-center rounded-xl p-4 text-primary-900 transition-colors hover:bg-primary-500/10 dark:text-white dark:hover:bg-gray-300/10'
+      className='relative flex w-full items-center rounded-xl p-4 text-secondary-900 transition-colors hover:bg-secondary-500/10 dark:text-white dark:hover:bg-gray-300/10'
       onClick={onClick}
     >
       {icon}

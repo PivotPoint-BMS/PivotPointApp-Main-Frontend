@@ -1,16 +1,19 @@
-import 'styles/globals.css'
+import { useEffect } from 'react'
+// next
 import type { AppProps } from 'next/app'
 import { ThemeProvider } from 'next-themes'
 import { useRouter } from 'next/router'
 import { Provider as ReduxProvider } from 'react-redux'
-import { IntlProvider } from 'react-intl'
 // redux
 import { wrapper } from 'store'
+// hooks
+import useTranslate from 'hooks/useTranslate'
 // layout
 import Layout from 'layout/Layout'
 // Components
 import ProgressBar from '@/components/Progressbar'
 // css
+import 'styles/globals.css'
 import 'simplebar-react/dist/simplebar.min.css'
 
 // function getDirection(locale: string) {
@@ -22,22 +25,30 @@ import 'simplebar-react/dist/simplebar.min.css'
 // }
 function MyApp({ Component, ...rest }: AppProps) {
   const router = useRouter()
-  const { locale = 'en' } = router
+  const { locale } = useTranslate()
 
   const { store, props } = wrapper.useWrappedStore(rest)
+
+  useEffect(() => {
+    const body = document.querySelector('body')
+    if (body)
+      if (locale === 'ar') {
+        body.dir = 'rtl'
+      } else {
+        body.dir = 'ltr'
+      }
+  }, [locale])
 
   if (router.route === '/404') return <Component {...props.pageProps} />
 
   return (
     <ReduxProvider store={store}>
-      <IntlProvider locale={locale}>
-        <ThemeProvider attribute='class'>
-          <ProgressBar />
-          <Layout>
-            <Component {...props.pageProps} />
-          </Layout>
-        </ThemeProvider>
-      </IntlProvider>
+      <ThemeProvider attribute='class'>
+        <ProgressBar />
+        <Layout>
+          <Component {...props.pageProps} />
+        </Layout>
+      </ThemeProvider>
     </ReduxProvider>
   )
 }

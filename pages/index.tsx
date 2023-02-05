@@ -30,76 +30,70 @@ const Home: NextPage = () => {
         {/* Col 1 */}
         <Card
           fullWidth
-          divided
           className='col-span-6 overflow-clip sm:col-span-3 md:col-span-2 lg:col-span-1'
         >
-          <CardHeader title='Contacts (Leads)' className='pb-0 [&>*]:text-lg' />
+          <CardHeader title='Contacts (Leads)' className='pb-2 [&>*]:text-lg' />
+          <CardContent className=''>
+            <h3 className='text-2xl'>10</h3>
+          </CardContent>
+        </Card>{' '}
+        <Card
+          fullWidth
+          className='col-span-6 overflow-clip sm:col-span-3 md:col-span-2 lg:col-span-1'
+        >
+          <CardHeader title='Users' className='pb-2 [&>*]:text-lg' />
           <CardContent>
             <h3 className='text-2xl'>10</h3>
           </CardContent>
         </Card>{' '}
         <Card
           fullWidth
-          divided
           className='col-span-6 overflow-clip sm:col-span-3 md:col-span-2 lg:col-span-1'
         >
-          <CardHeader title='Users' className='pb-0 [&>*]:text-lg' />
-          <CardContent>
-            <h3 className='text-2xl'>10</h3>
-          </CardContent>
-        </Card>{' '}
-        <Card
-          fullWidth
-          divided
-          className='col-span-6 overflow-clip sm:col-span-3 md:col-span-2 lg:col-span-1'
-        >
-          <CardHeader title='Workers' className='pb-0 [&>*]:text-lg' />
+          <CardHeader title='Workers' className='pb-2 [&>*]:text-lg' />
           <CardContent>
             <h3 className='text-2xl'>{data}</h3>
           </CardContent>
         </Card>{' '}
         <Card
           fullWidth
-          divided
           className='col-span-6 overflow-clip sm:col-span-3 md:col-span-2 lg:col-span-1'
         >
-          <CardHeader title='Products' className='pb-0 [&>*]:text-lg' />
+          <CardHeader title='Products' className='pb-2 [&>*]:text-lg' />
           <CardContent>
             <h3 className='text-2xl'>10</h3>
           </CardContent>
         </Card>{' '}
         <Card
           fullWidth
-          divided
           className='col-span-6 overflow-clip sm:col-span-3 md:col-span-2 lg:col-span-1'
         >
-          <CardHeader title='AI Usage' className='pb-0 [&>*]:text-lg' />
+          <CardHeader title='AI Usage' className='pb-2 [&>*]:text-lg' />
           <CardContent>
             <h3 className='text-2xl'>10</h3>
           </CardContent>
         </Card>
         <Card
           fullWidth
-          divided
           className='col-span-6 overflow-clip sm:col-span-3 md:col-span-2 lg:col-span-1'
         >
-          <CardHeader title='Contacts' className='pb-0 [&>*]:text-lg' />
+          <CardHeader title='Contacts' className='pb-2 [&>*]:text-lg' />
           <CardContent>
             <h3 className='text-2xl'>10</h3>
           </CardContent>
         </Card>
         {/* Col 2 */}
-        <Card fullWidth divided className='col-span-6 md:col-span-4'>
+        <Card fullWidth className='col-span-6 md:col-span-4'>
           <CardHeader title='Title' />
         </Card>
-        <Card fullWidth divided className='col-span-6 md:col-span-2'>
+        <Card fullWidth className='col-span-6 md:col-span-2'>
           <CardHeader title='Title' />
         </Card>
         {/* Col 3 */}
-        <Card fullWidth divided className='col-span-6 md:col-span-4'>
+        <Card fullWidth className='col-span-6 md:col-span-4'>
           <CardHeader title='Title' />
         </Card>
-        <Card fullWidth divided className='col-span-6 md:col-span-2'>
+        <Card fullWidth className='col-span-6 md:col-span-2'>
           <CardHeader title='Title' />
         </Card>
       </div>
