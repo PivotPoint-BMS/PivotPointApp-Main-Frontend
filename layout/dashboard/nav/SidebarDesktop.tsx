@@ -17,14 +17,17 @@ import useTranslate from 'hooks/useTranslate'
 // redux
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { collapse, extend, NavItemConfig } from 'store/slices/sideBarSlice'
+// routes
+import { PATH_DASHBOARD } from 'routes/paths'
 // Components
 import Scrollbar from '@/components/Scrollbar'
 import NavItemOne from './NavItemOne'
 import NavItemTwo from './NavItemTwo'
 
 const getSubItems = (items: NavItemConfig[], path: string) => {
-  const activePath = path.split('/')[1]
-  const activeItem = items.filter((item) => item.href === `/${activePath}`)
+  const activePath = path.split('/')[2]
+  console.log(activePath)
+  const activeItem = items.filter((item) => item.href === `${PATH_DASHBOARD.root}/${activePath}`)
 
   if (!activeItem[0]) return null
   return activeItem[0].subItems
