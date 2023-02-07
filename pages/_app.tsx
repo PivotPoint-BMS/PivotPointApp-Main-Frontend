@@ -44,7 +44,16 @@ function MyApp({ Component, ...rest }: AppProps) {
     <ReduxProvider store={store}>
       <ThemeProvider attribute='class'>
         <ProgressBar />
-        <Layout variant={router.route.includes('dashboard') ? 'dashboard' : 'logoOnly'}>
+        <Layout
+          variant={
+            // eslint-disable-next-line no-nested-ternary
+            router.route.includes('dashboard')
+              ? 'dashboard'
+              : router.route.includes('auth')
+              ? 'main'
+              : 'logoOnly'
+          }
+        >
           <Component {...props.pageProps} />
         </Layout>
       </ThemeProvider>

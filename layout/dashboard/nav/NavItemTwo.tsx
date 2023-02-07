@@ -33,8 +33,8 @@ export default function NavItemTwo({ name, href, icon, badge, disabled, isCollap
       className={clsx(
         'flex w-full min-w-fit items-center rounded-xl p-4 text-white',
         active
-          ? 'bg-secondary-500 hover:bg-secondary-800 dark:bg-secondary-100 dark:hover:bg-secondary-200'
-          : 'bg-secondary-400/60 hover:bg-secondary-500/60 dark:bg-secondary-200/20 dark:hover:bg-secondary-300/50',
+          ? 'bg-secondary-800 hover:bg-secondary-900 dark:bg-secondary-500 dark:hover:bg-secondary-600'
+          : 'bg-secondary-400/50 hover:bg-secondary-500/80 dark:bg-secondary-300/10 dark:hover:bg-secondary-300/20',
         disabled &&
           'cursor-not-allowed opacity-40 hover:bg-gray-100/40 dark:hover:bg-secondary-100/60'
       )}
@@ -56,7 +56,7 @@ export default function NavItemTwo({ name, href, icon, badge, disabled, isCollap
             badge.icon && <Iconify icon={badge.icon ? badge.icon : ''} height={20} width={20} />
           }
           label={t(badge?.label)}
-          intent='error'
+          intent='primary'
           className={clsx('truncate text-[10px]', isCollapsed && 'hidden group-hover:block')}
         />
       )}

@@ -5,18 +5,23 @@ import Header from './dashboard/header/Header'
 // components
 import SidebarDesktop from './dashboard/nav/SidebarDesktop'
 import SidebarMobile from './dashboard/nav/SidebarMobile'
+import LogoOnlyLayout from './LogoOnlyLayout'
 
 function Layout({
   children,
   variant = 'dashboard',
 }: {
   children: React.ReactNode | React.ReactNode[]
-  variant: 'dashboard' | 'logoOnly'
+  variant: 'dashboard' | 'logoOnly' | 'main'
 }) {
   const isDesktop = useResponsive('lg', 'up')
 
-  if (variant === 'logoOnly') {
+  if (variant === 'main') {
     return <> {children} </>
+  }
+
+  if (variant === 'logoOnly') {
+    return <LogoOnlyLayout> {children} </LogoOnlyLayout>
   }
 
   return (

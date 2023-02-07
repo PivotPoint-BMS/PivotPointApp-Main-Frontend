@@ -54,7 +54,7 @@ export default function Header() {
 
   return (
     <motion.div
-      className='fixed right-0 top-0 z-10 flex items-center justify-between gap-5 bg-white/80 px-10 backdrop-blur-sm dark:bg-secondary-900/80'
+      className='/80 fixed right-0 top-0 z-10 flex items-center justify-between gap-5 bg-white/80 px-10 backdrop-blur-sm dark:bg-dark'
       style={{
         height: HEADER.DESKTOP_HEIGHT,
         width: isDesktop
@@ -94,7 +94,7 @@ export default function Header() {
               className={clsx(
                 'data-[side=top]:animate-slide-up data-[side=bottom]:animate-slide-down',
                 'z-50 rounded-lg px-1.5 py-1 shadow-md',
-                'bg-white dark:bg-secondary-700'
+                'bg-white dark:bg-secondary-900'
               )}
             >
               {LANGS.map((l, i) => (
@@ -136,7 +136,7 @@ export default function Header() {
               className={clsx(
                 'data-[side=top]:animate-slide-up data-[side=bottom]:animate-slide-down',
                 'z-50 w-64 rounded-lg px-1.5 py-1 shadow-md md:w-56',
-                'bg-white dark:bg-secondary-700'
+                'bg-white dark:bg-secondary-900'
               )}
             >
               <div className='flex items-center justify-between p-2'>
