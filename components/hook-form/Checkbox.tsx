@@ -12,9 +12,10 @@ interface CheckboxProps
   extends CheckboxPrimitive.CheckboxProps,
     React.RefAttributes<HTMLButtonElement> {
   name: string
+  label: string
 }
 
-export default function Checkbox({ name }: CheckboxProps) {
+export default function Checkbox({ name, label }: CheckboxProps) {
   const { control } = useFormContext()
   return (
     <Controller
@@ -30,7 +31,7 @@ export default function Checkbox({ name }: CheckboxProps) {
             className={clsx(
               'flex h-5 w-5 items-center justify-center rounded',
               'data-[state=unchecked]:border data-[state=unchecked]:border-gray-400 data-[state=checked]:bg-primary-600 dark:data-[state=unchecked]:bg-transparent',
-              'focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75'
+              'focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-900'
             )}
           >
             <CheckboxPrimitive.Indicator>
@@ -42,10 +43,10 @@ export default function Checkbox({ name }: CheckboxProps) {
           </CheckboxPrimitive.Root>
 
           <LabelPrimitive.Label
-            htmlFor='c1'
-            className='ml-3 select-none text-rich-black dark:text-gray-100'
+            htmlFor={name}
+            className='select-none text-sm  text-rich-black ltr:ml-2 rtl:mr-2 dark:text-gray-100'
           >
-            Remember me?
+            {label}
           </LabelPrimitive.Label>
         </div>
       )}

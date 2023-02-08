@@ -9,7 +9,7 @@ import {
   getRunningQueriesThunk,
   getWorkersNumber,
   useGetWorkersNumberQuery,
-} from 'store/slices/humanResourceApi'
+} from 'store/api/humanResourceApi'
 // components
 import Card from '@/components/Card'
 import CardHeader from '@/components/CardHeader'

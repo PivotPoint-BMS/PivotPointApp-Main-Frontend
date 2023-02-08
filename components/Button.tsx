@@ -14,8 +14,8 @@ export const buttonContained = cva('py-2 px-3 select-none flex items-center just
         'bg-gray-200 hover:bg-gray-300 transition-all active:bg-gray-200 dark:bg-gray-600 dark:hover:bg-gray-700 dark:active:bg-gray-500',
     },
     size: {
-      small: 'text-sm  rounded-xl',
-      medium: 'rounded-xl',
+      small: 'text-sm  rounded-lg',
+      medium: 'rounded-lg',
       large: 'text-lg  rounded-xl',
     },
   },
@@ -35,8 +35,8 @@ export const buttonOutlined = cva('py-2 px-3 select-none font-medium', {
       default: '',
     },
     size: {
-      small: 'text-sm  rounded-xl',
-      medium: 'rounded-xl',
+      small: 'text-sm  rounded-lg',
+      medium: 'rounded-lg',
       large: 'text-lg  rounded-xl',
     },
   },
@@ -50,6 +50,7 @@ export interface ButtonProps
   extends React.HTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonContained & typeof buttonOutlined> {
   variant?: 'contained' | 'outlined'
+  type?: 'button' | 'reset' | 'submit'
 }
 
 export default function Button({
@@ -57,12 +58,14 @@ export default function Button({
   variant = 'contained',
   intent,
   size,
+  type = 'button',
   className,
   ...props
 }: ButtonProps) {
   return (
     <button
       {...props}
+      type={type}
       className={
         variant === 'contained'
           ? buttonContained({ class: className, intent, size })

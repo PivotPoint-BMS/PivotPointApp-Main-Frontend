@@ -1,20 +1,16 @@
 import React from 'react'
-// next
-import Link from 'next/link'
-// routes
-import { PATH_AUTH } from 'routes/paths'
 // assets
 // hooks
 import useResponsive from 'hooks/useResponsive'
 import useTranslate from 'hooks/useTranslate'
 // sections
-import LoginForm from 'sections/auth/login/LoginForm'
+import ResetPasswordForm from 'sections/auth/reset-password/ResetPasswordForm'
 // components
 import Logo from '@/components/Logo'
 import Card from '@/components/Card'
 import CardContent from '@/components/CardContent'
 
-export default function Login() {
+export default function ResetPassword() {
   const isDesktop = useResponsive('lg', 'up')
   const { t } = useTranslate()
 
@@ -24,19 +20,8 @@ export default function Login() {
       <Card className='h-full !w-full overflow-hidden md:h-4/6 md:!w-3/4 lg:!w-3/5'>
         <div className='flex h-full items-center'>
           <CardContent className='flex h-full flex-grow flex-col items-center justify-center gap-5 !p-10 sm:!p-28 md:w-1/2 md:!p-28 lg:!p-10 xl:!p-14'>
-            <h1 className='text-3xl font-semibold'>{t('Login')}</h1>
-            <p className='text-center'>
-              {t("Don't have an account?")}{' '}
-              <span>
-                <Link
-                  className='font-medium text-primary-600 hover:underline focus:underline focus:outline-none dark:text-primary-200'
-                  href={PATH_AUTH.register}
-                >
-                  {t('Sign up now')}
-                </Link>
-              </span>
-            </p>
-            <LoginForm />
+            <h1 className='text-3xl font-semibold'>{t('Reset Password')}</h1>
+            <ResetPasswordForm />
           </CardContent>
           {isDesktop && (
             <div className='flex h-full w-1/2 items-center justify-center bg-gradient-to-b from-primary-100 to-secondary-100'>

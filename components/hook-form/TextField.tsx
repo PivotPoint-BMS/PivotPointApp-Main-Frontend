@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import React from 'react'
+// hooks
 // form
 import { Controller, useFormContext } from 'react-hook-form'
 
@@ -28,35 +29,54 @@ interface TextFieldProps extends React.HTMLAttributes<HTMLInputElement> {
     | 'time'
     | 'url'
     | 'week'
+  startAdornment?: React.ReactNode
+  endAdornment?: React.ReactNode
 }
 
-export default function TextField({ label, name, type = 'text', ...other }: TextFieldProps) {
+export default function TextField({
+  label,
+  name,
+  type = 'text',
+  startAdornment,
+  endAdornment,
+  ...other
+}: TextFieldProps) {
   const { control } = useFormContext()
+
   return (
     <Controller
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => (
-        <div className='group mb-5 flex w-full flex-col gap-1'>
+        <div className='group flex w-full flex-col gap-1'>
           <label
             htmlFor={name}
-            className={clsx('font-medium dark:text-white', error && 'text-red-500')}
+            className={clsx(
+              'text-sm font-medium text-gray-600 dark:text-white',
+              error && 'text-red-500'
+            )}
           >
             {label}
           </label>
-          <input
-            {...field}
-            {...other}
-            id={name}
-            name={name}
-            type={type}
+          <div
             className={clsx(
-              'rounded-xl bg-transparent p-3',
-              'outline outline-1  outline-gray-400 hover:outline-primary-600 focus:outline-2 focus:outline-primary-600 dark:outline-gray-300',
+              'flex w-full items-center justify-center rounded-lg bg-transparent',
+              'outline outline-1  outline-gray-400 focus-within:outline-2 focus-within:outline-primary-600 hover:outline-primary-600 dark:outline-gray-300',
               error &&
-                'outline-red-400 hover:outline-red-500 focus:outline-red-400 dark:outline-red-500'
+                'outline-red-400 focus-within:outline-red-400 hover:outline-red-500 dark:outline-red-500'
             )}
-          />
+          >
+            {startAdornment && <span className='mx-2'>{startAdornment}</span>}
+            <input
+              {...field}
+              {...other}
+              id={name}
+              name={name}
+              type={type}
+              className='flex-1 bg-transparent p-2 outline-none'
+            />
+            {endAdornment && <span className='mx-2'>{endAdornment}</span>}
+          </div>
           {error?.message && <span className='text-xs text-red-500'>{error?.message}</span>}
         </div>
       )}
