@@ -8,7 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import RegisterInput from 'types/RegisterInput'
 // hooks
 import useTranslate from 'hooks/useTranslate'
-// redux
+// api
 import { useRegisterMutation } from 'store/api/authApi'
 // components
 import { FormProvider } from '@/components/hook-form'
@@ -37,7 +37,6 @@ export default function RegisterForm() {
     email: Yup.string()
       .required(t('Email is required'))
       .email(t('Email must be a valid email address')),
-    // TODO: Add Strong Password REGEX
     password: Yup.string()
       .required(t('Password is required'))
       .matches(
@@ -69,6 +68,7 @@ export default function RegisterForm() {
   })
 
   const {
+    reset,
     handleSubmit,
     formState: { errors, isDirty },
     trigger,
@@ -98,7 +98,7 @@ export default function RegisterForm() {
     if (isError && 'data' in error!) {
       setError('afterSubmit', { ...error, message: error.data as string })
     }
-    // setError('afterSubmit', { ...error, message: ? })
+    if (isSuccess) reset()
   }, [isLoading])
 
   return (
