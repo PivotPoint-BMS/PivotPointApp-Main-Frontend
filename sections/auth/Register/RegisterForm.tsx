@@ -1,23 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as Yup from 'yup'
 import { motion } from 'framer-motion'
 // form
 import { useForm, FieldValues } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+// types
+import RegisterInput from 'types/RegisterInput'
 // hooks
-import useIsMountedRef from 'hooks/useIsMountedRef'
 import useTranslate from 'hooks/useTranslate'
+// redux
+import { useRegisterMutation } from 'store/api/authApi'
 // components
 import { FormProvider } from '@/components/hook-form'
 import Alert from '@/components/Alert'
+// forms
 import PersonalData from './PersonalData'
 import UserData from './UserData'
 
 export default function RegisterForm() {
-  const isMountedRef = useIsMountedRef()
   const { t, locale } = useTranslate()
-
   const [step, setStep] = useState(0)
+  const [register, { isLoading, isError, isSuccess, error, data: response }] = useRegisterMutation()
 
   const steps = {
     0: {
@@ -66,26 +69,11 @@ export default function RegisterForm() {
   })
 
   const {
-    reset,
     handleSubmit,
     formState: { errors, isDirty },
-    setError,
     trigger,
+    setError,
   } = methods
-
-  const onSubmit = async (data: FieldValues) => {
-    try {
-      console.log(data)
-      // await login(data.email, data.password);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      console.error(error)
-      reset()
-      if (isMountedRef.current) {
-        setError('afterSubmit', { ...error, message: error.message })
-      }
-    }
-  }
 
   const verifyEmailPassword = () => {
     trigger(['email', 'password', 'confirmPassword']).then(() => {
@@ -95,13 +83,43 @@ export default function RegisterForm() {
     })
   }
 
+  const onSubmit = async (data: FieldValues) => {
+    const registerData: RegisterInput = {
+      email: data.email,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      password: data.password,
+      phoneNumber: data.phoneNumber,
+    }
+    register(registerData)
+  }
+
+  useEffect(() => {
+    if (isError && 'data' in error!) {
+      setError('afterSubmit', { ...error, message: error.data as string })
+    }
+    // setError('afterSubmit', { ...error, message: ? })
+  }, [isLoading])
+
   return (
     <div className='w-full'>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        {errors.afterSubmit && <Alert intent='error'>{errors.afterSubmit.message as string}</Alert>}
-        <div className='w-full overflow-hidden px-1'>
+        <div className='w-full overflow-hidden'>
+          {errors.afterSubmit && (
+            <Alert intent='error' className='mb-5'>
+              <strong className='text-sm font-medium'>
+                {' '}
+                {errors.afterSubmit.message as string}
+              </strong>
+            </Alert>
+          )}
+          {isSuccess && (
+            <Alert intent='success' className='mb-5'>
+              <strong className='text-sm font-medium'>{response?.message}</strong>
+            </Alert>
+          )}
           <motion.div
-            className='flex w-[210%] items-center justify-center gap-10 overflow-hidden px-5'
+            className='flex w-[200%] items-center justify-center gap-2 px-2'
             variants={steps}
             animate={step.toString()}
             transition={{ type: 'keyframes', duration: 1 }}

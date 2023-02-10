@@ -15,7 +15,7 @@ export default function ResetPasswordForm() {
   const { t } = useTranslate()
   const isMountedRef = useIsMountedRef()
 
-  const LoginSchema = Yup.object().shape({
+  const RecoverPasswordSchema = Yup.object().shape({
     email: Yup.string()
       .email(t('Email must be a valid email address'))
       .required(t('Email is required')),
@@ -26,7 +26,7 @@ export default function ResetPasswordForm() {
   }
 
   const methods = useForm<FieldValues>({
-    resolver: yupResolver(LoginSchema),
+    resolver: yupResolver(RecoverPasswordSchema),
     defaultValues,
   })
 
@@ -59,7 +59,9 @@ export default function ResetPasswordForm() {
             <Alert intent='error'>{errors.afterSubmit.message as string}</Alert>
           )}
           <TextField name='email' label={t('Email')} placeholder={t('Enter your email')} />
-          <Button className='w-full font-medium'>{t('Send Request')}</Button>
+          <Button type='submit' className='w-full font-medium'>
+            {t('Send Request')}
+          </Button>
         </div>
       </FormProvider>
     </div>

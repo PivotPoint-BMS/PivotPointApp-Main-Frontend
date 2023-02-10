@@ -20,7 +20,7 @@ export default function Register() {
   return (
     <main className='flex h-screen flex-col items-center justify-center bg-gradient-to-r from-primary-500/50 to-secondary-500/50'>
       {isDesktop && <Logo height={80} width={80} className='mb-5' />}
-      <Card className='h-full !w-full overflow-hidden rounded-none md:h-4/6 md:!w-3/4 lg:!w-3/5 lg:!rounded-xl'>
+      <Card className='h-full !w-full overflow-hidden !rounded-none md:h-4/6 md:!w-3/4 md:!rounded-xl lg:!w-3/5'>
         <div className='flex h-full items-center'>
           <CardContent className='flex h-full flex-grow flex-col items-center justify-center gap-5 !p-10 sm:!p-28 md:w-1/2 md:!p-28 lg:!p-10 xl:!p-14'>
             <h1 className='text-3xl font-semibold'>{t('Register')}</h1>

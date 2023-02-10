@@ -5,6 +5,8 @@ import { Icon as Iconify } from '@iconify/react'
 export const alertContained = cva('flex w-full items-center rounded-xl px-4 py-3 gap-3', {
   variants: {
     intent: {
+      success:
+        'bg-green-200/80 text-grebg-green-800 dark:text-grebg-green-100 dark:bg-green-700/30',
       info: 'bg-blue-200/80 text-blue-800 dark:text-blue-100 dark:bg-blue-700/30',
       warning: 'bg-orange-200/80 text-orange-900 dark:text-orange-100 dark:bg-orange-500/20',
       error: 'bg-red-200/80 text-red-900 dark:text-red-100 dark:bg-red-500/20',
@@ -18,6 +20,7 @@ export const alertContained = cva('flex w-full items-center rounded-xl px-4 py-3
 export const alertOutlined = cva('flex w-full items-center rounded-xl px-4 py-3 gap-3', {
   variants: {
     intent: {
+      success: 'border-2 border-green-400 text-green-600 dark:text-green-100',
       info: 'border-2 border-blue-400 text-blue-600 dark:text-blue-100',
       warning: 'border-2 border-orange-400 text-orange-600 dark:text-orange-100',
       error: 'border-2 border-red-400 text-red-600 dark:text-red-100',

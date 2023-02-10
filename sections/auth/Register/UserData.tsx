@@ -8,7 +8,7 @@ import Button from '@/components/Button'
 export default function UserData({ setStep }: { setStep: (step: number) => void }) {
   const { t } = useTranslate()
   return (
-    <div className='flex flex-1 flex-col items-center justify-between gap-3'>
+    <div className='flex flex-1 flex-col items-center gap-3'>
       <TextField
         name='firstName'
         label={t('First name')}
@@ -20,7 +20,7 @@ export default function UserData({ setStep }: { setStep: (step: number) => void 
         label={t('Phone number')}
         placeholder={t('Enter your phone number')}
       />
-      <div className='mt-5 flex w-full items-center justify-between'>
+      <div className='flex w-full items-center justify-between'>
         <Button className='w-1/3 font-medium' onClick={() => setStep(0)}>
           {t('Back')}
         </Button>
