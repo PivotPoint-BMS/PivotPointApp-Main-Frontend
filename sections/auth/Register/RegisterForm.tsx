@@ -98,7 +98,10 @@ export default function RegisterForm() {
     if (isError && 'data' in error!) {
       setError('afterSubmit', { ...error, message: error.data as string })
     }
-    if (isSuccess) reset()
+    if (isSuccess) {
+      console.log(response)
+      reset()
+    }
   }, [isLoading])
 
   return (
@@ -115,7 +118,7 @@ export default function RegisterForm() {
           )}
           {isSuccess && (
             <Alert intent='success' className='mb-5'>
-              <strong className='text-sm font-medium'>{response?.message}</strong>
+              <strong className='text-sm font-medium'>{response ? response[0] : ''}</strong>
             </Alert>
           )}
           <motion.div

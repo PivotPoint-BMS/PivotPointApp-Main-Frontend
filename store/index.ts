@@ -3,10 +3,12 @@ import { createWrapper } from 'next-redux-wrapper'
 import { authApi } from './api/authApi'
 import { humanResourceApi } from './api/humanResourceApi'
 import sideBarSlice from './slices/sideBarSlice'
+import sessionSlice from './slices/sessionSlice'
 
 export const makeStore = () =>
   configureStore({
     reducer: {
+      [sessionSlice.name]: sessionSlice.reducer,
       [sideBarSlice.name]: sideBarSlice.reducer,
       [authApi.reducerPath]: authApi.reducer,
       [humanResourceApi.reducerPath]: humanResourceApi.reducer,

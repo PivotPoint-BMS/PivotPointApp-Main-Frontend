@@ -67,5 +67,19 @@ const en: { [key: string]: string } = {
   'Enter your phone number': 'Enter your phone number',
   'Phone number must be valid': 'Phone number must be valid',
   'Phone number is required': 'Phone number is required',
+  'New Password': 'New Password',
+  "We've sent a 6-digit code to your email. Please enter the code in below box to verify your email":
+    "We've sent a 6-digit code to your email. Please enter the code in below box to verify your email",
+  Code: 'Code',
+  'Code Invalid': 'Code Invalid',
+  'Code is required': 'Code is required',
+  'Enter your code': 'Enter your code',
+  'Enter your new password': 'Enter your new password',
+  'Please enter the email address associated with your account and We will email you a link to reset your password':
+    'Please enter the email address associated with your account and We will email you a link to reset your password',
+  'Reset Password': 'Reset Password',
+  'Send Request': 'Send Request',
+  'Don’t have a code?': 'Don’t have a code?',
+  'Resend code': 'Resend code',
 }
 export default en

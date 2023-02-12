@@ -67,5 +67,19 @@ const ar: { [key: string]: string } = {
   'Enter your phone number': 'أدخل رقم هاتفك',
   'Phone number must be valid': 'يجب أن يكون رقم الهاتف صالحًا',
   'Phone number is required': 'رقم الهاتف إجباري',
+  'New Password': 'كلمة المرور الجديدة',
+  "We've sent a 6-digit code to your email. Please enter the code in below box to verify your email":
+    'لقد أرسلنا رمزًا مكونًا من 6 أرقام إلى بريدك الإلكتروني. الرجاء إدخال الرمز في المربع أدناه للتحقق من بريدك الإلكتروني',
+  Code: 'الرمز',
+  'Code Invalid': 'الرمز غير صالح',
+  'Code is required': 'الرمز اجباري',
+  'Enter your code': 'ادخل رمزك',
+  'Enter your new password': 'أدخل كلمة المرور الجديدة',
+  'Please enter the email address associated with your account and We will email you a link to reset your password':
+    'يرجى إدخال عنوان البريد الإلكتروني المرتبط بحسابك وسنرسل لك عبر البريد الإلكتروني رابطًا لإعادة تعيين كلمة المرور الخاصة بك',
+  'Reset Password': 'تغيير كلمة المرور',
+  'Send Request': 'إرسال طلب',
+  'Don’t have a code?': 'ليس لديك رمز؟',
+  'Resend code': 'أعد إرسال الرمز',
 }
 export default ar

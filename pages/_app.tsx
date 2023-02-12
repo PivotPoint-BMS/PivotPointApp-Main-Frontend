@@ -6,6 +6,8 @@ import { useRouter } from 'next/router'
 import { Provider as ReduxProvider } from 'react-redux'
 // redux
 import { wrapper } from 'store'
+// guards
+import AuthGuard from 'guards/AuthGuard'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // layout
@@ -44,18 +46,20 @@ function MyApp({ Component, ...rest }: AppProps) {
     <ReduxProvider store={store}>
       <ThemeProvider attribute='class'>
         <ProgressBar />
-        <Layout
-          variant={
-            // eslint-disable-next-line no-nested-ternary
-            router.route.includes('dashboard')
-              ? 'dashboard'
-              : router.route.includes('auth')
-              ? 'main'
-              : 'logoOnly'
-          }
-        >
-          <Component {...props.pageProps} />
-        </Layout>
+        <AuthGuard>
+          <Layout
+            variant={
+              // eslint-disable-next-line no-nested-ternary
+              router.route.includes('dashboard')
+                ? 'dashboard'
+                : router.route.includes('auth')
+                ? 'main'
+                : 'logoOnly'
+            }
+          >
+            <Component {...props.pageProps} />
+          </Layout>
+        </AuthGuard>
       </ThemeProvider>
     </ReduxProvider>
   )

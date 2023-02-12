@@ -1,13 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as Yup from 'yup'
 // next
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 // form
 import { useForm, FieldValues } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 // hooks
 import useTranslate from 'hooks/useTranslate'
-import useIsMountedRef from 'hooks/useIsMountedRef'
+// api
+import { useLoginMutation } from 'store/api/authApi'
+// types
+import { LoginInput } from 'types'
 // routes
 import { PATH_AUTH } from 'routes/paths'
 // components
@@ -18,9 +22,10 @@ import Alert from '@/components/Alert'
 import IconButton from '@/components/IconButton'
 
 export default function LoginForm() {
+  const { push } = useRouter()
   const { t } = useTranslate()
-  const isMountedRef = useIsMountedRef()
   const [showPassword, setShowPassword] = useState(false)
+  const [login, { isLoading, isError, isSuccess, error }] = useLoginMutation()
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string()
@@ -41,25 +46,25 @@ export default function LoginForm() {
   })
 
   const {
-    reset,
     handleSubmit,
     formState: { errors },
     setError,
   } = methods
 
   const onSubmit = async (data: FieldValues) => {
-    try {
-      console.log(data)
-      // await login(data.email, data.password);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      console.error(error)
-      reset()
-      if (isMountedRef.current) {
-        setError('afterSubmit', { ...error, message: error.message })
-      }
+    const loginData: LoginInput = {
+      email: data.email,
+      password: data.password,
     }
+    login(loginData)
   }
+
+  useEffect(() => {
+    if (isError && 'data' in error!) {
+      setError('afterSubmit', { ...error, message: error.data as string })
+    }
+    if (isSuccess) push('/')
+  }, [isLoading])
 
   return (
     <div className='w-full'>
@@ -89,7 +94,9 @@ export default function LoginForm() {
               {t('Forgot password?')}
             </Link>
           </div>
-          <Button className='w-full font-medium'>{t('Login')}</Button>
+          <Button type='submit' className='w-full font-medium' loading={isLoading}>
+            {t('Login')}
+          </Button>
         </div>
       </FormProvider>
     </div>

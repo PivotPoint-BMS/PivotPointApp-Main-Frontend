@@ -18,16 +18,18 @@ export const buttonContained = cva('py-2 px-3 select-none flex items-center just
       medium: 'rounded-lg',
       large: 'text-lg  rounded-xl',
     },
-    loading: {
-      true: 'cursor-not-allowed',
-    },
+
     disabled: {
-      true: 'bg-gray-400 hover:bg-gray-400 active:bg-gray-400',
+      true: [
+        'cursor-not-allowed bg-gray-400 hover:bg-gray-400 active:bg-gray-400',
+        'cursor-not-allowed dark:bg-gray-600 dark:hover:bg-gray-600 dark:active:bg-gray-600',
+      ],
     },
   },
   defaultVariants: {
     intent: 'primary',
     size: 'medium',
+    disabled: true,
   },
 })
 
@@ -45,16 +47,14 @@ export const buttonOutlined = cva('py-2 px-3 select-none font-medium', {
       medium: 'rounded-lg',
       large: 'text-lg  rounded-xl',
     },
-    loading: {
-      true: 'cursor-none',
-    },
     disabled: {
-      true: 'bg-gray-400',
+      true: 'cursor-not-allowed bg-gray-400 hover:bg-gray-400 active:bg-gray-400',
     },
   },
   defaultVariants: {
     intent: 'primary',
     size: 'medium',
+    disabled: true,
   },
 })
 
@@ -88,21 +88,19 @@ export default function Button({
               class: className,
               intent,
               size,
-              loading,
               disabled: disabled || loading,
             })
           : buttonOutlined({
               class: className,
               intent,
               size,
-              loading,
               disabled: disabled || loading,
             })
       }
     >
       {loading && (
         <svg
-          className='-ml-1 mr-3 h-5 w-5 animate-spin text-white'
+          className='-ml-1 h-5 w-5 animate-spin text-white ltr:mr-3 rtl:ml-3'
           xmlns='http://www.w3.org/2000/svg'
           fill='none'
           viewBox='0 0 24 24'
@@ -113,7 +111,7 @@ export default function Button({
             cy='12'
             r='10'
             stroke='currentColor'
-            stroke-width='4'
+            strokeWidth='4'
           ></circle>
           <path
             className='opacity-75'

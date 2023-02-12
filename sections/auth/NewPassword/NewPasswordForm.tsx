@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as Yup from 'yup'
 // form
 import { useForm, FieldValues } from 'react-hook-form'
@@ -10,21 +10,23 @@ import { ResetPasswordInput } from 'types'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // components
+import { Icon as Iconify } from '@iconify/react'
 import Button from '@/components/Button'
 import { FormProvider, TextField } from '@/components/hook-form'
 import Alert from '@/components/Alert'
+import IconButton from '@/components/IconButton'
 
 export default function NewPasswordForm() {
   const { t } = useTranslate()
+  const [showPassword, setShowPassword] = useState(false)
   const [resetPassword, { isLoading, isError, isSuccess, error, data: response }] =
     useResetPasswordMutation()
 
   const RecoverPasswordSchema = Yup.object().shape({
     code: Yup.string()
-      .min(6, t('Code Invalid'))
-      .max(6, t('Code Invalid'))
-      .required(t('Code is required')),
-    password: Yup.string()
+      .required(t('Code is required'))
+      .matches(/^[0-9]{6}$/, t('Code Invalid')),
+    newPassword: Yup.string()
       .required(t('Password is required'))
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.-_])[A-Za-z\d@$!%*?&.-_]{8,}$/,
@@ -34,11 +36,13 @@ export default function NewPasswordForm() {
       ),
     confirmPassword: Yup.string()
       .required(t('Confirm your password'))
-      .oneOf([Yup.ref('password'), null], t('Passwords does not match')),
+      .oneOf([Yup.ref('newPassword'), null], t('Passwords does not match')),
   })
 
   const defaultValues = {
-    email: '',
+    code: '',
+    newPassword: '',
+    confirmPassword: '',
   }
 
   const methods = useForm<FieldValues>({
@@ -84,22 +88,45 @@ export default function NewPasswordForm() {
               <strong className='text-sm font-medium'>{response?.message}</strong>
             </Alert>
           )}
-          <TextField name='code' label={t('Code')} placeholder={t('Enter your new password')} />
+          <TextField
+            type='number'
+            name='code'
+            label={t('Code')}
+            placeholder={t('Enter your code')}
+          />
           <TextField
             name='newPassword'
             label={t('New Password')}
-            placeholder={t('Enter your code')}
+            placeholder={t('Enter your new password')}
+            type={showPassword ? 'text' : 'password'}
+            endAdornment={
+              <IconButton onClick={() => setShowPassword((prevState) => !prevState)}>
+                <Iconify icon={showPassword ? 'ion:eye' : 'ion:eye-off'} height={20} width={20} />
+              </IconButton>
+            }
           />
           <TextField
             name='confirmPassword'
             label={t('Confirm password')}
             placeholder={t('Confirm your password')}
+            type={showPassword ? 'text' : 'password'}
+            endAdornment={
+              <IconButton onClick={() => setShowPassword((prevState) => !prevState)}>
+                <Iconify icon={showPassword ? 'ion:eye' : 'ion:eye-off'} height={20} width={20} />
+              </IconButton>
+            }
           />
           <Button type='submit' className='w-full font-medium' loading={isLoading}>
             {t('Reset Password')}
           </Button>
         </div>
       </FormProvider>
+      <p className='mt-5 text-center'>
+        {t('Don’t have a code?')}{' '}
+        <span className='cursor-pointer font-medium text-primary-600 hover:underline focus:underline focus:outline-none dark:text-primary-200'>
+          {t('Resend code')}
+        </span>
+      </p>
     </div>
   )
 }

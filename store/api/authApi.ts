@@ -1,11 +1,16 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { HYDRATE } from 'next-redux-wrapper'
-import { IGenericResponse, RegisterInput, ResetPasswordInput } from 'types'
+// actions
+import { setError, setUser, startLoading } from 'store/slices/sessionSlice'
+// types
+import { IGenericResponse, LoginInput, RegisterInput, ResetPasswordInput, User } from 'types'
+// config
+import { PIVOTPOINT_API } from 'config'
 
 export const authApi = createApi({
   reducerPath: 'auth',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://staging.pivotpointbms.com/api/identity/Authentication/',
+    baseUrl: `${PIVOTPOINT_API.baseUrl}/identity/Authentication/`,
   }),
   // eslint-disable-next-line consistent-return
   extractRehydrationInfo(action, { reducerPath }) {
@@ -15,7 +20,24 @@ export const authApi = createApi({
   },
   tagTypes: [],
   endpoints: (builder) => ({
-    register: builder.mutation<IGenericResponse, RegisterInput>({
+    login: builder.mutation<User, LoginInput>({
+      query: (data) => ({
+        url: 'Login',
+        method: 'POST',
+        body: data,
+        responseHandler: 'content-type',
+      }),
+      async onQueryStarted(id, { dispatch, queryFulfilled }) {
+        dispatch(startLoading())
+        try {
+          const { data } = await queryFulfilled
+          dispatch(setUser(data))
+        } catch (err) {
+          dispatch(setError('Error fetching user!'))
+        }
+      },
+    }),
+    register: builder.mutation<string[], RegisterInput>({
       query: (data) => ({
         url: 'Register',
         method: 'POST',
@@ -25,7 +47,7 @@ export const authApi = createApi({
     }),
     resetPassword: builder.mutation<IGenericResponse, ResetPasswordInput>({
       query: (data) => ({
-        url: 'Register',
+        url: 'ResetPassword',
         method: 'POST',
         body: data,
         responseHandler: 'content-type',
@@ -36,9 +58,11 @@ export const authApi = createApi({
 
 // Export hooks for usage in functional components
 export const {
+  useLoginMutation,
   useRegisterMutation,
+  useResetPasswordMutation,
   util: { getRunningQueriesThunk },
 } = authApi
 
 // export endpoints for use in SSR
-export const { register } = authApi.endpoints
+export const { login, register, resetPassword } = authApi.endpoints
