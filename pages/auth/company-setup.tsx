@@ -25,6 +25,8 @@ import Subscription from 'sections/auth/company-setup/Subscription'
 // components
 import { Icon as Iconify } from '@iconify/react'
 import { FormProvider } from '@/components/hook-form'
+// pages
+import Login from './login'
 
 const Tabs = [
   { name: 'Setup Company', value: '1' },
@@ -129,9 +131,10 @@ export default function CompanySetup() {
   }, [isLoading, isSuccess])
 
   useEffect(() => {
-    if (!user) push(PATH_AUTH.login)
-    if (refreshToken) push(PATH_DASHBOARD.root)
+    if (!user && refreshToken) push(PATH_DASHBOARD.root)
   }, [push, refreshToken])
+
+  if (!user) return <Login />
 
   return (
     <main className='flex h-screen flex-col items-center'>

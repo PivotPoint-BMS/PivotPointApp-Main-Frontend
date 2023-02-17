@@ -6,7 +6,7 @@ import * as TabsPrimitive from '@radix-ui/react-tabs'
 // next
 import { useRouter } from 'next/router'
 // routes
-import { PATH_AUTH, PATH_DASHBOARD } from 'routes/paths'
+import { PATH_DASHBOARD } from 'routes/paths'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 import useResponsive from 'hooks/useResponsive'
@@ -16,6 +16,8 @@ import { useCheckPaymentQuery } from 'store/api/paymentApi'
 import CompletePayment from 'sections/auth/company-setup/CompletePayment'
 // components
 import { Icon as Iconify } from '@iconify/react'
+// pages
+import Login from './login'
 
 const Tabs = [
   { name: 'Setup Company', value: '1' },
@@ -32,13 +34,14 @@ export default function Payment() {
   const { t, locale } = useTranslate()
 
   useEffect(() => {
-    if (!user) push(PATH_AUTH.login)
     if (!user && refreshToken) push(PATH_DASHBOARD.root)
   }, [push, refreshToken])
 
   useEffect(() => {
     if (!isLoading && isSuccess) reload()
   }, [isLoading, isSuccess])
+
+  if (!user) return <Login />
 
   return (
     <main className='flex h-screen flex-col items-center'>
