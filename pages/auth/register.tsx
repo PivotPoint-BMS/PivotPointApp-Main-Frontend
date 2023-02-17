@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 import React from 'react'
 // next
 import Link from 'next/link'

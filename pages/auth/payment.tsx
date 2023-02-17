@@ -27,7 +27,7 @@ const Tabs = [
 export default function Payment() {
   const { push } = useRouter()
   const isDesktop = useResponsive('md', 'up')
-  const { isLoading, isSuccess, isError } = useCheckPaymentQuery()
+  const { isLoading, isSuccess } = useCheckPaymentQuery()
   const user = useAppSelector((state) => state.session.user)
   const { t, locale } = useTranslate()
 

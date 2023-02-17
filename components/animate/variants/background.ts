@@ -1,23 +1,34 @@
 // ----------------------------------------------------------------------
 
-export const varBgColor = (props) => {
-  const colors = props?.colors || ['#19dcea', '#b22cff'];
-  const duration = props?.duration || 5;
-  const ease = props?.ease || 'linear';
+interface VarBgProps {
+  colors?: string[]
+  duration?: number
+  ease?: string
+}
+
+export const varBgColor = (props: VarBgProps) => {
+  const colors = props?.colors || ['#19dcea', '#b22cff']
+  const duration = props?.duration || 5
+  const ease = props?.ease || 'linear'
 
   return {
     animate: {
       background: colors,
       transition: { duration, ease },
     },
-  };
-};
+  }
+}
 
 // ----------------------------------------------------------------------
 
-export const varBgKenburns = (props) => {
-  const duration = props?.duration || 5;
-  const ease = props?.ease || 'easeOut';
+interface VarBgKenburns {
+  duration?: number
+  ease?: string
+}
+
+export const varBgKenburns = (props: VarBgKenburns) => {
+  const duration = props?.duration || 5
+  const ease = props?.ease || 'easeOut'
 
   return {
     top: {
@@ -54,17 +65,17 @@ export const varBgKenburns = (props) => {
         transition: { duration, ease },
       },
     },
-  };
-};
+  }
+}
 
 // ----------------------------------------------------------------------
 
-export const varBgPan = (props) => {
-  const colors = props?.colors || ['#ee7752', '#e73c7e', '#23a6d5', '#23d5ab'];
-  const duration = props?.duration || 5;
-  const ease = props?.ease || 'linear';
+export const varBgPan = (props: { colors?: string[]; duration?: number; ease?: string }) => {
+  const colors = props?.colors || ['#ee7752', '#e73c7e', '#23a6d5', '#23d5ab']
+  const duration = props?.duration || 5
+  const ease = props?.ease || 'linear'
 
-  const gradient = (deg) => `linear-gradient(${deg}deg, ${colors})`;
+  const gradient = (deg: number) => `linear-gradient(${deg}deg, ${colors})`
 
   return {
     top: {
@@ -99,5 +110,5 @@ export const varBgPan = (props) => {
         transition: { duration, ease },
       },
     },
-  };
-};
+  }
+}

@@ -10,7 +10,7 @@ interface Props {
   easeIn?: [number, number, number, number]
 }
 
-export const varFade = (props?: Props) => {
+const varFade = (props?: Props) => {
   const distance = props?.distance || 120
   const durationIn = props?.durationIn
   const durationOut = props?.durationOut
@@ -73,3 +73,5 @@ export const varFade = (props?: Props) => {
     },
   }
 }
+
+export default varFade

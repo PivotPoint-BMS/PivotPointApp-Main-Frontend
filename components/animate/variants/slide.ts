@@ -10,7 +10,7 @@ interface Props {
   easeOut?: [number, number, number, number]
 }
 
-export const varSlide = (props?: Props) => {
+const varSlide = (props?: Props) => {
   const distance = props?.distance || 160
   const durationIn = props?.durationIn
   const durationOut = props?.durationOut
@@ -63,3 +63,5 @@ export const varSlide = (props?: Props) => {
     },
   }
 }
+
+export default varSlide

@@ -9,8 +9,7 @@ interface Props {
   easeIn?: [number, number, number, number]
   easeOut?: [number, number, number, number]
 }
-
-export const varZoom = (props?: Props) => {
+const varZoom = (props?: Props) => {
   const distance = props?.distance || 720
   const durationIn = props?.durationIn
   const durationOut = props?.durationOut
@@ -128,3 +127,5 @@ export const varZoom = (props?: Props) => {
     },
   }
 }
+
+export default varZoom

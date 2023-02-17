@@ -1,12 +1,12 @@
-export * from './path';
-export * from './fade';
-export * from './zoom';
-export * from './flip';
-export * from './slide';
-export * from './scale';
-export * from './bounce';
-export * from './rotate';
-export * from './actions';
-export * from './container';
-export * from './transition';
-export * from './background';
+export * from './path'
+export { default as varFade } from './fade'
+export { default as varZoom } from './zoom'
+export { default as varFlip } from './flip'
+export { default as varSlide } from './slide'
+export { default as varScale } from './scale'
+export { default as varBounce } from './bounce'
+export { default as varRotate } from './rotate'
+export { default as varActions } from './actions'
+export { default as varContainer } from './container'
+export * from './transition'
+export * from './background'

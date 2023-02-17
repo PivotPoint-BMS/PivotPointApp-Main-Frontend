@@ -1,12 +1,18 @@
-import { varTranEnter, varTranExit } from './transition';
+import { varTranEnter, varTranExit } from './transition'
 
 // ----------------------------------------------------------------------
+interface Props {
+  durationIn?: number
+  durationOut?: number
+  easeIn?: [number, number, number, number]
+  easeOut?: [number, number, number, number]
+}
 
-export const varRotate = (props) => {
-  const durationIn = props?.durationIn;
-  const durationOut = props?.durationOut;
-  const easeIn = props?.easeIn;
-  const easeOut = props?.easeOut;
+const varRotate = (props?: Props) => {
+  const durationIn = props?.durationIn
+  const durationOut = props?.durationOut
+  const easeIn = props?.easeIn
+  const easeOut = props?.easeOut
 
   return {
     // IN
@@ -21,5 +27,7 @@ export const varRotate = (props) => {
       initial: { opacity: 1, rotate: 0 },
       animate: { opacity: 0, rotate: -360, transition: varTranExit({ durationOut, easeOut }) },
     },
-  };
-};
+  }
+}
+
+export default varRotate

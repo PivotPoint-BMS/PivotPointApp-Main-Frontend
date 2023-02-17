@@ -1,12 +1,17 @@
-import { varTranEnter, varTranExit } from './transition';
+import { varTranEnter, varTranExit } from './transition'
 
 // ----------------------------------------------------------------------
 
-export const varBounce = (props) => {
-  const durationIn = props?.durationIn;
-  const durationOut = props?.durationOut;
-  const easeIn = props?.easeIn;
-  const easeOut = props?.easeOut;
+const varBounce = (props: {
+  durationIn?: number
+  durationOut?: number
+  easeIn?: [number, number, number, number]
+  easeOut?: [number, number, number, number]
+}) => {
+  const durationIn = props?.durationIn
+  const durationOut = props?.durationOut
+  const easeIn = props?.easeIn
+  const easeOut = props?.easeOut
 
   return {
     // IN
@@ -99,5 +104,7 @@ export const varBounce = (props) => {
     outRight: {
       animate: { x: [0, -24, 720], scaleX: [1, 0.9, 2], opacity: [1, 1, 0] },
     },
-  };
-};
+  }
+}
+
+export default varBounce
