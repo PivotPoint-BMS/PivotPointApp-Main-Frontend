@@ -6,7 +6,7 @@ import * as TabsPrimitive from '@radix-ui/react-tabs'
 // next
 import { useRouter } from 'next/router'
 // routes
-import { PATH_DASHBOARD } from 'routes/paths'
+import { PATH_AUTH, PATH_DASHBOARD } from 'routes/paths'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 import useResponsive from 'hooks/useResponsive'
@@ -25,20 +25,19 @@ const Tabs = [
 ]
 
 export default function Payment() {
-  const { push } = useRouter()
+  const { push, reload } = useRouter()
   const isDesktop = useResponsive('md', 'up')
   const { isLoading, isSuccess } = useCheckPaymentQuery()
-  const user = useAppSelector((state) => state.session.user)
+  const { refreshToken, user } = useAppSelector((state) => state.session)
   const { t, locale } = useTranslate()
 
   useEffect(() => {
-    if (user && user.hasPaidSubscription) {
-      push(PATH_DASHBOARD.root)
-    }
-  }, [user])
+    if (!user) push(PATH_AUTH.login)
+    if (!user && refreshToken) push(PATH_DASHBOARD.root)
+  }, [push, refreshToken])
 
   useEffect(() => {
-    if (!isLoading && isSuccess) push(PATH_DASHBOARD.root)
+    if (!isLoading && isSuccess) reload()
   }, [isLoading, isSuccess])
 
   return (
@@ -51,7 +50,8 @@ export default function Payment() {
       >
         <TabsPrimitive.List
           className={clsx(
-            'fixed top-0 right-0 z-20 flex w-full items-center justify-between overflow-y-hidden bg-white sm:overflow-hidden'
+            'fixed top-0 right-0 z-20 flex w-full items-center justify-between overflow-y-hidden bg-white sm:overflow-hidden',
+            'dark:bg-dark'
           )}
         >
           {Tabs.map((item, i) => (
@@ -59,11 +59,11 @@ export default function Payment() {
               key={i}
               value={item.value}
               className={clsx(
-                'flex h-16 min-w-fit flex-1 items-center justify-start gap-3 border-b-2 border-r p-3',
-                item.value !== '4' ? 'opacity-50' : 'border-b-primary-500'
+                'flex h-16 min-w-fit flex-1 items-center justify-start gap-3 border-b-2 border-r p-3 dark:border-gray-400',
+                item.value !== '4' ? 'opacity-50' : 'border-b-primary-500 dark:border-b-primary-300'
               )}
             >
-              <div className='flex h-12 w-full items-center justify-center rounded-full bg-gray-100 p-4 md:w-12'>
+              <div className='flex h-12 w-full items-center justify-center rounded-full bg-gray-100 p-4 dark:bg-secondary-800 md:w-12'>
                 <span className='text-xl font-medium'>
                   {item.value !== '4' ? (
                     <Iconify
@@ -79,16 +79,13 @@ export default function Payment() {
               </div>
               {isDesktop && (
                 <div className=' flex flex-col items-start'>
-                  <p
-                    className={clsx(
-                      'text-xs font-medium',
-                      item.value !== '4' && 'text-secondary-600'
-                    )}
-                  >
+                  <p className={clsx('text-xs font-medium')}>
                     {item.value === '4' ? (
-                      <span className='text-secondary-600'>{t('Current')}</span>
+                      <span className='text-secondary-600 dark:text-secondary-300'>
+                        {t('Current')}
+                      </span>
                     ) : (
-                      <span className='text-green-600'>{t('Completed')}</span>
+                      <span className='text-green-600 dark:text-green-300'>{t('Completed')}</span>
                     )}
                   </p>
                   <h6 className='font-medium'>{t(item.name)}</h6>
@@ -99,7 +96,7 @@ export default function Payment() {
         </TabsPrimitive.List>
         <TabsPrimitive.Content
           value='4'
-          className={clsx('mt-12 h-full bg-gray-100/50 py-6 dark:bg-secondary-900')}
+          className={clsx('mt-12 h-full bg-gray-100/50 py-6 dark:bg-dark')}
         >
           <CompletePayment />
         </TabsPrimitive.Content>

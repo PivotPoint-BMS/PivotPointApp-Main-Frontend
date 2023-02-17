@@ -25,7 +25,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode | Re
 
   useEffect(() => {
     if (!user && refreshToken) getUser(refreshToken)
-    else if (user && user.hasPaidSubscription && requestedLocation?.includes('company-setup')) {
+    else if (user && user.hasPaidSubscription && requestedLocation?.includes('auth')) {
       push(PATH_DASHBOARD.root)
     } else if (requestedLocation && pathname !== requestedLocation) {
       setRequestedLocation(null)

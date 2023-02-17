@@ -79,7 +79,7 @@ export default function Workers({
 
   return (
     <MotionContainer>
-      <div className='container relative mx-auto flex h-full flex-col items-center justify-center gap-5 rounded-xl bg-white px-5 py-10 shadow-md sm:px-16 md:px-20 lg:w-1/2'>
+      <div className='container relative mx-auto flex h-full flex-col items-center justify-center gap-5 rounded-xl bg-white px-5 py-10 shadow-md dark:bg-secondary-900 sm:px-16 md:px-20 lg:w-1/2'>
         <IconButton
           onClick={handleBack}
           className={clsx('absolute top-5', locale === 'ar' ? 'right-5' : 'left-5')}
@@ -98,8 +98,10 @@ export default function Workers({
           variants={varFade().in}
           className='flex h-full w-full flex-col items-center gap-6'
         >
-          <h1 className='text-3xl font-semibold text-secondary-900'>{t('Add Workers')}</h1>
-          <p className='text-center text-gray-600'>{t('Add your workers and their positions')}</p>
+          <h1 className='text-3xl font-semibold'>{t('Add Workers')}</h1>
+          <p className='text-center text-gray-600 dark:text-gray-300'>
+            {t('Add your workers and their positions')}
+          </p>
           <div className='grid w-full grid-cols-1 items-center justify-between gap-5 md:grid-cols-2'>
             <div className='flex h-full w-full  flex-col items-center gap-6'>
               <TextField
@@ -145,11 +147,11 @@ export default function Workers({
                   <div className='flex w-full flex-col items-center gap-3'>
                     {workers.map((w, i) => (
                       <div
-                        className='relative flex w-full flex-col gap-1 rounded-md bg-gray-100 p-2'
+                        className='relative flex w-full flex-col gap-1 rounded-md bg-gray-100 p-2 dark:bg-gray-800'
                         key={i}
                       >
                         <IconButton
-                          className='lrt:right-1 absolute top-1 w-fit rtl:left-1'
+                          className='absolute top-1 w-fit ltr:right-1 rtl:left-1'
                           onClick={() => removeWorker(i)}
                         >
                           <Iconify icon='ic:round-person-remove-alt-1' height={16} width={16} />

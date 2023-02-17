@@ -37,7 +37,7 @@ export default function CompanySetup() {
   const { push } = useRouter()
   const isDesktop = useResponsive('md', 'up')
   const [createRequest, { isLoading, isSuccess }] = useCreateRequestMutation()
-  const user = useAppSelector((state) => state.session.user)
+  const { user, refreshToken } = useAppSelector((state) => state.session)
   const [step, setStep] = useState('1')
   const { t, locale } = useTranslate()
 
@@ -128,6 +128,11 @@ export default function CompanySetup() {
     if (!isLoading && isSuccess) push(PATH_AUTH.payment)
   }, [isLoading, isSuccess])
 
+  useEffect(() => {
+    if (!user) push(PATH_AUTH.login)
+    if (refreshToken) push(PATH_DASHBOARD.root)
+  }, [push, refreshToken])
+
   return (
     <main className='flex h-screen flex-col items-center'>
       <TabsPrimitive.Root
@@ -138,7 +143,8 @@ export default function CompanySetup() {
       >
         <TabsPrimitive.List
           className={clsx(
-            'fixed top-0 right-0 z-20 flex w-full items-center justify-between overflow-y-hidden bg-white sm:overflow-hidden'
+            'fixed top-0 right-0 z-20 flex w-full items-center justify-between overflow-y-hidden bg-white  sm:overflow-hidden',
+            'dark:bg-dark'
           )}
         >
           {Tabs.map((item, i) => (
@@ -146,11 +152,13 @@ export default function CompanySetup() {
               key={i}
               value={item.value}
               className={clsx(
-                'flex h-16 min-w-fit flex-1 items-center justify-start gap-3 border-b-2 border-r p-3',
-                step === item.value ? 'border-b-primary-500' : 'opacity-50'
+                'flex h-16 min-w-fit flex-1 items-center justify-start gap-3 border-b-2 border-r p-3 dark:border-gray-300',
+                step === item.value
+                  ? 'border-b-primary-500 dark:border-b-primary-300'
+                  : 'opacity-50'
               )}
             >
-              <div className='flex h-12 w-full items-center justify-center rounded-full bg-gray-100 p-4 md:w-12'>
+              <div className='flex h-12 w-full items-center justify-center rounded-full bg-gray-100 p-4 dark:bg-secondary-800 md:w-12'>
                 <span className='text-xl font-medium'>
                   {Number(step) > Number(item.value) ? (
                     <Iconify
@@ -169,11 +177,13 @@ export default function CompanySetup() {
                   <p
                     className={clsx(
                       'text-xs font-medium',
-                      step === item.value && 'text-secondary-600'
+                      step === item.value && 'text-secondary-600 dark:text-secondary-300'
                     )}
                   >
                     {step === item.value ? (
-                      <span className='text-secondary-600'>{t('Current')}</span>
+                      <span className='text-secondary-600 dark:text-secondary-300'>
+                        {t('Current')}
+                      </span>
                     ) : Number(step) > Number(item.value) ? (
                       <span className='text-green-600'>{t('Completed')}</span>
                     ) : (
@@ -189,13 +199,13 @@ export default function CompanySetup() {
         <FormProvider methods={methods}>
           <TabsPrimitive.Content
             value='1'
-            className={clsx('mt-12 h-full bg-gray-100/50 py-6 dark:bg-secondary-900')}
+            className={clsx('mt-12 h-full bg-gray-100/50 py-6 dark:bg-dark')}
           >
             <Company handleNext={ToSecondStep} />
           </TabsPrimitive.Content>
           <TabsPrimitive.Content
             value='2'
-            className={clsx('mt-12 h-full bg-gray-100/50 py-6 dark:bg-secondary-900')}
+            className={clsx('mt-12 h-full bg-gray-100/50 py-6 dark:bg-dark')}
           >
             <Workers
               handleBack={() => setStep('1')}
@@ -208,7 +218,7 @@ export default function CompanySetup() {
           </TabsPrimitive.Content>
           <TabsPrimitive.Content
             value='3'
-            className={clsx('mt-12 h-full bg-gray-100/50 py-6 dark:bg-secondary-900')}
+            className={clsx('mt-12 h-full bg-gray-100/50 py-6 dark:bg-dark')}
           >
             <Subscription
               handleBack={() => setStep('2')}
