@@ -106,6 +106,7 @@ const en: { [key: string]: string } = {
   USER_CREATED_SUCCESS:
     'User created successfully, we have sent you a confirmation email, please confirm your email.',
   EMAIL_NOT_CONFIRMED: 'Email not confirmed, please confirm your email',
+  USER_NOT_FOUND: 'User was not found',
   'Complete your payment': 'Complete your payment',
   'Click the button below to complete the payments':
     'Click the button below to complete the payments',

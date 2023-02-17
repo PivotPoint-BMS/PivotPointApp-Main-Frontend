@@ -107,6 +107,7 @@ const fr: { [key: string]: string } = {
   USER_CREATED_SUCCESS:
     'Utilisateur créé avec succès, nous vous avons envoyé un e-mail de confirmation, veuillez confirmer votre e-mail.',
   EMAIL_NOT_CONFIRMED: 'E-mail non confirmé, veuillez confirmer votre e-mail',
+  USER_NOT_FOUND: "L'utilisateur n'a pas été trouvé",
   'Complete your payment': 'Finalisez votre paiement',
   'Click the button below to complete the payments':
     'Cliquez sur le bouton ci-dessous pour terminer les paiements',

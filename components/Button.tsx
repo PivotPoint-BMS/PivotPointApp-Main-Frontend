@@ -9,10 +9,14 @@ export const buttonContained = cva('py-2 px-3 select-none flex items-center just
         'bg-primary-600 hover:bg-primary-700 transition-all text-white active:bg-primary-500',
         'dark:bg-primary-700 dark:hover:bg-primary-700/70 dark:active:bg-primary-600',
       ],
-      secondary:
+      secondary: [
         'bg-secondary-600 hover:bg-secondary-700 transition-all text-white active:bg-secondary-500',
-      default:
-        'bg-gray-200 hover:bg-gray-300 transition-all active:bg-gray-200 dark:bg-gray-600 dark:hover:bg-gray-700 dark:active:bg-gray-500',
+        'dark:bg-secondary-700 dark:hover:bg-secondary-700/70 dark:active:bg-secondary-600',
+      ],
+      default: [
+        'bg-gray-200 hover:bg-gray-300 transition-all active:bg-gray-200',
+        ' dark:bg-gray-600 dark:hover:bg-gray-700 dark:active:bg-gray-500',
+      ],
     },
     size: {
       small: 'text-sm  rounded-lg',
@@ -41,7 +45,10 @@ export const buttonOutlined = cva('py-2 px-3 select-none flex items-center justi
         'border-2 border-primary-200 text-primary-600 hover:bg-primary-600/10 active:bg-primary-600/20',
       secondary:
         'border-2 border-secondary-200 text-secondary-600 hover:bg-secondary-600/10 active:bg-secondary-600/20',
-      default: 'border border-gray-400 text-gray-900 hover:bg-gray-600/10 active:bg-gray-600/20',
+      default: [
+        'border border-gray-400 text-gray-900 hover:bg-gray-600/10 active:bg-gray-600/20',
+        'border-gray-300 dark:text-gray-100 dark:hover:bg-gray-500/25 dark:active:bg-gray-500/50 dark:focus:outline-gray-900',
+      ],
     },
     size: {
       small: 'text-sm  rounded-lg',
@@ -64,7 +71,10 @@ export const buttonText = cva('py-2 px-3 select-none flex items-center justify-c
     intent: {
       primary: ['text-primary-600 hover:bg-primary-600/10 active:bg-primary-600/20'],
       secondary: ['text-secondary-600 hover:bg-secondary-600/10 active:bg-secondary-600/20'],
-      default: ['text-gray-900 hover:bg-gray-600/10 active:bg-gray-600/20'],
+      default: [
+        'text-gray-900 hover:bg-gray-600/10 active:bg-gray-600/20',
+        'dark:text-gray-100 dark:hover:bg-gray-500/25 dark:active:bg-gray-500/50 dark:focus:outline-gray-900',
+      ],
     },
     size: {
       small: 'text-sm rounded-lg',

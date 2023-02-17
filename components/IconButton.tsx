@@ -6,7 +6,7 @@ const iconButton = cva('rounded-full flex items-start justify-center', {
     intent: {
       default: [
         'text-gray-700 hover:bg-gray-300 active:bg-gray-800/40 focus:bg-gray-800/40 focus:outline-gray-900',
-        'dark:text-gray-300 dark:hover:bg-gray-600/25 dark:active:bg-gray-500/50 dark:focus:bg-gray-500/50 dark:focus:outline-gray-900',
+        'dark:text-gray-300 dark:hover:bg-gray-500/25 dark:active:bg-gray-500/50 dark:focus:outline-gray-900',
       ],
     },
     size: {

@@ -106,6 +106,7 @@ const ar: { [key: string]: string } = {
   USER_CREATED_SUCCESS:
     'تم إنشاء المستخدم بنجاح ، لقد أرسلنا لك رسالة تأكيد بالبريد الإلكتروني ، يرجى تأكيد بريدك الإلكتروني.',
   EMAIL_NOT_CONFIRMED: 'لم يتم تأكيد البريد الإلكتروني ، يرجى تأكيد بريدك الإلكتروني',
+  USER_NOT_FOUND: 'لم يتم العثور على المستخدم',
   'Complete your payment': 'أكمل الدفع الخاص بك',
   'Click the button below to complete the payments': 'اضغط الزر أدناه لإكمال الدفع',
   'Proceed to payment': 'انتقل إلى الدفع',

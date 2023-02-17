@@ -20,6 +20,7 @@ export default function CompletePayment() {
   const { user } = useAppSelector((state) => state.session)
 
   useEffect(() => {
+    if (user?.tier === 0) reload()
     if (isSuccess) reload()
   }, [])
 
