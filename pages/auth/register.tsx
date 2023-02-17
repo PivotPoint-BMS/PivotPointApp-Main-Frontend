@@ -8,7 +8,7 @@ import { PATH_AUTH, PATH_PAGE } from 'routes/paths'
 import useResponsive from 'hooks/useResponsive'
 import useTranslate from 'hooks/useTranslate'
 // sections
-import RegisterForm from 'sections/auth/register/RegisterForm'
+import RegisterForm from 'sections/auth/register'
 // components
 import Logo from '@/components/Logo'
 
