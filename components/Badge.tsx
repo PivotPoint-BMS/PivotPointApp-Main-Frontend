@@ -2,11 +2,11 @@ import React from 'react'
 import { cva, VariantProps } from 'class-variance-authority'
 
 export const badgeContained = cva(
-  'flex w-max items-center text-xs   rounded-full py-1 font-semibold select-none text-white',
+  'flex w-max items-center text-xs rounded-full py-1 font-semibold select-none',
   {
     variants: {
       intent: {
-        primary: 'bg-primary-100/50 text-primary-900 dark:text-primary-100 dark:bg-primary-100/20',
+        primary: 'bg-primary-500/80 text-white dark:text-primary-900 dark:bg-primary-500/60',
         secondary:
           'bg-secondary-100/50 text-secondary-900 dark:text-secondary-100 dark:bg-secondary-300/20',
         info: 'bg-blue-200/80 text-blue-900 dark:text-blue-100 dark:bg-blue-500/20',
@@ -68,8 +68,8 @@ export default function Badge({
       {...props}
       className={
         variant === 'contained'
-          ? badgeContained({ intent, size, className })
-          : badgeOutlined({ intent, size, className })
+          ? badgeContained({ intent, size, class: className })
+          : badgeOutlined({ intent, size, class: className })
       }
     >
       {icon && <span className='ltr:mr-2 rtl:ml-2'>{icon}</span>}

@@ -1,3 +1,7 @@
+// API
+export const PIVOTPOINT_API = {
+  baseUrl: process.env.PIVOTPOINT_API_BASE_URL,
+}
 export const HEADER = {
   MOBILE_HEIGHT: 64,
   MAIN_DESKTOP_HEIGHT: 88,

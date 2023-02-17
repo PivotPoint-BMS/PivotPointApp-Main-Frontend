@@ -62,7 +62,7 @@ export default function SidebarMobile() {
         transition={{ type: 'keyframes' }}
       >
         <Scrollbar
-          className='z-50 m-0 h-screen border-r border-dashed border-gray-400 bg-white py-6 px-4 transition-all delay-100 dark:border-gray-600 dark:bg-primary-900'
+          className='z-50 m-0 h-screen border-r border-dashed border-gray-400 bg-white py-6 px-4 transition-all delay-100 dark:border-gray-600 dark:bg-secondary-900'
           style={{ width: NAVBAR.MAIN_NAVBAR_WIDTH_MOBILE }}
         >
           <div className='flex flex-col items-start'>

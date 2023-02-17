@@ -4,7 +4,6 @@ import { motion } from 'framer-motion'
 import clsx from 'clsx'
 // radix
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
-import * as SelectPrimitive from '@radix-ui/react-select'
 // hooks
 import useResponsive from 'hooks/useResponsive'
 // redux
@@ -55,7 +54,7 @@ export default function Header() {
 
   return (
     <motion.div
-      className='fixed right-0 top-0 z-40 flex items-center justify-between gap-5 bg-white/80 px-10 backdrop-blur-sm dark:bg-primary-900/80'
+      className='/80 fixed right-0 top-0 z-10 flex items-center justify-between gap-5 bg-white/80 px-10 backdrop-blur-sm dark:bg-dark'
       style={{
         height: HEADER.DESKTOP_HEIGHT,
         width: isDesktop
@@ -69,65 +68,58 @@ export default function Header() {
     >
       {!isDesktop && (
         <button
-          className='group rounded-full p-2 outline-0 hover:bg-primary-500/10 dark:hover:bg-primary-300/10'
+          className='group rounded-full p-2 outline-0 hover:bg-secondary-500/10 dark:hover:bg-secondary-300/10'
           onClick={() => dispatch(open())}
         >
           <Iconify icon='ion:menu' height={24} width={24} />
         </button>
       )}
       <div className='flex flex-1 items-center justify-end gap-5'>
-        <SelectPrimitive.Root onValueChange={changeLocale} value={currentLocale[0].value}>
-          <SelectPrimitive.Trigger asChild aria-label='Language'>
-            <button
-              id='notifications-button'
-              aria-label='notifications'
-              className='group rounded-full p-2 outline-0 hover:bg-primary-500/10 dark:hover:bg-primary-300/10'
-            >
-              <SelectPrimitive.Value>
-                <Image
-                  src={currentLocale[0].icon}
-                  alt='flag'
-                  loading='lazy'
-                  className='h-6 w-6 rounded-lg transition-all group-hover:scale-110 motion-reduce:transition-none'
-                />
-              </SelectPrimitive.Value>
+        <DropdownMenuPrimitive.Root>
+          <DropdownMenuPrimitive.Trigger asChild>
+            <button className='group rounded-full p-2 outline-0 hover:bg-secondary-500/10 dark:hover:bg-secondary-300/10'>
+              <Image
+                src={currentLocale[0].icon}
+                alt='flag'
+                loading='lazy'
+                className='h-6 w-6 rounded-lg transition-all group-hover:scale-110 motion-reduce:transition-none'
+              />
             </button>
-          </SelectPrimitive.Trigger>
-          <SelectPrimitive.Content>
-            <SelectPrimitive.Viewport className='rounded-lg bg-white p-2 shadow-lg dark:bg-primary-800'>
-              <SelectPrimitive.Group>
-                {LANGS.map((l, i) => (
-                  <SelectPrimitive.Item
-                    key={`${l.value}-${i}`}
-                    value={l.value}
-                    className={clsx(
-                      'relative flex items-center rounded-md px-8 py-2 text-sm font-medium focus:bg-primary-500/10 dark:text-white dark:focus:focus:hover:bg-gray-300/10',
-                      'radix-disabled:opacity-50',
-                      'select-none focus:outline-none'
-                    )}
-                  >
-                    <Image
-                      src={l.icon}
-                      alt='flag'
-                      loading='lazy'
-                      className='mr-2 h-6 w-6 rounded-md'
-                    />
-                    <SelectPrimitive.ItemText className='font-medium'>
-                      {l.label}
-                    </SelectPrimitive.ItemText>
-                    <SelectPrimitive.ItemIndicator className='absolute left-2 inline-flex items-center'>
-                      <Iconify icon='material-symbols:check-small-rounded' />
-                    </SelectPrimitive.ItemIndicator>
-                  </SelectPrimitive.Item>
-                ))}
-              </SelectPrimitive.Group>
-            </SelectPrimitive.Viewport>
-          </SelectPrimitive.Content>
-        </SelectPrimitive.Root>
+          </DropdownMenuPrimitive.Trigger>
+
+          <DropdownMenuPrimitive.Portal>
+            <DropdownMenuPrimitive.Content
+              align='center'
+              sideOffset={5}
+              className={clsx(
+                'data-[side=top]:animate-slide-up data-[side=bottom]:animate-slide-down',
+                'z-50 rounded-lg px-1.5 py-1 shadow-md',
+                'bg-white dark:bg-secondary-900'
+              )}
+            >
+              {LANGS.map((l, i) => (
+                <DropdownMenuPrimitive.Item
+                  key={`${l.value}-${i}`}
+                  onClick={() => changeLocale(l.value)}
+                  className={clsx(
+                    'relative flex items-center rounded-md px-5 py-2 text-sm font-medium focus:bg-secondary-500/10 dark:text-white dark:focus:focus:hover:bg-gray-300/10',
+                    'select-none focus:outline-none'
+                  )}
+                >
+                  <Image src={l.icon} alt='flag' loading='lazy' className='mr-2 h-6 w-6' />
+                  <span className='font-medium'>{l.label}</span>
+                  <DropdownMenuPrimitive.ItemIndicator className='absolute left-2 inline-flex items-center'>
+                    <Iconify icon='material-symbols:check-small-rounded' />
+                  </DropdownMenuPrimitive.ItemIndicator>
+                </DropdownMenuPrimitive.Item>
+              ))}
+            </DropdownMenuPrimitive.Content>
+          </DropdownMenuPrimitive.Portal>
+        </DropdownMenuPrimitive.Root>
 
         <DropdownMenuPrimitive.Root>
           <DropdownMenuPrimitive.Trigger asChild>
-            <button className='group rounded-full p-2 outline-0 hover:bg-primary-500/10 dark:hover:bg-primary-300/10'>
+            <button className='group rounded-full p-2 outline-0 hover:bg-secondary-500/10 dark:hover:bg-secondary-300/10'>
               <Iconify
                 icon='ic:round-notifications'
                 className='transition-all group-hover:scale-110 motion-reduce:transition-none'
@@ -142,24 +134,24 @@ export default function Header() {
               align='end'
               sideOffset={5}
               className={clsx(
-                'radix-side-top:animate-slide-up radix-side-bottom:animate-slide-down',
-                'w-64 rounded-lg px-1.5 py-1 shadow-md md:w-56',
-                'bg-white dark:bg-primary-800'
+                'data-[side=top]:animate-slide-up data-[side=bottom]:animate-slide-down',
+                'z-50 w-64 rounded-lg px-1.5 py-1 shadow-md md:w-56',
+                'bg-white dark:bg-secondary-900'
               )}
             >
               <div className='flex items-center justify-between p-2'>
                 <h3 className=''>Notifications</h3>
-                <button className='rounded-full p-2 outline-0 hover:bg-primary-500/10 dark:hover:bg-primary-300/10'>
+                <button className='rounded-full p-2 outline-0 hover:bg-secondary-500/10 dark:hover:bg-secondary-300/10'>
                   <Iconify icon='bi:check-all' height={20} width={20} />
                 </button>
               </div>
-              <DropdownMenuPrimitive.Separator className='my-1 h-px bg-primary-200 dark:bg-primary-700' />
+              <DropdownMenuPrimitive.Separator className='my-1 h-px bg-secondary-200 dark:bg-secondary-700' />
               {notifications.map(({ label, icon }, i) => (
                 <DropdownMenuPrimitive.Item
                   key={`${label}-${i}`}
                   className={clsx(
                     'flex cursor-default select-none items-center rounded-md px-2 py-2 text-xs outline-none',
-                    'focus:bg-primary-500/10 dark:text-white dark:focus:hover:bg-gray-300/10'
+                    'focus:bg-secondary-500/10 dark:text-white dark:focus:hover:bg-gray-300/10'
                   )}
                 >
                   {icon}
