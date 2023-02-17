@@ -4,7 +4,7 @@ import React from 'react'
 import useResponsive from 'hooks/useResponsive'
 import useTranslate from 'hooks/useTranslate'
 // sections
-import NewPasswordForm from 'sections/auth/NewPassword/NewPasswordForm'
+import NewPasswordForm from 'sections/auth/new-password/NewPasswordForm'
 // components
 import Logo from '@/components/Logo'
 

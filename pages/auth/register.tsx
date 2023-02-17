@@ -2,12 +2,12 @@ import React from 'react'
 // next
 import Link from 'next/link'
 // routes
-import { PATH_AUTH } from 'routes/paths'
+import { PATH_AUTH, PATH_PAGE } from 'routes/paths'
 // hooks
 import useResponsive from 'hooks/useResponsive'
 import useTranslate from 'hooks/useTranslate'
 // sections
-import RegisterForm from 'sections/auth/Register/RegisterForm'
+import RegisterForm from 'sections/auth/register/RegisterForm'
 // components
 import Logo from '@/components/Logo'
 
@@ -32,6 +32,23 @@ export default function Register() {
           </span>
         </p>
         <RegisterForm />
+        <p className='text-center text-xs text-gray-600 dark:text-gray-400'>
+          {t("By registering, I agree to PivotPoint BMS's")}{' '}
+          <Link
+            href={PATH_PAGE.termOfService}
+            className='font-medium text-primary-600 hover:underline focus:underline focus:outline-none dark:text-primary-200'
+          >
+            {t('Terms of Service')}
+          </Link>{' '}
+          {t('and')}{' '}
+          <Link
+            href={PATH_PAGE.termOfService}
+            className='font-medium text-primary-600 hover:underline focus:underline focus:outline-none dark:text-primary-200'
+          >
+            {t('Privacy Policy')}
+          </Link>
+          .
+        </p>
       </div>
     </main>
   )

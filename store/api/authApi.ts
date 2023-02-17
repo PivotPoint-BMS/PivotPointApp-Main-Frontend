@@ -45,6 +45,25 @@ export const authApi = createApi({
         responseHandler: 'content-type',
       }),
     }),
+    getUser: builder.mutation<User, string>({
+      query: (refreshToken) => ({
+        headers: {
+          Authorization: `Bearer ${refreshToken}`,
+        },
+        url: 'RefreshToken',
+        method: 'GET',
+        responseHandler: 'content-type',
+      }),
+      async onQueryStarted(id, { dispatch, queryFulfilled }) {
+        dispatch(startLoading())
+        try {
+          const { data } = await queryFulfilled
+          dispatch(setUser(data))
+        } catch (err) {
+          dispatch(setError('Error fetching user!'))
+        }
+      },
+    }),
     resetPassword: builder.mutation<IGenericResponse, ResetPasswordInput>({
       query: (data) => ({
         url: 'ResetPassword',
@@ -60,9 +79,10 @@ export const authApi = createApi({
 export const {
   useLoginMutation,
   useRegisterMutation,
+  useGetUserMutation,
   useResetPasswordMutation,
   util: { getRunningQueriesThunk },
 } = authApi
 
 // export endpoints for use in SSR
-export const { login, register, resetPassword } = authApi.endpoints
+export const { login, register, getUser, resetPassword } = authApi.endpoints

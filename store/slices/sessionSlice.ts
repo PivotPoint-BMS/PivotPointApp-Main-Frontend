@@ -2,12 +2,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 // types
 import { User } from 'types'
-import { getTemporaryItem, removeFromLocalStorage, setTemporaryItem } from 'utils/localStorage'
+import { getItem, removeFromLocalStorage, setItem } from 'utils/localStorage'
 
 interface Session {
   user: User | null
   isAuthenticated: boolean
   token: string | null
+  refreshToken: string | null
   isLoading: boolean
   error: string | null
 }
@@ -15,7 +16,8 @@ interface Session {
 const initialState: Session = {
   user: null,
   isAuthenticated: false,
-  token: getTemporaryItem('token') as string,
+  token: null,
+  refreshToken: getItem('refreshToken') as string,
   isLoading: false,
   error: null,
 }
@@ -28,21 +30,32 @@ const sessionSlice = createSlice({
       state.isLoading = true
     },
     setUser: (state, action: PayloadAction<User>) => {
-      setTemporaryItem('token', action.payload.token, 60 * 24 /** 24H */)
+      setItem('refreshToken', action.payload.refreshToken)
       state.isLoading = false
       state.user = action.payload
       state.token = action.payload.token
+      state.refreshToken = action.payload.refreshToken
+      state.isAuthenticated = true
       state.error = null
     },
     setError: (state, action: PayloadAction<string>) => {
-      removeFromLocalStorage('token')
+      removeFromLocalStorage('refreshToken')
       state.error = action.payload
       state.isLoading = false
+      state.user = null
+    },
+    logout: (state) => {
+      removeFromLocalStorage('refreshToken')
+      state.error = null
+      state.isAuthenticated = false
+      state.isLoading = false
+      state.refreshToken = null
+      state.token = null
       state.user = null
     },
   },
 })
 
-export const { startLoading, setUser, setError } = sessionSlice.actions
+export const { startLoading, setUser, setError, logout } = sessionSlice.actions
 
 export default sessionSlice

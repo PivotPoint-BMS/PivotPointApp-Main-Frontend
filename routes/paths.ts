@@ -16,6 +16,7 @@ export const PATH_AUTH = {
   verify: path(ROOTS_AUTH, '/verify'),
   resetPassword: path(ROOTS_AUTH, '/reset-password'),
   companySetup: path(ROOTS_AUTH, '/company-setup'),
+  payment: path(ROOTS_AUTH, '/payment'),
 }
 
 export const PATH_PAGE = {
@@ -23,6 +24,8 @@ export const PATH_PAGE = {
   maintenance: '/maintenance',
   page404: '/404',
   page500: '/500',
+  termOfService: '/term-of-service',
+  policy: '/policy',
 }
 
 export const PATH_DASHBOARD = {

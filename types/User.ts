@@ -5,4 +5,6 @@ export default interface User {
   hasPaidSubscription: boolean
   isOwner: boolean
   token: string
+  refreshToken: string
+  tier: number
 }

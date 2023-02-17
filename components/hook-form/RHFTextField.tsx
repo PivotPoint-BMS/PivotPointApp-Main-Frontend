@@ -4,7 +4,7 @@ import React, { InputHTMLAttributes } from 'react'
 // form
 import { Controller, useFormContext } from 'react-hook-form'
 
-interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
+interface RHFTextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string
   label: string
   type?:
@@ -33,7 +33,7 @@ interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   endAdornment?: React.ReactNode
 }
 
-export default function TextField({
+export default function RHFTextField({
   label,
   name,
   type = 'text',
@@ -41,7 +41,7 @@ export default function TextField({
   endAdornment,
 
   ...other
-}: TextFieldProps) {
+}: RHFTextFieldProps) {
   const { control } = useFormContext()
 
   return (
@@ -52,10 +52,7 @@ export default function TextField({
         <div className='group flex w-full flex-col gap-1'>
           <label
             htmlFor={name}
-            className={clsx(
-              'text-sm font-medium text-gray-600 dark:text-white',
-              error && 'text-red-500'
-            )}
+            className={clsx('text-sm font-medium dark:text-white', error && 'text-red-500')}
           >
             {label}
           </label>

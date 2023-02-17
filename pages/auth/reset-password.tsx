@@ -4,7 +4,7 @@ import React from 'react'
 import useResponsive from 'hooks/useResponsive'
 import useTranslate from 'hooks/useTranslate'
 // sections
-import ResetPasswordForm from 'sections/auth/ResetPassword/ResetPasswordForm'
+import ResetPasswordForm from 'sections/auth/reset-password/ResetPasswordForm'
 // components
 import Logo from '@/components/Logo'
 

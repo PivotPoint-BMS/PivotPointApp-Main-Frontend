@@ -1,3 +1,3 @@
-export { default as TextField } from './TextField'
+export { default as RHFTextField } from './RHFTextField'
 export { default as FormProvider } from './FormProvider'
-export { default as Checkbox } from './Checkbox'
+export { default as Checkbox } from './RHFCheckbox'

@@ -12,7 +12,7 @@ import useTranslate from 'hooks/useTranslate'
 // components
 import { Icon as Iconify } from '@iconify/react'
 import Button from '@/components/Button'
-import { FormProvider, TextField } from '@/components/hook-form'
+import { FormProvider, RHFTextField } from '@/components/hook-form'
 import Alert from '@/components/Alert'
 import IconButton from '@/components/IconButton'
 
@@ -88,13 +88,13 @@ export default function NewPasswordForm() {
               <strong className='text-sm font-medium'>{response?.message}</strong>
             </Alert>
           )}
-          <TextField
+          <RHFTextField
             type='number'
             name='code'
             label={t('Code')}
             placeholder={t('Enter your code')}
           />
-          <TextField
+          <RHFTextField
             name='newPassword'
             label={t('New Password')}
             placeholder={t('Enter your new password')}
@@ -105,7 +105,7 @@ export default function NewPasswordForm() {
               </IconButton>
             }
           />
-          <TextField
+          <RHFTextField
             name='confirmPassword'
             label={t('Confirm password')}
             placeholder={t('Confirm your password')}

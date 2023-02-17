@@ -13,7 +13,7 @@ import { ResetPasswordInput } from 'types'
 import useTranslate from 'hooks/useTranslate'
 // components
 import Button from '@/components/Button'
-import { FormProvider, TextField } from '@/components/hook-form'
+import { FormProvider, RHFTextField } from '@/components/hook-form'
 import Alert from '@/components/Alert'
 
 export default function ResetPasswordForm() {
@@ -74,7 +74,7 @@ export default function ResetPasswordForm() {
               <strong className='text-sm font-medium'>{response?.message}</strong>
             </Alert>
           )}
-          <TextField name='email' label={t('Email')} placeholder={t('Enter your email')} />
+          <RHFTextField name='email' label={t('Email')} placeholder={t('Enter your email')} />
           <Button type='submit' className='w-full font-medium' loading={isLoading}>
             {t('Send Request')}
           </Button>

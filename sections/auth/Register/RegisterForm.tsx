@@ -95,11 +95,11 @@ export default function RegisterForm() {
   }
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     if (isError && 'data' in error!) {
       setError('afterSubmit', { ...error, message: error.data as string })
     }
     if (isSuccess) {
-      console.log(response)
       reset()
     }
   }, [isLoading])
@@ -118,7 +118,7 @@ export default function RegisterForm() {
           )}
           {isSuccess && (
             <Alert intent='success' className='mb-5'>
-              <strong className='text-sm font-medium'>{response ? response[0] : ''}</strong>
+              <strong className='text-sm font-medium'>{response ? t(response[0]) : ''}</strong>
             </Alert>
           )}
           <motion.div
@@ -128,7 +128,7 @@ export default function RegisterForm() {
             transition={{ type: 'keyframes', duration: 1 }}
           >
             <PersonalData nextStep={verifyEmailPassword} />
-            <UserData setStep={setStep} />
+            <UserData setStep={setStep} isLoading={isLoading} />
           </motion.div>
         </div>
       </FormProvider>
