@@ -12,7 +12,9 @@ interface FormProviderProps {
 export default function FormProvider({ children, onSubmit, methods }: FormProviderProps) {
   return (
     <Form {...methods}>
-      <form onSubmit={onSubmit}>{children}</form>
+      <form onSubmit={onSubmit} className='h-full'>
+        {children}
+      </form>
     </Form>
   )
 }

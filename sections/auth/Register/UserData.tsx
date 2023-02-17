@@ -2,20 +2,30 @@ import React from 'react'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // components
-import { TextField } from '@/components/hook-form'
+import { RHFTextField } from '@/components/hook-form'
 import Button from '@/components/Button'
 
-export default function UserData({ setStep }: { setStep: (step: number) => void }) {
+export default function UserData({
+  setStep,
+  isLoading,
+}: {
+  setStep: (step: number) => void
+  isLoading: boolean
+}) {
   const { t } = useTranslate()
   return (
     <div className='flex flex-1 flex-col items-center gap-3'>
-      <TextField
+      <RHFTextField
         name='firstName'
         label={t('First name')}
         placeholder={t('Enter your first name')}
       />
-      <TextField name='lastName' label={t('Last name')} placeholder={t('Enter your last name')} />
-      <TextField
+      <RHFTextField
+        name='lastName'
+        label={t('Last name')}
+        placeholder={t('Enter your last name')}
+      />
+      <RHFTextField
         name='phoneNumber'
         label={t('Phone number')}
         placeholder={t('Enter your phone number')}
@@ -24,7 +34,12 @@ export default function UserData({ setStep }: { setStep: (step: number) => void 
         <Button className='w-1/3 font-medium' onClick={() => setStep(0)}>
           {t('Back')}
         </Button>
-        <Button className='w-1/3 min-w-fit font-medium' onClick={() => setStep(1)} type='submit'>
+        <Button
+          className='w-1/3 min-w-fit font-medium'
+          onClick={() => setStep(1)}
+          type='submit'
+          loading={isLoading}
+        >
           {t('Sign up')}
         </Button>
       </div>

@@ -1,38 +1,46 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as Yup from 'yup'
 // next
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 // form
 import { useForm, FieldValues } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 // hooks
 import useTranslate from 'hooks/useTranslate'
-import useIsMountedRef from 'hooks/useIsMountedRef'
+import { useAppSelector } from 'store/hooks'
+// api
+import { useLoginMutation } from 'store/api/authApi'
+// types
+import { LoginInput } from 'types'
 // routes
-import { PATH_AUTH } from 'routes/paths'
+import { PATH_AUTH, PATH_DASHBOARD } from 'routes/paths'
 // components
 import { Icon as Iconify } from '@iconify/react'
 import Button from '@/components/Button'
-import { Checkbox, FormProvider, TextField } from '@/components/hook-form'
+import { Checkbox, FormProvider, RHFTextField } from '@/components/hook-form'
 import Alert from '@/components/Alert'
 import IconButton from '@/components/IconButton'
 
 export default function LoginForm() {
+  const { push } = useRouter()
   const { t } = useTranslate()
-  const isMountedRef = useIsMountedRef()
   const [showPassword, setShowPassword] = useState(false)
+  const [login, { isLoading, isError, isSuccess, error, data: user }] = useLoginMutation()
+  const sessionError = useAppSelector((state) => state.session.error)
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string()
       .email(t('Email must be a valid email address'))
       .required(t('Email is required')),
     password: Yup.string().required(t('Password is required')),
+    rememberMe: Yup.boolean(),
   })
 
   const defaultValues = {
     email: '',
     password: '',
-    remember: true,
+    rememberMe: true,
   }
 
   const methods = useForm<FieldValues>({
@@ -41,35 +49,40 @@ export default function LoginForm() {
   })
 
   const {
-    reset,
     handleSubmit,
     formState: { errors },
     setError,
   } = methods
 
   const onSubmit = async (data: FieldValues) => {
-    try {
-      console.log(data)
-      // await login(data.email, data.password);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      console.error(error)
-      reset()
-      if (isMountedRef.current) {
-        setError('afterSubmit', { ...error, message: error.message })
-      }
+    const loginData: LoginInput = {
+      email: data.email,
+      password: data.password,
+      rememberMe: data.rememberMe,
     }
+    login(loginData)
   }
+
+  useEffect(() => {
+    if (isError && 'data' in error! && error.data !== '') {
+      setError('afterSubmit', { ...error, message: error.data as string })
+    }
+    if (isSuccess) {
+      if (user?.hasSetupCompany) push(PATH_DASHBOARD.root)
+      else push(PATH_DASHBOARD.root)
+    }
+  }, [isLoading])
 
   return (
     <div className='w-full'>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <div className='flex w-full flex-col items-center gap-5'>
           {errors.afterSubmit && (
-            <Alert intent='error'>{errors.afterSubmit.message as string}</Alert>
+            <Alert intent='error'>{t(errors.afterSubmit.message as string)}</Alert>
           )}
-          <TextField name='email' label={t('Email')} placeholder={t('Enter your email')} />
-          <TextField
+          {!errors.afterSubmit && sessionError && <Alert intent='error'>{t(sessionError)}</Alert>}
+          <RHFTextField name='email' label={t('Email')} placeholder={t('Enter your email')} />
+          <RHFTextField
             name='password'
             label={t('Password')}
             placeholder={t('Enter your password')}
@@ -81,7 +94,7 @@ export default function LoginForm() {
             }
           />
           <div className='flex w-full items-center justify-between'>
-            <Checkbox name='remember' label={t('Remember me')} />
+            <Checkbox name='rememberMe' label={t('Remember me')} />
             <Link
               href={PATH_AUTH.resetPassword}
               className='text-sm font-medium text-primary-600 hover:underline focus:underline focus:outline-none dark:text-primary-200'
@@ -89,7 +102,9 @@ export default function LoginForm() {
               {t('Forgot password?')}
             </Link>
           </div>
-          <Button className='w-full font-medium'>{t('Login')}</Button>
+          <Button type='submit' className='w-full font-medium' loading={isLoading}>
+            {t('Login')}
+          </Button>
         </div>
       </FormProvider>
     </div>

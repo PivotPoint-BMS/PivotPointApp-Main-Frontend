@@ -7,8 +7,11 @@ import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 // hooks
 import useResponsive from 'hooks/useResponsive'
 // redux
-import { useAppDispatch } from 'store/hooks'
+import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { open } from 'store/slices/sideBarSlice'
+import { logout } from 'store/slices/sessionSlice'
+// routes
+import { PATH_AUTH } from 'routes/paths'
 // config
 import { HEADER, NAVBAR } from 'config'
 // icons
@@ -18,8 +21,9 @@ import arabic from 'public/arabic.png'
 import french from 'public/french.png'
 
 //! TO REMOVE
-import placeholder from 'public/250.png'
 import { useRouter } from 'next/router'
+import IconButton from '@/components/IconButton'
+import Button from '@/components/Button'
 
 //! TO REMOVE
 const notifications = [
@@ -45,11 +49,17 @@ export default function Header() {
   const { locale, pathname, asPath, query } = router
   const isHome = Boolean(!pathname.split('/')[1])
   const dispatch = useAppDispatch()
+  const { user } = useAppSelector((state) => state.session)
 
   const currentLocale = useMemo(() => LANGS.filter((l) => l.value === locale), [locale])
 
   const changeLocale = (nextLocale: string) => {
     router.push({ pathname, query }, asPath, { locale: nextLocale })
+  }
+
+  const handleLogout = () => {
+    dispatch(logout())
+    router.push(PATH_AUTH.login)
   }
 
   return (
@@ -76,17 +86,16 @@ export default function Header() {
       )}
       <div className='flex flex-1 items-center justify-end gap-5'>
         <DropdownMenuPrimitive.Root>
-          <DropdownMenuPrimitive.Trigger asChild>
-            <button className='group rounded-full p-2 outline-0 hover:bg-secondary-500/10 dark:hover:bg-secondary-300/10'>
+          <DropdownMenuPrimitive.Trigger className='outline-none'>
+            <IconButton className='group'>
               <Image
                 src={currentLocale[0].icon}
                 alt='flag'
                 loading='lazy'
                 className='h-6 w-6 rounded-lg transition-all group-hover:scale-110 motion-reduce:transition-none'
               />
-            </button>
+            </IconButton>
           </DropdownMenuPrimitive.Trigger>
-
           <DropdownMenuPrimitive.Portal>
             <DropdownMenuPrimitive.Content
               align='center'
@@ -118,15 +127,15 @@ export default function Header() {
         </DropdownMenuPrimitive.Root>
 
         <DropdownMenuPrimitive.Root>
-          <DropdownMenuPrimitive.Trigger asChild>
-            <button className='group rounded-full p-2 outline-0 hover:bg-secondary-500/10 dark:hover:bg-secondary-300/10'>
+          <DropdownMenuPrimitive.Trigger className='outline-none'>
+            <IconButton className='group'>
               <Iconify
                 icon='ic:round-notifications'
                 className='transition-all group-hover:scale-110 motion-reduce:transition-none'
                 height={24}
                 width={24}
               />
-            </button>
+            </IconButton>
           </DropdownMenuPrimitive.Trigger>
 
           <DropdownMenuPrimitive.Portal>
@@ -162,12 +171,57 @@ export default function Header() {
           </DropdownMenuPrimitive.Portal>
         </DropdownMenuPrimitive.Root>
 
-        <Image
-          src={placeholder}
-          alt='profile'
-          width={32}
-          className='h-10 w-10 cursor-pointer rounded-full'
-        />
+        <DropdownMenuPrimitive.Root>
+          <DropdownMenuPrimitive.Trigger className='outline-none'>
+            <IconButton className='group'>
+              <Iconify
+                icon='heroicons:user-circle-20-solid'
+                className='transition-all group-hover:scale-110 motion-reduce:transition-none'
+                height={24}
+                width={24}
+              />
+            </IconButton>
+          </DropdownMenuPrimitive.Trigger>
+
+          <DropdownMenuPrimitive.Portal>
+            <DropdownMenuPrimitive.Content
+              align='end'
+              side='top'
+              sideOffset={5}
+              className={clsx(
+                'data-[side=top]:animate-slide-up data-[side=bottom]:animate-slide-down',
+                'z-50 rounded-lg shadow-md',
+                'bg-white dark:bg-secondary-900',
+                'divide-y'
+              )}
+            >
+              <div className='p-3'>
+                <p className='text-sm font-medium'>
+                  {user?.firstName} {user?.lastName}
+                </p>
+              </div>
+              <div className='flex flex-col items-center justify-center gap-2 p-2'>
+                <Button variant='text' intent='default' size='small' className='w-full'>
+                  Settings
+                </Button>
+                <Button variant='text' intent='default' size='small' className='w-full'>
+                  Profile
+                </Button>
+              </div>
+              <div className='p-2'>
+                <Button
+                  variant='outlined'
+                  intent='default'
+                  size='small'
+                  className='w-full'
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Button>
+              </div>
+            </DropdownMenuPrimitive.Content>
+          </DropdownMenuPrimitive.Portal>
+        </DropdownMenuPrimitive.Root>
       </div>
     </motion.div>
   )

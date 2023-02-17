@@ -1,4 +1,6 @@
 import React from 'react'
+// guards
+import AuthGuard from 'guards/AuthGuard'
 // hooks
 import useResponsive from 'hooks/useResponsive'
 import Header from './dashboard/header/Header'
@@ -25,11 +27,13 @@ function Layout({
   }
 
   return (
-    <div className='flex h-screen w-full'>
-      <Header />
-      {isDesktop ? <SidebarDesktop /> : <SidebarMobile />}
-      <div className='flex-1 p-2'>{children}</div>
-    </div>
+    <AuthGuard>
+      <div className='flex h-screen w-full'>
+        <Header />
+        {isDesktop ? <SidebarDesktop /> : <SidebarMobile />}
+        <div className='flex-1 p-2'>{children}</div>
+      </div>
+    </AuthGuard>
   )
 }
 

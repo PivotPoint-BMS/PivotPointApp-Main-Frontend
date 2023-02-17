@@ -1,0 +1,16 @@
+{
+  "theme_color": "#24C87C",
+  "background_color": "#FFFFFF",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "name": "Pivot Point BMS",
+  "short_name": "PivotPointBMS",
+  "icons": [
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
