@@ -3,8 +3,8 @@ import React, { useEffect } from 'react'
 import type { AppProps } from 'next/app'
 import { ThemeProvider } from 'next-themes'
 import { useRouter } from 'next/router'
-import { Provider as ReduxProvider } from 'react-redux'
 // redux
+import { Provider as ReduxProvider } from 'react-redux'
 import { wrapper } from 'store'
 // hooks
 import useTranslate from 'hooks/useTranslate'

@@ -96,7 +96,7 @@ const ar: { [key: string]: string } = {
   "Let's set up your company": 'لنقم بإعداد شركتك',
   'We need some initial information about your company to get you started, please fill in the fields below':
     'نحتاج إلى بعض المعلومات الأولية حول شركتك للبدء ، يرجى ملء المعلومات أدناه',
-  'Your Position': 'موقعك',
+  'Your Position': 'منصبك',
   'Company name': 'اسم الشركة',
   'Company Slogan': 'شعار الشركة',
   'Company Website': 'موقع الشركة',
