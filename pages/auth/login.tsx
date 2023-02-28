@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react'
 // next
 import { useRouter } from 'next/router'
+import Head from 'next/head'
 import Link from 'next/link'
 // routes
 import { PATH_AUTH, PATH_DASHBOARD } from 'routes/paths'
@@ -25,23 +26,28 @@ export default function Login() {
   }, [push, refreshToken])
 
   return (
-    <main className='flex h-screen flex-col items-center justify-center'>
-      {isDesktop && <Logo height={100} width={100} className='mb-5' />}
-      <div className='container mx-auto flex flex-col items-center justify-center gap-5 px-10 sm:px-16 md:px-32 lg:w-1/2'>
-        <h1 className='text-5xl font-semibold'>{t('Login')}</h1>
-        <p className='text-center text-gray-600 dark:text-gray-400'>
-          {t("Don't have an account?")}{' '}
-          <span>
-            <Link
-              className='font-medium text-primary-600 hover:underline focus:underline focus:outline-none dark:text-primary-200'
-              href={PATH_AUTH.register}
-            >
-              {t('Sign up now')}
-            </Link>
-          </span>
-        </p>
-        <LoginForm />
-      </div>
-    </main>
+    <>
+      <Head>
+        <title>Pivot Point BMS | {t('Login')}</title>
+      </Head>
+      <main className='flex h-screen flex-col items-center justify-center'>
+        {isDesktop && <Logo height={100} width={100} className='mb-5' />}
+        <div className='container mx-auto flex flex-col items-center justify-center gap-5 px-10 sm:px-16 md:px-32 lg:w-1/2'>
+          <h1 className='text-5xl font-semibold'>{t('Login')}</h1>
+          <p className='text-center text-gray-600 dark:text-gray-400'>
+            {t("Don't have an account?")}{' '}
+            <span>
+              <Link
+                className='font-medium text-primary-600 hover:underline focus:underline focus:outline-none dark:text-primary-200'
+                href={PATH_AUTH.register}
+              >
+                {t('Sign up now')}
+              </Link>
+            </span>
+          </p>
+          <LoginForm />
+        </div>
+      </main>
+    </>
   )
 }

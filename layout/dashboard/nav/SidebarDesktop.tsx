@@ -26,7 +26,6 @@ import NavItemTwo from './NavItemTwo'
 
 const getSubItems = (items: NavItemConfig[], path: string) => {
   const activePath = path.split('/')[2]
-  console.log(activePath)
   const activeItem = items.filter((item) => item.href === `${PATH_DASHBOARD.root}/${activePath}`)
 
   if (!activeItem[0]) return null
@@ -40,7 +39,7 @@ function SideBar() {
   const { items, isCollapsed } = useAppSelector((state) => state.sideBar)
   const dispatch = useAppDispatch()
 
-  const { t } = useTranslate()
+  const { t, locale } = useTranslate()
 
   const subItems = useMemo(() => getSubItems(items, router.pathname), [router.pathname])
 
@@ -68,7 +67,7 @@ function SideBar() {
       }}
     >
       <div
-        className='group fixed z-10 flex h-screen flex-col items-start border-r border-dashed border-gray-400 bg-white py-6 px-4 transition-all motion-reduce:transition-none dark:border-gray-600 dark:bg-dark'
+        className='group fixed z-10 flex h-screen flex-col items-start border-dashed border-gray-400 bg-white py-6 px-4 transition-all ltr:border-r rtl:border-l motion-reduce:transition-none dark:border-gray-500 dark:bg-dark'
         style={{ minWidth: NAVBAR.MAIN_NAVBAR_WIDTH }}
       >
         <Link href='/' className='mt-4 mb-12 w-full'>
@@ -119,8 +118,11 @@ function SideBar() {
           }}
           whileHover={{ width: NAVBAR.SECONDARY_NAVBAR_WIDTH }}
           transition={{ duration: 0.2 }}
-          className='group fixed top-0 left-0 flex h-screen flex-col bg-secondary-600 text-white dark:bg-secondary-900'
-          style={{ marginLeft: NAVBAR.MAIN_NAVBAR_WIDTH }}
+          className='group fixed top-0 flex h-screen flex-col border-dashed border-gray-400 bg-secondary-600 text-white ltr:left-0 ltr:border-r rtl:right-0 dark:border-gray-500 dark:bg-secondary-900'
+          style={{
+            marginLeft: locale === 'ar' ? 0 : NAVBAR.MAIN_NAVBAR_WIDTH,
+            marginRight: locale === 'ar' ? NAVBAR.MAIN_NAVBAR_WIDTH : 0,
+          }}
         >
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
             <div

@@ -10,6 +10,8 @@ import {
   getWorkersNumber,
   useGetWorkersNumberQuery,
 } from 'store/api/humanResourceApi'
+// hooks
+import useTranslate from 'hooks/useTranslate'
 // components
 import Card from '@/components/Card'
 import CardHeader from '@/components/CardHeader'
@@ -17,6 +19,7 @@ import CardContent from '@/components/CardContent'
 
 const Home: NextPage = () => {
   const router = useRouter()
+  const { t } = useTranslate()
   const { data } = useGetWorkersNumberQuery(undefined, {
     skip: router.isFallback,
     refetchOnFocus: true,
@@ -24,7 +27,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Pivot Point BMS</title>
+        <title>Pivot Point BMS | {t('Dashboard')}</title>
       </Head>
       <div className={clsx('grid gap-6 p-4 pt-24', 'grid-cols-6')}>
         {/* Col 1 */}

@@ -6,6 +6,7 @@ function path(root: string, sublink: string) {
 
 const ROOTS_AUTH = '/auth'
 const ROOTS_DASHBOARD = '/dashboard'
+const ROOTS_USER = '/dashboard/user'
 
 // ----------------------------------------------------------------------
 
@@ -24,8 +25,13 @@ export const PATH_PAGE = {
   maintenance: '/maintenance',
   page404: '/404',
   page500: '/500',
-  termOfService: '/term-of-service',
-  policy: '/policy',
+  termOfService: 'https://www.pivotpointbms.com/legal/terms-of-service',
+  privacyPolicy: 'https://www.pivotpointbms.com/legal/privacy-policy',
+}
+
+export const PATH_ACCOUNT = {
+  profile: path(ROOTS_USER, '/profile'),
+  settings: path(ROOTS_USER, '/settings'),
 }
 
 export const PATH_DASHBOARD = {

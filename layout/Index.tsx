@@ -3,8 +3,10 @@ import React from 'react'
 import AuthGuard from 'guards/AuthGuard'
 // hooks
 import useResponsive from 'hooks/useResponsive'
-import Header from './dashboard/header/Header'
+// config
+import { HEADER } from 'config'
 // components
+import Header from './dashboard/header/Header'
 import SidebarDesktop from './dashboard/nav/SidebarDesktop'
 import SidebarMobile from './dashboard/nav/SidebarMobile'
 import LogoOnlyLayout from './LogoOnlyLayout'
@@ -31,7 +33,9 @@ function Layout({
       <div className='flex h-screen w-full'>
         <Header />
         {isDesktop ? <SidebarDesktop /> : <SidebarMobile />}
-        <div className='flex-1 p-2'>{children}</div>
+        <main className='flex-1 p-4' style={{ paddingTop: HEADER.DESKTOP_HEIGHT }}>
+          {children}
+        </main>
       </div>
     </AuthGuard>
   )

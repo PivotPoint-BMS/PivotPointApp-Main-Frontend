@@ -35,7 +35,7 @@ function NavItemOne({ name, icon, asLink = false, href = '', onClick }: Props) {
       ])}
     >
       {icon}
-      <label className='w-max text-[0px] font-medium capitalize opacity-0 transition-all duration-300 group-hover:ml-3 group-hover:text-xs  group-hover:opacity-100'>
+      <label className='w-max text-[0px] font-medium capitalize opacity-0 transition-all duration-300 group-hover:text-xs group-hover:opacity-100 ltr:group-hover:ml-3  rtl:group-hover:mr-3'>
         {name}
       </label>
       {name && (
@@ -50,7 +50,7 @@ function NavItemOne({ name, icon, asLink = false, href = '', onClick }: Props) {
       onClick={onClick}
     >
       {icon}
-      <label className='w-max text-[0px] font-medium capitalize opacity-0 transition-all duration-300 group-hover:ml-3 group-hover:text-xs group-hover:opacity-100'>
+      <label className='w-max text-[0px] font-medium capitalize opacity-0 transition-all duration-300 group-hover:text-xs  group-hover:opacity-100 ltr:group-hover:ml-3 rtl:group-hover:mr-3'>
         {name}
       </label>
       {name && (

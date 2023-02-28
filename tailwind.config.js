@@ -20,7 +20,7 @@ module.exports = {
         sans: ['Poppins', 'Tajawal', 'sans-serif'],
       },
       colors: {
-        'rich-black': '#081320',
+        'rich-black': '#161c24',
         dark: '#002034',
         primary: {
           100: '#59E1A1',

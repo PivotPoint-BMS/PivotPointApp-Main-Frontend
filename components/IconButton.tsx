@@ -1,5 +1,5 @@
 import { cva, VariantProps } from 'class-variance-authority'
-import React from 'react'
+import React, { forwardRef } from 'react'
 
 const iconButton = cva('rounded-full flex items-start justify-center', {
   variants: {
@@ -29,17 +29,17 @@ export interface IconButtonProps
   type?: 'button' | 'reset' | 'submit'
 }
 
-export default function IconButton({
-  children,
-  intent,
-  className,
-  size,
-  type = 'button',
-  ...other
-}: IconButtonProps) {
-  return (
-    <button type={type} className={iconButton({ intent, size, class: className })} {...other}>
+const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
+  ({ children, intent, className, size, type = 'button', ...other }: IconButtonProps, ref) => (
+    <button
+      ref={ref}
+      type={type}
+      className={iconButton({ intent, size, class: className })}
+      {...other}
+    >
       {children}
     </button>
   )
-}
+)
+
+export default IconButton

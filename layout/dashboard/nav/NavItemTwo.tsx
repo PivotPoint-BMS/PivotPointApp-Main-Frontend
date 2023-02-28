@@ -44,8 +44,8 @@ export default function NavItemTwo({ name, href, icon, badge, disabled, isCollap
         className={clsx(
           'flex-1 cursor-pointer font-medium capitalize ',
           isCollapsed
-            ? 'truncate text-[0px] opacity-0 transition-all duration-300 group-hover:ml-3 group-hover:text-xs group-hover:opacity-100'
-            : 'ml-3 text-xs'
+            ? 'truncate text-[0px] opacity-0 transition-all duration-300 group-hover:text-xs group-hover:opacity-100 ltr:group-hover:ml-3 rtl:group-hover:mr-3'
+            : 'text-xs ltr:ml-3 rtl:mr-3'
         )}
       >
         {name}
