@@ -72,7 +72,7 @@ export default function RHFTextField({
               id={name}
               name={name}
               type={type}
-              className='flex-1 rounded-lg bg-transparent p-2 outline-none'
+              className='w-full flex-1 rounded-lg bg-transparent p-2 outline-none'
             />
             {endAdornment && <span className='mx-2'>{endAdornment}</span>}
           </div>
