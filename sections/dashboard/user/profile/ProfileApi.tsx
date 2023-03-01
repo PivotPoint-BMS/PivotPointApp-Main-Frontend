@@ -46,7 +46,7 @@ export default function ProfileApi() {
       <CardContent>
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
           <div className='flex flex-col gap-5'>
-            <RHFTextField label={t('API-KEY')} name='API_KEY' />
+            <RHFTextField label={t('API KEY')} name='API_KEY' />
             <div className='flex flex-col gap-1'>
               <div className='flex items-center justify-between'>
                 <label className='text-sm font-medium dark:text-white'>{t('API Usage')}</label>

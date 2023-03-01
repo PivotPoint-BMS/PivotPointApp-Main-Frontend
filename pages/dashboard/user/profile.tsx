@@ -41,9 +41,9 @@ export default function Profile() {
         <HeaderBreadcrumbs
           heading={t('Profile')}
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'User', href: PATH_ACCOUNT.profile },
-            { name: 'Profile' },
+            { name: t('Dashboard'), href: PATH_DASHBOARD.root },
+            { name: t('User'), href: PATH_ACCOUNT.profile },
+            { name: t('Profile') },
           ]}
         />
         <TabsPrimitive.Root

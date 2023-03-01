@@ -64,9 +64,12 @@ export default function Checkbox({
     >
       <SwitchPrimitive.Thumb
         className={clsx(
-          size === 'small' && 'group-data-[state=checked]:translate-x-4',
-          size === 'medium' && 'group-data-[state=checked]:translate-x-4',
-          size === 'large' && 'group-data-[state=checked]:translate-x-5',
+          size === 'small' &&
+            'ltr:group-data-[state=checked]:translate-x-4 rtl:group-data-[state=checked]:-translate-x-4',
+          size === 'medium' &&
+            'ltr:group-data-[state=checked]:translate-x-4 rtl:group-data-[state=checked]:-translate-x-4',
+          size === 'large' &&
+            'ltr:group-data-[state=checked]:translate-x-5 rtl:group-data-[state=checked]:-translate-x-5',
           'group-data-[state=unchecked]:translate-x-0',
           'pointer-events-none inline-block aspect-square  h-full transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out'
         )}

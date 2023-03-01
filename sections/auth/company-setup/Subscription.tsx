@@ -154,7 +154,7 @@ export default function Subscription({ handleBack, handleNext, isLoading }: Subs
                         icon='ri:vip-diamond-fill'
                         height={20}
                       />
-                      <h3 className='text-3xl font-semibold'>{t('Ultimate')}</h3>
+                      <h3 className='text-3xl font-semibold'>{t('Enterprise')}</h3>
                     </div>{' '}
                     <p className='mb-10 flex-1 leading-loose text-gray-600 dark:text-gray-300'>
                       {t(
@@ -168,7 +168,7 @@ export default function Subscription({ handleBack, handleNext, isLoading }: Subs
                         {t('per month')}
                       </span>
                     </h3>
-                    <h6 className='mb-2 font-semibold'>{t('Ultimate includes')}: </h6>
+                    <h6 className='mb-2 font-semibold'>{t('Enterprise includes')}: </h6>
                     <ul className='mb-10 flex flex-col justify-center gap-3'>
                       <li className='flex items-center gap-2 text-gray-600 dark:text-gray-300'>
                         <Iconify
