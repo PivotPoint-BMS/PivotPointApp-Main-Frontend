@@ -31,11 +31,11 @@ export default function UserData({
         placeholder={t('Enter your phone number')}
       />
       <div className='flex w-full items-center justify-between'>
-        <Button className='w-1/3 font-medium' onClick={() => setStep(0)}>
+        <Button className='w-1/3' onClick={() => setStep(0)}>
           {t('Back')}
         </Button>
         <Button
-          className='w-1/3 min-w-fit font-medium'
+          className='w-1/3 min-w-fit'
           onClick={() => setStep(1)}
           type='submit'
           loading={isLoading}

@@ -81,7 +81,12 @@ export default function LoginForm() {
             <Alert intent='error'>{t(errors.afterSubmit.message as string)}</Alert>
           )}
           {!errors.afterSubmit && sessionError && <Alert intent='error'>{t(sessionError)}</Alert>}
-          <RHFTextField name='email' label={t('Email')} placeholder={t('Enter your email')} />
+          <RHFTextField
+            name='email'
+            type='email'
+            label={t('Email')}
+            placeholder={t('Enter your email')}
+          />
           <RHFTextField
             name='password'
             label={t('Password')}
@@ -102,7 +107,7 @@ export default function LoginForm() {
               {t('Forgot password?')}
             </Link>
           </div>
-          <Button type='submit' className='w-full font-medium' loading={isLoading}>
+          <Button type='submit' className='w-full' loading={isLoading}>
             {t('Login')}
           </Button>
         </div>

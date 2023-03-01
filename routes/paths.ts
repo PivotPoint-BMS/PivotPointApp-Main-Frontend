@@ -27,6 +27,7 @@ export const PATH_PAGE = {
   page500: '/500',
   termOfService: 'https://www.pivotpointbms.com/legal/terms-of-service',
   privacyPolicy: 'https://www.pivotpointbms.com/legal/privacy-policy',
+  apiDocs: 'https://www.pivotpointbms.com/api/docs',
 }
 
 export const PATH_ACCOUNT = {

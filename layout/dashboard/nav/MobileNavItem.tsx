@@ -86,7 +86,7 @@ function NavItemMobile({ name, icon, asLink = false, href = '', onClick, subItem
             onClick={onClick}
           >
             <Iconify icon={item.icon} height={20} width={20} />
-            <label className='flex-1 text-[10px] font-medium capitalize'>{item.name}</label>
+            <label className='flex-1 text-[10px] font-medium capitalize'>{t(item.name)}</label>
             {item.badge && (
               <Badge
                 icon={
@@ -95,7 +95,7 @@ function NavItemMobile({ name, icon, asLink = false, href = '', onClick, subItem
                   )
                 }
                 label={t(item.badge?.label)}
-                intent='info'
+                intent='primary'
                 className='truncate text-[10px]'
               />
             )}

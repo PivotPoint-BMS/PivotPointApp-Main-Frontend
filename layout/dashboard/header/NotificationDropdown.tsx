@@ -39,7 +39,8 @@ export default function NotificationDropdown() {
           className={clsx(
             'data-[side=top]:animate-slide-up data-[side=bottom]:animate-slide-down',
             'z-50 w-64 rounded-lg px-1.5 py-1 shadow-md md:w-56',
-            'bg-white dark:bg-secondary-900'
+            'bg-paper-light dark:bg-paper-dark',
+            'divide-y'
           )}
         >
           <div className='flex items-center justify-between p-2'>
@@ -48,19 +49,20 @@ export default function NotificationDropdown() {
               <Iconify icon='bi:check-all' height={20} width={20} />
             </button>
           </div>
-          <DropdownMenuPrimitive.Separator className='my-1 h-px bg-secondary-200 dark:bg-secondary-700' />
-          {notifications.map(({ label, icon }, i) => (
-            <DropdownMenuPrimitive.Item
-              key={`${label}-${i}`}
-              className={clsx(
-                'flex cursor-default select-none items-center rounded-md px-2 py-2 text-xs outline-none',
-                'focus:bg-secondary-500/10 dark:text-white dark:focus:hover:bg-gray-300/10'
-              )}
-            >
-              {icon}
-              <span className='flex-grow dark:text-white'>{label}</span>
-            </DropdownMenuPrimitive.Item>
-          ))}
+          <div className='flex flex-col gap-2 py-2'>
+            {notifications.map(({ label, icon }, i) => (
+              <DropdownMenuPrimitive.Item
+                key={`${label}-${i}`}
+                className={clsx(
+                  'flex cursor-default select-none items-center rounded-md px-2 py-2 text-xs outline-none',
+                  'focus:bg-secondary-500/10 dark:text-white dark:focus:hover:bg-gray-300/10'
+                )}
+              >
+                {icon}
+                <span className='flex-grow dark:text-white'>{label}</span>
+              </DropdownMenuPrimitive.Item>
+            ))}
+          </div>
         </DropdownMenuPrimitive.Content>
       </DropdownMenuPrimitive.Portal>
     </DropdownMenuPrimitive.Root>

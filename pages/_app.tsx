@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-
 // next
 import Head from 'next/head'
 import type { AppProps } from 'next/app'
@@ -13,7 +12,7 @@ import useTranslate from 'hooks/useTranslate'
 // layout
 import Layout from 'layout/Index'
 // Components
-import ProgressBar from '@/components/Progressbar'
+import NextProgressBar from '@/components/NextProgressbar'
 // css
 import 'styles/globals.css'
 import 'simplebar-react/dist/simplebar.min.css'
@@ -69,7 +68,7 @@ function MyApp({ Component, ...rest }: AppProps) {
       </Head>
       <ReduxProvider store={store}>
         <ThemeProvider attribute='class'>
-          <ProgressBar />
+          <NextProgressBar />
           <Layout
             variant={
               // eslint-disable-next-line no-nested-ternary

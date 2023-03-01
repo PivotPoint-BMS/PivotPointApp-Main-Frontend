@@ -10,8 +10,8 @@ import english from 'public/english.png'
 import arabic from 'public/arabic.png'
 import french from 'public/french.png'
 // components
-import { Icon as Iconify } from '@iconify/react'
 import IconButton from '@/components/IconButton'
+import { buttonText } from '@/components/Button'
 
 const LANGS = [
   { value: 'en', label: 'English', icon: english },
@@ -47,23 +47,18 @@ export default function LanguageDropdown() {
           className={clsx(
             'data-[side=top]:animate-slide-up data-[side=bottom]:animate-slide-down',
             'z-50 rounded-lg px-1.5 py-1 shadow-md',
-            'bg-white dark:bg-secondary-900'
+            'bg-paper-light dark:bg-paper-dark',
+            'border border-dashed border-gray-400 dark:border-gray-500'
           )}
         >
           {LANGS.map((l, i) => (
             <DropdownMenuPrimitive.Item
               key={`${l.value}-${i}`}
               onClick={() => changeLocale(l.value)}
-              className={clsx(
-                'relative flex items-center rounded-md px-5 py-2 text-sm font-medium focus:bg-secondary-500/10 dark:text-white dark:focus:focus:hover:bg-gray-300/10',
-                'select-none focus:outline-none'
-              )}
+              className={buttonText({ intent: 'default', disabled: false })}
             >
               <Image src={l.icon} alt='flag' loading='lazy' className='mr-2 h-6 w-6' />
-              <span className='font-medium'>{l.label}</span>
-              <DropdownMenuPrimitive.ItemIndicator className='absolute left-2 inline-flex items-center'>
-                <Iconify icon='material-symbols:check-small-rounded' />
-              </DropdownMenuPrimitive.ItemIndicator>
+              {l.label}
             </DropdownMenuPrimitive.Item>
           ))}
         </DropdownMenuPrimitive.Content>

@@ -21,7 +21,11 @@ module.exports = {
       },
       colors: {
         'rich-black': '#161c24',
-        dark: '#002034',
+        paper: {
+          light: '#FFFFFF',
+          dark: '#002034',
+        },
+        dark: '#001928',
         primary: {
           100: '#59E1A1',
           200: '#48DD98',

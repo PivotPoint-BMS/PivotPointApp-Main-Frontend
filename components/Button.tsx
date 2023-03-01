@@ -2,95 +2,113 @@ import React from 'react'
 import { cva, VariantProps } from 'class-variance-authority'
 import { ClassProp } from 'class-variance-authority/dist/types'
 
-export const buttonContained = cva('py-2 px-3 select-none flex items-center justify-center gap-2', {
-  variants: {
-    intent: {
-      primary: [
-        'bg-primary-600 hover:bg-primary-700 transition-all text-white active:bg-primary-500',
-        'dark:bg-primary-700 dark:hover:bg-primary-700/70 dark:active:bg-primary-600',
-      ],
-      secondary: [
-        'bg-secondary-600 hover:bg-secondary-700 transition-all text-white active:bg-secondary-500',
-        'dark:bg-secondary-700 dark:hover:bg-secondary-700/70 dark:active:bg-secondary-600',
-      ],
-      default: [
-        'bg-gray-200 hover:bg-gray-300 transition-all active:bg-gray-200',
-        ' dark:bg-gray-600 dark:hover:bg-gray-700 dark:active:bg-gray-500',
-      ],
+export const buttonContained = cva(
+  'select-none flex items-center justify-center gap-2 font-semibold rounded-lg capitalize',
+  {
+    variants: {
+      intent: {
+        primary: [
+          'bg-primary-600 hover:bg-primary-700 transition-all text-white active:bg-primary-500',
+          'dark:bg-primary-700 dark:hover:bg-primary-700/70 dark:active:bg-primary-600',
+        ],
+        secondary: [
+          'bg-secondary-500 hover:bg-secondary-700 transition-all text-white active:bg-secondary-400',
+          'dark:bg-secondary-600 dark:hover:bg-secondary-700/70 dark:active:bg-secondary-500',
+        ],
+        default: [
+          'bg-gray-300 hover:bg-gray-400 transition-all active:bg-gray-200',
+          ' dark:bg-gray-200 text-black dark:hover:bg-gray-400 dark:active:bg-gray-100',
+        ],
+      },
+      size: {
+        small: 'text-[13px] px-2 py-1',
+        medium: 'text-sm px-4 py-2',
+        large: 'text-[15px] px-6 py-2',
+      },
+      disabled: {
+        true: [
+          'cursor-not-allowed bg-gray-400 hover:bg-gray-400 active:bg-gray-400',
+          'cursor-not-allowed dark:bg-gray-600 dark:hover:bg-gray-600 dark:active:bg-gray-600',
+        ],
+      },
     },
-    size: {
-      small: 'text-sm  rounded-lg',
-      medium: 'rounded-lg',
-      large: 'text-lg  rounded-xl',
+    defaultVariants: {
+      intent: 'primary',
+      size: 'medium',
+      disabled: true,
     },
+  }
+)
 
-    disabled: {
-      true: [
-        'cursor-not-allowed bg-gray-400 hover:bg-gray-400 active:bg-gray-400',
-        'cursor-not-allowed dark:bg-gray-600 dark:hover:bg-gray-600 dark:active:bg-gray-600',
-      ],
+export const buttonOutlined = cva(
+  'select-none flex items-center justify-center gap-2 font-semibold rounded-lg capitalize border transition-all',
+  {
+    variants: {
+      intent: {
+        primary: [
+          'border-primary-200 text-primary-600 hover:border-primary-600 hover:bg-primary-600/10 active:bg-primary-600/30',
+          'dark:border-primary-600 dark:text-primary-200 dark:hover:border-primary-200 dark:hover:bg-primary-400/10 dark:active:bg-primary-400/30',
+        ],
+        secondary: [
+          'border-secondary-200 text-secondary-600 hover:border-secondary-600 hover:bg-secondary-600/10 active:bg-secondary-600/30',
+          'dark:border-secondary-600 dark:text-secondary-200 dark:hover:border-secondary-200 dark:hover:bg-secondary-400/10 dark:active:bg-secondary-400/30',
+        ],
+        default: [
+          'border-gray-400 text-gray-900 hover:bg-gray-600/10 hover:border-black active:bg-gray-600/40',
+          'dark:border-gray-500 dark:text-white dark:hover:bg-gray-500/25 dark:hover:border-white dark:active:bg-gray-400/50 dark:focus:outline-gray-900',
+        ],
+      },
+      size: {
+        small: 'text-[13px] px-2 py-1',
+        medium: 'text-sm px-4 py-2',
+        large: 'text-[15px] px-6 py-2',
+      },
+      disabled: {
+        true: 'cursor-not-allowed bg-gray-200 text-gray-500 hover:bg-gray-200 active:bg-gray-200',
+      },
     },
-  },
-  defaultVariants: {
-    intent: 'primary',
-    size: 'medium',
-    disabled: true,
-  },
-})
+    defaultVariants: {
+      intent: 'primary',
+      size: 'medium',
+      disabled: true,
+    },
+  }
+)
 
-export const buttonOutlined = cva('py-2 px-3 select-none flex items-center justify-center gap-2', {
-  variants: {
-    intent: {
-      primary:
-        'border-2 border-primary-200 text-primary-600 hover:bg-primary-600/10 active:bg-primary-600/20',
-      secondary:
-        'border-2 border-secondary-200 text-secondary-600 hover:bg-secondary-600/10 active:bg-secondary-600/20',
-      default: [
-        'border border-gray-400 text-gray-900 hover:bg-gray-600/10 active:bg-gray-600/20',
-        'border-gray-300 dark:text-gray-100 dark:hover:bg-gray-500/25 dark:active:bg-gray-500/50 dark:focus:outline-gray-900',
-      ],
+export const buttonText = cva(
+  'select-none flex items-center justify-center gap-2 font-semibold rounded-lg capitalize transition-all',
+  {
+    variants: {
+      intent: {
+        primary: [
+          'text-primary-600 hover:bg-primary-600/10 active:bg-primary-600/30',
+          'dark:text-primary-200 dark:hover:bg-primary-400/10',
+        ],
+        secondary: [
+          'text-secondary-600 hover:bg-secondary-600/10 active:bg-secondary-600/30',
+          'dark:text-secondary-200 dark:hover:bg-secondary-400/10',
+        ],
+        default: [
+          'text-gray-900 hover:bg-gray-600/10  active:bg-gray-600/40',
+          'dark:text-white dark:hover:bg-gray-500/25 dark:focus:outline-gray-900',
+        ],
+      },
+      size: {
+        small: 'text-[13px] px-2 py-1',
+        medium: 'text-sm px-4 py-2',
+        large: 'text-[15px] px-6 py-2',
+      },
+      disabled: {
+        true: 'cursor-not-allowed bg-gray-200 text-gray-500 hover:bg-gray-200 active:bg-gray-200',
+      },
     },
-    size: {
-      small: 'text-sm  rounded-lg',
-      medium: 'rounded-lg',
-      large: 'text-lg  rounded-xl',
+    defaultVariants: {
+      intent: 'primary',
+      size: 'medium',
+      disabled: true,
     },
-    disabled: {
-      true: 'cursor-not-allowed bg-gray-200 text-gray-500 hover:bg-gray-200 active:bg-gray-200',
-    },
-  },
-  defaultVariants: {
-    intent: 'primary',
-    size: 'medium',
-    disabled: true,
-  },
-})
-
-export const buttonText = cva('py-2 px-3 select-none flex items-center justify-center gap-2', {
-  variants: {
-    intent: {
-      primary: ['text-primary-600 hover:bg-primary-600/10 active:bg-primary-600/20'],
-      secondary: ['text-secondary-600 hover:bg-secondary-600/10 active:bg-secondary-600/20'],
-      default: [
-        'text-gray-900 hover:bg-gray-600/10 active:bg-gray-600/20',
-        'dark:text-gray-100 dark:hover:bg-gray-500/25 dark:active:bg-gray-500/50 dark:focus:outline-gray-900',
-      ],
-    },
-    size: {
-      small: 'text-sm rounded-lg',
-      medium: 'rounded-lg',
-      large: 'text-lg rounded-xl',
-    },
-    disabled: {
-      true: 'cursor-not-allowed bg-gray-200 text-gray-500 hover:bg-gray-200 active:bg-gray-200',
-    },
-  },
-  defaultVariants: {
-    intent: 'primary',
-    size: 'medium',
-    disabled: true,
-  },
-})
+  }
+)
 
 export interface ButtonProps
   extends React.HTMLAttributes<HTMLButtonElement>,

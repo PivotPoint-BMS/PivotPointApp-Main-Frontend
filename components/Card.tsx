@@ -1,10 +1,12 @@
 import { cva, VariantProps } from 'class-variance-authority'
 import React from 'react'
 
-const card = cva('rounded-xl divide-gray-300 bg-white dark:bg-secondary-900', {
+const card = cva('rounded-xl divide-gray-300 bg-paper-light dark:bg-paper-dark', {
   variants: {
     variant: {
       elevated: 'shadow-xl',
+      outlined: 'border border-gray-400 dark:border-gray-500',
+      'outlined-dashed': 'border border-dashed border-gray-400 dark:border-gray-500',
     },
     fullWidth: {
       true: 'w-full',
@@ -15,7 +17,7 @@ const card = cva('rounded-xl divide-gray-300 bg-white dark:bg-secondary-900', {
     },
   },
   defaultVariants: {
-    variant: 'elevated',
+    variant: 'outlined-dashed',
     fullWidth: false,
     divided: false,
   },

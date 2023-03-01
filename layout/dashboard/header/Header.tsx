@@ -28,7 +28,7 @@ export default function Header() {
 
   return (
     <motion.div
-      className='fixed top-0 z-10 flex items-center justify-between gap-5 bg-white/80 px-10 backdrop-blur-sm ltr:right-0 rtl:left-0 dark:bg-dark'
+      className='fixed top-0 z-10 flex items-center justify-between gap-5 bg-white/80 px-10 backdrop-blur-lg ltr:right-0 rtl:left-0 dark:bg-dark/60'
       style={{
         height: HEADER.DESKTOP_HEIGHT,
         width: isDesktop

@@ -22,7 +22,7 @@ export default function PersonalData({ nextStep }: { nextStep: () => void }) {
         label={t('Confirm password')}
         placeholder={t('Confirm your password')}
       />
-      <Button className='w-1/3 self-end font-medium' onClick={nextStep}>
+      <Button className='w-1/3 self-end' onClick={nextStep}>
         {t('Next')}
       </Button>
     </div>

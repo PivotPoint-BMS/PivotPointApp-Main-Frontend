@@ -19,11 +19,7 @@ import { close } from 'store/slices/sideBarSlice'
 // Components
 import MobileNavItem from './MobileNavItem'
 import Scrollbar from '@/components/Scrollbar'
-
-const variants: { [key: string]: Variant } = {
-  closed: { x: '-100%' },
-  opened: { x: '0%' },
-}
+import IconButton from '@/components/IconButton'
 
 export default function SidebarMobile() {
   const { theme, setTheme } = useTheme()
@@ -31,7 +27,12 @@ export default function SidebarMobile() {
   const [opened, setOpened] = useState(false)
   const { items, isOpen } = useAppSelector((state) => state.sideBar)
   const dispatch = useAppDispatch()
-  const { t } = useTranslate()
+  const { t, locale } = useTranslate()
+
+  const variants: { [key: string]: Variant } = {
+    closed: { x: locale === 'ar' ? '100%' : '-100%' },
+    opened: { x: '0%' },
+  }
 
   useEffect(() => {
     setMounted(true)
@@ -66,9 +67,14 @@ export default function SidebarMobile() {
           style={{ width: NAVBAR.MAIN_NAVBAR_WIDTH_MOBILE }}
         >
           <div className='flex flex-col items-start'>
-            <Link href='/' className='mt-4 mb-12 w-full' onClick={handleClose}>
-              <Image src={logo} alt='logo' className='aspect-auto h-10 w-full' />
-            </Link>
+            <div className='mt-4 mb-12 flex w-full items-center justify-between'>
+              <Link href='/' onClick={handleClose}>
+                <Image src={logo} alt='logo' className='h-10 w-16' />
+              </Link>
+              <IconButton onClick={handleClose}>
+                <Iconify icon='ion:close' height={24} width={24} />
+              </IconButton>
+            </div>
             <nav className='flex w-full flex-1 flex-col items-start gap-2'>
               {items.map((item, i) => (
                 <MobileNavItem
