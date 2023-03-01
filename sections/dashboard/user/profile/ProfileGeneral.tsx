@@ -94,7 +94,9 @@ export default function ProfileGeneral() {
               <RHFTextField name='email' label={t('City')} />
             </div>
             <RHFTextArea name='about' label={t('About')} />
-            <Button className='w-full self-center md:w-1/3'>{t('Save Changes')}</Button>
+            <Button className='w-full self-center md:w-1/3' type='submit'>
+              {t('Save Changes')}
+            </Button>
           </CardContent>
         </Card>
       </div>
