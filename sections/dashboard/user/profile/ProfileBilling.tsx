@@ -28,7 +28,7 @@ export default function ProfileBilling() {
                 </Button>
               </div>
             </div>
-            <h6 className='text-2xl font-semibold'>{t('Premium')}</h6>
+            <h6 className='text-2xl font-semibold'>{t('Professional')}</h6>
           </CardContent>
         </Card>
         <Card className='!w-full'>
