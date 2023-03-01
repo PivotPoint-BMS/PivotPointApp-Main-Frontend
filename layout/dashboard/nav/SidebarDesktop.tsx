@@ -98,10 +98,7 @@ function SideBar() {
               name={theme === 'dark' ? t('Light Mode') : t('Dark Mode')}
             />
           )}
-          <NavItemOne
-            icon={<Iconify icon='ri:settings-3-fill' height={22} width={22} />}
-            name={t('Settings')}
-          />
+
           <NavItemOne
             icon={<Iconify icon='majesticons:logout' height={22} width={22} />}
             name={t('Logout')}

@@ -124,10 +124,6 @@ export default function SidebarMobile() {
               />
             )}
             <MobileNavItem
-              icon={<Iconify icon='ri:settings-3-fill' height={22} width={22} />}
-              name={t('Settings')}
-            />
-            <MobileNavItem
               icon={<Iconify icon='majesticons:logout' height={22} width={22} />}
               name={t('Logout')}
             />
