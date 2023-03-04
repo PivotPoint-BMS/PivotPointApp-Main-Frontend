@@ -1,12 +1,12 @@
-import { cva, VariantProps } from 'class-variance-authority'
 import React, { forwardRef } from 'react'
+import { cva, VariantProps } from 'class-variance-authority'
 
-const iconButton = cva('rounded-full flex items-start justify-center', {
+export const iconButton = cva('rounded-full flex items-start justify-center', {
   variants: {
     intent: {
       default: [
-        'text-gray-700 hover:bg-gray-300 active:bg-gray-800/40 focus:bg-gray-800/40 focus:outline-gray-900',
-        'dark:text-gray-300 dark:hover:bg-gray-500/25 dark:active:bg-gray-500/50 dark:focus:outline-gray-900',
+        'text-gray-700 hover:bg-gray-300 active:bg-gray-800/40 outline focus:bg-gray-800/40',
+        'dark:text-gray-300 dark:hover:bg-gray-500/25 dark:active:bg-gray-500/50',
       ],
     },
     size: {

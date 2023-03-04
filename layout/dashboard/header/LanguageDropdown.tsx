@@ -10,7 +10,7 @@ import english from 'public/english.png'
 import arabic from 'public/arabic.png'
 import french from 'public/french.png'
 // components
-import IconButton from '@/components/IconButton'
+import { iconButton } from '@/components/IconButton'
 import { buttonText } from '@/components/Button'
 
 const LANGS = [
@@ -30,15 +30,13 @@ export default function LanguageDropdown() {
 
   return (
     <DropdownMenuPrimitive.Root>
-      <DropdownMenuPrimitive.Trigger className='outline-none'>
-        <IconButton className='group'>
-          <Image
-            src={currentLocale[0].icon}
-            alt='flag'
-            loading='lazy'
-            className='h-6 w-6 rounded-lg transition-all group-hover:scale-110 motion-reduce:transition-none'
-          />
-        </IconButton>
+      <DropdownMenuPrimitive.Trigger className={iconButton({ class: 'group !outline-none' })}>
+        <Image
+          src={currentLocale[0].icon}
+          alt='flag'
+          loading='lazy'
+          className='h-6 w-6 rounded-lg transition-all group-hover:scale-110 motion-reduce:transition-none'
+        />
       </DropdownMenuPrimitive.Trigger>
       <DropdownMenuPrimitive.Portal>
         <DropdownMenuPrimitive.Content

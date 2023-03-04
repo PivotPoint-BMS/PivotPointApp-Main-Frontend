@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import IconButton from '@/components/IconButton'
+import { iconButton } from '@/components/IconButton'
 
 //! TO REMOVE
 const notifications = [
@@ -21,26 +21,25 @@ const notifications = [
 export default function NotificationDropdown() {
   return (
     <DropdownMenuPrimitive.Root>
-      <DropdownMenuPrimitive.Trigger className='outline-none'>
-        <IconButton className='group'>
-          <Iconify
-            icon='ic:round-notifications'
-            className='transition-all group-hover:scale-110 motion-reduce:transition-none'
-            height={24}
-            width={24}
-          />
-        </IconButton>
+      <DropdownMenuPrimitive.Trigger className={iconButton({ class: 'group !outline-none' })}>
+        <Iconify
+          icon='ic:round-notifications'
+          className='transition-all group-hover:scale-110 motion-reduce:transition-none'
+          height={24}
+          width={24}
+        />
       </DropdownMenuPrimitive.Trigger>
 
       <DropdownMenuPrimitive.Portal>
         <DropdownMenuPrimitive.Content
-          align='end'
+          align='center'
           sideOffset={5}
           className={clsx(
             'data-[side=top]:animate-slide-up data-[side=bottom]:animate-slide-down',
             'z-50 w-64 rounded-lg px-1.5 py-1 shadow-md md:w-56',
             'bg-paper-light dark:bg-paper-dark',
-            'divide-y'
+            'divide-y',
+            'border border-dashed border-gray-400 dark:border-gray-500'
           )}
         >
           <div className='flex items-center justify-between p-2'>

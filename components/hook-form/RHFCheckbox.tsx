@@ -15,15 +15,16 @@ interface CheckboxProps
   label: string
 }
 
-export default function Checkbox({ name, label }: CheckboxProps) {
+export default function RHFCheckbox({ name, label, disabled }: CheckboxProps) {
   const { control } = useFormContext()
   return (
     <Controller
       name={name}
       control={control}
       render={({ field }) => (
-        <div className='flex flex-wrap items-center justify-between'>
+        <div className='flex flex-wrap items-center'>
           <CheckboxPrimitive.Root
+            disabled={disabled}
             id={name}
             checked={field.value}
             {...field}
@@ -31,7 +32,8 @@ export default function Checkbox({ name, label }: CheckboxProps) {
             className={clsx(
               'flex h-5 w-5 items-center justify-center rounded',
               'data-[state=unchecked]:border data-[state=unchecked]:border-gray-400 data-[state=checked]:bg-primary-600 dark:data-[state=unchecked]:bg-transparent',
-              'focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-900'
+              'focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-900',
+              disabled && '!bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-600'
             )}
           >
             <CheckboxPrimitive.Indicator>
@@ -44,7 +46,7 @@ export default function Checkbox({ name, label }: CheckboxProps) {
 
           <LabelPrimitive.Label
             htmlFor={name}
-            className='select-none text-sm  text-rich-black ltr:ml-2 rtl:mr-2 dark:text-gray-100'
+            className='select-none text-sm font-medium text-rich-black ltr:ml-2 rtl:mr-2 dark:text-gray-100'
           >
             {label}
           </LabelPrimitive.Label>

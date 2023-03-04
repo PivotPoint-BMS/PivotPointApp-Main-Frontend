@@ -56,7 +56,7 @@ export default function ProfilePassword() {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Card className='col-span-2 !w-full'>
-        <CardContent className='flex flex-col gap-5 p-10'>
+        <CardContent className='flex flex-col gap-5'>
           <RHFTextField name='oldPassword' type='password' label={t('Old Password')} />
           <RHFTextField name='newPassord' type='password' label={t('New Password')} />
           <RHFTextField name='confirmPassword' type='password' label={t('Confirm password')} />

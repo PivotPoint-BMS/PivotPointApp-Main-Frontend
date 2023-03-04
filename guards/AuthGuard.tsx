@@ -4,11 +4,8 @@ import { useRouter } from 'next/router'
 // hooks
 import { useAppSelector } from 'store/hooks'
 import { useGetUserMutation } from 'store/api/authApi'
-// utils
-// import { isValidToken } from 'utils/jwt'
-// import { getTemporaryItem } from 'utils/localStorage'
 // routes
-import { PATH_DASHBOARD } from 'routes/paths'
+// import { PATH_DASHBOARD } from 'routes/paths'
 // pages
 import Login from 'pages/auth/login'
 import CompanySetup from 'pages/auth/company-setup'
@@ -25,11 +22,9 @@ export default function AuthGuard({ children }: { children: React.ReactNode | Re
 
   useEffect(() => {
     if (!user && refreshToken) getUser(refreshToken)
-    else if (user && user.hasPaidSubscription && requestedLocation?.includes('auth')) {
-      push(PATH_DASHBOARD.root)
-    } else if (requestedLocation && pathname !== requestedLocation) {
-      setRequestedLocation(null)
+    else if (requestedLocation && pathname !== requestedLocation) {
       push(requestedLocation)
+      setRequestedLocation(null)
     }
   }, [pathname, push, requestedLocation, refreshToken])
 

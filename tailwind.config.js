@@ -17,7 +17,7 @@ module.exports = {
         'navbar-main': '88px',
       },
       fontFamily: {
-        sans: ['Poppins', 'Tajawal', 'sans-serif'],
+        sans: ['Poppins', 'Noto Sans Arabic', 'sans-serif'],
       },
       colors: {
         'rich-black': '#161c24',

@@ -2,6 +2,11 @@
 export const PIVOTPOINT_API = {
   baseUrl: process.env.NEXT_PUBLIC_PIVOTPOINT_API_BASE_URL,
 }
+
+export const PIVOTPOINT_SOCIALS = {
+  supportEmail: process.env.NEXT_PUBLIC_PIVOTPOINT_SUPPORT_MAIL,
+}
+
 export const HEADER = {
   MOBILE_HEIGHT: 64,
   MAIN_DESKTOP_HEIGHT: 88,

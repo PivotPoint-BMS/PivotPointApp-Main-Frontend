@@ -39,7 +39,7 @@ export default function RHFTextField({
   type = 'text',
   startAdornment,
   endAdornment,
-
+  disabled,
   ...other
 }: RHFTextFieldProps) {
   const { control } = useFormContext()
@@ -62,13 +62,15 @@ export default function RHFTextField({
               'outline outline-1 outline-gray-400 focus-within:outline-2 focus-within:outline-primary-600 hover:outline-primary-600',
               'dark:outline-gray-300 dark:focus-within:outline-primary-300 dark:hover:outline-primary-300',
               error &&
-                '!outline-red-500 focus-within:outline-red-500 hover:outline-red-500 dark:outline-red-500'
+                '!outline-red-500 focus-within:outline-red-500 hover:outline-red-500 dark:outline-red-500',
+              disabled && '!bg-gray-400 !outline-none dark:!bg-gray-600 dark:hover:bg-gray-600'
             )}
           >
             {startAdornment && <span className='mx-2'>{startAdornment}</span>}
             <input
               {...field}
               {...other}
+              disabled={disabled}
               id={name}
               name={name}
               type={type}

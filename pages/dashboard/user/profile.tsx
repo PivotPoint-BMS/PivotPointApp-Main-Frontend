@@ -19,7 +19,7 @@ import { Icon as Iconify } from '@iconify/react'
 import HeaderBreadcrumbs from '@/components/HeaderBreadcrumbs'
 import Scrollbar from '@/components/Scrollbar'
 
-const Tabs = [
+const TABS = [
   { name: 'General', icon: 'mdi:user-circle', value: '1' },
   { name: 'Password', icon: 'material-symbols:password-rounded', value: '2' },
   { name: 'Billing', icon: 'mdi:invoice', value: '3' },
@@ -51,15 +51,18 @@ export default function Profile() {
         >
           <Scrollbar className='w-full py-3'>
             <TabsPrimitive.List className={clsx('flex w-full items-center gap-8')}>
-              {Tabs.map((item, i) => (
+              {TABS.map((item, i) => (
                 <TabsPrimitive.Trigger
                   key={i}
                   value={item.value}
                   className={clsx(
-                    'flex cursor-pointer items-center justify-start gap-3 border-primary-500 px-1 pt-3 pb-3 transition-all data-[state=active]:border-b-[3px] data-[state=active]:pb-[9px] data-[state=active]:pb-[-3px] data-[state=inactive]:text-gray-600 dark:border-primary-400 dark:data-[state=inactive]:text-gray-400'
+                    'relative flex cursor-pointer items-center justify-start gap-3 px-1 pt-3 pb-3 transition-all',
+                    'before:absolute before:bottom-0 before:h-[3px] before:w-full before:rounded-full before:bg-primary-600 before:transition-all ltr:before:left-0 rtl:before:right-0',
+                    'before:duration-500 data-[state=inactive]:before:w-0',
+                    'data-[state=inactive]:text-gray-600 dark:data-[state=inactive]:text-gray-400'
                   )}
                 >
-                  <div className='flex cursor-pointer items-center gap-2'>
+                  <div className='flex w-max cursor-pointer items-center gap-2'>
                     {item.icon && <Iconify icon={item.icon} height={20} width={20} />}
                     <label className='cursor-pointer font-medium'>{t(item.name)}</label>
                   </div>

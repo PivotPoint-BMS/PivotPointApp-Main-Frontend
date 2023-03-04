@@ -5,7 +5,7 @@ import { cva, VariantProps } from 'class-variance-authority'
 const progressbar = cva('duration-300 ease-in-out rounded-full', {
   variants: {
     intent: {
-      primary: ['bg-primary-500', 'dark:bg-primary-300'],
+      primary: ['bg-primary-500', 'dark:bg-primary-400'],
       secondary: ['bg-secondary-500', 'dark:bg-secondary-300'],
     },
     size: {

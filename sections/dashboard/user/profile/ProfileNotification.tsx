@@ -4,7 +4,7 @@ import useTranslate from 'hooks/useTranslate'
 // components
 import Card from '@/components/Card'
 import CardContent from '@/components/CardContent'
-import Checkbox from '@/components/Checkbox'
+import Checkbox from '@/components/Switch'
 
 export default function ProfileNotification() {
   const { t } = useTranslate()
@@ -14,22 +14,22 @@ export default function ProfileNotification() {
         <h1 className='font-medium text-gray-600 dark:text-gray-400'>{t('Activity')}</h1>
         <div className='inline-flex items-center gap-5'>
           <Checkbox />
-          <label className=''>
+          <label className='text-sm font-medium dark:text-white'>
             {t('Email me when')} {t('password change')}
           </label>
         </div>
         <h1 className='mt-5 font-medium text-gray-600 dark:text-gray-400'>{t('Application')}</h1>
         <div className='inline-flex items-center gap-5'>
           <Checkbox />
-          <label className=''>{t('Weekly reports')}</label>
+          <label className='text-sm font-medium dark:text-white'>{t('Weekly reports')}</label>
         </div>
         <div className='inline-flex items-center gap-5'>
           <Checkbox />
-          <label className=''>{t('Subscription renewal')}</label>
+          <label className='text-sm font-medium dark:text-white'>{t('Subscription renewal')}</label>
         </div>
         <div className='inline-flex items-center gap-5'>
           <Checkbox />
-          <label className=''>{t('Successful renewal')}</label>
+          <label className='text-sm font-medium dark:text-white'>{t('Successful renewal')}</label>
         </div>
       </CardContent>
     </Card>

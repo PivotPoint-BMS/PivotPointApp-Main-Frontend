@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 // radix
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
-import { PATH_ACCOUNT, PATH_AUTH } from 'routes/paths'
+import { PATH_ACCOUNT, PATH_AUTH, PATH_DASHBOARD } from 'routes/paths'
 // store
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { logout } from 'store/slices/sessionSlice'
@@ -13,7 +13,7 @@ import { logout } from 'store/slices/sessionSlice'
 import useTranslate from 'hooks/useTranslate'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import IconButton from '@/components/IconButton'
+import { iconButton } from '@/components/IconButton'
 import Button from '@/components/Button'
 
 export default function AccountDropdown() {
@@ -29,15 +29,13 @@ export default function AccountDropdown() {
 
   return (
     <DropdownMenuPrimitive.Root>
-      <DropdownMenuPrimitive.Trigger className='outline-none'>
-        <IconButton className='group'>
-          <Iconify
-            icon='heroicons:user-circle-20-solid'
-            className='transition-all group-hover:scale-110 motion-reduce:transition-none'
-            height={24}
-            width={24}
-          />
-        </IconButton>
+      <DropdownMenuPrimitive.Trigger className={iconButton({ class: 'group !outline-none' })}>
+        <Iconify
+          icon='heroicons:user-circle-20-solid'
+          className='transition-all group-hover:scale-110 motion-reduce:transition-none'
+          height={24}
+          width={24}
+        />
       </DropdownMenuPrimitive.Trigger>
 
       <DropdownMenuPrimitive.Portal>
@@ -59,21 +57,67 @@ export default function AccountDropdown() {
             </p>
           </div>
           <div className='flex flex-col items-center justify-center gap-2 p-2'>
+            <Link href={PATH_DASHBOARD.root} className='w-full'>
+              <DropdownMenuPrimitive.Item className='w-full outline-none'>
+                <Button
+                  variant='text'
+                  intent='default'
+                  className='m-0 w-full p-0 font-normal ltr:!justify-start rtl:!justify-end'
+                  startIcon={
+                    locale === 'ar' ? null : (
+                      <Iconify icon='material-symbols:dashboard-rounded' height={16} />
+                    )
+                  }
+                  endIcon={
+                    locale === 'ar' ? (
+                      <Iconify icon='material-symbols:dashboard-rounded' height={16} />
+                    ) : null
+                  }
+                >
+                  {t('Dashboard')}
+                </Button>
+              </DropdownMenuPrimitive.Item>
+            </Link>
             <Link href={PATH_ACCOUNT.profile} className='w-full'>
-              <Button variant='text' intent='default' className='w-full'>
-                <DropdownMenuPrimitive.Item className='w-full'>
+              <DropdownMenuPrimitive.Item className='w-full outline-none'>
+                <Button
+                  variant='text'
+                  intent='default'
+                  className='w-full font-normal ltr:!justify-start rtl:!justify-end'
+                  startIcon={
+                    locale === 'ar' ? null : <Iconify icon='ion:person-circle' height={16} />
+                  }
+                  endIcon={
+                    locale === 'ar' ? <Iconify icon='ion:person-circle' height={16} /> : null
+                  }
+                >
                   {t('Profile')}
-                </DropdownMenuPrimitive.Item>
-              </Button>
+                </Button>
+              </DropdownMenuPrimitive.Item>
             </Link>
             <Link href={PATH_ACCOUNT.settings} className='w-full'>
-              <Button variant='text' intent='default' className='w-full'>
-                <DropdownMenuPrimitive.Item>{t('Settings')}</DropdownMenuPrimitive.Item>
-              </Button>
+              <DropdownMenuPrimitive.Item className='w-full outline-none'>
+                <Button
+                  variant='text'
+                  intent='default'
+                  className='w-full font-normal ltr:!justify-start rtl:!justify-end'
+                  startIcon={locale === 'ar' ? null : <Iconify icon='ion:settings' height={16} />}
+                  endIcon={locale === 'ar' ? <Iconify icon='ion:settings' height={16} /> : null}
+                >
+                  {t('Settings')}
+                </Button>
+              </DropdownMenuPrimitive.Item>
             </Link>
           </div>
           <div className='p-2'>
-            <Button variant='outlined' intent='default' className='w-full' onClick={handleLogout}>
+            <Button
+              variant='outlined'
+              intent='default'
+              className='w-full'
+              onClick={handleLogout}
+              startIcon={locale === 'ar' ? null : <Iconify icon='ion:exit' height={16} />}
+              endIcon={locale === 'ar' ? <Iconify icon='ion:exit' height={16} /> : null}
+            >
               {t('Logout')}
             </Button>
           </div>

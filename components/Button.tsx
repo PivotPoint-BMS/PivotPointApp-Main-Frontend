@@ -64,7 +64,7 @@ export const buttonOutlined = cva(
         large: 'text-[15px] px-6 py-2',
       },
       disabled: {
-        true: 'cursor-not-allowed bg-gray-200 text-gray-500 hover:bg-gray-200 active:bg-gray-200',
+        true: 'cursor-not-allowed bg-gray-400 hover:bg-gray-400 active:bg-gray-400',
       },
     },
     defaultVariants: {
@@ -99,7 +99,7 @@ export const buttonText = cva(
         large: 'text-[15px] px-6 py-2',
       },
       disabled: {
-        true: 'cursor-not-allowed bg-gray-200 text-gray-500 hover:bg-gray-200 active:bg-gray-200',
+        true: 'cursor-not-allowed dark:bg-gray-600 dark:hover:bg-gray-600 dark:active:bg-gray-600',
       },
     },
     defaultVariants: {
