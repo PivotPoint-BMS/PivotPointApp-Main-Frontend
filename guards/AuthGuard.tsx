@@ -22,10 +22,6 @@ export default function AuthGuard({ children }: { children: React.ReactNode | Re
 
   useEffect(() => {
     if (!user && refreshToken) getUser(refreshToken)
-    else if (requestedLocation && pathname !== requestedLocation) {
-      push(requestedLocation)
-      setRequestedLocation(null)
-    }
   }, [pathname, push, requestedLocation, refreshToken])
 
   if (isLoading) {

@@ -26,7 +26,7 @@ export default function LoginForm() {
   const { push } = useRouter()
   const { t } = useTranslate()
   const [showPassword, setShowPassword] = useState(false)
-  const [login, { isLoading, isError, isSuccess, error, data: user }] = useLoginMutation()
+  const [login, { isLoading, isError, isSuccess, error }] = useLoginMutation()
   const sessionError = useAppSelector((state) => state.session.error)
 
   const LoginSchema = Yup.object().shape({
@@ -68,8 +68,7 @@ export default function LoginForm() {
       setError('afterSubmit', { ...error, message: error.data as string })
     }
     if (isSuccess) {
-      if (user?.hasSetupCompany) push(PATH_DASHBOARD.root)
-      else push(PATH_DASHBOARD.root)
+      push(PATH_DASHBOARD.root)
     }
   }, [isLoading])
 

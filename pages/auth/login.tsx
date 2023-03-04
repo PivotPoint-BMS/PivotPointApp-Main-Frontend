@@ -1,13 +1,13 @@
 /* eslint-disable quotes */
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 // next
-// import { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Link from 'next/link'
 // routes
 import { PATH_AUTH } from 'routes/paths'
 // hooks
-// import { useAppSelector } from 'store/hooks'
+import { useAppSelector } from 'store/hooks'
 import useResponsive from 'hooks/useResponsive'
 import useTranslate from 'hooks/useTranslate'
 // sections
@@ -18,12 +18,17 @@ import Logo from '@/components/Logo'
 export default function Login() {
   const isDesktop = useResponsive('lg', 'up')
   const { t } = useTranslate()
-  // const { push } = useRouter()
-  // const { refreshToken } = useAppSelector((state) => state.session)
+  const { push, pathname } = useRouter()
+  const { refreshToken } = useAppSelector((state) => state.session)
+  const [requestedLocation, setRequestedLocation] = useState<string | null>(null)
 
-  // useEffect(() => {
-  //   if (refreshToken) push(PATH_DASHBOARD.root)
-  // }, [push, refreshToken])
+  useEffect(() => {
+    if (refreshToken)
+      if (requestedLocation && pathname !== requestedLocation) {
+        push(requestedLocation)
+        setRequestedLocation(null)
+      }
+  }, [push, refreshToken])
 
   return (
     <>
