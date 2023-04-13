@@ -24,6 +24,7 @@ module.exports = {
         paper: {
           light: '#FFFFFF',
           dark: '#002034',
+          'hover-dark': '#00263d',
         },
         dark: '#001928',
         primary: {

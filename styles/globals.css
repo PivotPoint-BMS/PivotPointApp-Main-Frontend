@@ -1,3 +1,68 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  @apply h-full w-full;
+}
+
+.apexcharts-canvas .apexcharts-xaxistooltip {
+  @apply rounded-lg border-0 bg-gray-50/10 text-primary-600 shadow-md !backdrop-blur before:border-b-transparent after:border-b-white/10 dark:after:border-b-dark/10;
+}
+
+.apexcharts-canvas .apexcharts-tooltip-title {
+  @apply border-0 bg-gray-200 text-center font-bold text-secondary-600 dark:text-primary-600;
+}
+
+.apexcharts-canvas .apexcharts-legend {
+  @apply p-0;
+}
+.apexcharts-canvas .apexcharts-legend-series {
+  @apply !flex items-center;
+}
+.apexcharts-canvas .apexcharts-legend-marker {
+  @apply mr-2;
+}
+.apexcharts-canvas .apexcharts-legend-text {
+  @apply capitalize leading-5 dark:!text-white;
+}
+
+.apexcharts-canvas .apexcharts-tooltip.apexcharts-theme-light,
+.apexcharts-canvas .apexcharts-tooltip.apexcharts-theme-dark {
+  @apply rounded-lg border-0 !bg-white/20 text-rich-black shadow-lg backdrop-blur  dark:!bg-dark/50 dark:text-white;
+}
+
+.apexcharts-canvas .apexcharts-text.apexcharts-xaxis-label,
+.apexcharts-canvas .apexcharts-text.apexcharts-yaxis-label {
+  @apply !fill-rich-black dark:!fill-gray-300;
+}
+
+.rdt_Table {
+  @apply dark:!bg-paper-dark;
+}
+.rdt_Table .rdt_TableHead {
+  @apply bg-gray-100 text-right dark:text-white;
+}
+
+.rdt_Table .rdt_TableHeadRow {
+  @apply border-dashed border-gray-400 bg-transparent dark:border-gray-500 dark:bg-gray-800;
+}
+
+.rdt_Table .rdt_TableBody {
+}
+.rdt_Table .rdt_TableRow {
+  @apply !border-b-0 bg-transparent text-rich-black hover:border-0 hover:bg-gray-100 hover:outline-none dark:text-white dark:hover:bg-paper-hover-dark;
+}
+
+.rdt_TableCell input[type='checkbox'] {
+  @apply rounded-lg;
+}
+
+.scrollbar-none {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}

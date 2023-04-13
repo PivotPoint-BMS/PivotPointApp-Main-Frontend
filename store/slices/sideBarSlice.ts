@@ -33,17 +33,33 @@ const initialState: SideBarConfig = {
       icon: 'fa6-solid:handshake',
       subItems: [
         {
-          name: 'Workflow',
-          href: PATH_DASHBOARD.crm.workflow,
-          icon: 'material-symbols:account-tree-rounded',
+          name: 'Contact & Lead',
+          href: PATH_DASHBOARD.crm.contact,
+          icon: 'fluent:contact-card-20-filled',
           badge: {
             label: 'Soon',
           },
         },
         {
-          name: 'Contact & Lead',
-          href: PATH_DASHBOARD.crm.contact,
-          icon: 'fluent:contact-card-20-filled',
+          name: 'Accounts',
+          href: PATH_DASHBOARD.crm.accounts,
+          icon: 'material-symbols:manage-accounts',
+          badge: {
+            label: 'Soon',
+          },
+        },
+        {
+          name: 'Deals',
+          href: PATH_DASHBOARD.crm.deals,
+          icon: 'fa6-solid:handshake-simple',
+          badge: {
+            label: 'Soon',
+          },
+        },
+        {
+          name: 'Workflow',
+          href: PATH_DASHBOARD.crm.workflow,
+          icon: 'material-symbols:account-tree-rounded',
           badge: {
             label: 'Soon',
           },
@@ -79,22 +95,22 @@ const initialState: SideBarConfig = {
             label: 'Soon',
           },
         },
-        {
-          name: 'Benefits & Rewards',
-          href: PATH_DASHBOARD.hrm.benefits,
-          icon: 'fluent:reward-12-filled',
-          badge: {
-            label: 'Soon',
-          },
-        },
-        {
-          name: 'Performance',
-          href: PATH_DASHBOARD.hrm.performance,
-          icon: 'mingcute:performance-fill',
-          badge: {
-            label: 'Soon',
-          },
-        },
+        // {
+        //   name: 'Benefits & Rewards',
+        //   href: PATH_DASHBOARD.hrm.benefits,
+        //   icon: 'fluent:reward-12-filled',
+        //   badge: {
+        //     label: 'Soon',
+        //   },
+        // },
+        // {
+        //   name: 'Performance',
+        //   href: PATH_DASHBOARD.hrm.performance,
+        //   icon: 'mingcute:performance-fill',
+        //   badge: {
+        //     label: 'Soon',
+        //   },
+        // },
       ],
     },
     {

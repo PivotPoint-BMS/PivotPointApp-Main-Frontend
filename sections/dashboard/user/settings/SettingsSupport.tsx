@@ -55,7 +55,7 @@ export default function SettingsSupport() {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Card className='col-span-2 !w-full'>
-        <CardContent className='flex flex-col gap-5 p-10'>
+        <CardContent className='flex flex-col gap-5 p-5'>
           <RHFTextField name='sender' label={t('Full name')} />
           <RHFTextField name='email' label={t('Email')} />
           <RHFTextField name='title' label={t('Title')} />

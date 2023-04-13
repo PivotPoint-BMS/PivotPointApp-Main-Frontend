@@ -7,7 +7,7 @@ function LinkItem({ link }: LinkItemProps) {
   return (
     <div className='flex items-center gap-3'>
       <NextLink href={href} passHref className='hover:underline'>
-        <h2 key={name} className='flex items-center text-sm leading-loose'>
+        <h2 key={name} className='flex items-center text-xs leading-loose'>
           {icon && <div>{icon}</div>}
           {name}
         </h2>
@@ -36,7 +36,7 @@ export default function Breadcrumbs({ links, activeLast = false, ...other }: Bre
       {link.name !== currentLink ? (
         <LinkItem link={link} />
       ) : (
-        <h2 className='max-w-xs cursor-default overflow-hidden text-ellipsis whitespace-nowrap text-sm text-gray-600 dark:text-gray-400'>
+        <h2 className='max-w-xs cursor-default overflow-hidden text-ellipsis whitespace-nowrap text-xs text-gray-600 dark:text-gray-400'>
           {currentLink}
         </h2>
       )}

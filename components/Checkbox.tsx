@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
+import clsx from 'clsx'
 // radix
-import * as LabelPrimitive from '@radix-ui/react-label'
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 // components
 import { Icon as Iconify } from '@iconify/react'
@@ -12,21 +12,25 @@ interface CheckboxProps
   label: string
 }
 
-export default function Checkbox({ label, id }: CheckboxProps) {
-  return (
-    <>
-      <CheckboxPrimitive.Indicator>
-        <Iconify
-          icon='material-symbols:check-small-rounded'
-          className='h-4 w-4 self-center text-white'
-        />
-      </CheckboxPrimitive.Indicator>
-      <LabelPrimitive.Label
-        htmlFor={id}
-        className='select-none text-sm font-medium text-rich-black ltr:ml-2 rtl:mr-2 dark:text-gray-100'
-      >
-        {label}
-      </LabelPrimitive.Label>
-    </>
-  )
-}
+const Checkbox = forwardRef<HTMLButtonElement, CheckboxProps>(({ disabled, ...props }, ref) => (
+  <CheckboxPrimitive.Root
+    ref={ref}
+    {...props}
+    disabled={disabled}
+    className={clsx(
+      'flex h-5 w-5 items-center justify-center rounded',
+      'data-[state=unchecked]:border data-[state=unchecked]:border-gray-400 data-[state=checked]:bg-primary-600 dark:data-[state=unchecked]:bg-transparent',
+      'focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-900',
+      disabled && '!bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-600'
+    )}
+  >
+    <CheckboxPrimitive.Indicator>
+      <Iconify
+        icon='material-symbols:check-small-rounded'
+        className='h-4 w-4 self-center text-white'
+      />
+    </CheckboxPrimitive.Indicator>
+  </CheckboxPrimitive.Root>
+))
+
+export default Checkbox

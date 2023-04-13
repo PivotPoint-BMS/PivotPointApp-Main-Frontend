@@ -22,9 +22,9 @@ import Scrollbar from '@/components/Scrollbar'
 
 const TABS = [
   { name: 'Email', icon: 'ion:mail', value: '1' },
-  { name: 'Storage', icon: 'ri:database-2-fill', value: '2' },
-  { name: 'Integration', icon: 'mdi:link-box-variant', value: '3' },
-  { name: 'Data Export', icon: 'fa6-solid:file-export', value: '5' },
+  { name: 'Storage', icon: 'material-symbols:home-storage-rounded', value: '2' },
+  { name: 'Integration', icon: 'mdi:link-box', value: '3' },
+  { name: 'Data Export', icon: 'mingcute:file-export-fill', value: '5' },
   { name: 'Support', icon: 'material-symbols:contact-support-rounded', value: '6' },
 ]
 

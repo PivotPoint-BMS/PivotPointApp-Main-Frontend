@@ -33,7 +33,10 @@ function Layout({
       <div className='flex h-screen w-full'>
         <Header />
         {isDesktop ? <SidebarDesktop /> : <SidebarMobile />}
-        <main className='flex-1 p-4' style={{ paddingTop: HEADER.DESKTOP_HEIGHT }}>
+        <main
+          className='h-max w-full flex-1 overflow-hidden p-4'
+          style={{ paddingTop: HEADER.DESKTOP_HEIGHT }}
+        >
           {children}
         </main>
       </div>

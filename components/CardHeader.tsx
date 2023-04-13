@@ -3,12 +3,17 @@ import clsx from 'clsx'
 
 export interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string
+  actions?: React.ReactNode
 }
 
-export default function CardHeader({ title, className, ...other }: CardHeaderProps) {
+export default function CardHeader({ title, className, actions, ...other }: CardHeaderProps) {
   return (
-    <div className={clsx('w-full p-4', className)} {...other}>
+    <div
+      className={clsx('flex w-full items-center justify-between truncate p-4', className)}
+      {...other}
+    >
       <h3 className='w-max font-semibold dark:text-white'>{title}</h3>
+      <div>{actions}</div>
     </div>
   )
 }

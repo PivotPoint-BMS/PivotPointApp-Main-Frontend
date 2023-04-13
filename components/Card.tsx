@@ -1,5 +1,5 @@
+import React, { forwardRef } from 'react'
 import { cva, VariantProps } from 'class-variance-authority'
-import React from 'react'
 
 const card = cva('rounded-xl divide-gray-300 bg-paper-light dark:bg-paper-dark', {
   variants: {
@@ -28,7 +28,13 @@ export interface CardProps
     VariantProps<typeof card> {
   children: React.ReactNode | React.ReactNode[]
 }
+//
+export const Card = forwardRef<HTMLDivElement, CardProps>(
+  ({ children, variant, fullWidth, divided, className }, ref) => (
+    <div ref={ref} className={card({ fullWidth, variant, divided, class: className })}>
+      {children}
+    </div>
+  )
+)
 
-export default function Card({ children, variant, fullWidth, divided, className }: CardProps) {
-  return <div className={card({ fullWidth, variant, divided, class: className })}>{children}</div>
-}
+export default Card

@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 // utils
+import { merge } from 'lodash'
 import clsx from 'clsx'
 // redux
 import { wrapper } from 'store'
@@ -16,13 +17,63 @@ import useTranslate from 'hooks/useTranslate'
 import Card from '@/components/Card'
 import CardHeader from '@/components/CardHeader'
 import CardContent from '@/components/CardContent'
+import ReactApexChart, { BaseOptionChart } from '@/components/chart'
 
+const CHART_DATA = [
+  {
+    name: 'Task Completed',
+    type: 'column',
+    data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
+  },
+  {
+    name: 'Expences',
+    type: 'area',
+    data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
+  },
+  {
+    name: 'Converted Leads',
+    type: 'line',
+    data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
+  },
+]
 const Home: NextPage = () => {
   const router = useRouter()
   const { t } = useTranslate()
   const { data } = useGetWorkersNumberQuery(undefined, {
     skip: router.isFallback,
     refetchOnFocus: true,
+  })
+
+  const chartOptions = merge(BaseOptionChart(), {
+    stroke: { width: [0, 2, 3] },
+    plotOptions: { bar: { columnWidth: '14%' } },
+    fill: { type: ['solid', 'gradient', 'solid'] },
+    labels: [
+      '01/01/2003',
+      '02/01/2003',
+      '03/01/2003',
+      '04/01/2003',
+      '05/01/2003',
+      '06/01/2003',
+      '07/01/2003',
+      '08/01/2003',
+      '09/01/2003',
+      '10/01/2003',
+      '11/01/2003',
+    ],
+    xaxis: { type: 'datetime' },
+    tooltip: {
+      shared: true,
+      intersect: false,
+      y: {
+        formatter: (y: number) => {
+          if (typeof y !== 'undefined') {
+            return `${y.toFixed(0)}`
+          }
+          return y
+        },
+      },
+    },
   })
   return (
     <>
@@ -88,6 +139,15 @@ const Home: NextPage = () => {
         {/* Col 2 */}
         <Card fullWidth className='col-span-6 md:col-span-4'>
           <CardHeader title='Title' />
+          <CardContent>
+            <ReactApexChart
+              type='bar'
+              series={CHART_DATA}
+              options={chartOptions}
+              height={364}
+              width='100%'
+            />
+          </CardContent>
         </Card>
         <Card fullWidth className='col-span-6 md:col-span-2'>
           <CardHeader title='Title' />

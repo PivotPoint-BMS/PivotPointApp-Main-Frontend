@@ -6,12 +6,12 @@ import Button, { ButtonProps } from './Button'
 
 interface SelectProps extends SelectPrimitive.SelectProps {
   items?: { label: string; value: string; disabled?: boolean }[]
-  buttonProps: ButtonProps
+  buttonProps?: ButtonProps
 }
 
 const Select = ({ buttonProps, items, ...props }: SelectProps) => (
   <SelectPrimitive.Root {...props}>
-    <SelectPrimitive.Trigger asChild aria-label='Food'>
+    <SelectPrimitive.Trigger asChild>
       <Button variant='outlined' {...buttonProps}>
         <SelectPrimitive.Value />
         <SelectPrimitive.Icon className='ml-2'>
@@ -19,7 +19,7 @@ const Select = ({ buttonProps, items, ...props }: SelectProps) => (
         </SelectPrimitive.Icon>
       </Button>
     </SelectPrimitive.Trigger>
-    <SelectPrimitive.Content>
+    <SelectPrimitive.Content className='z-50'>
       <SelectPrimitive.ScrollUpButton className='flex items-center justify-center'>
         <Iconify icon='ion:chevron-up' />
       </SelectPrimitive.ScrollUpButton>

@@ -21,8 +21,8 @@ import Scrollbar from '@/components/Scrollbar'
 
 const TABS = [
   { name: 'General', icon: 'mdi:user-circle', value: '1' },
-  { name: 'Password', icon: 'material-symbols:password-rounded', value: '2' },
-  { name: 'Billing', icon: 'mdi:invoice', value: '3' },
+  { name: 'Password', icon: 'mdi:password', value: '2' },
+  { name: 'Billing', icon: 'basil:invoice-solid', value: '3' },
   { name: 'Notification', icon: 'ic:round-notifications', value: '4' },
   { name: 'Api', icon: 'ant-design:api-filled', value: '5' },
 ]

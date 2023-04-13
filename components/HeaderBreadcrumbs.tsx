@@ -8,7 +8,7 @@ import Breadcrumbs from './Breadcrumbs'
 // ----------------------------------------------------------------------
 
 interface HeaderBreadcrumbsProps {
-  links: {
+  links?: {
     href?: string
     icon?: React.ReactNode
     name: string
@@ -29,8 +29,8 @@ export default function HeaderBreadcrumbs({
     <div className='mb-10'>
       <div className='flex items-center'>
         <div className='flex-grow'>
-          <h4 className='mb-2 text-4xl font-semibold'>{heading}</h4>
-          <Breadcrumbs links={links} {...other} />
+          <h4 className='mb-2 text-3xl font-semibold'>{heading}</h4>
+          {links && <Breadcrumbs links={links} {...other} />}
         </div>
 
         {action && <div className='flex-shrink-0'>{action}</div>}

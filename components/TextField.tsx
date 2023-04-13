@@ -2,8 +2,8 @@ import React, { InputHTMLAttributes } from 'react'
 import clsx from 'clsx'
 
 interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
-  name: string
-  label: string
+  name?: string
+  label?: string
   type?:
     | 'button'
     | 'checkbox'
