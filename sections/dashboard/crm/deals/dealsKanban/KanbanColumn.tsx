@@ -10,14 +10,15 @@ import SortableKanbanItem from './KanbanItem'
 import Card from '@/components/Card'
 import CardContent from '@/components/CardContent'
 import CardHeader from '@/components/CardHeader'
+import DealItem from './DealItem'
 
 type KanbanColumnProps = {
   id: string
   title: string
-  tasks: Deal[]
+  deals: Deal[]
 }
 
-const KanbanColumn = ({ id, title, tasks }: KanbanColumnProps) => {
+const KanbanColumn = ({ id, title, deals }: KanbanColumnProps) => {
   const { setNodeRef } = useDroppable({
     id,
   })
@@ -41,7 +42,7 @@ const KanbanColumn = ({ id, title, tasks }: KanbanColumnProps) => {
 
   return (
     <Card
-      className='h-fit'
+      className='!bg-gray-50 dark:!bg-transparent'
       fullWidth
       ref={setSortableNodeRef}
       style={style}
@@ -50,13 +51,11 @@ const KanbanColumn = ({ id, title, tasks }: KanbanColumnProps) => {
     >
       <CardHeader title={title} className='text-lg font-semibold capitalize' />
       <CardContent>
-        <SortableContext id={id} items={tasks} strategy={verticalListSortingStrategy}>
+        <SortableContext id={id} items={deals} strategy={verticalListSortingStrategy}>
           <div ref={setNodeRef} className='min-w-[14rem]'>
-            {tasks.map((task) => (
-              <SortableKanbanItem id={task.id}>
-                <Card className='mb-3 w-56'>
-                  <CardContent>{task.title}</CardContent>
-                </Card>
+            {deals.map((deal) => (
+              <SortableKanbanItem id={deal.id}>
+                <DealItem deal={deal} />
               </SortableKanbanItem>
             ))}
           </div>

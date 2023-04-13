@@ -22,8 +22,7 @@ import { getTaskById } from './kanbanItemUtils'
 import { KanbanColumsType, findKanbanColumContainer, initializeBoard } from './board'
 // components
 import KanbanColumn from './KanbanColumn'
-import Card from '@/components/Card'
-import CardContent from '@/components/CardContent'
+import DealItem from './DealItem'
 
 const INITIAL_TASKS: Deal[] = [
   {
@@ -53,7 +52,7 @@ const INITIAL_TASKS: Deal[] = [
 ]
 
 const KanbanColumnsList = () => {
-  const tasks = INITIAL_TASKS
+  const deals = INITIAL_TASKS
   const initialBoardSections = initializeBoard(INITIAL_TASKS)
   const [kanbanColumns, setKanbanColumns] = useState<KanbanColumsType>(initialBoardSections)
 
@@ -109,8 +108,8 @@ const KanbanColumnsList = () => {
       return
     }
 
-    const activeIndex = kanbanColumns[activeContainer].findIndex((task) => task.id === active.id)
-    const overIndex = kanbanColumns[overContainer].findIndex((task) => task.id === over?.id)
+    const activeIndex = kanbanColumns[activeContainer].findIndex((deal) => deal.id === active.id)
+    const overIndex = kanbanColumns[overContainer].findIndex((deal) => deal.id === over?.id)
 
     if (activeIndex !== overIndex) {
       setKanbanColumns((kanbanColumn) => ({
@@ -126,7 +125,7 @@ const KanbanColumnsList = () => {
     ...defaultDropAnimation,
   }
 
-  const task = activeTaskId ? getTaskById(tasks, activeTaskId) : null
+  const deal = activeTaskId ? getTaskById(deals, activeTaskId) : null
 
   return (
     <div className='w-auto overflow-hidden'>
@@ -143,16 +142,12 @@ const KanbanColumnsList = () => {
               <KanbanColumn
                 id={kanbanColumnKey}
                 title={kanbanColumnKey}
-                tasks={kanbanColumns[kanbanColumnKey]}
+                deals={kanbanColumns[kanbanColumnKey]}
               />
             </div>
           ))}
           <DragOverlay dropAnimation={dropAnimation}>
-            {task ? (
-              <Card className='!w-56'>
-                <CardContent>{task.title}</CardContent>
-              </Card>
-            ) : null}
+            {deal ? <DealItem deal={deal} /> : null}
           </DragOverlay>
         </div>
       </DndContext>

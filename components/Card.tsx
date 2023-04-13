@@ -7,6 +7,7 @@ const card = cva('rounded-xl divide-gray-300 bg-paper-light dark:bg-paper-dark',
       elevated: 'shadow-xl',
       outlined: 'border border-gray-400 dark:border-gray-500',
       'outlined-dashed': 'border border-dashed border-gray-400 dark:border-gray-500',
+      default: 'border-none',
     },
     fullWidth: {
       true: 'w-full',
