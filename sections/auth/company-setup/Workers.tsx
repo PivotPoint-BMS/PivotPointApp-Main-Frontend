@@ -11,6 +11,7 @@ import TextField from '@/components/TextField'
 import Button from '@/components/Button'
 import IconButton from '@/components/IconButton'
 import Scrollbar from '@/components/Scrollbar'
+import Alert from '@/components/Alert'
 
 interface WorkersProps {
   handleBack: () => void
@@ -38,6 +39,7 @@ export default function Workers({
   formWorkers,
 }: WorkersProps) {
   const { t, locale } = useTranslate()
+  const [errors, setErrors] = useState<string | null>(null)
   const [worker, setWorker] = useState({
     firstName: '',
     lastName: '',
@@ -63,13 +65,16 @@ export default function Workers({
       emailRegex.test(worker.email) &&
       worker.position.length > 2
     ) {
-      setWorkers([...workers, worker])
+      setWorkers((prevState) => [...prevState, worker])
       setWorker({
         firstName: '',
         lastName: '',
         email: '',
         position: '',
       })
+      setErrors(null)
+    } else {
+      setErrors('All Fields must be valid')
     }
   }
 
@@ -104,32 +109,37 @@ export default function Workers({
           </p>
           <div className='grid w-full grid-cols-1 items-center justify-between gap-5 md:grid-cols-2'>
             <div className='flex h-full w-full  flex-col items-center gap-6'>
+              {errors && <Alert intent='error'>{t(errors)}</Alert>}
               <TextField
                 name='firstName'
                 label={t('First name')}
+                value={worker.firstName}
                 onChange={(e) =>
-                  setWorker((prevWorkers) => ({ ...prevWorkers, [e.target.name]: e.target.value }))
+                  setWorker((prevState) => ({ ...prevState, [e.target.name]: e.target.value }))
                 }
               />
               <TextField
                 name='lastName'
                 label={t('Last name')}
+                value={worker.lastName}
                 onChange={(e) =>
-                  setWorker((prevWorkers) => ({ ...prevWorkers, [e.target.name]: e.target.value }))
+                  setWorker((prevState) => ({ ...prevState, [e.target.name]: e.target.value }))
                 }
               />
               <TextField
                 name='email'
                 label={t('Email')}
+                value={worker.email}
                 onChange={(e) =>
-                  setWorker((prevWorkers) => ({ ...prevWorkers, [e.target.name]: e.target.value }))
+                  setWorker((prevState) => ({ ...prevState, [e.target.name]: e.target.value }))
                 }
               />
               <TextField
                 name='position'
                 label={t('Position')}
+                value={worker.position}
                 onChange={(e) =>
-                  setWorker((prevWorkers) => ({ ...prevWorkers, [e.target.name]: e.target.value }))
+                  setWorker((prevState) => ({ ...prevState, [e.target.name]: e.target.value }))
                 }
               />
               <Button variant='outlined' className='!px-10' onClick={addWorker}>

@@ -143,7 +143,7 @@ export default function Subscription({ handleBack, handleNext, isLoading }: Subs
                         {t('Up to')} 20 {t('Users Segments')}
                       </li>
                     </ul>
-                    <Button loading={isLoading} onClick={() => handleNext(1)}>
+                    <Button disabled loading={isLoading} onClick={() => handleNext(1)}>
                       {t('Purchase')}
                     </Button>
                   </div>
@@ -195,7 +195,7 @@ export default function Subscription({ handleBack, handleNext, isLoading }: Subs
                         {t('Up to')} 100 {t('Users Segments')}
                       </li>
                     </ul>
-                    <Button loading={isLoading} onClick={() => handleNext(2)}>
+                    <Button disabled loading={isLoading} onClick={() => handleNext(2)}>
                       {t('Purchase')}
                     </Button>
                   </div>
