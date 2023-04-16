@@ -44,7 +44,7 @@ export const PATH_DASHBOARD = {
     root: path(ROOTS_DASHBOARD, '/crm'),
     'contacts-leads': path(ROOTS_DASHBOARD, '/crm/contacts-leads'),
     accounts: path(ROOTS_DASHBOARD, '/crm/accounts'),
-    deals: path(ROOTS_DASHBOARD, '/crm/deals'),
+    'sales-pipeline': path(ROOTS_DASHBOARD, '/crm/sales-pipeline'),
     'customer-service': path(ROOTS_DASHBOARD, '/crm/customer-service'),
     workflow: path(ROOTS_DASHBOARD, '/crm/workflow'),
   },

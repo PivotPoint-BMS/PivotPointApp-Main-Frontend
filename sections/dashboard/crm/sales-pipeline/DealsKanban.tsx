@@ -51,7 +51,7 @@ const INITIAL_TASKS: Deal[] = [
   },
 ]
 
-const KanbanColumnsList = () => {
+const DealsKanban = () => {
   const deals = INITIAL_TASKS
   const initialBoardSections = initializeBoard(INITIAL_TASKS)
   const [kanbanColumns, setKanbanColumns] = useState<KanbanColumsType>(initialBoardSections)
@@ -155,4 +155,4 @@ const KanbanColumnsList = () => {
   )
 }
 
-export default KanbanColumnsList
+export default DealsKanban

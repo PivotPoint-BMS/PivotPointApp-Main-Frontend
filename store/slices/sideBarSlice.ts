@@ -42,9 +42,9 @@ const initialState: SideBarConfig = {
         },
 
         {
-          name: 'Deals',
-          href: PATH_DASHBOARD.crm.deals,
-          icon: 'fa6-solid:handshake-simple',
+          name: 'Sales Pipeline',
+          href: PATH_DASHBOARD.crm['sales-pipeline'],
+          icon: 'icon-park-solid:sales-report',
           badge: {
             label: 'Soon',
           },
