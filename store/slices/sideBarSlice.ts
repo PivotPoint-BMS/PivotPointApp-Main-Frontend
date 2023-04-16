@@ -33,9 +33,9 @@ const initialState: SideBarConfig = {
       icon: 'fa6-solid:handshake',
       subItems: [
         {
-          name: 'Contact & Lead',
-          href: PATH_DASHBOARD.crm.contact,
-          icon: 'fluent:contact-card-20-filled',
+          name: 'Contacts & Leads',
+          href: PATH_DASHBOARD.crm['contacts-leads'],
+          icon: 'material-symbols:contact-page',
           badge: {
             label: 'Soon',
           },
