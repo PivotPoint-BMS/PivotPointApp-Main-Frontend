@@ -1,13 +1,13 @@
-import { ReactNode } from 'react'
-import clsx from 'clsx'
+import { ReactNode, useEffect, useState } from 'react'
 // next
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 // hooks
 import useTranslate from 'hooks/useTranslate'
+// types
+import { Lead } from 'types'
 // routes
 import { PATH_DASHBOARD } from 'routes/paths'
-// radix
-import * as TabsPrimitive from '@radix-ui/react-tabs'
 // components
 import DataTable, { TableColumn } from 'react-data-table-component'
 import { Icon as Iconify } from '@iconify/react'
@@ -16,51 +16,71 @@ import Card from '@/components/Card'
 import Checkbox from '@/components/Checkbox'
 import TextField from '@/components/TextField'
 import Button from '@/components/Button'
+import ToggleGroup from '@/components/ToggleGroup'
+import IconButton from '@/components/IconButton'
 
-const columns: TableColumn<{ id: number; title: string; year: string }>[] = [
+const columns: TableColumn<Lead>[] = [
   {
     name: 'Lead Name',
-    selector: (row) => row.title,
+    selector: (row) => row.FullName,
     sortable: true,
+    reorder: true,
   },
   {
     name: 'Contact',
-    selector: (row) => row.year,
+    cell: ({ Email, PhoneNumber }) => (
+      <div>
+        {Email} {PhoneNumber}
+      </div>
+    ),
     sortable: true,
+    reorder: true,
   },
   {
     name: 'Lead Status',
-    selector: (row) => row.year,
+    selector: (row) => row.Status,
     sortable: true,
+    reorder: true,
   },
   {
     name: 'Lead Source',
-    selector: (row) => row.year,
+    selector: (row) => (row.Email ? row.Email : 'None'),
     sortable: true,
+    reorder: true,
+  },
+  {
+    right: true,
+    cell: () => (
+      <IconButton>
+        <Iconify icon='material-symbols:more-vert' height={20} />
+      </IconButton>
+    ),
   },
 ]
 
-const data = [
+const data: Lead[] = [
   {
     id: 1,
-    title: 'Beetlejuice',
-    year: '1988',
+    FullName: 'Guendoui Yaniss',
+    PhoneNumber: '0542662874',
+    Status: 1,
   },
   {
     id: 2,
-    title: 'Ghostbusters',
-    year: '1984',
+    FullName: 'Zairi Aimen',
+    PhoneNumber: '0542662874',
+    Status: 1,
   },
-]
-
-const TABS = [
-  { name: 'Contact', value: '1' },
-  { name: 'Lead', value: '2' },
-  { name: 'Company', value: '3' },
 ]
 
 export default function index() {
   const { t } = useTranslate()
+  const { push, pathname, query } = useRouter()
+  const [view, setView] = useState(query?.view ? (query?.view as string) : 'list')
+
+  useEffect(() => {
+    push(pathname, { query: { view } })
+  }, [pathname, view])
 
   return (
     <>
@@ -76,80 +96,63 @@ export default function index() {
             { name: t('Lead') },
           ]}
           action={
-            <Button startIcon={<Iconify icon='ic:round-add' height={24} />}>
-              {t('Create Lead')}
-            </Button>
+            <div className='flex items-center justify-center gap-5'>
+              <ToggleGroup
+                type='single'
+                settings={[
+                  {
+                    icon: 'material-symbols:format-list-bulleted',
+                    label: 'List',
+                    value: 'list',
+                  },
+                  {
+                    icon: 'tabler:layout-kanban',
+                    label: 'Kanban',
+                    value: 'kanban',
+                  },
+                ]}
+                value={view}
+                onValueChange={(value) => {
+                  if (value.length > 0) setView(value)
+                }}
+              />
+              <Button startIcon={<Iconify icon='ic:round-add' height={24} />}>
+                {t('Create Contact')}
+              </Button>
+            </div>
           }
         />
         <Card fullWidth className='overflow-hidden'>
-          <TabsPrimitive.Root
-            defaultValue='1'
-            // dir={locale === 'ar' ? 'rtl' : 'ltr'}
-            className='overflow-hidden'
-          >
-            <TabsPrimitive.List className='flex w-full items-center gap-8 bg-gray-100 px-5'>
-              {TABS.map((item, i) => (
-                <TabsPrimitive.Trigger
-                  key={i}
-                  value={item.value}
-                  className={clsx(
-                    'relative flex cursor-pointer items-center justify-start gap-3 px-1 pt-3 pb-3 transition-all',
-                    'before:absolute before:bottom-0 before:h-[4px] before:w-full before:rounded-t-full before:bg-primary-600 before:transition-all ltr:before:left-0 rtl:before:right-0',
-                    'before:duration-500 data-[state=inactive]:before:w-0',
-                    'data-[state=inactive]:text-gray-600 dark:data-[state=inactive]:text-gray-400'
-                  )}
-                >
-                  <div className='flex w-max cursor-pointer items-center gap-2'>
-                    <label className='cursor-pointer text-sm font-medium'>{t(item.name)}</label>
-                  </div>
-                </TabsPrimitive.Trigger>
-              ))}
-            </TabsPrimitive.List>
-            <div className='flex items-center justify-center gap-6 p-3'>
-              <TextField
-                placeholder={t('Search...')}
-                startAdornment={
-                  <Iconify icon='ion:search-outline' height={24} className='text-gray-500' />
-                }
-                className='flex h-full'
-              />
-              <Button
-                size='large'
-                variant='outlined'
-                intent='default'
-                className='h-full'
-                startIcon={<Iconify icon='material-symbols:filter-list-rounded' height={20} />}
-              >
-                {t('Filters')}
-              </Button>
-            </div>
-            <div>
-              <TabsPrimitive.Content value='1' className='w-full'>
-                <DataTable
-                  columns={columns}
-                  data={data}
-                  selectableRows
-                  pagination
-                  highlightOnHover
-                  pointerOnHover
-                  selectableRowsComponent={Checkbox as unknown as ReactNode}
-                  onColumnOrderChange={(cols) => console.log(cols)}
-                />
-              </TabsPrimitive.Content>
-              <TabsPrimitive.Content value='2' className='w-full'>
-                <DataTable
-                  columns={columns}
-                  data={data}
-                  selectableRows
-                  pagination
-                  highlightOnHover
-                  pointerOnHover
-                  selectableRowsComponent={Checkbox as unknown as ReactNode}
-                  onColumnOrderChange={(cols) => console.log(cols)}
-                />
-              </TabsPrimitive.Content>
-            </div>
-          </TabsPrimitive.Root>
+          <div className='flex items-center justify-center gap-6 p-3'>
+            <TextField
+              placeholder={t('Search...')}
+              startAdornment={
+                <Iconify icon='ion:search-outline' height={24} className='text-gray-500' />
+              }
+              className='flex h-full'
+            />
+            <Button
+              size='large'
+              variant='outlined'
+              intent='default'
+              className='h-full'
+              startIcon={<Iconify icon='material-symbols:filter-list-rounded' height={20} />}
+            >
+              {t('Filters')}
+            </Button>
+          </div>
+          <div>
+            <DataTable
+              columns={columns}
+              data={data}
+              selectableRows
+              pagination
+              highlightOnHover
+              pointerOnHover
+              selectableRowsComponent={Checkbox as unknown as ReactNode}
+              sortIcon={<Iconify icon='typcn:arrow-sorted-down' />}
+            />
+          </div>
         </Card>
       </div>
     </>

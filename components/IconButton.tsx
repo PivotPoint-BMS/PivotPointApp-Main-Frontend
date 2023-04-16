@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 import { cva, VariantProps } from 'class-variance-authority'
 
-export const iconButton = cva('rounded-full flex items-start justify-center', {
+export const iconButton = cva('rounded-full flex items-start justify-center outline-none', {
   variants: {
     intent: {
       default: [

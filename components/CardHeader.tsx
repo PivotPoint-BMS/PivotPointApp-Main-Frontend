@@ -12,7 +12,7 @@ export default function CardHeader({ title, className, actions, ...other }: Card
       className={clsx('flex w-full items-center justify-between truncate p-4', className)}
       {...other}
     >
-      <h3 className='w-max font-semibold dark:text-white'>{title}</h3>
+      <h3 className='max-w-full whitespace-normal font-semibold dark:text-white'>{title}</h3>
       <div>{actions}</div>
     </div>
   )

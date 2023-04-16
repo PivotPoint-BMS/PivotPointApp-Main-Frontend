@@ -22,7 +22,7 @@ import { PATH_DASHBOARD } from 'routes/paths'
 // Components
 import Scrollbar from '@/components/Scrollbar'
 import NavItemOne from './NavItemOne'
-import NavItemTwo from './NavItemTwo'
+import SubNavItemTwo from './SubNavItemTwo'
 
 const getSubItems = (items: NavItemConfig[], path: string) => {
   const activePath = path.split('/')[2]
@@ -141,7 +141,7 @@ function SideBar() {
             <Scrollbar tabIndex={-1} className='h-full px-5 pb-10' style={{ maxHeight: '100vh' }}>
               <div className='flex flex-col gap-4'>
                 {subItems.map(({ name, href, icon, badge, disabled }, i) => (
-                  <NavItemTwo
+                  <SubNavItemTwo
                     key={i}
                     name={t(name)}
                     href={href}

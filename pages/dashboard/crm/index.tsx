@@ -5,7 +5,11 @@ import Head from 'next/head'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // sections
-import { CustomerSatisfaction, Sales, TopCustomerComplaints } from 'sections/dashboard/crm/dashbord'
+import {
+  CustomerSatisfaction,
+  Conversions,
+  TopCustomerComplaints,
+} from 'sections/dashboard/crm/dashbord'
 // components
 import HeaderBreadcrumbs from '@/components/HeaderBreadcrumbs'
 import Card from '@/components/Card'
@@ -22,28 +26,34 @@ export default function index() {
       </Head>
       <div className='flex max-w-full flex-col overflow-hidden px-5'>
         <HeaderBreadcrumbs heading={t('Customer Relationship')} />
-        <div className='grid grid-cols-1 items-center gap-6 md:grid-cols-3'>
-          <Card fullWidth>
-            <CardHeader title={t('Customers')} />
+        <div className='grid grid-cols-1 items-center gap-6 sm:grid-cols-2 md:grid-cols-4'>
+          <Card fullWidth className='h-full'>
+            <CardHeader title={t('Contacts')} />
             <CardContent>
               <h6 className='text-3xl font-semibold'>10</h6>
             </CardContent>
           </Card>
-          <Card fullWidth>
-            <CardHeader title={t('New Customers')} />
+          <Card fullWidth className='h-full'>
+            <CardHeader title={t('Leads')} />
             <CardContent>
               <h6 className='text-3xl font-semibold'>10</h6>
             </CardContent>
           </Card>
-          <Card fullWidth>
-            <CardHeader title={t('Average customer lifetime value')} />
+          <Card fullWidth className='h-full'>
+            <CardHeader title={t('Successful Conversions')} />
+            <CardContent>
+              <h6 className='text-3xl font-semibold'>10</h6>
+            </CardContent>
+          </Card>
+          <Card fullWidth className='h-full'>
+            <CardHeader title={t('Failed Conversions')} />
             <CardContent>
               <h6 className='text-3xl font-semibold'>10</h6>
             </CardContent>
           </Card>
           <CustomerSatisfaction />
           <TopCustomerComplaints />
-          <Sales />
+          <Conversions />
         </div>
       </div>
     </>

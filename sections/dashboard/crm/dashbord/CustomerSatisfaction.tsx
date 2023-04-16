@@ -7,8 +7,9 @@ import Card from '@/components/Card'
 import CardContent from '@/components/CardContent'
 import CardHeader from '@/components/CardHeader'
 import ReactApexChart, { BaseOptionChart } from '@/components/chart'
+import Badge from '@/components/Badge'
 
-const CHART_DATA = [{ data: [10, 41, 35, 51, 49, 62, 69, 91, 148] }]
+const CHART_DATA = [{ name: 'Customer Satisfaction', data: [10, 41, 35, 51, 49, 62, 69, 91, 99] }]
 
 export default function CustomerSatisfaction() {
   const { t } = useTranslate()
@@ -18,8 +19,11 @@ export default function CustomerSatisfaction() {
     },
   })
   return (
-    <Card fullWidth className='md:col-span-2'>
-      <CardHeader title={t('Customer Satisfaction')} />
+    <Card fullWidth className='sm:col-span-2 md:col-span-4'>
+      <CardHeader
+        title={t('Customer Satisfaction')}
+        actions={<Badge label='Beta' intent='warning' />}
+      />
       <CardContent>
         <ReactApexChart
           type='line'

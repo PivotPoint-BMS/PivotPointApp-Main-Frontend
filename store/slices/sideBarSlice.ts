@@ -40,14 +40,7 @@ const initialState: SideBarConfig = {
             label: 'Soon',
           },
         },
-        {
-          name: 'Accounts',
-          href: PATH_DASHBOARD.crm.accounts,
-          icon: 'material-symbols:manage-accounts',
-          badge: {
-            label: 'Soon',
-          },
-        },
+
         {
           name: 'Deals',
           href: PATH_DASHBOARD.crm.deals,
@@ -60,6 +53,7 @@ const initialState: SideBarConfig = {
           name: 'Workflow',
           href: PATH_DASHBOARD.crm.workflow,
           icon: 'material-symbols:account-tree-rounded',
+          disabled: true,
           badge: {
             label: 'Soon',
           },
@@ -68,6 +62,7 @@ const initialState: SideBarConfig = {
           name: 'Customer Service',
           href: PATH_DASHBOARD.crm['customer-service'],
           icon: 'ri:customer-service-2-fill',
+          disabled: true,
           badge: {
             label: 'Soon',
           },
@@ -80,9 +75,19 @@ const initialState: SideBarConfig = {
       icon: 'mdi:account-group',
       subItems: [
         {
+          name: 'Accounts',
+          href: PATH_DASHBOARD.crm.accounts,
+          icon: 'material-symbols:manage-accounts',
+          disabled: true,
+          badge: {
+            label: 'Soon',
+          },
+        },
+        {
           name: 'Recruitment',
           href: PATH_DASHBOARD.hrm.recruitment,
           icon: 'fa6-solid:users-gear',
+          disabled: true,
           badge: {
             label: 'Soon',
           },
@@ -91,6 +96,7 @@ const initialState: SideBarConfig = {
           name: 'Payroll',
           href: PATH_DASHBOARD.hrm.payroll,
           icon: 'material-symbols:payments-outline-rounded',
+          disabled: true,
           badge: {
             label: 'Soon',
           },
@@ -122,6 +128,7 @@ const initialState: SideBarConfig = {
           name: 'Project Planning',
           href: PATH_DASHBOARD.pm.planning,
           icon: 'icon-park-solid:schedule',
+          disabled: true,
           badge: {
             label: 'Soon',
           },
@@ -130,6 +137,7 @@ const initialState: SideBarConfig = {
           name: 'Tracking',
           href: PATH_DASHBOARD.pm.tracking,
           icon: 'material-symbols:timer-rounded',
+          disabled: true,
           badge: {
             label: 'Soon',
           },
@@ -138,6 +146,7 @@ const initialState: SideBarConfig = {
           name: 'Product Building Pipelines',
           href: PATH_DASHBOARD.pm.pipelines,
           icon: 'ph:tree-structure-fill',
+          disabled: true,
           badge: {
             label: 'Soon',
           },
@@ -153,6 +162,7 @@ const initialState: SideBarConfig = {
           name: 'Product/Service',
           href: PATH_DASHBOARD.im['product-service'],
           icon: 'fa6-solid:boxes-stacked',
+          disabled: true,
           badge: {
             label: 'Soon',
           },
@@ -168,6 +178,7 @@ const initialState: SideBarConfig = {
           name: 'Monitoring & Planning',
           href: PATH_DASHBOARD.scm.monitoring,
           icon: 'material-symbols:monitor-heart-rounded',
+          disabled: true,
           badge: {
             label: 'Soon',
           },
@@ -176,6 +187,7 @@ const initialState: SideBarConfig = {
           name: 'Warehousing',
           href: PATH_DASHBOARD.scm.warehousing,
           icon: 'fa6-solid:warehouse',
+          disabled: true,
           badge: {
             label: 'Soon',
           },
@@ -184,6 +196,7 @@ const initialState: SideBarConfig = {
           name: 'Transportation',
           href: PATH_DASHBOARD.scm.transportation,
           icon: 'fluent:vehicle-truck-profile-20-filled',
+          disabled: true,
           badge: {
             label: 'Soon',
           },
@@ -192,6 +205,7 @@ const initialState: SideBarConfig = {
           name: 'Demand Forecasting',
           href: PATH_DASHBOARD.scm['demand-forecasting'],
           icon: 'material-symbols:batch-prediction',
+          disabled: true,
           badge: {
             label: 'Soon',
           },
@@ -207,6 +221,7 @@ const initialState: SideBarConfig = {
           name: 'Cash',
           href: PATH_DASHBOARD.fm.cash,
           icon: 'ion:cash',
+          disabled: true,
           badge: {
             label: 'Soon',
           },
@@ -215,6 +230,7 @@ const initialState: SideBarConfig = {
           name: 'Expenses & Incomes',
           href: PATH_DASHBOARD.fm['expences-incomes'],
           icon: 'fa6-solid:money-bill-transfer',
+          disabled: true,
           badge: {
             label: 'Soon',
           },
@@ -223,6 +239,7 @@ const initialState: SideBarConfig = {
           name: 'Funding',
           href: PATH_DASHBOARD.fm.funding,
           icon: 'icon-park-outline:funds',
+          disabled: true,
           badge: {
             label: 'Soon',
           },
@@ -231,6 +248,7 @@ const initialState: SideBarConfig = {
           name: 'Asset',
           href: PATH_DASHBOARD.fm.assets,
           icon: 'material-symbols:real-estate-agent-rounded',
+          disabled: true,
           badge: {
             label: 'Soon',
           },
@@ -239,6 +257,7 @@ const initialState: SideBarConfig = {
           name: 'Risk',
           href: PATH_DASHBOARD.fm.risk,
           icon: 'jam:triangle-danger-f',
+          disabled: true,
           badge: {
             label: 'Soon',
           },
@@ -247,6 +266,7 @@ const initialState: SideBarConfig = {
           name: 'Tax',
           href: PATH_DASHBOARD.fm.tax,
           icon: 'majesticons:money-hand',
+          disabled: true,
           badge: {
             label: 'Soon',
           },
@@ -255,6 +275,7 @@ const initialState: SideBarConfig = {
           name: 'Invoice',
           href: PATH_DASHBOARD.fm.invoice,
           icon: 'fa6-solid:file-invoice',
+          disabled: true,
           badge: {
             label: 'Soon',
           },

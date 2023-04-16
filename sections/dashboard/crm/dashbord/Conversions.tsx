@@ -9,11 +9,11 @@ import CardHeader from '@/components/CardHeader'
 import ReactApexChart, { BaseOptionChart } from '@/components/chart'
 
 const CHART_DATA = [
-  { name: 'Total Income', data: [10, 41, 35, 151, 49, 62, 69, 91, 48] },
-  { name: 'Total Expenses', data: [10, 34, 13, 56, 77, 88, 99, 77, 45] },
+  { name: 'Successfull Conversions', data: [10, 41, 35, 151, 49, 62, 69, 91, 48] },
+  { name: 'Failed Conversions', data: [10, 34, 13, 56, 77, 88, 99, 77, 45] },
 ]
 
-export default function Sales() {
+export default function Conversions() {
   const { t } = useTranslate()
 
   const chartOptions = merge(BaseOptionChart(), {
@@ -24,8 +24,8 @@ export default function Sales() {
   })
 
   return (
-    <Card fullWidth className='md:col-span-3'>
-      <CardHeader title={t('Sales')} />
+    <Card fullWidth className='sm:col-span-2 md:col-span-4'>
+      <CardHeader title={t('Conversions')} />
       <CardContent>
         <ReactApexChart
           type='area'
