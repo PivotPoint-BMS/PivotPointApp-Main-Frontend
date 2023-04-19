@@ -52,7 +52,10 @@ export default function RHFTextField({
         <div className='group flex w-full flex-col gap-1'>
           <label
             htmlFor={name}
-            className={clsx('text-sm font-medium dark:text-white', error && 'text-red-500')}
+            className={clsx(
+              'text-sm font-medium text-gray-800 dark:text-gray-200',
+              error && 'text-red-500'
+            )}
           >
             {label}
           </label>

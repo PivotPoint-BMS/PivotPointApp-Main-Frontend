@@ -34,7 +34,7 @@ const initialState: SideBarConfig = {
       subItems: [
         {
           name: 'Contacts & Leads',
-          href: PATH_DASHBOARD.crm['contacts-leads'],
+          href: PATH_DASHBOARD.crm['contacts-leads'].root,
           icon: 'material-symbols:contact-page',
           badge: {
             label: 'Soon',

@@ -4,18 +4,22 @@ import { authApi } from './api/authApi'
 import { humanResourceApi } from './api/humanResourceApi'
 import sideBarSlice from './slices/sideBarSlice'
 import sessionSlice from './slices/sessionSlice'
+import leadPreview from './slices/leadPreviewSlice'
 import { companyApi } from './api/companyApi'
 import { paymentApi } from './api/paymentApi'
+import { crmApi } from './api/crm/crmApis'
 
 export const makeStore = () =>
   configureStore({
     reducer: {
       [sessionSlice.name]: sessionSlice.reducer,
       [sideBarSlice.name]: sideBarSlice.reducer,
+      [leadPreview.name]: leadPreview.reducer,
       [authApi.reducerPath]: authApi.reducer,
       [humanResourceApi.reducerPath]: humanResourceApi.reducer,
       [companyApi.reducerPath]: companyApi.reducer,
       [paymentApi.reducerPath]: paymentApi.reducer,
+      [crmApi.reducerPath]: crmApi.reducer,
     },
     devTools: process.env.NODE_ENV === 'development',
     middleware: (gDM) =>
@@ -23,7 +27,8 @@ export const makeStore = () =>
         humanResourceApi.middleware,
         authApi.middleware,
         companyApi.middleware,
-        paymentApi.middleware
+        paymentApi.middleware,
+        crmApi.middleware
       ),
   })
 

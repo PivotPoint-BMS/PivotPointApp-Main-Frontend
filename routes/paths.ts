@@ -42,7 +42,11 @@ export const PATH_DASHBOARD = {
   },
   crm: {
     root: path(ROOTS_DASHBOARD, '/crm'),
-    'contacts-leads': path(ROOTS_DASHBOARD, '/crm/contacts-leads'),
+    'contacts-leads': {
+      root: path(ROOTS_DASHBOARD, '/crm/contacts-leads'),
+      create: path(ROOTS_DASHBOARD, '/crm/contacts-leads/create'),
+      lead: (id?: string) => `${path(ROOTS_DASHBOARD, '/crm/contacts-leads/lead')}/${id}`,
+    },
     accounts: path(ROOTS_DASHBOARD, '/crm/accounts'),
     'sales-pipeline': path(ROOTS_DASHBOARD, '/crm/sales-pipeline'),
     'customer-service': path(ROOTS_DASHBOARD, '/crm/customer-service'),

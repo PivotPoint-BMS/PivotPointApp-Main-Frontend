@@ -2,7 +2,7 @@ import React from 'react'
 import { cva, VariantProps } from 'class-variance-authority'
 
 export const badgeContained = cva(
-  'flex w-max items-center text-xs rounded-full py-1 font-semibold select-none',
+  'flex truncate w-max items-center justify-center text-xs rounded-full py-1 font-semibold select-none',
   {
     variants: {
       intent: {
@@ -12,6 +12,7 @@ export const badgeContained = cva(
         info: 'bg-blue-200/80 text-blue-900 dark:text-blue-100 dark:bg-blue-500/20',
         warning: 'bg-orange-200/80 text-orange-900 dark:text-orange-100 dark:bg-orange-500/20',
         error: 'bg-red-200/80 text-red-900 dark:text-red-100 dark:bg-red-500/20',
+        default: 'bg-black/20 text-black dark:text-white dark:bg-whitext-white/20',
       },
       size: {
         small: 'px-2 h-6',
@@ -25,31 +26,63 @@ export const badgeContained = cva(
   }
 )
 
-export const badgeOutlined = cva('w-max text-xs rounded-full py-1 font-semibold select-none', {
-  variants: {
-    intent: {
-      primary: 'border-2 border-primary-400 text-primary-600 dark:text-primary-100',
-      secondary: 'border-2 border-secondary-400 text-secondary-600 dark:text-secondary-100',
-      info: 'border-2 border-blue-400 text-blue-600 dark:text-blue-100',
-      warning: 'border-2 border-orange-400 text-orange-600 dark:text-orange-100',
-      error: 'border-2 border-red-400 text-red-600 dark:text-red-100',
-    },
+export const badgeOutlined = cva(
+  'flex truncate items-center w-max text-xs rounded-full py-1 font-semibold select-none',
+  {
+    variants: {
+      intent: {
+        primary: 'border border-primary-400 text-primary-600 dark:text-primary-100',
+        secondary: 'border border-secondary-400 text-secondary-600 dark:text-secondary-100',
+        info: 'border border-blue-400 text-blue-600 dark:text-blue-100',
+        warning: 'border border-orange-400 text-orange-600 dark:text-orange-100',
+        error: 'border border-red-400 text-red-600 dark:text-red-100',
+        default: 'border border-black text-black dark:text-white dark:border-white',
+      },
 
-    size: {
-      small: 'px-2 h-6',
-      medium: 'px-2 h-8',
+      size: {
+        small: 'px-2 h-6',
+        medium: 'px-2 h-8',
+      },
     },
-  },
-  defaultVariants: {
-    intent: 'primary',
-    size: 'small',
-  },
-})
+    defaultVariants: {
+      intent: 'primary',
+      size: 'small',
+    },
+  }
+)
+
+export const badgeGhost = cva(
+  'flex truncate items-start justify-center w-max rounded-full py-1 font-semibold select-none',
+  {
+    variants: {
+      intent: {
+        primary:
+          'border border-primary-400 bg-primary-400/20 text-primary-600 dark:text-primary-100',
+        secondary:
+          'border border-secondary-400 bg-secondary-400/20 text-secondary-600 dark:text-secondary-100',
+        info: 'border border-blue-400 bg-blue-400/20 text-blue-600 dark:text-blue-100',
+        warning: 'border border-orange-400 bg-orange-400/20 text-orange-600 dark:text-orange-100',
+        error: 'border border-red-400 bg-red-400/20 text-red-600 dark:text-red-100',
+        default:
+          'border border-black bg-black/10 text-black dark:text-white dark:border-white dark:bg-white/10',
+      },
+
+      size: {
+        small: 'px-2 text-xs',
+        medium: 'px-2 text-[13px]',
+      },
+    },
+    defaultVariants: {
+      intent: 'primary',
+      size: 'small',
+    },
+  }
+)
 
 export interface BadgeProps
   extends React.HTMLAttributes<HTMLSpanElement>,
     VariantProps<typeof badgeContained & typeof badgeOutlined> {
-  variant?: 'contained' | 'outlined'
+  variant?: 'contained' | 'outlined' | 'ghost'
   icon?: React.ReactNode
   label: string
 }
@@ -63,17 +96,24 @@ export default function Badge({
   label,
   ...props
 }: BadgeProps) {
+  if (variant === 'ghost')
+    return (
+      <span {...props} className={badgeGhost({ intent, size, class: className })}>
+        {icon && <span className='ltr:mr-2 rtl:ml-2'>{icon}</span>}
+        {label}
+      </span>
+    )
+  if (variant === 'outlined')
+    return (
+      <span {...props} className={badgeOutlined({ intent, size, class: className })}>
+        {icon && <span className='ltr:mr-2 rtl:ml-2'>{icon}</span>}
+        {label}
+      </span>
+    )
   return (
-    <span
-      {...props}
-      className={
-        variant === 'contained'
-          ? badgeContained({ intent, size, class: className })
-          : badgeOutlined({ intent, size, class: className })
-      }
-    >
+    <span {...props} className={badgeContained({ intent, size, class: className })}>
       {icon && <span className='ltr:mr-2 rtl:ml-2'>{icon}</span>}
-      <p className='truncate'>{label}</p>
+      {label}
     </span>
   )
 }

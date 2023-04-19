@@ -15,6 +15,10 @@ export const buttonContained = cva(
           'bg-secondary-500 hover:bg-secondary-700 transition-all text-white active:bg-secondary-400',
           'dark:bg-secondary-600 dark:hover:bg-secondary-700/70 dark:active:bg-secondary-500',
         ],
+        error: [
+          'bg-red-500 hover:bg-red-700 transition-all text-white active:bg-red-400',
+          'dark:bg-red-600 dark:hover:bg-red-700/70 dark:active:bg-red-500',
+        ],
         default: [
           'bg-gray-300 hover:bg-gray-400 transition-all active:bg-gray-200',
           ' dark:bg-gray-200 text-black dark:hover:bg-gray-400 dark:active:bg-gray-100',
@@ -53,6 +57,10 @@ export const buttonOutlined = cva(
           'border-secondary-200 text-secondary-600 hover:border-secondary-600 hover:bg-secondary-600/10 active:bg-secondary-600/30',
           'dark:border-secondary-600 dark:text-secondary-200 dark:hover:border-secondary-200 dark:hover:bg-secondary-400/10 dark:active:bg-secondary-400/30',
         ],
+        error: [
+          'border-red-300 text-red-600 hover:border-red-600 hover:bg-red-600/10 active:bg-red-600/30',
+          'dark:border-red-600 dark:text-red-400 dark:hover:border-red-200 dark:hover:bg-red-400/10 dark:active:bg-secondary-400/30',
+        ],
         default: [
           'border-gray-400 text-gray-900 hover:bg-gray-600/10 hover:border-black active:bg-gray-600/40',
           'dark:border-gray-500 dark:text-white dark:hover:bg-gray-500/25 dark:hover:border-white dark:active:bg-gray-400/50 dark:focus:outline-gray-900',
@@ -87,6 +95,10 @@ export const buttonText = cva(
         secondary: [
           'text-secondary-600 hover:bg-secondary-600/10 active:bg-secondary-600/30',
           'dark:text-secondary-200 dark:hover:bg-secondary-400/10',
+        ],
+        error: [
+          'text-red-600 hover:bg-red-600/10 active:bg-red-600/30',
+          'dark:text-red-400 dark:hover:bg-red-400/10',
         ],
         default: [
           'text-gray-900 hover:bg-gray-600/10  active:bg-gray-600/40',
@@ -140,7 +152,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const getVariant = (
       classProps:
         | ({
-            intent?: 'primary' | 'secondary' | 'default' | null | undefined
+            intent?: 'primary' | 'secondary' | 'error' | 'default' | null | undefined
             size?: 'small' | 'medium' | 'large' | null | undefined
             disabled?: boolean | null | undefined
           } & ClassProp)

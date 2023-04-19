@@ -67,6 +67,7 @@ const data: Contact[] = [
 
 export default function ContactsList() {
   const { t } = useTranslate()
+
   return (
     <>
       <div className='flex items-center justify-center gap-6 p-3'>
