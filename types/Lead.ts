@@ -1,8 +1,20 @@
+export interface Address {
+  city: string
+  country: string
+}
+export interface LeadSource {
+  source: string
+  sourceLink?: string
+}
 export default interface Lead {
-  id: number
-  FullName: string
-  Email?: string
-  PhoneNumber?: string
-  JobTitle?: string
-  Status: number
+  id: string
+  imageFile?: string
+  fullName: string
+  email: string
+  phoneNumber: string
+  jobTitle?: string
+  priority?: number
+  status: number
+  source?: LeadSource
+  address?: Address
 }
