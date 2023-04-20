@@ -3,7 +3,7 @@ import React, { ReactNode, useState } from 'react'
 import useTranslate from 'hooks/useTranslate'
 // redux
 import { useAppDispatch } from 'store/hooks'
-import { previewLead } from 'store/slices/contactPreviewSlice'
+import { previewContact } from 'store/slices/contactPreviewSlice'
 // types
 import { Contact } from 'types'
 // asset
@@ -19,7 +19,6 @@ import Checkbox from '@/components/Checkbox'
 import ContactTableToolbar from './ContactTableToolbar'
 import DropdownMenu from '@/components/DropdownMenu'
 import IconButton from '@/components/IconButton'
-import { previewContact } from 'store/slices/contactPreviewSlice'
 import ContactPreview from './ContactPreview'
 
 const columns: TableColumn<Contact>[] = [

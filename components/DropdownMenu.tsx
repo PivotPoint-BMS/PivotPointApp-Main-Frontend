@@ -30,7 +30,7 @@ const RenderItems = (
         onCheckedChange={onCheckedChange}
         className={clsx(
           'flex w-full cursor-default select-none items-center rounded-md px-2 py-2 text-xs outline-none',
-          'font-medium focus:bg-gray-200 dark:text-gray-500 dark:focus:bg-gray-900'
+          ' focus:bg-gray-200 dark:focus:bg-gray-900'
         )}
       >
         <div>{icon}</div>
@@ -46,7 +46,7 @@ const RenderItems = (
         <DropdownMenuPrimitive.SubTrigger
           className={clsx(
             'flex w-full cursor-default select-none items-center gap-2 rounded-md px-2 py-2 text-xs outline-none',
-            'font-medium focus:bg-gray-200 dark:text-gray-500 dark:focus:bg-gray-900',
+            ' focus:bg-gray-200 dark:focus:bg-gray-900',
             className
           )}
         >
@@ -117,7 +117,7 @@ const RenderItems = (
       key={`${label?.toLowerCase()}-${i}`}
       className={clsx(
         'flex cursor-default select-none items-center gap-2 rounded-md px-2 py-2 text-xs outline-none',
-        'font-medium focus:bg-gray-200 dark:text-gray-500 dark:focus:bg-gray-900',
+        ' focus:bg-gray-200 dark:focus:bg-gray-900',
         className
       )}
       onClick={onClick}
