@@ -11,9 +11,8 @@ import useTranslate from 'hooks/useTranslate'
 // routes
 import { PATH_DASHBOARD } from 'routes/paths'
 // sections
-import ContactsList from 'sections/dashboard/crm/contacts-leads/ContactsList'
-import LeadsList from 'sections/dashboard/crm/contacts-leads/leadsList'
-import LeadPreview from 'sections/dashboard/crm/contacts-leads/leadsList/LeadPreview'
+import ContactsList from 'sections/dashboard/crm/contacts-leads/contacts-list'
+import LeadsList from 'sections/dashboard/crm/contacts-leads/leads-list'
 // components
 import { Icon as Iconify } from '@iconify/react'
 import HeaderBreadcrumbs from '@/components/HeaderBreadcrumbs'
@@ -89,7 +88,6 @@ export default function index() {
             </TabsPrimitive.Content>
           </TabsPrimitive.Root>
         </Card>
-        <LeadPreview />
       </div>
     </>
   )

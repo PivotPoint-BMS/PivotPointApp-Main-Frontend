@@ -1,10 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { createWrapper } from 'next-redux-wrapper'
-import { authApi } from './api/authApi'
-import { humanResourceApi } from './api/humanResourceApi'
+// slices
 import sideBarSlice from './slices/sideBarSlice'
 import sessionSlice from './slices/sessionSlice'
-import leadPreview from './slices/leadPreviewSlice'
+import leadPreviewSlice from './slices/leadPreviewSlice'
+import contactPreviewSlice from './slices/contactPreviewSlice'
+// apis
+import { authApi } from './api/authApi'
+import { humanResourceApi } from './api/humanResourceApi'
 import { companyApi } from './api/companyApi'
 import { paymentApi } from './api/paymentApi'
 import { crmApi } from './api/crm/crmApis'
@@ -14,7 +17,8 @@ export const makeStore = () =>
     reducer: {
       [sessionSlice.name]: sessionSlice.reducer,
       [sideBarSlice.name]: sideBarSlice.reducer,
-      [leadPreview.name]: leadPreview.reducer,
+      [leadPreviewSlice.name]: leadPreviewSlice.reducer,
+      [contactPreviewSlice.name]: contactPreviewSlice.reducer,
       [authApi.reducerPath]: authApi.reducer,
       [humanResourceApi.reducerPath]: humanResourceApi.reducer,
       [companyApi.reducerPath]: companyApi.reducer,

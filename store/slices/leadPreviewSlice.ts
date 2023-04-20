@@ -14,7 +14,7 @@ const initialState: LeadPreview = {
   isOpen: false,
 }
 
-const leadPreview = createSlice({
+const leadPreviewSlice = createSlice({
   name: 'leadPreview',
   initialState,
   reducers: {
@@ -29,6 +29,6 @@ const leadPreview = createSlice({
   },
 })
 
-export const { closePreviewLead, previewLead } = leadPreview.actions
+export const { closePreviewLead, previewLead } = leadPreviewSlice.actions
 
-export default leadPreview
+export default leadPreviewSlice

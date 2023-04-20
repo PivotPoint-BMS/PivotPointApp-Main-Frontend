@@ -3,25 +3,28 @@ import React, { ReactNode, useState } from 'react'
 import useTranslate from 'hooks/useTranslate'
 // redux
 import { useAppDispatch } from 'store/hooks'
-import { previewLead } from 'store/slices/leadPreviewSlice'
+import { previewLead } from 'store/slices/contactPreviewSlice'
 // types
-import { Lead } from 'types'
+import { Contact } from 'types'
 // asset
 import avatarPlaceholder from 'public/avatar_placeholder.png'
 // components
 import DataTable, { TableColumn } from 'react-data-table-component'
 import { Icon as Iconify } from '@iconify/react'
+import Image from '@/components/Image'
+import Badge from '@/components/Badge'
 import TextField from '@/components/TextField'
 import Button from '@/components/Button'
-import IconButton from '@/components/IconButton'
 import Checkbox from '@/components/Checkbox'
-import Badge from '@/components/Badge'
-import Image from '@/components/Image'
-import LeadTableToolbar from './LeadTableToolbar'
+import ContactTableToolbar from './ContactTableToolbar'
+import DropdownMenu from '@/components/DropdownMenu'
+import IconButton from '@/components/IconButton'
+import { previewContact } from 'store/slices/contactPreviewSlice'
+import ContactPreview from './ContactPreview'
 
-const columns: TableColumn<Lead>[] = [
+const columns: TableColumn<Contact>[] = [
   {
-    name: 'Lead Name',
+    name: 'Contact Name',
     cell: ({ fullName }) => (
       <div className='flex items-center gap-2'>
         <div>
@@ -44,14 +47,18 @@ const columns: TableColumn<Lead>[] = [
   {
     name: 'Contact',
     cell: ({ email, phoneNumber }) => (
-      <div className='flex flex-col gap-2 py-2'>
+      <div className='flex w-full flex-col gap-2 truncate py-2'>
         <p className='hyphens  flex items-center gap-1 truncate'>
-          <Iconify icon='material-symbols:mail-rounded' height={18} className='text-gray-500' />{' '}
-          {email}{' '}
+          <div>
+            <Iconify icon='material-symbols:mail-rounded' height={18} className='text-gray-500' />{' '}
+          </div>
+          <span className='truncate'>{email} </span>
         </p>
         <p className='flex items-center gap-1 truncate'>
-          <Iconify icon='material-symbols:call' height={18} className='text-gray-500' />{' '}
-          {phoneNumber}{' '}
+          <div>
+            <Iconify icon='material-symbols:call' height={18} className='text-gray-500' />{' '}
+          </div>
+          <span className='truncate'>{phoneNumber} </span>
         </p>
       </div>
     ),
@@ -60,7 +67,7 @@ const columns: TableColumn<Lead>[] = [
     grow: 2,
   },
   {
-    name: 'Lead status',
+    name: 'Contact status',
     cell: ({ status }) => {
       if (status === 0) return <Badge variant='ghost' intent='info' size='medium' label='New' />
       if (status === 1) return <Badge variant='ghost' intent='warning' size='medium' label='Open' />
@@ -73,7 +80,7 @@ const columns: TableColumn<Lead>[] = [
     grow: 0.8,
   },
   {
-    name: 'Lead Source',
+    name: 'Contact Source',
     cell: ({ source }) =>
       source?.source ? (
         <Badge
@@ -92,14 +99,36 @@ const columns: TableColumn<Lead>[] = [
   {
     right: true,
     cell: () => (
-      <IconButton>
-        <Iconify icon='material-symbols:more-vert' height={20} />
-      </IconButton>
+      <DropdownMenu
+        trigger={
+          <IconButton>
+            <Iconify icon='material-symbols:more-vert' height={20} />
+          </IconButton>
+        }
+        items={[
+          {
+            type: 'button',
+            label: 'View Details',
+            icon: <Iconify icon='mingcute:external-link-fill' height={18} />,
+          },
+          {
+            type: 'button',
+            label: 'Edit',
+            icon: <Iconify icon='material-symbols:edit' height={18} />,
+          },
+          {
+            type: 'button',
+            label: 'Delete',
+            icon: <Iconify icon='material-symbols:delete-rounded' height={18} />,
+            className: 'text-red-600',
+          },
+        ]}
+      />
     ),
   },
 ]
 
-const data: Lead[] = [
+const data: Contact[] = [
   {
     id: '1',
     fullName: 'Guendoui Yaniss',
@@ -129,10 +158,10 @@ const data: Lead[] = [
   },
 ]
 
-export default function LeadsList() {
+export default function ContactsList() {
   const { t } = useTranslate()
   const dispatch = useAppDispatch()
-  const [selectedRows, setSelectedRows] = useState<Lead[]>([])
+  const [selectedRows, setSelectedRows] = useState<Contact[]>([])
   const [selectedCount, setSelectedCount] = useState(0)
 
   return (
@@ -172,10 +201,11 @@ export default function LeadsList() {
           }}
           selectableRowsComponent={Checkbox as unknown as ReactNode}
           sortIcon={<Iconify icon='typcn:arrow-sorted-down' />}
-          onRowDoubleClicked={(lead) => dispatch(previewLead(lead))}
+          onRowDoubleClicked={(contact) => dispatch(previewContact(contact))}
         />
       </div>
-      <LeadTableToolbar selectedCount={selectedCount} />
+      <ContactTableToolbar selectedCount={selectedCount} />
+      <ContactPreview />
     </>
   )
 }
