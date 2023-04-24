@@ -21,108 +21,6 @@ import LeadTableToolbar from './LeadTableToolbar'
 import DropdownMenu from '@/components/DropdownMenu'
 import LeadPreview from './LeadPreview'
 
-const columns: TableColumn<Lead>[] = [
-  {
-    name: 'Lead Name',
-    cell: ({ fullName }) => (
-      <div className='flex items-center gap-2'>
-        <div>
-          <Image
-            alt='avatar'
-            width={30}
-            height={30}
-            src={avatarPlaceholder.src}
-            className='rounded-full'
-          />
-        </div>
-
-        <p className='text-sm font-medium'>{fullName}</p>
-      </div>
-    ),
-    grow: 1.5,
-    sortable: true,
-    reorder: true,
-  },
-  {
-    name: 'Contact',
-    cell: ({ email, phoneNumber }) => (
-      <div className='flex flex-col gap-2 py-2'>
-        <p className='hyphens  flex items-center gap-1 truncate'>
-          <Iconify icon='material-symbols:mail-rounded' height={18} className='text-gray-500' />{' '}
-          {email}{' '}
-        </p>
-        <p className='flex items-center gap-1 truncate'>
-          <Iconify icon='material-symbols:call' height={18} className='text-gray-500' />{' '}
-          {phoneNumber}{' '}
-        </p>
-      </div>
-    ),
-    sortable: true,
-    reorder: true,
-    grow: 2,
-  },
-  {
-    name: 'Lead status',
-    cell: ({ status }) => {
-      if (status === 0) return <Badge variant='ghost' intent='info' size='medium' label='New' />
-      if (status === 1) return <Badge variant='ghost' intent='warning' size='medium' label='Open' />
-      if (status === 2)
-        return <Badge variant='ghost' intent='secondary' size='medium' label='In Progress' />
-      return <Badge variant='ghost' size='medium' label='Closed' />
-    },
-    sortable: true,
-    reorder: true,
-    grow: 0.8,
-  },
-  {
-    name: 'Lead Source',
-    cell: ({ source }) =>
-      source?.source ? (
-        <Badge
-          variant='ghost'
-          intent='default'
-          size='medium'
-          label={source?.source}
-          className='capitalize'
-        />
-      ) : (
-        <Badge variant='ghost' intent='error' size='medium' label='None' />
-      ),
-    sortable: true,
-    reorder: true,
-  },
-  {
-    right: true,
-    cell: () => (
-      <DropdownMenu
-        trigger={
-          <IconButton>
-            <Iconify icon='material-symbols:more-vert' height={20} />
-          </IconButton>
-        }
-        items={[
-          {
-            type: 'button',
-            label: 'View Details',
-            icon: <Iconify icon='mingcute:external-link-fill' height={18} />,
-          },
-          {
-            type: 'button',
-            label: 'Edit',
-            icon: <Iconify icon='material-symbols:edit' height={18} />,
-          },
-          {
-            type: 'button',
-            label: 'Delete',
-            icon: <Iconify icon='material-symbols:delete-rounded' height={18} />,
-            className: 'text-red-600',
-          },
-        ]}
-      />
-    ),
-  },
-]
-
 const data: Lead[] = [
   {
     id: '1',
@@ -151,6 +49,36 @@ const data: Lead[] = [
       source: 'store',
     },
   },
+  {
+    id: '1',
+    fullName: 'Guendoui Yaniss',
+    phoneNumber: '0542662874',
+    status: 4,
+    email: 'guendouizyaniss@gmail.com',
+    source: {
+      source: 'store',
+    },
+  },
+  {
+    id: '1',
+    fullName: 'Guendoui Yaniss',
+    phoneNumber: '0542662874',
+    status: 5,
+    email: 'guendouizyaniss@gmail.com',
+    source: {
+      source: 'store',
+    },
+  },
+  {
+    id: '1',
+    fullName: 'Guendoui Yaniss',
+    phoneNumber: '0542662874',
+    status: 6,
+    email: 'guendouizyaniss@gmail.com',
+    source: {
+      source: 'store',
+    },
+  },
 ]
 
 export default function LeadsList() {
@@ -158,6 +86,125 @@ export default function LeadsList() {
   const dispatch = useAppDispatch()
   const [selectedRows, setSelectedRows] = useState<Lead[]>([])
   const [selectedCount, setSelectedCount] = useState(0)
+  const columns: TableColumn<Lead>[] = [
+    {
+      name: 'Lead Name',
+      cell: ({ fullName }) => (
+        <div className='flex items-center gap-2'>
+          <div>
+            <Image
+              alt='avatar'
+              width={30}
+              height={30}
+              src={avatarPlaceholder.src}
+              className='rounded-full'
+            />
+          </div>
+
+          <p className='font-small text-sm'>{fullName}</p>
+        </div>
+      ),
+      grow: 1.5,
+      sortable: true,
+      reorder: true,
+    },
+    {
+      name: 'Contact',
+      cell: ({ email, phoneNumber }) => (
+        <div className='flex flex-col gap-2 py-2'>
+          <p className='hyphens  flex items-center gap-1 truncate'>
+            <Iconify icon='material-symbols:mail-rounded' height={18} className='text-gray-500' />{' '}
+            {email}{' '}
+          </p>
+          <p className='flex items-center gap-1 truncate'>
+            <Iconify icon='material-symbols:call' height={18} className='text-gray-500' />{' '}
+            {phoneNumber}{' '}
+          </p>
+        </div>
+      ),
+      sortable: true,
+      reorder: true,
+      grow: 2,
+    },
+    {
+      name: 'Lead status',
+      cell: ({ status }) => {
+        if (status === 0)
+          return <Badge variant='ghost' intent='info' size='small' label={t('New')} />
+        if (status === 1)
+          return <Badge variant='ghost' intent='primary' size='small' label={t('Open')} />
+        if (status === 2)
+          return (
+            <Badge variant='ghost' intent='info' size='small' label={t('Attempt to Contact')} />
+          )
+        if (status === 4)
+          return (
+            <Badge variant='ghost' intent='warning' size='small' label={t('Deal Unqualified')} />
+          )
+        if (status === 5)
+          return <Badge variant='ghost' intent='success' size='small' label={t('Success')} />
+        if (status === 6)
+          return <Badge variant='ghost' intent='error' size='small' label={t('Failure')} />
+        return <Badge variant='ghost' size='small' label='Closed' />
+      },
+      sortable: true,
+      reorder: true,
+      grow: 1,
+    },
+    {
+      name: 'Lead Source',
+      cell: ({ source }) =>
+        source?.source ? (
+          <Badge
+            variant='ghost'
+            intent='default'
+            size='small'
+            label={source?.source}
+            className='capitalize'
+          />
+        ) : (
+          <Badge variant='ghost' intent='error' size='small' label='None' />
+        ),
+      sortable: true,
+      reorder: true,
+    },
+    {
+      right: true,
+      cell: (lead) => (
+        <DropdownMenu
+          trigger={
+            <IconButton>
+              <Iconify icon='material-symbols:more-vert' height={20} />
+            </IconButton>
+          }
+          items={[
+            {
+              type: 'button',
+              label: 'Preview',
+              icon: <Iconify icon='material-symbols:preview' height={18} />,
+              onClick: () => dispatch(previewLead(lead)),
+            },
+            {
+              type: 'button',
+              label: 'View Details',
+              icon: <Iconify icon='mingcute:external-link-fill' height={18} />,
+            },
+            {
+              type: 'button',
+              label: 'Edit',
+              icon: <Iconify icon='material-symbols:edit' height={18} />,
+            },
+            {
+              type: 'button',
+              label: 'Delete',
+              icon: <Iconify icon='material-symbols:delete-rounded' height={18} />,
+              className: 'text-red-600',
+            },
+          ]}
+        />
+      ),
+    },
+  ]
 
   return (
     <>

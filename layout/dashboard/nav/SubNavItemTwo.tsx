@@ -57,7 +57,7 @@ export default function SubNavItemTwo({ name, href, icon, badge, disabled, isCol
             badge.icon && <Iconify icon={badge.icon ? badge.icon : ''} height={20} width={20} />
           }
           label={t(badge?.label)}
-          intent='primary'
+          intent='warning'
           className={clsx('truncate text-[10px]', isCollapsed && 'hidden group-hover:block')}
         />
       )}

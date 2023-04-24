@@ -36,7 +36,7 @@ const columns: TableColumn<Contact>[] = [
           />
         </div>
 
-        <p className='text-sm font-medium'>{fullName}</p>
+        <p className='font-small text-sm'>{fullName}</p>
       </div>
     ),
     grow: 1.5,
@@ -68,29 +68,29 @@ const columns: TableColumn<Contact>[] = [
   {
     name: 'Contact status',
     cell: ({ status }) => {
-      if (status === 0) return <Badge variant='ghost' intent='info' size='medium' label='New' />
-      if (status === 1) return <Badge variant='ghost' intent='warning' size='medium' label='Open' />
+      if (status === 0) return <Badge variant='ghost' intent='info' size='small' label='New' />
+      if (status === 1) return <Badge variant='ghost' intent='warning' size='small' label='Open' />
       if (status === 2)
-        return <Badge variant='ghost' intent='secondary' size='medium' label='In Progress' />
-      return <Badge variant='ghost' size='medium' label='Closed' />
+        return <Badge variant='ghost' intent='secondary' size='small' label='In Progress' />
+      return <Badge variant='ghost' size='small' label='Closed' />
     },
     sortable: true,
     reorder: true,
-    grow: 0.8,
+    grow: 1,
   },
   {
     name: 'Contact Source',
     cell: ({ source }) =>
       source?.source ? (
         <Badge
-          variant='ghost'
+          variant='contained'
           intent='default'
-          size='medium'
+          size='small'
           label={source?.source}
           className='capitalize'
         />
       ) : (
-        <Badge variant='ghost' intent='error' size='medium' label='None' />
+        <Badge variant='contained' intent='error' size='small' label='None' />
       ),
     sortable: true,
     reorder: true,
@@ -151,6 +151,86 @@ const data: Contact[] = [
     phoneNumber: '0542662874',
     status: 2,
     email: 'zairiaimen@gmail.com',
+    source: {
+      source: 'store',
+    },
+  },
+  {
+    id: '4',
+    fullName: 'Guendoui Yaniss',
+    phoneNumber: '0542662874',
+    status: 4,
+    email: 'guendouizyaniss@gmail.com',
+    source: {
+      source: 'store',
+    },
+  },
+  {
+    id: '5',
+    fullName: 'Guendoui Yaniss',
+    phoneNumber: '0542662874',
+    status: 5,
+    email: 'guendouizyaniss@gmail.com',
+    source: {
+      source: 'store',
+    },
+  },
+  {
+    id: '6',
+    fullName: 'Guendoui Yaniss',
+    phoneNumber: '0542662874',
+    status: 6,
+    email: 'guendouizyaniss@gmail.com',
+    source: {
+      source: 'store',
+    },
+  },
+  {
+    id: '7',
+    fullName: 'Guendoui Yaniss',
+    phoneNumber: '0542662874',
+    status: 3,
+    email: 'guendouizyaniss@gmail.com',
+    source: {
+      source: 'store',
+    },
+  },
+  {
+    id: '8',
+    fullName: 'Guendoui Yaniss',
+    phoneNumber: '0542662874',
+    status: 6,
+    email: 'guendouizyaniss@gmail.com',
+    source: {
+      source: 'store',
+    },
+  },
+  {
+    id: '9',
+    fullName: 'Guendoui Yaniss',
+    phoneNumber: '0542662874',
+    status: 6,
+    email: 'guendouizyaniss@gmail.com',
+    source: {
+      source: 'store',
+    },
+  },
+  {
+    id: '10',
+    fullName: 'Guendoui Yaniss',
+    phoneNumber: '0542662874',
+    status: 6,
+    email: 'guendouizyaniss@gmail.com',
+    source: {
+      source: 'store',
+    },
+  },
+  {
+    id: '11',
+    fullName: 'Guendoui Yaniss',
+    phoneNumber: '0542662874',
+    status: 6,
+    email: 'guendouizyaniss@gmail.com',
     source: {
       source: 'store',
     },

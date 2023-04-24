@@ -37,7 +37,7 @@ const initialState: SideBarConfig = {
           href: PATH_DASHBOARD.crm['contacts-leads'].root,
           icon: 'material-symbols:contact-page',
           badge: {
-            label: 'Soon',
+            label: 'Beta',
           },
         },
 
@@ -46,7 +46,7 @@ const initialState: SideBarConfig = {
           href: PATH_DASHBOARD.crm['sales-pipeline'],
           icon: 'icon-park-solid:sales-report',
           badge: {
-            label: 'Soon',
+            label: 'Beta',
           },
         },
         {

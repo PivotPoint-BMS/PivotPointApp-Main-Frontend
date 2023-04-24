@@ -2,7 +2,7 @@ import React from 'react'
 import { cva, VariantProps } from 'class-variance-authority'
 
 export const badgeContained = cva(
-  'flex truncate w-max items-center justify-center text-xs rounded-full py-1 font-semibold select-none',
+  'flex truncate w-max items-center justify-center text-xs rounded-full py-1 font-medium select-none',
   {
     variants: {
       intent: {
@@ -12,7 +12,8 @@ export const badgeContained = cva(
         info: 'bg-blue-200/80 text-blue-900 dark:text-blue-100 dark:bg-blue-500/20',
         warning: 'bg-orange-200/80 text-orange-900 dark:text-orange-100 dark:bg-orange-500/20',
         error: 'bg-red-200/80 text-red-900 dark:text-red-100 dark:bg-red-500/20',
-        default: 'bg-black/20 text-black dark:text-white dark:bg-whitext-white/20',
+        success: 'bg-green-200/80 text-green-900 dark:text-green-100 dark:bg-green-500/20',
+        default: 'bg-gray-200 text-black dark:text-white dark:bg-gray-600',
       },
       size: {
         small: 'px-2 h-6',
@@ -27,7 +28,7 @@ export const badgeContained = cva(
 )
 
 export const badgeOutlined = cva(
-  'flex truncate items-center w-max text-xs rounded-full py-1 font-semibold select-none',
+  'flex truncate items-center w-max text-xs rounded-full py-1 font-medium select-none',
   {
     variants: {
       intent: {
@@ -36,6 +37,7 @@ export const badgeOutlined = cva(
         info: 'border border-blue-400 text-blue-600 dark:text-blue-100',
         warning: 'border border-orange-400 text-orange-600 dark:text-orange-100',
         error: 'border border-red-400 text-red-600 dark:text-red-100',
+        success: 'border border-green-400 text-green-600 dark:text-green-100',
         default: 'border border-black text-black dark:text-white dark:border-white',
       },
 
@@ -52,7 +54,7 @@ export const badgeOutlined = cva(
 )
 
 export const badgeGhost = cva(
-  'flex truncate items-start justify-center w-max rounded-full py-1 font-semibold select-none',
+  'flex truncate items-start justify-center w-max rounded-full py-1 font-medium select-none',
   {
     variants: {
       intent: {
@@ -63,8 +65,9 @@ export const badgeGhost = cva(
         info: 'border border-blue-400 bg-blue-400/20 text-blue-600 dark:text-blue-100',
         warning: 'border border-orange-400 bg-orange-400/20 text-orange-600 dark:text-orange-100',
         error: 'border border-red-400 bg-red-400/20 text-red-600 dark:text-red-100',
+        success: 'border border-green-400 bg-green-400/20 text-green-600 dark:text-green-100',
         default:
-          'border border-black bg-black/10 text-black dark:text-white dark:border-white dark:bg-white/10',
+          'border border-black bg-gray-400/30 text-black dark:text-white dark:border-white dark:bg-white/10',
       },
 
       size: {

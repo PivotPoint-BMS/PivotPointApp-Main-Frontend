@@ -45,7 +45,9 @@ export default function Breadcrumbs({ links, activeLast = false, ...other }: Bre
 
   return (
     <nav aria-label='breadcrumb' className='m-0' {...other}>
-      <ol className='flex items-center gap-3'>{activeLast ? listDefault : listActiveLast}</ol>
+      <ol className='flex flex-wrap items-center gap-x-3'>
+        {activeLast ? listDefault : listActiveLast}
+      </ol>
     </nav>
   )
 }

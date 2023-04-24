@@ -14,6 +14,12 @@ export const iconButton = cva('rounded-full flex items-start justify-center outl
       medium: 'p-2',
       large: '',
     },
+    disabled: {
+      true: [
+        'cursor-not-allowed bg-gray-100 hover:!bg-gray-100 active:bg-gray-100 text-gray-300',
+        'dark:bg-gray-600 dark:hover:bg-gray-600 dark:active:bg-gray-600 dark:text-gray-400',
+      ],
+    },
   },
   defaultVariants: {
     intent: 'default',
@@ -27,14 +33,19 @@ export interface IconButtonProps
   children: React.ReactNode | React.ReactNode[]
 
   type?: 'button' | 'reset' | 'submit'
+  disabled?: boolean
 }
 
 const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
-  ({ children, intent, className, size, type = 'button', ...other }: IconButtonProps, ref) => (
+  (
+    { children, intent, className, size, type = 'button', disabled, ...other }: IconButtonProps,
+    ref
+  ) => (
     <button
       ref={ref}
       type={type}
-      className={iconButton({ intent, size, class: className })}
+      disabled={disabled}
+      className={iconButton({ intent, size, disabled, class: className })}
       {...other}
     >
       {children}
