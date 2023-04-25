@@ -3,8 +3,6 @@ import clsx from 'clsx'
 import * as TabsPrimitive from '@radix-ui/react-tabs'
 // hooks
 import useTranslate from 'hooks/useTranslate'
-// types
-import { Lead } from 'types'
 // components
 import { Icon as Iconify } from '@iconify/react'
 import Card from '@/components/Card'
@@ -20,7 +18,7 @@ const TABS = [
   { name: 'Meetings', value: 'meetings', icon: 'material-symbols:groups' },
 ]
 
-export default function Details({ lead }: { lead: Lead }) {
+export default function Details() {
   const { t, locale } = useTranslate()
   return (
     <Card

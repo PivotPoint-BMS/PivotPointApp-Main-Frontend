@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback } from 'react'
 import * as Yup from 'yup'
 // form
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -7,8 +7,6 @@ import { FieldValues, useForm } from 'react-hook-form'
 import { fData } from 'utils/formatNumber'
 // hooks
 import useTranslate from 'hooks/useTranslate'
-// api
-import { useCreateAddressMutation, useGetAddressMutation } from 'store/api/crm/crmApis'
 // components
 import Card from '@/components/Card'
 import CardContent from '@/components/CardContent'
@@ -18,9 +16,6 @@ import Button from '@/components/Button'
 
 export default function CreateLeadForm() {
   const { t } = useTranslate()
-
-  const [getAddress, { isError, isSuccess }] = useGetAddressMutation()
-  const [createAddress] = useCreateAddressMutation()
 
   const LeadSchema = Yup.object().shape({
     imageFile: Yup.string().min(3, t('Too short')),
@@ -57,17 +52,11 @@ export default function CreateLeadForm() {
     defaultValues,
   })
 
-  const { handleSubmit, setValue, getValues } = methods
+  const { handleSubmit, setValue } = methods
 
   const onSubmit = async (data: FieldValues) => {
-    console.log('here')
-
-    getAddress({ city: data.city, country: data.country })
+    console.log(data)
   }
-
-  useEffect(() => {
-    if (isError) createAddress({ city: getValues('city'), country: getValues('country') })
-  }, [isSuccess, isError])
 
   const handleDrop = useCallback(
     (acceptedFiles: File[]) => {

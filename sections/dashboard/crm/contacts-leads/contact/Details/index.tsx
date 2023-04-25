@@ -18,7 +18,7 @@ const TABS = [
   { name: 'Meetings', value: 'meetings', icon: 'material-symbols:groups' },
 ]
 
-export default function Details({ contact }: { contact: Contact }) {
+export default function Details() {
   const { t, locale } = useTranslate()
   return (
     <Card

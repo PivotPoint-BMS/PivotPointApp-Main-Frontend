@@ -33,7 +33,7 @@ export default function index() {
         {data ? (
           <div className='grid grid-cols-1  divide-x md:grid-cols-3'>
             <GeneralInfo lead={data} />
-            <Details lead={data} />
+            <Details />
           </div>
         ) : (
           <div className='flex h-full w-full flex-col items-center justify-center gap-5 py-20'>
