@@ -4,7 +4,7 @@ import Link from 'next/link'
 // routes
 import { PATH_DASHBOARD } from 'routes/paths'
 // components
-import Logo from '@/components/Logo'
+import { Logo } from 'components'
 
 export default function LogoOnlyLayout({
   children,

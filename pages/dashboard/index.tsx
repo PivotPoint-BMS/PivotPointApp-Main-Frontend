@@ -14,10 +14,8 @@ import {
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // components
-import Card from '@/components/Card'
-import CardHeader from '@/components/CardHeader'
-import CardContent from '@/components/CardContent'
-import ReactApexChart, { BaseOptionChart } from '@/components/chart'
+import { Card, CardHeader, CardContent } from 'components'
+import ReactApexChart, { BaseOptionChart } from 'components/chart'
 
 const CHART_DATA = [
   {

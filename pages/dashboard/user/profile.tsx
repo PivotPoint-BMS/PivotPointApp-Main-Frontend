@@ -16,8 +16,7 @@ import ProfileNotification from 'sections/dashboard/user/profile/ProfileNotifica
 import ProfileApi from 'sections/dashboard/user/profile/ProfileApi'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import HeaderBreadcrumbs from '@/components/HeaderBreadcrumbs'
-import Scrollbar from '@/components/Scrollbar'
+import { HeaderBreadcrumbs, Scrollbar } from 'components'
 
 const TABS = [
   { name: 'General', icon: 'mdi:user-circle', value: '1' },

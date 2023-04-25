@@ -20,7 +20,7 @@ import { collapse, extend, NavItemConfig } from 'store/slices/sideBarSlice'
 // routes
 import { PATH_DASHBOARD } from 'routes/paths'
 // Components
-import Scrollbar from '@/components/Scrollbar'
+import { Scrollbar } from 'components'
 import NavItemOne from './NavItemOne'
 import SubNavItemTwo from './SubNavItemTwo'
 

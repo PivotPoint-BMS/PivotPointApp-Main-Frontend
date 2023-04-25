@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -6,10 +7,10 @@ import * as CollapsiblePrimitive from '@radix-ui/react-collapsible'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // utils
-import clsx from 'clsx'
 import getActivePath from 'utils/getActivePath'
+// utils
 import { Icon as Iconify } from '@iconify/react'
-import Badge from '@/components/Badge'
+import { Badge } from 'components'
 
 type Props =
   | {

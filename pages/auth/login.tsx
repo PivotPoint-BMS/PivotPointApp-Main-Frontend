@@ -13,7 +13,7 @@ import useTranslate from 'hooks/useTranslate'
 // sections
 import LoginForm from 'sections/auth/login/LoginForm'
 // components
-import Logo from '@/components/Logo'
+import { Logo } from 'components'
 
 export default function Login() {
   const isDesktop = useResponsive('lg', 'up')

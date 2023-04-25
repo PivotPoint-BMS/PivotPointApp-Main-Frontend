@@ -11,7 +11,7 @@ import Login from 'pages/auth/login'
 import CompanySetup from 'pages/auth/company-setup'
 import Payment from 'pages/auth/payment'
 // components
-import LoadingScreen from '@/components/LoadingScreen'
+import { LoadingScreen } from 'components'
 
 export default function AuthGuard({ children }: { children: React.ReactNode | React.ReactNode[] }) {
   const { pathname, push } = useRouter()

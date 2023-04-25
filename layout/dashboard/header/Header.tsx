@@ -11,7 +11,7 @@ import { open } from 'store/slices/sideBarSlice'
 import { HEADER, NAVBAR } from 'config'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import IconButton from '@/components/IconButton'
+import { IconButton } from 'components'
 // sections
 import AccountDropdown from './AccountDropdown'
 import LanguageDropdown from './LanguageDropdown'

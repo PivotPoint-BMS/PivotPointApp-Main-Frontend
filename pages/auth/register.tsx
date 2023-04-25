@@ -11,7 +11,7 @@ import useTranslate from 'hooks/useTranslate'
 // sections
 import RegisterForm from 'sections/auth/Register'
 // components
-import Logo from '@/components/Logo'
+import { Logo } from 'components'
 
 export default function Register() {
   const isDesktop = useResponsive('lg', 'up')

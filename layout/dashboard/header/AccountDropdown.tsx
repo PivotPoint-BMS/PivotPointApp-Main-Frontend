@@ -13,8 +13,8 @@ import { logout } from 'store/slices/sessionSlice'
 import useTranslate from 'hooks/useTranslate'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import { iconButton } from '@/components/IconButton'
-import Button from '@/components/Button'
+import { Button } from 'components'
+import { iconButton } from 'components/IconButton'
 
 export default function AccountDropdown() {
   const { push } = useRouter()

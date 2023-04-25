@@ -7,7 +7,7 @@ import { PATH_DASHBOARD } from 'routes/paths'
 // sections
 import CreateLeadForm from 'sections/dashboard/crm/contacts-leads/create/CreateLeadForm'
 // components
-import HeaderBreadcrumbs from '@/components/HeaderBreadcrumbs'
+import { HeaderBreadcrumbs } from 'components'
 
 export default function index() {
   const { t } = useTranslate()

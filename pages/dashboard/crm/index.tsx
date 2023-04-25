@@ -11,10 +11,7 @@ import {
   TopCustomerComplaints,
 } from 'sections/dashboard/crm/dashbord'
 // components
-import HeaderBreadcrumbs from '@/components/HeaderBreadcrumbs'
-import Card from '@/components/Card'
-import CardHeader from '@/components/CardHeader'
-import CardContent from '@/components/CardContent'
+import { HeaderBreadcrumbs, Card, CardHeader, CardContent } from 'components'
 
 export default function index() {
   const { t } = useTranslate()

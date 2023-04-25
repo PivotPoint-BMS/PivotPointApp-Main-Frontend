@@ -10,7 +10,7 @@ import errorDark from 'public/404-dark.svg'
 import useTranslate from 'hooks/useTranslate'
 
 // components
-import Button from '@/components/Button'
+import { Button } from 'components'
 
 export default function Custom404Page() {
   const router = useRouter()

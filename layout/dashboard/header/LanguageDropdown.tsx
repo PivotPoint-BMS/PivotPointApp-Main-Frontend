@@ -10,8 +10,8 @@ import english from 'public/english.png'
 import arabic from 'public/arabic.png'
 import french from 'public/french.png'
 // components
-import { iconButton } from '@/components/IconButton'
-import { buttonText } from '@/components/Button'
+import { iconButton } from 'components/IconButton'
+import { buttonText } from 'components/Button'
 
 const LANGS = [
   { value: 'en', label: 'English', icon: english },

@@ -17,8 +17,7 @@ import SettingsData from 'sections/dashboard/user/settings/SettingsData'
 import SettingsSupport from 'sections/dashboard/user/settings/SettingsSupport'
 // componenets
 import { Icon as Iconify } from '@iconify/react'
-import HeaderBreadcrumbs from '@/components/HeaderBreadcrumbs'
-import Scrollbar from '@/components/Scrollbar'
+import { HeaderBreadcrumbs, Scrollbar } from 'components'
 
 const TABS = [
   { name: 'Email', icon: 'ion:mail', value: '1' },

@@ -25,7 +25,7 @@ import Workers from 'sections/auth/company-setup/Workers'
 import Subscription from 'sections/auth/company-setup/Subscription'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import { FormProvider } from '@/components/hook-form'
+import { FormProvider } from 'components/hook-form'
 // pages
 import Login from './login'
 

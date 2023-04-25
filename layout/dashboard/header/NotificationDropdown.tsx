@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import { iconButton } from '@/components/IconButton'
+import { iconButton } from 'components/IconButton'
 
 //! TO REMOVE
 const notifications = [

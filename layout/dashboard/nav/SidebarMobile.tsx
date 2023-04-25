@@ -17,9 +17,8 @@ import useTranslate from 'hooks/useTranslate'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { close } from 'store/slices/sideBarSlice'
 // Components
+import { Scrollbar, IconButton } from 'components'
 import MobileNavItem from './MobileNavItem'
-import Scrollbar from '@/components/Scrollbar'
-import IconButton from '@/components/IconButton'
 
 export default function SidebarMobile() {
   const { theme, setTheme } = useTheme()

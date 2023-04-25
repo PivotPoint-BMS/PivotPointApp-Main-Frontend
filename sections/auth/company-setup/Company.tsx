@@ -3,10 +3,10 @@ import { motion } from 'framer-motion'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // components
-import MotionContainer from '@/components/animate/MotionContainer'
-import { varFade } from '@/components/animate/variants'
-import { RHFTextField } from '@/components/hook-form'
-import Button from '@/components/Button'
+import { Button } from 'components'
+import MotionContainer from 'components/animate/MotionContainer'
+import { varFade } from 'components/animate/variants'
+import { RHFTextField } from 'components/hook-form'
 
 export default function Company({ handleNext }: { handleNext: () => void }) {
   const { t } = useTranslate()

@@ -8,7 +8,7 @@ import useTranslate from 'hooks/useTranslate'
 import getActivePath from 'utils/getActivePath'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import Badge from '@/components/Badge'
+import { Badge } from 'components'
 
 type Props = {
   name: string

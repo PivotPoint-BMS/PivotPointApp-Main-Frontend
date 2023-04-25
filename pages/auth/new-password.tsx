@@ -8,7 +8,7 @@ import useTranslate from 'hooks/useTranslate'
 // sections
 import NewPasswordForm from 'sections/auth/new-password/NewPasswordForm'
 // components
-import Logo from '@/components/Logo'
+import { Logo } from 'components'
 
 export default function NewPassword() {
   const isDesktop = useResponsive('lg', 'up')

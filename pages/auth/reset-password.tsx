@@ -7,7 +7,7 @@ import useTranslate from 'hooks/useTranslate'
 // sections
 import ResetPasswordForm from 'sections/auth/reset-password/ResetPasswordForm'
 // components
-import Logo from '@/components/Logo'
+import { Logo } from 'components'
 
 export default function ResetPassword() {
   const isDesktop = useResponsive('lg', 'up')

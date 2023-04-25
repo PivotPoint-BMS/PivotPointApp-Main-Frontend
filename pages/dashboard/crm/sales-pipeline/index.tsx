@@ -9,8 +9,7 @@ import { PATH_DASHBOARD } from 'routes/paths'
 import DealsKanban from 'sections/dashboard/crm/sales-pipeline/DealsKanban'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import HeaderBreadcrumbs from '@/components/HeaderBreadcrumbs'
-import Button from '@/components/Button'
+import { HeaderBreadcrumbs, Button } from 'components'
 
 export default function index() {
   const { t } = useTranslate()

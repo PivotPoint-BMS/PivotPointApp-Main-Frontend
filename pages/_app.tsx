@@ -12,7 +12,7 @@ import useTranslate from 'hooks/useTranslate'
 // layout
 import Layout from 'layout/Index'
 // Components
-import NextProgressBar from '@/components/NextProgressbar'
+import { NextProgressBar } from 'components'
 // css
 import 'styles/globals.css'
 import 'simplebar-react/dist/simplebar.min.css'
