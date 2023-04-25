@@ -3,8 +3,7 @@ import { HYDRATE } from 'next-redux-wrapper'
 // config
 import { PIVOTPOINT_API } from 'config'
 // types
-import { Lead } from 'types'
-import { Address } from 'types/Lead'
+import { Contact, Lead } from 'types'
 // store
 import { RootState } from 'store'
 
@@ -30,24 +29,17 @@ export const crmApi = createApi({
   },
   tagTypes: [],
   endpoints: (builder) => ({
-    getAddress: builder.mutation<unknown, Address>({
-      query: ({ city, country }) => ({
-        url: '/Address',
-        method: 'GET',
-        params: {
-          city,
-          country,
-        },
-        responseHandler: 'content-type',
-      }),
+    getContacts: builder.query<Contact[], void>({
+      query: () => 'Contact',
     }),
-    createAddress: builder.mutation<string[], Address>({
-      query: (data) => ({
-        url: 'Address',
-        method: 'POST',
-        body: data,
-        responseHandler: 'content-type',
-      }),
+    getContact: builder.query<Contact, string>({
+      query: (id) => `Contact/${id}`,
+    }),
+    getLeads: builder.query<Lead[], void>({
+      query: () => 'Lead',
+    }),
+    getLead: builder.query<Lead, string>({
+      query: (id) => `Lead/${id}`,
     }),
     createLead: builder.mutation<string[], Lead>({
       query: (data) => ({
@@ -62,11 +54,13 @@ export const crmApi = createApi({
 
 // Export hooks for usage in functional components
 export const {
-  useGetAddressMutation,
-  useCreateAddressMutation,
+  useGetContactsQuery,
+  useGetContactQuery,
+  useGetLeadQuery,
+  useGetLeadsQuery,
   useCreateLeadMutation,
   util: { getRunningQueriesThunk },
 } = crmApi
 
 // export endpoints for use in SSR
-export const { createAddress, createLead } = crmApi.endpoints
+export const { getContacts, getContact, getLead, getLeads, createLead } = crmApi.endpoints

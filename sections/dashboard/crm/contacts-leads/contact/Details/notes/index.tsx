@@ -26,7 +26,7 @@ export default function Notes() {
     extensions: [
       Placeholder.configure({
         emptyEditorClass: 'is-editor-empty',
-        placeholder: 'Node description',
+        placeholder: t('Note description'),
       }),
       Underline.configure({
         HTMLAttributes: {

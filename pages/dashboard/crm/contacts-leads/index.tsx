@@ -20,8 +20,8 @@ import Card from '@/components/Card'
 import Button from '@/components/Button'
 
 const TABS = [
-  { name: 'Contacts', value: 'contacts' },
-  { name: 'Leads', value: 'leads' },
+  { name: 'Contacts', value: 'contacts', icon: 'material-symbols:contacts-rounded' },
+  { name: 'Leads', value: 'leads', icon: 'mdi:person-tie' },
 ]
 
 export default function index() {
@@ -75,6 +75,7 @@ export default function index() {
                   )}
                 >
                   <div className='flex w-max cursor-pointer items-center gap-2'>
+                    {item.icon && <Iconify icon={item.icon} height={20} width={20} />}
                     <label className='cursor-pointer font-medium'>{t(item.name)}</label>
                   </div>
                 </TabsPrimitive.Trigger>

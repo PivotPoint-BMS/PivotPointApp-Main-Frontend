@@ -158,11 +158,11 @@ body {
 }
 
 .ProseMirror ul {
-  @apply list-disc py-0 px-4;
+  @apply list-disc py-0 px-6;
 }
 
 .ProseMirror ol {
-  @apply list-decimal py-0 px-4;
+  @apply list-decimal py-0 px-6;
 }
 
 .ProseMirror h1,

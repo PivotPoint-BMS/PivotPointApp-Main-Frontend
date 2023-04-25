@@ -1,9 +1,15 @@
 import clsx from 'clsx'
 import moment from 'moment'
+// next
+import Link from 'next/link'
 // radix
 import * as TabsPrimitive from '@radix-ui/react-tabs'
 // hooks
 import useTranslate from 'hooks/useTranslate'
+// routes
+import { PATH_DASHBOARD } from 'routes/paths'
+// types
+import { Lead } from 'types'
 // asset
 import avatarPlaceholder from 'public/avatar_placeholder.png'
 // components
@@ -19,11 +25,19 @@ const TABS = [
   { name: 'Address Info', value: 'address' },
 ]
 
-export default function GeneralInfo() {
+export default function GeneralInfo({ lead }: { lead: Lead }) {
   const { t, locale } = useTranslate()
   return (
     <Card fullWidth variant='default' className='rounded-none !bg-transparent'>
       <CardContent className='p-0'>
+        <div className='mb-4 flex items-center gap-2 px-4'>
+          <Link href={`${PATH_DASHBOARD.crm['contacts-leads'].root}?tab=leads`}>
+            <IconButton>
+              <Iconify icon='material-symbols:arrow-back-ios-new-rounded' height={20} />
+            </IconButton>
+          </Link>
+          <h1 className='text-lg font-semibold'>{t('Back to Leads')}</h1>
+        </div>
         <div className='p- flex flex-col items-center gap-3 p-4'>
           <Image
             alt='avatar'
@@ -32,7 +46,7 @@ export default function GeneralInfo() {
             src={avatarPlaceholder.src}
             className='rounded-full'
           />
-          <h1 className='text-center text-lg font-semibold'>Guendoui Mohamed Yaniss</h1>
+          <h1 className='text-center text-lg font-semibold'>{lead.fullName}</h1>
           <div className='flex w-full items-center justify-center gap-10'>
             <div className='flex flex-col items-center justify-center gap-1'>
               <IconButton className='border'>

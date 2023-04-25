@@ -3,21 +3,24 @@ import clsx from 'clsx'
 import * as TabsPrimitive from '@radix-ui/react-tabs'
 // hooks
 import useTranslate from 'hooks/useTranslate'
-// sections
-import Activities from './activities'
+// types
+import { Lead } from 'types'
 // components
+import { Icon as Iconify } from '@iconify/react'
 import Card from '@/components/Card'
+// sections
 import Notes from './notes'
+import Activities from './activities'
 
 const TABS = [
-  { name: 'Activity', value: 'activity' },
-  { name: 'Notes', value: 'notes' },
-  { name: 'Emails', value: 'emails' },
-  { name: 'Calls', value: 'calls' },
-  { name: 'Meetings', value: 'meetings' },
+  { name: 'Activity', value: 'activity', icon: 'fluent:clipboard-task-24-filled' },
+  { name: 'Notes', value: 'notes', icon: 'material-symbols:note' },
+  { name: 'Emails', value: 'emails', icon: 'material-symbols:mail' },
+  { name: 'Calls', value: 'calls', icon: 'material-symbols:call' },
+  { name: 'Meetings', value: 'meetings', icon: 'material-symbols:groups' },
 ]
 
-export default function Details() {
+export default function Details({ lead }: { lead: Lead }) {
   const { t, locale } = useTranslate()
   return (
     <Card
@@ -39,6 +42,7 @@ export default function Details() {
               )}
             >
               <div className='flex w-max cursor-pointer items-center gap-2'>
+                {item.icon && <Iconify icon={item.icon} height={20} width={20} />}
                 <label className='cursor-pointer font-medium'>{t(item.name)}</label>
               </div>
             </TabsPrimitive.Trigger>
