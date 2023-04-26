@@ -12,8 +12,8 @@ import { useGetUserMutation } from 'store/api/authApi'
 import { PATH_DASHBOARD } from 'routes/paths'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import MotionContainer from '@/components/animate/MotionContainer'
-import Button from '@/components/Button'
+import { Button } from 'components'
+import MotionContainer from 'components/animate/MotionContainer'
 
 export default function CompletePayment() {
   const { t } = useTranslate()

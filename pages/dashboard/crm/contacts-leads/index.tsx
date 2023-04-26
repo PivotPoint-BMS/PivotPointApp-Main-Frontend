@@ -15,7 +15,7 @@ import ContactsList from 'sections/dashboard/crm/contacts-leads/contacts-list'
 import LeadsList from 'sections/dashboard/crm/contacts-leads/leads-list'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import { HeaderBreadcrumbs, Card } from 'components'
+import { HeaderBreadcrumbs, Card, Button } from 'components'
 
 const TABS = [
   { name: 'Contacts', value: 'contacts', icon: 'material-symbols:contacts-rounded' },
