@@ -55,6 +55,7 @@ export default function CreateLeadForm() {
   const { handleSubmit, setValue } = methods
 
   const onSubmit = async (data: FieldValues) => {
+    // TODO: Create a FormData with image
     console.log(data)
   }
 
@@ -75,45 +76,50 @@ export default function CreateLeadForm() {
   )
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <Card fullWidth>
-        <CardContent className='flex flex-col'>
-          <h6 className='mb-3 text-lg font-semibold'>{t('Lead Image')}</h6>
-          <RHFUploadAvatar
-            name='imageFile'
-            maxSize={3145728}
-            onDrop={handleDrop}
-            helperText={
-              <p className='mx-auto block text-center text-xs text-gray-600 dark:text-gray-400'>
-                {t('Allowed *.jpeg, *.jpg, *.png, *.gif')}
-                <br /> {t('max size of')} {fData(3145728)}
-              </p>
-            }
-          />
-
-          <h6 className='mt-5 mb-5 text-lg font-semibold'>{t('Lead Informations')}</h6>
-          <div className=' mb-6 grid gap-6 sm:grid-cols-2 md:grid-cols-4'>
-            <RHFTextField name='fullName' label={t('Full Name')} />
-            <RHFTextField name='email' label={t('Email')} />
-            <RHFTextField name='phoneNumber' label={t('Phone Number')} />
-            <RHFTextField name='jobTitle' label={t('Job Title')} />
-          </div>
-          <h6 className='mb-5 text-lg font-semibold'>{t('Source Informations')}</h6>
-          <div className='md: mb-6 grid grid-cols-1 gap-6 sm:grid-cols-2'>
-            <RHFTextField name='source' label={t('Lead source')} />
-            <RHFTextField name='sourceLink' label={t('Lead source Link')} />
-          </div>
-          <h6 className='mb-5 text-lg font-semibold'>{t('Address Informations')}</h6>
-          <div className='md: grid grid-cols-1 gap-6 sm:grid-cols-2 '>
-            <RHFTextField name='city' label={t('City')} />
-            <RHFTextField name='country' label={t('Country')} />
-          </div>
-          <div className='mt-6 flex w-full items-center justify-center'>
-            <Button size='large' type='submit'>
-              Add Lead
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+      <div className='grid grid-cols-1 gap-6 md:grid-cols-3'>
+        <Card fullWidth>
+          <CardContent>
+            <h6 className='mb-3 text-lg font-semibold'>{t('Lead Image')}</h6>
+            <RHFUploadAvatar
+              name='imageFile'
+              maxSize={3145728}
+              onDrop={handleDrop}
+              helperText={
+                <p className='mx-auto block text-center text-xs text-gray-600 dark:text-gray-400'>
+                  {t('Allowed *.jpeg, *.jpg, *.png, *.gif')}
+                  <br /> {t('max size of')} {fData(3145728)}
+                </p>
+              }
+            />
+          </CardContent>
+        </Card>
+        <Card fullWidth className='md:col-span-2'>
+          <CardContent className='flex flex-col'>
+            <h6 className='mb-5 text-lg font-semibold'>{t('Lead Informations')}</h6>
+            <div className='mb-6 grid gap-6 sm:grid-cols-2'>
+              <RHFTextField name='fullName' label={t('Full Name')} />
+              <RHFTextField name='email' label={t('Email')} />
+              <RHFTextField name='phoneNumber' label={t('Phone Number')} />
+              <RHFTextField name='jobTitle' label={t('Job Title')} />
+            </div>
+            <h6 className='mb-5 text-lg font-semibold'>{t('Source Informations')}</h6>
+            <div className='md: mb-6 grid grid-cols-1 gap-6 sm:grid-cols-2'>
+              <RHFTextField name='source' label={t('Lead source')} />
+              <RHFTextField name='sourceLink' label={t('Lead source Link')} />
+            </div>
+            <h6 className='mb-5 text-lg font-semibold'>{t('Address Informations')}</h6>
+            <div className='md: grid grid-cols-1 gap-6 sm:grid-cols-2 '>
+              <RHFTextField name='city' label={t('City')} />
+              <RHFTextField name='country' label={t('Country')} />
+            </div>
+            <div className='mt-6 flex w-full items-center justify-center'>
+              <Button size='large' type='submit'>
+                Add Lead
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </FormProvider>
   )
 }

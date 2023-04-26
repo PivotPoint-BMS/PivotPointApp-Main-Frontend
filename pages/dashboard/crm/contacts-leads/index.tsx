@@ -20,6 +20,7 @@ import { HeaderBreadcrumbs, Card, Button } from 'components'
 const TABS = [
   { name: 'Contacts', value: 'contacts', icon: 'material-symbols:contacts-rounded' },
   { name: 'Leads', value: 'leads', icon: 'mdi:person-tie' },
+  { name: 'Leads Sources', value: 'sources', icon: 'mdi:person-tie' },
 ]
 
 export default function index() {
