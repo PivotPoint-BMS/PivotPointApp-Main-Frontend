@@ -58,7 +58,7 @@ export default function LeadPreview() {
         transition={{ type: 'keyframes' }}
       >
         <div className='z-50 m-0 h-screen w-full bg-white py-4 transition-all delay-100 dark:border-gray-600 dark:bg-paper-dark sm:w-[650px]'>
-          <div className='mb-6 flex w-full  items-center gap-4 border-b border-dashed border-gray-400 px-4 pb-4'>
+          <div className='mb-6 flex w-full  items-center gap-4 border-b   px-4 pb-4'>
             <div className='flex flex-1 items-center gap-2'>
               <IconButton onClick={handleClose}>
                 <Iconify
@@ -84,8 +84,8 @@ export default function LeadPreview() {
               )}
             </Link>
           </div>
-          <div className='mx-6 grid grid-cols-2 rounded-lg border border-dashed border-gray-400 sm:grid-cols-4 '>
-            <div className=' col-span-2 flex flex-col items-start justify-between gap-4 border-b border-dashed border-gray-400 p-3 sm:col-span-4 sm:flex-row'>
+          <div className='mx-6 grid grid-cols-2 rounded-lg border   sm:grid-cols-4 '>
+            <div className=' col-span-2 flex flex-col items-start justify-between gap-4 border-b   p-3 sm:col-span-4 sm:flex-row'>
               <div className='flex w-full flex-col items-center justify-center gap-4 truncate sm:flex-row sm:items-start sm:justify-start'>
                 <div>
                   <Image
@@ -126,13 +126,13 @@ export default function LeadPreview() {
                 </IconButton>
               </div>
             </div>
-            <div className='flex flex-col gap-2 border-b border-r border-dashed border-gray-400 p-3 sm:border-b-0'>
+            <div className='flex flex-col gap-2 border-b border-r   p-3 sm:border-b-0'>
               <h6 className='text-sm font-medium text-gray-500 dark:text-gray-300'>
                 {t('Lead Owner')}
               </h6>
               <p className='font-medium'>Full Name</p>
             </div>
-            <div className='flex flex-col gap-2 border-b border-dashed border-gray-400 p-3 sm:border-b-0 sm:border-r'>
+            <div className='flex flex-col gap-2 border-b   p-3 sm:border-b-0 sm:border-r'>
               <h6 className='text-sm font-medium text-gray-500 dark:text-gray-300'>
                 {t('Lead Source')}
               </h6>
@@ -140,7 +140,7 @@ export default function LeadPreview() {
                 {lead?.source?.source ? lead?.source?.source : t('No Source')}
               </p>
             </div>
-            <div className='flex flex-col gap-2 border-r border-dashed border-gray-400 p-3'>
+            <div className='flex flex-col gap-2 border-r   p-3'>
               <h6 className='text-sm font-medium text-gray-500 dark:text-gray-300'>
                 {t('Job Title')}
               </h6>

@@ -23,7 +23,7 @@ const Select = ({ buttonProps, items, ...props }: SelectProps) => (
       <SelectPrimitive.ScrollUpButton className='flex items-center justify-center'>
         <Iconify icon='ion:chevron-up' />
       </SelectPrimitive.ScrollUpButton>
-      <SelectPrimitive.Viewport className='rounded-lg border border-dashed border-gray-400 bg-paper-light p-2 shadow-lg dark:border-gray-500 dark:bg-paper-dark'>
+      <SelectPrimitive.Viewport className='rounded-lg border   bg-paper-light p-2 shadow-lg dark:border-gray-500 dark:bg-paper-dark'>
         <SelectPrimitive.Group>
           {items?.map(({ label, value, disabled }, i) => (
             <SelectPrimitive.Item

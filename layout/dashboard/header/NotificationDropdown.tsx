@@ -39,7 +39,7 @@ export default function NotificationDropdown() {
             'z-50 w-64 rounded-lg px-1.5 py-1 shadow-md md:w-56',
             'bg-paper-light dark:bg-paper-dark',
             'divide-y',
-            'border border-dashed border-gray-400 dark:border-gray-500'
+            'border   dark:border-gray-500'
           )}
         >
           <div className='flex items-center justify-between p-2'>

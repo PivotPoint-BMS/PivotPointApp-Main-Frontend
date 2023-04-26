@@ -62,7 +62,7 @@ export const buttonOutlined = cva(
           'dark:border-red-600 dark:text-red-400 dark:hover:border-red-200 dark:hover:bg-red-400/10 dark:active:bg-secondary-400/30',
         ],
         default: [
-          'border-gray-400 text-gray-900 hover:bg-gray-600/10 hover:border-black active:bg-gray-600/40',
+          ' text-gray-900 hover:bg-gray-600/10 hover:border-black active:bg-gray-600/40',
           'dark:border-gray-500 dark:text-white dark:hover:bg-gray-500/25 dark:hover:border-white dark:active:bg-gray-400/50 dark:focus:outline-gray-900',
         ],
       },

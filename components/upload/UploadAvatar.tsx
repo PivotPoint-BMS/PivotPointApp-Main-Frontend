@@ -24,7 +24,7 @@ export default function UploadAvatar({ error, file, helperText, ...other }: Uplo
     <>
       <div
         className={clsx(
-          'm-auto h-36 w-36 rounded-full border border-dashed border-gray-400 p-1 dark:border-gray-200',
+          'm-auto h-36 w-36 rounded-full border border-dashed  p-1 dark:border-gray-200',
           (isDragReject || error) && 'text-red-400'
         )}
       >

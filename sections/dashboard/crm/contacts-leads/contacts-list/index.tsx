@@ -25,10 +25,10 @@ import IconButton from 'components/IconButton'
 import Checkbox from 'components/Checkbox'
 import Badge from 'components/Badge'
 import Image from 'components/Image'
-import ContactTableToolbar from './ContactTableToolbar'
 import DropdownMenu from 'components/DropdownMenu'
-import ContactPreview from './ContactPreview'
 import Tooltip from 'components/Tooltip'
+import ContactTableToolbar from './ContactTableToolbar'
+import ContactPreview from './ContactPreview'
 
 export default function ContactsList() {
   const { t } = useTranslate()
@@ -176,7 +176,7 @@ export default function ContactsList() {
         </div>
       ) : (
         <>
-          {data ? (
+          {data?.data && data?.data.length ? (
             <>
               <div className='flex items-center justify-center gap-6 p-3'>
                 <TextField
@@ -199,7 +199,7 @@ export default function ContactsList() {
               <div>
                 <DataTable
                   columns={columns}
-                  data={data}
+                  data={data.data}
                   selectableRows
                   pagination
                   highlightOnHover

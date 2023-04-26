@@ -124,7 +124,7 @@ body {
 
 .checkbox-checkmark {
   @apply absolute top-0 right-0 flex h-6 w-6 items-center justify-center rounded-md
-    border border-gray-400 text-transparent dark:bg-transparent;
+    border  text-transparent dark:bg-transparent;
 }
 
 .checkbox-container input:checked ~ .checkbox-checkmark {

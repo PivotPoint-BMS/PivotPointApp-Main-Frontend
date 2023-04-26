@@ -31,7 +31,7 @@ export default function RHFCheckbox({ name, label, disabled }: CheckboxProps) {
             onCheckedChange={field.onChange}
             className={clsx(
               'flex h-5 w-5 items-center justify-center rounded',
-              'data-[state=unchecked]:border data-[state=unchecked]:border-gray-400 data-[state=checked]:bg-primary-600 dark:data-[state=unchecked]:bg-transparent',
+              'data-[state=unchecked]: data-[state=unchecked]:border data-[state=checked]:bg-primary-600 dark:data-[state=unchecked]:bg-transparent',
               'focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-900',
               disabled && '!bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-600'
             )}

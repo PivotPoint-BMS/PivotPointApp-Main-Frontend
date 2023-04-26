@@ -46,7 +46,7 @@ export default function LanguageDropdown() {
             'data-[side=top]:animate-slide-up data-[side=bottom]:animate-slide-down',
             'z-50 rounded-lg px-1.5 py-1 shadow-md',
             'bg-paper-light dark:bg-paper-dark',
-            'border border-dashed border-gray-400 dark:border-gray-500'
+            'border   dark:border-gray-500'
           )}
         >
           {LANGS.map((l, i) => (

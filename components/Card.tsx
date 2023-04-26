@@ -5,8 +5,8 @@ const card = cva('rounded-lg divide-gray-300 bg-paper-light dark:bg-paper-dark',
   variants: {
     variant: {
       elevated: 'shadow-xl',
-      outlined: 'border border-gray-400 dark:border-gray-500',
-      'outlined-dashed': 'border border-dashed border-gray-400 dark:border-gray-500',
+      outlined: 'border  dark:border-gray-500',
+      'outlined-dashed': 'border border-dashed  dark:border-gray-500',
       default: 'border-none',
     },
     fullWidth: {
@@ -18,7 +18,7 @@ const card = cva('rounded-lg divide-gray-300 bg-paper-light dark:bg-paper-dark',
     },
   },
   defaultVariants: {
-    variant: 'outlined-dashed',
+    variant: 'outlined',
     fullWidth: false,
     divided: false,
   },

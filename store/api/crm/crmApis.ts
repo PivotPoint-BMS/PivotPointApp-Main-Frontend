@@ -3,7 +3,7 @@ import { HYDRATE } from 'next-redux-wrapper'
 // config
 import { PIVOTPOINT_API } from 'config'
 // types
-import { Contact, Lead } from 'types'
+import { Contact, ContactsResponse, Lead, LeadsResponse } from 'types'
 // store
 import { RootState } from 'store'
 
@@ -29,13 +29,13 @@ export const crmApi = createApi({
   },
   tagTypes: [],
   endpoints: (builder) => ({
-    getContacts: builder.query<Contact[], void>({
+    getContacts: builder.query<ContactsResponse, void>({
       query: () => 'Contact',
     }),
     getContact: builder.query<Contact, string>({
       query: (id) => `Contact/${id}`,
     }),
-    getLeads: builder.query<Lead[], void>({
+    getLeads: builder.query<LeadsResponse, void>({
       query: () => 'Lead',
     }),
     getLead: builder.query<Lead, string>({

@@ -19,19 +19,21 @@ export default function CustomerSatisfaction() {
     },
   })
   return (
-    <Card fullWidth className='sm:col-span-2 md:col-span-4'>
+    <Card fullWidth className='overflow-scroll sm:col-span-2 md:col-span-3'>
       <CardHeader
         title={t('Customer Satisfaction')}
         actions={<Badge label='Beta' intent='warning' />}
       />
       <CardContent>
-        <ReactApexChart
-          type='line'
-          series={CHART_DATA}
-          options={chartOptions}
-          height={364}
-          width='100%'
-        />
+        <div className='min-w-[400px]'>
+          <ReactApexChart
+            type='line'
+            series={CHART_DATA}
+            options={chartOptions}
+            height={364}
+            width='100%'
+          />
+        </div>
       </CardContent>
     </Card>
   )

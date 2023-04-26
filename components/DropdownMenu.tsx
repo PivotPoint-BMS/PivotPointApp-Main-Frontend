@@ -140,7 +140,7 @@ export default function DropdownMenu({ trigger, items, ...props }: DropdownMenuP
             sideOffset={5}
             className={clsx(
               'data-[side=top]:animate-slide-up data-[side=bottom]:animate-slide-down',
-              'w-48 rounded-lg border border-dashed border-gray-400 px-1.5 py-1 drop-shadow-lg md:w-56',
+              'w-48 rounded-lg border   px-1.5 py-1 drop-shadow-lg md:w-56',
               'bg-white dark:bg-paper-hover-dark'
             )}
           >

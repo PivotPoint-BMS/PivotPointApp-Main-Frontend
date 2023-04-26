@@ -27,7 +27,7 @@ export default function Details() {
       variant='outlined'
     >
       <TabsPrimitive.Root defaultValue='activity' dir={locale === 'ar' ? 'rtl' : 'ltr'}>
-        <TabsPrimitive.List className='flex w-full items-center rounded-t-lg border-b border-dashed bg-gray-100 dark:border-gray-700 dark:bg-gray-800'>
+        <TabsPrimitive.List className='flex w-full items-center rounded-t-lg border-b  bg-gray-100 dark:border-gray-700 dark:bg-gray-800'>
           {TABS.map((item, i) => (
             <TabsPrimitive.Trigger
               key={i}

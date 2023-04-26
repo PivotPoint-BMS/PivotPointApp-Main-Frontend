@@ -67,7 +67,7 @@ function SideBar() {
       }}
     >
       <div
-        className='group fixed z-10 flex h-screen flex-col items-start border-dashed border-gray-400 bg-white py-6 px-4 transition-all ltr:border-r rtl:border-l motion-reduce:transition-none dark:border-gray-500 dark:bg-dark'
+        className='group fixed z-10 flex h-screen flex-col items-start   bg-white py-6 px-4 transition-all ltr:border-r rtl:border-l motion-reduce:transition-none dark:border-gray-500 dark:bg-dark'
         style={{ minWidth: NAVBAR.MAIN_NAVBAR_WIDTH }}
       >
         <Link href='/' className='mt-4 mb-12 w-full'>
@@ -110,7 +110,7 @@ function SideBar() {
           }}
           whileHover={{ width: NAVBAR.SECONDARY_NAVBAR_WIDTH }}
           transition={{ duration: 0.2 }}
-          className='group fixed top-0 flex h-screen flex-col border-dashed border-gray-400 bg-secondary-600 text-white ltr:left-0 ltr:border-r rtl:right-0 dark:border-gray-500 dark:bg-secondary-900'
+          className='group fixed top-0 flex h-screen flex-col   bg-secondary-600 text-white ltr:left-0 ltr:border-r rtl:right-0 dark:border-gray-500 dark:bg-secondary-900'
           style={{
             marginLeft: locale === 'ar' ? 0 : NAVBAR.MAIN_NAVBAR_WIDTH,
             marginRight: locale === 'ar' ? NAVBAR.MAIN_NAVBAR_WIDTH : 0,

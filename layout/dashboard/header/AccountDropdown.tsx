@@ -48,7 +48,7 @@ export default function AccountDropdown() {
             'z-50 rounded-lg shadow-md',
             'bg-paper-light dark:bg-paper-dark',
             'divide-y',
-            'border border-dashed border-gray-400 dark:border-gray-500'
+            'border   dark:border-gray-500'
           )}
         >
           <div className='p-3'>

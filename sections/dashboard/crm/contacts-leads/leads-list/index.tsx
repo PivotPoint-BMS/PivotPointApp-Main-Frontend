@@ -25,10 +25,10 @@ import IconButton from 'components/IconButton'
 import Checkbox from 'components/Checkbox'
 import Badge from 'components/Badge'
 import Image from 'components/Image'
-import LeadTableToolbar from './LeadTableToolbar'
 import DropdownMenu from 'components/DropdownMenu'
-import LeadPreview from './LeadPreview'
 import Tooltip from 'components/Tooltip'
+import LeadTableToolbar from './LeadTableToolbar'
+import LeadPreview from './LeadPreview'
 
 export default function LeadsList() {
   const { t } = useTranslate()
@@ -174,7 +174,7 @@ export default function LeadsList() {
         </div>
       ) : (
         <>
-          {data ? (
+          {data?.data && data?.data.length > 0 ? (
             <>
               <div className='flex items-center justify-center gap-6 p-3'>
                 <TextField
@@ -197,7 +197,7 @@ export default function LeadsList() {
               <div>
                 <DataTable
                   columns={columns}
-                  data={data}
+                  data={data.data}
                   selectableRows
                   pagination
                   highlightOnHover

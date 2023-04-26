@@ -82,7 +82,7 @@ export default function GeneralInfo({ lead }: { lead: Lead }) {
           dir={locale === 'ar' ? 'rtl' : 'ltr'}
           className='overflow-hidden'
         >
-          <TabsPrimitive.List className='flex w-full items-center border-b border-dashed'>
+          <TabsPrimitive.List className='flex w-full items-center border-b '>
             {TABS.map((item, i) => (
               <TabsPrimitive.Trigger
                 key={i}

@@ -42,7 +42,7 @@ export default function Subscription({ handleBack, handleNext, isLoading }: Subs
             </p>
             <div className='flex items-center justify-between'>
               <MotionContainer>
-                <div className='divide- grid grid-cols-1 items-center justify-around divide-x divide-y divide-dashed divide-gray-400 overflow-hidden rounded-lg border border-dashed border-gray-400 rtl:divide-x-reverse lg:grid-cols-3 lg:divide-y-0'>
+                <div className='divide- grid grid-cols-1 items-center justify-around divide-x divide-y divide-dashed divide-gray-400 overflow-hidden rounded-lg border   rtl:divide-x-reverse lg:grid-cols-3 lg:divide-y-0'>
                   <div className='duration- flex h-full flex-col p-10 transition-all'>
                     <div className='mb-3 flex items-center gap-2'>
                       <Iconify

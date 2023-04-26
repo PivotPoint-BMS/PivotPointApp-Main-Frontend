@@ -67,7 +67,7 @@ export default function Payment() {
                 key={i}
                 value={item.value}
                 className={clsx(
-                  'flex h-16 min-w-fit flex-1 items-center justify-start gap-3 border-b-2 border-r p-3 dark:border-gray-400',
+                  'dark: flex h-16 min-w-fit flex-1 items-center justify-start gap-3 border-b-2 border-r p-3',
                   item.value !== '4'
                     ? 'opacity-50'
                     : 'border-b-primary-500 dark:border-b-primary-300'
