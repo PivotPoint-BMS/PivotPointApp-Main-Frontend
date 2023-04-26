@@ -4,9 +4,9 @@ import clsx from 'clsx'
 import useTranslate from 'hooks/useTranslate'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import MotionContainer from '@/components/animate/MotionContainer'
-import IconButton from '@/components/IconButton'
-import Button from '@/components/Button'
+import MotionContainer from 'components/animate/MotionContainer'
+import IconButton from 'components/IconButton'
+import Button from 'components/Button'
 
 interface SubscriptionProps {
   handleBack: () => void

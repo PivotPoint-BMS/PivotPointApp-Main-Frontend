@@ -6,12 +6,12 @@ import { yupResolver } from '@hookform/resolvers/yup'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // components
-import { FormProvider, RHFTextField } from '@/components/hook-form'
-import Card from '@/components/Card'
-import CardContent from '@/components/CardContent'
-import Button from '@/components/Button'
-import RHFCheckbox from '@/components/hook-form/RHFCheckbox'
-import Checkbox from '@/components/Switch'
+import { FormProvider, RHFTextField } from 'components/hook-form'
+import Card from 'components/Card'
+import CardContent from 'components/CardContent'
+import Button from 'components/Button'
+import RHFCheckbox from 'components/hook-form/RHFCheckbox'
+import Checkbox from 'components/Switch'
 
 export default function SettingsEmail() {
   const { t } = useTranslate()

@@ -4,10 +4,10 @@ import { fNumber } from 'utils/formatNumber'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // components
-import Card from '@/components/Card'
-import CardContent from '@/components/CardContent'
-import CardHeader from '@/components/CardHeader'
-import ReactApexChart, { BaseOptionChart } from '@/components/chart'
+import Card from 'components/Card'
+import CardContent from 'components/CardContent'
+import CardHeader from 'components/CardHeader'
+import ReactApexChart, { BaseOptionChart } from 'components/chart'
 
 const CHART_DATA = [4344, 5435, 1443, 4443, 443]
 

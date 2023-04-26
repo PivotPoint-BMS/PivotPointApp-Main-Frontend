@@ -11,10 +11,10 @@ import useTranslate from 'hooks/useTranslate'
 import { PATH_PAGE } from 'routes/paths'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import Card from '@/components/Card'
-import CardContent from '@/components/CardContent'
-import { FormProvider, RHFTextField } from '@/components/hook-form'
-import Progressbar from '@/components/Progressbar'
+import Card from 'components/Card'
+import CardContent from 'components/CardContent'
+import { FormProvider, RHFTextField } from 'components/hook-form'
+import Progressbar from 'components/Progressbar'
 
 export default function ProfileApi() {
   const { t } = useTranslate()

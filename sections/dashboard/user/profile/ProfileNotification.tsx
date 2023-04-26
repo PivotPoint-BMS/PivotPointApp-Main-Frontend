@@ -2,9 +2,9 @@ import React from 'react'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // components
-import Card from '@/components/Card'
-import CardContent from '@/components/CardContent'
-import Checkbox from '@/components/Switch'
+import Card from 'components/Card'
+import CardContent from 'components/CardContent'
+import Checkbox from 'components/Switch'
 
 export default function ProfileNotification() {
   const { t } = useTranslate()

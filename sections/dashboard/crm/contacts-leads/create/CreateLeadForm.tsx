@@ -8,11 +8,11 @@ import { fData } from 'utils/formatNumber'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // components
-import Card from '@/components/Card'
-import CardContent from '@/components/CardContent'
-import { FormProvider, RHFTextField } from '@/components/hook-form'
-import RHFUploadAvatar from '@/components/hook-form/RHFUpload'
-import Button from '@/components/Button'
+import Card from 'components/Card'
+import CardContent from 'components/CardContent'
+import { FormProvider, RHFTextField } from 'components/hook-form'
+import RHFUploadAvatar from 'components/hook-form/RHFUpload'
+import Button from 'components/Button'
 
 export default function CreateLeadForm() {
   const { t } = useTranslate()

@@ -7,8 +7,8 @@ import * as CollapsiblePrimitive from '@radix-ui/react-collapsible'
 import useTranslate from 'hooks/useTranslate'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import Card from '@/components/Card'
-import IconButton from '@/components/IconButton'
+import Card from 'components/Card'
+import IconButton from 'components/IconButton'
 
 export default function ActivityCard() {
   const { t } = useTranslate()

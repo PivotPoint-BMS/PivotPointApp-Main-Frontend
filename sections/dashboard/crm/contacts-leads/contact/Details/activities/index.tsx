@@ -1,7 +1,7 @@
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // components
-import CardContent from '@/components/CardContent'
+import CardContent from 'components/CardContent'
 import ActivityCard from './ActivityCard'
 
 export default function Activities() {

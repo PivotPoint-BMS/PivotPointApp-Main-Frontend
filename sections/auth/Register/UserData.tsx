@@ -2,8 +2,8 @@ import React from 'react'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // components
-import { RHFTextField } from '@/components/hook-form'
-import Button from '@/components/Button'
+import { RHFTextField } from 'components/hook-form'
+import Button from 'components/Button'
 
 export default function UserData({
   setStep,

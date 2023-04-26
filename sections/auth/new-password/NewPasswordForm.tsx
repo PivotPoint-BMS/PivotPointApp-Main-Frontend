@@ -11,10 +11,10 @@ import { ResetPasswordInput } from 'types'
 import useTranslate from 'hooks/useTranslate'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import Button from '@/components/Button'
-import { FormProvider, RHFTextField } from '@/components/hook-form'
-import Alert from '@/components/Alert'
-import IconButton from '@/components/IconButton'
+import Button from 'components/Button'
+import { FormProvider, RHFTextField } from 'components/hook-form'
+import Alert from 'components/Alert'
+import IconButton from 'components/IconButton'
 
 export default function NewPasswordForm() {
   const { t } = useTranslate()

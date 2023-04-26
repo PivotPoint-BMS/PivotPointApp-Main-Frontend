@@ -12,9 +12,9 @@ import { ResetPasswordInput } from 'types'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // components
-import Button from '@/components/Button'
-import { FormProvider, RHFTextField } from '@/components/hook-form'
-import Alert from '@/components/Alert'
+import Button from 'components/Button'
+import { FormProvider, RHFTextField } from 'components/hook-form'
+import Alert from 'components/Alert'
 
 export default function ResetPasswordForm() {
   const { push } = useRouter()

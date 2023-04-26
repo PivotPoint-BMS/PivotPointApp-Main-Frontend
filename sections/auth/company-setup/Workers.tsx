@@ -5,13 +5,13 @@ import clsx from 'clsx'
 import useTranslate from 'hooks/useTranslate'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import MotionContainer from '@/components/animate/MotionContainer'
-import { varFade } from '@/components/animate/variants'
-import TextField from '@/components/TextField'
-import Button from '@/components/Button'
-import IconButton from '@/components/IconButton'
-import Scrollbar from '@/components/Scrollbar'
-import Alert from '@/components/Alert'
+import MotionContainer from 'components/animate/MotionContainer'
+import { varFade } from 'components/animate/variants'
+import TextField from 'components/TextField'
+import Button from 'components/Button'
+import IconButton from 'components/IconButton'
+import Scrollbar from 'components/Scrollbar'
+import Alert from 'components/Alert'
 
 interface WorkersProps {
   handleBack: () => void

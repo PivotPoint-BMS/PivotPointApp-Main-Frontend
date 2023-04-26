@@ -6,9 +6,9 @@ import useTranslate from 'hooks/useTranslate'
 import { fCurrency } from 'utils/formatNumber'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import Card from '@/components/Card'
-import CardContent from '@/components/CardContent'
-import Button from '@/components/Button'
+import Card from 'components/Card'
+import CardContent from 'components/CardContent'
+import Button from 'components/Button'
 
 export default function ProfileBilling() {
   const { t } = useTranslate()

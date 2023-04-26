@@ -5,7 +5,7 @@ import * as TabsPrimitive from '@radix-ui/react-tabs'
 import useTranslate from 'hooks/useTranslate'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import Card from '@/components/Card'
+import Card from 'components/Card'
 // sections
 import Notes from './notes'
 import Activities from './activities'

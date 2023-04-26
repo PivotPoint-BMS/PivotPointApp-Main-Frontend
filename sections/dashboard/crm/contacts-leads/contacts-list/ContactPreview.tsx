@@ -16,9 +16,9 @@ import useResponsive from 'hooks/useResponsive'
 import avatarPlaceholder from 'public/avatar_placeholder.png'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import IconButton from '@/components/IconButton'
-import Button from '@/components/Button'
-import Image from '@/components/Image'
+import IconButton from 'components/IconButton'
+import Button from 'components/Button'
+import Image from 'components/Image'
 
 export default function ContactPreview() {
   const isDesktop = useResponsive('sm', 'up')

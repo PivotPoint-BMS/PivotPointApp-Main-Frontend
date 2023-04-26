@@ -3,11 +3,11 @@ import React from 'react'
 import useTranslate from 'hooks/useTranslate'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import Card from '@/components/Card'
-import CardContent from '@/components/CardContent'
-import Progressbar from '@/components/Progressbar'
-import Checkbox from '@/components/Switch'
-import Button from '@/components/Button'
+import Card from 'components/Card'
+import CardContent from 'components/CardContent'
+import Progressbar from 'components/Progressbar'
+import Checkbox from 'components/Switch'
+import Button from 'components/Button'
 
 export default function SettingsStorage() {
   const { t } = useTranslate()

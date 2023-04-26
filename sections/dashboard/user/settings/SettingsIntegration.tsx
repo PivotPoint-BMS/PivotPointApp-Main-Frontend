@@ -6,10 +6,10 @@ import trelloLogo from 'public/trello.png'
 import shopifyLogo from 'public/shopify.png'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import Card from '@/components/Card'
-import CardContent from '@/components/CardContent'
-import Image from '@/components/Image'
-import Button from '@/components/Button'
+import Card from 'components/Card'
+import CardContent from 'components/CardContent'
+import Image from 'components/Image'
+import Button from 'components/Button'
 
 export default function SettingsIntegration() {
   const { t } = useTranslate()

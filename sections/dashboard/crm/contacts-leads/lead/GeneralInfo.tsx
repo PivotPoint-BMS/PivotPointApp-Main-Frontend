@@ -14,11 +14,11 @@ import { Lead } from 'types'
 import avatarPlaceholder from 'public/avatar_placeholder.png'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import Button from '@/components/Button'
-import Card from '@/components/Card'
-import CardContent from '@/components/CardContent'
-import IconButton from '@/components/IconButton'
-import Image from '@/components/Image'
+import Button from 'components/Button'
+import Card from 'components/Card'
+import CardContent from 'components/CardContent'
+import IconButton from 'components/IconButton'
+import Image from 'components/Image'
 
 const TABS = [
   { name: 'Lead Info', value: 'info' },

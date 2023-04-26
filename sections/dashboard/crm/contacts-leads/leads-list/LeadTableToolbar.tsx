@@ -5,7 +5,7 @@ import { Variant, motion } from 'framer-motion'
 import useTranslate from 'hooks/useTranslate'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import Button from '@/components/Button'
+import Button from 'components/Button'
 
 interface LeadTableToolbarProps {
   selectedCount: number

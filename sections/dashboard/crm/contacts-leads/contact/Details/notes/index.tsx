@@ -15,10 +15,10 @@ import Dropcursor from '@tiptap/extension-dropcursor'
 import Placeholder from '@tiptap/extension-placeholder'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import CardContent from '@/components/CardContent'
+import CardContent from 'components/CardContent'
 import NoteCard from './NoteCard'
-import IconButton from '@/components/IconButton'
-import Button from '@/components/Button'
+import IconButton from 'components/IconButton'
+import Button from 'components/Button'
 
 export default function Notes() {
   const { t } = useTranslate()

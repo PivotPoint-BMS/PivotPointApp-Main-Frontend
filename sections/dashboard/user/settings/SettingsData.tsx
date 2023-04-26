@@ -3,11 +3,11 @@ import React from 'react'
 import useTranslate from 'hooks/useTranslate'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import Card from '@/components/Card'
-import CardContent from '@/components/CardContent'
-import Button from '@/components/Button'
-import Checkbox from '@/components/Switch'
-import Select from '@/components/Select'
+import Card from 'components/Card'
+import CardContent from 'components/CardContent'
+import Button from 'components/Button'
+import Checkbox from 'components/Switch'
+import Select from 'components/Select'
 
 const exportTypes = [
   { label: 'PDF', value: 'pfd' },

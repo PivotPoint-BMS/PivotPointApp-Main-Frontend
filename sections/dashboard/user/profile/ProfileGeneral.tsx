@@ -10,12 +10,12 @@ import useTranslate from 'hooks/useTranslate'
 // utils
 import { fData } from 'utils/formatNumber'
 // components
-import { FormProvider, RHFTextField } from '@/components/hook-form'
-import RHFUploadAvatar from '@/components/hook-form/RHFUpload'
-import Card from '@/components/Card'
-import CardContent from '@/components/CardContent'
-import RHFTextArea from '@/components/hook-form/RHFTextArea'
-import Button from '@/components/Button'
+import { FormProvider, RHFTextField } from 'components/hook-form'
+import RHFUploadAvatar from 'components/hook-form/RHFUpload'
+import Card from 'components/Card'
+import CardContent from 'components/CardContent'
+import RHFTextArea from 'components/hook-form/RHFTextArea'
+import Button from 'components/Button'
 
 export default function ProfileGeneral() {
   const { t } = useTranslate()

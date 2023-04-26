@@ -17,10 +17,10 @@ import { LoginInput } from 'types'
 import { PATH_AUTH, PATH_DASHBOARD } from 'routes/paths'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import Button from '@/components/Button'
-import { Checkbox, FormProvider, RHFTextField } from '@/components/hook-form'
-import Alert from '@/components/Alert'
-import IconButton from '@/components/IconButton'
+import Button from 'components/Button'
+import { Checkbox, FormProvider, RHFTextField } from 'components/hook-form'
+import Alert from 'components/Alert'
+import IconButton from 'components/IconButton'
 
 export default function LoginForm() {
   const { push } = useRouter()

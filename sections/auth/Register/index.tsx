@@ -11,8 +11,8 @@ import useTranslate from 'hooks/useTranslate'
 // api
 import { useRegisterMutation } from 'store/api/authApi'
 // components
-import { FormProvider } from '@/components/hook-form'
-import Alert from '@/components/Alert'
+import { FormProvider } from 'components/hook-form'
+import Alert from 'components/Alert'
 // forms
 import PersonalData from './PersonalData'
 import UserData from './UserData'

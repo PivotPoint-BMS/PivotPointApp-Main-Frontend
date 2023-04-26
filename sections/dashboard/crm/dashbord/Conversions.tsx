@@ -3,10 +3,10 @@ import { merge } from 'lodash'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // components
-import Card from '@/components/Card'
-import CardContent from '@/components/CardContent'
-import CardHeader from '@/components/CardHeader'
-import ReactApexChart, { BaseOptionChart } from '@/components/chart'
+import Card from 'components/Card'
+import CardContent from 'components/CardContent'
+import CardHeader from 'components/CardHeader'
+import ReactApexChart, { BaseOptionChart } from 'components/chart'
 
 const CHART_DATA = [
   { name: 'Successfull Conversions', data: [10, 41, 35, 151, 49, 62, 69, 91, 48] },

@@ -7,9 +7,9 @@ import { CSS } from '@dnd-kit/utilities'
 import { Deal } from 'types'
 // components
 import SortableKanbanItem from './KanbanItem'
-import Card from '@/components/Card'
-import CardContent from '@/components/CardContent'
-import CardHeader from '@/components/CardHeader'
+import Card from 'components/Card'
+import CardContent from 'components/CardContent'
+import CardHeader from 'components/CardHeader'
 import DealItem from './DealItem'
 
 type KanbanColumnProps = {
