@@ -3,7 +3,7 @@ import { HYDRATE } from 'next-redux-wrapper'
 // actions
 import { setError, setUser, startLoading } from 'store/slices/sessionSlice'
 // types
-import { IGenericResponse, LoginInput, RegisterInput, ResetPasswordInput, User } from 'types'
+import { IGenericResponse, LoginInput, RegisterInput, ResetPasswordInput, SessionUser } from 'types'
 // config
 import { PIVOTPOINT_API } from 'config'
 
@@ -20,7 +20,7 @@ export const authApi = createApi({
   },
   tagTypes: [],
   endpoints: (builder) => ({
-    login: builder.mutation<User, LoginInput>({
+    login: builder.mutation<SessionUser, LoginInput>({
       query: (data) => ({
         url: 'Login',
         method: 'POST',
@@ -45,7 +45,7 @@ export const authApi = createApi({
         responseHandler: 'content-type',
       }),
     }),
-    getUser: builder.mutation<User, string>({
+    getUser: builder.mutation<SessionUser, string>({
       query: (refreshToken) => ({
         headers: {
           Authorization: `Bearer ${refreshToken}`,
