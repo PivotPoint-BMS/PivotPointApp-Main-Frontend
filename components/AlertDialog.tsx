@@ -8,7 +8,6 @@ interface AlertDialogProps {
   description?: string
   cancelText: string
   confirmText: string
-  handleClose: () => void
   onConfirm: () => void
   children: ReactNode
 }
@@ -19,7 +18,6 @@ export default function AlertDialog({
   description,
   title,
   onConfirm,
-  handleClose,
   children,
 }: AlertDialogProps) {
   const [isOpen, setIsOpen] = useState(false)
@@ -56,7 +54,7 @@ export default function AlertDialog({
                 'border border-gray-300 dark:border-transparent',
                 'focus:outline-none focus-visible:ring focus-visible:ring-primary-500 focus-visible:ring-opacity-75'
               )}
-              onClick={handleClose}
+              onClick={() => setIsOpen(false)}
             >
               {cancelText}
             </AlertDialogPrimitive.Cancel>

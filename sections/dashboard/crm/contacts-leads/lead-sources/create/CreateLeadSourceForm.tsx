@@ -18,7 +18,7 @@ export default function CreateLeadSourceForm() {
   const { t } = useTranslate()
   const { open } = useSnackbar()
 
-  const [createLeadSource, { isLoading, isSuccess, isError, error }] = useCreateLeadSourceMutation()
+  const [createLeadSource, { isLoading, isSuccess, isError }] = useCreateLeadSourceMutation()
 
   const LeadSchema = Yup.object().shape({
     source: Yup.string().min(3, t('Too short')).required(t('This field is required')),

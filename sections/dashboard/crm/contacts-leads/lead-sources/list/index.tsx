@@ -41,7 +41,6 @@ export default function LeadSourcesList() {
   const { isFallback } = useRouter()
   const [selectedRows, setSelectedRows] = useState<LeadSource[]>([])
   const [selectedCount, setSelectedCount] = useState(0)
-  const [toDelete, setToDelete] = useState<string | null>(null)
 
   const { data, isLoading } = useGetLeadSourcesQuery(undefined, {
     skip: isFallback,
@@ -77,7 +76,6 @@ export default function LeadSourcesList() {
             cancelText={t('Cancel')}
             confirmText={t('Yes, Delete')}
             onConfirm={() => deleteLeadSource(id || '')}
-            handleClose={() => setToDelete(null)}
           >
             <IconButton>
               <Tooltip title={t('Delete')} side='bottom' sideOffset={10}>
@@ -117,10 +115,6 @@ export default function LeadSourcesList() {
       })
     }
   }, [isError, isSuccess])
-
-  useEffect(() => {
-    console.log(toDelete)
-  }, [toDelete])
 
   return (
     <>
