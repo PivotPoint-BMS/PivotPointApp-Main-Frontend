@@ -41,7 +41,7 @@ export default function LeadSourcesList() {
   const { isFallback } = useRouter()
   const [selectedRows, setSelectedRows] = useState<LeadSource[]>([])
   const [selectedCount, setSelectedCount] = useState(0)
-
+  const [idToDelete, setIdToDelete] = useState<string | null>(null)
   const { data, isLoading } = useGetLeadSourcesQuery(undefined, {
     skip: isFallback,
     refetchOnFocus: true,
@@ -68,30 +68,27 @@ export default function LeadSourcesList() {
       right: true,
       cell: ({ id }) => (
         <div className='flex items-center gap-2'>
-          <AlertDialog
-            title={t('Confirm Delete')}
-            description={t(
-              'This action cannot be undone. This will permanently delete this lead source.'
-            )}
-            cancelText={t('Cancel')}
-            confirmText={t('Yes, Delete')}
-            onConfirm={() => deleteLeadSource(id || '')}
+          <IconButton
+            onClick={() => {
+              console.log('here')
+
+              setIdToDelete(id || '')
+            }}
           >
-            <IconButton>
-              <Tooltip title={t('Delete')} side='bottom' sideOffset={10}>
-                <Iconify
-                  className='text-red-600'
-                  icon='material-symbols:delete-rounded'
-                  height={20}
-                />
-              </Tooltip>
-            </IconButton>
-          </AlertDialog>
-          <IconButton>
-            <Tooltip title={t('Edit')} side='bottom' sideOffset={10}>
-              <Iconify icon='material-symbols:edit' height={20} />
+            <Tooltip title={t('Delete')} side='bottom' sideOffset={10}>
+              <Iconify
+                className='text-red-600 dark:text-red-500'
+                icon='material-symbols:delete-rounded'
+                height={20}
+              />
             </Tooltip>
           </IconButton>
+
+          <Tooltip title={t('Edit')} side='bottom' sideOffset={10}>
+            <IconButton>
+              <Iconify icon='material-symbols:edit' height={20} />
+            </IconButton>
+          </Tooltip>
         </div>
       ),
     },
@@ -178,6 +175,20 @@ export default function LeadSourcesList() {
         </>
       )}
       <Backdrop loading={isDeleteLeading} />
+      <AlertDialog
+        title={t('Confirm Delete')}
+        description={t(
+          'This action cannot be undone. This will permanently delete this lead source.'
+        )}
+        cancelText={t('Cancel')}
+        confirmText={t('Yes, Delete')}
+        onConfirm={() => {
+          deleteLeadSource(idToDelete || '')
+          setIdToDelete(null)
+        }}
+        open={idToDelete !== null}
+        onClose={() => setIdToDelete(null)}
+      />
     </>
   )
 }
