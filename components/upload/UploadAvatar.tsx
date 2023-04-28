@@ -47,8 +47,8 @@ export default function UploadAvatar({ error, file, helperText, ...other }: Uplo
           )}
           <div
             className={clsx(
-              'absolute flex h-full w-full flex-col items-center justify-center text-gray-600 transition-opacity hover:bg-gray-100  hover:opacity-75 group-hover:z-10 dark:text-gray-300 dark:hover:bg-gray-900',
-              file && 'bg-gray-900 text-white opacity-0 backdrop-blur-md hover:opacity-75',
+              'absolute flex h-full w-full flex-col items-center justify-center text-gray-900 opacity-0  backdrop-blur-sm hover:bg-gray-400/30 group-hover:z-10 group-hover:opacity-100 dark:text-gray-300 dark:hover:bg-gray-900/50',
+              !file && 'bg-gray-900 text-white opacity-0',
               (isDragReject || error) && 'bg-red-400/50'
             )}
           >
