@@ -28,8 +28,8 @@ import {
   Button,
   IconButton,
   Checkbox,
-  DropdownMenu,
   Tooltip,
+  Backdrop,
 } from 'components'
 import AlertDialog from 'components/AlertDialog'
 import LeadSourceTableToolbar from './LeadSourceTableToolbar'
@@ -183,6 +183,7 @@ export default function LeadSourcesList() {
           )}
         </>
       )}
+      <Backdrop loading={isDeleteLeading} />
     </>
   )
 }
