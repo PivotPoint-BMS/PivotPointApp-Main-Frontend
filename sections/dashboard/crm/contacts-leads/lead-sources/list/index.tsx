@@ -76,7 +76,7 @@ export default function LeadSourcesList() {
             )}
             cancelText={t('Cancel')}
             confirmText={t('Yes, Delete')}
-            onConfirm={() => deleteLeadSource(id)}
+            onConfirm={() => deleteLeadSource(id || '')}
             handleClose={() => setToDelete(null)}
           >
             <IconButton>

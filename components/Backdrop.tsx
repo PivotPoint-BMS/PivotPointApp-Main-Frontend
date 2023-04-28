@@ -5,8 +5,8 @@ interface BackdropProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export default function Backdrop({ loading }: BackdropProps) {
-  return (
-    loading && (
+  if (loading)
+    return (
       <div className='fixed top-0 left-0 z-[99999] flex h-screen w-screen items-center justify-center bg-black/50 backdrop-blur-sm'>
         <svg
           aria-hidden='true'
@@ -26,5 +26,5 @@ export default function Backdrop({ loading }: BackdropProps) {
         </svg>
       </div>
     )
-  )
+  return null
 }
