@@ -32,13 +32,15 @@ export default function AccountDropdown() {
     <DropdownMenuPrimitive.Root>
       <DropdownMenuPrimitive.Trigger className={iconButton({ class: 'group !outline-none' })}>
         {user?.profilePicture ? (
-          <Image
-            alt='avatar'
-            width={32}
-            height={32}
-            src={`${PIVOTPOINT_API.profilePicUrl}/${user.profilePicture}`}
-            className='rounded-full transition-all group-hover:scale-110 motion-reduce:transition-none'
-          />
+          <div className='inline-block h-8 w-8 rounded-full bg-gray-500/30 dark:bg-gray-100/30'>
+            <Image
+              alt='avatar'
+              width={32}
+              height={32}
+              src={`${PIVOTPOINT_API.profilePicUrl}/${user.profilePicture}`}
+              className='rounded-full  transition-all group-hover:scale-110 motion-reduce:transition-none'
+            />
+          </div>
         ) : (
           <Iconify
             icon='heroicons:user-circle-20-solid'
