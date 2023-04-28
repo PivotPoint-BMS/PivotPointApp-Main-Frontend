@@ -1,6 +1,7 @@
 import React, { ReactNode, useState } from 'react'
 // next
 import { useRouter } from 'next/router'
+import { useTheme } from 'next-themes'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // routes
@@ -15,6 +16,7 @@ import { Lead } from 'types'
 // asset
 import avatarPlaceholder from 'public/avatar_placeholder.png'
 import noData from 'public/no-data.png'
+import noDataDark from 'public/no-data-dark.png'
 // components
 import { LoadingIndicator } from 'components'
 import DataTable, { TableColumn } from 'react-data-table-component'
@@ -32,6 +34,7 @@ import LeadPreview from './LeadPreview'
 
 export default function LeadsList() {
   const { t } = useTranslate()
+  const { theme } = useTheme()
   const { push, isFallback } = useRouter()
   const dispatch = useAppDispatch()
   const [selectedRows, setSelectedRows] = useState<Lead[]>([])
@@ -219,7 +222,11 @@ export default function LeadsList() {
             </>
           ) : (
             <div className='flex flex-col items-center justify-center gap-2 p-4'>
-              <Image src={noData.src} height={300} width={300} />
+              {theme === 'dark' ? (
+                <Image src={noDataDark.src} height={300} width={300} className='mix-blend-darken' />
+              ) : (
+                <Image src={noData.src} height={300} width={300} className='mix-blend-darken' />
+              )}
               <h1 className='text-xl font-semibold'>{t('No Lead Found')}</h1>
             </div>
           )}

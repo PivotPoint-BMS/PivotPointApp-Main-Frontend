@@ -5,6 +5,7 @@ import sideBarSlice from './slices/sideBarSlice'
 import sessionSlice from './slices/sessionSlice'
 import leadPreviewSlice from './slices/leadPreviewSlice'
 import contactPreviewSlice from './slices/contactPreviewSlice'
+import snackbarSlice from './slices/snackbarSlice'
 // apis
 import { authApi } from './api/authApi'
 import { humanResourceApi } from './api/humanResourceApi'
@@ -17,6 +18,7 @@ export const makeStore = () =>
     reducer: {
       [sessionSlice.name]: sessionSlice.reducer,
       [sideBarSlice.name]: sideBarSlice.reducer,
+      [snackbarSlice.name]: snackbarSlice.reducer,
       [leadPreviewSlice.name]: leadPreviewSlice.reducer,
       [contactPreviewSlice.name]: contactPreviewSlice.reducer,
       [authApi.reducerPath]: authApi.reducer,

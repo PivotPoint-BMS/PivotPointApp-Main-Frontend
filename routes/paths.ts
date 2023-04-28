@@ -47,6 +47,10 @@ export const PATH_DASHBOARD = {
       create: path(ROOTS_DASHBOARD, '/crm/contacts-leads/create'),
       lead: (id?: string) => `${path(ROOTS_DASHBOARD, '/crm/contacts-leads/lead')}/${id}`,
       contact: (id?: string) => `${path(ROOTS_DASHBOARD, '/crm/contacts-leads/contact')}/${id}`,
+      'lead-source': {
+        root: path(ROOTS_DASHBOARD, '/crm/contacts-leads/lead-source'),
+        create: path(ROOTS_DASHBOARD, '/crm/contacts-leads/lead-source/create'),
+      },
     },
     accounts: path(ROOTS_DASHBOARD, '/crm/accounts'),
     'sales-pipeline': path(ROOTS_DASHBOARD, '/crm/sales-pipeline'),

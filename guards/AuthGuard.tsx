@@ -4,8 +4,6 @@ import { useRouter } from 'next/router'
 // hooks
 import { useAppSelector } from 'store/hooks'
 import { useGetUserMutation } from 'store/api/authApi'
-// routes
-// import { PATH_DASHBOARD } from 'routes/paths'
 // pages
 import Login from 'pages/auth/login'
 import CompanySetup from 'pages/auth/company-setup'

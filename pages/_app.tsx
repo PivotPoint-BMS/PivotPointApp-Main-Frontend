@@ -12,7 +12,7 @@ import useTranslate from 'hooks/useTranslate'
 // layout
 import Layout from 'layout/Index'
 // Components
-import { NextProgressBar } from 'components'
+import { NextProgressBar, SnackbarProvider } from 'components'
 // css
 import 'styles/globals.css'
 import 'simplebar-react/dist/simplebar.min.css'
@@ -68,19 +68,21 @@ function MyApp({ Component, ...rest }: AppProps) {
       </Head>
       <ReduxProvider store={store}>
         <ThemeProvider attribute='class'>
-          <NextProgressBar />
-          <Layout
-            variant={
-              // eslint-disable-next-line no-nested-ternary
-              router.route.includes('dashboard')
-                ? 'dashboard'
-                : router.route.includes('auth')
-                ? 'main'
-                : 'logoOnly'
-            }
-          >
-            <Component {...props.pageProps} />
-          </Layout>
+          <SnackbarProvider>
+            <NextProgressBar />
+            <Layout
+              variant={
+                // eslint-disable-next-line no-nested-ternary
+                router.route.includes('dashboard')
+                  ? 'dashboard'
+                  : router.route.includes('auth')
+                  ? 'main'
+                  : 'logoOnly'
+              }
+            >
+              <Component {...props.pageProps} />
+            </Layout>
+          </SnackbarProvider>
         </ThemeProvider>
       </ReduxProvider>
     </>

@@ -3,9 +3,10 @@ import { HYDRATE } from 'next-redux-wrapper'
 // config
 import { PIVOTPOINT_API } from 'config'
 // types
-import { Contact, ContactsResponse, Lead, LeadsResponse } from 'types'
+import { Contact, ContactsResponse, Lead, LeadsResponse, LeadSourceResponse } from 'types'
 // store
 import { RootState } from 'store'
+import { LeadSource } from 'types/Lead'
 
 export const crmApi = createApi({
   reducerPath: 'crmApi',
@@ -27,14 +28,16 @@ export const crmApi = createApi({
       return action.payload[reducerPath]
     }
   },
-  tagTypes: [],
+  tagTypes: ['LeadSources'],
   endpoints: (builder) => ({
+    // Contacts APIs
     getContacts: builder.query<ContactsResponse, void>({
       query: () => 'Contact',
     }),
     getContact: builder.query<Contact, string>({
       query: (id) => `Contact/${id}`,
     }),
+    // Leads APIs
     getLeads: builder.query<LeadsResponse, void>({
       query: () => 'Lead',
     }),
@@ -49,18 +52,46 @@ export const crmApi = createApi({
         responseHandler: 'content-type',
       }),
     }),
+    // Lead Sources APIs
+    getLeadSources: builder.query<LeadSourceResponse, void>({
+      query: () => 'LeadSources',
+      providesTags: ['LeadSources'],
+    }),
+    createLeadSource: builder.mutation<string[], LeadSource>({
+      query: (data) => ({
+        url: 'LeadSources',
+        method: 'POST',
+        body: data,
+        responseHandler: 'content-type',
+      }),
+      invalidatesTags: ['LeadSources'],
+    }),
+    deleteLeadSource: builder.mutation<string[], string>({
+      query: (id) => ({
+        url: `LeadSources/${id}`,
+        method: 'DELETE',
+        responseHandler: 'content-type',
+      }),
+      invalidatesTags: ['LeadSources'],
+    }),
   }),
 })
 
 // Export hooks for usage in functional components
 export const {
+  // Queries
   useGetContactsQuery,
   useGetContactQuery,
   useGetLeadQuery,
   useGetLeadsQuery,
+  useGetLeadSourcesQuery,
+  // Mutations
   useCreateLeadMutation,
+  useCreateLeadSourceMutation,
+  useDeleteLeadSourceMutation,
   util: { getRunningQueriesThunk },
 } = crmApi
 
 // export endpoints for use in SSR
-export const { getContacts, getContact, getLead, getLeads, createLead } = crmApi.endpoints
+export const { getContacts, getContact, getLead, getLeads, getLeadSources, createLead } =
+  crmApi.endpoints

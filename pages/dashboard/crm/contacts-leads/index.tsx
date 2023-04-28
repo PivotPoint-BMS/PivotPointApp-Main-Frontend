@@ -13,6 +13,7 @@ import { PATH_DASHBOARD } from 'routes/paths'
 // sections
 import ContactsList from 'sections/dashboard/crm/contacts-leads/contacts-list'
 import LeadsList from 'sections/dashboard/crm/contacts-leads/leads-list'
+import LeadSourcesList from 'sections/dashboard/crm/contacts-leads/lead-sources/list'
 // components
 import { Icon as Iconify } from '@iconify/react'
 import { HeaderBreadcrumbs, Card, Button } from 'components'
@@ -46,11 +47,19 @@ export default function index() {
             { name: t('Contacts & Leads') },
           ]}
           action={
-            <Link href={PATH_DASHBOARD.crm['contacts-leads'].create}>
-              <Button startIcon={<Iconify icon='ic:round-add' height={24} />}>
-                {t('Create Lead')}
-              </Button>
-            </Link>
+            tab === 'sources' ? (
+              <Link href={PATH_DASHBOARD.crm['contacts-leads']['lead-source'].create}>
+                <Button startIcon={<Iconify icon='ic:round-add' height={24} />}>
+                  {t('Create Lead Source')}
+                </Button>
+              </Link>
+            ) : (
+              <Link href={PATH_DASHBOARD.crm['contacts-leads'].create}>
+                <Button startIcon={<Iconify icon='ic:round-add' height={24} />}>
+                  {t('Create Lead')}
+                </Button>
+              </Link>
+            )
           }
         />
         <Card fullWidth className='overflow-hidden'>
@@ -85,6 +94,9 @@ export default function index() {
             </TabsPrimitive.Content>
             <TabsPrimitive.Content value='leads' className='w-full'>
               <LeadsList />
+            </TabsPrimitive.Content>
+            <TabsPrimitive.Content value='sources' className='w-full'>
+              <LeadSourcesList />
             </TabsPrimitive.Content>
           </TabsPrimitive.Root>
         </Card>

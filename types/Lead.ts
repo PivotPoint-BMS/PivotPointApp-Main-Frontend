@@ -3,6 +3,7 @@ export interface Address {
   country: string
 }
 export interface LeadSource {
+  id: string
   source: string
   sourceLink?: string
 }
