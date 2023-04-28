@@ -12,6 +12,7 @@ import { humanResourceApi } from './api/humanResourceApi'
 import { companyApi } from './api/companyApi'
 import { paymentApi } from './api/paymentApi'
 import { crmApi } from './api/crm/crmApis'
+import { settingsApi } from './api/settings/settingsAPIs'
 
 export const makeStore = () =>
   configureStore({
@@ -26,6 +27,7 @@ export const makeStore = () =>
       [companyApi.reducerPath]: companyApi.reducer,
       [paymentApi.reducerPath]: paymentApi.reducer,
       [crmApi.reducerPath]: crmApi.reducer,
+      [settingsApi.reducerPath]: settingsApi.reducer,
     },
     devTools: process.env.NODE_ENV === 'development',
     middleware: (gDM) =>
@@ -34,7 +36,8 @@ export const makeStore = () =>
         authApi.middleware,
         companyApi.middleware,
         paymentApi.middleware,
-        crmApi.middleware
+        crmApi.middleware,
+        settingsApi.middleware
       ),
   })
 

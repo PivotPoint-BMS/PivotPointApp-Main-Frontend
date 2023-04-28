@@ -1,18 +1,14 @@
 // redux
-import { useAppDispatch, useAppSelector } from 'store/hooks'
+import { useAppDispatch } from 'store/hooks'
 import { closeSnackbar, openSnackbar } from 'store/slices/snackbarSlice'
 import { SnackbarOptions } from 'types'
 
 const useSnackbar = () => {
   const dispatch = useAppDispatch()
-  const { isOpen } = useAppSelector((state) => state.snackbar)
 
-  const open = (options: SnackbarOptions) => {
-    if (!isOpen) dispatch(openSnackbar(options))
-  }
-  const close = () => {
-    if (isOpen) dispatch(closeSnackbar())
-  }
+  const open = (options: Omit<SnackbarOptions, 'id'>) => dispatch(openSnackbar(options))
+
+  const close = (id: string) => dispatch(closeSnackbar(id))
 
   return { open, close }
 }

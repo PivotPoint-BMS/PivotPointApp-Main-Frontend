@@ -67,6 +67,7 @@
     "styled-components": "^5.3.9",
     "tailwindcss-radix": "^2.7.0",
     "tailwindcss-scoped-groups": "^2.0.0",
+    "uuid": "^9.0.0",
     "webpack": "^5.75.0",
     "yup": "^0.32.11"
   },
@@ -88,6 +89,7 @@
     "@types/react-autosuggest": "^10.1.6",
     "@types/react-dom": "18.0.6",
     "@types/react-lazy-load-image-component": "^1.5.2",
+    "@types/uuid": "^9.0.1",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
     "@typescript-eslint/parser": "^5.0.0",
     "autoprefixer": "^10.4.12",

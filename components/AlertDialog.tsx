@@ -1,33 +1,31 @@
 import clsx from 'clsx'
 // radix
-import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog'
-import { ReactNode, useState } from 'react'
+import Backdrop from './Backdrop'
+import Button from './Button'
 
 interface AlertDialogProps {
+  open: boolean
   title?: string
   description?: string
   cancelText: string
   confirmText: string
   onConfirm: () => void
-  children: ReactNode
+  onClose: () => void
 }
 
 export default function AlertDialog({
+  open,
   cancelText,
   confirmText,
   description,
   title,
   onConfirm,
-  children,
+  onClose,
 }: AlertDialogProps) {
-  const [isOpen, setIsOpen] = useState(false)
-
-  return (
-    <AlertDialogPrimitive.Root open={isOpen} defaultOpen={false} onOpenChange={setIsOpen}>
-      <AlertDialogPrimitive.Trigger asChild>{children}</AlertDialogPrimitive.Trigger>
-      <AlertDialogPrimitive.Portal>
-        <AlertDialogPrimitive.Overlay className='fixed inset-0 z-[9999] bg-black/50' />
-        <AlertDialogPrimitive.Content
+  if (open)
+    return (
+      <Backdrop open={open}>
+        <div
           className={clsx(
             'fixed z-[10000]',
             'w-[95vw] max-w-md rounded-lg p-4 md:w-full',
@@ -37,28 +35,30 @@ export default function AlertDialog({
           )}
         >
           {title && (
-            <AlertDialogPrimitive.Title className='text-lg font-medium text-gray-900 dark:text-gray-100'>
-              {title}
-            </AlertDialogPrimitive.Title>
+            <h1 className='text-lg font-medium text-gray-900 dark:text-gray-100'>{title}</h1>
           )}
           {description && (
-            <AlertDialogPrimitive.Description className='mt-2 mb-4 text-sm font-normal text-gray-700 dark:text-gray-400'>
+            <p className='mt-2 mb-4 text-sm font-normal text-gray-700 dark:text-gray-400'>
               {description}
-            </AlertDialogPrimitive.Description>
+            </p>
           )}
           <div className=' flex justify-end space-x-2'>
-            <AlertDialogPrimitive.Cancel
+            <Button
+              variant='outlined'
+              intent='default'
               className={clsx(
                 'inline-flex select-none justify-center rounded-md px-4 py-2 text-sm font-medium',
                 'bg-white text-gray-900 hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-100 hover:dark:bg-gray-600',
                 'border border-gray-300 dark:border-transparent',
                 'focus:outline-none focus-visible:ring focus-visible:ring-primary-500 focus-visible:ring-opacity-75'
               )}
-              onClick={() => setIsOpen(false)}
+              onClick={onClose}
             >
               {cancelText}
-            </AlertDialogPrimitive.Cancel>
-            <AlertDialogPrimitive.Action
+            </Button>
+            <Button
+              variant='contained'
+              intent='primary'
               className={clsx(
                 'inline-flex select-none justify-center rounded-md px-4 py-2 text-sm font-medium',
                 'bg-primary-600 text-white hover:bg-primary-700 dark:bg-primary-700 dark:text-gray-100 dark:hover:bg-primary-600',
@@ -68,10 +68,10 @@ export default function AlertDialog({
               onClick={onConfirm}
             >
               {confirmText}
-            </AlertDialogPrimitive.Action>
+            </Button>
           </div>
-        </AlertDialogPrimitive.Content>
-      </AlertDialogPrimitive.Portal>
-    </AlertDialogPrimitive.Root>
-  )
+        </div>
+      </Backdrop>
+    )
+  return null
 }

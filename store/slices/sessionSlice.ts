@@ -1,11 +1,11 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 // types
-import { User } from 'types'
+import { SessionUser } from 'types'
 import { getItem, removeFromLocalStorage, setItem } from 'utils/localStorage'
 
 interface Session {
-  user: User | null
+  user: SessionUser | null
   isAuthenticated: boolean
   token: string | null
   refreshToken: string | null
@@ -29,7 +29,7 @@ const sessionSlice = createSlice({
     startLoading: (state) => {
       state.isLoading = true
     },
-    setUser: (state, action: PayloadAction<User>) => {
+    setUser: (state, action: PayloadAction<SessionUser>) => {
       setItem('refreshToken', action.payload.refreshToken)
       state.isLoading = false
       state.user = action.payload

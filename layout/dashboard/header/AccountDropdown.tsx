@@ -13,8 +13,9 @@ import { logout } from 'store/slices/sessionSlice'
 import useTranslate from 'hooks/useTranslate'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import { Button } from 'components'
+import { Button, Image } from 'components'
 import { iconButton } from 'components/IconButton'
+import { PIVOTPOINT_API } from 'config'
 
 export default function AccountDropdown() {
   const { push } = useRouter()
@@ -30,12 +31,22 @@ export default function AccountDropdown() {
   return (
     <DropdownMenuPrimitive.Root>
       <DropdownMenuPrimitive.Trigger className={iconButton({ class: 'group !outline-none' })}>
-        <Iconify
-          icon='heroicons:user-circle-20-solid'
-          className='transition-all group-hover:scale-110 motion-reduce:transition-none'
-          height={24}
-          width={24}
-        />
+        {user?.profilePicture ? (
+          <Image
+            alt='avatar'
+            width={32}
+            height={32}
+            src={`${PIVOTPOINT_API.profilePicUrl}/${user.profilePicture}`}
+            className='rounded-full transition-all group-hover:scale-110 motion-reduce:transition-none'
+          />
+        ) : (
+          <Iconify
+            icon='heroicons:user-circle-20-solid'
+            className='transition-all group-hover:scale-110 motion-reduce:transition-none'
+            height={24}
+            width={24}
+          />
+        )}
       </DropdownMenuPrimitive.Trigger>
 
       <DropdownMenuPrimitive.Portal>

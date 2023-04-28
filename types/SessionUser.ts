@@ -1,6 +1,7 @@
-export default interface User {
+export default interface SessionUser {
   firstName: string
   lastName: string
+  profilePicture: string
   hasSetupCompany: boolean
   hasPaidSubscription: boolean
   isOwner: boolean

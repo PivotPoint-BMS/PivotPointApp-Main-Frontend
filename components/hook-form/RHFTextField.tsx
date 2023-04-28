@@ -66,7 +66,8 @@ export default function RHFTextField({
               'dark:outline-gray-300 dark:focus-within:outline-primary-300 dark:hover:outline-primary-300',
               error &&
                 '!outline-red-500 focus-within:outline-red-500 hover:outline-red-500 dark:outline-red-500',
-              disabled && '!bg-gray-400 !outline-none dark:!bg-gray-600 dark:hover:bg-gray-600'
+              disabled &&
+                '!bg-gray-200 !text-gray-500 !outline-none dark:!bg-gray-600 dark:!text-gray-400 dark:hover:bg-gray-600'
             )}
           >
             {startAdornment && <span className='mx-2'>{startAdornment}</span>}

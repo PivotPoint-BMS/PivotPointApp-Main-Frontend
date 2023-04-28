@@ -1,6 +1,7 @@
 // API
 export const PIVOTPOINT_API = {
   baseUrl: process.env.NEXT_PUBLIC_PIVOTPOINT_API_BASE_URL,
+  profilePicUrl: process.env.NEXT_PUBLIC_PIVOTPOINT_BASE_URL,
 }
 
 export const PIVOTPOINT_SOCIALS = {

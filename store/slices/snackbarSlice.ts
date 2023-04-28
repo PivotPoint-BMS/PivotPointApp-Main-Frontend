@@ -1,35 +1,42 @@
 /* eslint-disable no-param-reassign */
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { v4 as uuidv4 } from 'uuid'
 // types
 import { SnackbarOptions } from 'types'
 
-interface SnackbarState extends SnackbarOptions {
-  isOpen: boolean
+interface SnackbarState {
+  snackbars: SnackbarOptions[]
+  side?:
+    | 'top'
+    | 'bottom'
+    | 'right'
+    | 'left'
+    | 'top-left'
+    | 'bottom-left'
+    | 'top-right'
+    | 'bottom-right'
 }
 
 const initialState: SnackbarState = {
-  message: '',
-  isOpen: false,
-  type: 'info',
+  snackbars: [],
   side: 'bottom-left',
-  variant: 'contained',
 }
 
 const snackbarSlice = createSlice({
   name: 'snackbar',
   initialState,
   reducers: {
-    openSnackbar: (state, action: PayloadAction<SnackbarOptions>) => {
-      state.isOpen = true
-      state.message = action.payload.message
-      state.type = action.payload.type
-      state.autoHideDuration = action.payload.autoHideDuration
-      state.side = action.payload.side
-      state.variant = action.payload.variant
+    openSnackbar: (state, action: PayloadAction<Omit<SnackbarOptions, 'id'>>) => {
+      state.snackbars.push({
+        id: uuidv4(),
+        message: action.payload.message,
+        type: action.payload.type,
+        autoHideDuration: action.payload.autoHideDuration,
+        variant: action.payload.variant,
+      })
     },
-    closeSnackbar: (state) => {
-      state.isOpen = false
-      state.message = ''
+    closeSnackbar: (state, action: PayloadAction<string>) => {
+      state.snackbars = state.snackbars.filter(({ id }) => id !== action.payload)
     },
   },
 })
