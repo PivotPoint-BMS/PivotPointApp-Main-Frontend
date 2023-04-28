@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import * as Yup from 'yup'
-import Autosuggest from 'react-autosuggest'
+// import Autosuggest from 'react-autosuggest'
 // form
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FieldValues, useForm } from 'react-hook-form'
@@ -110,7 +110,7 @@ export default function CreateLeadForm() {
             </div>
             <h6 className='mb-5 text-lg font-semibold'>{t('Address Informations')}</h6>
             <div className='md: grid grid-cols-1 gap-6 sm:grid-cols-2 '>
-              <Autosuggest
+              {/* <Autosuggest
                 suggestions={[]}
                 // onSuggestionsFetchRequested={onSuggestionsFetchRequested}
                 // onSuggestionsClearRequested={this.onSuggestionsClearRequested}
@@ -121,7 +121,7 @@ export default function CreateLeadForm() {
                   value: getValues('city'),
                   onChange: (value: string) => setValue('city', value),
                 }}
-              />
+              /> */}
               <RHFTextField name='country' label={t('Country')} />
             </div>
             <div className='mt-6 flex w-full items-center justify-center'>
