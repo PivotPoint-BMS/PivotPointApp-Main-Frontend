@@ -28,11 +28,18 @@ export const crmApi = createApi({
       return action.payload[reducerPath]
     }
   },
-  tagTypes: ['LeadSources'],
+  tagTypes: ['Contacts', 'Leads', 'LeadSources'],
   endpoints: (builder) => ({
     // Contacts APIs
     getContacts: builder.query<ContactsResponse, void>({
       query: () => 'Contact',
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.data.map(({ id }) => ({ type: 'Contacts' as const, id })),
+              { type: 'Contacts', id: 'LIST' },
+            ]
+          : [{ type: 'Contacts', id: 'LIST' }],
     }),
     getContact: builder.query<Contact, string>({
       query: (id) => `Contact/${id}`,
@@ -40,6 +47,13 @@ export const crmApi = createApi({
     // Leads APIs
     getLeads: builder.query<LeadsResponse, void>({
       query: () => 'Lead',
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.data.map(({ id }) => ({ type: 'Leads' as const, id })),
+              { type: 'Leads', id: 'LIST' },
+            ]
+          : [{ type: 'Leads', id: 'LIST' }],
     }),
     getLead: builder.query<Lead, string>({
       query: (id) => `Lead/${id}`,
@@ -51,11 +65,18 @@ export const crmApi = createApi({
         body: data,
         responseHandler: 'content-type',
       }),
+      invalidatesTags: ['Leads'],
     }),
     // Lead Sources APIs
     getLeadSources: builder.query<LeadSourceResponse, void>({
       query: () => 'LeadSources',
-      providesTags: ['LeadSources'],
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.data.map(({ id }) => ({ type: 'LeadSources' as const, id })),
+              { type: 'LeadSources', id: 'LIST' },
+            ]
+          : [{ type: 'LeadSources', id: 'LIST' }],
     }),
     createLeadSource: builder.mutation<string[], LeadSource>({
       query: (data) => ({
@@ -89,7 +110,7 @@ export const {
   useCreateLeadMutation,
   useCreateLeadSourceMutation,
   useDeleteLeadSourceMutation,
-  util: { getRunningQueriesThunk },
+  util: { getRunningQueriesThunk, invalidateTags },
 } = crmApi
 
 // export endpoints for use in SSR

@@ -1,8 +1,10 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import clsx from 'clsx'
 // next
 import { useRouter } from 'next/router'
 import Image from 'next/image'
+// hooks
+import useTranslate from 'hooks/useTranslate'
 // radix
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 // icons
@@ -12,6 +14,8 @@ import french from 'public/french.png'
 // components
 import { iconButton } from 'components/IconButton'
 import { buttonText } from 'components/Button'
+import { Icon as Iconify } from '@iconify/react'
+import Tooltip from 'components/Tooltip'
 
 const LANGS = [
   { value: 'en', label: 'English', icon: english },
@@ -20,9 +24,8 @@ const LANGS = [
 ]
 
 export default function LanguageDropdown() {
-  const { locale, pathname, asPath, query, push } = useRouter()
-
-  const currentLocale = useMemo(() => LANGS.filter((l) => l.value === locale), [locale])
+  const { t } = useTranslate()
+  const { pathname, asPath, query, push } = useRouter()
 
   const changeLocale = (nextLocale: string) => {
     push({ pathname, query }, asPath, { locale: nextLocale })
@@ -31,12 +34,9 @@ export default function LanguageDropdown() {
   return (
     <DropdownMenuPrimitive.Root>
       <DropdownMenuPrimitive.Trigger className={iconButton({ class: 'group !outline-none' })}>
-        <Image
-          src={currentLocale[0].icon}
-          alt='flag'
-          loading='lazy'
-          className='h-6 w-6 rounded-lg transition-all group-hover:scale-110 motion-reduce:transition-none'
-        />
+        <Tooltip title={t('Language')}>
+          <Iconify icon='iconoir:language' height={24} />
+        </Tooltip>
       </DropdownMenuPrimitive.Trigger>
       <DropdownMenuPrimitive.Portal>
         <DropdownMenuPrimitive.Content

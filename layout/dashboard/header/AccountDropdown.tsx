@@ -13,7 +13,7 @@ import { logout } from 'store/slices/sessionSlice'
 import useTranslate from 'hooks/useTranslate'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import { Button, Image } from 'components'
+import { Button, Image, Tooltip } from 'components'
 import { iconButton } from 'components/IconButton'
 import { PIVOTPOINT_API } from 'config'
 
@@ -31,24 +31,24 @@ export default function AccountDropdown() {
   return (
     <DropdownMenuPrimitive.Root>
       <DropdownMenuPrimitive.Trigger className={iconButton({ class: 'group !outline-none' })}>
-        {user?.profilePicture ? (
-          <div className='inline-block h-8 w-8 rounded-full bg-gray-500/30 dark:bg-gray-100/30'>
+        <Tooltip title={t('Account')}>
+          {user?.profilePicture ? (
             <Image
               alt='avatar'
               width={32}
               height={32}
               src={`${PIVOTPOINT_API.profilePicUrl}/${user.profilePicture}`}
-              className='rounded-full  transition-all group-hover:scale-110 motion-reduce:transition-none'
+              className='aspect-square rounded-full object-cover transition-all group-hover:scale-110 motion-reduce:transition-none'
             />
-          </div>
-        ) : (
-          <Iconify
-            icon='heroicons:user-circle-20-solid'
-            className='transition-all group-hover:scale-110 motion-reduce:transition-none'
-            height={24}
-            width={24}
-          />
-        )}
+          ) : (
+            <Iconify
+              icon='heroicons:user-circle-20-solid'
+              className='transition-all group-hover:scale-110 motion-reduce:transition-none'
+              height={24}
+              width={24}
+            />
+          )}
+        </Tooltip>
       </DropdownMenuPrimitive.Trigger>
 
       <DropdownMenuPrimitive.Portal>

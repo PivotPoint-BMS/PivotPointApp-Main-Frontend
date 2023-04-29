@@ -13,7 +13,7 @@ export default function Tooltip({ children, title, className, ...props }: Toolti
     <TooltipPrimitive.Provider>
       <TooltipPrimitive.Root delayDuration={100}>
         <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
-        <div className='z-[999]'>
+        <div className='z-[99999]'>
           <TooltipPrimitive.Content
             className={clsx(
               'data-[side=top]:animate-slide-down-fade',

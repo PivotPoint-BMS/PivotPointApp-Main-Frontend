@@ -6,11 +6,21 @@ import { setError, setUser, startLoading } from 'store/slices/sessionSlice'
 import { IGenericResponse, LoginInput, RegisterInput, ResetPasswordInput, SessionUser } from 'types'
 // config
 import { PIVOTPOINT_API } from 'config'
+import { RootState } from 'store'
 
 export const authApi = createApi({
   reducerPath: 'auth',
   baseQuery: fetchBaseQuery({
     baseUrl: `${PIVOTPOINT_API.baseUrl}/identity/Authentication/`,
+    prepareHeaders: (headers, { getState }) => {
+      const { token } = (getState() as RootState).session
+
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`)
+      }
+
+      return headers
+    },
   }),
   // eslint-disable-next-line consistent-return
   extractRehydrationInfo(action, { reducerPath }) {
@@ -72,6 +82,14 @@ export const authApi = createApi({
         responseHandler: 'content-type',
       }),
     }),
+    changePassword: builder.mutation<IGenericResponse, ResetPasswordInput>({
+      query: (data) => ({
+        url: 'ChangePassword',
+        method: 'PUT',
+        body: data,
+        responseHandler: 'content-type',
+      }),
+    }),
   }),
 })
 
@@ -81,6 +99,7 @@ export const {
   useRegisterMutation,
   useGetUserMutation,
   useResetPasswordMutation,
+  useChangePasswordMutation,
   util: { getRunningQueriesThunk },
 } = authApi
 

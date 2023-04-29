@@ -1,6 +1,5 @@
 import React, { ReactNode, useEffect, useState } from 'react'
 // next
-import { useRouter } from 'next/router'
 import { useTheme } from 'next-themes'
 // hooks
 import useTranslate from 'hooks/useTranslate'
@@ -10,6 +9,7 @@ import { wrapper } from 'store'
 import {
   getLeadSources,
   getRunningQueriesThunk,
+  invalidateTags,
   useDeleteLeadSourceMutation,
   useGetLeadSourcesQuery,
 } from 'store/api/crm/crmApis'
@@ -38,14 +38,11 @@ export default function LeadSourcesList() {
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const { theme } = useTheme()
-  const { isFallback } = useRouter()
+  // eslint-disable-next-line no-unused-vars
   const [selectedRows, setSelectedRows] = useState<LeadSource[]>([])
   const [selectedCount, setSelectedCount] = useState(0)
   const [idToDelete, setIdToDelete] = useState<string | null>(null)
-  const { data, isLoading } = useGetLeadSourcesQuery(undefined, {
-    skip: isFallback,
-    refetchOnFocus: true,
-  })
+  const { data, isLoading } = useGetLeadSourcesQuery()
 
   const [deleteLeadSource, { isLoading: isDeleteLeading, isSuccess, isError }] =
     useDeleteLeadSourceMutation()
@@ -68,23 +65,17 @@ export default function LeadSourcesList() {
       right: true,
       cell: ({ id }) => (
         <div className='flex items-center gap-2'>
-          <IconButton
-            onClick={() => {
-              console.log('here')
-
-              setIdToDelete(id || '')
-            }}
-          >
-            <Tooltip title={t('Delete')} side='bottom' sideOffset={10}>
+          <Tooltip title={t('Delete')} side='bottom'>
+            <IconButton onClick={() => setIdToDelete(id || '')}>
               <Iconify
                 className='text-red-600 dark:text-red-500'
                 icon='material-symbols:delete-rounded'
                 height={20}
               />
-            </Tooltip>
-          </IconButton>
+            </IconButton>
+          </Tooltip>
 
-          <Tooltip title={t('Edit')} side='bottom' sideOffset={10}>
+          <Tooltip title={t('Edit')} side='bottom'>
             <IconButton>
               <Iconify icon='material-symbols:edit' height={20} />
             </IconButton>
@@ -121,7 +112,7 @@ export default function LeadSourcesList() {
         </div>
       ) : (
         <>
-          {data?.data && data?.data.length > 0 ? (
+          {data?.data && data?.data.length ? (
             <>
               <div className='flex items-center justify-center gap-6 p-3'>
                 <TextField
@@ -164,12 +155,12 @@ export default function LeadSourcesList() {
             </>
           ) : (
             <div className='flex flex-col items-center justify-center gap-2 p-4'>
-              {theme === 'dark' ? (
-                <Image src={noDataDark.src} height={300} width={300} />
-              ) : (
-                <Image src={noData.src} height={300} width={300} />
-              )}
-              <h1 className='text-xl font-semibold'>{t('No Lead Found')}</h1>
+              <Image
+                src={theme === 'dark' ? noDataDark.src : noData.src}
+                height={300}
+                width={300}
+              />
+              <h1 className='text-xl font-semibold'>{t('No Contact Found')}</h1>
             </div>
           )}
         </>
@@ -184,6 +175,7 @@ export default function LeadSourcesList() {
         confirmText={t('Yes, Delete')}
         onConfirm={() => {
           deleteLeadSource(idToDelete || '')
+          invalidateTags(['LeadSources'])
           setIdToDelete(null)
         }}
         open={idToDelete !== null}
