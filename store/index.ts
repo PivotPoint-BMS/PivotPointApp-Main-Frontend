@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
+import { setupListeners } from '@reduxjs/toolkit/dist/query'
 import { createWrapper } from 'next-redux-wrapper'
 // slices
 import sideBarSlice from './slices/sideBarSlice'
@@ -41,6 +42,7 @@ export const makeStore = () =>
       ),
   })
 
+setupListeners(makeStore().dispatch)
 type AppStore = ReturnType<typeof makeStore>
 export type RootState = ReturnType<AppStore['getState']>
 export type AppDispatch = AppStore['dispatch']

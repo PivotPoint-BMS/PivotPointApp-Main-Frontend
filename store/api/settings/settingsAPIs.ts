@@ -4,7 +4,7 @@ import { HYDRATE } from 'next-redux-wrapper'
 import { PIVOTPOINT_API } from 'config'
 // store
 import { RootState } from 'store'
-import { UserDetails, UserDetailsResponse } from 'types'
+import { IGenericResponse, NotificationsSettings, UserDetails } from 'types'
 
 export const settingsApi = createApi({
   reducerPath: 'settingsApi',
@@ -28,9 +28,12 @@ export const settingsApi = createApi({
   },
   tagTypes: ['UserDetails'],
   endpoints: (builder) => ({
-    getUserDetails: builder.query<UserDetailsResponse, void>({
+    getUserDetails: builder.query<IGenericResponse<UserDetails>, void>({
       query: () => 'details',
       providesTags: ['UserDetails'],
+    }),
+    getNotifficationsSettings: builder.query<IGenericResponse<NotificationsSettings>, void>({
+      query: () => 'notifications',
     }),
     updateImage: builder.mutation<string[], FormData>({
       query: (data) => ({
@@ -50,14 +53,24 @@ export const settingsApi = createApi({
       }),
       invalidatesTags: ['UserDetails'],
     }),
+    updateNotificationsSettings: builder.mutation<string[], NotificationsSettings>({
+      query: (data) => ({
+        url: 'notifications',
+        method: 'PUT',
+        body: data,
+        responseHandler: 'content-type',
+      }),
+    }),
   }),
 })
 
 // Export hooks for usage in functional components
 export const {
   useGetUserDetailsQuery,
+  useGetNotifficationsSettingsQuery,
   useUpdateImageMutation,
   useUpdateUserDetailsMutation,
+  useUpdateNotificationsSettingsMutation,
   util: { getRunningQueriesThunk },
 } = settingsApi
 

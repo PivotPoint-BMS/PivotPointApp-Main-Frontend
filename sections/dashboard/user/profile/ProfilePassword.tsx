@@ -1,25 +1,35 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import * as Yup from 'yup'
 // redux
 import { useAppSelector } from 'store/hooks'
 // form
 import { useForm, FieldValues } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+// types
+import { ChangePassword } from 'types'
+// api
+import { useChangePasswordMutation } from 'store/api/authApi'
+import { useGetUserDetailsQuery } from 'store/api/settings/settingsAPIs'
 // hooks
 import useTranslate from 'hooks/useTranslate'
+import useSnackbar from 'hooks/useSnackbar'
 // components
 import { FormProvider, RHFTextField } from 'components/hook-form'
 import Card from 'components/Card'
 import CardContent from 'components/CardContent'
 import Button from 'components/Button'
+import LoadingIndicator from 'components/LoadingIndicator'
 
 export default function ProfilePassword() {
   const { t } = useTranslate()
+  const { open } = useSnackbar()
   const { user } = useAppSelector((state) => state.session)
+  const { data: userData, isLoading: detailsLoading } = useGetUserDetailsQuery()
+  const [changePassword, { isLoading, isError, isSuccess }] = useChangePasswordMutation()
 
   const UpdateUserSchema = Yup.object().shape({
-    oldPassword: Yup.string().required(t('Password is required')),
-    newPassord: Yup.string()
+    currentPassword: Yup.string().required(t('Password is required')),
+    newPassword: Yup.string()
       .required(t('Password is required'))
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.-_])[A-Za-z\d@$!%*?&.-_]{8,}$/,
@@ -29,13 +39,13 @@ export default function ProfilePassword() {
       ),
     confirmPassword: Yup.string()
       .required(t('Confirm your password'))
-      .oneOf([Yup.ref('newPassord'), null], t('Passwords does not match')),
+      .oneOf([Yup.ref('newPassword'), null], t('Passwords does not match')),
   })
 
   const defaultValues = {
-    firstName: user?.firstName || '',
-    lastName: user?.lastName || '',
-    logo: {},
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
   }
 
   const methods = useForm<FieldValues>({
@@ -45,26 +55,52 @@ export default function ProfilePassword() {
 
   const { handleSubmit } = methods
 
-  const onSubmit = async () => {
-    try {
-      // enqueueSnackbar('Update success!')
-    } catch (error) {
-      console.error(error)
+  const onSubmit = async (data: FieldValues) => {
+    const newPassword: ChangePassword = {
+      currentPassword: data.currentPassword,
+      email: userData?.data.email || '',
+      newPassword: data.newPassword,
     }
+    changePassword(newPassword)
   }
 
+  useEffect(() => {
+    if (isError) {
+      open({
+        message: t('A problem has occured.'),
+        autoHideDuration: 4000,
+        type: 'error',
+        variant: 'contained',
+      })
+    }
+    if (isSuccess) {
+      open({
+        message: t('Setting Updated Successfully.'),
+        autoHideDuration: 4000,
+        type: 'success',
+        variant: 'contained',
+      })
+    }
+  }, [isError, isSuccess])
+
   return (
-    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <Card className='col-span-2 !w-full'>
-        <CardContent className='flex flex-col gap-5'>
-          <RHFTextField name='oldPassword' type='password' label={t('Old Password')} />
-          <RHFTextField name='newPassord' type='password' label={t('New Password')} />
-          <RHFTextField name='confirmPassword' type='password' label={t('Confirm password')} />
-          <Button className='w-full self-center md:w-1/3' type='submit'>
-            {t('Save Changes')}
-          </Button>
-        </CardContent>
-      </Card>
-    </FormProvider>
+    <Card className='col-span-2 !w-full'>
+      {detailsLoading ? (
+        <div className='flex h-56 w-full items-center justify-center'>
+          <LoadingIndicator />
+        </div>
+      ) : (
+        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+          <CardContent className='flex flex-col gap-5'>
+            <RHFTextField name='currentPassword' type='password' label={t('Old Password')} />
+            <RHFTextField name='newPassword' type='password' label={t('New Password')} />
+            <RHFTextField name='confirmPassword' type='password' label={t('Confirm password')} />
+            <Button className='w-full self-center md:w-1/3' type='submit' loading={isLoading}>
+              {t('Save Changes')}
+            </Button>
+          </CardContent>
+        </FormProvider>
+      )}
+    </Card>
   )
 }
