@@ -3,7 +3,14 @@ import { HYDRATE } from 'next-redux-wrapper'
 // actions
 import { setError, setUser, startLoading } from 'store/slices/sessionSlice'
 // types
-import { IGenericResponse, LoginInput, RegisterInput, ResetPasswordInput, SessionUser } from 'types'
+import {
+  IGenericError,
+  IGenericResponse,
+  LoginInput,
+  RegisterInput,
+  ResetPasswordInput,
+  SessionUser,
+} from 'types'
 // config
 import { PIVOTPOINT_API } from 'config'
 import { RootState } from 'store'
@@ -89,6 +96,7 @@ export const authApi = createApi({
         body: data,
         responseHandler: 'content-type',
       }),
+      transformErrorResponse: (response: IGenericError) => ({ error: response }),
     }),
   }),
 })

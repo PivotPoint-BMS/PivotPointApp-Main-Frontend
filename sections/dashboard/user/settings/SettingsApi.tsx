@@ -16,7 +16,7 @@ import CardContent from 'components/CardContent'
 import { FormProvider, RHFTextField } from 'components/hook-form'
 import Progressbar from 'components/Progressbar'
 
-export default function ProfileApi() {
+export default function SettingsApi() {
   const { t } = useTranslate()
   const UpdateUserSchema = Yup.object().shape({
     API_KEY: Yup.string(),

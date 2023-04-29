@@ -14,17 +14,17 @@ import SettingsStorage from 'sections/dashboard/user/settings/SettingsStorage'
 import SettingsIntegration from 'sections/dashboard/user/settings/SettingsIntegration'
 import SettingsSecurity from 'sections/dashboard/user/settings/SettingsSecurity'
 import SettingsData from 'sections/dashboard/user/settings/SettingsData'
-import SettingsSupport from 'sections/dashboard/user/settings/SettingsSupport'
+import SettingsApi from 'sections/dashboard/user/settings/SettingsApi'
 // componenets
 import { Icon as Iconify } from '@iconify/react'
 import { HeaderBreadcrumbs, Scrollbar } from 'components'
 
 const TABS = [
-  { name: 'Email', icon: 'ion:mail', value: '1' },
-  { name: 'Storage', icon: 'material-symbols:home-storage-rounded', value: '2' },
-  { name: 'Integration', icon: 'mdi:link-box', value: '3' },
-  { name: 'Data Export', icon: 'mingcute:file-export-fill', value: '5' },
-  { name: 'Support', icon: 'material-symbols:contact-support-rounded', value: '6' },
+  { name: 'Email', icon: 'ion:mail', value: 'email' },
+  { name: 'Storage', icon: 'material-symbols:home-storage-rounded', value: 'storage' },
+  { name: 'Integration', icon: 'mdi:link-box', value: 'integration' },
+  { name: 'Data Export', icon: 'mingcute:file-export-fill', value: 'data-export' },
+  { name: 'API', icon: 'ant-design:api-filled', value: 'api' },
 ]
 
 export default function Settings() {
@@ -32,19 +32,19 @@ export default function Settings() {
   return (
     <>
       <Head>
-        <title>PivotPoint BMS | {t('Settings')}</title>
+        <title>PivotPoint BMS | {t('Company Settings')}</title>
       </Head>
       <div className='flex max-w-full flex-col overflow-hidden px-5'>
         <HeaderBreadcrumbs
-          heading={t('Settings')}
+          heading={t('Company Settings')}
           links={[
             { name: t('Dashboard'), href: PATH_DASHBOARD.root },
             { name: t('User'), href: PATH_ACCOUNT.profile },
-            { name: t('Settings') },
+            { name: t('Company Settings') },
           ]}
         />
         <TabsPrimitive.Root
-          defaultValue='1'
+          defaultValue='email'
           dir={locale === 'ar' ? 'rtl' : 'ltr'}
           className='overflow-hidden'
         >
@@ -69,23 +69,23 @@ export default function Settings() {
               ))}
             </TabsPrimitive.List>
           </Scrollbar>
-          <TabsPrimitive.Content value='1' className={clsx('w-full py-6')}>
+          <TabsPrimitive.Content value='email' className={clsx('w-full py-6')}>
             <SettingsEmail />
           </TabsPrimitive.Content>{' '}
-          <TabsPrimitive.Content value='2' className={clsx('w-full py-6')}>
+          <TabsPrimitive.Content value='storage' className={clsx('w-full py-6')}>
             <SettingsStorage />
           </TabsPrimitive.Content>{' '}
-          <TabsPrimitive.Content value='3' className={clsx('w-full py-6')}>
+          <TabsPrimitive.Content value='integration' className={clsx('w-full py-6')}>
             <SettingsIntegration />
           </TabsPrimitive.Content>{' '}
           <TabsPrimitive.Content value='4' className={clsx('w-full py-6')}>
             <SettingsSecurity />
           </TabsPrimitive.Content>{' '}
-          <TabsPrimitive.Content value='5' className={clsx('w-full py-6')}>
+          <TabsPrimitive.Content value='data-export' className={clsx('w-full py-6')}>
             <SettingsData />
           </TabsPrimitive.Content>{' '}
-          <TabsPrimitive.Content value='6' className={clsx('w-full py-6')}>
-            <SettingsSupport />
+          <TabsPrimitive.Content value='api' className={clsx('w-full py-6')}>
+            <SettingsApi />
           </TabsPrimitive.Content>
         </TabsPrimitive.Root>
       </div>

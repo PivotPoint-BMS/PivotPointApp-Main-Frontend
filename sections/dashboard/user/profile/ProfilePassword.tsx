@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react'
 import * as Yup from 'yup'
-// redux
-import { useAppSelector } from 'store/hooks'
 // form
 import { useForm, FieldValues } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -74,7 +72,7 @@ export default function ProfilePassword() {
     }
     if (isSuccess) {
       open({
-        message: t('Setting Updated Successfully.'),
+        message: t('Password Changed Successfully.'),
         autoHideDuration: 4000,
         type: 'success',
         variant: 'contained',

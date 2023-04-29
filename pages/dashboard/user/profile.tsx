@@ -13,17 +13,17 @@ import ProfileGeneral from 'sections/dashboard/user/profile/ProfileGeneral'
 import ProfilePassword from 'sections/dashboard/user/profile/ProfilePassword'
 import ProfileBilling from 'sections/dashboard/user/profile/ProfileBilling'
 import ProfileNotification from 'sections/dashboard/user/profile/ProfileNotification'
-import ProfileApi from 'sections/dashboard/user/profile/ProfileApi'
+import ProfileSupport from 'sections/dashboard/user/profile/ProfileSupport'
 // components
 import { Icon as Iconify } from '@iconify/react'
 import { HeaderBreadcrumbs, Scrollbar } from 'components'
 
 const TABS = [
-  { name: 'General', icon: 'mdi:user-circle', value: '1' },
-  { name: 'Password', icon: 'mdi:password', value: '2' },
-  { name: 'Billing', icon: 'basil:invoice-solid', value: '3' },
-  { name: 'Notification', icon: 'ic:round-notifications', value: '4' },
-  { name: 'Api', icon: 'ant-design:api-filled', value: '5' },
+  { name: 'General', icon: 'mdi:user-circle', value: 'general' },
+  { name: 'Password', icon: 'mdi:password', value: 'password' },
+  { name: 'Billing', icon: 'basil:invoice-solid', value: 'billing' },
+  { name: 'Notification', icon: 'ic:round-notifications', value: 'notification' },
+  { name: 'Support', icon: 'material-symbols:contact-support-rounded', value: 'support' },
 ]
 
 export default function Profile() {
@@ -44,7 +44,7 @@ export default function Profile() {
           ]}
         />
         <TabsPrimitive.Root
-          defaultValue='1'
+          defaultValue='generalt'
           dir={locale === 'ar' ? 'rtl' : 'ltr'}
           className='overflow-hidden'
         >
@@ -69,20 +69,20 @@ export default function Profile() {
               ))}
             </TabsPrimitive.List>
           </Scrollbar>
-          <TabsPrimitive.Content value='1' className={clsx('w-full py-6')}>
+          <TabsPrimitive.Content value='general' className='w-full py-6'>
             <ProfileGeneral />
           </TabsPrimitive.Content>
-          <TabsPrimitive.Content value='2' className={clsx('w-full py-6')}>
+          <TabsPrimitive.Content value='password' className='w-full py-6'>
             <ProfilePassword />
           </TabsPrimitive.Content>
-          <TabsPrimitive.Content value='3' className={clsx('w-full py-6')}>
+          <TabsPrimitive.Content value='billing' className='w-full py-6'>
             <ProfileBilling />
           </TabsPrimitive.Content>
-          <TabsPrimitive.Content value='4' className={clsx('w-full py-6')}>
+          <TabsPrimitive.Content value='notification' className='w-full py-6'>
             <ProfileNotification />
           </TabsPrimitive.Content>
-          <TabsPrimitive.Content value='5' className={clsx('w-full py-6')}>
-            <ProfileApi />
+          <TabsPrimitive.Content value='support' className='w-full py-6'>
+            <ProfileSupport />
           </TabsPrimitive.Content>
         </TabsPrimitive.Root>
       </div>

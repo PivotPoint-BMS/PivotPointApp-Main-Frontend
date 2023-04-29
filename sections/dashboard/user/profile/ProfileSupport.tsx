@@ -19,7 +19,7 @@ import CardContent from 'components/CardContent'
 import Button from 'components/Button'
 import RHFTextArea from 'components/hook-form/RHFTextArea'
 
-export default function SettingsSupport() {
+export default function ProfileSupport() {
   const { t } = useTranslate()
   const { user } = useAppSelector((state) => state.session)
 

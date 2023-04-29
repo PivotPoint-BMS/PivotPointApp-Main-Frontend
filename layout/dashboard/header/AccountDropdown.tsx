@@ -117,7 +117,7 @@ export default function AccountDropdown() {
                   startIcon={locale === 'ar' ? null : <Iconify icon='ion:settings' height={16} />}
                   endIcon={locale === 'ar' ? <Iconify icon='ion:settings' height={16} /> : null}
                 >
-                  {t('Settings')}
+                  {t('Company Settings')}
                 </Button>
               </DropdownMenuPrimitive.Item>
             </Link>
