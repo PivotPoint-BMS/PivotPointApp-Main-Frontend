@@ -23,7 +23,6 @@ import LoadingIndicator from 'components/LoadingIndicator'
 export default function ProfilePassword() {
   const { t } = useTranslate()
   const { open } = useSnackbar()
-  const { user } = useAppSelector((state) => state.session)
   const { data: userData, isLoading: detailsLoading } = useGetUserDetailsQuery()
   const [changePassword, { isLoading, isError, isSuccess }] = useChangePasswordMutation()
 
