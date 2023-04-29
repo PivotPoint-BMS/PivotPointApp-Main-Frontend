@@ -9,9 +9,30 @@ import { Icon as Iconify } from '@iconify/react'
 import Card from 'components/Card'
 import CardContent from 'components/CardContent'
 import Button from 'components/Button'
+import { useAppSelector } from 'store/hooks'
+
+const PLANS: { [key: string]: { label: string; cancelable: boolean; canUpgrade: boolean } } = {
+  0: {
+    label: 'Free',
+    cancelable: true,
+    canUpgrade: true,
+  },
+  1: {
+    label: 'Professional',
+    cancelable: true,
+    canUpgrade: true,
+  },
+  2: {
+    label: 'Enterprise',
+    cancelable: true,
+    canUpgrade: false,
+  },
+}
 
 export default function ProfileBilling() {
   const { t } = useTranslate()
+  const { user } = useAppSelector((state) => state.session)
+
   return (
     <div className='grid w-full grid-cols-1 gap-8 md:grid-cols-3'>
       <div className='col-span-2 flex flex-col gap-8'>
@@ -20,15 +41,21 @@ export default function ProfileBilling() {
             <div className='flex items-center justify-between'>
               <p className='font-medium text-gray-600 dark:text-gray-400'>{t('Your Plan')}</p>
               <div className='flex items-center gap-3'>
-                <Button variant='outlined' intent='default'>
-                  {t('Cancel Plan')}
-                </Button>
-                <Button variant='outlined' intent='primary'>
-                  {t('Upgrade Plan')}
-                </Button>
+                {PLANS[user?.tier.toString() || '0'].cancelable && (
+                  <Button variant='outlined' intent='default'>
+                    {t('Cancel Plan')}
+                  </Button>
+                )}
+                {PLANS[user?.tier.toString() || '0'].canUpgrade && (
+                  <Button variant='outlined' intent='primary'>
+                    {t('Upgrade Plan')}
+                  </Button>
+                )}
               </div>
             </div>
-            <h6 className='text-2xl font-semibold'>{t('Professional')}</h6>
+            <h6 className='text-2xl font-semibold'>
+              {t(PLANS[user?.tier.toString() || '0'].label)}
+            </h6>
           </CardContent>
         </Card>
         <Card className='!w-full'>
