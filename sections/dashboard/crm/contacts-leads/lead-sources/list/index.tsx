@@ -30,19 +30,31 @@ import {
   Checkbox,
   Tooltip,
   Backdrop,
+  Dialog,
+  AlertDialog,
 } from 'components'
-import AlertDialog from 'components/AlertDialog'
+// sections
 import LeadSourceTableToolbar from './LeadSourceTableToolbar'
+import CreateEditLeadSourceForm from '../create/CreateEditLeadSourceForm'
 
-export default function LeadSourcesList() {
+export default function LeadSourcesList({
+  openAddDialog,
+  setOpenAddDialog,
+}: {
+  openAddDialog: boolean
+  setOpenAddDialog: (value: boolean) => void
+}) {
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const { theme } = useTheme()
-  // eslint-disable-next-line no-unused-vars
   const [selectedRows, setSelectedRows] = useState<LeadSource[]>([])
   const [selectedCount, setSelectedCount] = useState(0)
+  const [openEditDialog, setOpenEditDialog] = useState(false)
+  const [leadSourceToEdit, setLeadSourceToEdit] = useState<LeadSource | null>(null)
   const [idToDelete, setIdToDelete] = useState<string | null>(null)
-  const { data, isLoading } = useGetLeadSourcesQuery()
+  const { data, isLoading } = useGetLeadSourcesQuery(undefined, {
+    refetchOnFocus: true,
+  })
 
   const [deleteLeadSource, { isLoading: isDeleteLeading, isSuccess, isError }] =
     useDeleteLeadSourceMutation()
@@ -63,10 +75,10 @@ export default function LeadSourcesList() {
     {
       name: t('Actions'),
       right: true,
-      cell: ({ id }) => (
+      cell: (leadSource) => (
         <div className='flex items-center gap-2'>
           <Tooltip title={t('Delete')} side='bottom'>
-            <IconButton onClick={() => setIdToDelete(id || '')}>
+            <IconButton onClick={() => setIdToDelete(leadSource.id || '')}>
               <Iconify
                 className='text-red-600 dark:text-red-500'
                 icon='material-symbols:delete-rounded'
@@ -76,7 +88,12 @@ export default function LeadSourcesList() {
           </Tooltip>
 
           <Tooltip title={t('Edit')} side='bottom'>
-            <IconButton>
+            <IconButton
+              onClick={() => {
+                setLeadSourceToEdit(leadSource)
+                setOpenEditDialog(true)
+              }}
+            >
               <Iconify icon='material-symbols:edit' height={20} />
             </IconButton>
           </Tooltip>
@@ -166,6 +183,23 @@ export default function LeadSourcesList() {
         </>
       )}
       <Backdrop loading={isDeleteLeading} />
+      <Dialog
+        open={openEditDialog || openAddDialog}
+        title={openEditDialog ? t('Edit Lead Source') : t('Add Lead Source')}
+      >
+        <CreateEditLeadSourceForm
+          isEdit={openEditDialog}
+          currentLeadSource={leadSourceToEdit}
+          onSuccess={() => {
+            setOpenAddDialog(false)
+            setOpenEditDialog(false)
+          }}
+          onFailure={() => {
+            setOpenAddDialog(false)
+            setOpenEditDialog(false)
+          }}
+        />
+      </Dialog>
       <AlertDialog
         title={t('Confirm Delete')}
         description={t(
