@@ -212,3 +212,37 @@ body {
 .ProseMirror a {
   @apply cursor-pointer text-blue-500 underline;
 }
+
+/* Autosuggest */
+.react-autosuggest__container {
+  @apply relative w-full items-center justify-center  rounded-lg bg-transparent outline outline-1 outline-gray-400 focus-within:outline-2 focus-within:outline-primary-600 hover:outline-primary-600 dark:outline-gray-300 dark:focus-within:outline-primary-300 dark:hover:outline-primary-300;
+}
+
+.react-autosuggest__input {
+  @apply w-full flex-1 rounded-lg bg-transparent p-2 outline-none;
+}
+
+.react-autosuggest__suggestions-container {
+  @apply hidden;
+}
+
+.react-autosuggest__container--open .react-autosuggest__suggestions-container {
+  @apply absolute -bottom-px z-10 block w-full translate-y-full rounded-lg border bg-paper-light shadow-lg dark:bg-paper-dark;
+}
+
+.react-autosuggest__suggestions-list {
+  @apply overflow-hidden rounded-lg py-2;
+}
+.react-autosuggest__suggestion {
+  @apply cursor-pointer;
+}
+
+.react-autosuggest__suggestion:not(:first-child) {
+  @apply border-t;
+}
+
+.react-autosuggest__suggestion--focused,
+.react-autosuggest__suggestion:hover,
+.react-autosuggest__suggestion:active {
+  @apply bg-gray-500/20;
+}

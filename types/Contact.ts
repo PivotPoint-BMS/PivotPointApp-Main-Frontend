@@ -8,7 +8,7 @@ export interface ContactSource {
 }
 export default interface Contact {
   id: string
-  imageFile?: string
+  profilePic?: string
   fullName: string
   email: string
   phoneNumber: string

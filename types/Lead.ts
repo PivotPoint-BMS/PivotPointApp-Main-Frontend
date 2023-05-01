@@ -5,17 +5,17 @@ export interface Address {
 export interface LeadSource {
   id?: string
   source: string
-  sourceLink?: string
+  sourceLink: string
 }
 export default interface Lead {
   id: string
-  imageFile?: string
+  imageFile: string
   fullName: string
   email: string
   phoneNumber: string
-  jobTitle?: string
+  jobTitle: string
   priority?: number
-  status: number
-  source?: LeadSource
-  address?: Address
+  leadStatus: number
+  leadSource: LeadSource
+  address: Address
 }

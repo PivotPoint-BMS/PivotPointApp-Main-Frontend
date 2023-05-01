@@ -8,7 +8,7 @@ interface BackdropProps extends React.HTMLAttributes<HTMLDivElement> {
 export default function Backdrop({ open, loading, children }: BackdropProps) {
   if (open)
     return (
-      <div className='fixed top-0 left-0 z-[99999] flex h-screen w-screen items-center justify-center bg-black/50 backdrop-blur-sm'>
+      <div className='pointer-events-auto fixed top-0 left-0 z-[99999] flex h-screen w-screen items-center justify-center bg-black/50 backdrop-blur-sm'>
         {loading && (
           <svg
             aria-hidden='true'

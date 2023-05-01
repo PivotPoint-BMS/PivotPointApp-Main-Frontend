@@ -19,6 +19,7 @@ import { Icon as Iconify } from '@iconify/react'
 import IconButton from 'components/IconButton'
 import Button from 'components/Button'
 import Image from 'components/Image'
+import { PIVOTPOINT_API } from 'config'
 
 export default function LeadPreview() {
   const isDesktop = useResponsive('sm', 'up')
@@ -92,7 +93,11 @@ export default function LeadPreview() {
                     alt='avatar'
                     width={80}
                     height={80}
-                    src={avatarPlaceholder.src}
+                    src={
+                      lead?.imageFile
+                        ? `${PIVOTPOINT_API.crmPicUrl}/${lead?.imageFile}`
+                        : avatarPlaceholder.src
+                    }
                     className='rounded-full'
                   />
                 </div>
@@ -115,12 +120,16 @@ export default function LeadPreview() {
                 </div>
               </div>
               <div className='flex w-full items-center justify-evenly gap-6 sm:w-fit sm:justify-end sm:gap-2 '>
-                <IconButton className='border'>
-                  <Iconify icon='material-symbols:outgoing-mail' height={22} />
-                </IconButton>
-                <IconButton className='border'>
-                  <Iconify icon='material-symbols:call' height={22} />
-                </IconButton>
+                <Link href={`mailto:${lead?.email}`}>
+                  <IconButton className='border'>
+                    <Iconify icon='material-symbols:outgoing-mail' height={22} />
+                  </IconButton>
+                </Link>
+                <Link href={`tel:${lead?.phoneNumber}`}>
+                  <IconButton className='border'>
+                    <Iconify icon='material-symbols:call' height={22} />
+                  </IconButton>
+                </Link>
                 <IconButton className='border'>
                   <Iconify icon='material-symbols:more-horiz' height={22} />
                 </IconButton>
@@ -137,7 +146,7 @@ export default function LeadPreview() {
                 {t('Lead Source')}
               </h6>
               <p className='font-medium'>
-                {lead?.source?.source ? lead?.source?.source : t('No Source')}
+                {lead?.leadSource?.source ? lead?.leadSource?.source : t('No Source')}
               </p>
             </div>
             <div className='flex flex-col gap-2 border-r   p-3'>

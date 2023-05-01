@@ -104,19 +104,28 @@ export default function GeneralInfo({ lead }: { lead: Lead }) {
             <div className='flex flex-col gap-3 p-4'>
               <div className='flex flex-col gap-1 truncate'>
                 <h6 className='text-sm text-gray-600 dark:text-gray-400'>{t('Email')}</h6>
-                <p className='truncate text-[15px]'>guenouziyaniss@gmail.com</p>
+                <p className='truncate text-[15px]'>{lead.email}</p>
               </div>
               <div className='flex flex-col gap-1 truncate'>
                 <h6 className='text-sm text-gray-600 dark:text-gray-400'>{t('Phone Number')}</h6>
-                <p className='truncate text-[15px]'>0542662874</p>
+                <p className='truncate text-[15px]'>{lead.phoneNumber}</p>
               </div>
               <div className='flex flex-col gap-1 truncate'>
                 <h6 className='text-sm text-gray-600 dark:text-gray-400'>{t('Jon Title')}</h6>
-                <p className='truncate text-[15px]'>Developer</p>
+                <p className='truncate text-[15px]'>{lead.jobTitle}</p>
               </div>{' '}
               <div className='flex flex-col gap-1 truncate'>
                 <h6 className='text-sm text-gray-600 dark:text-gray-400'>{t('Lead Source')}</h6>
-                <p className='truncate text-[15px]'>Store</p>
+                <p className='truncate text-[15px]'>
+                  {lead.leadSource?.source} |{' '}
+                  <Link
+                    href={lead.leadSource?.sourceLink || ''}
+                    target='_blank'
+                    className='text-primary-600 underline dark:text-primary-400'
+                  >
+                    {lead.leadSource?.sourceLink}
+                  </Link>{' '}
+                </p>
               </div>
             </div>
           </TabsPrimitive.Content>
@@ -124,11 +133,11 @@ export default function GeneralInfo({ lead }: { lead: Lead }) {
             <div className='flex flex-col gap-3 p-4'>
               <div className='flex flex-col gap-1 truncate'>
                 <h6 className='text-sm text-gray-600 dark:text-gray-400'>{t('City')}</h6>
-                <p className='truncate text-[15px]'>Hadjout</p>
+                <p className='truncate text-[15px] capitalize'>{lead.address?.city}</p>
               </div>
               <div className='flex flex-col gap-1 truncate'>
                 <h6 className='text-sm text-gray-600 dark:text-gray-400'>{t('Country')}</h6>
-                <p className='truncate text-[15px]'>Algeria</p>
+                <p className='truncate text-[15px] capitalize'>{lead.address?.country}</p>
               </div>
             </div>
           </TabsPrimitive.Content>

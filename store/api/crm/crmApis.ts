@@ -3,7 +3,7 @@ import { HYDRATE } from 'next-redux-wrapper'
 // config
 import { PIVOTPOINT_API } from 'config'
 // types
-import { Contact, ContactsResponse, IGenericResponse, Lead } from 'types'
+import { Contact, IGenericResponse, Lead } from 'types'
 // store
 import { RootState } from 'store'
 import { LeadSource } from 'types/Lead'
@@ -31,7 +31,7 @@ export const crmApi = createApi({
   tagTypes: ['Contacts', 'Leads', 'LeadSources'],
   endpoints: (builder) => ({
     // Contacts APIs
-    getContacts: builder.query<ContactsResponse, void>({
+    getContacts: builder.query<IGenericResponse<Contact[]>, void>({
       query: () => 'Contact',
       providesTags: (result) =>
         result
@@ -55,14 +55,31 @@ export const crmApi = createApi({
             ]
           : [{ type: 'Leads', id: 'LIST' }],
     }),
-    getLead: builder.query<Lead, string>({
+    getLead: builder.query<IGenericResponse<Lead>, string>({
       query: (id) => `Lead/${id}`,
     }),
-    createLead: builder.mutation<string[], Lead>({
+    createLead: builder.mutation<string[], FormData>({
       query: (data) => ({
         url: 'Lead',
         method: 'POST',
         body: data,
+        responseHandler: 'content-type',
+      }),
+      invalidatesTags: ['Leads'],
+    }),
+    editLead: builder.mutation<string[], { data: FormData; id: string }>({
+      query: ({ data, id }) => ({
+        url: `Lead/${id}`,
+        method: 'PUT',
+        body: data,
+        responseHandler: 'content-type',
+      }),
+      invalidatesTags: ['Leads'],
+    }),
+    deleteLead: builder.mutation<string[], string>({
+      query: (id) => ({
+        url: `Lead/${id}`,
+        method: 'DELETE',
         responseHandler: 'content-type',
       }),
       invalidatesTags: ['Leads'],
@@ -82,6 +99,15 @@ export const crmApi = createApi({
       query: (data) => ({
         url: 'LeadSources',
         method: 'POST',
+        body: data,
+        responseHandler: 'content-type',
+      }),
+      invalidatesTags: ['LeadSources'],
+    }),
+    editLeadSource: builder.mutation<string[], { data: LeadSource; id: string }>({
+      query: ({ data, id }) => ({
+        url: `LeadSources/${id}`,
+        method: 'PUT',
         body: data,
         responseHandler: 'content-type',
       }),
@@ -108,8 +134,11 @@ export const {
   useGetLeadSourcesQuery,
   // Mutations
   useCreateLeadMutation,
+  useEditLeadMutation,
   useCreateLeadSourceMutation,
+  useDeleteLeadMutation,
   useDeleteLeadSourceMutation,
+  useEditLeadSourceMutation,
   util: { getRunningQueriesThunk, invalidateTags },
 } = crmApi
 

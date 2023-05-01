@@ -12,7 +12,7 @@ import IconButton from 'components/IconButton'
 
 export default function ActivityCard() {
   const { t } = useTranslate()
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(false)
 
   return (
     <Card variant='elevated' fullWidth className='!h-full border dark:border-gray-500'>

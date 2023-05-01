@@ -12,6 +12,8 @@ import { previewContact } from 'store/slices/contactPreviewSlice'
 import { getContacts, getRunningQueriesThunk, useGetContactsQuery } from 'store/api/crm/crmApis'
 // types
 import { Contact } from 'types'
+// config
+import { PIVOTPOINT_API } from 'config'
 // asset
 import avatarPlaceholder from 'public/avatar_placeholder.png'
 import noData from 'public/no-data.png'
@@ -45,14 +47,16 @@ export default function ContactsList() {
   const columns: TableColumn<Contact>[] = [
     {
       name: 'Contact Name',
-      cell: ({ fullName }) => (
+      cell: ({ fullName, profilePic }) => (
         <div className='flex items-center gap-2'>
           <div>
             <Image
               alt='avatar'
               width={30}
               height={30}
-              src={avatarPlaceholder.src}
+              src={
+                profilePic ? `${PIVOTPOINT_API.profilePicUrl}/${profilePic}` : avatarPlaceholder.src
+              }
               className='rounded-full'
             />
           </div>

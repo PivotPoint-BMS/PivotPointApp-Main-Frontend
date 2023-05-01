@@ -11,8 +11,8 @@ import useTranslate from 'hooks/useTranslate'
 // routes
 import { PATH_DASHBOARD } from 'routes/paths'
 // sections
-import ContactsList from 'sections/dashboard/crm/contacts-leads/contacts-list'
-import LeadsList from 'sections/dashboard/crm/contacts-leads/leads-list'
+import ContactsList from 'sections/dashboard/crm/contacts-leads/contact/list'
+import LeadsList from 'sections/dashboard/crm/contacts-leads/lead/list'
 import LeadSourcesList from 'sections/dashboard/crm/contacts-leads/lead-sources/list'
 // components
 import { Icon as Iconify } from '@iconify/react'
@@ -28,6 +28,7 @@ export default function index() {
   const { t, locale } = useTranslate()
   const { push, pathname, query } = useRouter()
   const [tab, setTab] = useState(query?.tab ? (query?.tab as string) : 'contacts')
+  const [openAddDialog, setOpenAddDialog] = useState(false)
 
   useEffect(() => {
     push(pathname, { query: { tab } })
@@ -48,11 +49,12 @@ export default function index() {
           ]}
           action={
             tab === 'sources' ? (
-              <Link href={PATH_DASHBOARD.crm['contacts-leads']['lead-source'].create}>
-                <Button startIcon={<Iconify icon='ic:round-add' height={24} />}>
-                  {t('Create Lead Source')}
-                </Button>
-              </Link>
+              <Button
+                startIcon={<Iconify icon='ic:round-add' height={24} />}
+                onClick={() => setOpenAddDialog(true)}
+              >
+                {t('Create Lead Source')}
+              </Button>
             ) : (
               <Link href={PATH_DASHBOARD.crm['contacts-leads'].create}>
                 <Button startIcon={<Iconify icon='ic:round-add' height={24} />}>
@@ -96,7 +98,7 @@ export default function index() {
               <LeadsList />
             </TabsPrimitive.Content>
             <TabsPrimitive.Content value='sources' className='w-full'>
-              <LeadSourcesList />
+              <LeadSourcesList openAddDialog={openAddDialog} setOpenAddDialog={setOpenAddDialog} />
             </TabsPrimitive.Content>
           </TabsPrimitive.Root>
         </Card>

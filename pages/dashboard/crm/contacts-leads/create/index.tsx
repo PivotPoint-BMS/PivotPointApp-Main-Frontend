@@ -5,7 +5,7 @@ import useTranslate from 'hooks/useTranslate'
 // routes
 import { PATH_DASHBOARD } from 'routes/paths'
 // sections
-import CreateLeadForm from 'sections/dashboard/crm/contacts-leads/create/CreateLeadForm'
+import CreateLeadForm from 'sections/dashboard/crm/contacts-leads/lead/CreateEditLeadForm'
 // components
 import { HeaderBreadcrumbs } from 'components'
 

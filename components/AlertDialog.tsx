@@ -43,30 +43,10 @@ export default function AlertDialog({
             </p>
           )}
           <div className=' flex justify-end space-x-2'>
-            <Button
-              variant='outlined'
-              intent='default'
-              className={clsx(
-                'inline-flex select-none justify-center rounded-md px-4 py-2 text-sm font-medium',
-                'bg-white text-gray-900 hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-100 hover:dark:bg-gray-600',
-                'border border-gray-300 dark:border-transparent',
-                'focus:outline-none focus-visible:ring focus-visible:ring-primary-500 focus-visible:ring-opacity-75'
-              )}
-              onClick={onClose}
-            >
+            <Button variant='outlined' intent='error' onClick={onClose}>
               {cancelText}
             </Button>
-            <Button
-              variant='contained'
-              intent='primary'
-              className={clsx(
-                'inline-flex select-none justify-center rounded-md px-4 py-2 text-sm font-medium',
-                'bg-primary-600 text-white hover:bg-primary-700 dark:bg-primary-700 dark:text-gray-100 dark:hover:bg-primary-600',
-                'border border-transparent',
-                'focus:outline-none focus-visible:ring focus-visible:ring-primary-500 focus-visible:ring-opacity-75'
-              )}
-              onClick={onConfirm}
-            >
+            <Button variant='outlined' intent='primary' onClick={onConfirm}>
               {confirmText}
             </Button>
           </div>
