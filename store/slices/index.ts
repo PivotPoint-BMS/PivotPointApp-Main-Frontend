@@ -1,4 +1,3 @@
-export { default as contactPreviewSlice } from './contactPreviewSlice'
 export { default as leadPreviewSlice } from './leadPreviewSlice'
 export { default as sessionSlice } from './sessionSlice'
 export { default as sideBarSlice } from './sideBarSlice'

@@ -1,16 +1,8 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 // utils
 import { merge } from 'lodash'
 import clsx from 'clsx'
-// redux
-import { wrapper } from 'store'
-import {
-  getRunningQueriesThunk,
-  getWorkersNumber,
-  useGetWorkersNumberQuery,
-} from 'store/api/humanResourceApi'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // components
@@ -35,12 +27,7 @@ const CHART_DATA = [
   },
 ]
 const Home: NextPage = () => {
-  const router = useRouter()
   const { t } = useTranslate()
-  const { data } = useGetWorkersNumberQuery(undefined, {
-    skip: router.isFallback,
-    refetchOnFocus: true,
-  })
 
   const chartOptions = merge(BaseOptionChart(), {
     stroke: { width: [0, 2, 3] },
@@ -104,7 +91,7 @@ const Home: NextPage = () => {
         >
           <CardHeader title='Workers' className='pb-2 [&>*]:text-lg' />
           <CardContent>
-            <h3 className='text-2xl'>{data}</h3>
+            <h3 className='text-2xl'>10</h3>
           </CardContent>
         </Card>{' '}
         <Card
@@ -162,13 +149,3 @@ const Home: NextPage = () => {
   )
 }
 export default Home
-
-export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
-  store.dispatch(getWorkersNumber.initiate())
-
-  await Promise.all(store.dispatch(getRunningQueriesThunk()))
-
-  return {
-    props: {},
-  }
-})

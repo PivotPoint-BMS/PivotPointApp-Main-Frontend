@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { PATH_DASHBOARD } from 'routes/paths'
 // redux
 import { useAppDispatch, useAppSelector } from 'store/hooks'
-import { closePreviewContact } from 'store/slices/contactPreviewSlice'
+import { closePreviewLead } from 'store/slices/leadPreviewSlice'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 import useResponsive from 'hooks/useResponsive'
@@ -24,7 +24,7 @@ export default function ContactPreview() {
   const isDesktop = useResponsive('sm', 'up')
   const { t, locale } = useTranslate()
   const dispatch = useAppDispatch()
-  const { isOpen, contact } = useAppSelector((state) => state.contactPreview)
+  const { isOpen, lead } = useAppSelector((state) => state.leadPreview)
   const [opened, setOpened] = useState(false)
 
   const variants: { [key: string]: Variant } = {
@@ -39,7 +39,7 @@ export default function ContactPreview() {
   const handleClose = () => {
     setOpened(false)
     setTimeout(() => {
-      dispatch(closePreviewContact())
+      dispatch(closePreviewLead())
     }, 200)
   }
 
@@ -68,7 +68,7 @@ export default function ContactPreview() {
               </IconButton>
               <h6 className='flex-1 text-xl font-semibold'>{t('Contact Preview')}</h6>
             </div>
-            <Link href={PATH_DASHBOARD.crm['contacts-leads'].contact(contact?.id)}>
+            <Link href={PATH_DASHBOARD.crm['contacts-leads'].contact(lead?.id)}>
               {isDesktop ? (
                 <Button
                   variant='outlined'
@@ -98,19 +98,19 @@ export default function ContactPreview() {
                 </div>
                 <div className='flex h-full w-full flex-col justify-center gap-1 truncate'>
                   <h1 className='flex-1 self-center truncate text-lg font-semibold sm:self-start'>
-                    {contact?.fullName}
+                    {lead?.fullName}
                   </h1>
                   <p className='flex  items-center gap-1 truncate text-sm text-gray-500 dark:text-gray-300'>
                     <div>
                       <Iconify icon='material-symbols:mail-rounded' height={18} />{' '}
                     </div>
-                    <span className='truncate'>{contact?.email}</span>{' '}
+                    <span className='truncate'>{lead?.email}</span>{' '}
                   </p>
                   <p className='flex items-center gap-1 text-sm text-gray-500 dark:text-gray-300'>
                     <div>
                       <Iconify icon='material-symbols:call' height={18} />
                     </div>
-                    <span className='truncate'>{contact?.phoneNumber}</span>
+                    <span className='truncate'>{lead?.phoneNumber}</span>
                   </p>
                 </div>
               </div>
@@ -137,16 +137,14 @@ export default function ContactPreview() {
                 {t('Contact Source')}
               </h6>
               <p className='font-medium'>
-                {contact?.source?.source ? contact?.source?.source : t('No Source')}
+                {lead?.leadSource?.source ? lead?.leadSource?.source : t('No Source')}
               </p>
             </div>
             <div className='flex flex-col gap-2 border-r   p-3'>
               <h6 className='text-sm font-medium text-gray-500 dark:text-gray-300'>
                 {t('Job Title')}
               </h6>
-              <p className='font-medium'>
-                {contact?.jobTitle ? contact?.jobTitle : t('No Job Title')}
-              </p>
+              <p className='font-medium'>{lead?.jobTitle ? lead?.jobTitle : t('No Job Title')}</p>
             </div>
             <div className='flex flex-col gap-2 p-3'>
               <h6 className='text-sm font-medium text-gray-500 dark:text-gray-300'>

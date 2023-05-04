@@ -8,7 +8,7 @@ import { PATH_DASHBOARD } from 'routes/paths'
 // redux
 import { wrapper } from 'store'
 import { useAppDispatch } from 'store/hooks'
-import { previewContact } from 'store/slices/contactPreviewSlice'
+import { previewLead } from 'store/slices/leadPreviewSlice'
 import { getLeads, getRunningQueriesThunk, useGetLeadsQuery } from 'store/api/crm/leadApis'
 // types
 import { Lead } from 'types'
@@ -50,7 +50,7 @@ export default function ContactsList() {
   const columns: TableColumn<Lead>[] = [
     {
       name: 'Contact Name',
-      cell: ({ fullName, profilePic }) => (
+      cell: ({ fullName, imageFile }) => (
         <div className='flex items-center gap-2'>
           <div>
             <Image
@@ -58,7 +58,9 @@ export default function ContactsList() {
               width={30}
               height={30}
               src={
-                profilePic ? `${PIVOTPOINT_API.profilePicUrl}/${profilePic}` : avatarPlaceholder.src
+                imageFile.length > 0
+                  ? `${PIVOTPOINT_API.profilePicUrl}/${imageFile}`
+                  : avatarPlaceholder.src
               }
               className='rounded-full'
             />
@@ -91,22 +93,22 @@ export default function ContactsList() {
     },
     {
       name: 'Contact status',
-      cell: ({ status }) => {
-        if (status === 0)
+      cell: ({ leadStatus }) => {
+        if (leadStatus === 0)
           return <Badge variant='ghost' intent='info' size='small' label={t('New')} />
-        if (status === 1)
+        if (leadStatus === 1)
           return <Badge variant='ghost' intent='primary' size='small' label={t('Open')} />
-        if (status === 2)
+        if (leadStatus === 2)
           return (
             <Badge variant='ghost' intent='info' size='small' label={t('Attempt to Contact')} />
           )
-        if (status === 4)
+        if (leadStatus === 4)
           return (
             <Badge variant='ghost' intent='warning' size='small' label={t('Deal Unqualified')} />
           )
-        if (status === 5)
+        if (leadStatus === 5)
           return <Badge variant='ghost' intent='success' size='small' label={t('Success')} />
-        if (status === 6)
+        if (leadStatus === 6)
           return <Badge variant='ghost' intent='error' size='small' label={t('Failure')} />
         return <Badge variant='ghost' size='small' label='Closed' />
       },
@@ -116,13 +118,13 @@ export default function ContactsList() {
     },
     {
       name: 'Contact Source',
-      cell: ({ source }) =>
-        source?.source ? (
+      cell: ({ leadSource }) =>
+        leadSource?.source ? (
           <Badge
             variant='ghost'
             intent='default'
             size='small'
-            label={source?.source}
+            label={leadSource?.source}
             className='capitalize'
           />
         ) : (
@@ -144,7 +146,7 @@ export default function ContactsList() {
             </IconButton>
           </Tooltip>
           <Tooltip title={t('Preview')} side='bottom'>
-            <IconButton onClick={() => dispatch(previewContact(contact))}>
+            <IconButton onClick={() => dispatch(previewLead(contact))}>
               <Iconify icon='material-symbols:preview' height={18} />
             </IconButton>
           </Tooltip>
@@ -224,7 +226,7 @@ export default function ContactsList() {
                   }}
                   selectableRowsComponent={Checkbox as unknown as ReactNode}
                   sortIcon={<Iconify icon='typcn:arrow-sorted-down' />}
-                  onRowDoubleClicked={(contact) => dispatch(previewContact(contact))}
+                  onRowDoubleClicked={(contact) => dispatch(previewLead(contact))}
                 />
                 <ContactTableToolbar selectedCount={selectedCount} />
                 <ContactPreview />

@@ -7,7 +7,7 @@ import * as TabsPrimitive from '@radix-ui/react-tabs'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // routes
-import { Contact } from 'types'
+import { Lead } from 'types'
 // types
 import { PATH_DASHBOARD } from 'routes/paths'
 // asset
@@ -24,7 +24,7 @@ const TABS = [
   { name: 'Address Info', value: 'address' },
 ]
 
-export default function GeneralInfo({ contact }: { contact: Contact }) {
+export default function GeneralInfo({ contact }: { contact: Lead }) {
   const { t, locale } = useTranslate()
   return (
     <Card fullWidth variant='default' className='rounded-none !bg-transparent'>

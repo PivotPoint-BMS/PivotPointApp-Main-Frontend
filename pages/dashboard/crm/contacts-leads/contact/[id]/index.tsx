@@ -32,7 +32,7 @@ export default function index() {
       <div className='flex max-w-full flex-col overflow-hidden'>
         {data ? (
           <div className='grid grid-cols-1  divide-x md:grid-cols-3'>
-            <GeneralInfo contact={data} />
+            <GeneralInfo contact={data.data} />
             <Details />
           </div>
         ) : (

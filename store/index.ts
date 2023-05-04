@@ -2,13 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/dist/query'
 import { createWrapper } from 'next-redux-wrapper'
 // slices
-import {
-  contactPreviewSlice,
-  leadPreviewSlice,
-  sessionSlice,
-  sideBarSlice,
-  snackbarSlice,
-} from './slices'
+import { leadPreviewSlice, sessionSlice, sideBarSlice, snackbarSlice } from './slices'
 // apis
 import { authApi, companyApi, paymentApi } from './api/auth'
 import { settingsApi } from './api/settings/settingsAPIs'
@@ -21,7 +15,6 @@ export const makeStore = () =>
       [sideBarSlice.name]: sideBarSlice.reducer,
       [snackbarSlice.name]: snackbarSlice.reducer,
       [leadPreviewSlice.name]: leadPreviewSlice.reducer,
-      [contactPreviewSlice.name]: contactPreviewSlice.reducer,
       [authApi.reducerPath]: authApi.reducer,
       [companyApi.reducerPath]: companyApi.reducer,
       [paymentApi.reducerPath]: paymentApi.reducer,
