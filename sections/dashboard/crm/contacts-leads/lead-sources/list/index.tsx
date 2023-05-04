@@ -12,7 +12,7 @@ import {
   invalidateTags,
   useDeleteLeadSourceMutation,
   useGetLeadSourcesQuery,
-} from 'store/api/crm/crmApis'
+} from 'store/api/crm/leadSourceApi'
 // types
 import { LeadSource } from 'types/Lead'
 // asset
@@ -101,6 +101,10 @@ export default function LeadSourcesList({
       ),
     },
   ]
+
+  useEffect(() => {
+    console.log(selectedRows)
+  }, [selectedRows])
 
   useEffect(() => {
     if (isError) {

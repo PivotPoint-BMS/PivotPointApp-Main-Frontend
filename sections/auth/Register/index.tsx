@@ -9,7 +9,7 @@ import RegisterInput from 'types/RegisterInput'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // api
-import { useRegisterMutation } from 'store/api/authApi'
+import { useRegisterMutation } from 'store/api/auth/authApi'
 // components
 import { FormProvider } from 'components/hook-form'
 import Alert from 'components/Alert'

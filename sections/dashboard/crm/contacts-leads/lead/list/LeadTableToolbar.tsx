@@ -36,7 +36,7 @@ export default function LeadTableToolbar({ selectedCount }: LeadTableToolbarProp
             intent='default'
             startIcon={<Iconify icon='material-symbols:library-add-rounded' height={20} />}
           >
-            {t('Create task')}
+            {t('Create Deal')}
           </Button>
 
           <Button

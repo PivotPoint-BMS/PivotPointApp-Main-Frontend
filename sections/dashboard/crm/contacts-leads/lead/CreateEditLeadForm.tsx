@@ -6,11 +6,8 @@ import { useRouter } from 'next/router'
 // form
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FieldValues, useForm } from 'react-hook-form'
-import {
-  useCreateLeadMutation,
-  useEditLeadMutation,
-  useGetLeadSourcesQuery,
-} from 'store/api/crm/crmApis'
+import { useCreateLeadMutation, useEditLeadMutation } from 'store/api/crm/leadApis'
+import { useGetLeadSourcesQuery } from 'store/api/crm/leadSourceApi'
 // config
 import { PIVOTPOINT_API } from 'config'
 // utils

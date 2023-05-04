@@ -3,7 +3,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 // redux
 import { wrapper } from 'store'
-import { getContact, getRunningQueriesThunk, useGetContactQuery } from 'store/api/crm/crmApis'
+import { getLead, getRunningQueriesThunk, useGetLeadQuery } from 'store/api/crm/leadApis'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // asset
@@ -20,7 +20,7 @@ export default function index() {
     query: { id },
     isFallback,
   } = useRouter()
-  const { data } = useGetContactQuery(id?.toString() ? id?.toString() : '', {
+  const { data } = useGetLeadQuery(id?.toString() ? id?.toString() : '', {
     skip: isFallback,
     refetchOnFocus: true,
   })
@@ -51,7 +51,7 @@ export default function index() {
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) =>
     async ({ query: { id } }) => {
-      store.dispatch(getContact.initiate(id?.toString() ? id?.toString() : ''))
+      store.dispatch(getLead.initiate(id?.toString() ? id?.toString() : ''))
 
       await Promise.all(store.dispatch(getRunningQueriesThunk()))
 

@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 // types
 import { ChangePassword } from 'types'
 // api
-import { useChangePasswordMutation } from 'store/api/authApi'
+import { useChangePasswordMutation } from 'store/api/auth/authApi'
 import { useGetUserDetailsQuery } from 'store/api/settings/settingsAPIs'
 // hooks
 import useTranslate from 'hooks/useTranslate'

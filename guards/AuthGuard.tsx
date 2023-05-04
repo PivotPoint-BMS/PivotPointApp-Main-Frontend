@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 // hooks
 import { useAppSelector } from 'store/hooks'
-import { useGetUserMutation } from 'store/api/authApi'
+import { useGetUserMutation } from 'store/api/auth/authApi'
 // pages
 import Login from 'pages/auth/login'
 import CompanySetup from 'pages/auth/company-setup'

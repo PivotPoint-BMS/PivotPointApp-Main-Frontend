@@ -2,18 +2,17 @@ import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/dist/query'
 import { createWrapper } from 'next-redux-wrapper'
 // slices
-import sideBarSlice from './slices/sideBarSlice'
-import sessionSlice from './slices/sessionSlice'
-import leadPreviewSlice from './slices/leadPreviewSlice'
-import contactPreviewSlice from './slices/contactPreviewSlice'
-import snackbarSlice from './slices/snackbarSlice'
+import {
+  contactPreviewSlice,
+  leadPreviewSlice,
+  sessionSlice,
+  sideBarSlice,
+  snackbarSlice,
+} from './slices'
 // apis
-import { authApi } from './api/authApi'
-import { humanResourceApi } from './api/humanResourceApi'
-import { companyApi } from './api/companyApi'
-import { paymentApi } from './api/paymentApi'
-import { crmApi } from './api/crm/crmApis'
+import { authApi, companyApi, paymentApi } from './api/auth'
 import { settingsApi } from './api/settings/settingsAPIs'
+import { leadApi, leadSourceApi } from './api/crm'
 
 export const makeStore = () =>
   configureStore({
@@ -24,21 +23,21 @@ export const makeStore = () =>
       [leadPreviewSlice.name]: leadPreviewSlice.reducer,
       [contactPreviewSlice.name]: contactPreviewSlice.reducer,
       [authApi.reducerPath]: authApi.reducer,
-      [humanResourceApi.reducerPath]: humanResourceApi.reducer,
       [companyApi.reducerPath]: companyApi.reducer,
       [paymentApi.reducerPath]: paymentApi.reducer,
-      [crmApi.reducerPath]: crmApi.reducer,
       [settingsApi.reducerPath]: settingsApi.reducer,
+      [leadApi.reducerPath]: leadApi.reducer,
+      [leadSourceApi.reducerPath]: leadSourceApi.reducer,
     },
     devTools: process.env.NODE_ENV === 'development',
     middleware: (gDM) =>
       gDM().concat(
-        humanResourceApi.middleware,
         authApi.middleware,
         companyApi.middleware,
         paymentApi.middleware,
-        crmApi.middleware,
-        settingsApi.middleware
+        settingsApi.middleware,
+        leadApi.middleware,
+        leadSourceApi.middleware
       ),
   })
 

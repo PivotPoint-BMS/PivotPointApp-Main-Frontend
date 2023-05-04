@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import { useForm, FieldValues } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 // api
-import { useResetPasswordMutation } from 'store/api/authApi'
+import { useResetPasswordMutation } from 'store/api/auth/authApi'
 // types
 import { ResetPasswordInput } from 'types'
 // hooks

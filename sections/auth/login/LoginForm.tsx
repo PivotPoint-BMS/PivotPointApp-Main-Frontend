@@ -10,7 +10,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import useTranslate from 'hooks/useTranslate'
 import { useAppSelector } from 'store/hooks'
 // api
-import { useLoginMutation } from 'store/api/authApi'
+import { useLoginMutation } from 'store/api/auth/authApi'
 // types
 import { LoginInput } from 'types'
 // routes

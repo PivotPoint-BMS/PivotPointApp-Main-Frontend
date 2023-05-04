@@ -18,7 +18,7 @@ import { CompanySetupInput } from 'types'
 import useTranslate from 'hooks/useTranslate'
 import useResponsive from 'hooks/useResponsive'
 import { useAppSelector } from 'store/hooks'
-import { useCreateRequestMutation } from 'store/api/companyApi'
+import { useCreateRequestMutation } from 'store/api/auth/companyApi'
 // sections
 import Company from 'sections/auth/company-setup/Company'
 import Workers from 'sections/auth/company-setup/Workers'

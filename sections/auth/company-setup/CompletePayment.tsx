@@ -6,8 +6,8 @@ import Link from 'next/link'
 import useTranslate from 'hooks/useTranslate'
 import { useAppSelector } from 'store/hooks'
 // api
-import { useCheckPaymentQuery } from 'store/api/paymentApi'
-import { useGetUserMutation } from 'store/api/authApi'
+import { useCheckPaymentQuery } from 'store/api/auth/paymentApi'
+import { useGetUserMutation } from 'store/api/auth/authApi'
 // routes
 import { PATH_DASHBOARD } from 'routes/paths'
 // components

@@ -120,6 +120,9 @@ export default function LeadPreview() {
                 </div>
               </div>
               <div className='flex w-full items-center justify-evenly gap-6 sm:w-fit sm:justify-end sm:gap-2 '>
+                <IconButton className='border'>
+                  <Iconify icon='fluent:clipboard-task-add-20-filled' height={22} />
+                </IconButton>
                 <Link href={`mailto:${lead?.email}`}>
                   <IconButton className='border'>
                     <Iconify icon='material-symbols:outgoing-mail' height={22} />

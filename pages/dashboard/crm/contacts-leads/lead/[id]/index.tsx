@@ -2,7 +2,7 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 // api
-import { useGetLeadQuery } from 'store/api/crm/crmApis'
+import { useGetLeadQuery } from 'store/api/crm/leadApis'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // asset

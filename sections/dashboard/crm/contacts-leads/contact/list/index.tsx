@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 // next
 import { useRouter } from 'next/router'
 // hooks
@@ -9,9 +9,9 @@ import { PATH_DASHBOARD } from 'routes/paths'
 import { wrapper } from 'store'
 import { useAppDispatch } from 'store/hooks'
 import { previewContact } from 'store/slices/contactPreviewSlice'
-import { getContacts, getRunningQueriesThunk, useGetContactsQuery } from 'store/api/crm/crmApis'
+import { getLeads, getRunningQueriesThunk, useGetLeadsQuery } from 'store/api/crm/leadApis'
 // types
-import { Contact } from 'types'
+import { Lead } from 'types'
 // config
 import { PIVOTPOINT_API } from 'config'
 // asset
@@ -36,15 +36,18 @@ export default function ContactsList() {
   const { t } = useTranslate()
   const { push, isFallback } = useRouter()
   const dispatch = useAppDispatch()
-  const [selectedRows, setSelectedRows] = useState<Contact[]>([])
+  const [selectedRows, setSelectedRows] = useState<Lead[]>([])
   const [selectedCount, setSelectedCount] = useState(0)
 
-  const { data, isLoading } = useGetContactsQuery(undefined, {
-    skip: isFallback,
-    refetchOnFocus: true,
-  })
+  const { data, isLoading } = useGetLeadsQuery(
+    { IsContact: true, IsLead: false },
+    {
+      skip: isFallback,
+      refetchOnFocus: true,
+    }
+  )
 
-  const columns: TableColumn<Contact>[] = [
+  const columns: TableColumn<Lead>[] = [
     {
       name: 'Contact Name',
       cell: ({ fullName, profilePic }) => (
@@ -172,6 +175,10 @@ export default function ContactsList() {
     },
   ]
 
+  useEffect(() => {
+    console.log(selectedRows)
+  }, [selectedRows])
+
   return (
     <>
       {isLoading ? (
@@ -236,7 +243,7 @@ export default function ContactsList() {
 }
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
-  store.dispatch(getContacts.initiate())
+  store.dispatch(getLeads.initiate({ IsContact: true, IsLead: false }))
 
   await Promise.all(store.dispatch(getRunningQueriesThunk()))
 

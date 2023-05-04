@@ -17,7 +17,7 @@ import {
   invalidateTags,
   useDeleteLeadMutation,
   useGetLeadsQuery,
-} from 'store/api/crm/crmApis'
+} from 'store/api/crm/leadApis'
 // config
 import { PIVOTPOINT_API } from 'config'
 // types
@@ -51,10 +51,13 @@ export default function LeadsList() {
   const [selectedCount, setSelectedCount] = useState(0)
   const [idToDelete, setIdToDelete] = useState<string | null>(null)
 
-  const { data, isLoading } = useGetLeadsQuery(undefined, {
-    skip: isFallback,
-    refetchOnFocus: true,
-  })
+  const { data, isLoading } = useGetLeadsQuery(
+    { IsContact: false, IsLead: true },
+    {
+      skip: isFallback,
+      refetchOnFocus: true,
+    }
+  )
   const [
     deleteLead,
     { isLoading: isDeleteLeading, isError: isDeleteError, isSuccess: isDeleteSuccess },
@@ -205,6 +208,10 @@ export default function LeadsList() {
     }
   }, [isDeleteError, isDeleteSuccess])
 
+  useEffect(() => {
+    console.log(selectedRows)
+  }, [selectedRows])
+
   return (
     <>
       {isLoading ? (
@@ -287,7 +294,7 @@ export default function LeadsList() {
 }
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
-  store.dispatch(getLeads.initiate())
+  store.dispatch(getLeads.initiate({ IsContact: false, IsLead: true }))
 
   await Promise.all(store.dispatch(getRunningQueriesThunk()))
 

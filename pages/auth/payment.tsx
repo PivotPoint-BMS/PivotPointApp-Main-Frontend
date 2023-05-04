@@ -12,7 +12,7 @@ import { PATH_DASHBOARD } from 'routes/paths'
 import useTranslate from 'hooks/useTranslate'
 import useResponsive from 'hooks/useResponsive'
 import { useAppSelector } from 'store/hooks'
-import { useCheckPaymentQuery } from 'store/api/paymentApi'
+import { useCheckPaymentQuery } from 'store/api/auth/paymentApi'
 // sections
 import CompletePayment from 'sections/auth/company-setup/CompletePayment'
 // components

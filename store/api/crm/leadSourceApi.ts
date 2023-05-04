@@ -3,13 +3,13 @@ import { HYDRATE } from 'next-redux-wrapper'
 // config
 import { PIVOTPOINT_API } from 'config'
 // types
-import { Contact, IGenericResponse, Lead } from 'types'
+import { IGenericResponse } from 'types'
 // store
 import { RootState } from 'store'
 import { LeadSource } from 'types/Lead'
 
-export const crmApi = createApi({
-  reducerPath: 'crmApi',
+export const leadSourceApi = createApi({
+  reducerPath: 'leadSourceApi',
   baseQuery: fetchBaseQuery({
     baseUrl: `${PIVOTPOINT_API.baseUrl}/crm`,
     prepareHeaders: (headers, { getState }) => {
@@ -28,63 +28,8 @@ export const crmApi = createApi({
       return action.payload[reducerPath]
     }
   },
-  tagTypes: ['Contacts', 'Leads', 'LeadSources'],
+  tagTypes: ['LeadSources'],
   endpoints: (builder) => ({
-    // Contacts APIs
-    getContacts: builder.query<IGenericResponse<Contact[]>, void>({
-      query: () => 'Contact',
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.data.map(({ id }) => ({ type: 'Contacts' as const, id })),
-              { type: 'Contacts', id: 'LIST' },
-            ]
-          : [{ type: 'Contacts', id: 'LIST' }],
-    }),
-    getContact: builder.query<Contact, string>({
-      query: (id) => `Contact/${id}`,
-    }),
-    // Leads APIs
-    getLeads: builder.query<IGenericResponse<Lead[]>, void>({
-      query: () => 'Lead',
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.data.map(({ id }) => ({ type: 'Leads' as const, id })),
-              { type: 'Leads', id: 'LIST' },
-            ]
-          : [{ type: 'Leads', id: 'LIST' }],
-    }),
-    getLead: builder.query<IGenericResponse<Lead>, string>({
-      query: (id) => `Lead/${id}`,
-    }),
-    createLead: builder.mutation<string[], FormData>({
-      query: (data) => ({
-        url: 'Lead',
-        method: 'POST',
-        body: data,
-        responseHandler: 'content-type',
-      }),
-      invalidatesTags: ['Leads'],
-    }),
-    editLead: builder.mutation<string[], { data: FormData; id: string }>({
-      query: ({ data, id }) => ({
-        url: `Lead/${id}`,
-        method: 'PUT',
-        body: data,
-        responseHandler: 'content-type',
-      }),
-      invalidatesTags: ['Leads'],
-    }),
-    deleteLead: builder.mutation<string[], string>({
-      query: (id) => ({
-        url: `Lead/${id}`,
-        method: 'DELETE',
-        responseHandler: 'content-type',
-      }),
-      invalidatesTags: ['Leads'],
-    }),
-    // Lead Sources APIs
     getLeadSources: builder.query<IGenericResponse<LeadSource[]>, void>({
       query: () => 'LeadSources',
       providesTags: (result) =>
@@ -127,21 +72,13 @@ export const crmApi = createApi({
 // Export hooks for usage in functional components
 export const {
   // Queries
-  useGetContactsQuery,
-  useGetContactQuery,
-  useGetLeadQuery,
-  useGetLeadsQuery,
   useGetLeadSourcesQuery,
   // Mutations
-  useCreateLeadMutation,
-  useEditLeadMutation,
   useCreateLeadSourceMutation,
-  useDeleteLeadMutation,
   useDeleteLeadSourceMutation,
   useEditLeadSourceMutation,
   util: { getRunningQueriesThunk, invalidateTags },
-} = crmApi
+} = leadSourceApi
 
 // export endpoints for use in SSR
-export const { getContacts, getContact, getLead, getLeads, getLeadSources, createLead } =
-  crmApi.endpoints
+export const { getLeadSources } = leadSourceApi.endpoints
