@@ -168,17 +168,11 @@ const DealsKanban = () => {
 
   function renderContainerDragOverlay(columnId: UniqueIdentifier) {
     return (
-      <div
-        style={{
-          height: '100%',
-        }}
-      >
-        <KanbanColumn name={board.columns[columnId].name} id={''} items={[]}>
-          {board.columns[columnId].dealsId.map((item) => (
-            <Item key={item} deal={board.deals[item]} />
-          ))}
-        </KanbanColumn>
-      </div>
+      <KanbanColumn name={board.columns[columnId].name} id={''} items={[]} isDraggingOverlay>
+        {board.columns[columnId].dealsId.map((item) => (
+          <Item key={item} deal={board.deals[item]} />
+        ))}
+      </KanbanColumn>
     )
   }
 
@@ -334,7 +328,7 @@ const DealsKanban = () => {
         onDragEnd={handleDragEnd}
         onDragCancel={handleDragCancel}
       >
-        <div className='box-border inline-grid grid-flow-col gap-4 p-5'>
+        <div className='box-border inline-grid grid-flow-col gap-4'>
           <SortableContext items={board.columnsOrder} strategy={horizontalListSortingStrategy}>
             {board.columnsOrder.map((columnId) => (
               <KanbanColumn

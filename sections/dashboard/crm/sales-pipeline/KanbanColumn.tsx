@@ -15,6 +15,7 @@ interface KanbanColumnProps extends Omit<React.HTMLAttributes<HTMLDivElement>, '
   listeners?: DraggableSyntheticListeners
   disabled?: boolean
   items: UniqueIdentifier[]
+  isDraggingOverlay?: boolean
 }
 
 const animateLayoutChanges: AnimateLayoutChanges = (args) =>
@@ -26,6 +27,7 @@ export default function KanbanColumn({
   disabled,
   id,
   items,
+  isDraggingOverlay,
   ...props
 }: KanbanColumnProps) {
   const { t } = useTranslate()
@@ -63,15 +65,25 @@ export default function KanbanColumn({
       {...attributes}
       {...props}
     >
-      <Card className={clsx('min-w-[250px]', isOverContainer && 'bg-gray-100')}>
+      <Card
+        variant='outlined-dashed'
+        className={clsx(
+          'min-w-[300px]',
+          isOverContainer && 'bg-gray-100',
+          isDraggingOverlay && 'shadow-lg'
+        )}
+      >
         <CardHeader
           title={name || ''}
           actions={
             <IconButton
               ref={setActivatorNodeRef}
-              {...listeners}
               tabIndex={0}
-              className='cursor-grab fill-gray-500'
+              className={clsx(
+                'cursor-grab fill-gray-600 dark:fill-gray-300',
+                isDragging && 'cursor-grabbing'
+              )}
+              {...listeners}
             >
               <svg viewBox='0 0 20 20' width='12'>
                 <path d='M7 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 2zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 14zm6-8a2 2 0 1 0-.001-4.001A2 2 0 0 0 13 6zm0 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 14z'></path>
