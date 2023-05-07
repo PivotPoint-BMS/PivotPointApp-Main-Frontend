@@ -1,5 +1,7 @@
 import { ReactNode } from 'react'
 import clsx from 'clsx'
+// motion
+import { motion } from 'framer-motion'
 // radix
 import Backdrop from './Backdrop'
 
@@ -14,7 +16,11 @@ export default function Dialog({ open, description, title, children }: DialogPro
   if (open)
     return (
       <Backdrop open={open}>
-        <div
+        <motion.div
+          initial={{ opacity: 0 }}
+          variants={{ open: { opacity: 1 }, close: { opacity: 0 } }}
+          animate={open ? 'open' : 'close'}
+          transition={{ duration: 0.3 }}
           className={clsx(
             'fixed z-[10000]',
             'w-[95vw] max-w-md rounded-lg p-4 md:w-full',
@@ -32,7 +38,7 @@ export default function Dialog({ open, description, title, children }: DialogPro
             </p>
           )}
           {children}
-        </div>
+        </motion.div>
       </Backdrop>
     )
   return null

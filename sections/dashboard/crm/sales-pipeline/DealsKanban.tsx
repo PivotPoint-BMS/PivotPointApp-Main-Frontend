@@ -1,5 +1,7 @@
 /* eslint-disable no-nested-ternary */
-import React, { useState } from 'react'
+// TODO: Needs a lot of cleanup
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 // dnd
 import {
   useSensors,
@@ -8,171 +10,490 @@ import {
   KeyboardSensor,
   DndContext,
   closestCenter,
-  DragEndEvent,
-  DragStartEvent,
-  DragOverEvent,
+  pointerWithin,
+  CollisionDetection,
+  rectIntersection,
+  getFirstCollision,
+  UniqueIdentifier,
+  MeasuringStrategy,
   DragOverlay,
   DropAnimation,
-  defaultDropAnimation,
+  defaultDropAnimationSideEffects,
 } from '@dnd-kit/core'
+import { CSS } from '@dnd-kit/utilities'
 import {
   sortableKeyboardCoordinates,
   arrayMove,
   SortableContext,
   horizontalListSortingStrategy,
+  useSortable,
+  AnimateLayoutChanges,
+  defaultAnimateLayoutChanges,
+  verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
 // types
 import { Deal } from 'types'
-// utils
-import { getTaskById } from './kanbanItemUtils'
-import { KanbanColumsType, findKanbanColumContainer, initializeBoard } from './board'
 // components
+import { Item } from './Item'
 import KanbanColumn from './KanbanColumn'
-import DealItem from './DealItem'
 
-const INITIAL_TASKS: Deal[] = [
-  {
-    id: '1',
-    title: 'Title 2',
-    description: 'Desc 2',
-    status: 'qualification',
+export interface BoardColumn {
+  id: string
+  name: string
+  dealsId: string[]
+}
+
+interface BoardProps {
+  columns: { [key: string]: BoardColumn }
+  columnsOrder: string[]
+  deals: { [key: string]: Deal }
+}
+
+export const INITIAL_BOARD: BoardProps = {
+  columns: {
+    C1: { id: 'C1', name: 'Column 1', dealsId: ['D1'] },
+    C2: { id: 'C2', name: 'Column 2', dealsId: ['D2', 'D3'] },
+    C3: { id: 'C3', name: 'Column 3', dealsId: [] },
   },
-  {
-    id: '2',
-    title: 'Title 3',
-    description: 'Desc 3',
-    status: 'qualification',
+  columnsOrder: ['C2', 'C1', 'C3'],
+  deals: {
+    D1: { id: 'D1', title: 'test 1', description: 'ded' },
+    D2: { id: 'D2', title: 'test 2', description: 'ded' },
+    D3: { id: 'D3', title: 'test 3', description: 'ded' },
   },
-  {
-    id: '3',
-    title: 'Title 4',
-    description: 'Desc 4',
-    status: 'done',
-  },
-  {
-    id: '4',
-    title: 'Title 4',
-    description: 'Desc 4',
-    status: 'testing',
-  },
-]
+}
+
+const animateLayoutChanges: AnimateLayoutChanges = (args) =>
+  defaultAnimateLayoutChanges({ ...args, wasDragging: true })
+
+function DroppableContainer({
+  children,
+  disabled,
+  id,
+  items,
+  style,
+  name,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & {
+  disabled?: boolean
+  id: UniqueIdentifier
+  items: UniqueIdentifier[]
+  style?: React.CSSProperties
+  name?: string
+}) {
+  const {
+    active,
+    attributes,
+    isDragging,
+    listeners,
+    over,
+    setNodeRef,
+    transition,
+    transform,
+    setActivatorNodeRef,
+  } = useSortable({
+    id,
+    data: {
+      type: 'container',
+      children: items,
+    },
+    animateLayoutChanges,
+  })
+  const isOverContainer = over
+    ? (id === over.id && active?.data.current?.type !== 'container') || items.includes(over.id)
+    : false
+
+  return (
+    <div
+      ref={disabled ? undefined : setNodeRef}
+      style={{
+        ...style,
+        transition,
+        transform: CSS.Translate.toString(transform),
+        opacity: isDragging ? 0.5 : undefined,
+      }}
+      {...attributes}
+      {...props}
+    >
+      <KanbanColumn
+        name={name}
+        isOverContainer={isOverContainer}
+        listeners={listeners}
+        handleProps={{ ref: setActivatorNodeRef }}
+      >
+        {children}
+      </KanbanColumn>
+    </div>
+  )
+}
+const dropAnimation: DropAnimation = {
+  sideEffects: defaultDropAnimationSideEffects({
+    styles: {
+      active: {
+        opacity: '0.5',
+      },
+    },
+  }),
+}
+function useMountStatus() {
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setIsMounted(true), 500)
+
+    return () => clearTimeout(timeout)
+  }, [])
+
+  return isMounted
+}
+
+interface SortableItemProps {
+  containerId: UniqueIdentifier
+  id: UniqueIdentifier
+  index: number
+  disabled?: boolean
+  getIndex(id: UniqueIdentifier): number
+  deal: Deal
+}
+
+function SortableItem({ disabled, id, deal, index }: SortableItemProps) {
+  const {
+    setNodeRef,
+    listeners,
+    isDragging,
+    isSorting,
+    transform,
+    transition,
+    setActivatorNodeRef,
+  } = useSortable({
+    id,
+    data: {
+      type: 'card',
+    },
+  })
+  const mounted = useMountStatus()
+  const mountedWhileDragging = isDragging && !mounted
+
+  return (
+    <Item
+      ref={disabled ? undefined : setNodeRef}
+      deal={deal}
+      dragging={isDragging}
+      sorting={isSorting}
+      index={index}
+      transition={transition}
+      transform={transform}
+      fadeIn={mountedWhileDragging}
+      listeners={listeners}
+      handleProps={{ ref: setActivatorNodeRef }}
+    />
+  )
+}
 
 const DealsKanban = () => {
-  const deals = INITIAL_TASKS
-  const initialBoardSections = initializeBoard(INITIAL_TASKS)
-  const [kanbanColumns, setKanbanColumns] = useState<KanbanColumsType>(initialBoardSections)
+  const [board, setBoard] = useState(INITIAL_BOARD)
+  // const [activeItem, setActiveItem] = useState<null | { type: string; id: string }>(null)
+  const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null)
+  const lastOverId = useRef<UniqueIdentifier | null>(null)
+  const [clonedItems, setClonedItems] = useState<{ [key: string]: BoardColumn } | null>(null)
+  const recentlyMovedToNewContainer = useRef(false)
+  const isSortingContainer = activeId ? board.columnsOrder.includes(activeId.toString()) : false
 
-  const [activeItem, setActiveItem] = useState<null | { type: string; id: string }>(null)
-
+  function renderSortableItemDragOverlay(id: UniqueIdentifier) {
+    return <Item deal={board.deals[id]} dragOverlay />
+  }
   const sensors = useSensors(
     useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   )
 
-  const handleDragStart = ({ active }: DragStartEvent) => {
-    setActiveItem({ type: active.data?.current?.type, id: active.id as string })
-  }
-
-  const handleDragOver = ({ active, over }: DragOverEvent) => {
-    if (active.data?.current?.type === 'card') {
-      // Find the containers
-      const activeContainer = findKanbanColumContainer(kanbanColumns, active.id as string)
-      const overContainer = findKanbanColumContainer(kanbanColumns, over?.id as string)
-
-      if (!activeContainer || !overContainer || activeContainer === overContainer) {
-        return
+  const collisionDetectionStrategy: CollisionDetection = useCallback(
+    (args) => {
+      if (activeId && activeId in board.columns) {
+        return closestCenter({
+          ...args,
+          droppableContainers: args.droppableContainers.filter(
+            (container) => container.id in board.columns
+          ),
+        })
       }
 
-      setKanbanColumns((kanbanColumn) => {
-        const activeItems = kanbanColumn[activeContainer]
-        const overItems = kanbanColumn[overContainer]
+      // Start by finding any intersecting droppable
+      const pointerIntersections = pointerWithin(args)
+      const intersections =
+        pointerIntersections.length > 0
+          ? // If there are droppables intersecting with the pointer, return those
+            pointerIntersections
+          : rectIntersection(args)
+      let overId = getFirstCollision(intersections, 'id')
 
-        // Find the indexes for the items
-        const activeIndex = activeItems.findIndex((item) => item.id === active.id)
-        const overIndex = overItems.findIndex((item) => item.id !== over?.id)
+      if (overId != null) {
+        if (overId in board.columns) {
+          const containerItems = board.columns[overId]
 
-        return {
-          ...kanbanColumn,
-          [activeContainer]: [
-            ...kanbanColumn[activeContainer].filter((item) => item.id !== active.id),
-          ],
-          [overContainer]: [
-            ...kanbanColumn[overContainer].slice(0, overIndex),
-            kanbanColumns[activeContainer][activeIndex],
-            ...kanbanColumn[overContainer].slice(overIndex, kanbanColumn[overContainer].length),
-          ],
+          // If a container is matched and it contains items (columns 'A', 'B', 'C')
+          if (containerItems.dealsId.length > 0) {
+            // Return the closest droppable within that container
+            overId = closestCenter({
+              ...args,
+              droppableContainers: args.droppableContainers.filter(
+                (container) =>
+                  container.id !== overId &&
+                  containerItems.dealsId.includes(container.id.toString())
+              ),
+            })[0]?.id
+          }
         }
-      })
-    }
-  }
 
-  const handleDragEnd = ({ active, over }: DragEndEvent) => {
-    if (active.data?.current?.type === 'card') {
-      const activeContainer = findKanbanColumContainer(kanbanColumns, active.id as string)
-      const overContainer = findKanbanColumContainer(kanbanColumns, over?.id as string)
+        lastOverId.current = overId
 
-      if (!activeContainer || !overContainer || activeContainer !== overContainer) {
-        return
+        return [{ id: overId }]
       }
 
-      const activeIndex = kanbanColumns[activeContainer].findIndex((deal) => deal.id === active.id)
-      const overIndex = kanbanColumns[overContainer].findIndex((deal) => deal.id === over?.id)
-
-      if (activeIndex !== overIndex) {
-        setKanbanColumns((kanbanColumn) => ({
-          ...kanbanColumn,
-          [overContainer]: arrayMove(kanbanColumn[overContainer], activeIndex, overIndex),
-        }))
+      // When a draggable item moves to a new container, the layout may shift
+      // and the `overId` may become `null`. We manually set the cached `lastOverId`
+      // to the id of the draggable item that was moved to the new container, otherwise
+      // the previous `overId` will be returned which can cause items to incorrectly shift positions
+      if (recentlyMovedToNewContainer.current) {
+        lastOverId.current = activeId
       }
 
-      setActiveItem(null)
+      // If no droppable is matched, return the last match
+      return lastOverId.current ? [{ id: lastOverId.current }] : []
+    },
+    [activeId, board.columns]
+  )
+
+  const findContainer = (id: UniqueIdentifier) => {
+    if (id in board.columns) {
+      return id
     }
+
+    return Object.keys(board.columns).find((key) =>
+      board.columns[key].dealsId.includes(id.toString())
+    )
+  }
+  const getIndex = (id: UniqueIdentifier) => {
+    const container = findContainer(id)
+
+    if (!container) {
+      return -1
+    }
+
+    const index = board.columns[container.toString()].dealsId.indexOf(id.toString())
+
+    return index
   }
 
-  const dropAnimation: DropAnimation = {
-    ...defaultDropAnimation,
+  function renderContainerDragOverlay(columnId: UniqueIdentifier) {
+    return (
+      <div
+        style={{
+          height: '100%',
+        }}
+      >
+        <KanbanColumn name={board.columns[columnId].name}>
+          {board.columns[columnId].dealsId.map((item) => (
+            <Item key={item} deal={board.deals[item]} />
+          ))}
+        </KanbanColumn>
+      </div>
+    )
   }
-
-  const deal = activeItem?.type === 'card' ? getTaskById(deals, activeItem.id) : null
 
   return (
     <div className='w-auto overflow-hidden'>
       <DndContext
         sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragStart={handleDragStart}
-        onDragOver={handleDragOver}
-        onDragEnd={handleDragEnd}
+        collisionDetection={collisionDetectionStrategy}
+        measuring={{
+          droppable: {
+            strategy: MeasuringStrategy.Always,
+          },
+        }}
+        onDragStart={({ active }) => {
+          setActiveId(active.id)
+          setClonedItems(board.columns)
+        }}
+        onDragOver={({ active, over }) => {
+          const overId = over?.id
+
+          if (overId == null || active.id in board.columns) {
+            return
+          }
+
+          const overContainer = findContainer(overId)
+          const activeContainer = findContainer(active.id)
+
+          if (!overContainer || !activeContainer) {
+            return
+          }
+
+          if (activeContainer !== overContainer) {
+            setBoard(({ columns, columnsOrder, deals }: BoardProps) => {
+              const activeItems = columns[activeContainer]
+              const overItems = columns[overContainer]
+              const overIndex = overItems.dealsId.indexOf(overId.toString())
+              const activeIndex = activeItems.dealsId.indexOf(active.id.toString())
+
+              let newIndex: number
+
+              if (overId in columns) {
+                newIndex = overItems.dealsId.length + 1
+              } else {
+                const isBelowOverItem =
+                  over &&
+                  active.rect.current.translated &&
+                  active.rect.current.translated.top > over.rect.top + over.rect.height
+
+                const modifier = isBelowOverItem ? 1 : 0
+
+                newIndex = overIndex >= 0 ? overIndex + modifier : overItems.dealsId.length + 1
+              }
+
+              recentlyMovedToNewContainer.current = true
+
+              return {
+                deals,
+                columnsOrder,
+                columns: {
+                  ...columns,
+                  [activeContainer]: {
+                    id: columns[overContainer].id,
+                    name: columns[overContainer].name,
+
+                    dealsId: columns[activeContainer].dealsId.filter(
+                      (item) => item !== active.id.toString()
+                    ),
+                  },
+                  [overContainer]: {
+                    id: columns[overContainer].id,
+                    name: columns[overContainer].name,
+                    dealsId: [
+                      ...columns[overContainer].dealsId.slice(0, newIndex),
+                      columns[activeContainer].dealsId[activeIndex],
+                      ...columns[overContainer].dealsId.slice(
+                        newIndex,
+                        columns[overContainer].dealsId.length
+                      ),
+                    ],
+                  },
+                },
+              }
+            })
+          }
+        }}
+        onDragEnd={({ active, over }) => {
+          if (active.id in board.columns && over?.id) {
+            setBoard(({ columns, columnsOrder, deals }) => {
+              const activeIndex = columnsOrder.indexOf(active.id.toString())
+              const overIndex = columnsOrder.indexOf(over.id.toString())
+
+              return {
+                columns,
+                deals,
+                columnsOrder: arrayMove(columnsOrder, activeIndex, overIndex),
+              }
+            })
+          }
+
+          const activeContainer = findContainer(active.id)
+
+          if (!activeContainer) {
+            setActiveId(null)
+            return
+          }
+
+          const overId = over?.id
+
+          if (overId == null) {
+            setActiveId(null)
+            return
+          }
+
+          const overContainer = findContainer(overId)
+
+          if (overContainer) {
+            const activeIndex = board.columns[activeContainer].dealsId.indexOf(active.id.toString())
+            const overIndex = board.columns[overContainer].dealsId.indexOf(overId.toString())
+
+            if (activeIndex !== overIndex) {
+              setBoard(({ columns, columnsOrder, deals }) => ({
+                deals,
+                columnsOrder,
+                columns: {
+                  ...columns,
+                  [overContainer]: {
+                    ...columns[overContainer],
+                    dealsId: arrayMove(
+                      board.columns[overContainer].dealsId,
+                      activeIndex,
+                      overIndex
+                    ),
+                  },
+                },
+              }))
+            }
+          }
+
+          setActiveId(null)
+        }}
+        // cancelDrop={cancelDrop}
+        onDragCancel={() => {
+          if (clonedItems) {
+            // Reset items to their original state in case items have been
+            // Dragged across containers
+            setBoard(({ columnsOrder, deals }) => ({
+              columns: clonedItems,
+              columnsOrder,
+              deals,
+            }))
+          }
+
+          setActiveId(null)
+          setClonedItems(null)
+        }}
+        // modifiers={modifiers}
       >
-        <SortableContext
-          id='columns-sortable'
-          items={['backlog', 'in progress', 'done', 'testing']}
-          strategy={horizontalListSortingStrategy}
-        >
-          <div className='scrollbar-none flex h-full flex-row items-start gap-6 overflow-x-scroll  pr-10'>
-            {['backlog', 'in progress', 'done', 'testing'].map((kanbanColumnKey) => (
-              <KanbanColumn
-                id={kanbanColumnKey}
-                title={kanbanColumnKey}
-                deals={kanbanColumns[kanbanColumnKey]}
-                key={kanbanColumnKey}
-              />
+        <div className='box-border inline-grid grid-flow-col gap-4 p-5'>
+          <SortableContext items={board.columnsOrder} strategy={horizontalListSortingStrategy}>
+            {board.columnsOrder.map((columnId) => (
+              <DroppableContainer
+                key={columnId}
+                id={columnId}
+                name={board.columns[columnId].name}
+                items={board.columns[columnId].dealsId}
+              >
+                <SortableContext
+                  items={board.columns[columnId].dealsId}
+                  strategy={verticalListSortingStrategy}
+                >
+                  {board.columns[columnId].dealsId.map((dealId, index) => (
+                    <SortableItem
+                      disabled={isSortingContainer}
+                      key={dealId}
+                      id={dealId}
+                      index={index}
+                      containerId={columnId}
+                      getIndex={getIndex}
+                      deal={board.deals[dealId]}
+                    />
+                  ))}
+                </SortableContext>
+              </DroppableContainer>
             ))}
+          </SortableContext>
+          {createPortal(
             <DragOverlay dropAnimation={dropAnimation}>
-              {activeItem?.type === 'card' && deal ? (
-                <DealItem deal={deal} />
-              ) : activeItem?.type === 'column' && activeItem?.id ? (
-                <KanbanColumn
-                  id={activeItem.id}
-                  title={activeItem.id}
-                  deals={kanbanColumns[activeItem.id]}
-                />
-              ) : null}
-            </DragOverlay>
-          </div>
-        </SortableContext>
+              {activeId
+                ? board.columnsOrder.includes(activeId.toString())
+                  ? renderContainerDragOverlay(activeId)
+                  : renderSortableItemDragOverlay(activeId)
+                : null}
+            </DragOverlay>,
+            document.body
+          )}
+        </div>
       </DndContext>
     </div>
   )

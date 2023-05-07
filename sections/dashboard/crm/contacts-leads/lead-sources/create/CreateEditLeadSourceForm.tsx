@@ -95,15 +95,10 @@ export default function CreateEditLeadSourceForm({
       </div>
 
       <div className='mt-6 flex w-full items-center justify-end gap-3'>
-        <Button size='large' variant='outlined' intent='error' onClick={onFailure}>
+        <Button size='large' variant='outlined' intent='default' onClick={onFailure}>
           {t('Cancel')}
         </Button>
-        <Button
-          size='large'
-          variant='outlined'
-          type='submit'
-          loading={isEditLoading || isCreateLoading}
-        >
+        <Button size='large' type='submit' loading={isEditLoading || isCreateLoading}>
           {isEdit ? t('Edit Lead Source') : t('Add Lead Source')}
         </Button>
       </div>

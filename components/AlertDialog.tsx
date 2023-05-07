@@ -1,7 +1,9 @@
 import clsx from 'clsx'
+// motion
+import { motion } from 'framer-motion'
 // radix
 import Backdrop from './Backdrop'
-import Button from './Button'
+import Button, { ButtonProps } from './Button'
 
 interface AlertDialogProps {
   open: boolean
@@ -11,6 +13,7 @@ interface AlertDialogProps {
   confirmText: string
   onConfirm: () => void
   onClose: () => void
+  buttonProps?: ButtonProps
 }
 
 export default function AlertDialog({
@@ -19,13 +22,18 @@ export default function AlertDialog({
   confirmText,
   description,
   title,
+  buttonProps,
   onConfirm,
   onClose,
 }: AlertDialogProps) {
   if (open)
     return (
       <Backdrop open={open}>
-        <div
+        <motion.div
+          initial={{ opacity: 0 }}
+          variants={{ open: { opacity: 1 }, close: { opacity: 0 } }}
+          animate={open ? 'open' : 'close'}
+          transition={{ duration: 0.3 }}
           className={clsx(
             'fixed z-[10000]',
             'w-[95vw] max-w-md rounded-lg p-4 md:w-full',
@@ -43,14 +51,14 @@ export default function AlertDialog({
             </p>
           )}
           <div className=' flex justify-end space-x-2'>
-            <Button variant='outlined' intent='error' onClick={onClose}>
+            <Button variant='outlined' intent='default' onClick={onClose}>
               {cancelText}
             </Button>
-            <Button variant='outlined' intent='primary' onClick={onConfirm}>
+            <Button variant='contained' intent='primary' onClick={onConfirm} {...buttonProps}>
               {confirmText}
             </Button>
           </div>
-        </div>
+        </motion.div>
       </Backdrop>
     )
   return null

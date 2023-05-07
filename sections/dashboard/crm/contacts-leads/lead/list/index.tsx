@@ -288,6 +288,7 @@ export default function LeadsList() {
         }}
         open={idToDelete !== null}
         onClose={() => setIdToDelete(null)}
+        buttonProps={{ intent: 'error' }}
       />
     </>
   )

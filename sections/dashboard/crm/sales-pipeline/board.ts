@@ -1,5 +1,6 @@
 import { Deal, DealStatus } from 'types'
 import { getTasksByStatus } from './kanbanItemUtils'
+import { BoardColumn } from './DealsKanban'
 
 const BOARD_SECTIONS = {
   backlog: 'backlog',
@@ -22,13 +23,17 @@ export const initializeBoard = (tasks: Deal[]) => {
   return kanbanColumns
 }
 
-export const findKanbanColumContainer = (kanbanColumns: KanbanColumsType, id: string) => {
+export const findKanbanColumContainer = (
+  kanbanColumns: { [key: string]: BoardColumn } | null,
+  id: string
+) => {
+  if (!kanbanColumns) return null
   if (id in kanbanColumns) {
     return id
   }
 
   const container = Object.keys(kanbanColumns).find((key) =>
-    kanbanColumns[key].find((item) => item.id === id)
+    kanbanColumns[key].dealsId.find((item) => item === id)
   )
   return container
 }

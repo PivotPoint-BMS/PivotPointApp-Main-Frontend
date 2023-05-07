@@ -1,8 +1,7 @@
-import DealStatus from './DealStatus'
+import { UniqueIdentifier } from '@dnd-kit/core'
 
 export default interface Deal {
-  id: string
+  id: UniqueIdentifier
   title: string
   description: string
-  status: DealStatus
 }

@@ -1,47 +1,55 @@
-import React from 'react'
-// dnd
-import { useDroppable } from '@dnd-kit/core'
-import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
-// types
-import { Deal } from 'types'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import clsx from 'clsx'
+import type { DraggableSyntheticListeners } from '@dnd-kit/core'
+// hooks
+import useTranslate from 'hooks/useTranslate'
 // components
-import Card from 'components/Card'
-import CardContent from 'components/CardContent'
-import CardHeader from 'components/CardHeader'
-import SortableKanbanItem from './SortableItem'
-import DealItem from './DealItem'
-import SortableColumn from './SortableColumn'
+import { Button, Card, CardContent, CardHeader, IconButton } from 'components'
+import { Icon as Iconify } from '@iconify/react'
 
-type KanbanColumnProps = {
-  id: string
-  title: string
-  deals: Deal[]
+interface KanbanColumnProps extends React.HTMLAttributes<HTMLDivElement> {
+  name?: string
+  isOverContainer?: boolean
+  listeners?: DraggableSyntheticListeners
+  handleProps?: any
 }
 
-const KanbanColumn = ({ id, title, deals }: KanbanColumnProps) => {
-  const { setNodeRef } = useDroppable({
-    id,
-  })
-
+export default function KanbanColumn({
+  name,
+  isOverContainer,
+  children,
+  listeners,
+  handleProps,
+}: KanbanColumnProps) {
+  const { t } = useTranslate()
   return (
-    <SortableColumn id={id}>
-      <Card className='!bg-gray-50 dark:!bg-transparent ' fullWidth>
-        <CardHeader title={title} className='text-lg font-semibold capitalize' />
-        <CardContent>
-          <SortableContext id={id} items={deals} strategy={verticalListSortingStrategy}>
-            <div ref={setNodeRef} className='min-w-[14rem]'>
-              {deals &&
-                deals.map((deal) => (
-                  <SortableKanbanItem id={deal.id} key={deal.id}>
-                    <DealItem deal={deal} />
-                  </SortableKanbanItem>
-                ))}
-            </div>
-          </SortableContext>
-        </CardContent>
-      </Card>
-    </SortableColumn>
+    <Card className={clsx('min-w-[250px]', isOverContainer && 'bg-gray-100')}>
+      <CardHeader
+        title={name || ''}
+        actions={
+          <IconButton
+            {...listeners}
+            tabIndex={0}
+            {...handleProps}
+            className='cursor-grab fill-gray-500'
+          >
+            <svg viewBox='0 0 20 20' width='12'>
+              <path d='M7 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 2zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 14zm6-8a2 2 0 1 0-.001-4.001A2 2 0 0 0 13 6zm0 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 14z'></path>
+            </svg>
+          </IconButton>
+        }
+      />
+      <CardContent className='flex flex-col gap-2'>
+        {children}
+        <Button
+          className='mt-4 w-full'
+          variant='text'
+          size='large'
+          startIcon={<Iconify icon='ic:round-plus' height={24} />}
+        >
+          {t('Add Deal')}
+        </Button>
+      </CardContent>
+    </Card>
   )
 }
-
-export default KanbanColumn
