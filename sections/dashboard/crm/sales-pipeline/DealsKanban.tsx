@@ -1,6 +1,8 @@
 /* eslint-disable no-nested-ternary */
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+// next
+import { useRouter } from 'next/router'
 // dnd
 import {
   useSensors,
@@ -29,38 +31,23 @@ import {
   horizontalListSortingStrategy,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
+// api
+import { useGetDealBoardQuery } from 'store/api/crm/sales-pipeline/dealsBoardsApi'
 // hooks
+import useSnackbar from 'hooks/useSnackbar'
+import useTranslate from 'hooks/useTranslate'
+import DealBoardColumnProps from 'types/DealBoardColumnProps'
 // types
-import { Deal } from 'types'
+import DealBoardProps from 'types/DealBoardProps'
 // components
 import { Item } from './Item'
 import KanbanColumn from './KanbanColumn'
 import SortableItem from './SortableItem'
 
-export interface BoardColumn {
-  id: UniqueIdentifier
-  name: string
-  dealsId: UniqueIdentifier[]
-}
-
-interface BoardProps {
-  columns: { [key: UniqueIdentifier]: BoardColumn }
-  columnsOrder: UniqueIdentifier[]
-  deals: { [key: UniqueIdentifier]: Deal }
-}
-
-export const INITIAL_BOARD: BoardProps = {
-  columns: {
-    C1: { id: 'C1', name: 'Column 1', dealsId: ['D1'] },
-    C2: { id: 'C2', name: 'Column 2', dealsId: ['D2', 'D3'] },
-    C3: { id: 'C3', name: 'Column 3', dealsId: [] },
-  },
-  columnsOrder: ['C2', 'C1', 'C3'],
-  deals: {
-    D1: { id: 'D1', title: 'test 1', description: 'ded' },
-    D2: { id: 'D2', title: 'test 2', description: 'ded' },
-    D3: { id: 'D3', title: 'test 3', description: 'ded' },
-  },
+export const EMPTY_BOARD: Omit<DealBoardProps, 'dealBoards'> = {
+  columns: {},
+  columnsOrder: [],
+  deals: {},
 }
 
 const dropAnimation: DropAnimation = {
@@ -74,13 +61,34 @@ const dropAnimation: DropAnimation = {
 }
 
 const DealsKanban = () => {
-  const [board, setBoard] = useState(INITIAL_BOARD)
-  // const [activeItem, setActiveItem] = useState<null | { type: string; id: string }>(null)
+  const { query } = useRouter()
+  const { t } = useTranslate()
+  const { open } = useSnackbar()
+  const { data, isError, isLoading, isSuccess } = useGetDealBoardQuery(
+    query?.boardId ? (query?.boardId as string) : ''
+  )
+
+  const [board, setBoard] = useState<Omit<DealBoardProps, 'dealBoards'>>(data || EMPTY_BOARD)
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null)
   const lastOverId = useRef<UniqueIdentifier | null>(null)
-  const [clonedItems, setClonedItems] = useState<{ [key: string]: BoardColumn } | null>(null)
+  const [clonedItems, setClonedItems] = useState<{
+    [key: string]: DealBoardColumnProps
+  } | null>(null)
   const recentlyMovedToNewContainer = useRef(false)
   const isSortingContainer = activeId ? board.columnsOrder.includes(activeId) : false
+
+  useEffect(() => {
+    if (isError) {
+      open({
+        message: t('A problem has occured.'),
+        type: 'error',
+        variant: 'contained',
+      })
+    }
+    if (isSuccess) {
+      setBoard(data)
+    }
+  }, [isLoading])
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -112,13 +120,13 @@ const DealsKanban = () => {
           const containerItems = board.columns[overId]
 
           // If a container is matched and it contains items (columns 'A', 'B', 'C')
-          if (containerItems.dealsId.length > 0) {
+          if (containerItems.deals.length > 0) {
             // Return the closest droppable within that container
             overId = closestCenter({
               ...args,
               droppableContainers: args.droppableContainers.filter(
                 (container) =>
-                  container.id !== overId && containerItems.dealsId.includes(container.id)
+                  container.id !== overId && containerItems.deals.includes(container.id)
               ),
             })[0]?.id
           }
@@ -148,7 +156,7 @@ const DealsKanban = () => {
       return id
     }
 
-    return Object.keys(board.columns).find((key) => board.columns[key].dealsId.includes(id))
+    return Object.keys(board.columns).find((key) => board.columns[key].deals.includes(id))
   }
   const getIndex = (id: UniqueIdentifier) => {
     const container = findContainer(id)
@@ -157,7 +165,7 @@ const DealsKanban = () => {
       return -1
     }
 
-    const index = board.columns[container].dealsId.indexOf(id)
+    const index = board.columns[container].deals.indexOf(id)
 
     return index
   }
@@ -168,8 +176,8 @@ const DealsKanban = () => {
 
   function renderContainerDragOverlay(columnId: UniqueIdentifier) {
     return (
-      <KanbanColumn name={board.columns[columnId].name} id={''} items={[]} isDraggingOverlay>
-        {board.columns[columnId].dealsId.map((item) => (
+      <KanbanColumn name={board.columns[columnId].columnTitle} id={''} items={[]} isDraggingOverlay>
+        {board.columns[columnId].deals.map((item) => (
           <Item key={item} deal={board.deals[item]} />
         ))}
       </KanbanColumn>
@@ -196,16 +204,16 @@ const DealsKanban = () => {
     }
 
     if (activeContainer !== overContainer) {
-      setBoard(({ columns, columnsOrder, deals }: BoardProps) => {
+      setBoard(({ columns, ..._board }: Omit<DealBoardProps, 'dealBoards'>) => {
         const activeItems = columns[activeContainer]
         const overItems = columns[overContainer]
-        const overIndex = overItems.dealsId.indexOf(overId)
-        const activeIndex = activeItems.dealsId.indexOf(active.id)
+        const overIndex = overItems.deals.indexOf(overId)
+        const activeIndex = activeItems.deals.indexOf(active.id)
 
         let newIndex: number
 
         if (overId in columns) {
-          newIndex = overItems.dealsId.length + 1
+          newIndex = overItems.deals.length + 1
         } else {
           const isBelowOverItem =
             over &&
@@ -214,31 +222,30 @@ const DealsKanban = () => {
 
           const modifier = isBelowOverItem ? 1 : 0
 
-          newIndex = overIndex >= 0 ? overIndex + modifier : overItems.dealsId.length + 1
+          newIndex = overIndex >= 0 ? overIndex + modifier : overItems.deals.length + 1
         }
 
         recentlyMovedToNewContainer.current = true
 
         return {
-          deals,
-          columnsOrder,
+          ..._board,
           columns: {
             ...columns,
             [activeContainer]: {
               id: columns[overContainer].id,
-              name: columns[overContainer].name,
+              columnTitle: columns[overContainer].columnTitle,
 
-              dealsId: columns[activeContainer].dealsId.filter((item) => item !== active.id),
+              deals: columns[activeContainer].deals.filter((item) => item !== active.id),
             },
             [overContainer]: {
               id: columns[overContainer].id,
-              name: columns[overContainer].name,
-              dealsId: [
-                ...columns[overContainer].dealsId.slice(0, newIndex),
-                columns[activeContainer].dealsId[activeIndex],
-                ...columns[overContainer].dealsId.slice(
+              columnTitle: columns[overContainer].columnTitle,
+              deals: [
+                ...columns[overContainer].deals.slice(0, newIndex),
+                columns[activeContainer].deals[activeIndex],
+                ...columns[overContainer].deals.slice(
                   newIndex,
-                  columns[overContainer].dealsId.length
+                  columns[overContainer].deals.length
                 ),
               ],
             },
@@ -278,8 +285,8 @@ const DealsKanban = () => {
     const overContainer = findContainer(overId)
 
     if (overContainer) {
-      const activeIndex = board.columns[activeContainer].dealsId.indexOf(active.id)
-      const overIndex = board.columns[overContainer].dealsId.indexOf(overId)
+      const activeIndex = board.columns[activeContainer].deals.indexOf(active.id)
+      const overIndex = board.columns[overContainer].deals.indexOf(overId)
 
       if (activeIndex !== overIndex) {
         setBoard(({ columns, columnsOrder, deals }) => ({
@@ -289,7 +296,7 @@ const DealsKanban = () => {
             ...columns,
             [overContainer]: {
               ...columns[overContainer],
-              dealsId: arrayMove(board.columns[overContainer].dealsId, activeIndex, overIndex),
+              deals: arrayMove(board.columns[overContainer].deals, activeIndex, overIndex),
             },
           },
         }))
@@ -334,14 +341,14 @@ const DealsKanban = () => {
               <KanbanColumn
                 key={columnId}
                 id={columnId}
-                name={board.columns[columnId].name}
-                items={board.columns[columnId].dealsId}
+                name={board.columns[columnId].columnTitle}
+                items={board.columns[columnId].deals}
               >
                 <SortableContext
-                  items={board.columns[columnId].dealsId}
+                  items={board.columns[columnId].deals}
                   strategy={verticalListSortingStrategy}
                 >
-                  {board.columns[columnId].dealsId.map((dealId, index) => (
+                  {board.columns[columnId].deals.map((dealId, index) => (
                     <SortableItem
                       disabled={isSortingContainer}
                       key={dealId}
