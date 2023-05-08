@@ -1,8 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-// next
-import { useRouter } from 'next/router'
 // dnd
 import {
   useSensors,
@@ -40,9 +38,12 @@ import DealBoardColumnProps from 'types/DealBoardColumnProps'
 // types
 import DealBoardProps from 'types/DealBoardProps'
 // components
+import { Icon as Iconify } from '@iconify/react'
+import { Button, Dialog } from 'components'
 import { Item } from './Item'
 import KanbanColumn from './KanbanColumn'
 import SortableItem from './SortableItem'
+import CreateEditColumnForm from './CreateEditColumnForm'
 
 export const EMPTY_BOARD: Omit<DealBoardProps, 'dealBoards'> = {
   columns: {},
@@ -60,14 +61,13 @@ const dropAnimation: DropAnimation = {
   }),
 }
 
-const DealsKanban = () => {
-  const { query } = useRouter()
+const DealsKanban = ({ boardId }: { boardId: string }) => {
   const { t } = useTranslate()
   const { open } = useSnackbar()
-  const { data, isError, isLoading, isSuccess } = useGetDealBoardQuery(
-    query?.boardId ? (query?.boardId as string) : ''
-  )
-
+  const { data, isError, isLoading, isSuccess, isFetching } = useGetDealBoardQuery(boardId, {
+    refetchOnMountOrArgChange: true,
+  })
+  const [openDialog, setOpenDialog] = useState(false)
   const [board, setBoard] = useState<Omit<DealBoardProps, 'dealBoards'>>(data || EMPTY_BOARD)
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null)
   const lastOverId = useRef<UniqueIdentifier | null>(null)
@@ -78,7 +78,7 @@ const DealsKanban = () => {
   const isSortingContainer = activeId ? board.columnsOrder.includes(activeId) : false
 
   useEffect(() => {
-    if (isError) {
+    if (isError && boardId.length > 0) {
       open({
         message: t('A problem has occured.'),
         type: 'error',
@@ -88,7 +88,11 @@ const DealsKanban = () => {
     if (isSuccess) {
       setBoard(data)
     }
-  }, [isLoading])
+  }, [isError, isSuccess, isLoading, boardId, isFetching])
+
+  useEffect(() => {
+    console.log(boardId)
+  }, [boardId])
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -373,8 +377,31 @@ const DealsKanban = () => {
             </DragOverlay>,
             document.body
           )}
+          <Button
+            variant='outlined'
+            intent='default'
+            className='h-fit min-w-[300px]'
+            startIcon={<Iconify icon='ic:round-plus' height={24} />}
+            onClick={() => setOpenDialog(true)}
+          >
+            {t('Add Section')}
+          </Button>
         </div>
       </DndContext>
+      <Dialog open={openDialog} title={t('Add New Section')}>
+        <CreateEditColumnForm
+          // TODO: Add Edit Deal
+          boardId={boardId}
+          currentColumn={null}
+          isEdit={false}
+          onSuccess={() => {
+            setOpenDialog(false)
+          }}
+          onFailure={() => {
+            setOpenDialog(false)
+          }}
+        />
+      </Dialog>
     </div>
   )
 }

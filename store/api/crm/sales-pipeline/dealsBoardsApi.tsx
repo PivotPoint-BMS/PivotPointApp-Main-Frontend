@@ -35,6 +35,7 @@ export const dealsBoardsApi = createApi({
       query: () => 'DealBoards',
       providesTags: ['DealsBoards'],
       transformResponse: (response: IGenericResponse<DealBoardProps>) => response.data.dealBoards,
+      forceRefetch: () => true,
     }),
     getDealBoard: builder.query<Omit<DealBoardProps, 'dealBoards'>, string>({
       query: (id) => `DealBoards/Board/${id}`,
@@ -59,15 +60,44 @@ export const dealsBoardsApi = createApi({
         }
       },
     }),
-    // createLeadSource: builder.mutation<string[], LeadSource>({
-    //   query: (data) => ({
-    //     url: 'deals',
-    //     method: 'POST',
-    //     body: data,
-    //     responseHandler: 'content-type',
-    //   }),
-    //   invalidatesTags: ['deals'],
-    // }),
+    createDealBoard: builder.mutation<
+      IGenericResponse<unknown>,
+      {
+        title: string
+        defColumnTitle: string
+      }
+    >({
+      query: (data) => ({
+        url: 'DealBoards',
+        method: 'POST',
+        body: data,
+        responseHandler: 'content-type',
+      }),
+      invalidatesTags: ['DealsBoards'],
+    }),
+
+    createDealBoardColumn: builder.mutation<
+      IGenericResponse<unknown>,
+      { boardId: string; columnTitle: string }
+    >({
+      query: ({ columnTitle, boardId }) => ({
+        url: `BoardColumns/${boardId}`,
+        method: 'POST',
+        body: { columnTitle },
+        responseHandler: 'content-type',
+      }),
+      invalidatesTags: ['DealsBoards'],
+    }),
+    presistColumnOrder: builder.mutation<IGenericResponse<unknown>, { id: string; order: number }>({
+      query: (data) => ({
+        url: '/api/crm/BoardColumns',
+        method: 'PUT',
+        body: data,
+        responseHandler: 'content-type',
+      }),
+      invalidatesTags: ['DealsBoards'],
+    }),
+
     // editLeadSource: builder.mutation<string[], { data: LeadSource; id: string }>({
     //   query: ({ data, id }) => ({
     //     url: `deals/${id}`,
@@ -94,7 +124,8 @@ export const {
   useGetDealBoardsQuery,
   useGetDealBoardQuery,
   // Mutations
-
+  useCreateDealBoardMutation,
+  useCreateDealBoardColumnMutation,
   util: { getRunningQueriesThunk, invalidateTags },
 } = dealsBoardsApi
 

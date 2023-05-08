@@ -3,7 +3,7 @@ import { HYDRATE } from 'next-redux-wrapper'
 // config
 import { PIVOTPOINT_API } from 'config'
 // types
-import { IGenericResponse } from 'types'
+import { Deal } from 'types'
 // store
 import { RootState } from 'store'
 
@@ -39,15 +39,15 @@ const dealsApi = createApi({
     //         ]
     //       : [{ type: 'deals', id: 'LIST' }],
     // }),
-    // createLeadSource: builder.mutation<string[], LeadSource>({
-    //   query: (data) => ({
-    //     url: 'deals',
-    //     method: 'POST',
-    //     body: data,
-    //     responseHandler: 'content-type',
-    //   }),
-    //   invalidatesTags: ['deals'],
-    // }),
+    createDeal: builder.mutation<string[], Omit<Deal, 'id'> & { columnId: string }>({
+      query: (data) => ({
+        url: 'Deals',
+        method: 'POST',
+        body: data,
+        responseHandler: 'content-type',
+      }),
+      invalidatesTags: ['Deals'],
+    }),
     // editLeadSource: builder.mutation<string[], { data: LeadSource; id: string }>({
     //   query: ({ data, id }) => ({
     //     url: `deals/${id}`,
@@ -72,9 +72,10 @@ const dealsApi = createApi({
 export const {
   // Queries
   // Mutations
+  useCreateDealMutation,
   util: { getRunningQueriesThunk, invalidateTags },
 } = dealsApi
 
 // export endpoints for use in SSR
-export const {} = dealsApi.endpoints
+// export const {} = dealsApi.endpoints
 export default dealsApi

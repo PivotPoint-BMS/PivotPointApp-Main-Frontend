@@ -5,9 +5,11 @@ import { CSS } from '@dnd-kit/utilities'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // components
-import { Button, Card, CardContent, CardHeader, IconButton } from 'components'
+import { Button, Card, CardContent, CardHeader, Dialog, IconButton } from 'components'
 import { Icon as Iconify } from '@iconify/react'
 import { AnimateLayoutChanges, defaultAnimateLayoutChanges, useSortable } from '@dnd-kit/sortable'
+import { useState } from 'react'
+import CreateEditDealForm from './CreateEditDealForm'
 
 interface KanbanColumnProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'id'> {
   id: UniqueIdentifier
@@ -31,6 +33,7 @@ export default function KanbanColumn({
   ...props
 }: KanbanColumnProps) {
   const { t } = useTranslate()
+  const [openDialog, setOpenDialog] = useState(false)
   const {
     active,
     attributes,
@@ -68,9 +71,9 @@ export default function KanbanColumn({
       <Card
         variant='outlined-dashed'
         className={clsx(
-          'min-w-[300px]',
+          'min-w-[300px] transition-all',
           isOverContainer && 'bg-gray-100',
-          isDraggingOverlay && 'shadow-lg'
+          isDraggingOverlay && 'scale-105 shadow-lg'
         )}
       >
         <CardHeader
@@ -98,11 +101,26 @@ export default function KanbanColumn({
             variant='text'
             size='large'
             startIcon={<Iconify icon='ic:round-plus' height={24} />}
+            onClick={() => setOpenDialog(true)}
           >
             {t('Add Deal')}
           </Button>
         </CardContent>
       </Card>
+      <Dialog open={openDialog} title={t('Add New Deal')}>
+        <CreateEditDealForm
+          // TODO: Add Edit Deal
+          columnId={id.toString()}
+          currentDeal={null}
+          isEdit={false}
+          onSuccess={() => {
+            setOpenDialog(false)
+          }}
+          onFailure={() => {
+            setOpenDialog(false)
+          }}
+        />
+      </Dialog>
     </div>
   )
 }

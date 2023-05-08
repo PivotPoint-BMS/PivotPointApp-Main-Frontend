@@ -7,7 +7,7 @@ import { leadPreviewSlice, sessionSlice, sideBarSlice, snackbarSlice } from './s
 import { authApi, companyApi, paymentApi } from './api/auth'
 import { settingsApi } from './api/settings/settingsAPIs'
 import { leadApi, leadSourceApi } from './api/crm'
-import { dealsBoardsApi } from './api/crm/sales-pipeline'
+import { dealsApi, dealsBoardsApi } from './api/crm/sales-pipeline'
 
 export const makeStore = () =>
   configureStore({
@@ -23,6 +23,7 @@ export const makeStore = () =>
       [leadApi.reducerPath]: leadApi.reducer,
       [leadSourceApi.reducerPath]: leadSourceApi.reducer,
       [dealsBoardsApi.reducerPath]: dealsBoardsApi.reducer,
+      [dealsApi.reducerPath]: dealsApi.reducer,
     },
     devTools: process.env.NODE_ENV === 'development',
     middleware: (gDM) =>
@@ -33,7 +34,8 @@ export const makeStore = () =>
         settingsApi.middleware,
         leadApi.middleware,
         leadSourceApi.middleware,
-        dealsBoardsApi.middleware
+        dealsBoardsApi.middleware,
+        dealsApi.middleware
       ),
   })
 

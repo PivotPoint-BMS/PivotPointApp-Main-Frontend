@@ -10,9 +10,10 @@ import useSnackbar from 'hooks/useSnackbar'
 import { PATH_DASHBOARD } from 'routes/paths'
 // sections
 import DealsKanban from 'sections/dashboard/crm/sales-pipeline/DealsKanban'
+import CreateEditBoardForm from 'sections/dashboard/crm/sales-pipeline/CreateEditBoardForm'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import { HeaderBreadcrumbs, Button } from 'components'
+import { HeaderBreadcrumbs, Button, Dialog } from 'components'
 import Select from 'components/Select'
 import { useRouter } from 'next/router'
 
@@ -20,9 +21,18 @@ export default function index() {
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const { query, push, pathname } = useRouter()
-  const { data, isError, isSuccess, isLoading } = useGetDealBoardsQuery()
+  const { data, isError, isSuccess, isLoading, isFetching, refetch } = useGetDealBoardsQuery(
+    undefined,
+    {
+      pollingInterval: 0,
+      refetchOnFocus: true,
+      refetchOnReconnect: true,
+      refetchOnMountOrArgChange: true,
+    }
+  )
   const [boards, setBoards] = useState<{ label: string; value: string; disabled?: boolean }[]>([])
-  const [boardId, setBoardId] = useState(query?.tab ? (query?.tab as string) : '')
+  const [boardId, setBoardId] = useState(query?.boardId ? (query?.boardId as string) : '')
+  const [openDialog, setOpenDialog] = useState(false)
 
   useEffect(() => {
     if (isError) {
@@ -32,16 +42,20 @@ export default function index() {
         variant: 'contained',
       })
     }
-    if (isSuccess) {
+    if (isSuccess && data.length > 0) {
       setBoards(data?.map((board) => ({ label: board.title, value: board.id })) || [])
       setBoardId(data[0].id)
       push(pathname, { query: { boardId: data[0].id } })
     }
-  }, [isError, isLoading])
+  }, [isError, isSuccess, isFetching, isLoading])
 
   useEffect(() => {
     push(pathname, { query: { boardId } })
   }, [pathname, boardId])
+
+  useEffect(() => {
+    refetch()
+  }, [pathname])
 
   return (
     <>
@@ -58,14 +72,36 @@ export default function index() {
           ]}
           action={
             <div className='flex items-center gap-2'>
-              <Select items={boards} value={boardId} onValueChange={(value) => setBoardId(value)} />
-              <Button startIcon={<Iconify icon='ic:round-add' height={24} />}>
-                {t('Create Deal')}
+              {data && data.length > 0 && (
+                <Select
+                  items={boards}
+                  value={boardId}
+                  onValueChange={(value) => setBoardId(value)}
+                />
+              )}
+              <Button
+                startIcon={<Iconify icon='ic:round-add' height={24} />}
+                onClick={() => setOpenDialog(true)}
+              >
+                {t('New Board')}
               </Button>
             </div>
           }
         />
-        <DealsKanban />
+        <DealsKanban boardId={boardId} />
+        <Dialog open={openDialog} title={t('Add New Board')}>
+          <CreateEditBoardForm
+            // TODO: Add Edit Board
+            currentBoard={null}
+            isEdit={false}
+            onSuccess={() => {
+              setOpenDialog(false)
+            }}
+            onFailure={() => {
+              setOpenDialog(false)
+            }}
+          />
+        </Dialog>
       </div>
     </>
   )
