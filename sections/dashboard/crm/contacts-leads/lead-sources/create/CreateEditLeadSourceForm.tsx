@@ -4,7 +4,10 @@ import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FieldValues, useForm } from 'react-hook-form'
 // api
-import { useCreateLeadSourceMutation, useEditLeadSourceMutation } from 'store/api/crm/leadSourceApi'
+import {
+  useCreateLeadSourceMutation,
+  useEditLeadSourceMutation,
+} from 'store/api/crm/contact-leads/leadSourceApi'
 // types
 import { LeadSource } from 'types/Lead'
 // hooks

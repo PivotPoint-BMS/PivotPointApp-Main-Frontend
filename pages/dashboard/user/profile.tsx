@@ -44,7 +44,7 @@ export default function Profile() {
           ]}
         />
         <TabsPrimitive.Root
-          defaultValue='generalt'
+          defaultValue='general'
           dir={locale === 'ar' ? 'rtl' : 'ltr'}
           className='overflow-hidden'
         >

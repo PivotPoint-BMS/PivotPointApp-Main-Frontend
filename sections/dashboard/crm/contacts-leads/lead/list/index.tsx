@@ -17,7 +17,7 @@ import {
   invalidateTags,
   useDeleteLeadMutation,
   useGetLeadsQuery,
-} from 'store/api/crm/leadApis'
+} from 'store/api/crm/contact-leads/leadApis'
 // config
 import { PIVOTPOINT_API } from 'config'
 // types
@@ -53,10 +53,7 @@ export default function LeadsList() {
 
   const { data, isLoading } = useGetLeadsQuery(
     { IsContact: false, IsLead: true },
-    {
-      skip: isFallback,
-      refetchOnFocus: true,
-    }
+    { skip: isFallback }
   )
   const [
     deleteLead,
@@ -66,14 +63,14 @@ export default function LeadsList() {
   const columns: TableColumn<Lead>[] = [
     {
       name: 'Lead Name',
-      cell: ({ fullName, imageFile }) => (
+      cell: ({ fullName, Image }) => (
         <div className='flex items-center gap-2'>
           <div>
             <Image
               alt='avatar'
               width={30}
               height={30}
-              src={imageFile ? `${PIVOTPOINT_API.crmPicUrl}/${imageFile}` : avatarPlaceholder.src}
+              src={Image ? `${PIVOTPOINT_API.crmPicUrl}/${Image}` : avatarPlaceholder.src}
               className='rounded-full'
             />
           </div>

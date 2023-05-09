@@ -35,7 +35,6 @@ export const dealsBoardsApi = createApi({
       query: () => 'DealBoards',
       providesTags: ['DealsBoards'],
       transformResponse: (response: IGenericResponse<DealBoardProps>) => response.data.dealBoards,
-      forceRefetch: () => true,
     }),
     getDealBoard: builder.query<Omit<DealBoardProps, 'dealBoards'>, string>({
       query: (id) => `DealBoards/Board/${id}`,
@@ -98,23 +97,15 @@ export const dealsBoardsApi = createApi({
       invalidatesTags: ['DealsBoards'],
     }),
 
-    // editLeadSource: builder.mutation<string[], { data: LeadSource; id: string }>({
-    //   query: ({ data, id }) => ({
-    //     url: `deals/${id}`,
-    //     method: 'PUT',
-    //     body: data,
-    //     responseHandler: 'content-type',
-    //   }),
-    //   invalidatesTags: ['deals'],
-    // }),
-    // deleteLeadSource: builder.mutation<string[], string>({
-    //   query: (id) => ({
-    //     url: `deals/${id}`,
-    //     method: 'DELETE',
-    //     responseHandler: 'content-type',
-    //   }),
-    //   invalidatesTags: ['deals'],
-    // }),
+    createDeal: builder.mutation<string[], Omit<Deal, 'id'> & { columnId: string }>({
+      query: (data) => ({
+        url: 'Deals',
+        method: 'POST',
+        body: data,
+        responseHandler: 'content-type',
+      }),
+      invalidatesTags: ['DealsBoards'],
+    }),
   }),
 })
 
@@ -126,6 +117,7 @@ export const {
   // Mutations
   useCreateDealBoardMutation,
   useCreateDealBoardColumnMutation,
+  useCreateDealMutation,
   util: { getRunningQueriesThunk, invalidateTags },
 } = dealsBoardsApi
 

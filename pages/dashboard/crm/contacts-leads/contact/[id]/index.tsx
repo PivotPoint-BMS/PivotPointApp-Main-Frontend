@@ -3,7 +3,11 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 // redux
 import { wrapper } from 'store'
-import { getLead, getRunningQueriesThunk, useGetLeadQuery } from 'store/api/crm/leadApis'
+import {
+  getLead,
+  getRunningQueriesThunk,
+  useGetLeadQuery,
+} from 'store/api/crm/contact-leads/leadApis'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // asset

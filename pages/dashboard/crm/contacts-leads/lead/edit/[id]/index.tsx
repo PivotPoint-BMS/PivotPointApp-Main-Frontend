@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // api
-import { useGetLeadQuery } from 'store/api/crm/leadApis'
+import { useGetLeadQuery } from 'store/api/crm/contact-leads/leadApis'
 // routes
 import { PATH_DASHBOARD } from 'routes/paths'
 // sections

@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react'
 // next
 import Head from 'next/head'
 // api
-import { useGetDealBoardsQuery } from 'store/api/crm/sales-pipeline/dealsBoardsApi'
+import {
+  getDealBoards,
+  getRunningQueriesThunk,
+  useGetDealBoardsQuery,
+} from 'store/api/crm/sales-pipeline/dealsBoardsApi'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
@@ -16,18 +20,16 @@ import { Icon as Iconify } from '@iconify/react'
 import { HeaderBreadcrumbs, Button, Dialog } from 'components'
 import Select from 'components/Select'
 import { useRouter } from 'next/router'
+import { wrapper } from 'store'
 
 export default function index() {
   const { t } = useTranslate()
   const { open } = useSnackbar()
-  const { query, push, pathname } = useRouter()
+  const { query, push, pathname, isFallback } = useRouter()
   const { data, isError, isSuccess, isLoading, isFetching, refetch } = useGetDealBoardsQuery(
     undefined,
     {
-      pollingInterval: 0,
-      refetchOnFocus: true,
-      refetchOnReconnect: true,
-      refetchOnMountOrArgChange: true,
+      skip: isFallback,
     }
   )
   const [boards, setBoards] = useState<{ label: string; value: string; disabled?: boolean }[]>([])
@@ -44,8 +46,10 @@ export default function index() {
     }
     if (isSuccess && data.length > 0) {
       setBoards(data?.map((board) => ({ label: board.title, value: board.id })) || [])
-      setBoardId(data[0].id)
-      push(pathname, { query: { boardId: data[0].id } })
+      if (boardId.length === 0) {
+        setBoardId(data[0].id)
+        push(pathname, { query: { boardId: data[0].id } })
+      }
     }
   }, [isError, isSuccess, isFetching, isLoading])
 
@@ -106,3 +110,13 @@ export default function index() {
     </>
   )
 }
+
+export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
+  store.dispatch(getDealBoards.initiate())
+
+  await Promise.all(store.dispatch(getRunningQueriesThunk()))
+
+  return {
+    props: {},
+  }
+})

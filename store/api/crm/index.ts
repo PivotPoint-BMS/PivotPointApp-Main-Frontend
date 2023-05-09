@@ -1,2 +1,3 @@
-export { leadApi } from './leadApis'
-export { leadSourceApi } from './leadSourceApi'
+export { leadApi } from './contact-leads/leadApis'
+export { leadSourceApi } from './contact-leads/leadSourceApi'
+export { dealsBoardsApi } from './sales-pipeline/dealsBoardsApi'

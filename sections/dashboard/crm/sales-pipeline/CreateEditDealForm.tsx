@@ -4,7 +4,7 @@ import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FieldValues, useForm } from 'react-hook-form'
 // api
-import { useCreateDealMutation } from 'store/api/crm/sales-pipeline/dealsApi'
+import { useCreateDealMutation } from 'store/api/crm/sales-pipeline/dealsBoardsApi'
 // types
 import { Deal } from 'types'
 // hooks
@@ -15,8 +15,7 @@ import { Button } from 'components'
 import { FormProvider, RHFTextField } from 'components/hook-form'
 import useSnackbar from 'hooks/useSnackbar'
 import RHFTextArea from 'components/hook-form/RHFTextArea'
-import { useGetLeadsQuery } from 'store/api/crm/leadApis'
-import { invalidateTags } from 'store/api/crm/sales-pipeline/dealsBoardsApi'
+import { useGetLeadsQuery } from 'store/api/crm/contact-leads/leadApis'
 
 export default function CreateEditDealForm({
   columnId,
@@ -92,7 +91,6 @@ export default function CreateEditDealForm({
     }
     // if (isEdit) edit({ data: deal, id: currentDeal?.id || '' })
     createDeal(deal)
-    invalidateTags(['DealsBoards'])
   }
 
   useEffect(() => {

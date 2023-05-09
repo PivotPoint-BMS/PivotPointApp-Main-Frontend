@@ -94,8 +94,8 @@ export default function LeadPreview() {
                     width={80}
                     height={80}
                     src={
-                      lead?.imageFile
-                        ? `${PIVOTPOINT_API.crmPicUrl}/${lead?.imageFile}`
+                      lead?.Image
+                        ? `${PIVOTPOINT_API.crmPicUrl}/${lead?.Image}`
                         : avatarPlaceholder.src
                     }
                     className='rounded-full'

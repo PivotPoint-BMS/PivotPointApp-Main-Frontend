@@ -12,7 +12,7 @@ import {
   invalidateTags,
   useDeleteLeadSourceMutation,
   useGetLeadSourcesQuery,
-} from 'store/api/crm/leadSourceApi'
+} from 'store/api/crm/contact-leads/leadSourceApi'
 // types
 import { LeadSource } from 'types/Lead'
 // asset

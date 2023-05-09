@@ -6,8 +6,8 @@ import { useRouter } from 'next/router'
 // form
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FieldValues, useForm } from 'react-hook-form'
-import { useCreateLeadMutation, useEditLeadMutation } from 'store/api/crm/leadApis'
-import { useGetLeadSourcesQuery } from 'store/api/crm/leadSourceApi'
+import { useCreateLeadMutation, useEditLeadMutation } from 'store/api/crm/contact-leads/leadApis'
+import { useGetLeadSourcesQuery } from 'store/api/crm/contact-leads/leadSourceApi'
 // config
 import { PIVOTPOINT_API } from 'config'
 // utils
@@ -43,7 +43,7 @@ export default function CreateEditLeadForm({
   const [suggestions, setSuggestions] = useState<LeadSource[]>([])
 
   const LeadSchema = Yup.object().shape({
-    imageFile: Yup.mixed().required(t('Image is required')),
+    Image: Yup.mixed().required(t('Image is required')),
     fullName: Yup.string().min(3, t('Too short')).required(t('This field is required')),
     email: Yup.string()
       .email(t('Email must be a valid email address'))
@@ -61,9 +61,9 @@ export default function CreateEditLeadForm({
 
   const defaultValues = useMemo(
     () => ({
-      imageFile:
-        currentLead && currentLead?.imageFile.length > 0
-          ? `${PIVOTPOINT_API.crmPicUrl}/${currentLead?.imageFile}`
+      Image:
+        currentLead && currentLead?.Image.length > 0
+          ? `${PIVOTPOINT_API.crmPicUrl}/${currentLead?.Image}`
           : null,
       fullName: currentLead?.fullName || '',
       email: currentLead?.email || '',
@@ -85,7 +85,7 @@ export default function CreateEditLeadForm({
 
   const onSubmit = async (data: FieldValues) => {
     const formData = new FormData()
-    if (typeof data.imageFile !== 'string') formData.append('imageFile', data.imageFile)
+    if (typeof data.Image !== 'string') formData.append('Image', data.Image)
     formData.append('fullName', data.fullName)
     formData.append('email', data.email)
     formData.append('phoneNumber', data.phoneNumber)
@@ -142,7 +142,7 @@ export default function CreateEditLeadForm({
 
       if (file) {
         setValue(
-          'imageFile',
+          'Image',
           Object.assign(file, {
             preview: URL.createObjectURL(file),
           })
@@ -206,7 +206,7 @@ export default function CreateEditLeadForm({
           <CardContent>
             <h6 className='mb-3 text-lg font-semibold'>{t('Lead Image')}</h6>
             <RHFUploadAvatar
-              name='imageFile'
+              name='Image'
               maxSize={3145728}
               onDrop={handleDrop}
               helperText={

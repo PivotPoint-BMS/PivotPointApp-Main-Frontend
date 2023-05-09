@@ -9,7 +9,11 @@ import { PATH_DASHBOARD } from 'routes/paths'
 import { wrapper } from 'store'
 import { useAppDispatch } from 'store/hooks'
 import { previewLead } from 'store/slices/leadPreviewSlice'
-import { getLeads, getRunningQueriesThunk, useGetLeadsQuery } from 'store/api/crm/leadApis'
+import {
+  getLeads,
+  getRunningQueriesThunk,
+  useGetLeadsQuery,
+} from 'store/api/crm/contact-leads/leadApis'
 // types
 import { Lead } from 'types'
 // config
@@ -50,7 +54,7 @@ export default function ContactsList() {
   const columns: TableColumn<Lead>[] = [
     {
       name: 'Contact Name',
-      cell: ({ fullName, imageFile }) => (
+      cell: ({ fullName, Image }) => (
         <div className='flex items-center gap-2'>
           <div>
             <Image
@@ -58,8 +62,8 @@ export default function ContactsList() {
               width={30}
               height={30}
               src={
-                imageFile.length > 0
-                  ? `${PIVOTPOINT_API.profilePicUrl}/${imageFile}`
+                Image.length > 0
+                  ? `${PIVOTPOINT_API.profilePicUrl}/${Image}`
                   : avatarPlaceholder.src
               }
               className='rounded-full'

@@ -1,6 +1,8 @@
 /* eslint-disable no-nested-ternary */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+// next
+import { useRouter } from 'next/router'
 // dnd
 import {
   useSensors,
@@ -30,7 +32,13 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
 // api
-import { useGetDealBoardQuery } from 'store/api/crm/sales-pipeline/dealsBoardsApi'
+import {
+  getDealBoard,
+  getRunningQueriesThunk,
+  useGetDealBoardQuery,
+} from 'store/api/crm/sales-pipeline/dealsBoardsApi'
+import { skipToken } from '@reduxjs/toolkit/dist/query'
+import { wrapper } from 'store'
 // hooks
 import useSnackbar from 'hooks/useSnackbar'
 import useTranslate from 'hooks/useTranslate'
@@ -64,9 +72,14 @@ const dropAnimation: DropAnimation = {
 const DealsKanban = ({ boardId }: { boardId: string }) => {
   const { t } = useTranslate()
   const { open } = useSnackbar()
-  const { data, isError, isLoading, isSuccess, isFetching } = useGetDealBoardQuery(boardId, {
-    refetchOnMountOrArgChange: true,
-  })
+  const { isFallback } = useRouter()
+  const { data, isError, isLoading, isSuccess, isFetching } = useGetDealBoardQuery(
+    boardId.length > 0 ? boardId : skipToken,
+    {
+      refetchOnMountOrArgChange: true,
+      skip: isFallback,
+    }
+  )
   const [openDialog, setOpenDialog] = useState(false)
   const [board, setBoard] = useState<Omit<DealBoardProps, 'dealBoards'>>(data || EMPTY_BOARD)
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null)
@@ -89,10 +102,6 @@ const DealsKanban = ({ boardId }: { boardId: string }) => {
       setBoard(data)
     }
   }, [isError, isSuccess, isLoading, boardId, isFetching])
-
-  useEffect(() => {
-    console.log(boardId)
-  }, [boardId])
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -326,68 +335,74 @@ const DealsKanban = ({ boardId }: { boardId: string }) => {
 
   return (
     <div className='w-auto overflow-hidden'>
-      <DndContext
-        sensors={sensors}
-        collisionDetection={collisionDetectionStrategy}
-        measuring={{
-          droppable: {
-            strategy: MeasuringStrategy.Always,
-          },
-        }}
-        onDragStart={handleDragStart}
-        onDragOver={handleDragOver}
-        onDragEnd={handleDragEnd}
-        onDragCancel={handleDragCancel}
-      >
-        <div className='box-border inline-grid grid-flow-col gap-4'>
-          <SortableContext items={board.columnsOrder} strategy={horizontalListSortingStrategy}>
-            {board.columnsOrder.map((columnId) => (
-              <KanbanColumn
-                key={columnId}
-                id={columnId}
-                name={board.columns[columnId].columnTitle}
-                items={board.columns[columnId].deals}
-              >
-                <SortableContext
+      {boardId.length > 0 ? (
+        <DndContext
+          sensors={sensors}
+          collisionDetection={collisionDetectionStrategy}
+          measuring={{
+            droppable: {
+              strategy: MeasuringStrategy.Always,
+            },
+          }}
+          onDragStart={handleDragStart}
+          onDragOver={handleDragOver}
+          onDragEnd={handleDragEnd}
+          onDragCancel={handleDragCancel}
+        >
+          <div className='box-border inline-grid grid-flow-col gap-4'>
+            <SortableContext items={board.columnsOrder} strategy={horizontalListSortingStrategy}>
+              {board.columnsOrder.map((columnId) => (
+                <KanbanColumn
+                  key={columnId}
+                  id={columnId}
+                  name={board.columns[columnId].columnTitle}
                   items={board.columns[columnId].deals}
-                  strategy={verticalListSortingStrategy}
                 >
-                  {board.columns[columnId].deals.map((dealId, index) => (
-                    <SortableItem
-                      disabled={isSortingContainer}
-                      key={dealId}
-                      id={dealId}
-                      index={index}
-                      containerId={columnId}
-                      getIndex={getIndex}
-                      deal={board.deals[dealId]}
-                    />
-                  ))}
-                </SortableContext>
-              </KanbanColumn>
-            ))}
-          </SortableContext>
-          {createPortal(
-            <DragOverlay dropAnimation={dropAnimation}>
-              {activeId
-                ? board.columnsOrder.includes(activeId)
-                  ? renderContainerDragOverlay(activeId)
-                  : renderSortableItemDragOverlay(activeId)
-                : null}
-            </DragOverlay>,
-            document.body
-          )}
-          <Button
-            variant='outlined'
-            intent='default'
-            className='h-fit min-w-[300px]'
-            startIcon={<Iconify icon='ic:round-plus' height={24} />}
-            onClick={() => setOpenDialog(true)}
-          >
-            {t('Add Section')}
-          </Button>
+                  <SortableContext
+                    items={board.columns[columnId].deals}
+                    strategy={verticalListSortingStrategy}
+                  >
+                    {board.columns[columnId].deals.map((dealId, index) => (
+                      <SortableItem
+                        disabled={isSortingContainer}
+                        key={dealId}
+                        id={dealId}
+                        index={index}
+                        containerId={columnId}
+                        getIndex={getIndex}
+                        deal={board.deals[dealId]}
+                      />
+                    ))}
+                  </SortableContext>
+                </KanbanColumn>
+              ))}
+            </SortableContext>
+            {createPortal(
+              <DragOverlay dropAnimation={dropAnimation}>
+                {activeId
+                  ? board.columnsOrder.includes(activeId)
+                    ? renderContainerDragOverlay(activeId)
+                    : renderSortableItemDragOverlay(activeId)
+                  : null}
+              </DragOverlay>,
+              document.body
+            )}
+            <Button
+              variant='outlined'
+              intent='default'
+              className='h-fit min-w-[300px]'
+              startIcon={<Iconify icon='ic:round-plus' height={24} />}
+              onClick={() => setOpenDialog(true)}
+            >
+              {t('Add Section')}
+            </Button>
+          </div>
+        </DndContext>
+      ) : (
+        <div>
+          <h1>No Board</h1>
         </div>
-      </DndContext>
+      )}
       <Dialog open={openDialog} title={t('Add New Section')}>
         <CreateEditColumnForm
           // TODO: Add Edit Deal
@@ -407,3 +422,16 @@ const DealsKanban = ({ boardId }: { boardId: string }) => {
 }
 
 export default DealsKanban
+
+export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
+  const boardId = context.query?.boardId
+  if (typeof boardId === 'string' && boardId.length > 0) {
+    store.dispatch(getDealBoard.initiate(boardId))
+  }
+
+  await Promise.all(store.dispatch(getRunningQueriesThunk()))
+
+  return {
+    props: {},
+  }
+})

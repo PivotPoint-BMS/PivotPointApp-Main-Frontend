@@ -9,7 +9,7 @@ export interface LeadSource {
 }
 export default interface Lead {
   id: string
-  imageFile: string
+  Image: string
   fullName: string
   email: string
   phoneNumber: string
