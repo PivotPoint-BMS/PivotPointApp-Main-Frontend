@@ -6,8 +6,14 @@ import { useRouter } from 'next/router'
 // form
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FieldValues, useForm } from 'react-hook-form'
-import { useCreateLeadMutation, useEditLeadMutation } from 'store/api/crm/contact-leads/leadApis'
-import { useGetLeadSourcesQuery } from 'store/api/crm/contact-leads/leadSourceApi'
+import {
+  getLead,
+  getRunningQueriesThunk,
+  invalidateTags,
+  useCreateLeadMutation,
+  useEditLeadMutation,
+} from 'store/api/crm/contact-leads/leadApis'
+import { getLeadSources, useGetLeadSourcesQuery } from 'store/api/crm/contact-leads/leadSourceApi'
 // config
 import { PIVOTPOINT_API } from 'config'
 // utils
@@ -22,6 +28,7 @@ import { Card, CardContent, Button, LoadingIndicator } from 'components'
 import { FormProvider, RHFTextField } from 'components/hook-form'
 import RHFUploadAvatar from 'components/hook-form/RHFUpload'
 import { PATH_DASHBOARD } from 'routes/paths'
+import { wrapper } from 'store'
 
 export default function CreateEditLeadForm({
   isEdit,
@@ -43,7 +50,7 @@ export default function CreateEditLeadForm({
   const [suggestions, setSuggestions] = useState<LeadSource[]>([])
 
   const LeadSchema = Yup.object().shape({
-    Image: Yup.mixed().required(t('Image is required')),
+    picture: Yup.mixed().required(t('Image is required')),
     fullName: Yup.string().min(3, t('Too short')).required(t('This field is required')),
     email: Yup.string()
       .email(t('Email must be a valid email address'))
@@ -61,9 +68,9 @@ export default function CreateEditLeadForm({
 
   const defaultValues = useMemo(
     () => ({
-      Image:
-        currentLead && currentLead?.Image.length > 0
-          ? `${PIVOTPOINT_API.crmPicUrl}/${currentLead?.Image}`
+      picture:
+        currentLead && currentLead?.picture.length > 0
+          ? `${PIVOTPOINT_API.crmPicUrl}/${currentLead?.picture}`
           : null,
       fullName: currentLead?.fullName || '',
       email: currentLead?.email || '',
@@ -85,7 +92,7 @@ export default function CreateEditLeadForm({
 
   const onSubmit = async (data: FieldValues) => {
     const formData = new FormData()
-    if (typeof data.Image !== 'string') formData.append('Image', data.Image)
+    if (typeof data.picture !== 'string') formData.append('picture', data.picture)
     formData.append('fullName', data.fullName)
     formData.append('email', data.email)
     formData.append('phoneNumber', data.phoneNumber)
@@ -96,6 +103,7 @@ export default function CreateEditLeadForm({
 
     if (isEdit) editLead({ data: formData, id: currentLead?.id || '' })
     else createLead(formData)
+    invalidateTags(['Leads', 'Lead'])
   }
 
   // AutoSuggest
@@ -142,7 +150,7 @@ export default function CreateEditLeadForm({
 
       if (file) {
         setValue(
-          'Image',
+          'picture',
           Object.assign(file, {
             preview: URL.createObjectURL(file),
           })
@@ -206,7 +214,7 @@ export default function CreateEditLeadForm({
           <CardContent>
             <h6 className='mb-3 text-lg font-semibold'>{t('Lead Image')}</h6>
             <RHFUploadAvatar
-              name='Image'
+              name='picture'
               maxSize={3145728}
               onDrop={handleDrop}
               helperText={
@@ -261,3 +269,15 @@ export default function CreateEditLeadForm({
     </FormProvider>
   )
 }
+
+export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
+  const id = context.params?.id
+  if (typeof id === 'string') store.dispatch(getLead.initiate(id))
+  store.dispatch(getLeadSources.initiate())
+
+  await Promise.all(store.dispatch(getRunningQueriesThunk()))
+
+  return {
+    props: {},
+  }
+})

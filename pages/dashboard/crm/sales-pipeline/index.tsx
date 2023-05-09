@@ -2,11 +2,7 @@ import React, { useEffect, useState } from 'react'
 // next
 import Head from 'next/head'
 // api
-import {
-  getDealBoards,
-  getRunningQueriesThunk,
-  useGetDealBoardsQuery,
-} from 'store/api/crm/sales-pipeline/dealsBoardsApi'
+import { useGetDealBoardsQuery } from 'store/api/crm/sales-pipeline/dealsBoardsApi'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
@@ -20,20 +16,16 @@ import { Icon as Iconify } from '@iconify/react'
 import { HeaderBreadcrumbs, Button, Dialog } from 'components'
 import Select from 'components/Select'
 import { useRouter } from 'next/router'
-import { wrapper } from 'store'
 
 export default function index() {
   const { t } = useTranslate()
   const { open } = useSnackbar()
-  const { query, push, pathname, isFallback } = useRouter()
-  const { data, isError, isSuccess, isLoading, isFetching, refetch } = useGetDealBoardsQuery(
-    undefined,
-    {
-      skip: isFallback,
-    }
-  )
+  const { query, push, pathname } = useRouter()
+  const { data, isError, isSuccess, isLoading, isFetching, refetch } = useGetDealBoardsQuery()
   const [boards, setBoards] = useState<{ label: string; value: string; disabled?: boolean }[]>([])
-  const [boardId, setBoardId] = useState(query?.boardId ? (query?.boardId as string) : '')
+  const [boardId, setBoardId] = useState<string | null>(
+    query?.boardId ? (query?.boardId as string) : null
+  )
   const [openDialog, setOpenDialog] = useState(false)
 
   useEffect(() => {
@@ -46,7 +38,7 @@ export default function index() {
     }
     if (isSuccess && data.length > 0) {
       setBoards(data?.map((board) => ({ label: board.title, value: board.id })) || [])
-      if (boardId.length === 0) {
+      if (!boardId) {
         setBoardId(data[0].id)
         push(pathname, { query: { boardId: data[0].id } })
       }
@@ -79,7 +71,7 @@ export default function index() {
               {data && data.length > 0 && (
                 <Select
                   items={boards}
-                  value={boardId}
+                  value={boardId || ''}
                   onValueChange={(value) => setBoardId(value)}
                 />
               )}
@@ -110,13 +102,3 @@ export default function index() {
     </>
   )
 }
-
-export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
-  store.dispatch(getDealBoards.initiate())
-
-  await Promise.all(store.dispatch(getRunningQueriesThunk()))
-
-  return {
-    props: {},
-  }
-})

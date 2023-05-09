@@ -27,7 +27,7 @@ export const leadApi = createApi({
       return action.payload[reducerPath]
     }
   },
-  tagTypes: ['Leads'],
+  tagTypes: ['Leads', 'Lead'],
   endpoints: (builder) => ({
     getLeads: builder.query<IGenericResponse<Lead[]>, LeadRequestParams>({
       query: (params) => ({
@@ -44,6 +44,7 @@ export const leadApi = createApi({
     }),
     getLead: builder.query<IGenericResponse<Lead>, string>({
       query: (id) => `Lead/${id}`,
+      providesTags: ['Lead'],
     }),
     createLead: builder.mutation<string[], FormData>({
       query: (data) => ({
@@ -52,7 +53,7 @@ export const leadApi = createApi({
         body: data,
         responseHandler: 'content-type',
       }),
-      invalidatesTags: ['Leads'],
+      invalidatesTags: ['Leads', 'Lead'],
     }),
     editLead: builder.mutation<string[], { data: FormData; id: string }>({
       query: ({ data, id }) => ({
@@ -61,7 +62,7 @@ export const leadApi = createApi({
         body: data,
         responseHandler: 'content-type',
       }),
-      invalidatesTags: ['Leads'],
+      invalidatesTags: ['Leads', 'Lead'],
     }),
     deleteLead: builder.mutation<string[], string>({
       query: (id) => ({
@@ -69,7 +70,7 @@ export const leadApi = createApi({
         method: 'DELETE',
         responseHandler: 'content-type',
       }),
-      invalidatesTags: ['Leads'],
+      invalidatesTags: ['Leads', 'Lead'],
     }),
   }),
 })

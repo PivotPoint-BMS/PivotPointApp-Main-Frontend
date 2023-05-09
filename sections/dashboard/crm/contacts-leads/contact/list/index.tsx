@@ -54,7 +54,7 @@ export default function ContactsList() {
   const columns: TableColumn<Lead>[] = [
     {
       name: 'Contact Name',
-      cell: ({ fullName, Image }) => (
+      cell: ({ fullName, picture }) => (
         <div className='flex items-center gap-2'>
           <div>
             <Image
@@ -62,8 +62,8 @@ export default function ContactsList() {
               width={30}
               height={30}
               src={
-                Image.length > 0
-                  ? `${PIVOTPOINT_API.profilePicUrl}/${Image}`
+                picture.length > 0
+                  ? `${PIVOTPOINT_API.profilePicUrl}/${picture}`
                   : avatarPlaceholder.src
               }
               className='rounded-full'

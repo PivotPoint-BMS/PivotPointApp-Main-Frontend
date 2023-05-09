@@ -69,12 +69,12 @@ const dropAnimation: DropAnimation = {
   }),
 }
 
-const DealsKanban = ({ boardId }: { boardId: string }) => {
+const DealsKanban = ({ boardId }: { boardId: string | null }) => {
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const { isFallback } = useRouter()
   const { data, isError, isLoading, isSuccess, isFetching } = useGetDealBoardQuery(
-    boardId.length > 0 ? boardId : skipToken,
+    boardId && boardId?.length > 0 ? boardId : skipToken,
     {
       refetchOnMountOrArgChange: true,
       skip: isFallback,
@@ -91,7 +91,7 @@ const DealsKanban = ({ boardId }: { boardId: string }) => {
   const isSortingContainer = activeId ? board.columnsOrder.includes(activeId) : false
 
   useEffect(() => {
-    if (isError && boardId.length > 0) {
+    if (isError && boardId && boardId?.length > 0) {
       open({
         message: t('A problem has occured.'),
         type: 'error',
@@ -335,7 +335,7 @@ const DealsKanban = ({ boardId }: { boardId: string }) => {
 
   return (
     <div className='w-auto overflow-hidden'>
-      {boardId.length > 0 ? (
+      {boardId ? (
         <DndContext
           sensors={sensors}
           collisionDetection={collisionDetectionStrategy}
@@ -406,7 +406,7 @@ const DealsKanban = ({ boardId }: { boardId: string }) => {
       <Dialog open={openDialog} title={t('Add New Section')}>
         <CreateEditColumnForm
           // TODO: Add Edit Deal
-          boardId={boardId}
+          boardId={boardId || ''}
           currentColumn={null}
           isEdit={false}
           onSuccess={() => {

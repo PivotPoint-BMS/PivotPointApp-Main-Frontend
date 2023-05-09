@@ -63,15 +63,15 @@ export default function LeadsList() {
   const columns: TableColumn<Lead>[] = [
     {
       name: 'Lead Name',
-      cell: ({ fullName, Image }) => (
+      cell: ({ fullName, picture }) => (
         <div className='flex items-center gap-2'>
-          <div>
+          <div className='h-8 w-8'>
             <Image
               alt='avatar'
-              width={30}
-              height={30}
-              src={Image ? `${PIVOTPOINT_API.crmPicUrl}/${Image}` : avatarPlaceholder.src}
-              className='rounded-full'
+              width={32}
+              height={32}
+              src={picture ? `${PIVOTPOINT_API.crmPicUrl}/${picture}` : avatarPlaceholder.src}
+              className='aspect-square rounded-full'
             />
           </div>
 
