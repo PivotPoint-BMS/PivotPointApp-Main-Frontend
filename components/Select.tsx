@@ -19,11 +19,11 @@ const Select = ({ buttonProps, items, ...props }: SelectProps) => (
         </SelectPrimitive.Icon>
       </Button>
     </SelectPrimitive.Trigger>
-    <SelectPrimitive.Content className='z-50'>
+    <SelectPrimitive.Content className='z-50 rounded-lg border bg-paper-light p-2 shadow-lg dark:border-gray-500 dark:bg-paper-dark'>
       <SelectPrimitive.ScrollUpButton className='flex items-center justify-center'>
         <Iconify icon='ion:chevron-up' />
       </SelectPrimitive.ScrollUpButton>
-      <SelectPrimitive.Viewport className='rounded-lg border   bg-paper-light p-2 shadow-lg dark:border-gray-500 dark:bg-paper-dark'>
+      <SelectPrimitive.Viewport>
         <SelectPrimitive.Group>
           {items?.map(({ label, value, disabled }, i) => (
             <SelectPrimitive.Item
@@ -47,7 +47,7 @@ const Select = ({ buttonProps, items, ...props }: SelectProps) => (
         </SelectPrimitive.Group>
       </SelectPrimitive.Viewport>
       <SelectPrimitive.ScrollDownButton className='flex items-center justify-center'>
-        <Iconify icon='ion:chevron-up' />
+        <Iconify icon='ion:chevron-down' />
       </SelectPrimitive.ScrollDownButton>
     </SelectPrimitive.Content>
   </SelectPrimitive.Root>
