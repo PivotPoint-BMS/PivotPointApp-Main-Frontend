@@ -31,7 +31,7 @@ const RenderItems = (
         onCheckedChange={onCheckedChange}
         className={clsx(
           'flex w-full cursor-default select-none items-center rounded-md px-2 py-2 text-xs outline-none',
-          ' focus:bg-gray-200 dark:focus:bg-gray-900'
+          ' focus:bg-gray-200 dark:focus:bg-gray-800'
         )}
       >
         <div>{icon}</div>
@@ -47,7 +47,7 @@ const RenderItems = (
         <DropdownMenuPrimitive.SubTrigger
           className={clsx(
             'flex w-full cursor-default select-none items-center gap-2 rounded-md px-2 py-2 text-xs outline-none',
-            ' focus:bg-gray-200 dark:focus:bg-gray-900',
+            ' focus:bg-gray-200 dark:focus:bg-gray-800',
             className
           )}
         >
@@ -121,7 +121,7 @@ const RenderItems = (
       key={`${label?.toLowerCase()}-${i}`}
       className={clsx(
         'flex cursor-default select-none items-center gap-2 rounded-md px-2 py-2 text-xs outline-none',
-        ' focus:bg-gray-200 dark:focus:bg-gray-900',
+        ' focus:bg-gray-200 dark:focus:bg-gray-800',
         className
       )}
       onClick={onClick}
@@ -167,8 +167,8 @@ export default function DropdownMenu({ trigger, items, ...props }: DropdownMenuP
             sideOffset={5}
             className={clsx(
               'data-[side=top]:animate-slide-up data-[side=bottom]:animate-slide-down',
-              'w-48 rounded-lg border   px-1.5 py-1 drop-shadow-lg md:w-56',
-              'bg-white dark:bg-paper-hover-dark'
+              'w-fit min-w-[150px] rounded-lg border   px-1.5 py-1 drop-shadow-lg',
+              'bg-white dark:bg-paper-dark'
             )}
           >
             {items.map(

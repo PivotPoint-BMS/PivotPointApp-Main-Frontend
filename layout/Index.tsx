@@ -6,9 +6,9 @@ import useResponsive from 'hooks/useResponsive'
 // config
 import { HEADER } from 'config'
 // components
-import Header from './dashboard/header/Header'
-import SidebarDesktop from './dashboard/nav/SidebarDesktop'
-import SidebarMobile from './dashboard/nav/SidebarMobile'
+import Header from './app/header/Header'
+import SidebarDesktop from './app/nav/SidebarDesktop'
+import SidebarMobile from './app/nav/SidebarMobile'
 import LogoOnlyLayout from './LogoOnlyLayout'
 
 function Layout({

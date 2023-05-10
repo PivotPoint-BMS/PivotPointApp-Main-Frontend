@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import clsx from 'clsx'
 // motion
 import { motion } from 'framer-motion'
@@ -8,7 +9,7 @@ import Button, { ButtonProps } from './Button'
 interface AlertDialogProps {
   open: boolean
   title?: string
-  description?: string
+  description?: ReactNode
   cancelText: string
   confirmText: string
   onConfirm: () => void
@@ -45,11 +46,7 @@ export default function AlertDialog({
           {title && (
             <h1 className='text-lg font-medium text-gray-900 dark:text-gray-100'>{title}</h1>
           )}
-          {description && (
-            <p className='mt-2 mb-4 text-sm font-normal text-gray-700 dark:text-gray-400'>
-              {description}
-            </p>
-          )}
+          {description}
           <div className=' flex justify-end space-x-2'>
             <Button variant='outlined' intent='default' onClick={onClose}>
               {cancelText}

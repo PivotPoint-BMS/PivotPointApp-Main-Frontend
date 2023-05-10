@@ -33,6 +33,14 @@ const initialState: SideBarConfig = {
       icon: 'fa6-solid:handshake',
       subItems: [
         {
+          name: 'Dashboard',
+          href: PATH_DASHBOARD.crm.dashboard,
+          icon: 'material-symbols:dashboard-rounded',
+          badge: {
+            label: 'Beta',
+          },
+        },
+        {
           name: 'Contacts & Leads',
           href: PATH_DASHBOARD.crm['contacts-leads'].root,
           icon: 'material-symbols:contact-page',
@@ -62,7 +70,6 @@ const initialState: SideBarConfig = {
           name: 'Customer Service',
           href: PATH_DASHBOARD.crm['customer-service'],
           icon: 'ri:customer-service-2-fill',
-          disabled: true,
           badge: {
             label: 'Soon',
           },
@@ -74,6 +81,14 @@ const initialState: SideBarConfig = {
       href: PATH_DASHBOARD.hrm.root,
       icon: 'mdi:account-group',
       subItems: [
+        {
+          name: 'Dashboard',
+          href: PATH_DASHBOARD.hrm.dashboard,
+          icon: 'material-symbols:dashboard-rounded',
+          badge: {
+            label: 'Beta',
+          },
+        },
         {
           name: 'Accounts',
           href: PATH_DASHBOARD.crm.accounts,
@@ -101,22 +116,6 @@ const initialState: SideBarConfig = {
             label: 'Soon',
           },
         },
-        // {
-        //   name: 'Benefits & Rewards',
-        //   href: PATH_DASHBOARD.hrm.benefits,
-        //   icon: 'fluent:reward-12-filled',
-        //   badge: {
-        //     label: 'Soon',
-        //   },
-        // },
-        // {
-        //   name: 'Performance',
-        //   href: PATH_DASHBOARD.hrm.performance,
-        //   icon: 'mingcute:performance-fill',
-        //   badge: {
-        //     label: 'Soon',
-        //   },
-        // },
       ],
     },
     {
@@ -124,6 +123,14 @@ const initialState: SideBarConfig = {
       href: PATH_DASHBOARD.pm.root,
       icon: 'bi:kanban-fill',
       subItems: [
+        {
+          name: 'Dashboard',
+          href: PATH_DASHBOARD.pm.dashboard,
+          icon: 'material-symbols:dashboard-rounded',
+          badge: {
+            label: 'Beta',
+          },
+        },
         {
           name: 'Project Planning',
           href: PATH_DASHBOARD.pm.planning,
@@ -159,6 +166,14 @@ const initialState: SideBarConfig = {
       icon: 'material-symbols:inventory-2-rounded',
       subItems: [
         {
+          name: 'Dashboard',
+          href: PATH_DASHBOARD.im.dashboard,
+          icon: 'material-symbols:dashboard-rounded',
+          badge: {
+            label: 'Beta',
+          },
+        },
+        {
           name: 'Product/Service',
           href: PATH_DASHBOARD.im['product-service'],
           icon: 'fa6-solid:boxes-stacked',
@@ -174,6 +189,14 @@ const initialState: SideBarConfig = {
       href: PATH_DASHBOARD.scm.root,
       icon: 'fa6-solid:truck-ramp-box',
       subItems: [
+        {
+          name: 'Dashboard',
+          href: PATH_DASHBOARD.scm.dashboard,
+          icon: 'material-symbols:dashboard-rounded',
+          badge: {
+            label: 'Beta',
+          },
+        },
         {
           name: 'Monitoring & Planning',
           href: PATH_DASHBOARD.scm.monitoring,
@@ -217,6 +240,14 @@ const initialState: SideBarConfig = {
       href: PATH_DASHBOARD.fm.root,
       icon: 'fa-solid:money-check-alt',
       subItems: [
+        {
+          name: 'Dashboard',
+          href: PATH_DASHBOARD.fm.dashboard,
+          icon: 'material-symbols:dashboard-rounded',
+          badge: {
+            label: 'Beta',
+          },
+        },
         {
           name: 'Cash',
           href: PATH_DASHBOARD.fm.cash,

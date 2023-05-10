@@ -13,7 +13,7 @@ import {
 // components
 import { HeaderBreadcrumbs, Card, CardHeader, CardContent } from 'components'
 
-export default function index() {
+export default function Dashboard() {
   const { t } = useTranslate()
 
   return (

@@ -5,8 +5,8 @@ function path(root: string, sublink: string) {
 }
 
 const ROOTS_AUTH = '/auth'
-const ROOTS_DASHBOARD = '/dashboard'
-const ROOTS_USER = '/dashboard/user'
+const ROOTS_APP = '/app'
+const ROOTS_USER = '/app/user'
 
 // ----------------------------------------------------------------------
 
@@ -36,61 +36,67 @@ export const PATH_ACCOUNT = {
 }
 
 export const PATH_DASHBOARD = {
-  root: ROOTS_DASHBOARD,
+  root: ROOTS_APP,
   general: {
-    root: path(ROOTS_DASHBOARD, '/'),
+    root: path(ROOTS_APP, '/'),
   },
   crm: {
-    root: path(ROOTS_DASHBOARD, '/crm'),
+    root: path(ROOTS_APP, '/crm'),
+    dashboard: path(ROOTS_APP, '/crm/dashboard'),
     'contacts-leads': {
-      root: path(ROOTS_DASHBOARD, '/crm/contacts-leads'),
-      create: path(ROOTS_DASHBOARD, '/crm/contacts-leads/create'),
-      edit: (id?: string) => `${path(ROOTS_DASHBOARD, '/crm/contacts-leads/lead/edit/')}/${id}`,
-      lead: (id?: string) => `${path(ROOTS_DASHBOARD, '/crm/contacts-leads/lead')}/${id}`,
-      contact: (id?: string) => `${path(ROOTS_DASHBOARD, '/crm/contacts-leads/contact')}/${id}`,
+      root: path(ROOTS_APP, '/crm/contacts-leads'),
+      create: path(ROOTS_APP, '/crm/contacts-leads/create'),
+      edit: (id?: string) => `${path(ROOTS_APP, '/crm/contacts-leads/lead/edit/')}/${id}`,
+      lead: (id?: string) => `${path(ROOTS_APP, '/crm/contacts-leads/lead')}/${id}`,
+      contact: (id?: string) => `${path(ROOTS_APP, '/crm/contacts-leads/contact')}/${id}`,
       'lead-source': {
-        root: path(ROOTS_DASHBOARD, '/crm/contacts-leads/lead-source'),
-        create: path(ROOTS_DASHBOARD, '/crm/contacts-leads/lead-source/create'),
+        root: path(ROOTS_APP, '/crm/contacts-leads/lead-source'),
+        create: path(ROOTS_APP, '/crm/contacts-leads/lead-source/create'),
       },
     },
-    accounts: path(ROOTS_DASHBOARD, '/crm/accounts'),
-    'sales-pipeline': path(ROOTS_DASHBOARD, '/crm/sales-pipeline'),
-    'customer-service': path(ROOTS_DASHBOARD, '/crm/customer-service'),
-    workflow: path(ROOTS_DASHBOARD, '/crm/workflow'),
+    accounts: path(ROOTS_APP, '/crm/accounts'),
+    'sales-pipeline': path(ROOTS_APP, '/crm/sales-pipeline'),
+    'customer-service': path(ROOTS_APP, '/crm/customer-service'),
+    workflow: path(ROOTS_APP, '/crm/workflow'),
   },
   fm: {
-    root: path(ROOTS_DASHBOARD, '/fm'),
-    assets: path(ROOTS_DASHBOARD, '/fm/assets'),
-    cash: path(ROOTS_DASHBOARD, '/fm/cash'),
-    funding: path(ROOTS_DASHBOARD, '/fm/funding'),
-    invoice: path(ROOTS_DASHBOARD, '/fm/invoice'),
-    'expences-incomes': path(ROOTS_DASHBOARD, '/fm/expences-incomes'),
-    risk: path(ROOTS_DASHBOARD, '/fm/risk'),
-    tax: path(ROOTS_DASHBOARD, '/fm/tax'),
+    root: path(ROOTS_APP, '/fm'),
+    dashboard: path(ROOTS_APP, '/fm/dashboard'),
+    assets: path(ROOTS_APP, '/fm/assets'),
+    cash: path(ROOTS_APP, '/fm/cash'),
+    funding: path(ROOTS_APP, '/fm/funding'),
+    invoice: path(ROOTS_APP, '/fm/invoice'),
+    'expences-incomes': path(ROOTS_APP, '/fm/expences-incomes'),
+    risk: path(ROOTS_APP, '/fm/risk'),
+    tax: path(ROOTS_APP, '/fm/tax'),
   },
   hrm: {
-    root: path(ROOTS_DASHBOARD, '/hrm'),
-    payroll: path(ROOTS_DASHBOARD, '/hrm/payroll'),
-    performance: path(ROOTS_DASHBOARD, '/hrm/performance'),
-    recruitment: path(ROOTS_DASHBOARD, '/hrm/recruitment'),
-    invoice: path(ROOTS_DASHBOARD, '/hrm/invoice'),
-    benefits: path(ROOTS_DASHBOARD, '/hrm/benefits'),
+    root: path(ROOTS_APP, '/hrm'),
+    dashboard: path(ROOTS_APP, '/hrm/dashboard'),
+    payroll: path(ROOTS_APP, '/hrm/payroll'),
+    performance: path(ROOTS_APP, '/hrm/performance'),
+    recruitment: path(ROOTS_APP, '/hrm/recruitment'),
+    invoice: path(ROOTS_APP, '/hrm/invoice'),
+    benefits: path(ROOTS_APP, '/hrm/benefits'),
   },
   im: {
-    root: path(ROOTS_DASHBOARD, '/im'),
-    'product-service': path(ROOTS_DASHBOARD, '/im/product-service'),
+    root: path(ROOTS_APP, '/im'),
+    dashboard: path(ROOTS_APP, '/im/dashboard'),
+    'product-service': path(ROOTS_APP, '/im/product-service'),
   },
   pm: {
-    root: path(ROOTS_DASHBOARD, '/pm'),
-    pipelines: path(ROOTS_DASHBOARD, '/pm/pipelines'),
-    planning: path(ROOTS_DASHBOARD, '/pm/planning'),
-    tracking: path(ROOTS_DASHBOARD, '/pm/tracking'),
+    root: path(ROOTS_APP, '/pm'),
+    dashboard: path(ROOTS_APP, '/pm/dashboard'),
+    pipelines: path(ROOTS_APP, '/pm/pipelines'),
+    planning: path(ROOTS_APP, '/pm/planning'),
+    tracking: path(ROOTS_APP, '/pm/tracking'),
   },
   scm: {
-    root: path(ROOTS_DASHBOARD, '/scm'),
-    monitoring: path(ROOTS_DASHBOARD, '/scm/monitoring'),
-    transportation: path(ROOTS_DASHBOARD, '/scm/transportation'),
-    warehousing: path(ROOTS_DASHBOARD, '/scm/warehousing'),
-    'demand-forecasting': path(ROOTS_DASHBOARD, '/scm/demand-forecasting'),
+    root: path(ROOTS_APP, '/scm'),
+    dashboard: path(ROOTS_APP, '/scm/dashboard'),
+    monitoring: path(ROOTS_APP, '/scm/monitoring'),
+    transportation: path(ROOTS_APP, '/scm/transportation'),
+    warehousing: path(ROOTS_APP, '/scm/warehousing'),
+    'demand-forecasting': path(ROOTS_APP, '/scm/demand-forecasting'),
   },
 }

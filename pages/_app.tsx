@@ -73,7 +73,7 @@ function MyApp({ Component, ...rest }: AppProps) {
             <Layout
               variant={
                 // eslint-disable-next-line no-nested-ternary
-                router.route.includes('dashboard')
+                router.route.includes('app')
                   ? 'dashboard'
                   : router.route.includes('auth')
                   ? 'main'
