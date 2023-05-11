@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 
 // next
 import Head from 'next/head'
+// api
+import { useGetCrmStatsQuery } from 'store/api/stats/statsApi'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
@@ -13,7 +15,6 @@ import {
 } from 'sections/dashboard/crm/dashbord'
 // components
 import { HeaderBreadcrumbs, Card, CardHeader, CardContent, LoadingIndicator } from 'components'
-import { useGetCrmStatsQuery } from 'store/api/stats/statsApi'
 import { Icon } from '@iconify/react'
 
 export default function Dashboard() {
