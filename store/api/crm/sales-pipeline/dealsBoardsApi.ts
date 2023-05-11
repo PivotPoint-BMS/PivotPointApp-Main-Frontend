@@ -29,16 +29,20 @@ export const dealsBoardsApi = createApi({
       return action.payload[reducerPath]
     }
   },
-  tagTypes: ['DealsBoards'],
+  tagTypes: ['DealsBoards', 'DealsBoard'],
   endpoints: (builder) => ({
     getDealBoards: builder.query<DealBoard[], void>({
       query: () => 'DealBoards',
       providesTags: ['DealsBoards'],
-      transformResponse: (response: IGenericResponse<DealBoardProps>) => response.data.dealBoards,
+      transformResponse: (response: IGenericResponse<DealBoardResponse>) =>
+        response.data.dealBoards,
     }),
-    getDealBoard: builder.query<Omit<DealBoardProps, 'dealBoards'>, string>({
+    getDealBoard: builder.query<
+      Omit<DealBoardProps, 'dealBoards'> & { dealBoards: { [key: string]: DealBoard } },
+      string
+    >({
       query: (id) => `DealBoards/Board/${id}`,
-      providesTags: ['DealsBoards'],
+      providesTags: ['DealsBoards', 'DealsBoard'],
       transformResponse: (response: IGenericResponse<DealBoardResponse>) => {
         const columns = response.data.columns.reduce<{ [key: string]: DealBoardColumnProps }>(
           (acc, curr) => {
@@ -51,11 +55,19 @@ export const dealsBoardsApi = createApi({
           acc[curr.id.toString()] = curr
           return acc
         }, {})
+        const dealBoards = response.data.dealBoards.reduce<{ [key: string]: DealBoard }>(
+          (acc, curr) => {
+            acc[curr.id.toString()] = curr
+            return acc
+          },
+          {}
+        )
         const { columnsOrder } = response.data
         return {
           columns,
           columnsOrder,
           deals,
+          dealBoards,
         }
       },
     }),
@@ -74,7 +86,14 @@ export const dealsBoardsApi = createApi({
       }),
       invalidatesTags: ['DealsBoards'],
     }),
-
+    deleteDealBoard: builder.mutation<IGenericResponse<unknown>, string>({
+      query: (id) => ({
+        url: `DealBoards/${id}`,
+        method: 'DELETE',
+        responseHandler: 'content-type',
+      }),
+      invalidatesTags: ['DealsBoards', 'DealsBoard'],
+    }),
     createDealBoardColumn: builder.mutation<
       IGenericResponse<unknown>,
       { boardId: string; columnTitle: string }
@@ -85,7 +104,15 @@ export const dealsBoardsApi = createApi({
         body: { columnTitle },
         responseHandler: 'content-type',
       }),
-      invalidatesTags: ['DealsBoards'],
+      invalidatesTags: ['DealsBoards', 'DealsBoard'],
+    }),
+    deleteDealBoardColumn: builder.mutation<IGenericResponse<unknown>, string>({
+      query: (id) => ({
+        url: `BoardColumns/${id}`,
+        method: 'DELETE',
+        responseHandler: 'content-type',
+      }),
+      invalidatesTags: ['DealsBoards', 'DealsBoard'],
     }),
     presistColumnOrder: builder.mutation<IGenericResponse<unknown>, { id: string; order: number }>({
       query: (data) => ({
@@ -116,7 +143,9 @@ export const {
   useGetDealBoardQuery,
   // Mutations
   useCreateDealBoardMutation,
+  useDeleteDealBoardMutation,
   useCreateDealBoardColumnMutation,
+  useDeleteDealBoardColumnMutation,
   useCreateDealMutation,
   util: { getRunningQueriesThunk, invalidateTags },
 } = dealsBoardsApi

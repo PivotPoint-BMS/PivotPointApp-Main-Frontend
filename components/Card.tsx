@@ -4,7 +4,7 @@ import { cva, VariantProps } from 'class-variance-authority'
 const card = cva('rounded-lg divide-gray-300 bg-paper-light dark:bg-paper-dark', {
   variants: {
     variant: {
-      elevated: 'shadow-xl',
+      elevated: 'drop-shadow-lg',
       outlined: 'border  dark:border-gray-500',
       'outlined-dashed': 'border border-dashed  dark:border-gray-500',
       default: 'border-none',

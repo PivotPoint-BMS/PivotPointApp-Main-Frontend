@@ -35,6 +35,7 @@ import {
 import {
   getDealBoard,
   getRunningQueriesThunk,
+  useDeleteDealBoardMutation,
   useGetDealBoardQuery,
 } from 'store/api/crm/sales-pipeline/dealsBoardsApi'
 import { skipToken } from '@reduxjs/toolkit/dist/query'
@@ -47,16 +48,17 @@ import DealBoardColumnProps from 'types/DealBoardColumnProps'
 import DealBoardProps from 'types/DealBoardProps'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import { Button, Dialog } from 'components'
+import { AlertDialog, Button, Dialog } from 'components'
 import { Item } from './Item'
 import KanbanColumn from './KanbanColumn'
 import SortableItem from './SortableItem'
 import CreateEditColumnForm from './CreateEditColumnForm'
 
-export const EMPTY_BOARD: Omit<DealBoardProps, 'dealBoards'> = {
+export const EMPTY_BOARD: DealBoardProps = {
   columns: {},
   columnsOrder: [],
   deals: {},
+  dealBoards: {},
 }
 
 const dropAnimation: DropAnimation = {
@@ -72,7 +74,7 @@ const dropAnimation: DropAnimation = {
 const DealsKanban = ({ boardId }: { boardId: string | null }) => {
   const { t } = useTranslate()
   const { open } = useSnackbar()
-  const { isFallback } = useRouter()
+  const { isFallback, push, pathname } = useRouter()
   const { data, isError, isLoading, isSuccess, isFetching } = useGetDealBoardQuery(
     boardId && boardId?.length > 0 ? boardId : skipToken,
     {
@@ -80,8 +82,13 @@ const DealsKanban = ({ boardId }: { boardId: string | null }) => {
       skip: isFallback,
     }
   )
+  const [
+    deleteBoard,
+    { isError: isDeleteError, isLoading: isDeleteLoading, isSuccess: isDeleteSuccess },
+  ] = useDeleteDealBoardMutation()
   const [openDialog, setOpenDialog] = useState(false)
-  const [board, setBoard] = useState<Omit<DealBoardProps, 'dealBoards'>>(data || EMPTY_BOARD)
+  const [board, setBoard] = useState<DealBoardProps>(data || EMPTY_BOARD)
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null)
   const lastOverId = useRef<UniqueIdentifier | null>(null)
   const [clonedItems, setClonedItems] = useState<{
@@ -99,9 +106,31 @@ const DealsKanban = ({ boardId }: { boardId: string | null }) => {
       })
     }
     if (isSuccess) {
+      console.log('here', boardId, !boardId || (boardId && !(boardId in data.dealBoards)))
+
       setBoard(data)
+      if (!boardId || (boardId && !(boardId in data.dealBoards))) {
+        push(pathname, { query: { boardId: data.dealBoards[Object.keys(data.dealBoards)[0]].id } })
+      }
     }
   }, [isError, isSuccess, isLoading, boardId, isFetching])
+
+  useEffect(() => {
+    if (isDeleteError) {
+      open({
+        message: t('A problem has occured.'),
+        type: 'error',
+        variant: 'contained',
+      })
+    }
+    if (isDeleteSuccess) {
+      open({
+        message: t('Board Deleted Successfully.'),
+        type: 'success',
+        variant: 'contained',
+      })
+    }
+  }, [isDeleteError, isDeleteSuccess, isDeleteLoading])
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -217,7 +246,7 @@ const DealsKanban = ({ boardId }: { boardId: string | null }) => {
     }
 
     if (activeContainer !== overContainer) {
-      setBoard(({ columns, ..._board }: Omit<DealBoardProps, 'dealBoards'>) => {
+      setBoard(({ columns, ..._board }: DealBoardProps) => {
         const activeItems = columns[activeContainer]
         const overItems = columns[overContainer]
         const overIndex = overItems.deals.indexOf(overId)
@@ -269,13 +298,12 @@ const DealsKanban = ({ boardId }: { boardId: string | null }) => {
   }
   const handleDragEnd = ({ active, over }: DragEndEvent) => {
     if (active.id in board.columns && over?.id) {
-      setBoard(({ columns, columnsOrder, deals }) => {
+      setBoard(({ columnsOrder, ..._board }) => {
         const activeIndex = columnsOrder.indexOf(active.id)
         const overIndex = columnsOrder.indexOf(over.id)
 
         return {
-          columns,
-          deals,
+          ..._board,
           columnsOrder: arrayMove(columnsOrder, activeIndex, overIndex),
         }
       })
@@ -302,9 +330,8 @@ const DealsKanban = ({ boardId }: { boardId: string | null }) => {
       const overIndex = board.columns[overContainer].deals.indexOf(overId)
 
       if (activeIndex !== overIndex) {
-        setBoard(({ columns, columnsOrder, deals }) => ({
-          deals,
-          columnsOrder,
+        setBoard(({ columns, ..._board }) => ({
+          ..._board,
           columns: {
             ...columns,
             [overContainer]: {
@@ -322,10 +349,9 @@ const DealsKanban = ({ boardId }: { boardId: string | null }) => {
     if (clonedItems) {
       // Reset items to their original state in case items have been
       // Dragged across containers
-      setBoard(({ columnsOrder, deals }) => ({
+      setBoard(({ ..._board }) => ({
+        ..._board,
         columns: clonedItems,
-        columnsOrder,
-        deals,
       }))
     }
 
@@ -334,73 +360,97 @@ const DealsKanban = ({ boardId }: { boardId: string | null }) => {
   }
 
   return (
-    <div className='w-auto overflow-hidden'>
+    <div className='scrollbar-none w-auto overflow-x-scroll'>
       {boardId ? (
-        <DndContext
-          sensors={sensors}
-          collisionDetection={collisionDetectionStrategy}
-          measuring={{
-            droppable: {
-              strategy: MeasuringStrategy.Always,
-            },
-          }}
-          onDragStart={handleDragStart}
-          onDragOver={handleDragOver}
-          onDragEnd={handleDragEnd}
-          onDragCancel={handleDragCancel}
-        >
-          <div className='box-border inline-grid grid-flow-col gap-4'>
-            <SortableContext items={board.columnsOrder} strategy={horizontalListSortingStrategy}>
-              {board.columnsOrder.map((columnId) => (
-                <KanbanColumn
-                  key={columnId}
-                  id={columnId}
-                  name={board.columns[columnId].columnTitle}
-                  items={board.columns[columnId].deals}
-                >
-                  <SortableContext
-                    items={board.columns[columnId].deals}
-                    strategy={verticalListSortingStrategy}
-                  >
-                    {board.columns[columnId].deals.map((dealId, index) => (
-                      <SortableItem
-                        disabled={isSortingContainer}
-                        key={dealId}
-                        id={dealId}
-                        index={index}
-                        containerId={columnId}
-                        getIndex={getIndex}
-                        deal={board.deals[dealId]}
-                      />
-                    ))}
-                  </SortableContext>
-                </KanbanColumn>
-              ))}
-            </SortableContext>
-            {createPortal(
-              <DragOverlay dropAnimation={dropAnimation}>
-                {activeId
-                  ? board.columnsOrder.includes(activeId)
-                    ? renderContainerDragOverlay(activeId)
-                    : renderSortableItemDragOverlay(activeId)
-                  : null}
-              </DragOverlay>,
-              document.body
-            )}
-            <Button
-              variant='outlined'
-              intent='default'
-              className='h-fit min-w-[300px]'
-              startIcon={<Iconify icon='ic:round-plus' height={24} />}
-              onClick={() => setOpenDialog(true)}
-            >
-              {t('Add Section')}
-            </Button>
+        <>
+          <div className='mb-4 flex w-full items-center justify-between'>
+            <h1 className='text-xl font-medium'>
+              {t('Current Board :')} {board.dealBoards[boardId]?.title}
+            </h1>
+            <div className='flex items-center gap-2 '>
+              <Button
+                variant='outlined'
+                intent='error'
+                startIcon={<Iconify icon='material-symbols:delete-rounded' height={18} />}
+                onClick={() => setOpenDeleteDialog(true)}
+              >
+                {t('Delete')}
+              </Button>
+              <Button
+                variant='outlined'
+                intent='default'
+                startIcon={<Iconify icon='material-symbols:edit' height={18} />}
+              >
+                {t('Edit')}
+              </Button>
+            </div>
           </div>
-        </DndContext>
+          <DndContext
+            sensors={sensors}
+            collisionDetection={collisionDetectionStrategy}
+            measuring={{
+              droppable: {
+                strategy: MeasuringStrategy.Always,
+              },
+            }}
+            onDragStart={handleDragStart}
+            onDragOver={handleDragOver}
+            onDragEnd={handleDragEnd}
+            onDragCancel={handleDragCancel}
+          >
+            <div className='box-border inline-grid grid-flow-col gap-4'>
+              <SortableContext items={board.columnsOrder} strategy={horizontalListSortingStrategy}>
+                {board.columnsOrder.map((columnId) => (
+                  <KanbanColumn
+                    key={columnId}
+                    id={columnId}
+                    name={board.columns[columnId].columnTitle}
+                    items={board.columns[columnId].deals}
+                  >
+                    <SortableContext
+                      items={board.columns[columnId].deals}
+                      strategy={verticalListSortingStrategy}
+                    >
+                      {board.columns[columnId].deals.map((dealId, index) => (
+                        <SortableItem
+                          disabled={isSortingContainer}
+                          key={dealId}
+                          id={dealId}
+                          index={index}
+                          containerId={columnId}
+                          getIndex={getIndex}
+                          deal={board.deals[dealId]}
+                        />
+                      ))}
+                    </SortableContext>
+                  </KanbanColumn>
+                ))}
+              </SortableContext>
+              {createPortal(
+                <DragOverlay dropAnimation={dropAnimation}>
+                  {activeId
+                    ? board.columnsOrder.includes(activeId)
+                      ? renderContainerDragOverlay(activeId)
+                      : renderSortableItemDragOverlay(activeId)
+                    : null}
+                </DragOverlay>,
+                document.body
+              )}
+              <Button
+                variant='outlined'
+                intent='default'
+                className='h-fit min-w-[300px]'
+                startIcon={<Iconify icon='ic:round-plus' height={24} />}
+                onClick={() => setOpenDialog(true)}
+              >
+                {t('Add Section')}
+              </Button>
+            </div>
+          </DndContext>
+        </>
       ) : (
-        <div>
-          <h1>No Board</h1>
+        <div className='flex items-center justify-center'>
+          <h1>{t('No Board')}</h1>
         </div>
       )}
       <Dialog open={openDialog} title={t('Add New Section')}>
@@ -417,6 +467,25 @@ const DealsKanban = ({ boardId }: { boardId: string | null }) => {
           }}
         />
       </Dialog>
+      <AlertDialog
+        title={t('Confirm Delete')}
+        description={
+          <p className='mb-4 text-sm text-red-600'>
+            {t('This action cannot be undone. All section and deals will be permanently deleted.')}
+          </p>
+        }
+        cancelText={t('Cancel')}
+        confirmText={t('Yes, Delete')}
+        onConfirm={() => {
+          if (boardId) {
+            deleteBoard(boardId)
+            setOpenDeleteDialog(false)
+          }
+        }}
+        open={openDeleteDialog}
+        onClose={() => setOpenDeleteDialog(false)}
+        buttonProps={{ intent: 'error' }}
+      />
     </div>
   )
 }

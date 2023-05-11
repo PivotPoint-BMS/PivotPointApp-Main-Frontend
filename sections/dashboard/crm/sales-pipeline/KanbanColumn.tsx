@@ -4,11 +4,27 @@ import type { DraggableSyntheticListeners, UniqueIdentifier } from '@dnd-kit/cor
 import { CSS } from '@dnd-kit/utilities'
 // hooks
 import useTranslate from 'hooks/useTranslate'
+import useSnackbar from 'hooks/useSnackbar'
+// api
+import {
+  invalidateTags,
+  useDeleteDealBoardColumnMutation,
+} from 'store/api/crm/sales-pipeline/dealsBoardsApi'
 // components
-import { Button, Card, CardContent, CardHeader, Dialog, IconButton } from 'components'
+import {
+  Backdrop,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Dialog,
+  DropdownMenu,
+  IconButton,
+  Tooltip,
+} from 'components'
 import { Icon as Iconify } from '@iconify/react'
 import { AnimateLayoutChanges, defaultAnimateLayoutChanges, useSortable } from '@dnd-kit/sortable'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import CreateEditDealForm from './CreateEditDealForm'
 
 interface KanbanColumnProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'id'> {
@@ -33,6 +49,8 @@ export default function KanbanColumn({
   ...props
 }: KanbanColumnProps) {
   const { t } = useTranslate()
+  const { open } = useSnackbar()
+  const [deleteColumn, { isError, isSuccess, isLoading }] = useDeleteDealBoardColumnMutation()
   const [openDialog, setOpenDialog] = useState(false)
   const {
     active,
@@ -57,6 +75,25 @@ export default function KanbanColumn({
     ? (id === over.id && active?.data.current?.type !== 'container') || items.includes(over.id)
     : false
 
+  useEffect(() => {
+    if (isError) {
+      open({
+        message: t('Sorry, Section not deleted, A problem has occured.'),
+        autoHideDuration: 4000,
+        type: 'error',
+        variant: 'contained',
+      })
+    }
+    if (isSuccess) {
+      open({
+        message: t('Section Deleted Successfully.'),
+        autoHideDuration: 4000,
+        type: 'success',
+        variant: 'contained',
+      })
+    }
+  }, [isError, isSuccess])
+
   return (
     <div
       ref={disabled ? undefined : setNodeRef}
@@ -79,19 +116,50 @@ export default function KanbanColumn({
         <CardHeader
           title={name || ''}
           actions={
-            <IconButton
-              ref={setActivatorNodeRef}
-              tabIndex={0}
-              className={clsx(
-                'cursor-grab fill-gray-600 dark:fill-gray-300',
-                isDragging && 'cursor-grabbing'
-              )}
-              {...listeners}
-            >
-              <svg viewBox='0 0 20 20' width='12'>
-                <path d='M7 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 2zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 14zm6-8a2 2 0 1 0-.001-4.001A2 2 0 0 0 13 6zm0 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 14z'></path>
-              </svg>
-            </IconButton>
+            <div className='flex items-center justify-center gap-2'>
+              <DropdownMenu
+                trigger={
+                  <div>
+                    <Tooltip title={t('Options')} side='bottom' sideOffset={10}>
+                      <IconButton>
+                        <Iconify icon='material-symbols:more-horiz' height={18} />
+                      </IconButton>
+                    </Tooltip>
+                  </div>
+                }
+                items={[
+                  {
+                    type: 'button',
+                    label: 'Edit',
+                    icon: <Iconify icon='material-symbols:edit' height={18} />,
+                    onClick: () => {},
+                  },
+                  {
+                    type: 'button',
+                    label: 'Delete',
+                    icon: <Iconify icon='material-symbols:delete-rounded' height={18} />,
+                    className: 'text-red-600',
+                    onClick: () => {
+                      deleteColumn(id.toString())
+                      invalidateTags(['DealsBoards'])
+                    },
+                  },
+                ]}
+              />
+              <IconButton
+                ref={setActivatorNodeRef}
+                tabIndex={0}
+                className={clsx(
+                  'cursor-grab fill-gray-600 dark:fill-gray-300',
+                  isDragging && 'cursor-grabbing'
+                )}
+                {...listeners}
+              >
+                <svg viewBox='0 0 20 20' width='12'>
+                  <path d='M7 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 2zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 14zm6-8a2 2 0 1 0-.001-4.001A2 2 0 0 0 13 6zm0 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 14z'></path>
+                </svg>
+              </IconButton>
+            </div>
           }
         />
         <CardContent className='flex flex-col gap-2'>
@@ -121,6 +189,7 @@ export default function KanbanColumn({
           }}
         />
       </Dialog>
+      <Backdrop open={isLoading} loading={isLoading} />
     </div>
   )
 }

@@ -52,6 +52,9 @@ export default function GeneralInfo({ lead }: { lead: Lead }) {
               <IconButton className='border'>
                 <Iconify icon='fluent:clipboard-task-add-20-filled' height={22} />
               </IconButton>
+              <span className='text-[13px] '>{t('Add Task')}</span>
+            </div>
+            <div className='flex flex-col items-center justify-center gap-1'>
               <IconButton className='border'>
                 <Iconify icon='material-symbols:outgoing-mail' height={22} />
               </IconButton>
