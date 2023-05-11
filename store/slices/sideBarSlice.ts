@@ -91,9 +91,8 @@ const initialState: SideBarConfig = {
         },
         {
           name: 'Accounts',
-          href: PATH_DASHBOARD.crm.accounts,
+          href: PATH_DASHBOARD.hrm.accounts,
           icon: 'material-symbols:manage-accounts',
-          disabled: true,
           badge: {
             label: 'Soon',
           },
@@ -182,6 +181,24 @@ const initialState: SideBarConfig = {
             label: 'Soon',
           },
         },
+        {
+          name: 'Demand Forecasting',
+          href: PATH_DASHBOARD.scm['demand-forecasting'],
+          icon: 'material-symbols:batch-prediction',
+          disabled: true,
+          badge: {
+            label: 'Soon',
+          },
+        },
+        {
+          name: 'Invoice',
+          href: PATH_DASHBOARD.fm.invoice,
+          icon: 'fa6-solid:file-invoice',
+          disabled: true,
+          badge: {
+            label: 'Soon',
+          },
+        },
       ],
     },
     {
@@ -219,15 +236,6 @@ const initialState: SideBarConfig = {
           name: 'Transportation',
           href: PATH_DASHBOARD.scm.transportation,
           icon: 'fluent:vehicle-truck-profile-20-filled',
-          disabled: true,
-          badge: {
-            label: 'Soon',
-          },
-        },
-        {
-          name: 'Demand Forecasting',
-          href: PATH_DASHBOARD.scm['demand-forecasting'],
-          icon: 'material-symbols:batch-prediction',
           disabled: true,
           badge: {
             label: 'Soon',
@@ -297,15 +305,6 @@ const initialState: SideBarConfig = {
           name: 'Tax',
           href: PATH_DASHBOARD.fm.tax,
           icon: 'majesticons:money-hand',
-          disabled: true,
-          badge: {
-            label: 'Soon',
-          },
-        },
-        {
-          name: 'Invoice',
-          href: PATH_DASHBOARD.fm.invoice,
-          icon: 'fa6-solid:file-invoice',
           disabled: true,
           badge: {
             label: 'Soon',
