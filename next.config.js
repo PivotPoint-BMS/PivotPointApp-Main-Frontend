@@ -6,7 +6,12 @@ module.exports = {
     return [
       {
         source: '/',
-        destination: '/app',
+        destination: '/app/crm/dashboard',
+        permanent: true,
+      },
+      {
+        source: '/dashboard',
+        destination: '/app/crm/dashboard',
         permanent: true,
       },
       {

@@ -12,7 +12,7 @@ import Payment from 'pages/auth/payment'
 import { LoadingScreen } from 'components'
 
 export default function AuthGuard({ children }: { children: React.ReactNode | React.ReactNode[] }) {
-  const { pathname, push } = useRouter()
+  const { pathname } = useRouter()
   const { user, isLoading, refreshToken } = useAppSelector((state) => state.session)
 
   const [requestedLocation, setRequestedLocation] = useState<string | null>(null)
@@ -20,7 +20,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode | Re
 
   useEffect(() => {
     if (!user && refreshToken) getUser(refreshToken)
-  }, [pathname, push, requestedLocation, refreshToken])
+  }, [pathname, requestedLocation, refreshToken])
 
   if (isLoading) {
     return <LoadingScreen />
