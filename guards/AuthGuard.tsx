@@ -14,6 +14,7 @@ import { LoadingScreen } from 'components'
 export default function AuthGuard({ children }: { children: React.ReactNode | React.ReactNode[] }) {
   const { pathname } = useRouter()
   const { user, isLoading, refreshToken } = useAppSelector((state) => state.session)
+  const [loading, setLoading] = useState(true)
 
   const [requestedLocation, setRequestedLocation] = useState<string | null>(null)
   const [getUser] = useGetUserMutation()
@@ -22,11 +23,19 @@ export default function AuthGuard({ children }: { children: React.ReactNode | Re
     if (!user && refreshToken) getUser(refreshToken)
   }, [pathname, requestedLocation, refreshToken])
 
+  useEffect(() => {
+    if (!isLoading && user) {
+      setTimeout(() => {
+        setLoading(true)
+      }, 1000)
+    }
+  }, [isLoading])
+
   if (isLoading) {
     return <LoadingScreen />
   }
 
-  if (!isLoading && !user) {
+  if (!loading) {
     if (pathname !== requestedLocation) {
       setRequestedLocation(pathname)
     }
