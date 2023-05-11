@@ -66,6 +66,7 @@
     "react-lazy-load-image-component": "^1.5.6",
     "react-redux": "^8.0.5",
     "react-select": "^5.7.3",
+    "sharp": "^0.32.1",
     "simplebar-react": "^3.2.0",
     "styled-components": "^5.3.9",
     "tailwindcss-radix": "^2.7.0",
