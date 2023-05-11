@@ -9,18 +9,16 @@ import CardContent from 'components/CardContent'
 import CardHeader from 'components/CardHeader'
 import ReactApexChart, { BaseOptionChart } from 'components/chart'
 
-const CHART_DATA = [4344, 5435, 1443, 4443, 443]
-
-export default function TopCustomerComplaints() {
+export default function TopCustomerComplaints({
+  labels,
+  data,
+}: {
+  labels: string[]
+  data: number[]
+}) {
   const { t } = useTranslate()
   const chartOptions = merge(BaseOptionChart(), {
-    labels: [
-      'Product quality',
-      'Shipping and delivery',
-      'Billing and payment',
-      'Customer service',
-      'Other ',
-    ],
+    labels: labels.slice(0, 6),
     stroke: { colors: ['#ffffff00'] },
     legend: { horizontalAlign: 'center' },
     tooltip: {
@@ -58,7 +56,7 @@ export default function TopCustomerComplaints() {
       <CardContent className='flex  items-center justify-center'>
         <ReactApexChart
           type='donut'
-          series={CHART_DATA}
+          series={data.slice(0, 6)}
           options={chartOptions}
           height={350}
           width='100%'

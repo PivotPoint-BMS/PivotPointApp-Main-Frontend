@@ -7,21 +7,30 @@ import Card from 'components/Card'
 import CardContent from 'components/CardContent'
 import CardHeader from 'components/CardHeader'
 import ReactApexChart, { BaseOptionChart } from 'components/chart'
+import moment from 'moment'
 
-const CHART_DATA = [
-  { name: 'Successfull Conversions', data: [10, 41, 35, 151, 49, 62, 69, 91, 48] },
-  { name: 'Failed Conversions', data: [10, 34, 13, 56, 77, 88, 99, 77, 45] },
-]
-
-export default function Conversions() {
+export default function Conversions({
+  newLeads,
+  convertedLeads,
+  dates,
+}: {
+  newLeads: number[]
+  convertedLeads: number[]
+  dates: string[]
+}) {
   const { t } = useTranslate()
 
   const chartOptions = merge(BaseOptionChart(), {
     legend: { position: 'top', horizontalAlign: 'right' },
     xaxis: {
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+      categories: dates.map((date) => moment(date).format('DD MMM')),
     },
   })
+
+  const CHART_DATA = [
+    { name: 'New Leads', data: newLeads },
+    { name: 'Successfull Conversions', data: convertedLeads },
+  ]
 
   return (
     <Card fullWidth className='sm:col-span-2 md:col-span-4'>

@@ -1,6 +1,7 @@
 // API
 export const PIVOTPOINT_API = {
   baseUrl: process.env.NEXT_PUBLIC_PIVOTPOINT_API_BASE_URL,
+  statsUrl: process.env.NEXT_PUBLIC_PIVOTPOINT_API_STATS_URL,
   profilePicUrl: process.env.NEXT_PUBLIC_PIVOTPOINT_PROFILE_PIC_URL,
   crmPicUrl: process.env.NEXT_PUBLIC_PIVOTPOINT_CRM_PIC_URL,
 }

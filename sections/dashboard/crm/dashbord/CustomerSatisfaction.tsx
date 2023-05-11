@@ -9,13 +9,20 @@ import CardHeader from 'components/CardHeader'
 import ReactApexChart, { BaseOptionChart } from 'components/chart'
 import Badge from 'components/Badge'
 
-const CHART_DATA = [{ name: 'Customer Satisfaction', data: [10, 41, 35, 51, 49, 62, 69, 91, 99] }]
-
-export default function CustomerSatisfaction() {
+export default function CustomerSatisfaction({
+  dataNegative,
+  dataPositive,
+  months,
+}: {
+  dataNegative: number[]
+  dataPositive: number[]
+  months: number[]
+}) {
   const { t } = useTranslate()
   const chartOptions = merge(BaseOptionChart(), {
+    legend: { position: 'top', horizontalAlign: 'right' },
     xaxis: {
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+      categories: months,
     },
   })
   return (
@@ -28,7 +35,10 @@ export default function CustomerSatisfaction() {
         <div className='min-w-[400px]'>
           <ReactApexChart
             type='line'
-            series={CHART_DATA}
+            series={[
+              { name: t('Positive'), data: dataPositive },
+              { name: t('Negative'), data: dataNegative },
+            ]}
             options={chartOptions}
             height={364}
             width='100%'
