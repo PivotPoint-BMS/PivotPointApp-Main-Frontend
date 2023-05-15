@@ -1,18 +1,18 @@
+import clsx from 'clsx'
 // reactflow
-import { Handle, Position } from 'reactflow'
+import { Handle, Node, NodeProps, Position } from 'reactflow'
 // radix
 import * as ContextMenuPrimitive from '@radix-ui/react-context-menu'
 // components
 import { Icon } from '@iconify/react'
 import { Button, Card, CardHeader, DropdownMenu, IconButton } from 'components'
-import clsx from 'clsx'
 import { buttonText } from 'components/Button'
 
-export default function TriggerNode({
-  data,
-}: {
-  data: { name: string; type: string; icon: string }
-}) {
+export type ActionNodeData = { name: string; type: string; icon: string }
+
+export type ActionNodeType = Node<ActionNodeData>
+
+export default function ActionNode({ data }: NodeProps<ActionNodeData>) {
   return (
     <ContextMenuPrimitive.Root>
       <ContextMenuPrimitive.Trigger>

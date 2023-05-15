@@ -1,18 +1,21 @@
+import clsx from 'clsx'
 // reactflow
-import { Handle, Position } from 'reactflow'
+import { Handle, NodeProps, Position, Node } from 'reactflow'
 // radix
 import * as ContextMenuPrimitive from '@radix-ui/react-context-menu'
+// hooks
+import useTranslate from 'hooks/useTranslate'
 // components
 import { Icon } from '@iconify/react'
 import { Button, Card, CardHeader, DropdownMenu, IconButton } from 'components'
-import clsx from 'clsx'
 import { buttonText } from 'components/Button'
 
-export default function TriggerNode({
-  data,
-}: {
-  data: { name: string; type: string; icon: string }
-}) {
+export type TriggerNodeData = { name: string; icon: string }
+
+export type TriggerNodeType = Node<TriggerNodeData>
+
+export default function TriggerNode({ data }: NodeProps<TriggerNodeData>) {
+  const { t } = useTranslate()
   return (
     <ContextMenuPrimitive.Root>
       <ContextMenuPrimitive.Trigger>
@@ -25,8 +28,8 @@ export default function TriggerNode({
                   <Icon icon={data.icon} height={24} />
                 </div>
                 <div className='ml-2'>
-                  <div className='font-medium'>{data.name}</div>
-                  <div className='text-xs text-gray-500'>{data.type}</div>
+                  <div className='font-semibold'>{data.name}</div>
+                  <div className='text-xs font-normal text-gray-500'>{t('Trigger')}</div>
                 </div>
               </div>
             }
