@@ -68,7 +68,9 @@ export default function TextField({
         )}
       >
         {startAdornment && (
-          <span className='ml-2 text-gray-400 group-focus-within:text-black'>{startAdornment}</span>
+          <span className='ml-2 text-gray-400 group-focus-within:text-black dark:group-focus-within:text-white'>
+            {startAdornment}
+          </span>
         )}
         <input
           {...other}
@@ -79,7 +81,9 @@ export default function TextField({
           className='w-full flex-1 rounded-lg border-none bg-transparent p-2 outline-none'
         />
         {endAdornment && (
-          <span className='mr-2 text-gray-400 group-focus-within:text-black'>{endAdornment}</span>
+          <span className='mr-2 text-gray-400 group-focus-within:text-black dark:group-focus-within:text-white'>
+            {endAdornment}
+          </span>
         )}
       </div>
       {error?.message && <span className='text-xs text-red-500'>{error?.message}</span>}
