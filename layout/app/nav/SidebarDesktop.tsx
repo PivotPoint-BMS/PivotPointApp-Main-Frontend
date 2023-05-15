@@ -110,7 +110,7 @@ function SideBar() {
           }}
           whileHover={{ width: NAVBAR.SECONDARY_NAVBAR_WIDTH }}
           transition={{ duration: 0.2 }}
-          className='group fixed top-0 flex h-screen flex-col   bg-secondary-600 text-white ltr:left-0 ltr:border-r rtl:right-0 dark:border-gray-500 dark:bg-secondary-900'
+          className='group fixed top-0 flex h-screen flex-col   bg-secondary-600 text-white ltr:left-0 ltr:border-r rtl:right-0 dark:border-gray-500 dark:bg-paper-dark'
           style={{
             marginLeft: locale === 'ar' ? 0 : NAVBAR.MAIN_NAVBAR_WIDTH,
             marginRight: locale === 'ar' ? NAVBAR.MAIN_NAVBAR_WIDTH : 0,

@@ -6,12 +6,13 @@ import * as TooltipPrimitive from '@radix-ui/react-tooltip'
 interface TooltipProps extends TooltipPrimitive.TooltipContentProps {
   title: string
   children: ReactNode | ReactNode[]
+  open?: boolean
 }
 
-export default function Tooltip({ children, title, className, ...props }: TooltipProps) {
+export default function Tooltip({ children, title, className, open, ...props }: TooltipProps) {
   return (
     <TooltipPrimitive.Provider>
-      <TooltipPrimitive.Root delayDuration={100}>
+      <TooltipPrimitive.Root delayDuration={100} open={open}>
         <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
         <div className='z-[99999]'>
           <TooltipPrimitive.Content

@@ -6,7 +6,7 @@ import { leadPreviewSlice, sessionSlice, sideBarSlice, snackbarSlice } from './s
 // apis
 import { authApi, companyApi, paymentApi } from './api/auth'
 import { settingsApi } from './api/settings/settingsAPIs'
-import { leadApi, leadSourceApi, dealsBoardsApi } from './api/crm'
+import { leadApi, leadSourceApi, dealsBoardsApi, addressApi } from './api/crm'
 import { statsApi } from './api/stats/statsApi'
 
 export const makeStore = () =>
@@ -22,6 +22,7 @@ export const makeStore = () =>
       [settingsApi.reducerPath]: settingsApi.reducer,
       [leadApi.reducerPath]: leadApi.reducer,
       [leadSourceApi.reducerPath]: leadSourceApi.reducer,
+      [addressApi.reducerPath]: addressApi.reducer,
       [dealsBoardsApi.reducerPath]: dealsBoardsApi.reducer,
       [statsApi.reducerPath]: statsApi.reducer,
     },
@@ -34,6 +35,7 @@ export const makeStore = () =>
         settingsApi.middleware,
         leadApi.middleware,
         leadSourceApi.middleware,
+        addressApi.middleware,
         dealsBoardsApi.middleware,
         statsApi.middleware
       ),

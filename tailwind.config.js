@@ -140,10 +140,11 @@ module.exports = {
         'rich-black': '#161c24',
         paper: {
           light: '#FFFFFF',
-          dark: '#002034',
-          'hover-dark': '#00263d',
+          dark: '#212b36',
+          'dark-contrast': '#333d48',
+          'hover-dark': '#919eab14',
         },
-        dark: '#001928',
+        dark: '#161c24',
         primary: {
           100: '#59E1A1',
           200: '#48DD98',

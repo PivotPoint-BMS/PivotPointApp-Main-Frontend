@@ -34,7 +34,7 @@ function Layout({
         <Header />
         {isDesktop ? <SidebarDesktop /> : <SidebarMobile />}
         <main
-          className='h-max w-full flex-1 overflow-hidden p-4 px-0'
+          className='h-full w-full flex-1 overflow-hidden'
           style={{ paddingTop: HEADER.DESKTOP_HEIGHT }}
         >
           {children}

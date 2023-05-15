@@ -78,7 +78,7 @@ body {
 }
 
 .rdt_Table .rdt_TableHeadRow {
-  @apply border-none  bg-transparent  text-sm dark:bg-gray-900;
+  @apply border-none  bg-transparent  text-sm dark:bg-paper-dark-contrast;
 }
 
 .rdt_Table .rdt_TableBody {
@@ -237,3 +237,52 @@ body {
 .react-autosuggest__suggestion:active {
   @apply bg-gray-500/20;
 }
+
+.react-select-container {
+  @apply !w-full;
+}
+.react-select-container .react-select__control {
+  @apply rounded-lg border border-gray-400 bg-transparent shadow-none hover:border-black focus:border-black dark:!border-gray-500 dark:!text-white dark:hover:!border-white dark:focus:!border-white;
+}
+
+.react-select-container .react-select__control .react-select__value-container {
+  @apply text-white;
+}
+
+.react-select__input-container {
+  @apply dark:!text-white;
+}
+
+.react-select__single-value {
+  @apply dark:!text-white;
+}
+.react-select__indicator.react-select__dropdown-indicator {
+  @apply dark:!text-white;
+}
+
+.react-select__menu {
+  @apply !z-50 overflow-hidden !rounded-lg border bg-paper-light shadow-md dark:bg-paper-dark;
+}
+
+.react-select__menu-list {
+  @apply overflow-hidden !rounded-lg;
+}
+.react-select__option {
+  @apply rounded-none bg-paper-dark !text-black hover:!bg-gray-200 dark:bg-paper-dark dark:!text-white dark:hover:!bg-paper-hover-dark;
+}
+
+.react-select__option--is-selected {
+  @apply rounded-none !bg-gray-300 hover:!bg-gray-200 dark:!bg-paper-dark-contrast dark:hover:!bg-paper-hover-dark;
+}
+
+.react-select__multi-value {
+  @apply !rounded-md dark:border dark:!bg-paper-dark-contrast;
+}
+.react-select__multi-value__label {
+  @apply dark:!text-white;
+}
+.react-select__multi-value__remove {
+  @apply text-black/80;
+}
+
+/* React Flow */

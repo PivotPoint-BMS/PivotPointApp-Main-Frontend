@@ -31,7 +31,7 @@ const RenderItems = (
         onCheckedChange={onCheckedChange}
         className={clsx(
           'flex w-full cursor-default select-none items-center rounded-md px-2 py-2 text-xs outline-none',
-          ' focus:bg-gray-200 dark:focus:bg-gray-800'
+          ' focus:bg-gray-200 dark:focus:bg-paper-hover-dark'
         )}
       >
         <div>{icon}</div>
@@ -47,7 +47,7 @@ const RenderItems = (
         <DropdownMenuPrimitive.SubTrigger
           className={clsx(
             'flex w-full cursor-default select-none items-center gap-2 rounded-md px-2 py-2 text-xs outline-none',
-            ' focus:bg-gray-200 dark:focus:bg-gray-800',
+            ' focus:bg-gray-200 dark:focus:bg-paper-hover-dark',
             className
           )}
         >
@@ -60,7 +60,7 @@ const RenderItems = (
             className={clsx(
               'origin-top-right data-[side=left]:animate-scale-in',
               'w-48 rounded-md px-1 py-1 text-xs shadow-md',
-              'bg-white dark:bg-gray-800',
+              'bg-white dark:bg-paper-hover-dark',
               loading && 'cursor-not-allowed bg-gray-400 hover:bg-gray-400 active:bg-gray-400',
               className
             )}
@@ -121,7 +121,7 @@ const RenderItems = (
       key={`${label?.toLowerCase()}-${i}`}
       className={clsx(
         'flex cursor-default select-none items-center gap-2 rounded-md px-2 py-2 text-xs outline-none',
-        ' focus:bg-gray-200 dark:focus:bg-gray-800',
+        ' focus:bg-gray-200 dark:focus:bg-paper-hover-dark',
         className
       )}
       onClick={onClick}
@@ -167,8 +167,9 @@ export default function DropdownMenu({ trigger, items, ...props }: DropdownMenuP
             sideOffset={5}
             className={clsx(
               'data-[side=top]:animate-slide-up data-[side=bottom]:animate-slide-down',
-              'w-fit min-w-[150px] rounded-lg border   px-1.5 py-1 drop-shadow-lg',
-              'bg-white dark:bg-paper-dark'
+              'w-fit min-w-[150px] rounded-lg border px-1.5 py-1 drop-shadow-lg',
+              'bg-white dark:bg-paper-dark',
+              'flex flex-col gap-1'
             )}
           >
             {items.map(

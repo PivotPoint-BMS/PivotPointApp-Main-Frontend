@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import * as Yup from 'yup'
-import Autosuggest from 'react-autosuggest'
 // next
 import { useRouter } from 'next/router'
 // form
@@ -13,22 +12,38 @@ import {
   useCreateLeadMutation,
   useEditLeadMutation,
 } from 'store/api/crm/contact-leads/leadApis'
+import {
+  getRunningQueriesThunk as addressGetRunningQueriesThunk,
+  getCountries,
+  useGetCitiesQuery,
+  useGetCountriesQuery,
+} from 'store/api/crm/contact-leads/addressApi'
+import { wrapper } from 'store'
 import { getLeadSources, useGetLeadSourcesQuery } from 'store/api/crm/contact-leads/leadSourceApi'
 // config
 import { PIVOTPOINT_API } from 'config'
 // utils
 import { fData } from 'utils/formatNumber'
 // types
-import Lead, { LeadSource } from 'types/Lead'
+import Lead from 'types/Lead'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
 // components
-import { Card, CardContent, Button, LoadingIndicator } from 'components'
+import Select from 'react-select'
+import CreatableSelect from 'react-select/creatable'
+import {
+  Card,
+  CardContent,
+  Button,
+  LoadingIndicator,
+  AutoComplete,
+  Select as MySelect,
+} from 'components'
 import { FormProvider, RHFTextField } from 'components/hook-form'
 import RHFUploadAvatar from 'components/hook-form/RHFUpload'
 import { PATH_DASHBOARD } from 'routes/paths'
-import { wrapper } from 'store'
+import Slider from 'components/Slider'
 
 export default function CreateEditLeadForm({
   isEdit,
@@ -40,14 +55,30 @@ export default function CreateEditLeadForm({
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const { push } = useRouter()
-  const { data: sources, isLoading } = useGetLeadSourcesQuery()
+  const { data: sources, isLoading, isSuccess } = useGetLeadSourcesQuery()
+  const {
+    data: countries,
+    isLoading: isCountriesLoading,
+    isSuccess: isCountriesSuccess,
+  } = useGetCountriesQuery()
   const [
     createLead,
     { isLoading: isCreateLoading, isError: isCreateError, isSuccess: isCreateSuccess },
   ] = useCreateLeadMutation()
   const [editLead, { isLoading: isEditLoading, isError: isEditError, isSuccess: isEditSuccess }] =
     useEditLeadMutation()
-  const [suggestions, setSuggestions] = useState<LeadSource[]>([])
+
+  const [sourcesList, setSourcesList] = useState<{ value: string; label: string }[]>([])
+  const [coutriesList, setCoutriesList] = useState<{ value: string; label: string }[]>([])
+  const [citiesList, setCitiesList] = useState<{ value: string; label: string }[]>([])
+  const [income, setIncome] = useState(0)
+
+  const PRIORITIES = [
+    { value: '0', label: t('Unassined') },
+    { value: '1', label: t('Low') },
+    { value: '2', label: t('Medium') },
+    { value: '3', label: t('High') },
+  ]
 
   const LeadSchema = Yup.object().shape({
     picture: Yup.mixed().required(t('Image is required')),
@@ -63,6 +94,9 @@ export default function CreateEditLeadForm({
     status: Yup.number(),
     city: Yup.string().required(t('This field is required')),
     country: Yup.string().required(t('This field is required')),
+    priority: Yup.number().required(t('This field is required')),
+    spendingScore: Yup.number(),
+    incomeK: Yup.number().required(t('This field is required')),
     LeadSourceId: Yup.string().required(t('This field is required')),
   })
 
@@ -79,6 +113,7 @@ export default function CreateEditLeadForm({
       LeadSourceId: currentLead?.leadSource?.id || '',
       city: currentLead?.address.city || '',
       country: currentLead?.address.country || '',
+      incomeK: 0,
     }),
     [currentLead]
   )
@@ -106,42 +141,12 @@ export default function CreateEditLeadForm({
     invalidateTags(['Leads', 'Lead'])
   }
 
-  // AutoSuggest
-  const getSuggestions = (value: string) => {
-    const inputValue = value.trim().toLowerCase()
-    const inputLength = inputValue.length
-
-    return inputLength === 0
-      ? []
-      : sources?.data.filter(
-          (source) =>
-            source.source.toLowerCase().indexOf(inputValue.toLowerCase()) > -1 ||
-            source.sourceLink.toLowerCase().indexOf(inputValue.toLowerCase()) > -1
-        ) || []
-  }
-
-  const onSuggestionsFetchRequested = ({ value }: { value: string }) => {
-    setSuggestions(getSuggestions(value))
-  }
-
-  const onSuggestionsClearRequested = () => {
-    setSuggestions([])
-  }
-
-  const getSuggestionValue = (suggestion: LeadSource) => suggestion.id || ''
-
-  const renderSuggestion = (suggestion: LeadSource) => (
-    <div className='flex flex-col gap-1 p-1'>
-      <p>
-        <span className='font-medium'>{t('Source:')}</span> {suggestion.source}
-      </p>
-      <p>
-        <span className='font-medium'>{t('Source Link:')}</span> {suggestion.sourceLink}
-      </p>
-    </div>
-  )
-
-  //
+  const {
+    data: cities,
+    isLoading: isCitiesLoading,
+    isSuccess: isCitiesSuccess,
+    refetch,
+  } = useGetCitiesQuery(getValues('country'), { refetchOnMountOrArgChange: true })
 
   // ImageUpload
   const handleDrop = useCallback(
@@ -203,6 +208,20 @@ export default function CreateEditLeadForm({
     }
   }, [isCreateError, isEditError, isCreateSuccess, isEditSuccess])
 
+  useEffect(() => {
+    if (isSuccess)
+      setSourcesList(
+        sources.data.map((source) => ({ value: source.id as string, label: source.source }))
+      )
+  }, [isLoading])
+  useEffect(() => {
+    if (isCountriesSuccess)
+      setCoutriesList(countries.data.map((country) => ({ value: country, label: country })))
+  }, [isCountriesLoading])
+  useEffect(() => {
+    if (isCitiesSuccess) setCitiesList(cities.data.map((city) => ({ value: city, label: city })))
+  }, [isCitiesLoading])
+
   return isLoading ? (
     <div className='flex h-56 w-full items-center justify-center'>
       <LoadingIndicator />
@@ -226,8 +245,8 @@ export default function CreateEditLeadForm({
             />
           </CardContent>
         </Card>
-        <Card fullWidth className='md:col-span-2'>
-          <CardContent className='flex flex-col'>
+        <Card fullWidth className='!overflow-visible md:col-span-2'>
+          <CardContent className='flex flex-col !overflow-visible'>
             <h6 className='mb-5 text-lg font-semibold'>{t('Lead Informations')}</h6>
             <div className='mb-6 grid gap-6 sm:grid-cols-2'>
               <RHFTextField name='fullName' label={t('Full Name')} />
@@ -237,26 +256,76 @@ export default function CreateEditLeadForm({
             </div>
             <h6 className='mb-5 text-lg font-semibold'>{t('Source Informations')}</h6>
             <div className='mb-6'>
-              <Autosuggest
-                suggestions={suggestions}
-                onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-                onSuggestionsClearRequested={onSuggestionsClearRequested}
-                getSuggestionValue={getSuggestionValue}
-                renderSuggestion={renderSuggestion}
-                alwaysRenderSuggestions
-                highlightFirstSuggestion
-                inputProps={{
-                  value: getValues('LeadSourceId'),
-                  onChange: (e, { newValue }) => {
-                    setValue('LeadSourceId', newValue)
-                  },
-                }}
-              />
+              <AutoComplete name='LeadSourceId'>
+                <Select
+                  options={sourcesList}
+                  isLoading={isLoading}
+                  onChange={(newValue) => {
+                    setValue('LeadSourceId', newValue?.value)
+                  }}
+                  className='react-select-container'
+                  classNamePrefix='react-select'
+                />
+              </AutoComplete>
             </div>
             <h6 className='mb-5 text-lg font-semibold'>{t('Address Informations')}</h6>
-            <div className='md: grid grid-cols-1 gap-6 sm:grid-cols-2 '>
-              <RHFTextField name='country' label={t('Country')} />
-              <RHFTextField name='city' label={t('City')} />
+            <div className='mb-6 grid grid-cols-1 gap-6 sm:grid-cols-2 '>
+              <AutoComplete label={t('Country')} name='country'>
+                <CreatableSelect
+                  options={coutriesList}
+                  isLoading={isCountriesLoading}
+                  onChange={(newValue) => {
+                    setValue('country', newValue?.value)
+                    refetch()
+                  }}
+                  // TODO Add country api
+                  // onCreateOption={(value) =>
+                  //   setCoutriesList((prevState) => {
+                  //     prevState.push({ label: value, value })
+                  //     return prevState
+                  //   })
+                  // }
+                  className='react-select-container'
+                  classNamePrefix='react-select'
+                />
+              </AutoComplete>
+              <AutoComplete label={t('City')} name='city'>
+                <CreatableSelect
+                  options={citiesList}
+                  isLoading={isCitiesLoading}
+                  onChange={(newValue) => {
+                    setValue('city', newValue?.value)
+                  }}
+                  className='react-select-container'
+                  classNamePrefix='react-select'
+                />
+              </AutoComplete>
+            </div>
+            <h6 className='mb-5 text-lg font-semibold'>{t('Finance Informations')}</h6>
+            <div className='mb-6 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3'>
+              <div className='flex flex-col gap-1'>
+                <label className='text-sm font-medium dark:text-white'>{t('Priority')}</label>
+                <MySelect
+                  items={PRIORITIES}
+                  defaultValue='0'
+                  onValueChange={(value) => setValue('priority', value)}
+                />
+              </div>
+              <div className='flex flex-col gap-1 md:col-span-2'>
+                <label className='text-sm font-medium dark:text-white'>{t('income')}</label>
+                <div className='flex items-center justify-between gap-2'>
+                  <Slider
+                    className='w-full'
+                    max={99999}
+                    step={1000}
+                    onValueChange={(value) => {
+                      setValue('incomeK', value[0])
+                      setIncome(value[0])
+                    }}
+                  />
+                  <p className='rounded-md bg-gray-200 p-1 text-sm dark:bg-gray-600'>{income}</p>
+                </div>
+              </div>
             </div>
             <div className='mt-6 flex w-full items-center justify-center'>
               <Button size='large' type='submit' loading={isCreateLoading || isEditLoading}>
@@ -274,8 +343,10 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async (c
   const id = context.params?.id
   if (typeof id === 'string') store.dispatch(getLead.initiate(id))
   store.dispatch(getLeadSources.initiate())
+  store.dispatch(getCountries.initiate())
 
   await Promise.all(store.dispatch(getRunningQueriesThunk()))
+  await Promise.all(store.dispatch(addressGetRunningQueriesThunk()))
 
   return {
     props: {},
