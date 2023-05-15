@@ -37,7 +37,7 @@ export default function Sidebar() {
   }
 
   return (
-    <aside className='bg-paper overflow-scroll border p-2 dark:bg-paper-dark'>
+    <aside className='bg-paper overflow-scroll border p-2 dark:border-gray-600 dark:bg-paper-dark'>
       <div className='mb-4'>
         <TextField placeholder='Search Node...' startAdornment={<Icon icon='uil:search' />} />
       </div>
