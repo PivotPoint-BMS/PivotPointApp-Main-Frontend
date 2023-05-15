@@ -143,7 +143,7 @@ const index = () => {
               onDrop={onDrop}
               onDragOver={onDragOver}
               onNodeDoubleClick={(e, node) => console.log(node)}
-              className='bg-gray-100'
+              className='bg-gray-100 dark:bg-paper-dark-contrast'
             >
               <Controls />
             </ReactFlow>
