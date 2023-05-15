@@ -39,7 +39,7 @@ export default function Dashboard() {
       <Head>
         <title>{t('Customer Relationship')} | Pivot Point BMS</title>
       </Head>
-      <div className='flex max-w-full flex-col overflow-hidden px-5'>
+      <div className='flex max-w-full flex-col px-5'>
         {isLoading ? (
           <div className='flex h-56 w-full items-center justify-center'>
             <LoadingIndicator />
