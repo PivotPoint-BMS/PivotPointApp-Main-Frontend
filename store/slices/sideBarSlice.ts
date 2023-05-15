@@ -61,7 +61,6 @@ const initialState: SideBarConfig = {
           name: 'Workflow',
           href: PATH_DASHBOARD.crm.workflow,
           icon: 'material-symbols:account-tree-rounded',
-          disabled: true,
           badge: {
             label: 'Soon',
           },

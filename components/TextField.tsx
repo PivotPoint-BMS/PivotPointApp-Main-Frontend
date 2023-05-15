@@ -41,34 +41,46 @@ export default function TextField({
   startAdornment,
   endAdornment,
   error,
+  disabled,
   ...other
 }: TextFieldProps) {
   return (
     <div className='group flex w-full flex-col gap-1'>
       <label
         htmlFor={name}
-        className={clsx('text-sm font-medium dark:text-white', error && 'text-red-500')}
+        className={clsx(
+          'text-sm font-medium text-gray-800 dark:text-gray-200',
+          error && 'text-red-500'
+        )}
       >
         {label}
       </label>
       <div
         className={clsx(
+          'group',
           'flex w-full items-center justify-center rounded-lg bg-transparent',
-          'outline outline-1 outline-gray-400 focus-within:outline-2 focus-within:outline-primary-600 hover:outline-primary-600',
-          'dark:outline-gray-300 dark:focus-within:outline-primary-300 dark:hover:outline-primary-300',
+          'border border-gray-400 outline-none focus-within:border-black hover:border-black',
+          'dark:border-gray-500 dark:focus-within:border-white dark:hover:border-white',
           error &&
-            '!outline-red-500 focus-within:outline-red-500 hover:outline-red-500 dark:outline-red-500'
+            '!border-red-500 focus-within:!border-black hover:!border-current dark:border-red-500',
+          disabled &&
+            '!border-none !bg-gray-200 !text-gray-500 dark:!bg-gray-600 dark:!text-gray-400 dark:hover:bg-gray-600'
         )}
       >
-        {startAdornment && <span className='mx-2'>{startAdornment}</span>}
+        {startAdornment && (
+          <span className='ml-2 text-gray-400 group-focus-within:text-black'>{startAdornment}</span>
+        )}
         <input
           {...other}
+          disabled={disabled}
           id={name}
           name={name}
           type={type}
-          className='flex-1 rounded-lg bg-transparent p-2 outline-none'
+          className='w-full flex-1 rounded-lg border-none bg-transparent p-2 outline-none'
         />
-        {endAdornment && <span className='mx-2'>{endAdornment}</span>}
+        {endAdornment && (
+          <span className='mr-2 text-gray-400 group-focus-within:text-black'>{endAdornment}</span>
+        )}
       </div>
       {error?.message && <span className='text-xs text-red-500'>{error?.message}</span>}
     </div>

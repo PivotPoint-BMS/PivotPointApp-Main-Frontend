@@ -131,7 +131,13 @@ export default function CreateEditDealForm({
           <RHFTextArea name='description' label={t('Description')} />
         </div>
         <div className='md:col-span-2'>
-          <Select options={leads} isMulti isLoading={isLoading} />
+          <Select
+            options={leads}
+            isMulti
+            isLoading={isLoading}
+            className='react-select-container'
+            classNamePrefix='react-select'
+          />
         </div>{' '}
       </div>
 

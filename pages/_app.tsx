@@ -19,6 +19,7 @@ import 'simplebar-react/dist/simplebar.min.css'
 import 'react-lazy-load-image-component/src/effects/blur.css'
 import 'react-lazy-load-image-component/src/effects/opacity.css'
 import 'react-lazy-load-image-component/src/effects/black-and-white.css'
+// import 'reactflow/dist/style.css'
 
 // function getDirection(locale: string) {
 //   if (locale === 'ar') {
