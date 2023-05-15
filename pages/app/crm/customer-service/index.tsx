@@ -28,7 +28,7 @@ export default function index() {
       <Head>
         <title>{t('Customer Service')} | Pivot Point BMS</title>
       </Head>
-      <div className='flex w-full flex-col overflow-hidden px-5'>
+      <div className='flex w-full flex-col px-5'>
         <HeaderBreadcrumbs
           heading={t('Customer Service')}
           links={[
