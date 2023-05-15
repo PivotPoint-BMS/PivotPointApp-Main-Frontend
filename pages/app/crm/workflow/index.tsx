@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-unsafe-optional-chaining */
 import React, { useCallback, useRef, useState } from 'react'
+// reactflow
 import ReactFlow, {
   addEdge,
   useNodesState,
@@ -18,9 +19,14 @@ import ReactFlow, {
   getConnectedEdges,
   Node,
 } from 'reactflow'
+// hooks
+import useResponsive from 'hooks/useResponsive'
+import useTranslate from 'hooks/useTranslate'
+// sections
+import Sidebar from './SideBar'
+// components
 import TriggerNode, { TriggerNodeData } from './TriggerNode'
 import ActionNode, { ActionNodeData } from './ActionNode'
-import Sidebar from './SideBar'
 import 'reactflow/dist/style.css'
 
 const nodeTypes: NodeTypes = {
@@ -32,7 +38,9 @@ let id = 3
 // eslint-disable-next-line no-plusplus
 const getId = () => `dndnode_${id++}`
 
-const Flow = () => {
+const index = () => {
+  const isDesktop = useResponsive('md', 'up')
+  const { t } = useTranslate()
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
   const [nodes, setNodes, onNodesChange] = useNodesState<ActionNodeData | TriggerNodeData>([])
   const [edges, setEdges, onEdgesChange] = useEdgesState<null>([])
@@ -116,35 +124,41 @@ const Flow = () => {
   )
 
   return (
-    <div className='h-full flex-1' ref={reactFlowWrapper}>
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        onInit={setReactFlowInstance}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onNodesDelete={onNodesDelete}
-        onConnect={onConnect}
-        fitView
-        snapGrid={[25, 25]}
-        snapToGrid
-        nodeTypes={nodeTypes}
-        onDrop={onDrop}
-        onDragOver={onDragOver}
-        onNodeDoubleClick={(e, node) => console.log(node)}
-        className='bg-gray-100'
-      >
-        <Controls />
-      </ReactFlow>
+    <div className='flex h-full w-full flex-1 sm:flex-row'>
+      {isDesktop ? (
+        <ReactFlowProvider>
+          <div className='h-full flex-1' ref={reactFlowWrapper}>
+            <ReactFlow
+              nodes={nodes}
+              edges={edges}
+              onInit={setReactFlowInstance}
+              onNodesChange={onNodesChange}
+              onEdgesChange={onEdgesChange}
+              onNodesDelete={onNodesDelete}
+              onConnect={onConnect}
+              fitView
+              snapGrid={[25, 25]}
+              snapToGrid
+              nodeTypes={nodeTypes}
+              onDrop={onDrop}
+              onDragOver={onDragOver}
+              onNodeDoubleClick={(e, node) => console.log(node)}
+              className='bg-gray-100'
+            >
+              <Controls />
+            </ReactFlow>
+          </div>
+          <Sidebar />
+        </ReactFlowProvider>
+      ) : (
+        <div className='flex w-full items-center justify-center'>
+          <h1 className='text-xl font-semibold text-red-500'>
+            {t('Sorry, Workflow only works on desktop')}
+          </h1>
+        </div>
+      )}
     </div>
   )
 }
 
-export default () => (
-  <div className='flex h-full w-full flex-1 sm:flex-row'>
-    <ReactFlowProvider>
-      <Flow />
-      <Sidebar />
-    </ReactFlowProvider>
-  </div>
-)
+export default index
