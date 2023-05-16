@@ -280,7 +280,7 @@ const initialState: SideBarConfig = {
         {
           name: 'Product Building Pipelines',
           href: PATH_DASHBOARD.pm.pipelines,
-          icon: 'ph:tree-structure-fill',
+          icon: 'material-symbols:ac  count-tree-rounded',
           disabled: true,
           badge: {
             label: 'Soon',
@@ -291,7 +291,7 @@ const initialState: SideBarConfig = {
     {
       name: 'Workflow',
       href: PATH_DASHBOARD.workflow.root,
-      icon: 'material-symbols:account-tree-rounded',
+      icon: 'ph:tree-structure-fill',
     },
   ],
   isOpen: false,
