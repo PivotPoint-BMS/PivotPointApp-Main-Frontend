@@ -3,24 +3,24 @@ import { cva, VariantProps } from 'class-variance-authority'
 import { ClassProp } from 'class-variance-authority/dist/types'
 
 export const buttonContained = cva(
-  'select-none flex items-center justify-center gap-2 font-semibold rounded-lg capitalize',
+  'select-none flex items-center justify-center gap-2 font-semibold rounded-lg capitalize transition-all',
   {
     variants: {
       intent: {
         primary: [
-          'bg-primary-600 hover:bg-primary-700 transition-all text-white active:bg-primary-500',
+          'bg-primary-600 hover:bg-primary-700 text-white active:bg-primary-500',
           'dark:bg-primary-700 dark:hover:bg-primary-700/70 dark:active:bg-primary-600',
         ],
         secondary: [
-          'bg-secondary-500 hover:bg-secondary-700 transition-all text-white active:bg-secondary-400',
+          'bg-secondary-500 hover:bg-secondary-700 text-white active:bg-secondary-400',
           'dark:bg-secondary-600 dark:hover:bg-secondary-700/70 dark:active:bg-secondary-500',
         ],
         error: [
-          'bg-red-500 hover:bg-red-700 transition-all text-white active:bg-red-400',
+          'bg-red-500 hover:bg-red-700 text-white active:bg-red-400',
           'dark:bg-red-600 dark:hover:bg-red-700/70 dark:active:bg-red-500',
         ],
         default: [
-          'bg-gray-300 hover:bg-gray-400 transition-all active:bg-gray-200',
+          'bg-gray-300 hover:bg-gray-400 active:bg-gray-200',
           ' dark:bg-gray-200 text-black dark:hover:bg-gray-400 dark:active:bg-gray-100',
         ],
       },

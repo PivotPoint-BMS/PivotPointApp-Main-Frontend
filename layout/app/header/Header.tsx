@@ -1,5 +1,4 @@
 import React from 'react'
-import { motion } from 'framer-motion'
 // next
 import { useRouter } from 'next/router'
 // hooks
@@ -27,7 +26,7 @@ export default function Header() {
   const isSecondSidebar = Boolean(categories.includes(pathname.split('/')[2]))
 
   return (
-    <motion.div
+    <div
       className='fixed top-0 z-10 flex items-center justify-between gap-5 bg-white/80 px-5 backdrop-blur-lg ltr:right-0 rtl:left-0 dark:bg-dark/60'
       style={{
         height: HEADER.DESKTOP_HEIGHT,
@@ -58,6 +57,6 @@ export default function Header() {
 
         <AccountDropdown />
       </div>
-    </motion.div>
+    </div>
   )
 }
