@@ -64,7 +64,6 @@ export const PATH_DASHBOARD = {
     assets: path(ROOTS_APP, '/fm/assets'),
     cash: path(ROOTS_APP, '/fm/cash'),
     funding: path(ROOTS_APP, '/fm/funding'),
-    invoice: path(ROOTS_APP, '/fm/invoice'),
     'expences-incomes': path(ROOTS_APP, '/fm/expences-incomes'),
     risk: path(ROOTS_APP, '/fm/risk'),
     tax: path(ROOTS_APP, '/fm/tax'),
@@ -79,11 +78,6 @@ export const PATH_DASHBOARD = {
     invoice: path(ROOTS_APP, '/hrm/invoice'),
     benefits: path(ROOTS_APP, '/hrm/benefits'),
   },
-  im: {
-    root: path(ROOTS_APP, '/im'),
-    dashboard: path(ROOTS_APP, '/im/dashboard'),
-    'product-service': path(ROOTS_APP, '/im/product-service'),
-  },
   pm: {
     root: path(ROOTS_APP, '/pm'),
     dashboard: path(ROOTS_APP, '/pm/dashboard'),
@@ -95,8 +89,13 @@ export const PATH_DASHBOARD = {
     root: path(ROOTS_APP, '/scm'),
     dashboard: path(ROOTS_APP, '/scm/dashboard'),
     monitoring: path(ROOTS_APP, '/scm/monitoring'),
+    'product-service': path(ROOTS_APP, '/scm/product-service'),
     transportation: path(ROOTS_APP, '/scm/transportation'),
     warehousing: path(ROOTS_APP, '/scm/warehousing'),
     'demand-forecasting': path(ROOTS_APP, '/scm/demand-forecasting'),
+    invoice: path(ROOTS_APP, '/scm/invoice'),
+  },
+  workflow: {
+    root: path(ROOTS_APP, '/workflow'),
   },
 }

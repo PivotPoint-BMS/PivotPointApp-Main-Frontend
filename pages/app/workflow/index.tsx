@@ -2,6 +2,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-unsafe-optional-chaining */
 import React, { useCallback, useRef, useState } from 'react'
+// next
+import Head from 'next/head'
 // reactflow
 import ReactFlow, {
   addEdge,
@@ -19,14 +21,17 @@ import ReactFlow, {
   getConnectedEdges,
   Node,
 } from 'reactflow'
+// routes
+import { PATH_DASHBOARD } from 'routes/paths'
 // hooks
 import useResponsive from 'hooks/useResponsive'
 import useTranslate from 'hooks/useTranslate'
-// sections
-import Sidebar from './SideBar'
 // components
+import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs'
 import TriggerNode, { TriggerNodeData } from './TriggerNode'
 import ActionNode, { ActionNodeData } from './ActionNode'
+// sections
+import Sidebar from './SideBar'
 import 'reactflow/dist/style.css'
 
 const nodeTypes: NodeTypes = {
@@ -124,40 +129,50 @@ const index = () => {
   )
 
   return (
-    <div className='flex h-full w-full flex-1 sm:flex-row'>
-      {isDesktop ? (
-        <ReactFlowProvider>
-          <div className='h-full flex-1' ref={reactFlowWrapper}>
-            <ReactFlow
-              nodes={nodes}
-              edges={edges}
-              onInit={setReactFlowInstance}
-              onNodesChange={onNodesChange}
-              onEdgesChange={onEdgesChange}
-              onNodesDelete={onNodesDelete}
-              onConnect={onConnect}
-              fitView
-              snapGrid={[25, 25]}
-              snapToGrid
-              nodeTypes={nodeTypes}
-              onDrop={onDrop}
-              onDragOver={onDragOver}
-              onNodeDoubleClick={(e, node) => console.log(node)}
-              className='bg-gray-100 dark:bg-paper-dark-contrast'
-            >
-              <Controls />
-            </ReactFlow>
-          </div>
-          <Sidebar />
-        </ReactFlowProvider>
-      ) : (
-        <div className='flex w-full items-center justify-center'>
-          <h1 className='text-xl font-semibold text-red-500'>
-            {t('Sorry, Workflow only works on desktop')}
-          </h1>
+    <>
+      <Head>
+        <title>{t('Workflow')} | Pivot Point BMS</title>
+      </Head>
+      <div className='flex h-full w-full flex-col'>
+        <div className='px-5'>
+          <HeaderBreadcrumbs heading={t('Workflow')} />
         </div>
-      )}
-    </div>
+        <div className='flex h-full w-full flex-1'>
+          {isDesktop ? (
+            <ReactFlowProvider>
+              <div className='h-full w-full flex-1' ref={reactFlowWrapper}>
+                <ReactFlow
+                  nodes={nodes}
+                  edges={edges}
+                  onInit={setReactFlowInstance}
+                  onNodesChange={onNodesChange}
+                  onEdgesChange={onEdgesChange}
+                  onNodesDelete={onNodesDelete}
+                  onConnect={onConnect}
+                  fitView
+                  snapGrid={[25, 25]}
+                  snapToGrid
+                  nodeTypes={nodeTypes}
+                  onDrop={onDrop}
+                  onDragOver={onDragOver}
+                  onNodeDoubleClick={(e, node) => console.log(node)}
+                  className='bg-gray-100 dark:bg-paper-dark-contrast'
+                >
+                  <Controls />
+                </ReactFlow>
+              </div>
+              <Sidebar />
+            </ReactFlowProvider>
+          ) : (
+            <div className='flex w-full items-center justify-center'>
+              <h1 className='text-xl font-semibold text-red-500'>
+                {t('Sorry, Workflow only works on desktop')}
+              </h1>
+            </div>
+          )}
+        </div>
+      </div>
+    </>
   )
 }
 

@@ -7,7 +7,7 @@ export interface NavItemConfig {
   name: string
   href: string
   icon: string
-  subItems: {
+  subItems?: {
     name: string
     href: string
     icon: string
@@ -58,17 +58,78 @@ const initialState: SideBarConfig = {
           },
         },
         {
-          name: 'Workflow',
-          href: PATH_DASHBOARD.crm.workflow,
-          icon: 'material-symbols:account-tree-rounded',
+          name: 'Customer Service',
+          href: PATH_DASHBOARD.crm['customer-service'],
+          icon: 'ri:customer-service-2-fill',
+          badge: {
+            label: 'Soon',
+          },
+        },
+      ],
+    },
+    {
+      name: 'Supply Chain',
+      href: PATH_DASHBOARD.scm.root,
+      icon: 'fa6-solid:truck-ramp-box',
+      subItems: [
+        {
+          name: 'Dashboard',
+          href: PATH_DASHBOARD.scm.dashboard,
+          icon: 'material-symbols:dashboard-rounded',
+          badge: {
+            label: 'Beta',
+          },
+        },
+        {
+          name: 'Product/Service',
+          href: PATH_DASHBOARD.scm['product-service'],
+          icon: 'fa6-solid:boxes-stacked',
+          disabled: true,
           badge: {
             label: 'Soon',
           },
         },
         {
-          name: 'Customer Service',
-          href: PATH_DASHBOARD.crm['customer-service'],
-          icon: 'ri:customer-service-2-fill',
+          name: 'Demand Forecasting',
+          href: PATH_DASHBOARD.scm['demand-forecasting'],
+          icon: 'material-symbols:batch-prediction',
+          disabled: true,
+          badge: {
+            label: 'Soon',
+          },
+        },
+        {
+          name: 'Invoice',
+          href: PATH_DASHBOARD.scm.invoice,
+          icon: 'fa6-solid:file-invoice',
+          disabled: true,
+          badge: {
+            label: 'Soon',
+          },
+        },
+        {
+          name: 'Monitoring & Planning',
+          href: PATH_DASHBOARD.scm.monitoring,
+          icon: 'material-symbols:monitor-heart-rounded',
+          disabled: true,
+          badge: {
+            label: 'Soon',
+          },
+        },
+        {
+          name: 'Warehousing',
+          href: PATH_DASHBOARD.scm.warehousing,
+          icon: 'fa6-solid:warehouse',
+          disabled: true,
+          badge: {
+            label: 'Soon',
+          },
+        },
+        {
+          name: 'Transportation',
+          href: PATH_DASHBOARD.scm.transportation,
+          icon: 'fluent:vehicle-truck-profile-20-filled',
+          disabled: true,
           badge: {
             label: 'Soon',
           },
@@ -109,132 +170,6 @@ const initialState: SideBarConfig = {
           name: 'Payroll',
           href: PATH_DASHBOARD.hrm.payroll,
           icon: 'material-symbols:payments-outline-rounded',
-          disabled: true,
-          badge: {
-            label: 'Soon',
-          },
-        },
-      ],
-    },
-    {
-      name: 'Projects',
-      href: PATH_DASHBOARD.pm.root,
-      icon: 'bi:kanban-fill',
-      subItems: [
-        {
-          name: 'Dashboard',
-          href: PATH_DASHBOARD.pm.dashboard,
-          icon: 'material-symbols:dashboard-rounded',
-          badge: {
-            label: 'Beta',
-          },
-        },
-        {
-          name: 'Project Planning',
-          href: PATH_DASHBOARD.pm.planning,
-          icon: 'icon-park-solid:schedule',
-          disabled: true,
-          badge: {
-            label: 'Soon',
-          },
-        },
-        {
-          name: 'Tracking',
-          href: PATH_DASHBOARD.pm.tracking,
-          icon: 'material-symbols:timer-rounded',
-          disabled: true,
-          badge: {
-            label: 'Soon',
-          },
-        },
-        {
-          name: 'Product Building Pipelines',
-          href: PATH_DASHBOARD.pm.pipelines,
-          icon: 'ph:tree-structure-fill',
-          disabled: true,
-          badge: {
-            label: 'Soon',
-          },
-        },
-      ],
-    },
-    {
-      name: 'Inventory',
-      href: PATH_DASHBOARD.im.root,
-      icon: 'material-symbols:inventory-2-rounded',
-      subItems: [
-        {
-          name: 'Dashboard',
-          href: PATH_DASHBOARD.im.dashboard,
-          icon: 'material-symbols:dashboard-rounded',
-          badge: {
-            label: 'Beta',
-          },
-        },
-        {
-          name: 'Product/Service',
-          href: PATH_DASHBOARD.im['product-service'],
-          icon: 'fa6-solid:boxes-stacked',
-          disabled: true,
-          badge: {
-            label: 'Soon',
-          },
-        },
-        {
-          name: 'Demand Forecasting',
-          href: PATH_DASHBOARD.scm['demand-forecasting'],
-          icon: 'material-symbols:batch-prediction',
-          disabled: true,
-          badge: {
-            label: 'Soon',
-          },
-        },
-        {
-          name: 'Invoice',
-          href: PATH_DASHBOARD.fm.invoice,
-          icon: 'fa6-solid:file-invoice',
-          disabled: true,
-          badge: {
-            label: 'Soon',
-          },
-        },
-      ],
-    },
-    {
-      name: 'Supply Chain',
-      href: PATH_DASHBOARD.scm.root,
-      icon: 'fa6-solid:truck-ramp-box',
-      subItems: [
-        {
-          name: 'Dashboard',
-          href: PATH_DASHBOARD.scm.dashboard,
-          icon: 'material-symbols:dashboard-rounded',
-          badge: {
-            label: 'Beta',
-          },
-        },
-        {
-          name: 'Monitoring & Planning',
-          href: PATH_DASHBOARD.scm.monitoring,
-          icon: 'material-symbols:monitor-heart-rounded',
-          disabled: true,
-          badge: {
-            label: 'Soon',
-          },
-        },
-        {
-          name: 'Warehousing',
-          href: PATH_DASHBOARD.scm.warehousing,
-          icon: 'fa6-solid:warehouse',
-          disabled: true,
-          badge: {
-            label: 'Soon',
-          },
-        },
-        {
-          name: 'Transportation',
-          href: PATH_DASHBOARD.scm.transportation,
-          icon: 'fluent:vehicle-truck-profile-20-filled',
           disabled: true,
           badge: {
             label: 'Soon',
@@ -310,6 +245,53 @@ const initialState: SideBarConfig = {
           },
         },
       ],
+    },
+    {
+      name: 'Projects',
+      href: PATH_DASHBOARD.pm.root,
+      icon: 'bi:kanban-fill',
+      subItems: [
+        {
+          name: 'Dashboard',
+          href: PATH_DASHBOARD.pm.dashboard,
+          icon: 'material-symbols:dashboard-rounded',
+          badge: {
+            label: 'Beta',
+          },
+        },
+        {
+          name: 'Project Planning',
+          href: PATH_DASHBOARD.pm.planning,
+          icon: 'icon-park-solid:schedule',
+          disabled: true,
+          badge: {
+            label: 'Soon',
+          },
+        },
+        {
+          name: 'Tracking',
+          href: PATH_DASHBOARD.pm.tracking,
+          icon: 'material-symbols:timer-rounded',
+          disabled: true,
+          badge: {
+            label: 'Soon',
+          },
+        },
+        {
+          name: 'Product Building Pipelines',
+          href: PATH_DASHBOARD.pm.pipelines,
+          icon: 'ph:tree-structure-fill',
+          disabled: true,
+          badge: {
+            label: 'Soon',
+          },
+        },
+      ],
+    },
+    {
+      name: 'Workflow',
+      href: PATH_DASHBOARD.workflow.root,
+      icon: 'material-symbols:account-tree-rounded',
     },
   ],
   isOpen: false,
