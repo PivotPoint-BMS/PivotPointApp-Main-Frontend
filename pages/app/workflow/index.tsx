@@ -22,7 +22,6 @@ import ReactFlow, {
   Node,
 } from 'reactflow'
 // routes
-import { PATH_DASHBOARD } from 'routes/paths'
 // hooks
 import useResponsive from 'hooks/useResponsive'
 import useTranslate from 'hooks/useTranslate'
