@@ -2,25 +2,17 @@ import React from 'react'
 import clsx from 'clsx'
 // next
 import { useRouter } from 'next/router'
-import Image from 'next/image'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // radix
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
-// icons
-import english from 'public/english.png'
-import arabic from 'public/arabic.png'
-import french from 'public/french.png'
 // components
-import { iconButton } from 'components/IconButton'
-import { buttonText } from 'components/Button'
-import { Icon as Iconify } from '@iconify/react'
-import Tooltip from 'components/Tooltip'
+import Button, { buttonText } from 'components/Button'
 
 const LANGS = [
-  { value: 'en', label: 'English', icon: english },
-  { value: 'fr', label: 'French', icon: french },
-  { value: 'ar', label: 'العربية', icon: arabic },
+  { value: 'en', label: 'English' },
+  { value: 'fr', label: 'Français' },
+  { value: 'ar', label: 'العربية' },
 ]
 
 export default function LanguageDropdown() {
@@ -33,10 +25,10 @@ export default function LanguageDropdown() {
 
   return (
     <DropdownMenuPrimitive.Root>
-      <DropdownMenuPrimitive.Trigger className={iconButton({ class: 'group !outline-none' })}>
-        <Tooltip title={t('Language')}>
-          <Iconify icon='iconoir:language' height={24} />
-        </Tooltip>
+      <DropdownMenuPrimitive.Trigger className='outline-none'>
+        <Button variant='text' intent='default' className='outline-none'>
+          {t('Language')}
+        </Button>
       </DropdownMenuPrimitive.Trigger>
       <DropdownMenuPrimitive.Portal>
         <DropdownMenuPrimitive.Content
@@ -46,16 +38,19 @@ export default function LanguageDropdown() {
             'data-[side=top]:animate-slide-up data-[side=bottom]:animate-slide-down',
             'z-50 rounded-lg px-1.5 py-1 shadow-md',
             'bg-paper-light dark:bg-paper-dark',
-            'border   dark:border-gray-500'
+            'border outline-none dark:border-gray-500'
           )}
         >
           {LANGS.map((l, i) => (
             <DropdownMenuPrimitive.Item
               key={`${l.value}-${i}`}
               onClick={() => changeLocale(l.value)}
-              className={buttonText({ intent: 'default', disabled: false })}
+              className={buttonText({
+                intent: 'default',
+                disabled: false,
+                className: 'outline-none',
+              })}
             >
-              <Image src={l.icon} alt='flag' loading='lazy' className='mr-2 h-6 w-6' />
               {l.label}
             </DropdownMenuPrimitive.Item>
           ))}
