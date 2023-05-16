@@ -19,7 +19,7 @@ type Props =
       icon: React.ReactElement
       asLink?: boolean
       onClick?: () => void
-      subItems: {
+      subItems?: {
         name: string
         href: string
         icon: string
@@ -64,12 +64,14 @@ function NavItemMobile({ name, icon, asLink = false, href = '', onClick, subItem
             </span>
           )}
         </Link>
-        <Iconify
-          icon='material-symbols:arrow-drop-down-rounded'
-          height={20}
-          width={20}
-          className='transform duration-300 ease-in-out group-data-[state=open]:rotate-180'
-        />
+        {subItems && (
+          <Iconify
+            icon='material-symbols:arrow-drop-down-rounded'
+            height={20}
+            width={20}
+            className='transform duration-300 ease-in-out group-data-[state=open]:rotate-180'
+          />
+        )}
       </CollapsiblePrimitive.Trigger>
       <CollapsiblePrimitive.Content className='mt-2 flex flex-col space-y-4'>
         {subItems?.map((item, i) => (
