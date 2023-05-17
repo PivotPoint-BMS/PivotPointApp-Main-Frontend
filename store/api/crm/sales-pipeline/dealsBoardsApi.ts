@@ -29,19 +29,19 @@ export const dealsBoardsApi = createApi({
       return action.payload[reducerPath]
     }
   },
-  tagTypes: ['DealsBoards', 'DealBoard'],
+  tagTypes: ['DealsBoards'],
   endpoints: (builder) => ({
     getDealBoards: builder.query<DealBoard[], void>({
-      query: () => 'DealBoards/Summary',
+      query: () => 'DealBoards',
       providesTags: ['DealsBoards'],
-      transformResponse: (response: IGenericResponse<DealBoard[]>) => response.data,
+      transformResponse: (response: IGenericResponse<DealBoardProps>) => response.data.dealBoards,
     }),
     getDealBoard: builder.query<
       Omit<DealBoardProps, 'dealBoards'> & { dealBoards: { [key: string]: DealBoard } },
       string
     >({
       query: (id) => `DealBoards/Board/${id}`,
-      providesTags: ['DealBoard'],
+      providesTags: ['DealsBoards'],
       transformResponse: (response: IGenericResponse<DealBoardResponse>) => {
         const columns = response.data.columns.reduce<{ [key: string]: DealBoardColumnProps }>(
           (acc, curr) => {
@@ -103,7 +103,7 @@ export const dealsBoardsApi = createApi({
         body: { columnTitle },
         responseHandler: 'content-type',
       }),
-      invalidatesTags: ['DealBoard'],
+      invalidatesTags: ['DealsBoards'],
     }),
     deleteDealBoardColumn: builder.mutation<IGenericResponse<unknown>, string>({
       query: (id) => ({
@@ -111,7 +111,7 @@ export const dealsBoardsApi = createApi({
         method: 'DELETE',
         responseHandler: 'content-type',
       }),
-      invalidatesTags: ['DealBoard'],
+      invalidatesTags: ['DealsBoards'],
     }),
     presistColumnOrder: builder.mutation<IGenericResponse<unknown>, { id: string; order: number }>({
       query: (data) => ({
@@ -120,7 +120,7 @@ export const dealsBoardsApi = createApi({
         body: data,
         responseHandler: 'content-type',
       }),
-      invalidatesTags: ['DealBoard'],
+      invalidatesTags: ['DealsBoards'],
     }),
 
     createDeal: builder.mutation<string[], Omit<Deal, 'id'> & { columnId: string }>({
@@ -130,7 +130,7 @@ export const dealsBoardsApi = createApi({
         body: data,
         responseHandler: 'content-type',
       }),
-      invalidatesTags: ['DealBoard'],
+      invalidatesTags: ['DealsBoards'],
     }),
   }),
 })
