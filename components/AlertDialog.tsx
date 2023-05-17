@@ -10,7 +10,7 @@ interface AlertDialogProps {
   open: boolean
   title?: string
   description?: ReactNode
-  cancelText: string
+  cancelText?: string
   confirmText: string
   onConfirm: () => void
   onClose: () => void
@@ -48,9 +48,11 @@ export default function AlertDialog({
           )}
           {description}
           <div className='flex justify-end gap-x-2'>
-            <Button variant='outlined' intent='default' onClick={onClose}>
-              {cancelText}
-            </Button>
+            {cancelText && (
+              <Button variant='outlined' intent='default' onClick={onClose}>
+                {cancelText}
+              </Button>
+            )}
             <Button variant='contained' intent='primary' onClick={onConfirm} {...buttonProps}>
               {confirmText}
             </Button>
