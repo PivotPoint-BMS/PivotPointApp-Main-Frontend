@@ -6,6 +6,7 @@ import { ThemeProvider } from 'next-themes'
 import { useRouter } from 'next/router'
 // redux
 import { wrapper } from 'store'
+import { Provider as ReduxProvider } from 'react-redux'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // types
@@ -30,11 +31,12 @@ import 'react-lazy-load-image-component/src/effects/black-and-white.css'
 
 function MyApp({
   Component,
-  pageProps,
+  ...rest
 }: Omit<AppProps, 'Component'> & { Component: NextLayoutComponentType }) {
   const router = useRouter()
   const { t, locale } = useTranslate()
-
+  const { store, props } = wrapper.useWrappedStore(rest)
+  const { pageProps } = props
   useEffect(() => {
     const body = document.querySelector('body')
     if (body)
@@ -72,13 +74,15 @@ function MyApp({
         <link href='https://app.pivotpointbms.com/' rel='canonical' />
       </Head>
       <ThemeProvider attribute='class'>
-        <SnackbarProvider>
-          <NextProgressBar />
-          {getLayout(<Component {...pageProps} />)}
-        </SnackbarProvider>
+        <ReduxProvider store={store}>
+          <SnackbarProvider>
+            <NextProgressBar />
+            {getLayout(<Component {...pageProps} />)}
+          </SnackbarProvider>
+        </ReduxProvider>
       </ThemeProvider>
     </>
   )
 }
 
-export default wrapper.withRedux(MyApp)
+export default MyApp
