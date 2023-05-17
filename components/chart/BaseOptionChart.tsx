@@ -3,7 +3,7 @@ import useTranslate from 'hooks/useTranslate'
 
 export default function BaseOptionChart(): ApexCharts.ApexOptions {
   const theme = useTheme()
-  const { t } = useTranslate()
+  const { t, locale } = useTranslate()
 
   const LABEL_TOTAL = {
     show: true,
@@ -83,6 +83,10 @@ export default function BaseOptionChart(): ApexCharts.ApexOptions {
     xaxis: {
       axisBorder: { show: false },
       axisTicks: { show: false },
+      labels: {
+        rotate: locale === 'ar' ? 45 : -45,
+        rotateAlways: false,
+      },
     },
 
     // Markers
