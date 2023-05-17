@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react'
 // next
 import { useRouter } from 'next/router'
 // hooks
-import { useAppSelector } from 'store/hooks'
+import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { useGetUserMutation } from 'store/api/auth/authApi'
+// store
+import { stopLoading } from 'store/slices/sessionSlice'
 // pages
 import Login from 'pages/auth/login'
 import CompanySetup from 'pages/auth/company-setup'
@@ -13,13 +15,14 @@ import { LoadingScreen } from 'components'
 
 export default function AuthGuard({ children }: { children: React.ReactNode | React.ReactNode[] }) {
   const { pathname } = useRouter()
+  const dispatch = useAppDispatch()
   const { user, isLoading, refreshToken } = useAppSelector((state) => state.session)
-
   const [requestedLocation, setRequestedLocation] = useState<string | null>(null)
   const [getUser] = useGetUserMutation()
 
   useEffect(() => {
     if (!user && refreshToken) getUser(refreshToken)
+    else dispatch(stopLoading())
   }, [pathname, requestedLocation, refreshToken, user])
 
   if (isLoading) {
