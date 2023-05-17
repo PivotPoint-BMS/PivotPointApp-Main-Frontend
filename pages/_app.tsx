@@ -5,7 +5,6 @@ import type { AppProps } from 'next/app'
 import { ThemeProvider } from 'next-themes'
 import { useRouter } from 'next/router'
 // redux
-import { Provider as ReduxProvider } from 'react-redux'
 import { wrapper } from 'store'
 // hooks
 import useTranslate from 'hooks/useTranslate'
@@ -28,10 +27,9 @@ import 'react-lazy-load-image-component/src/effects/black-and-white.css'
 
 //   return 'ltr'
 // }
-function MyApp({ Component, ...rest }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
   const { t, locale } = useTranslate()
-  const { store, props } = wrapper.useWrappedStore(rest)
 
   useEffect(() => {
     const body = document.querySelector('body')
@@ -43,7 +41,7 @@ function MyApp({ Component, ...rest }: AppProps) {
       }
   }, [locale])
 
-  if (router.route === '/404') return <Component {...props.pageProps} />
+  if (router.route === '/404') return <Component {...pageProps} />
 
   return (
     <>
@@ -67,27 +65,25 @@ function MyApp({ Component, ...rest }: AppProps) {
         <meta property='og:description' content={t('PivotPoint Description')} />
         <link href='https://app.pivotpointbms.com/' rel='canonical' />
       </Head>
-      <ReduxProvider store={store}>
-        <ThemeProvider attribute='class'>
-          <SnackbarProvider>
-            <NextProgressBar />
-            <Layout
-              variant={
-                // eslint-disable-next-line no-nested-ternary
-                router.route.includes('app')
-                  ? 'dashboard'
-                  : router.route.includes('auth')
-                  ? 'main'
-                  : 'logoOnly'
-              }
-            >
-              <Component {...props.pageProps} />
-            </Layout>
-          </SnackbarProvider>
-        </ThemeProvider>
-      </ReduxProvider>
+      <ThemeProvider attribute='class'>
+        <SnackbarProvider>
+          <NextProgressBar />
+          <Layout
+            variant={
+              // eslint-disable-next-line no-nested-ternary
+              router.route.includes('app')
+                ? 'dashboard'
+                : router.route.includes('auth')
+                ? 'main'
+                : 'logoOnly'
+            }
+          >
+            <Component {...pageProps} />
+          </Layout>
+        </SnackbarProvider>
+      </ThemeProvider>
     </>
   )
 }
 
-export default MyApp
+export default wrapper.withRedux(MyApp)

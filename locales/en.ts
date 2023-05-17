@@ -358,5 +358,9 @@ const en: { [key: string]: string } = {
   'Last activity': 'Last activity',
   'Lead Info': 'Lead Info',
   'Back to Leads': 'Back to Leads',
+  'Create Deal': 'إنشاء صفقة',
+  Account: 'Account',
+  Notifications: 'Notifications',
+  'Company Settings': 'Company Settings',
 }
 export default en

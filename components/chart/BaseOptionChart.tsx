@@ -1,11 +1,13 @@
 import { useTheme } from 'next-themes'
+import useTranslate from 'hooks/useTranslate'
 
 export default function BaseOptionChart(): ApexCharts.ApexOptions {
   const theme = useTheme()
+  const { t } = useTranslate()
 
   const LABEL_TOTAL = {
     show: true,
-    label: 'Total',
+    label: t('Total'),
     color: theme.theme === 'light' ? '#161c24' : '#ffffff',
     fontSize: '12px',
     fontWeight: 600,
@@ -30,7 +32,7 @@ export default function BaseOptionChart(): ApexCharts.ApexOptions {
       zoom: { enabled: false },
       // animations: { enabled: false },
       foreColor: '#4B5563',
-      fontFamily: 'Poppins',
+      fontFamily: 'Poppins, Noto Sans Arabic, sans-serif',
     },
 
     // States

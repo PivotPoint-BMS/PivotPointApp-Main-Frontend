@@ -28,7 +28,10 @@ export const makeStore = () =>
     },
     devTools: process.env.NODE_ENV === 'development',
     middleware: (gDM) =>
-      gDM().concat(
+      gDM({
+        serializableCheck: true,
+        immutableCheck: true,
+      }).concat(
         authApi.middleware,
         companyApi.middleware,
         paymentApi.middleware,

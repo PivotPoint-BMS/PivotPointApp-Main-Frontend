@@ -21,7 +21,7 @@ export default function index() {
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const { query, push, pathname } = useRouter()
-  const { data, isError, isSuccess, isLoading, isFetching, refetch } = useGetDealBoardsQuery()
+  const { data, isError, isSuccess, isLoading, isFetching } = useGetDealBoardsQuery()
   const [boards, setBoards] = useState<{ label: string; value: string; disabled?: boolean }[]>([])
   const [boardId, setBoardId] = useState<string | null>(
     query?.boardId ? (query?.boardId as string) : null
@@ -48,10 +48,6 @@ export default function index() {
   useEffect(() => {
     push(pathname, { query: { boardId } })
   }, [pathname, boardId])
-
-  useEffect(() => {
-    refetch()
-  }, [pathname])
 
   return (
     <>

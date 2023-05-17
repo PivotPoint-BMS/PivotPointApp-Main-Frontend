@@ -2,9 +2,12 @@ import React from 'react'
 import clsx from 'clsx'
 // radix
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
+// hooks
+import useTranslate from 'hooks/useTranslate'
 // components
 import { Icon as Iconify } from '@iconify/react'
 import { iconButton } from 'components/IconButton'
+import Tooltip from 'components/Tooltip'
 
 //! TO REMOVE
 const notifications = [
@@ -19,16 +22,19 @@ const notifications = [
 ]
 
 export default function NotificationDropdown() {
+  const { t } = useTranslate()
   return (
     <DropdownMenuPrimitive.Root>
-      <DropdownMenuPrimitive.Trigger className={iconButton({ class: 'group !outline-none' })}>
-        <Iconify
-          icon='ic:round-notifications'
-          className='transition-all group-hover:scale-110 motion-reduce:transition-none'
-          height={24}
-          width={24}
-        />
-      </DropdownMenuPrimitive.Trigger>
+      <Tooltip title={t('Notifications')}>
+        <DropdownMenuPrimitive.Trigger className={iconButton({ class: 'group !outline-none' })}>
+          <Iconify
+            icon='ic:round-notifications'
+            className='transition-all group-hover:scale-110 motion-reduce:transition-none'
+            height={24}
+            width={24}
+          />
+        </DropdownMenuPrimitive.Trigger>
+      </Tooltip>
 
       <DropdownMenuPrimitive.Portal>
         <DropdownMenuPrimitive.Content

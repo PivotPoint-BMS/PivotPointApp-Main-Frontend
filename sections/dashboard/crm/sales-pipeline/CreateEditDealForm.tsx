@@ -110,7 +110,7 @@ export default function CreateEditDealForm({
           // isEditSuccess
           // ? t(' Updated Successfully.')
           //   :
-          t(' Added Successfully.'),
+          t('Deal Added Successfully.'),
         autoHideDuration: 4000,
         type: 'success',
         variant: 'contained',
@@ -146,7 +146,7 @@ export default function CreateEditDealForm({
           {t('Cancel')}
         </Button>
         <Button size='large' type='submit' loading={isCreateLoading}>
-          {isEdit ? t('Edit ') : t('Add ')}
+          {isEdit ? t('Edit Deal') : t('Add Deal')}
         </Button>
       </div>
     </FormProvider>

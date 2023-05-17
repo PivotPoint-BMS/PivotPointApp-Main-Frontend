@@ -30,10 +30,10 @@ function Layout({
 
   return (
     <AuthGuard>
-      <div className='flex h-screen w-full'>
+      <div className='flex h-screen w-screen'>
         <Header />
         {isDesktop ? <SidebarDesktop /> : <SidebarMobile />}
-        <main className='h-full w-full flex-1 ' style={{ paddingTop: HEADER.DESKTOP_HEIGHT }}>
+        <main className='h-full w-full flex-1' style={{ paddingTop: HEADER.DESKTOP_HEIGHT }}>
           {children}
         </main>
       </div>

@@ -28,8 +28,8 @@ export default function Conversions({
   })
 
   const CHART_DATA = [
-    { name: 'New Leads', data: newLeads },
-    { name: 'Successfull Conversions', data: convertedLeads },
+    { name: t('New Leads'), data: newLeads },
+    { name: t('Successfull Conversions'), data: convertedLeads },
   ]
 
   return (

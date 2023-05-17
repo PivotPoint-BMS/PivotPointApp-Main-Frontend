@@ -61,13 +61,13 @@ export default function LeadSourcesList({
 
   const columns: TableColumn<LeadSource>[] = [
     {
-      name: 'Source',
+      name: t('Source'),
       cell: ({ source }) => <p>{source}</p>,
       sortable: true,
       reorder: true,
     },
     {
-      name: 'Source Link',
+      name: t('Source Link'),
       cell: ({ sourceLink }) => <p>{sourceLink}</p>,
       sortable: true,
       reorder: true,

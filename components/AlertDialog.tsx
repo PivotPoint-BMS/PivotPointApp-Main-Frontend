@@ -47,7 +47,7 @@ export default function AlertDialog({
             <h1 className='text-lg font-medium text-gray-900 dark:text-gray-100'>{title}</h1>
           )}
           {description}
-          <div className=' flex justify-end space-x-2'>
+          <div className='flex justify-end gap-x-2'>
             <Button variant='outlined' intent='default' onClick={onClose}>
               {cancelText}
             </Button>

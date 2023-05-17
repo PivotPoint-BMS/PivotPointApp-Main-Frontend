@@ -21,7 +21,7 @@ export default function AccountsList() {
 
   const columns: TableColumn<Account>[] = [
     {
-      name: 'Name',
+      name: 'Full Name',
       cell: ({ firstName, lastName }) => (
         <p className='font-small text-sm'>{`${firstName} ${lastName}`}</p>
       ),
@@ -72,12 +72,12 @@ export default function AccountsList() {
             items={[
               {
                 type: 'button',
-                label: 'Edit',
+                label: t('Edit'),
                 icon: <Iconify icon='material-symbols:edit' height={18} />,
               },
               {
                 type: 'button',
-                label: 'Delete',
+                label: t('Delete'),
                 icon: <Iconify icon='material-symbols:delete-rounded' height={18} />,
                 className: 'text-red-600',
               },

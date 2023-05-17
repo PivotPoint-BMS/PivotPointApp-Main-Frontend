@@ -4,7 +4,10 @@ import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FieldValues, useForm } from 'react-hook-form'
 // api
-import { useCreateDealBoardColumnMutation } from 'store/api/crm/sales-pipeline/dealsBoardsApi'
+import {
+  invalidateTags,
+  useCreateDealBoardColumnMutation,
+} from 'store/api/crm/sales-pipeline/dealsBoardsApi'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // components
@@ -61,6 +64,7 @@ export default function CreateEditColumnForm({
     } = { columnTitle: data.columnTitle, boardId }
     // if (isEdit) editColumn({ data: board, id: currentColumn?.id || '' })
     createColumn(column)
+    invalidateTags(['DealBoard'])
   }
 
   useEffect(() => {

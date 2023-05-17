@@ -10,6 +10,8 @@ import useTranslate from 'hooks/useTranslate'
 import { PATH_DASHBOARD } from 'routes/paths'
 // types
 import { Lead } from 'types'
+// config
+import { PIVOTPOINT_API } from 'config'
 // asset
 import avatarPlaceholder from 'public/avatar_placeholder.png'
 // components
@@ -33,7 +35,11 @@ export default function GeneralInfo({ lead }: { lead: Lead }) {
         <div className='mb-4 flex items-center gap-2 px-4'>
           <Link href={`${PATH_DASHBOARD.crm['contacts-leads'].root}?tab=leads`}>
             <IconButton>
-              <Iconify icon='material-symbols:arrow-back-ios-new-rounded' height={20} />
+              <Iconify
+                icon='material-symbols:arrow-back-ios-new-rounded'
+                height={20}
+                className='rtl:rotate-180'
+              />
             </IconButton>
           </Link>
           <h1 className='text-lg font-semibold'>{t('Back to Leads')}</h1>
@@ -43,11 +49,13 @@ export default function GeneralInfo({ lead }: { lead: Lead }) {
             alt='avatar'
             width={100}
             height={100}
-            src={avatarPlaceholder.src}
+            src={
+              lead.picture ? `${PIVOTPOINT_API.crmPicUrl}/${lead.picture}` : avatarPlaceholder.src
+            }
             className='rounded-full'
           />
           <h1 className='text-center text-lg font-semibold'>{lead.fullName}</h1>
-          <div className='flex w-full items-center justify-center gap-10'>
+          <div className='flex w-full items-center justify-center gap-10 text-center'>
             <div className='flex flex-col items-center justify-center gap-1'>
               <IconButton className='border'>
                 <Iconify icon='fluent:clipboard-task-add-20-filled' height={22} />
@@ -74,7 +82,7 @@ export default function GeneralInfo({ lead }: { lead: Lead }) {
             </div>
           </div>
           <Button variant='outlined' className='w-full'>
-            {t('Convert To Contact')}
+            {t('Convert to Contact')}
           </Button>
           <div className='flex items-start justify-center gap-1'>
             <div className='mt-1.5 h-1.5 w-1.5 rounded-full bg-green-500'></div>
@@ -117,7 +125,7 @@ export default function GeneralInfo({ lead }: { lead: Lead }) {
                 <p className='truncate text-[15px]'>{lead.phoneNumber}</p>
               </div>
               <div className='flex flex-col gap-1 truncate'>
-                <h6 className='text-sm text-gray-600 dark:text-gray-400'>{t('Jon Title')}</h6>
+                <h6 className='text-sm text-gray-600 dark:text-gray-400'>{t('Job Title')}</h6>
                 <p className='truncate text-[15px]'>{lead.jobTitle}</p>
               </div>{' '}
               <div className='flex flex-col gap-1 truncate'>

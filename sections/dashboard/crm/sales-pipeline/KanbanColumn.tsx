@@ -130,13 +130,13 @@ export default function KanbanColumn({
                 items={[
                   {
                     type: 'button',
-                    label: 'Edit',
+                    label: t('Edit'),
                     icon: <Iconify icon='material-symbols:edit' height={18} />,
                     onClick: () => {},
                   },
                   {
                     type: 'button',
-                    label: 'Delete',
+                    label: t('Delete'),
                     icon: <Iconify icon='material-symbols:delete-rounded' height={18} />,
                     className: 'text-red-600',
                     onClick: () => {
@@ -177,7 +177,7 @@ export default function KanbanColumn({
       </Card>
       <Dialog open={openDialog} title={t('Add New Deal')}>
         <CreateEditDealForm
-          // TODO: Add Edit Deal
+          // TODO: Edit Deal
           columnId={id.toString()}
           currentDeal={null}
           isEdit={false}

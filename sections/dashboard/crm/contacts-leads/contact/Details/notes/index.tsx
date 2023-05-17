@@ -15,10 +15,8 @@ import Dropcursor from '@tiptap/extension-dropcursor'
 import Placeholder from '@tiptap/extension-placeholder'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import CardContent from 'components/CardContent'
+import { CardContent, IconButton, Button } from 'components'
 import NoteCard from './NoteCard'
-import IconButton from 'components/IconButton'
-import Button from 'components/Button'
 
 export default function Notes() {
   const { t } = useTranslate()
@@ -94,7 +92,10 @@ export default function Notes() {
     <CardContent className='h-full'>
       <h1 className='mb-4 text-lg font-medium'>{t('Add new note')}</h1>
       <div className='mb-4 flex w-full flex-col overflow-hidden rounded-lg border'>
-        <input className='px-3 py-2 text-lg font-medium outline-none' placeholder='Note Title' />
+        <input
+          className='px-3 py-2 text-lg font-medium outline-none'
+          placeholder={t('Note Title')}
+        />
         <EditorContent editor={editor} className='min-h-[100px] px-3 outline-none' />
         <div className='flex w-full justify-between border-t px-3 py-2'>
           <div className='flex items-center gap-1'>

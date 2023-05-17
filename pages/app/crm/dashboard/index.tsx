@@ -70,7 +70,7 @@ export default function Dashboard() {
                 <CardHeader
                   title={
                     <p>
-                      {t('Total Leads')} <span className='text-primary-600'>{t('(New)')}</span>
+                      {t('Total Leads')} <span className='text-primary-600'>({t('New')})</span>
                     </p>
                   }
                   actions={
@@ -113,7 +113,7 @@ export default function Dashboard() {
                 <CardHeader
                   title={
                     <p>
-                      {t('Total Deals')} <span className='text-primary-600'>{t('(New)')}</span>
+                      {t('Total Deals')} <span className='text-primary-600'>({t('New')})</span>
                     </p>
                   }
                   actions={

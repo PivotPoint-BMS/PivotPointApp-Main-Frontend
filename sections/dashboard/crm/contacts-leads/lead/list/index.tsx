@@ -62,7 +62,7 @@ export default function LeadsList() {
 
   const columns: TableColumn<Lead>[] = [
     {
-      name: 'Lead Name',
+      name: t('Lead Name'),
       cell: ({ fullName, picture }) => (
         <div className='flex items-center gap-2'>
           <div className='h-8 w-8'>
@@ -83,7 +83,7 @@ export default function LeadsList() {
       reorder: true,
     },
     {
-      name: 'Contact',
+      name: t('Contact'),
       cell: ({ email, phoneNumber }) => (
         <div className='flex flex-col gap-2 py-2'>
           <p className='hyphens  flex items-center gap-1 truncate'>
@@ -101,7 +101,7 @@ export default function LeadsList() {
       grow: 2,
     },
     {
-      name: 'Lead status',
+      name: t('Lead status'),
       cell: ({ leadStatus }) => {
         if (leadStatus === 1)
           return <Badge variant='ghost' intent='primary' size='small' label={t('Open')} />
@@ -126,7 +126,7 @@ export default function LeadsList() {
       grow: 1,
     },
     {
-      name: 'Lead Source',
+      name: t('Lead Source'),
       cell: ({ leadSource }) =>
         leadSource?.source ? (
           <Badge
@@ -137,7 +137,7 @@ export default function LeadsList() {
             className='capitalize'
           />
         ) : (
-          <Badge variant='ghost' intent='error' size='small' label='None' />
+          <Badge variant='ghost' intent='error' size='small' label={t('None')} />
         ),
       sortable: true,
       reorder: true,
@@ -168,13 +168,13 @@ export default function LeadsList() {
             items={[
               {
                 type: 'button',
-                label: 'Edit',
+                label: t('Edit'),
                 icon: <Iconify icon='material-symbols:edit' height={18} />,
                 onClick: () => push(PATH_DASHBOARD.crm['contacts-leads'].edit(lead.id)),
               },
               {
                 type: 'button',
-                label: 'Delete',
+                label: t('Delete'),
                 icon: <Iconify icon='material-symbols:delete-rounded' height={18} />,
                 className: 'text-red-600',
                 onClick: () => setIdToDelete(lead.id),
@@ -197,7 +197,7 @@ export default function LeadsList() {
     }
     if (isDeleteSuccess) {
       open({
-        message: t('Lead Source Deleted Successfully.'),
+        message: t('Lead Deleted Successfully.'),
         autoHideDuration: 4000,
         type: 'success',
         variant: 'contained',

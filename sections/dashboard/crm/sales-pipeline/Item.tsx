@@ -31,7 +31,6 @@ export const Item = React.memo(
     (
       {
         dragOverlay,
-        onRemove,
         deal,
         listeners,
         disabled,

@@ -130,8 +130,8 @@ function SideBar() {
                 <Iconify
                   icon='system-uicons:window-collapse-left'
                   className={clsx(
-                    'transition-all group-hover/collapse:scale-110 motion-reduce:transition-none',
-                    isCollapsed && 'rotate-180'
+                    'transition-all group-hover/collapse:scale-110 rtl:rotate-180 motion-reduce:transition-none',
+                    isCollapsed && 'ltr:rotate-180 rtl:rotate-0'
                   )}
                   height={18}
                   width={18}

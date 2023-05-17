@@ -74,9 +74,9 @@ const dropAnimation: DropAnimation = {
 const DealsKanban = ({ boardId }: { boardId: string | null }) => {
   const { t } = useTranslate()
   const { open } = useSnackbar()
-  const { isFallback, push, pathname } = useRouter()
+  const { isFallback, push, pathname, query } = useRouter()
   const { data, isError, isLoading, isSuccess, isFetching } = useGetDealBoardQuery(
-    boardId && boardId?.length > 0 ? boardId : skipToken,
+    query.boardId ? (query.boardId as string) : skipToken,
     {
       refetchOnMountOrArgChange: true,
       skip: isFallback,
@@ -106,8 +106,6 @@ const DealsKanban = ({ boardId }: { boardId: string | null }) => {
       })
     }
     if (isSuccess) {
-      console.log('here', boardId, !boardId || (boardId && !(boardId in data.dealBoards)))
-
       setBoard(data)
       if (!boardId || (boardId && !(boardId in data.dealBoards))) {
         push(pathname, { query: { boardId: data.dealBoards[Object.keys(data.dealBoards)[0]].id } })
@@ -130,6 +128,7 @@ const DealsKanban = ({ boardId }: { boardId: string | null }) => {
         variant: 'contained',
       })
     }
+    push(pathname, { query: { boardId: '' } })
   }, [isDeleteError, isDeleteSuccess, isDeleteLoading])
 
   const sensors = useSensors(
@@ -360,14 +359,14 @@ const DealsKanban = ({ boardId }: { boardId: string | null }) => {
   }
 
   return (
-    <div className='scrollbar-none w-auto overflow-x-scroll'>
+    <div>
       {boardId ? (
         <>
-          <div className='mb-4 flex w-full items-center justify-between'>
+          <div className='mb-4 flex max-w-full items-center justify-between'>
             <h1 className='text-xl font-medium'>
               {t('Current Board :')} {board.dealBoards[boardId]?.title}
             </h1>
-            <div className='flex items-center gap-2 '>
+            <div className='flex max-w-full items-center gap-2'>
               <Button
                 variant='outlined'
                 intent='error'
@@ -398,7 +397,7 @@ const DealsKanban = ({ boardId }: { boardId: string | null }) => {
             onDragEnd={handleDragEnd}
             onDragCancel={handleDragCancel}
           >
-            <div className='box-border inline-grid grid-flow-col gap-4'>
+            <div className='scrollbar-none box-border inline-grid max-w-full grid-flow-col gap-4 overflow-x-scroll'>
               <SortableContext items={board.columnsOrder} strategy={horizontalListSortingStrategy}>
                 {board.columnsOrder.map((columnId) => (
                   <KanbanColumn
@@ -455,7 +454,7 @@ const DealsKanban = ({ boardId }: { boardId: string | null }) => {
       )}
       <Dialog open={openDialog} title={t('Add New Section')}>
         <CreateEditColumnForm
-          // TODO: Add Edit Deal
+          // TODO: Edit Deal
           boardId={boardId || ''}
           currentColumn={null}
           isEdit={false}

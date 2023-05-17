@@ -23,7 +23,7 @@ export default function Details() {
   return (
     <Card
       fullWidth
-      className='rounded-tr-none rounded-br-none rounded-bl-none !border-gray-200 dark:!border-gray-700 dark:!bg-gray-900 md:col-span-2'
+      className='rounded-br-none rounded-bl-none !border-gray-200 ltr:rounded-tr-none rtl:rounded-tl-none dark:!border-gray-700 dark:!bg-gray-900 md:col-span-2'
       variant='outlined'
     >
       <TabsPrimitive.Root defaultValue='activity' dir={locale === 'ar' ? 'rtl' : 'ltr'}>

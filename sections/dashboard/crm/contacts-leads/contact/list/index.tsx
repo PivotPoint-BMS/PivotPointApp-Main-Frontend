@@ -53,7 +53,7 @@ export default function ContactsList() {
 
   const columns: TableColumn<Lead>[] = [
     {
-      name: 'Contact Name',
+      name: t('Contact Name'),
       cell: ({ fullName, picture }) => (
         <div className='flex items-center gap-2'>
           <div>
@@ -78,7 +78,7 @@ export default function ContactsList() {
       reorder: true,
     },
     {
-      name: 'Contact',
+      name: t('Contact'),
       cell: ({ email, phoneNumber }) => (
         <div className='flex flex-col gap-2 py-2'>
           <p className='hyphens  flex items-center gap-1 truncate'>
@@ -96,7 +96,7 @@ export default function ContactsList() {
       grow: 2,
     },
     {
-      name: 'Contact status',
+      name: t('Contact status'),
       cell: ({ leadStatus }) => {
         if (leadStatus === 0)
           return <Badge variant='ghost' intent='info' size='small' label={t('New')} />
@@ -114,14 +114,14 @@ export default function ContactsList() {
           return <Badge variant='ghost' intent='success' size='small' label={t('Success')} />
         if (leadStatus === 6)
           return <Badge variant='ghost' intent='error' size='small' label={t('Failure')} />
-        return <Badge variant='ghost' size='small' label='Closed' />
+        return <Badge variant='ghost' size='small' label={t('Closed')} />
       },
       sortable: true,
       reorder: true,
       grow: 1,
     },
     {
-      name: 'Contact Source',
+      name: t('Contact Source'),
       cell: ({ leadSource }) =>
         leadSource?.source ? (
           <Badge
@@ -132,7 +132,7 @@ export default function ContactsList() {
             className='capitalize'
           />
         ) : (
-          <Badge variant='ghost' intent='error' size='small' label='None' />
+          <Badge variant='ghost' intent='error' size='small' label={t('None')} />
         ),
       sortable: true,
       reorder: true,
@@ -165,12 +165,12 @@ export default function ContactsList() {
             items={[
               {
                 type: 'button',
-                label: 'Edit',
+                label: t('Edit'),
                 icon: <Iconify icon='material-symbols:edit' height={18} />,
               },
               {
                 type: 'button',
-                label: 'Delete',
+                label: t('Delete'),
                 icon: <Iconify icon='material-symbols:delete-rounded' height={18} />,
                 className: 'text-red-600',
               },

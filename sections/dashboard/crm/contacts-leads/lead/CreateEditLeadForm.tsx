@@ -39,11 +39,11 @@ import {
   LoadingIndicator,
   AutoComplete,
   Select as MySelect,
+  Slider,
 } from 'components'
 import { FormProvider, RHFTextField } from 'components/hook-form'
 import RHFUploadAvatar from 'components/hook-form/RHFUpload'
 import { PATH_DASHBOARD } from 'routes/paths'
-import Slider from 'components/Slider'
 
 export default function CreateEditLeadForm({
   isEdit,
@@ -278,7 +278,7 @@ export default function CreateEditLeadForm({
                     setValue('country', newValue?.value)
                     refetch()
                   }}
-                  // TODO Add country api
+                  // TODO: Add country api
                   // onCreateOption={(value) =>
                   //   setCoutriesList((prevState) => {
                   //     prevState.push({ label: value, value })

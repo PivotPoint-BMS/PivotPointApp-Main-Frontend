@@ -12,7 +12,10 @@ import useTranslate from 'hooks/useTranslate'
 import { Button } from 'components'
 import { FormProvider, RHFTextField } from 'components/hook-form'
 import useSnackbar from 'hooks/useSnackbar'
-import { useCreateDealBoardMutation } from 'store/api/crm/sales-pipeline/dealsBoardsApi'
+import {
+  invalidateTags,
+  useCreateDealBoardMutation,
+} from 'store/api/crm/sales-pipeline/dealsBoardsApi'
 
 export default function CreateEditBoardForm({
   currentBoard,
@@ -61,6 +64,7 @@ export default function CreateEditBoardForm({
     } = { title: data.title, defColumnTitle: data.defColumnTitle }
     // if (isEdit) editBoard({ data: board, id: currentBoard?.id || '' })
     createBoard(board)
+    invalidateTags(['DealsBoards'])
   }
 
   useEffect(() => {
