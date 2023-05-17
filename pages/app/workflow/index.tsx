@@ -29,10 +29,10 @@ import useTranslate from 'hooks/useTranslate'
 import Layout from 'layout/Index'
 // components
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs'
-import TriggerNode, { TriggerNodeData } from './TriggerNode'
-import ActionNode, { ActionNodeData } from './ActionNode'
 // sections
-import Sidebar from './SideBar'
+import WorkflowSidebar from 'sections/dashboard/workflow/WorkflowSidebar'
+import TriggerNode, { TriggerNodeData } from 'sections/dashboard/workflow/TriggerNode'
+import ActionNode, { ActionNodeData } from 'sections/dashboard/workflow/ActionNode'
 import 'reactflow/dist/style.css'
 
 const nodeTypes: NodeTypes = {
@@ -162,7 +162,7 @@ const index = () => {
                   <Controls />
                 </ReactFlow>
               </div>
-              <Sidebar />
+              <WorkflowSidebar />
             </ReactFlowProvider>
           </div>
         </div>

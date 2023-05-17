@@ -20,7 +20,7 @@ const ACTIONS: { name: string; icon: string }[] = [
   { name: 'Change Lead Status', icon: 'tabler:status-change' },
 ]
 
-export default function Sidebar() {
+export default function WorkflowSidebar() {
   const { t } = useTranslate()
   const onDragStart = (
     event: React.DragEvent<HTMLDivElement>,
