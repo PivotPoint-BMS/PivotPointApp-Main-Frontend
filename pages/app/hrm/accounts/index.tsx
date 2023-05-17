@@ -8,7 +8,7 @@ import { PATH_DASHBOARD } from 'routes/paths'
 // sections
 import AccountsList from 'sections/dashboard/hrm/accounts/list/AccountsList'
 // layout
-import Layout from 'layout'
+import Layout from 'layout/Index'
 // components
 import { Icon } from '@iconify/react'
 import { HeaderBreadcrumbs, Button, Card } from 'components'

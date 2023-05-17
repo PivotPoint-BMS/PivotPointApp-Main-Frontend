@@ -8,7 +8,7 @@ import useTranslate from 'hooks/useTranslate'
 // sections
 import QuickSetup from 'sections/dashboard/fm/quick-setup'
 // layout
-import Layout from 'layout'
+import Layout from 'layout/Index'
 // components
 import { AlertDialog } from 'components'
 

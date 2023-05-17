@@ -26,7 +26,7 @@ import ReactFlow, {
 import useResponsive from 'hooks/useResponsive'
 import useTranslate from 'hooks/useTranslate'
 // layout
-import Layout from 'layout'
+import Layout from 'layout/Index'
 // components
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs'
 import TriggerNode, { TriggerNodeData } from './TriggerNode'

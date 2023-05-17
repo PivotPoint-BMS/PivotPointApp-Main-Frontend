@@ -14,7 +14,7 @@ import useTranslate from 'hooks/useTranslate'
 import LoginForm from 'sections/auth/login/LoginForm'
 // components
 import { Logo } from 'components'
-import Layout from 'layout'
+import Layout from 'layout/Index'
 
 function Login() {
   const isDesktop = useResponsive('lg', 'up')

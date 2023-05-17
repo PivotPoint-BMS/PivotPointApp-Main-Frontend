@@ -4,7 +4,7 @@ import Head from 'next/head'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // layout
-import Layout from 'layout'
+import Layout from 'layout/Index'
 // components
 import { HeaderBreadcrumbs, Card, CardHeader, CardContent } from 'components'
 

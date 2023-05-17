@@ -8,7 +8,9 @@ import { useRouter } from 'next/router'
 import { wrapper } from 'store'
 // hooks
 import useTranslate from 'hooks/useTranslate'
-// Components
+// types
+import { NextLayoutComponentType } from 'types'
+// components
 import { NextProgressBar, SnackbarProvider } from 'components'
 // css
 import 'styles/globals.css'
@@ -16,7 +18,6 @@ import 'simplebar-react/dist/simplebar.min.css'
 import 'react-lazy-load-image-component/src/effects/blur.css'
 import 'react-lazy-load-image-component/src/effects/opacity.css'
 import 'react-lazy-load-image-component/src/effects/black-and-white.css'
-import { NextLayoutComponentType } from 'types'
 // import 'reactflow/dist/style.css'
 
 // function getDirection(locale: string) {

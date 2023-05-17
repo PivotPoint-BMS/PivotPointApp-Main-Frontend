@@ -8,7 +8,7 @@ import useTranslate from 'hooks/useTranslate'
 import { Card, CardHeader, CardContent } from 'components'
 import ReactApexChart, { BaseOptionChart } from 'components/chart'
 // layout
-import Layout from 'layout'
+import Layout from 'layout/Index'
 
 const CHART_DATA = [
   {

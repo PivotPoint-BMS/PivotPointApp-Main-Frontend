@@ -16,7 +16,7 @@ import noData from 'public/no-data.png'
 import GeneralInfo from 'sections/dashboard/crm/contacts-leads/contact/GeneralInfo'
 import Details from 'sections/dashboard/crm/contacts-leads/contact/Details'
 // layout
-import Layout from 'layout'
+import Layout from 'layout/Index'
 // components
 import { Image } from 'components'
 

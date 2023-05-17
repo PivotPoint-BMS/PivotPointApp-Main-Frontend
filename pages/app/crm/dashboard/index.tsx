@@ -14,7 +14,7 @@ import {
   TopCustomerComplaints,
 } from 'sections/dashboard/crm/dashbord'
 // layout
-import Layout from 'layout'
+import Layout from 'layout/Index'
 // components
 import { HeaderBreadcrumbs, Card, CardHeader, CardContent, LoadingIndicator } from 'components'
 import { Icon } from '@iconify/react'

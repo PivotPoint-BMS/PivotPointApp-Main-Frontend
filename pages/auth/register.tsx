@@ -11,7 +11,7 @@ import useTranslate from 'hooks/useTranslate'
 // sections
 import RegisterForm from 'sections/auth/Register'
 // layout
-import Layout from 'layout'
+import Layout from 'layout/Index'
 // components
 import { Logo } from 'components'
 
