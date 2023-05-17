@@ -25,6 +25,8 @@ import ReactFlow, {
 // hooks
 import useResponsive from 'hooks/useResponsive'
 import useTranslate from 'hooks/useTranslate'
+// layout
+import Layout from 'layout'
 // components
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs'
 import TriggerNode, { TriggerNodeData } from './TriggerNode'
@@ -173,6 +175,10 @@ const index = () => {
       )}
     </>
   )
+}
+
+index.getLayout = function getLayout(page: JSX.Element) {
+  return <Layout variant='dashboard'>{page}</Layout>
 }
 
 export default index

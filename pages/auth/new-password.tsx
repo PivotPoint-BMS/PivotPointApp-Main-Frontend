@@ -7,10 +7,12 @@ import useResponsive from 'hooks/useResponsive'
 import useTranslate from 'hooks/useTranslate'
 // sections
 import NewPasswordForm from 'sections/auth/new-password/NewPasswordForm'
+// layout
+import Layout from 'layout'
 // components
 import { Logo } from 'components'
 
-export default function NewPassword() {
+function NewPassword() {
   const isDesktop = useResponsive('lg', 'up')
   const { t } = useTranslate()
 
@@ -35,3 +37,8 @@ export default function NewPassword() {
     </>
   )
 }
+NewPassword.getLayout = function getLayout(page: JSX.Element) {
+  return <Layout variant='dashboard'>{page}</Layout>
+}
+
+export default NewPassword

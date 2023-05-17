@@ -10,6 +10,8 @@ import useTranslate from 'hooks/useTranslate'
 import { PATH_DASHBOARD } from 'routes/paths'
 // sections
 import UnassinedTickets from 'sections/dashboard/crm/customer-service/UnassinedTickets'
+// layout
+import Layout from 'layout'
 // components
 import { HeaderBreadcrumbs, Button } from 'components'
 import { Icon } from '@iconify/react'
@@ -21,7 +23,7 @@ const TABS = [
   { name: 'Archive', value: 'archive' },
 ]
 
-export default function index() {
+function index() {
   const { t, locale } = useTranslate()
   return (
     <>
@@ -65,3 +67,9 @@ export default function index() {
     </>
   )
 }
+
+index.getLayout = function getLayout(page: JSX.Element) {
+  return <Layout variant='dashboard'>{page}</Layout>
+}
+
+export default index

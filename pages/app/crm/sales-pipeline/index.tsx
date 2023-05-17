@@ -11,13 +11,15 @@ import { PATH_DASHBOARD } from 'routes/paths'
 // sections
 import DealsKanban from 'sections/dashboard/crm/sales-pipeline/DealsKanban'
 import CreateEditBoardForm from 'sections/dashboard/crm/sales-pipeline/CreateEditBoardForm'
+// layout
+import Layout from 'layout'
 // components
 import { Icon as Iconify } from '@iconify/react'
 import { HeaderBreadcrumbs, Button, Dialog } from 'components'
 import Select from 'components/Select'
 import { useRouter } from 'next/router'
 
-export default function index() {
+function index() {
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const { query, push, pathname } = useRouter()
@@ -98,3 +100,9 @@ export default function index() {
     </>
   )
 }
+
+index.getLayout = function getLayout(page: JSX.Element) {
+  return <Layout variant='dashboard'>{page}</Layout>
+}
+
+export default index

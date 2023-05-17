@@ -3,10 +3,12 @@ import React from 'react'
 import Head from 'next/head'
 // hooks
 import useTranslate from 'hooks/useTranslate'
+// layout
+import Layout from 'layout'
 // components
 import { HeaderBreadcrumbs, Card, CardHeader, CardContent } from 'components'
 
-export default function index() {
+function index() {
   const { t } = useTranslate()
   return (
     <>
@@ -39,3 +41,8 @@ export default function index() {
     </>
   )
 }
+index.getLayout = function getLayout(page: JSX.Element) {
+  return <Layout variant='dashboard'>{page}</Layout>
+}
+
+export default index

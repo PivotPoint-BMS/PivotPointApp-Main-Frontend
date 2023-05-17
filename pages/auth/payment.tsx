@@ -15,6 +15,8 @@ import { useAppSelector } from 'store/hooks'
 import { useCheckPaymentQuery } from 'store/api/auth/paymentApi'
 // sections
 import CompletePayment from 'sections/auth/company-setup/CompletePayment'
+// layout
+import Layout from 'layout'
 // components
 import { Icon as Iconify } from '@iconify/react'
 // pages
@@ -27,7 +29,7 @@ const Tabs = [
   { name: 'Complete Payment', value: '4' },
 ]
 
-export default function Payment() {
+function index() {
   const { push, reload } = useRouter()
   const isDesktop = useResponsive('md', 'up')
   const { isLoading, isSuccess } = useCheckPaymentQuery()
@@ -115,3 +117,8 @@ export default function Payment() {
     </>
   )
 }
+index.getLayout = function getLayout(page: JSX.Element) {
+  return <Layout variant='dashboard'>{page}</Layout>
+}
+
+export default index

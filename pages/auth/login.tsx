@@ -14,8 +14,9 @@ import useTranslate from 'hooks/useTranslate'
 import LoginForm from 'sections/auth/login/LoginForm'
 // components
 import { Logo } from 'components'
+import Layout from 'layout'
 
-export default function Login() {
+function Login() {
   const isDesktop = useResponsive('lg', 'up')
   const { t } = useTranslate()
   const { push, pathname } = useRouter()
@@ -56,3 +57,9 @@ export default function Login() {
     </>
   )
 }
+
+Login.getLayout = function getLayout(page: JSX.Element) {
+  return <Layout variant='logoOnly'>{page}</Layout>
+}
+
+export default Login

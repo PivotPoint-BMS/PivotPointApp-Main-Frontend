@@ -7,11 +7,13 @@ import useTranslate from 'hooks/useTranslate'
 import { PATH_DASHBOARD } from 'routes/paths'
 // sections
 import AccountsList from 'sections/dashboard/hrm/accounts/list/AccountsList'
+// layout
+import Layout from 'layout'
 // components
 import { Icon } from '@iconify/react'
 import { HeaderBreadcrumbs, Button, Card } from 'components'
 
-export default function index() {
+function index() {
   const { t } = useTranslate()
   return (
     <>
@@ -39,3 +41,8 @@ export default function index() {
     </>
   )
 }
+index.getLayout = function getLayout(page: JSX.Element) {
+  return <Layout variant='dashboard'>{page}</Layout>
+}
+
+export default index

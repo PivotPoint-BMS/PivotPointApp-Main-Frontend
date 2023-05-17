@@ -8,8 +8,6 @@ import { useRouter } from 'next/router'
 import { wrapper } from 'store'
 // hooks
 import useTranslate from 'hooks/useTranslate'
-// layout
-import Layout from 'layout/Index'
 // Components
 import { NextProgressBar, SnackbarProvider } from 'components'
 // css
@@ -18,6 +16,7 @@ import 'simplebar-react/dist/simplebar.min.css'
 import 'react-lazy-load-image-component/src/effects/blur.css'
 import 'react-lazy-load-image-component/src/effects/opacity.css'
 import 'react-lazy-load-image-component/src/effects/black-and-white.css'
+import { NextLayoutComponentType } from 'types'
 // import 'reactflow/dist/style.css'
 
 // function getDirection(locale: string) {
@@ -27,7 +26,11 @@ import 'react-lazy-load-image-component/src/effects/black-and-white.css'
 
 //   return 'ltr'
 // }
-function MyApp({ Component, pageProps }: AppProps) {
+
+function MyApp({
+  Component,
+  pageProps,
+}: Omit<AppProps, 'Component'> & { Component: NextLayoutComponentType }) {
   const router = useRouter()
   const { t, locale } = useTranslate()
 
@@ -40,6 +43,8 @@ function MyApp({ Component, pageProps }: AppProps) {
         body.dir = 'ltr'
       }
   }, [locale])
+
+  const getLayout = Component.getLayout ?? ((page) => page)
 
   if (router.route === '/404') return <Component {...pageProps} />
 
@@ -68,18 +73,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ThemeProvider attribute='class'>
         <SnackbarProvider>
           <NextProgressBar />
-          <Layout
-            variant={
-              // eslint-disable-next-line no-nested-ternary
-              router.route.includes('app')
-                ? 'dashboard'
-                : router.route.includes('auth')
-                ? 'main'
-                : 'logoOnly'
-            }
-          >
-            <Component {...pageProps} />
-          </Layout>
+          {getLayout(<Component {...pageProps} />)}
         </SnackbarProvider>
       </ThemeProvider>
     </>

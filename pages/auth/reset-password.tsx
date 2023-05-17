@@ -6,10 +6,12 @@ import useResponsive from 'hooks/useResponsive'
 import useTranslate from 'hooks/useTranslate'
 // sections
 import ResetPasswordForm from 'sections/auth/reset-password/ResetPasswordForm'
+// layout
+import Layout from 'layout'
 // components
 import { Logo } from 'components'
 
-export default function ResetPassword() {
+function index() {
   const isDesktop = useResponsive('lg', 'up')
   const { t } = useTranslate()
 
@@ -33,3 +35,8 @@ export default function ResetPassword() {
     </>
   )
 }
+index.getLayout = function getLayout(page: JSX.Element) {
+  return <Layout variant='dashboard'>{page}</Layout>
+}
+
+export default index

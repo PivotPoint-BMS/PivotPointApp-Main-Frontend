@@ -14,6 +14,8 @@ import { PATH_DASHBOARD } from 'routes/paths'
 import ContactsList from 'sections/dashboard/crm/contacts-leads/contact/list'
 import LeadsList from 'sections/dashboard/crm/contacts-leads/lead/list'
 import LeadSourcesList from 'sections/dashboard/crm/contacts-leads/lead-sources/list'
+// layout
+import Layout from 'layout'
 // components
 import { Icon as Iconify } from '@iconify/react'
 import { HeaderBreadcrumbs, Card, Button } from 'components'
@@ -24,7 +26,7 @@ const TABS = [
   { name: 'Leads Sources', value: 'sources', icon: 'mdi:person-tie' },
 ]
 
-export default function index() {
+function index() {
   const { t, locale } = useTranslate()
   const { push, pathname, query } = useRouter()
   const [tab, setTab] = useState(query?.tab ? (query?.tab as string) : 'contacts')
@@ -106,3 +108,9 @@ export default function index() {
     </>
   )
 }
+
+index.getLayout = function getLayout(page: JSX.Element) {
+  return <Layout variant='dashboard'>{page}</Layout>
+}
+
+export default index

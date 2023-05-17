@@ -1,4 +1,3 @@
-import type { NextPage } from 'next'
 import Head from 'next/head'
 // utils
 import { merge } from 'lodash'
@@ -8,6 +7,8 @@ import useTranslate from 'hooks/useTranslate'
 // components
 import { Card, CardHeader, CardContent } from 'components'
 import ReactApexChart, { BaseOptionChart } from 'components/chart'
+// layout
+import Layout from 'layout'
 
 const CHART_DATA = [
   {
@@ -26,7 +27,7 @@ const CHART_DATA = [
     data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
   },
 ]
-const Home: NextPage = () => {
+function Home() {
   const { t } = useTranslate()
 
   const chartOptions = merge(BaseOptionChart(), {
@@ -148,4 +149,9 @@ const Home: NextPage = () => {
     </>
   )
 }
+
+Home.getLayout = function getLayout(page: JSX.Element) {
+  return <Layout variant='dashboard'>{page}</Layout>
+}
+
 export default Home

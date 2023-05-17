@@ -15,10 +15,12 @@ import noData from 'public/no-data.png'
 // sections
 import GeneralInfo from 'sections/dashboard/crm/contacts-leads/contact/GeneralInfo'
 import Details from 'sections/dashboard/crm/contacts-leads/contact/Details'
+// layout
+import Layout from 'layout'
 // components
 import { Image } from 'components'
 
-export default function index() {
+function index() {
   const { t } = useTranslate()
   const {
     query: { id },
@@ -51,6 +53,12 @@ export default function index() {
     </>
   )
 }
+
+index.getLayout = function getLayout(page: JSX.Element) {
+  return <Layout variant='dashboard'>{page}</Layout>
+}
+
+export default index
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) =>

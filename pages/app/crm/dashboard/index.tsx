@@ -13,11 +13,13 @@ import {
   Conversions,
   TopCustomerComplaints,
 } from 'sections/dashboard/crm/dashbord'
+// layout
+import Layout from 'layout'
 // components
 import { HeaderBreadcrumbs, Card, CardHeader, CardContent, LoadingIndicator } from 'components'
 import { Icon } from '@iconify/react'
 
-export default function Dashboard() {
+function Dashboard() {
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const { data, isError, isLoading, isSuccess, isFetching } = useGetCrmStatsQuery(undefined, {
@@ -155,3 +157,9 @@ export default function Dashboard() {
     </>
   )
 }
+
+Dashboard.getLayout = function getLayout(page: JSX.Element) {
+  return <Layout variant='dashboard'>{page}</Layout>
+}
+
+export default Dashboard
