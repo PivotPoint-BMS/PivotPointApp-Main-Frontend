@@ -74,9 +74,9 @@ const dropAnimation: DropAnimation = {
 const DealsKanban = ({ boardId }: { boardId: string | null }) => {
   const { t } = useTranslate()
   const { open } = useSnackbar()
-  const { isFallback, push, pathname, query } = useRouter()
+  const { isFallback, push, pathname } = useRouter()
   const { data, isError, isLoading, isSuccess, isFetching } = useGetDealBoardQuery(
-    query.boardId ? (query.boardId as string) : skipToken,
+    boardId && boardId.length > 0 ? boardId : skipToken,
     {
       refetchOnMountOrArgChange: true,
       skip: isFallback,

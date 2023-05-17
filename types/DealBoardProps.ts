@@ -18,5 +18,5 @@ export default interface DealBoardProps {
   columns: { [key: UniqueIdentifier]: DealBoardColumnProps }
   columnsOrder: UniqueIdentifier[]
   deals: { [key: UniqueIdentifier]: Deal }
-  dealBoards: DealBoard[]
+  dealBoards: { [key: string]: DealBoard }
 }
