@@ -5,9 +5,10 @@ import { PATH_DASHBOARD } from 'routes/paths'
 
 export interface NavItemConfig {
   name: string
+  root: string
   href: string
   icon: string
-  subItems?: {
+  subItems: {
     name: string
     href: string
     icon: string
@@ -29,7 +30,8 @@ const initialState: SideBarConfig = {
   items: [
     {
       name: 'Customer Relationship',
-      href: PATH_DASHBOARD.crm.root,
+      root: PATH_DASHBOARD.crm.root,
+      href: PATH_DASHBOARD.crm.dashboard,
       icon: 'fa6-solid:handshake',
       subItems: [
         {
@@ -70,7 +72,8 @@ const initialState: SideBarConfig = {
     },
     {
       name: 'Supply Chain',
-      href: PATH_DASHBOARD.scm.root,
+      root: PATH_DASHBOARD.scm.root,
+      href: PATH_DASHBOARD.scm.dashboard,
       icon: 'fa6-solid:truck-ramp-box',
       subItems: [
         {
@@ -139,7 +142,8 @@ const initialState: SideBarConfig = {
     },
     {
       name: 'Human Resource',
-      href: PATH_DASHBOARD.hrm.root,
+      root: PATH_DASHBOARD.hrm.root,
+      href: PATH_DASHBOARD.hrm.dashboard,
       icon: 'mdi:account-group',
       subItems: [
         {
@@ -180,7 +184,8 @@ const initialState: SideBarConfig = {
     },
     {
       name: 'Finance',
-      href: PATH_DASHBOARD.fm.root,
+      root: PATH_DASHBOARD.fm.root,
+      href: PATH_DASHBOARD.fm.dashboard,
       icon: 'fa-solid:money-check-alt',
       subItems: [
         {
@@ -249,7 +254,8 @@ const initialState: SideBarConfig = {
     },
     {
       name: 'Projects',
-      href: PATH_DASHBOARD.pm.root,
+      root: PATH_DASHBOARD.pm.root,
+      href: PATH_DASHBOARD.pm.dashboard,
       icon: 'bi:kanban-fill',
       subItems: [
         {
@@ -291,8 +297,10 @@ const initialState: SideBarConfig = {
     },
     {
       name: 'Workflow',
+      root: PATH_DASHBOARD.workflow.root,
       href: PATH_DASHBOARD.workflow.root,
       icon: 'ph:tree-structure-fill',
+      subItems: [],
     },
   ],
   isOpen: false,

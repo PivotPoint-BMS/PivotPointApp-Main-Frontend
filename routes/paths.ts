@@ -41,7 +41,7 @@ export const PATH_DASHBOARD = {
     root: path(ROOTS_APP, '/'),
   },
   crm: {
-    root: path(ROOTS_APP, '/crm/dashboard'),
+    root: path(ROOTS_APP, '/crm'),
     dashboard: path(ROOTS_APP, '/crm/dashboard'),
     'contacts-leads': {
       root: path(ROOTS_APP, '/crm/contacts-leads'),
@@ -59,7 +59,7 @@ export const PATH_DASHBOARD = {
     workflow: path(ROOTS_APP, '/crm/workflow'),
   },
   fm: {
-    root: path(ROOTS_APP, '/fm/dashboard'),
+    root: path(ROOTS_APP, '/fm'),
     dashboard: path(ROOTS_APP, '/fm/dashboard'),
     assets: path(ROOTS_APP, '/fm/assets'),
     cash: path(ROOTS_APP, '/fm/cash'),
@@ -69,7 +69,7 @@ export const PATH_DASHBOARD = {
     tax: path(ROOTS_APP, '/fm/tax'),
   },
   hrm: {
-    root: path(ROOTS_APP, '/hrm/dashboard'),
+    root: path(ROOTS_APP, '/hrm'),
     dashboard: path(ROOTS_APP, '/hrm/dashboard'),
     payroll: path(ROOTS_APP, '/hrm/payroll'),
     accounts: path(ROOTS_APP, '/hrm/accounts'),
@@ -79,14 +79,14 @@ export const PATH_DASHBOARD = {
     benefits: path(ROOTS_APP, '/hrm/benefits'),
   },
   pm: {
-    root: path(ROOTS_APP, '/pm/dashboard'),
+    root: path(ROOTS_APP, '/pm'),
     dashboard: path(ROOTS_APP, '/pm/dashboard'),
     pipelines: path(ROOTS_APP, '/pm/pipelines'),
     planning: path(ROOTS_APP, '/pm/planning'),
     tracking: path(ROOTS_APP, '/pm/tracking'),
   },
   scm: {
-    root: path(ROOTS_APP, '/scm/dashboard'),
+    root: path(ROOTS_APP, '/scm'),
     dashboard: path(ROOTS_APP, '/scm/dashboard'),
     monitoring: path(ROOTS_APP, '/scm/monitoring'),
     'product-service': path(ROOTS_APP, '/scm/product-service'),
