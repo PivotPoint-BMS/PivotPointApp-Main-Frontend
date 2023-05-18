@@ -61,6 +61,7 @@ const initialState: SideBarConfig = {
           name: 'Customer Service',
           href: PATH_DASHBOARD.crm['customer-service'],
           icon: 'ri:customer-service-2-fill',
+          disabled: true,
           badge: {
             label: 'Soon',
           },
