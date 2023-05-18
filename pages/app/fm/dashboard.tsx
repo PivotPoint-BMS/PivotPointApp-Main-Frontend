@@ -28,7 +28,7 @@ function index() {
       </div>
       <AlertDialog
         open={openQuickSetupAlert}
-        title={t('Processeding To Finance Setup')}
+        title={t('Proceeding  To Finance Setup')}
         description={
           <p className='py-2 text-sm'>
             {t(

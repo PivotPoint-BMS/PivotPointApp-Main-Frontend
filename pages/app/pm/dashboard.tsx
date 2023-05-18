@@ -1,7 +1,9 @@
 import Head from 'next/head'
 import React from 'react'
+// layout
+import Layout from 'layout/Index'
 
-export default function index() {
+function index() {
   return (
     <>
       <Head>
@@ -13,3 +15,8 @@ export default function index() {
     </>
   )
 }
+index.getLayout = function getLayout(page: JSX.Element) {
+  return <Layout variant='dashboard'>{page}</Layout>
+}
+
+export default index
