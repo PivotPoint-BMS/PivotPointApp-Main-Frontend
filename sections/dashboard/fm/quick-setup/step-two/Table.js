@@ -64,20 +64,19 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
     useSortBy
   )
 
-  // useEffect(() => {
-  //   console.log(data)
-  // }, [data, columns])
-
   return (
     <>
       <div className='flex w-full justify-center overflow-x-scroll'>
-        <div className='container min-w-fit max-w-full rounded-lg rounded-r-none border border-b-0'>
+        <div className='container min-w-fit max-w-full rounded-lg border border-b-0'>
           <table {...getTableProps()} className='w-full'>
             <thead className='overflow-x-scroll'>
               {headerGroups.map((headerGroup) => (
                 <tr {...headerGroup.getHeaderGroupProps()} className='divide-x'>
                   {headerGroup.headers.map((column) => (
-                    <th {...column.getHeaderProps()} className='border-b bg-gray-100'>
+                    <th
+                      {...column.getHeaderProps()}
+                      className='border-b bg-gray-100 dark:bg-paper-dark'
+                    >
                       {column.render('Header')}
                     </th>
                   ))}
@@ -99,7 +98,7 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
                   </tr>
                 )
               })}
-              <tr className='flex divide-x border-b bg-gray-100 last-of-type:border-b-0 dark:bg-paper-dark-contrast'>
+              <tr className='flex divide-x border-b bg-primary-100/40 last-of-type:border-b-0 dark:bg-primary-900'>
                 <td className='text flex-1 p-2 px-5 text-center font-medium'>
                   {t('Total HT Annual')}
                 </td>
@@ -113,20 +112,12 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
             variant='outlined'
             startIcon={<Icon icon='ic:round-add' />}
             intent='default'
-            className='w-full !justify-start rounded-t-none rounded-r-none '
+            className='w-full !justify-start rounded-t-none '
             onClick={() => dataDispatch({ type: 'add_row' })}
           >
             {t('New Row')}
           </Button>
         </div>
-        <Button
-          variant='outlined'
-          intent='default'
-          className='rounded-l-none'
-          onClick={() => dataDispatch({ type: 'add_year' })}
-        >
-          <Icon icon='ic:round-add' />
-        </Button>
       </div>
     </>
   )

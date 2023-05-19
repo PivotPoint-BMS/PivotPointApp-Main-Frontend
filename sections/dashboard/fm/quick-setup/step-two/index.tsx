@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { useReducer } from 'react'
+import { useEffect, useReducer } from 'react'
 import clsx from 'clsx'
 // hooks
 import useTranslate from 'hooks/useTranslate'
@@ -46,21 +46,6 @@ function reducer(
           return row
         }),
       }
-    case 'add_year':
-      const index = state.columns.length.toString()
-      return {
-        ...state,
-        columns: [
-          ...state.columns,
-          {
-            id: index,
-            label: `Year ${index}`,
-            accessor: index,
-            dataType: 'number',
-            placeholder: 'Enter the amount',
-          },
-        ],
-      }
     default:
       return state
   }
@@ -69,13 +54,20 @@ function reducer(
 function StepTwo({
   handleNextStep,
   handleBack,
+  estimationRange,
 }: {
   handleNextStep: () => void
   handleBack: () => void
+  estimationRange: number
 }) {
   const { t, locale } = useTranslate()
   const { open } = useSnackbar()
-  const [state, dispatch] = useReducer(reducer, makeData(1))
+  const [state, dispatch] = useReducer(reducer, makeData(estimationRange))
+
+  useEffect(() => {
+    console.log(estimationRange)
+  }, [])
+
   return (
     <div className='container relative mx-auto flex h-full flex-col items-center justify-start gap-5 overflow-scroll py-10 px-4'>
       <h1 className='text-center text-2xl font-semibold'>{t('Business Turnover')}</h1>
@@ -97,14 +89,7 @@ function StepTwo({
 
       <Button
         onClick={() => {
-          console.log(state.data)
-          if (
-            state.data.length > 0 &&
-            state.data[state.data.length - 1].Am !== '' &&
-            state.data[state.data.length - 1].NOFC !== '' &&
-            state.data[state.data.length - 1].Prc !== ''
-          )
-            handleNextStep()
+          if (state.data.length > 0) handleNextStep()
           else
             open({
               autoHideDuration: 10000,

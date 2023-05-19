@@ -19,7 +19,7 @@ const Checkbox = forwardRef<
         <Iconify icon='fluent-mdl2:radio-bullet' className='radio-checked h-5 w-5 self-center' />
       </span>
     </label>
-    {label && <label>{label}</label>}
+    {label && <label >{label}</label>}
   </div>
 ))
 
