@@ -17,7 +17,7 @@ export default function SnackbarProvider({
             'fixed bottom-0 left-0 z-[9999] ml-5 mb-5 flex flex-col-reverse flex-wrap items-start justify-center gap-4'
           )}
         >
-          {snackbars.map(({ id, autoHideDuration, message, type, variant }) => (
+          {snackbars.map(({ id, autoHideDuration, message, type, variant, closeButton }) => (
             <Snackbar
               key={`snackbar-${id}`}
               id={id}
@@ -25,6 +25,7 @@ export default function SnackbarProvider({
               autoHideDuration={autoHideDuration}
               type={type}
               variant={variant}
+              closeButton={closeButton}
             />
           ))}
         </div>

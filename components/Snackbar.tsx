@@ -6,7 +6,9 @@ import useSnackbar from 'hooks/useSnackbar'
 // types
 import { SnackbarOptions } from 'types'
 // components
+import { Icon } from '@iconify/react'
 import Alert from './Alert'
+import IconButton from './IconButton'
 
 export interface SnackbarProps extends SnackbarOptions, React.HTMLAttributes<HTMLDivElement> {
   id: string
@@ -18,6 +20,7 @@ export default function Snackbar({
   autoHideDuration = 4000,
   type,
   variant,
+  closeButton,
 }: SnackbarProps) {
   const { close } = useSnackbar()
   const [opened, setOpened] = useState(true)
@@ -47,6 +50,11 @@ export default function Snackbar({
     >
       <Alert variant={variant} intent={type}>
         <span className='text-[0.9rem]'>{message}</span>
+        {closeButton && (
+          <IconButton onClick={() => close(id)} className='text-current hover:!bg-white/20'>
+            <Icon icon='ic:round-close' />
+          </IconButton>
+        )}
       </Alert>
     </motion.div>
   )

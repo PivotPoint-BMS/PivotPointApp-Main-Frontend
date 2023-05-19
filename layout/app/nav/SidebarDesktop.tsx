@@ -26,7 +26,9 @@ import SubNavItemTwo from './SubNavItemTwo'
 
 const getSubItems = (items: NavItemConfig[], path: string) => {
   const activePath = path.split('/')[2]
-  const activeItem = items.filter((item) => item.href === `${PATH_DASHBOARD.root}/${activePath}`)
+  console.log('Active__', `${PATH_DASHBOARD.root}/${activePath}`)
+
+  const activeItem = items.filter((item) => item.root === `${PATH_DASHBOARD.root}/${activePath}`)
 
   if (!activeItem[0]) return null
   return activeItem[0].subItems

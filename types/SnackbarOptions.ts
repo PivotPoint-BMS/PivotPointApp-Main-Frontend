@@ -4,4 +4,5 @@ export default interface SnackbarOptions {
   type?: 'error' | 'warning' | 'success' | 'info'
   autoHideDuration?: number
   variant?: 'contained' | 'outlined'
+  closeButton?: boolean
 }

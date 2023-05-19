@@ -12,7 +12,7 @@ import { PATH_DASHBOARD } from 'routes/paths'
 import DealsKanban from 'sections/dashboard/crm/sales-pipeline/DealsKanban'
 import CreateEditBoardForm from 'sections/dashboard/crm/sales-pipeline/CreateEditBoardForm'
 // layout
-import Layout from 'layout'
+import Layout from 'layout/Index'
 // components
 import { Icon as Iconify } from '@iconify/react'
 import { HeaderBreadcrumbs, Button, Dialog } from 'components'

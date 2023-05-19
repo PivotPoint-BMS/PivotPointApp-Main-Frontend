@@ -16,7 +16,7 @@ import { useCheckPaymentQuery } from 'store/api/auth/paymentApi'
 // sections
 import CompletePayment from 'sections/auth/company-setup/CompletePayment'
 // layout
-import Layout from 'layout'
+import Layout from 'layout/Index'
 // components
 import { Icon as Iconify } from '@iconify/react'
 // pages

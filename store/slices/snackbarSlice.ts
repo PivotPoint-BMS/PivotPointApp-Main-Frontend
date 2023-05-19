@@ -33,6 +33,7 @@ const snackbarSlice = createSlice({
         type: action.payload.type,
         autoHideDuration: action.payload.autoHideDuration,
         variant: action.payload.variant,
+        closeButton: action.payload.closeButton,
       })
     },
     closeSnackbar: (state, action: PayloadAction<string>) => {

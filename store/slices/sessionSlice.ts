@@ -18,7 +18,7 @@ const initialState: Session = {
   isAuthenticated: false,
   token: null,
   refreshToken: getItem('refreshToken') as string,
-  isLoading: false,
+  isLoading: true,
   error: null,
 }
 
@@ -28,6 +28,9 @@ const sessionSlice = createSlice({
   reducers: {
     startLoading: (state) => {
       state.isLoading = true
+    },
+    stopLoading: (state) => {
+      state.isLoading = false
     },
     setUser: (state, action: PayloadAction<SessionUser>) => {
       setItem('refreshToken', action.payload.refreshToken)
@@ -56,6 +59,6 @@ const sessionSlice = createSlice({
   },
 })
 
-export const { startLoading, setUser, setError, logout } = sessionSlice.actions
+export const { startLoading, stopLoading, setUser, setError, logout } = sessionSlice.actions
 
 export default sessionSlice

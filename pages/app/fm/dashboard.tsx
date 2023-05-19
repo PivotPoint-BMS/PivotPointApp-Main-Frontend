@@ -8,7 +8,7 @@ import useTranslate from 'hooks/useTranslate'
 // sections
 import QuickSetup from 'sections/dashboard/fm/quick-setup'
 // layout
-import Layout from 'layout'
+import Layout from 'layout/Index'
 // components
 import { AlertDialog } from 'components'
 
@@ -28,7 +28,7 @@ function index() {
       </div>
       <AlertDialog
         open={openQuickSetupAlert}
-        title={t('Processeding To Finance Setup')}
+        title={t('Proceeding  To Finance Setup')}
         description={
           <p className='py-2 text-sm'>
             {t(

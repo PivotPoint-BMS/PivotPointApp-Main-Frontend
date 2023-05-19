@@ -19,6 +19,14 @@
       "components/*": ["components/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "prettier.config.js"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "prettier.config.js",
+    "sections/dashboard/fm/quick-setup/step-one/Table.js",
+    "sections/dashboard/fm/quick-setup/step-one/Cell.js",
+    "sections/dashboard/fm/quick-setup/step-two/Table.js"
+  ],
   "exclude": ["node_modules"]
 }

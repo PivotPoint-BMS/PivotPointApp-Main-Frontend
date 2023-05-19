@@ -7,7 +7,7 @@ import useTranslate from 'hooks/useTranslate'
 // sections
 import ResetPasswordForm from 'sections/auth/reset-password/ResetPasswordForm'
 // layout
-import Layout from 'layout'
+import Layout from 'layout/Index'
 // components
 import { Logo } from 'components'
 

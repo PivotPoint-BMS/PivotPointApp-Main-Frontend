@@ -34,7 +34,9 @@ export const dealsBoardsApi = createApi({
     getDealBoards: builder.query<DealBoard[], void>({
       query: () => 'DealBoards',
       providesTags: ['DealsBoards'],
-      transformResponse: (response: IGenericResponse<DealBoardProps>) => response.data.dealBoards,
+      transformResponse: (response: IGenericResponse<DealBoardResponse>) =>
+        response.data.dealBoards,
+
     }),
     getDealBoard: builder.query<
       Omit<DealBoardProps, 'dealBoards'> & { dealBoards: { [key: string]: DealBoard } },

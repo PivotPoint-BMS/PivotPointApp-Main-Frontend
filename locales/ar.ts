@@ -359,5 +359,13 @@ const ar: { [key: string]: string } = {
   Account: 'الحساب',
   Notifications: 'الإشعارات',
   'Company Settings': 'إعدادات الشركة',
+  'Proceeding  To Finance Setup': 'الشروع في الإعداد',
+  "Let's get started! Complete the quick setup by providing some essential finance information.":
+    'هيا بنا نبدأ! أكمل الإعداد السريع من خلال توفير بعض المعلومات المالية الأساسية.',
+  'Go to setup': 'انتقل إلى الإعداد',
+  'Step 1': 'الخطوة 1',
+  'Step 2': 'الخطوة 2',
+  'Step 3': 'الخطوة 3',
+  'Step 4': 'الخطوة 4',
 }
 export default ar

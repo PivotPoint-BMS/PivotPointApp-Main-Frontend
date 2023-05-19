@@ -7,7 +7,7 @@ import { PATH_DASHBOARD } from 'routes/paths'
 // sections
 import CreateEditLeadForm from 'sections/dashboard/crm/contacts-leads/lead/CreateEditLeadForm'
 // layout
-import Layout from 'layout'
+import Layout from 'layout/Index'
 // components
 import { HeaderBreadcrumbs } from 'components'
 

@@ -11,7 +11,7 @@ import { PATH_DASHBOARD } from 'routes/paths'
 // sections
 import UnassinedTickets from 'sections/dashboard/crm/customer-service/UnassinedTickets'
 // layout
-import Layout from 'layout'
+import Layout from 'layout/Index'
 // components
 import { HeaderBreadcrumbs, Button } from 'components'
 import { Icon } from '@iconify/react'

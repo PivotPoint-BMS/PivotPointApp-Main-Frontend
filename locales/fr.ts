@@ -362,5 +362,13 @@ const fr: { [key: string]: string } = {
   Account: 'Compte',
   Notifications: 'Notifications',
   'Company Settings': "Paramètres de l'entreprise",
+  'Processeding To Finance Setup': 'Procéder à la configuration des finances',
+  "Let's get started! Complete the quick setup by providing some essential finance information.":
+    'Commençons! Complétez la configuration rapide en fournissant quelques informations financières essentielles.',
+  'Go to setup': 'Aller à la configuration',
+  'Step 1': 'Étape 1',
+  'Step 2': 'Étape 2',
+  'Step 3': 'Étape 3',
+  'Step 4': 'Étape 4',
 }
 export default fr

@@ -362,5 +362,13 @@ const en: { [key: string]: string } = {
   Account: 'Account',
   Notifications: 'Notifications',
   'Company Settings': 'Company Settings',
+  'Proceeding  To Finance Setup': 'Proceeding  To Finance Setup',
+  "Let's get started! Complete the quick setup by providing some essential finance information.":
+    "Let's get started! Complete the quick setup by providing some essential finance information.",
+  'Go to setup': 'Go to setup',
+  'Step 1': 'Step 1',
+  'Step 2': 'Step 2',
+  'Step 3': 'Step 3',
+  'Step 4': 'Step 4',
 }
 export default en

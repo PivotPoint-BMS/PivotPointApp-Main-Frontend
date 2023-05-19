@@ -8,7 +8,7 @@ import useTranslate from 'hooks/useTranslate'
 // sections
 import NewPasswordForm from 'sections/auth/new-password/NewPasswordForm'
 // layout
-import Layout from 'layout'
+import Layout from 'layout/Index'
 // components
 import { Logo } from 'components'
 

@@ -15,7 +15,7 @@ import ContactsList from 'sections/dashboard/crm/contacts-leads/contact/list'
 import LeadsList from 'sections/dashboard/crm/contacts-leads/lead/list'
 import LeadSourcesList from 'sections/dashboard/crm/contacts-leads/lead-sources/list'
 // layout
-import Layout from 'layout'
+import Layout from 'layout/Index'
 // components
 import { Icon as Iconify } from '@iconify/react'
 import { HeaderBreadcrumbs, Card, Button } from 'components'
