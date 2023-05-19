@@ -64,7 +64,7 @@ export default function CreateEditColumnForm({
     } = { columnTitle: data.columnTitle, boardId }
     // if (isEdit) editColumn({ data: board, id: currentColumn?.id || '' })
     createColumn(column)
-    invalidateTags(['DealBoard'])
+    invalidateTags(['DealsBoards'])
   }
 
   useEffect(() => {
