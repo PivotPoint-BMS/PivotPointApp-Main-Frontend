@@ -73,16 +73,15 @@ body {
 .rdt_Table {
   @apply dark:!bg-paper-dark;
 }
+
 .rdt_Table .rdt_TableHead {
-  @apply bg-gray-100 text-right dark:text-white;
+  @apply bg-gray-100 text-right dark:!bg-paper-dark-contrast dark:text-white;
 }
 
 .rdt_Table .rdt_TableHeadRow {
-  @apply border-none  bg-transparent  text-sm dark:bg-paper-dark-contrast;
+  @apply border-none  bg-transparent  text-sm dark:!bg-paper-dark-contrast;
 }
 
-.rdt_Table .rdt_TableBody {
-}
 .rdt_Table .rdt_TableRow {
   @apply !border-b-0 bg-transparent text-rich-black hover:border-0 hover:bg-gray-100 hover:outline-none dark:text-white dark:hover:bg-paper-hover-dark;
 }
@@ -103,7 +102,7 @@ body {
   display: none; /* Chrome, Safari, and Opera */
 }
 
-/* Customize the label (the container) */
+/* Checkbox */
 .checkbox-container {
   @apply relative block h-6 w-6 cursor-pointer  select-none text-xl;
 }
@@ -132,6 +131,25 @@ body {
 
 .checkbox-container input:indeterminate ~ .checkbox-checkmark .checkbox-checked {
   @apply hidden;
+}
+
+/* Radio */
+.radio-container {
+  @apply relative block h-5 w-5 cursor-pointer  select-none text-xl;
+}
+
+.radio-container input {
+  @apply absolute h-0 w-0
+  cursor-pointer opacity-0;
+}
+
+.radio-checkmark {
+  @apply absolute top-0 right-0 flex h-5 w-5 items-center justify-center rounded-full
+    border  text-transparent dark:bg-transparent;
+}
+
+.radio-container input:checked ~ .radio-checkmark {
+  @apply border-none bg-primary-600 text-white;
 }
 
 /* Rich Text Editor */

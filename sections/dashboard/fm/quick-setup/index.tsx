@@ -10,6 +10,9 @@ import useResponsive from 'hooks/useResponsive'
 import useTranslate from 'hooks/useTranslate'
 // components
 import { Icon } from '@iconify/react'
+// sections
+import StepOne from './step-one'
+import StepTwo from './step-two'
 
 const Tabs = [
   { name: 'Step 1', value: '1' },
@@ -21,7 +24,15 @@ const Tabs = [
 export default function QuickSetup({ open }: { open: boolean }) {
   const isDesktop = useResponsive('md', 'up')
   const { t, locale } = useTranslate()
-  const [step] = useState('1')
+  const [step, setStep] = useState('1')
+
+  const handleStepOne = () => {
+    setStep('2')
+  }
+
+  const handleBack = () => {
+    setStep((prevStep) => (parseInt(prevStep, 10) - 1).toString())
+  }
 
   return (
     <motion.div
@@ -101,11 +112,15 @@ export default function QuickSetup({ open }: { open: boolean }) {
         <TabsPrimitive.Content
           value='1'
           className={clsx('mt-12 h-full bg-white py-6 dark:bg-dark')}
-        ></TabsPrimitive.Content>
+        >
+          <StepOne handleNextStep={handleStepOne} />
+        </TabsPrimitive.Content>
         <TabsPrimitive.Content
           value='2'
           className={clsx('mt-12 h-full bg-white py-6 dark:bg-dark')}
-        ></TabsPrimitive.Content>
+        >
+          <StepTwo handleNextStep={handleStepOne} handleBack={handleBack} />
+        </TabsPrimitive.Content>
         <TabsPrimitive.Content
           value='3'
           className={clsx('mt-12 h-full bg-white py-6 dark:bg-dark')}
