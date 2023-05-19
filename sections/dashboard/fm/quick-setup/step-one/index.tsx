@@ -24,15 +24,12 @@ function reducer(
 ) {
   switch (action.type) {
     case 'add_row':
-      if (
-        state.data[state.data.length - 1].Am !== '' &&
-        state.data[state.data.length - 1].NOFC !== '' &&
-        state.data[state.data.length - 1].Prc !== ''
-      )
+      if (state.data.every((cell) => cell.Am !== '' && cell.NOFC !== '' && cell.Prc !== ''))
         return {
           ...state,
           data: [...state.data, { NOFC: '', Prc: '', Am: '' }],
         }
+
       return {
         ...state,
       }

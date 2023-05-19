@@ -51,7 +51,7 @@ export default function Snackbar({
       <Alert variant={variant} intent={type}>
         <span className='text-[0.9rem]'>{message}</span>
         {closeButton && (
-          <IconButton onClick={() => close(id)} className='text-current hover:!bg-white/20'>
+          <IconButton onClick={() => close(id)} className='text-inherit hover:!bg-white/20'>
             <Icon icon='ic:round-close' />
           </IconButton>
         )}

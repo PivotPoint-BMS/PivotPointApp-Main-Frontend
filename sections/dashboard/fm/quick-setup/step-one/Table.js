@@ -41,7 +41,6 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
   )
 
   useEffect(() => {
-    console.log(data.slice(data.length - 2, data.length))
     if (
       data.length >= 2 &&
       data
