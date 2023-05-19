@@ -19,15 +19,24 @@ const Tabs = [
   { name: 'Step 2', value: '2' },
   { name: 'Step 3', value: '3' },
   { name: 'Step 4', value: '4' },
+  { name: 'Step 5', value: '5' },
+  { name: 'Step 6', value: '6' },
+  { name: 'Step 7', value: '7' },
 ]
 
 export default function QuickSetup({ open }: { open: boolean }) {
   const isDesktop = useResponsive('md', 'up')
   const { t, locale } = useTranslate()
   const [step, setStep] = useState('1')
+  const [range, setRange] = useState(2)
 
-  const handleStepOne = () => {
+  const handleStepOne = (_range: number) => {
     setStep('2')
+    setRange(_range)
+  }
+
+  const handleStepTwo = () => {
+    setStep('3')
   }
 
   const handleBack = () => {
@@ -119,7 +128,7 @@ export default function QuickSetup({ open }: { open: boolean }) {
           value='2'
           className={clsx('mt-12 h-full bg-white py-6 dark:bg-dark')}
         >
-          <StepTwo handleNextStep={handleStepOne} handleBack={handleBack} />
+          <StepTwo handleNextStep={handleStepTwo} handleBack={handleBack} estimationRange={range} />
         </TabsPrimitive.Content>
         <TabsPrimitive.Content
           value='3'

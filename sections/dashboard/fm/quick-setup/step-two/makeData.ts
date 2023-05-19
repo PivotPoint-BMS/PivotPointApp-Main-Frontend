@@ -1,14 +1,13 @@
-export default function makeData(count: number) {
+/* eslint-disable no-plusplus */
+export default function makeData(range: number) {
   const data: { service: string; [key: string]: string }[] = []
   // eslint-disable-next-line no-plusplus
-  for (let i = 0; i < count; i++) {
-    const row = {
-      service: '',
-      1: '',
-    }
-
-    data.push(row)
+  let row = { service: '' }
+  for (let i = 1; i <= range; i++) {
+    row = { ...row, [i]: '' }
   }
+
+  data.push(row)
 
   const columns = [
     {
@@ -18,13 +17,17 @@ export default function makeData(count: number) {
       dataType: 'text',
       placeholder: 'Enter the service',
     },
-    {
-      id: '1',
-      label: 'Year 1',
-      accessor: '1',
+  ]
+  for (let i = 1; i <= range; i++) {
+    const column = {
+      id: i.toString(),
+      label: `Year ${i.toString()}`,
+      accessor: i.toString(),
       dataType: 'number',
       placeholder: 'Enter the amount',
-    },
-  ]
+    }
+
+    columns.push(column)
+  }
   return { columns, data }
 }

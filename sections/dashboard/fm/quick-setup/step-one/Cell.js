@@ -29,7 +29,7 @@ export default function Cell({
       type={dataType}
       placeholder={placeholder}
       className={clsx(
-        'box-border w-full flex-auto resize-none whitespace-nowrap border-0 p-2',
+        'box-border w-full flex-auto resize-none whitespace-nowrap border-0 bg-transparent p-2',
         dataType === 'number' && 'text-right'
       )}
     />

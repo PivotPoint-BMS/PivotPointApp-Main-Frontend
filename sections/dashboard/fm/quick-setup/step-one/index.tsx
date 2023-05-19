@@ -1,4 +1,4 @@
-import { useReducer } from 'react'
+import { useReducer, useState } from 'react'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
@@ -24,15 +24,12 @@ function reducer(
 ) {
   switch (action.type) {
     case 'add_row':
-      if (
-        state.data[state.data.length - 1].Am !== '' &&
-        state.data[state.data.length - 1].NOFC !== '' &&
-        state.data[state.data.length - 1].Prc !== ''
-      )
+      if (state.data.every((cell) => cell.Am !== '' && cell.NOFC !== '' && cell.Prc !== ''))
         return {
           ...state,
           data: [...state.data, { NOFC: '', Prc: '', Am: '' }],
         }
+
       return {
         ...state,
       }
@@ -49,26 +46,33 @@ function reducer(
           return row
         }),
       }
+    case 'delete_last_cell':
+      return {
+        ...state,
+        data: state.data.slice(0, state.data.length - 2),
+      }
 
     default:
       return state
   }
 }
 
-function StepOne({ handleNextStep }: { handleNextStep: () => void }) {
+function StepOne({ handleNextStep }: { handleNextStep: (range: number) => void }) {
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const [state, dispatch] = useReducer(reducer, makeData(1))
+  const [range, setRange] = useState(2)
+
   return (
     <div className='container mx-auto flex h-full flex-col items-center justify-start gap-5 overflow-scroll py-10 px-4'>
       <h1 className='text-center text-2xl font-semibold'>{t('Financial Contributions')}</h1>
       <Table columns={state.columns} data={state.data} dispatch={dispatch} />
       <h1 className='text-center text-2xl font-semibold'>{t('Estimation Range')}</h1>
-      <div className='flex flex-1 flex-col items-center gap-5'>
-        <Radiobox name='range' value={2} label={t('2 years')} defaultChecked />
-        <Radiobox name='range' value={3} label={t('3 years')} />
-        <Radiobox name='range' value={4} label={t('4 years')} />
-        <Radiobox name='range' value={5} label={t('5 years')} />
+      <div className='flex flex-1 items-start gap-5'>
+        <Radiobox name='range' label={t('2 years')} defaultChecked onChange={() => setRange(2)} />
+        <Radiobox name='range' label={t('3 years')} onChange={() => setRange(3)} />
+        <Radiobox name='range' label={t('4 years')} onChange={() => setRange(4)} />
+        <Radiobox name='range' label={t('5 years')} onChange={() => setRange(5)} />
       </div>
       <Button
         onClick={() => {
@@ -76,7 +80,8 @@ function StepOne({ handleNextStep }: { handleNextStep: () => void }) {
             state.data.length > 0 &&
             state.data.every((d) => d.Am !== '' && d.NOFC !== '' && d.Prc !== '')
           )
-            handleNextStep()
+            // TODO: CHANGE TO FULL DATA
+            handleNextStep(range)
           else
             open({
               autoHideDuration: 10000,

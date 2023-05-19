@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useTable, useFlexLayout, useResizeColumns, useSortBy } from 'react-table'
 import Button from 'components/Button'
 import useTranslate from 'hooks/useTranslate'
@@ -56,6 +56,16 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
     useSortBy
   )
 
+  useEffect(() => {
+    if (
+      data.length >= 2 &&
+      data
+        .slice(data.length - 2, data.length)
+        .every((cell) => cell.Am === '' && cell.NOFC === '' && cell.Prc === '')
+    )
+      dataDispatch({ type: 'delete_last_cell' })
+  }, [data])
+
   return (
     <>
       <div className='flex w-full justify-center overflow-x-scroll'>
@@ -67,7 +77,7 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
                   {headerGroup.headers.map((column) => (
                     <th
                       {...column.getHeaderProps()}
-                      className='border-b bg-gray-100 dark:bg-paper-dark-contrast'
+                      className='border-b bg-gray-100 dark:bg-paper-dark'
                     >
                       {column.render('Header')}
                     </th>
