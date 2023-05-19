@@ -49,7 +49,7 @@ function reducer(
     case 'delete_last_cell':
       return {
         ...state,
-        data: state.data.splice(state.data.length - 1, 1),
+        data: state.data.slice(0, state.data.length - 2),
       }
 
     default:

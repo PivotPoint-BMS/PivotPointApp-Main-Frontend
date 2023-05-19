@@ -29,9 +29,19 @@ function reducer(
 ) {
   switch (action.type) {
     case 'add_row':
+      if (
+        state.data.every(
+          (cell) =>
+            Object.keys(cell).length > 0 && Object.keys(cell).every((key) => cell[key] !== '')
+        )
+      )
+        return {
+          ...state,
+          data: [...state.data, { service: '' }],
+        }
+
       return {
         ...state,
-        data: [...state.data, { service: '' }],
       }
     case 'update_cell':
       return {
@@ -45,6 +55,11 @@ function reducer(
           }
           return row
         }),
+      }
+    case 'delete_last_cell':
+      return {
+        ...state,
+        data: state.data.slice(0, state.data.length - 2),
       }
     default:
       return state

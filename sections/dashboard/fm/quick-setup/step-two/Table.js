@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 // react table
 import { useTable, useFlexLayout, useResizeColumns, useSortBy } from 'react-table'
 // hooks
@@ -63,6 +63,16 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
     useResizeColumns,
     useSortBy
   )
+
+  useEffect(() => {
+    if (
+      data.length >= 2 &&
+      data
+        .slice(data.length - 2, data.length)
+        .every((cell) => Object.keys(cell).every((key) => cell[key] === ''))
+    )
+      dataDispatch({ type: 'delete_last_cell' })
+  }, [data])
 
   return (
     <>

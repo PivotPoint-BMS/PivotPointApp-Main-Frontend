@@ -40,16 +40,6 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
     []
   )
 
-  useEffect(() => {
-    if (
-      data.length >= 2 &&
-      data
-        .slice(data.length - 2, data.length)
-        .every((cell) => cell.Am === '' && cell.NOFC === '' && cell.Prc === '')
-    )
-      dataDispatch({ type: 'delete_last_cell' })
-  }, [data])
-
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
     {
       columns,
@@ -65,6 +55,16 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
     useResizeColumns,
     useSortBy
   )
+
+  useEffect(() => {
+    if (
+      data.length >= 2 &&
+      data
+        .slice(data.length - 2, data.length)
+        .every((cell) => cell.Am === '' && cell.NOFC === '' && cell.Prc === '')
+    )
+      dataDispatch({ type: 'delete_last_cell' })
+  }, [data])
 
   return (
     <>
