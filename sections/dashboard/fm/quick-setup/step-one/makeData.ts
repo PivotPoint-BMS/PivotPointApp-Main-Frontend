@@ -21,6 +21,7 @@ export default function makeData(count: number) {
       dataType: 'text',
       placeholder: 'Enter Nature of financial contributions',
       disabled: false,
+      align: 'left',
     },
     {
       id: 'Prc',
@@ -30,6 +31,7 @@ export default function makeData(count: number) {
       dataType: 'number',
       placeholder: '',
       disabled: true,
+      align: 'right',
     },
     {
       id: 'Am',
@@ -39,6 +41,7 @@ export default function makeData(count: number) {
       dataType: 'number',
       placeholder: 'Enter the Amount',
       disabled: false,
+      align: 'right',
     },
     {
       id: 'interestRate',
@@ -48,6 +51,7 @@ export default function makeData(count: number) {
       dataType: 'number',
       placeholder: 'Enter the interest rate',
       disabled: false,
+      align: 'right',
     },
   ]
   return { columns, data }

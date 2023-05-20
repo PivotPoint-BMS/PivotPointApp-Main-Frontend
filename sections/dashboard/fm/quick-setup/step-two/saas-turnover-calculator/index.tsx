@@ -23,6 +23,7 @@ function reducer(
       accessor: string
       dataType: string
       placeholder: string
+      align:string;
     }[]
   },
   action: { type: string; rowIndex?: number; columnId?: string; value?: string; profit?: number[] }

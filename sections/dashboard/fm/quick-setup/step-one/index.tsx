@@ -21,6 +21,7 @@ function reducer(
       dataType: string
       placeholder: string
       disabled: boolean
+      align: string
     }[]
   },
   action: { type: string; rowIndex: number; columnId: string; value: string; total: number }

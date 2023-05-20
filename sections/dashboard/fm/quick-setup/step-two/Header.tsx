@@ -15,7 +15,8 @@ export default function Header({
       className={clsx(
         '!w-full truncate py-2 px-5 font-medium',
         align === 'center' && 'text-center',
-        align === 'right' && 'text-right'
+        align === 'right' && 'text-right',
+        align === 'left' && 'text-left'
       )}
     >
       {label}
