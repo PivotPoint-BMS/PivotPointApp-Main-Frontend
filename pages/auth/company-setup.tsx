@@ -23,6 +23,8 @@ import { useCreateRequestMutation } from 'store/api/auth/companyApi'
 import Company from 'sections/auth/company-setup/Company'
 import Workers from 'sections/auth/company-setup/Workers'
 import Subscription from 'sections/auth/company-setup/Subscription'
+// layout
+import Layout from 'layout/Index'
 // components
 import { Icon as Iconify } from '@iconify/react'
 import { FormProvider } from 'components/hook-form'
@@ -36,7 +38,7 @@ const Tabs = [
   { name: 'Complete Payment', value: '4' },
 ]
 
-export default function CompanySetup() {
+function index() {
   const { push } = useRouter()
   const isDesktop = useResponsive('md', 'up')
   const [createRequest, { isLoading, isSuccess }] = useCreateRequestMutation()
@@ -128,7 +130,7 @@ export default function CompanySetup() {
   }
 
   useEffect(() => {
-    if (!isLoading && isSuccess) push(PATH_AUTH.payment)
+    if (!isLoading && isSuccess) push(PATH_AUTH.root)
   }, [isLoading, isSuccess])
 
   useEffect(() => {
@@ -240,3 +242,8 @@ export default function CompanySetup() {
     </>
   )
 }
+index.getLayout = function getLayout(page: JSX.Element) {
+  return <Layout variant='main'>{page}</Layout>
+}
+
+export default index

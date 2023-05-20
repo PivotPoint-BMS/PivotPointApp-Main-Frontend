@@ -59,7 +59,7 @@ function Login() {
 }
 
 Login.getLayout = function getLayout(page: JSX.Element) {
-  return <Layout variant='logoOnly'>{page}</Layout>
+  return <Layout variant='main'>{page}</Layout>
 }
 
 export default Login

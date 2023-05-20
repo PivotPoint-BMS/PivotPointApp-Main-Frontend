@@ -1,4 +1,6 @@
 import { useReducer, useState } from 'react'
+// utils
+import { round } from 'lodash'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
@@ -10,7 +12,7 @@ import makeData from './makeData'
 
 function reducer(
   state: {
-    data: { NOFC: string; Prc: string; Am: string }[]
+    data: { NOFC: string; Prc: string; Am: string; interestRate: string }[]
     columns: {
       id: string
       label: string
@@ -18,16 +20,19 @@ function reducer(
       minWidth: number
       dataType: string
       placeholder: string
+      disabled: boolean
     }[]
   },
-  action: { type: string; rowIndex: number; columnId: string; value: string }
+  action: { type: string; rowIndex: number; columnId: string; value: string; total: number }
 ) {
   switch (action.type) {
     case 'add_row':
-      if (state.data.every((cell) => cell.Am !== '' && cell.NOFC !== '' && cell.Prc !== ''))
+      if (
+        state.data.every((cell) => cell.Am !== '' && cell.NOFC !== '' && cell.interestRate !== '')
+      )
         return {
           ...state,
-          data: [...state.data, { NOFC: '', Prc: '', Am: '' }],
+          data: [...state.data, { NOFC: '', Prc: '', Am: '', interestRate: '' }],
         }
 
       return {
@@ -46,10 +51,19 @@ function reducer(
           return row
         }),
       }
+    case 'update_percentage':
+      return {
+        ...state,
+        data: state.data.map(({ Am, ...rest }) => ({
+          ...rest,
+          Am,
+          Prc: `${round((parseInt(Am, 10) * 100) / action.total, 2) || '0'}%`,
+        })),
+      }
     case 'delete_last_cell':
       return {
         ...state,
-        data: state.data.slice(0, state.data.length - 2),
+        data: state.data.slice(0, -1),
       }
 
     default:
@@ -78,7 +92,7 @@ function StepOne({ handleNextStep }: { handleNextStep: (range: number) => void }
         onClick={() => {
           if (
             state.data.length > 0 &&
-            state.data.every((d) => d.Am !== '' && d.NOFC !== '' && d.Prc !== '')
+            state.data.every((d) => d.Am !== '' && d.NOFC !== '' && d.interestRate !== '')
           )
             // TODO: CHANGE TO FULL DATA
             handleNextStep(range)

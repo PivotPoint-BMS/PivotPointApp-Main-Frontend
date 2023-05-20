@@ -1,11 +1,12 @@
 export default function makeData(count: number) {
-  const data: { NOFC: string; Prc: string; Am: string }[] = []
+  const data: { NOFC: string; Prc: string; Am: string; interestRate: string }[] = []
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < count; i++) {
     const row = {
       NOFC: '',
       Prc: '',
       Am: '',
+      interestRate: '',
     }
 
     data.push(row)
@@ -19,6 +20,7 @@ export default function makeData(count: number) {
       minWidth: 100,
       dataType: 'text',
       placeholder: 'Enter Nature of financial contributions',
+      disabled: false,
     },
     {
       id: 'Prc',
@@ -26,7 +28,8 @@ export default function makeData(count: number) {
       accessor: 'Prc',
       minWidth: 100,
       dataType: 'number',
-      placeholder: 'Enter the Percentage',
+      placeholder: '',
+      disabled: true,
     },
     {
       id: 'Am',
@@ -35,6 +38,16 @@ export default function makeData(count: number) {
       minWidth: 100,
       dataType: 'number',
       placeholder: 'Enter the Amount',
+      disabled: false,
+    },
+    {
+      id: 'interestRate',
+      label: 'Interest Rate',
+      accessor: 'interestRate',
+      minWidth: 100,
+      dataType: 'number',
+      placeholder: 'Enter the interest rate',
+      disabled: false,
     },
   ]
   return { columns, data }

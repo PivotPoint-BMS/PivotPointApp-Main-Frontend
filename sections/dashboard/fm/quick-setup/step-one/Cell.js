@@ -4,7 +4,7 @@ import React from 'react'
 export default function Cell({
   value: initialValue,
   row: { index },
-  column: { id, dataType, placeholder },
+  column: { id, dataType, placeholder, disabled },
   dataDispatch,
 }) {
   const [value, setValue] = React.useState(initialValue)
@@ -21,7 +21,11 @@ export default function Cell({
     setValue(initialValue)
   }, [initialValue])
 
-  return (
+  return disabled ? (
+    <p className='box-border w-full flex-auto resize-none whitespace-nowrap border-0 bg-transparent p-2 text-right'>
+      {value}
+    </p>
+  ) : (
     <input
       value={value}
       onChange={onChange}

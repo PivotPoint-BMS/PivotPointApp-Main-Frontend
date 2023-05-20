@@ -1,21 +1,22 @@
 /* eslint-disable no-case-declarations */
-import { useEffect, useReducer } from 'react'
+import { useReducer, useState } from 'react'
 import clsx from 'clsx'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
 // components
 import { Icon } from '@iconify/react'
-import { Button, IconButton } from 'components'
+import { Button, Checkbox, IconButton } from 'components'
 // sections
 import Table from './Table'
 import makeData from './makeData'
+import SaaSTurnoverCalculator from './saas-turnover-calculator'
 
 function reducer(
   state: {
     data: {
-      [key: string]: string
       service: string
+      [key: string]: string
     }[]
     columns: {
       id: string
@@ -25,7 +26,7 @@ function reducer(
       placeholder: string
     }[]
   },
-  action: { type: string; rowIndex: number; columnId: string; value: string }
+  action: { type: string; rowIndex: number; columnId: string; value: string; newIncome: number[] }
 ) {
   switch (action.type) {
     case 'add_row':
@@ -56,10 +57,24 @@ function reducer(
           return row
         }),
       }
+    case 'update_income':
+      const newData: {
+        service: string
+        [key: string]: string
+      }[] = [{ service: 'Subscriptions' }]
+      action.newIncome.slice(1).forEach((income, i) => {
+        newData[0][(i + 1).toString()] = income.toString()
+      })
+      console.log(action.newIncome.slice(1))
+
+      return {
+        ...state,
+        data: newData,
+      }
     case 'delete_last_cell':
       return {
         ...state,
-        data: state.data.slice(0, state.data.length - 2),
+        data: state.data.slice(0, -1),
       }
     default:
       return state
@@ -78,10 +93,7 @@ function StepTwo({
   const { t, locale } = useTranslate()
   const { open } = useSnackbar()
   const [state, dispatch] = useReducer(reducer, makeData(estimationRange))
-
-  useEffect(() => {
-    console.log(estimationRange)
-  }, [])
+  const [isSaaS, setIsSaaS] = useState(false)
 
   return (
     <div className='container relative mx-auto flex h-full flex-col items-center justify-start gap-5 overflow-scroll py-10 px-4'>
@@ -100,11 +112,33 @@ function StepTwo({
           width={20}
         />
       </IconButton>
-      <Table columns={state.columns} data={state.data} dispatch={dispatch} />
-
+      <Checkbox
+        label='I have a SaaS solution'
+        checked={isSaaS}
+        onChange={(e) => setIsSaaS(e.target.checked)}
+      />
+      {isSaaS && (
+        <SaaSTurnoverCalculator
+          estimationRange={estimationRange}
+          handleIncomeChange={(newIncome) =>
+            dispatch({
+              type: 'update_income',
+              newIncome,
+              rowIndex: 0,
+              columnId: '',
+              value: '',
+            })
+          }
+        />
+      )}
+      <Table columns={state.columns} data={state.data} dispatch={dispatch} isSaaS={isSaaS} />
       <Button
         onClick={() => {
-          if (state.data.length > 0) handleNextStep()
+          if (
+            state.data.length > 0 &&
+            state.data.every((cell) => Object.keys(cell).every((key) => cell[key] === ''))
+          )
+            handleNextStep()
           else
             open({
               autoHideDuration: 10000,

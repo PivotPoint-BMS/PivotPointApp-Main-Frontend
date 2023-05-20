@@ -38,7 +38,7 @@ function NewPassword() {
   )
 }
 NewPassword.getLayout = function getLayout(page: JSX.Element) {
-  return <Layout variant='dashboard'>{page}</Layout>
+  return <Layout variant='main'>{page}</Layout>
 }
 
 export default NewPassword
