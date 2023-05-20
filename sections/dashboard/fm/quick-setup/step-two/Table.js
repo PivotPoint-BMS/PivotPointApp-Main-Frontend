@@ -21,7 +21,7 @@ const defaultColumn = {
   sortType: 'alphanumericFalsyLast',
 }
 
-export default function Table({ columns, data, dispatch: dataDispatch }) {
+export default function Table({ columns, data, dispatch: dataDispatch, isSaaS }) {
   // : {
   // columns: {
   //   id: string
@@ -75,7 +75,7 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
   }, [data])
 
   return (
-    <>
+    <div className='w-full flex-1 overflow-visible'>
       <div className='flex w-full justify-center overflow-x-scroll'>
         <div className='container min-w-fit max-w-full rounded-lg border border-b-0'>
           <table {...getTableProps()} className='w-full'>
@@ -94,20 +94,21 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
               ))}
             </thead>
             <tbody {...getTableBodyProps()}>
-              {rows.map((row, i) => {
-                prepareRow(row)
-                return (
-                  <tr
-                    {...row.getRowProps()}
-                    key={`table-row-${i}`}
-                    className='divide-x border-b last-of-type:border-b-0'
-                  >
-                    {row.cells.map((cell) => (
-                      <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                    ))}
-                  </tr>
-                )
-              })}
+              {!isSaaS &&
+                rows.map((row, i) => {
+                  prepareRow(row)
+                  return (
+                    <tr
+                      {...row.getRowProps()}
+                      key={`table-row-${i}`}
+                      className='divide-x border-b last-of-type:border-b-0'
+                    >
+                      {row.cells.map((cell) => (
+                        <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                      ))}
+                    </tr>
+                  )
+                })}
               <tr className='flex divide-x border-b bg-primary-100/40 last-of-type:border-b-0 dark:bg-primary-900'>
                 <td className='text flex-1 p-2 px-5 text-center font-medium'>
                   {t('Total HT Annual')}
@@ -129,6 +130,6 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
           </Button>
         </div>
       </div>
-    </>
+    </div>
   )
 }

@@ -1,11 +1,12 @@
 export default function makeData(count: number) {
-  const data: { NOFC: string; Prc: string; Am: string }[] = []
+  const data: { NOFC: string; Prc: string; Am: string; interestRate: string }[] = []
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < count; i++) {
     const row = {
       NOFC: '',
       Prc: '',
       Am: '',
+      interestRate: '',
     }
 
     data.push(row)

@@ -22,9 +22,7 @@ export default function Cell({
   }, [initialValue])
 
   return disabled ? (
-    <p className='box-border w-full flex-auto resize-none whitespace-nowrap border-0 bg-transparent p-2 text-right'>
-      {value}
-    </p>
+    <p>{initialValue}</p>
   ) : (
     <input
       value={value}
