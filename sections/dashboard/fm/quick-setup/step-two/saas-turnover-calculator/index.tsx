@@ -196,7 +196,9 @@ function index({
               />
             </div>
             <Table columns={state.columns} data={state.data} dispatch={dispatch} />
-            <Button type='submit'>{t('Calculate')}</Button>
+            <Button type='submit' size='large' variant='outlined'>
+              {t('Calculate')}
+            </Button>
           </div>
         </FormProvider>
       </div>

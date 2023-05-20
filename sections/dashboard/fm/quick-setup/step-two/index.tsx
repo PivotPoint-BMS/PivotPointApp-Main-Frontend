@@ -133,9 +133,13 @@ function StepTwo({
       <Table columns={state.columns} data={state.data} dispatch={dispatch} isSaaS={isSaaS} />
       <Button
         onClick={() => {
+          console.log(
+            state.data.every((cell) => Object.keys(cell).every((key) => cell[key] !== ''))
+          )
+
           if (
             state.data.length > 0 &&
-            state.data.every((cell) => Object.keys(cell).every((key) => cell[key] === ''))
+            state.data.every((cell) => Object.keys(cell).every((key) => cell[key] !== ''))
           )
             handleNextStep()
           else
