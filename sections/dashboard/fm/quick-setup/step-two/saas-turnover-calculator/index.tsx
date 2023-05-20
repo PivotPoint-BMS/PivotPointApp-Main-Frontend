@@ -119,24 +119,16 @@ function index({
           .reduce((a, b) => a + b, 0) *
         startingUsers *
         12
-      console.log(
-        subscriptions
-          .map((sub) => Number(sub.price) * (Number(sub.userPercentage) / 100))
-          .reduce((a, b) => a + b, 0) *
-          startingUsers *
-          12
-      )
 
       const incomesList = [startIncome]
       const profitList = [startIncome - startExpence]
       // eslint-disable-next-line no-plusplus
-      for (let i = 1; i <= estimationRange; i++) {
-        const newUsers = usersList[i - 1] * (1 + Number(growthPercentage) / 100)
+      for (let i = 0; i < estimationRange - 1; i++) {
+        const newUsers = usersList[i] * (1 + Number(growthPercentage) / 100)
         usersList.push(newUsers)
 
         const newExpence =
-          (newUsers - usersList[i - 1]) * Number(acquisationCost) +
-          newUsers * Number(costDeploy) * 12
+          (newUsers - usersList[i]) * Number(acquisationCost) + newUsers * Number(costDeploy) * 12
         expencesList.push(newExpence)
 
         const newIncome =
@@ -169,9 +161,9 @@ function index({
     legend: { position: 'top', horizontalAlign: 'right' },
     colors: ['#1FAA69', '#FF0800'],
     xaxis: {
-      categories: Array(estimationRange + 1)
+      categories: Array(estimationRange)
         .fill(0)
-        .map((_, i) => `Year ${i}`),
+        .map((_, i) => `Year ${i + 1}`),
     },
   })
 
@@ -209,7 +201,7 @@ function index({
         </FormProvider>
       </div>
 
-      {income.length === estimationRange + 1 && expence.length === estimationRange + 1 && (
+      {income.length === estimationRange && expence.length === estimationRange && (
         <ReactApexChart
           type='area'
           series={[

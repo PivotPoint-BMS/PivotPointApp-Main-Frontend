@@ -63,7 +63,7 @@ function reducer(
         service: string
         [key: string]: string
       }[] = [{ service: 'Subscriptions' }]
-      action.newIncome.slice(1).forEach((income, i) => {
+      action.newIncome.forEach((income, i) => {
         newData[0][(i + 1).toString()] = income.toString()
       })
       return {
