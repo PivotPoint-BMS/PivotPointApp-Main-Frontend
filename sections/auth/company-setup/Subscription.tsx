@@ -20,7 +20,7 @@ export default function Subscription({ handleBack, handleNext, isLoading }: Subs
   return (
     <>
       <MotionContainer>
-        <div className='container relative mx-auto flex h-full flex-col items-center justify-center gap-5 rounded-xl bg-white px-5 py-10 shadow-md dark:bg-secondary-900 sm:px-16 md:px-20'>
+        <div className='container relative mx-auto flex h-full flex-col items-center justify-center gap-5 rounded-xl  px-5 py-10 shadow-md sm:px-16 md:px-20'>
           <IconButton
             onClick={handleBack}
             className={clsx('absolute top-5', locale === 'ar' ? 'right-5' : 'left-5')}
