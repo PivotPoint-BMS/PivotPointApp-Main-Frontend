@@ -27,7 +27,7 @@ function reducer(
       if (state.data.every((cell) => cell.Am !== '' && cell.NOFC !== '' && cell.Prc !== ''))
         return {
           ...state,
-          data: [...state.data, { NOFC: '', Prc: '', Am: '' }],
+          data: [...state.data, { NOFC: '', Prc: '', Am: '', interestRate: 0 }],
         }
 
       return {
@@ -49,7 +49,7 @@ function reducer(
     case 'delete_last_cell':
       return {
         ...state,
-        data: state.data.slice(0, state.data.length - 2),
+        data: state.data.slice(0, -1),
       }
 
     default:

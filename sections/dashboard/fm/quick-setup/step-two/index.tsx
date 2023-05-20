@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { useEffect, useReducer } from 'react'
+import { useReducer } from 'react'
 import clsx from 'clsx'
 // hooks
 import useTranslate from 'hooks/useTranslate'
@@ -78,10 +78,6 @@ function StepTwo({
   const { t, locale } = useTranslate()
   const { open } = useSnackbar()
   const [state, dispatch] = useReducer(reducer, makeData(estimationRange))
-
-  useEffect(() => {
-    console.log(estimationRange)
-  }, [])
 
   return (
     <div className='container relative mx-auto flex h-full flex-col items-center justify-start gap-5 overflow-scroll py-10 px-4'>

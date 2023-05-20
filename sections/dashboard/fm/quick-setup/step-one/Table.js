@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useTable, useFlexLayout, useResizeColumns, useSortBy } from 'react-table'
 import Button from 'components/Button'
 import useTranslate from 'hooks/useTranslate'
@@ -56,15 +56,14 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
     useSortBy
   )
 
-  useEffect(() => {
-    if (
-      data.length >= 2 &&
-      data
-        .slice(data.length - 2, data.length)
-        .every((cell) => cell.Am === '' && cell.NOFC === '' && cell.Prc === '')
-    )
-      dataDispatch({ type: 'delete_last_cell' })
-  }, [data])
+  // useEffect(() => {
+  //   if (
+  //     data.length >= 2 &&
+  //     data.slice(-2).every((cell) => cell.Am === '' && cell.NOFC === '' && cell.Prc === '')
+  //   ) {
+  //     dataDispatch({ type: 'delete_last_cell' })
+  //   }
+  // }, [data])
 
   return (
     <>
