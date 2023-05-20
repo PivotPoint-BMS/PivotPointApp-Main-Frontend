@@ -66,8 +66,6 @@ function reducer(
       action.newIncome.slice(1).forEach((income, i) => {
         newData[0][(i + 1).toString()] = income.toString()
       })
-      console.log(action.newIncome.slice(1))
-
       return {
         ...state,
         data: newData,

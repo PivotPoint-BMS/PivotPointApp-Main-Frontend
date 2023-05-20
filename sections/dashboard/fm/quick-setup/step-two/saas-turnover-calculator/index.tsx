@@ -23,7 +23,7 @@ function reducer(
       accessor: string
       dataType: string
       placeholder: string
-      align:string;
+      align: string
     }[]
   },
   action: { type: string; rowIndex?: number; columnId?: string; value?: string; profit?: number[] }
@@ -119,13 +119,15 @@ function index({
           .reduce((a, b) => a + b, 0) *
         startingUsers *
         12
-      const incomesList = [
+      console.log(
         subscriptions
           .map((sub) => Number(sub.price) * (Number(sub.userPercentage) / 100))
           .reduce((a, b) => a + b, 0) *
           startingUsers *
-          12,
-      ]
+          12
+      )
+
+      const incomesList = [startIncome]
       const profitList = [startIncome - startExpence]
       // eslint-disable-next-line no-plusplus
       for (let i = 1; i <= estimationRange; i++) {
@@ -133,7 +135,8 @@ function index({
         usersList.push(newUsers)
 
         const newExpence =
-          newUsers - usersList[i - 1] * Number(acquisationCost) + newUsers * Number(costDeploy) * 12
+          (newUsers - usersList[i - 1]) * Number(acquisationCost) +
+          newUsers * Number(costDeploy) * 12
         expencesList.push(newExpence)
 
         const newIncome =
@@ -178,10 +181,27 @@ function index({
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
           <div className='flex flex-col items-center justify-center gap-4'>
             <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4'>
-              <RHFTextField name='growthPercentage' label='Growth Percentage' />
-              <RHFTextField name='acquisationCost' label='Customer Aquisation Cost' />
-              <RHFTextField name='startingUsers' label='Starting Users' />
-              <RHFTextField name='costDeploy' label='Cost Deploy/Month/User' />
+              <RHFTextField
+                name='growthPercentage'
+                label='Growth Percentage'
+                placeholder={`${t('Ex: ')}150`}
+              />
+
+              <RHFTextField
+                name='acquisationCost'
+                label='Customer Aquisation Cost'
+                placeholder={`${t('Ex: ')}3`}
+              />
+              <RHFTextField
+                name='startingUsers'
+                label='Starting Users'
+                placeholder={`${t('Ex: ')}100`}
+              />
+              <RHFTextField
+                name='costDeploy'
+                label='Cost Deploy/Month/User'
+                placeholder={`${t('Ex: ')}5`}
+              />
             </div>
             <Table columns={state.columns} data={state.data} dispatch={dispatch} />
             <Button type='submit'>{t('Calculate')}</Button>
