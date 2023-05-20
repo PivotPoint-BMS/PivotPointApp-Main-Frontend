@@ -16,6 +16,7 @@ export default function makeData(range: number) {
       accessor: 'service',
       dataType: 'text',
       placeholder: 'Enter the service',
+      align: 'center',
     },
   ]
   for (let i = 1; i <= range; i++) {
@@ -25,6 +26,7 @@ export default function makeData(range: number) {
       accessor: i.toString(),
       dataType: 'number',
       placeholder: 'Enter the amount',
+      align: 'right',
     }
 
     columns.push(column)
