@@ -80,6 +80,7 @@ const initialState: SideBarConfig = {
           name: 'Dashboard',
           href: PATH_DASHBOARD.scm.dashboard,
           icon: 'material-symbols:dashboard-rounded',
+          disabled: true,
           badge: {
             label: 'Beta',
           },
@@ -150,6 +151,7 @@ const initialState: SideBarConfig = {
           name: 'Dashboard',
           href: PATH_DASHBOARD.hrm.dashboard,
           icon: 'material-symbols:dashboard-rounded',
+          disabled: true,
           badge: {
             label: 'Beta',
           },
@@ -192,6 +194,7 @@ const initialState: SideBarConfig = {
           name: 'Dashboard',
           href: PATH_DASHBOARD.fm.dashboard,
           icon: 'material-symbols:dashboard-rounded',
+          disabled: true,
           badge: {
             label: 'Beta',
           },
@@ -262,6 +265,7 @@ const initialState: SideBarConfig = {
           name: 'Dashboard',
           href: PATH_DASHBOARD.pm.dashboard,
           icon: 'material-symbols:dashboard-rounded',
+          disabled: true,
           badge: {
             label: 'Beta',
           },
@@ -287,7 +291,7 @@ const initialState: SideBarConfig = {
         {
           name: 'Product Building Pipelines',
           href: PATH_DASHBOARD.pm.pipelines,
-          icon: 'material-symbols:ac  count-tree-rounded',
+          icon: 'material-symbols:account-tree-rounded',
           disabled: true,
           badge: {
             label: 'Soon',

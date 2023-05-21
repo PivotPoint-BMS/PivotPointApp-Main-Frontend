@@ -2,12 +2,7 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 // redux
-import { wrapper } from 'store'
-import {
-  getLead,
-  getRunningQueriesThunk,
-  useGetLeadQuery,
-} from 'store/api/crm/contact-leads/leadApis'
+import { useGetLeadQuery } from 'store/api/crm/contact-leads/leadApis'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // asset
@@ -60,15 +55,15 @@ index.getLayout = function getLayout(page: JSX.Element) {
 
 export default index
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) =>
-    async ({ query: { id } }) => {
-      store.dispatch(getLead.initiate(id?.toString() ? id?.toString() : ''))
+// export const getServerSideProps = wrapper.getServerSideProps(
+//   (store) =>
+//     async ({ query: { id } }) => {
+//       store.dispatch(getLead.initiate(id?.toString() ? id?.toString() : ''))
 
-      await Promise.all(store.dispatch(getRunningQueriesThunk()))
+//       await Promise.all(store.dispatch(getRunningQueriesThunk()))
 
-      return {
-        props: {},
-      }
-    }
-)
+//       return {
+//         props: {},
+//       }
+//     }
+// )

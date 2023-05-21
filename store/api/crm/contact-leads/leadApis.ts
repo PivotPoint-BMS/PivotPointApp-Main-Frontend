@@ -72,6 +72,14 @@ export const leadApi = createApi({
       }),
       invalidatesTags: ['Leads', 'Lead'],
     }),
+    convertToContact: builder.mutation<string[], string>({
+      query: (id) => ({
+        url: `Lead/toContact/${id}`,
+        method: 'PUT',
+        responseHandler: 'content-type',
+      }),
+      invalidatesTags: ['Leads', 'Lead'],
+    }),
   }),
 })
 
@@ -84,6 +92,7 @@ export const {
   useCreateLeadMutation,
   useEditLeadMutation,
   useDeleteLeadMutation,
+  useConvertToContactMutation,
   util: { getRunningQueriesThunk, invalidateTags },
 } = leadApi
 
