@@ -80,7 +80,7 @@ function index({
   const [expence, setExpence] = useState<number[]>([])
   const [income, setIncome] = useState<number[]>([])
 
-  const LeadSchema = Yup.object().shape({
+  const calculatorSchema = Yup.object().shape({
     growthPercentage: Yup.string().required(t('This field is required')),
     acquisationCost: Yup.string().required(t('This field is required')),
     startingUsers: Yup.string().required(t('This field is required')),
@@ -95,7 +95,7 @@ function index({
   }
 
   const methods = useForm<FieldValues>({
-    resolver: yupResolver(LeadSchema),
+    resolver: yupResolver(calculatorSchema),
     defaultValues,
   })
 
