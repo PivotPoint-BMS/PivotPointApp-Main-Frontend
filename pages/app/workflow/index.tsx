@@ -135,13 +135,13 @@ const index = () => {
         <title>{t('Workflow')} | Pivot Point BMS</title>
       </Head>
       {isDesktop ? (
-        <div className='flex h-full w-full flex-col '>
+        <div className='w-full flex-col'>
           <div className='px-5'>
             <HeaderBreadcrumbs heading={t('Workflow')} />
           </div>
-          <div className='flex h-full w-full flex-1'>
+          <div className='flex h-full max-h-[570px]'>
             <ReactFlowProvider>
-              <div className='h-full w-full flex-1' ref={reactFlowWrapper}>
+              <div className='w-full' ref={reactFlowWrapper}>
                 <ReactFlow
                   nodes={nodes}
                   edges={edges}
