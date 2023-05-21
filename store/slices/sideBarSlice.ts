@@ -8,7 +8,7 @@ export interface NavItemConfig {
   root: string
   href: string
   icon: string
-  subItems: {
+  subItems?: {
     name: string
     href: string
     icon: string
@@ -300,7 +300,6 @@ const initialState: SideBarConfig = {
       root: PATH_DASHBOARD.workflow.root,
       href: PATH_DASHBOARD.workflow.root,
       icon: 'ph:tree-structure-fill',
-      subItems: [],
     },
   ],
   isOpen: false,

@@ -142,17 +142,18 @@ function SideBar() {
             </div>
             <Scrollbar tabIndex={-1} className='h-full px-5 pb-10' style={{ maxHeight: '100vh' }}>
               <div className='flex flex-col gap-4'>
-                {subItems.map(({ name, href, icon, badge, disabled }, i) => (
-                  <SubNavItemTwo
-                    key={i}
-                    name={t(name)}
-                    href={href}
-                    icon={icon}
-                    badge={badge}
-                    disabled={disabled as boolean}
-                    isCollapsed={isCollapsed}
-                  />
-                ))}
+                {subItems &&
+                  subItems.map(({ name, href, icon, badge, disabled }, i) => (
+                    <SubNavItemTwo
+                      key={i}
+                      name={t(name)}
+                      href={href}
+                      icon={icon}
+                      badge={badge}
+                      disabled={disabled as boolean}
+                      isCollapsed={isCollapsed}
+                    />
+                  ))}
               </div>
             </Scrollbar>
           </motion.div>
