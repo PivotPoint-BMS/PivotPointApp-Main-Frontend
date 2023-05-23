@@ -21,7 +21,7 @@ import { useAppSelector } from 'store/hooks'
 import { useCreateRequestMutation } from 'store/api/auth/companyApi'
 // sections
 import Company from 'sections/auth/company-setup/Company'
-import Workers from 'sections/auth/company-setup/Workers'
+import Workers from 'sections/auth/company-setup/workers'
 import Subscription from 'sections/auth/company-setup/Subscription'
 // layout
 import Layout from 'layout/Index'
@@ -33,7 +33,7 @@ import Login from './login'
 
 const Tabs = [
   { name: 'Setup Company', value: '1' },
-  { name: 'Setup Workers', value: '2' },
+  { name: 'Setup Personnels', value: '2' },
   { name: 'Choose Subscription', value: '3' },
   { name: 'Complete Payment', value: '4' },
 ]

@@ -1,10 +1,8 @@
-import React, { useEffect, useMemo } from 'react'
+import React from 'react'
 // react table
 import { useTable, useFlexLayout, useResizeColumns, useSortBy } from 'react-table'
 // hooks
 import useTranslate from 'hooks/useTranslate'
-// utils
-import { fCurrency } from 'utils/formatNumber'
 // components
 import { Icon } from '@iconify/react'
 import Button from 'components/Button'
@@ -22,32 +20,6 @@ const defaultColumn = {
 
 export default function Table({ columns, data, dispatch: dataDispatch }) {
   const { t } = useTranslate()
-  const sortTypes = useMemo(
-    () => ({
-      alphanumericFalsyLast(rowA, rowB, columnId, desc) {
-        if (!rowA.values[columnId] && !rowB.values[columnId]) {
-          return 0
-        }
-
-        if (!rowA.values[columnId]) {
-          return desc ? -1 : 1
-        }
-
-        if (!rowB.values[columnId]) {
-          return desc ? 1 : -1
-        }
-
-        return Number.isNaN(rowA.values[columnId])
-          ? rowA.values[columnId].localeCompare(rowB.values[columnId])
-          : rowA.values[columnId] - rowB.values[columnId]
-      },
-    }),
-    []
-  )
-  const total = useMemo(
-    () => data.reduce((partialSum, a) => partialSum + (parseInt(a.amount, 10) || 0), 0),
-    [data, columns]
-  )
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
     {
       columns,
@@ -57,23 +29,11 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
       autoResetSortBy: true,
       autoResetFilters: true,
       autoResetRowState: true,
-      sortTypes,
     },
     useFlexLayout,
     useResizeColumns,
     useSortBy
   )
-
-  useEffect(() => {
-    dataDispatch({ type: 'update_percentage', total })
-    if (
-      data.length >= 2 &&
-      data
-        .slice(data.length - 2, data.length)
-        .every((cell) => cell.amount === '' && cell.interestRate === '' && cell.source === '')
-    )
-      dataDispatch({ type: 'delete_last_cell' })
-  }, [data])
 
   return (
     <>
@@ -109,16 +69,6 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
                   </tr>
                 )
               })}
-              <tr className='flex divide-x border-b bg-primary-100/40 last-of-type:border-b-0 dark:bg-primary-900'>
-                <td className='flex-1 p-2 px-5 text-center font-medium'>{t('Total HT Annual')}</td>
-                <td className='flex-1 p-2 px-5 text-right'>-</td>
-                {
-                  <td className='flex-1 p-2 px-5 text-right font-medium'>
-                    {fCurrency(total)} {t('Da')}
-                  </td>
-                }
-                <td className='flex-1 p-2 px-5 text-right'>-</td>
-              </tr>
             </tbody>
           </table>
           <Button
@@ -128,7 +78,7 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
             className='w-full !justify-start rounded-t-none'
             onClick={() => dataDispatch({ type: 'add_row' })}
           >
-            {t('New Row')}
+            {t('New Personnel')}
           </Button>
         </div>
       </div>

@@ -1,18 +1,24 @@
-import { useReducer, useState } from 'react'
+import { useEffect, useReducer, useState } from 'react'
 // utils
 import { round } from 'lodash'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
+// api
+import {
+  StepOneState,
+  useGetStepOneQuery,
+  useSetStepOneMutation,
+} from 'store/api/fm/financeSetupApi'
 // components
-import { Button, Radiobox } from 'components'
+import { Button, LoadingIndicator, Radiobox } from 'components'
 // sections
 import Table from './Table'
 import makeData from './makeData'
 
 function reducer(
   state: {
-    data: { NOFC: string; Prc: string; Am: string; interestRate: string }[]
+    data: StepOneState['financements']
     columns: {
       id: string
       label: string
@@ -24,16 +30,33 @@ function reducer(
       align: string
     }[]
   },
-  action: { type: string; rowIndex: number; columnId: string; value: string; total: number }
+  action: {
+    type: string
+    rowIndex: number
+    columnId: string
+    value: string
+    total: number
+    data: StepOneState['financements']
+  }
 ) {
   switch (action.type) {
+    case 'set_data':
+      return {
+        ...state,
+        data: action.data,
+      }
     case 'add_row':
       if (
-        state.data.every((cell) => cell.Am !== '' && cell.NOFC !== '' && cell.interestRate !== '')
+        state.data.every(
+          (cell) =>
+            cell.amount.toString() !== '' &&
+            cell.interestRate.toString() !== '' &&
+            cell.source !== ''
+        )
       )
         return {
           ...state,
-          data: [...state.data, { NOFC: '', Prc: '', Am: '', interestRate: '' }],
+          data: [...state.data, { amount: '', interestRate: '', source: '', percentage: '' }],
         }
 
       return {
@@ -55,10 +78,10 @@ function reducer(
     case 'update_percentage':
       return {
         ...state,
-        data: state.data.map(({ Am, ...rest }) => ({
+        data: state.data.map(({ amount, ...rest }) => ({
           ...rest,
-          Am,
-          Prc: `${round((parseInt(Am, 10) * 100) / action.total, 2) || '0'}%`,
+          amount,
+          percentage: `${round((Number(amount) * 100) / action.total, 2) || '0'}%`,
         })),
       }
     case 'delete_last_cell':
@@ -75,40 +98,87 @@ function reducer(
 function StepOne({ handleNextStep }: { handleNextStep: (range: number) => void }) {
   const { t } = useTranslate()
   const { open } = useSnackbar()
-  const [state, dispatch] = useReducer(reducer, makeData(1))
+  const [state, dispatch] = useReducer(reducer, makeData())
   const [range, setRange] = useState(2)
+  const [setStepOne, { isLoading, isSuccess, isError }] = useSetStepOneMutation()
+  const {
+    data: stepOneData,
+    isLoading: isGetLoading,
+    isSuccess: isGetSuccess,
+  } = useGetStepOneQuery()
+
+  useEffect(() => {
+    if (isSuccess) handleNextStep(range)
+    else if (isError)
+      open({
+        message: t('A probles was accured.'),
+        type: 'error',
+        autoHideDuration: 6000,
+      })
+  }, [])
+
+  useEffect(() => {
+    if (isGetSuccess) {
+      dispatch({
+        type: 'set_data',
+        data: stepOneData.data.financements,
+        rowIndex: 0,
+        columnId: '',
+        value: '',
+        total: 0,
+      })
+    }
+  }, [])
 
   return (
     <div className='container mx-auto flex h-full flex-col items-center justify-start gap-5 overflow-scroll py-10 px-4'>
-      <h1 className='text-center text-2xl font-semibold'>{t('Financial Contributions')}</h1>
-      <Table columns={state.columns} data={state.data} dispatch={dispatch} />
-      <h1 className='text-center text-2xl font-semibold'>{t('Estimation Range')}</h1>
-      <div className='flex flex-1 items-start gap-5'>
-        <Radiobox name='range' label={t('2 years')} defaultChecked onChange={() => setRange(2)} />
-        <Radiobox name='range' label={t('3 years')} onChange={() => setRange(3)} />
-        <Radiobox name='range' label={t('4 years')} onChange={() => setRange(4)} />
-        <Radiobox name='range' label={t('5 years')} onChange={() => setRange(5)} />
-      </div>
-      <Button
-        onClick={() => {
-          if (
-            state.data.length > 0 &&
-            state.data.every((d) => d.Am !== '' && d.NOFC !== '' && d.interestRate !== '')
-          )
-            // TODO: CHANGE TO FULL DATA
-            handleNextStep(range)
-          else
-            open({
-              autoHideDuration: 10000,
-              message: t('Please fill all fields.'),
-              type: 'warning',
-              closeButton: true,
-            })
-        }}
-        size='large'
-      >
-        {t('Next Step')}
-      </Button>
+      {isGetLoading ? (
+        <LoadingIndicator />
+      ) : (
+        <>
+          <h1 className='text-center text-2xl font-semibold'>{t('Financial Contributions')}</h1>
+          <Table columns={state.columns} data={state.data} dispatch={dispatch} />
+          <h1 className='text-center text-2xl font-semibold'>{t('Estimation Range')}</h1>
+          <div className='flex flex-1 items-start gap-5'>
+            <Radiobox
+              name='range'
+              label={t('2 years')}
+              defaultChecked
+              onChange={() => setRange(2)}
+            />
+            <Radiobox name='range' label={t('3 years')} onChange={() => setRange(3)} />
+            <Radiobox name='range' label={t('4 years')} onChange={() => setRange(4)} />
+            <Radiobox name='range' label={t('5 years')} onChange={() => setRange(5)} />
+          </div>
+          <Button
+            onClick={() => {
+              if (
+                state.data.length > 0 &&
+                state.data.every((d) => d.amount !== '' && d.source !== '' && d.interestRate !== '')
+              ) {
+                setStepOne({
+                  financements: state.data.map(({ amount, interestRate, source }) => ({
+                    amount,
+                    interestRate,
+                    source,
+                  })),
+                  years: range,
+                })
+              } else
+                open({
+                  autoHideDuration: 10000,
+                  message: t('Please fill all fields.'),
+                  type: 'warning',
+                  closeButton: true,
+                })
+            }}
+            size='large'
+            loading={isLoading}
+          >
+            {t('Next Step')}
+          </Button>
+        </>
+      )}
     </div>
   )
 }

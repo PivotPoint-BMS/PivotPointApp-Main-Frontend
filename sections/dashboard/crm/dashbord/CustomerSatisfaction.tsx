@@ -29,6 +29,7 @@ export default function CustomerSatisfaction({
     <Card fullWidth className='overflow-scroll sm:col-span-2 md:col-span-3'>
       <CardHeader
         title={t('Customer Satisfaction')}
+        subheader={t('Customer Feedback Analysis')}
         actions={<Badge label={t('Beta')} intent='warning' />}
       />
       <CardContent>

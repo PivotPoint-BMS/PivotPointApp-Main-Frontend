@@ -1,22 +1,16 @@
-export default function makeData(count: number) {
-  const data: { NOFC: string; Prc: string; Am: string; interestRate: string }[] = []
-  // eslint-disable-next-line no-plusplus
-  for (let i = 0; i < count; i++) {
-    const row = {
-      NOFC: '',
-      Prc: '',
-      Am: '',
-      interestRate: '',
-    }
+import { StepOneState } from 'store/api/fm/financeSetupApi'
 
-    data.push(row)
-  }
+export default function makeData() {
+  const data: StepOneState['financements'] = [
+    { amount: '', interestRate: '', source: '', percentage: '' },
+  ]
+  // eslint-disable-next-line no-plusplus
 
   const columns = [
     {
-      id: 'NOFC',
+      id: 'source',
       label: 'Nature of financial contributions',
-      accessor: 'NOFC',
+      accessor: 'source',
       minWidth: 100,
       dataType: 'text',
       placeholder: 'Enter Nature of financial contributions',
@@ -24,9 +18,9 @@ export default function makeData(count: number) {
       align: 'left',
     },
     {
-      id: 'Prc',
+      id: 'percentage',
       label: 'Percentage',
-      accessor: 'Prc',
+      accessor: 'percentage',
       minWidth: 100,
       dataType: 'number',
       placeholder: '',
@@ -34,9 +28,9 @@ export default function makeData(count: number) {
       align: 'right',
     },
     {
-      id: 'Am',
+      id: 'amount',
       label: 'Amount',
-      accessor: 'Am',
+      accessor: 'amount',
       minWidth: 100,
       dataType: 'number',
       placeholder: 'Enter the Amount',
@@ -49,7 +43,7 @@ export default function makeData(count: number) {
       accessor: 'interestRate',
       minWidth: 100,
       dataType: 'number',
-      placeholder: 'Enter the interest rate',
+      placeholder: 'Ex: 10%',
       disabled: false,
       align: 'right',
     },

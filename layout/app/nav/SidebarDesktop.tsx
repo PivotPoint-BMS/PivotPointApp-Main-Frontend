@@ -83,6 +83,8 @@ function SideBar() {
               icon={<Iconify icon={item.icon} height={22} width={22} />}
               href={item.href}
               asLink
+              badge={item.badge}
+              disabled={item.disabled}
             />
           ))}
         </nav>

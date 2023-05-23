@@ -17,7 +17,7 @@ type Props = {
   disabled: boolean
   isCollapsed: boolean
   badge?: {
-    icon?: string
+    color?: 'primary' | 'secondary' | 'info' | 'warning' | 'error' | 'success' | 'default'
     label: string
   }
 }
@@ -53,11 +53,8 @@ export default function SubNavItemTwo({ name, href, icon, badge, disabled, isCol
       </label>
       {badge && (
         <Badge
-          icon={
-            badge.icon && <Iconify icon={badge.icon ? badge.icon : ''} height={20} width={20} />
-          }
           label={t(badge?.label)}
-          intent='warning'
+          intent={badge?.color}
           className={clsx('truncate text-[10px]', isCollapsed && 'hidden group-hover:block')}
         />
       )}

@@ -27,7 +27,9 @@ function index() {
       <main className='flex h-screen flex-col items-center justify-center'>
         {isDesktop && <Logo height={100} width={100} className='mb-5' />}
         <div className='container mx-auto flex flex-col items-center justify-center gap-5 px-10 sm:px-16 md:px-32 lg:w-1/2'>
-          <h1 className='text-5xl font-semibold'>{t('Register')}</h1>
+          <h1 className='text-center text-4xl font-semibold'>
+            {t("Let's Set You Up For Success")}
+          </h1>
           <p className='text-center'>
             {t('Already have an account?')}{' '}
             <span>

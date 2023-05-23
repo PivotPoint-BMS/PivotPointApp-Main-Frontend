@@ -52,7 +52,7 @@ export default function TopCustomerComplaints({
   })
   return (
     <Card fullWidth className='h-full sm:col-span-2 md:col-span-1'>
-      <CardHeader title={t('Top Customer Complaints')} />
+      <CardHeader title={t('Top Customer Discussions')} />
       <CardContent className='flex  items-center justify-center'>
         <ReactApexChart
           type='donut'
