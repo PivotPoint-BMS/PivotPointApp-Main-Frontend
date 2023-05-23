@@ -112,46 +112,46 @@ const initialState: SideBarConfig = {
             color: 'success',
           },
         },
-        {
-          name: 'Demand Forecasting',
-          href: PATH_DASHBOARD.scm['demand-forecasting'],
-          icon: 'material-symbols:batch-prediction',
-          disabled: true,
-          badge: {
-            label: 'In Dev',
-            color: 'default',
-          },
-        },
-        {
-          name: 'Invoice',
-          href: PATH_DASHBOARD.scm.invoice,
-          icon: 'fa6-solid:file-invoice',
-          disabled: true,
-          badge: {
-            label: 'In Dev',
-            color: 'default',
-          },
-        },
-        {
-          name: 'Monitoring & Planning',
-          href: PATH_DASHBOARD.scm.monitoring,
-          icon: 'material-symbols:monitor-heart-rounded',
-          disabled: true,
-          badge: {
-            label: 'In Dev',
-            color: 'default',
-          },
-        },
-        {
-          name: 'Warehousing',
-          href: PATH_DASHBOARD.scm.warehousing,
-          icon: 'fa6-solid:warehouse',
-          disabled: true,
-          badge: {
-            label: 'In Dev',
-            color: 'default',
-          },
-        },
+        // {
+        //   name: 'Demand Forecasting',
+        //   href: PATH_DASHBOARD.scm['demand-forecasting'],
+        //   icon: 'material-symbols:batch-prediction',
+        //   disabled: true,
+        //   badge: {
+        //     label: 'In Dev',
+        //     color: 'default',
+        //   },
+        // },
+        // {
+        //   name: 'Invoice',
+        //   href: PATH_DASHBOARD.scm.invoice,
+        //   icon: 'fa6-solid:file-invoice',
+        //   disabled: true,
+        //   badge: {
+        //     label: 'In Dev',
+        //     color: 'default',
+        //   },
+        // },
+        // {
+        //   name: 'Monitoring & Planning',
+        //   href: PATH_DASHBOARD.scm.monitoring,
+        //   icon: 'material-symbols:monitor-heart-rounded',
+        //   disabled: true,
+        //   badge: {
+        //     label: 'In Dev',
+        //     color: 'default',
+        //   },
+        // },
+        // {
+        //   name: 'Warehousing',
+        //   href: PATH_DASHBOARD.scm.warehousing,
+        //   icon: 'fa6-solid:warehouse',
+        //   disabled: true,
+        //   badge: {
+        //     label: 'In Dev',
+        //     color: 'default',
+        //   },
+        // },
       ],
     },
     {
