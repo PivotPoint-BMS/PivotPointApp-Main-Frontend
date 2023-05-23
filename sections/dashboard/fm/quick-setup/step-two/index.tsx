@@ -127,24 +127,24 @@ function StepTwo({
       })
   }, [])
 
-  useEffect(() => {
-    if (isGetSuccess) {
-      dispatch({
-        type: 'set_data',
-        data: stepTwoData.data.turnOverSources.map(({ source, contributions }) => {
-          const newValues = contributions.map((value, i) => ({ [i.toString()]: value.toString() }))
-          return {
-            source,
-            ...newValues,
-          }
-        }),
-        rowIndex: 0,
-        columnId: '',
-        value: '',
-        newIncome: [],
-      })
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (isGetSuccess) {
+  //     dispatch({
+  //       type: 'set_data',
+  //       data: stepTwoData.data.turnOverSources.map(({ source, contributions }) => {
+  //         const newValues = contributions.map((value, i) => ({ [i.toString()]: value.toString() }))
+  //         return {
+  //           source,
+  //           ...newValues,
+  //         }
+  //       }),
+  //       rowIndex: 0,
+  //       columnId: '',
+  //       value: '',
+  //       newIncome: [],
+  //     })
+  //   }
+  // }, [])
 
   return (
     <div className='container relative mx-auto flex h-full flex-col items-center justify-start gap-5 overflow-scroll py-10 px-4'>
@@ -189,20 +189,20 @@ function StepTwo({
           )}
           <Table columns={state.columns} data={state.data} dispatch={dispatch} isSaaS={isSaaS} />
           <Button
-            onClick={() => {
-              if (
-                state.data.length > 0 &&
-                state.data.every((cell) => Object.keys(cell).every((key) => cell[key] !== ''))
-              )
-                setStepTwo({ turnOverSources: state.data })
-              else
-                open({
-                  autoHideDuration: 10000,
-                  message: t('Please fill all fields.'),
-                  type: 'warning',
-                  closeButton: true,
-                })
-            }}
+            // onClick={() => {
+            //   if (
+            //     state.data.length > 0 &&
+            //     state.data.every((cell) => Object.keys(cell).every((key) => cell[key] !== ''))
+            //   )
+            //     setStepTwo({ turnOverSources: state.data })
+            //   else
+            //     open({
+            //       autoHideDuration: 10000,
+            //       message: t('Please fill all fields.'),
+            //       type: 'warning',
+            //       closeButton: true,
+            //     })
+            // }}
             size='large'
             loading={isLoading}
           >
