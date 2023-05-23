@@ -23,7 +23,7 @@ function Dashboard() {
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const { data, isError, isLoading, isSuccess, isFetching } = useGetCrmStatsQuery(undefined, {
-    pollingInterval: 5 * 60 * 1000, // 5 min
+    pollingInterval: 2 * 60 * 60 * 1000, // 2 hours
   })
 
   useEffect(() => {

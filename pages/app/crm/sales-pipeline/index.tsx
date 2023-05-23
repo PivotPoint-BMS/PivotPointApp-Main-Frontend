@@ -77,15 +77,15 @@ function index() {
                 startIcon={<Iconify icon='ic:round-add' height={24} />}
                 onClick={() => setOpenDialog(true)}
               >
-                {t('New Board')}
+                {t('New Pipeline')}
               </Button>
             </div>
           }
         />
         <DealsKanban boardId={boardId} />
-        <Dialog open={openDialog} title={t('Add New Board')}>
+        <Dialog open={openDialog} title={t('Add New Pipeline')}>
           <CreateEditBoardForm
-            // TODO: Add Edit Board
+            // TODO: Add Edit Pipeline
             currentBoard={null}
             isEdit={false}
             onSuccess={() => {

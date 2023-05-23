@@ -81,12 +81,18 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
         <div className='container min-w-fit max-w-5xl rounded-lg border border-b-0'>
           <table {...getTableProps()} className='w-full'>
             <thead>
-              {headerGroups.map((headerGroup) => (
-                <tr {...headerGroup.getHeaderGroupProps()} className='divide-x'>
-                  {headerGroup.headers.map((column) => (
+              {headerGroups.map((headerGroup, i) => (
+                <tr
+                  {...headerGroup.getHeaderGroupProps()}
+                  className='divide-x'
+                  key={`table-head-row-${i}`}
+                >
+                  {headerGroup.headers.map((column,index) => (
                     <th
                       {...column.getHeaderProps()}
                       className='border-b bg-gray-100 dark:bg-paper-dark'
+                    key={`table-header-cell-${index}`}
+                      
                     >
                       {column.render('Header')}
                     </th>
@@ -95,16 +101,18 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
               ))}
             </thead>
             <tbody {...getTableBodyProps()}>
-              {rows.map((row, i) => {
+              {rows.map((row, index) => {
                 prepareRow(row)
                 return (
                   <tr
                     {...row.getRowProps()}
-                    key={`table-row-${i}`}
+                    key={`table-body-row-${index}`}
                     className='divide-x border-b last-of-type:border-b-0'
                   >
-                    {row.cells.map((cell) => (
-                      <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                    {row.cells.map((cell, i) => (
+                      <td {...cell.getCellProps()} key={`table-cell-${i}`}>
+                        {cell.render('Cell')}
+                      </td>
                     ))}
                   </tr>
                 )

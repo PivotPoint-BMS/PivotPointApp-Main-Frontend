@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable no-case-declarations */
 import { useEffect, useReducer, useState } from 'react'
 import clsx from 'clsx'
@@ -125,26 +126,34 @@ function StepTwo({
         type: 'error',
         autoHideDuration: 6000,
       })
-  }, [])
+  }, [isLoading])
 
-  // useEffect(() => {
-  //   if (isGetSuccess) {
-  //     dispatch({
-  //       type: 'set_data',
-  //       data: stepTwoData.data.turnOverSources.map(({ source, contributions }) => {
-  //         const newValues = contributions.map((value, i) => ({ [i.toString()]: value.toString() }))
-  //         return {
-  //           source,
-  //           ...newValues,
-  //         }
-  //       }),
-  //       rowIndex: 0,
-  //       columnId: '',
-  //       value: '',
-  //       newIncome: [],
-  //     })
-  //   }
-  // }, [])
+  useEffect(() => {
+    if (isGetSuccess) {
+      const data: {
+        [key: string]: string
+        source: string
+      }[] = []
+      stepTwoData.data.turnOverSources.forEach(({ source, contributions }) => {
+        let years: { [key: string]: string } = {}
+        contributions.forEach((value, i) => {
+          years = { ...years, [(i + 1).toString()]: value.toString() }
+        })
+        data.push({
+          source,
+          ...years,
+        })
+      })
+      dispatch({
+        type: 'set_data',
+        data,
+        rowIndex: 0,
+        columnId: '',
+        value: '',
+        newIncome: [],
+      })
+    }
+  }, [isGetLoading])
 
   return (
     <div className='container relative mx-auto flex h-full flex-col items-center justify-start gap-5 overflow-scroll py-10 px-4'>
@@ -189,20 +198,43 @@ function StepTwo({
           )}
           <Table columns={state.columns} data={state.data} dispatch={dispatch} isSaaS={isSaaS} />
           <Button
-            // onClick={() => {
-            //   if (
-            //     state.data.length > 0 &&
-            //     state.data.every((cell) => Object.keys(cell).every((key) => cell[key] !== ''))
-            //   )
-            //     setStepTwo({ turnOverSources: state.data })
-            //   else
-            //     open({
-            //       autoHideDuration: 10000,
-            //       message: t('Please fill all fields.'),
-            //       type: 'warning',
-            //       closeButton: true,
-            //     })
-            // }}
+            onClick={() => {
+              if (
+                state.data.length > 0 &&
+                state.data.every((cell) => Object.keys(cell).every((key) => cell[key] !== ''))
+              ) {
+                const turnOverSources = state.data.reduce(
+                  (
+                    acc: {
+                      source: string
+                      contributions: number[]
+                    }[],
+                    curr
+                  ) => {
+                    const newObj: {
+                      source: string
+                      contributions: number[]
+                    } = {
+                      source: curr.source,
+                      contributions: [],
+                    }
+                    for (let j = 0; j < estimationRange; j++) {
+                      newObj.contributions.push(Number(curr[j + 1]))
+                    }
+                    acc.push(newObj)
+                    return acc
+                  },
+                  []
+                )
+                setStepTwo({ turnOverSources })
+              } else
+                open({
+                  autoHideDuration: 10000,
+                  message: t('Please fill all fields.'),
+                  type: 'warning',
+                  closeButton: true,
+                })
+            }}
             size='large'
             loading={isLoading}
           >

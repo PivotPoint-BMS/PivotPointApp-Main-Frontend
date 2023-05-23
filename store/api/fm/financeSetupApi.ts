@@ -12,7 +12,6 @@ export interface StepOneState {
     source: string
     amount: number | string
     interestRate: number | string
-    percentage: string
   }[]
   years: number
 }
@@ -50,10 +49,6 @@ export const financeSetupApi = createApi({
       query: () => 'QuickSetup/Step1',
       providesTags: ['StepOne'],
     }),
-    getStepTwo: builder.query<IGenericResponse<StepTwoState>, void>({
-      query: () => 'QuickSetup/Step2',
-      providesTags: ['StepTwo'],
-    }),
     setStepOne: builder.mutation<IGenericResponse<unknown>, StepOneState>({
       query: (data) => ({
         url: 'QuickSetup/Step1',
@@ -62,6 +57,10 @@ export const financeSetupApi = createApi({
         responseHandler: 'content-type',
       }),
       invalidatesTags: ['StepOne'],
+    }),
+    getStepTwo: builder.query<IGenericResponse<StepTwoState>, void>({
+      query: () => 'QuickSetup/Step2',
+      providesTags: ['StepTwo'],
     }),
     setStepTwo: builder.mutation<IGenericResponse<unknown>, StepTwoState>({
       query: (data) => ({

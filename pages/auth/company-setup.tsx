@@ -11,7 +11,7 @@ import * as TabsPrimitive from '@radix-ui/react-tabs'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 // routes
-import { PATH_AUTH, PATH_DASHBOARD } from 'routes/paths'
+import {  PATH_DASHBOARD } from 'routes/paths'
 // types
 import { CompanySetupInput } from 'types'
 // hooks
@@ -130,7 +130,7 @@ function index() {
   }
 
   useEffect(() => {
-    if (!isLoading && isSuccess) push(PATH_AUTH.root)
+    if (!isLoading && isSuccess) push(PATH_DASHBOARD.crm.dashboard)
   }, [isLoading, isSuccess])
 
   useEffect(() => {

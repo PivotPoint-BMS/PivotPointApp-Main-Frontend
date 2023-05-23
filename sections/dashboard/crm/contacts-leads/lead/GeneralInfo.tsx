@@ -86,9 +86,9 @@ export default function GeneralInfo({ lead }: { lead: Lead }) {
             width={100}
             height={100}
             src={
-              lead.picture ? `${PIVOTPOINT_API.crmPicUrl}/${lead.picture}` : avatarPlaceholder.src
+              lead?.picture ? `${PIVOTPOINT_API.crmPicUrl}/${lead?.picture}` : avatarPlaceholder.src
             }
-            className='rounded-full'
+            className='aspect-square rounded-full object-cover'
           />
           <h1 className='text-center text-lg font-semibold'>{lead.fullName}</h1>
           <div className='flex w-full items-center justify-center gap-10 text-center'>

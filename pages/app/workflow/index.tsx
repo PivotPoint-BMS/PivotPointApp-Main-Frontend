@@ -135,13 +135,13 @@ const index = () => {
         <title>{t('Workflow')} | Pivot Point BMS</title>
       </Head>
       {isDesktop ? (
-        <div className='w-full flex-col'>
+        <div className='flex h-full w-full flex-col'>
           <div className='px-5'>
             <HeaderBreadcrumbs heading={t('Workflow')} />
           </div>
-          <div className='flex h-full max-h-[570px]'>
+          <div className='flex flex-1'>
             <ReactFlowProvider>
-              <div className='w-full' ref={reactFlowWrapper}>
+              <div className='flex-1' ref={reactFlowWrapper}>
                 <ReactFlow
                   nodes={nodes}
                   edges={edges}
@@ -157,17 +157,17 @@ const index = () => {
                   onDrop={onDrop}
                   onDragOver={onDragOver}
                   onNodeDoubleClick={(e, node) => console.log(node)}
-                  className='bg-gray-100 dark:bg-paper-dark-contrast'
+                  className='h-full w-full bg-gray-100 dark:bg-paper-dark-contrast'
                 >
                   <Controls />
                 </ReactFlow>
               </div>
-              <WorkflowSidebar />
             </ReactFlowProvider>
+            <WorkflowSidebar />
           </div>
         </div>
       ) : (
-        <div className='flex h-full w-full items-center justify-center'>
+        <div className='flex w-full items-center justify-center'>
           <h1 className='text-center text-xl font-semibold text-red-500'>
             {t('Sorry, Workflow only works on desktop')}
           </h1>

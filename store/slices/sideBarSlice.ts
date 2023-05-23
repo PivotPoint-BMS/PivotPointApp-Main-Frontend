@@ -164,7 +164,6 @@ const initialState: SideBarConfig = {
           name: 'Monitoring',
           href: PATH_DASHBOARD.fm.dashboard,
           icon: 'solar:graph-bold',
-          disabled: true,
           badge: {
             label: 'Beta',
             color: 'warning',

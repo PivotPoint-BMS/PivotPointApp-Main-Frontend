@@ -1,9 +1,10 @@
-import { StepOneState } from 'store/api/fm/financeSetupApi'
-
 export default function makeData() {
-  const data: StepOneState['financements'] = [
-    { amount: '', interestRate: '', source: '', percentage: '' },
-  ]
+  const data: {
+    source: string
+    amount: number | string
+    interestRate: number | string
+    percentage: string
+  }[] = [{ amount: '', interestRate: '', source: '', percentage: '' }]
   // eslint-disable-next-line no-plusplus
 
   const columns = [

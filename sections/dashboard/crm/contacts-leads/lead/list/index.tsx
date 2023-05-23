@@ -101,25 +101,17 @@ export default function LeadsList() {
       grow: 2,
     },
     {
-      name: t('Lead status'),
-      cell: ({ leadStatus }) => {
-        if (leadStatus === 1)
-          return <Badge variant='ghost' intent='primary' size='small' label={t('Open')} />
-        if (leadStatus === 2)
-          return (
-            <Badge variant='ghost' intent='info' size='small' label={t('Attempt to Contact')} />
-          )
-        if (leadStatus === 4)
-          return (
-            <Badge variant='ghost' intent='warning' size='small' label={t('Deal Unqualified')} />
-          )
-        if (leadStatus === 5)
-          return <Badge variant='ghost' intent='success' size='small' label={t('Success')} />
-        if (leadStatus === 6)
-          return <Badge variant='ghost' intent='error' size='small' label={t('Failure')} />
-        if (leadStatus === 7)
-          return <Badge variant='ghost' intent='success' size='small' label={t('Closed')} />
-        return <Badge variant='ghost' intent='info' size='small' label={t('New')} />
+      name: t('Lead priority'),
+
+      cell: ({ priority }) => {
+        if (priority === 1)
+          return <Badge variant='ghost' intent='success' size='small' label={t('Low')} />
+        if (priority === 2)
+          return <Badge variant='ghost' intent='warning' size='small' label={t('Medium')} />
+        if (priority === 3)
+          return <Badge variant='ghost' intent='error' size='small' label={t('High')} />
+
+        return <Badge variant='ghost' intent='info' size='small' label={t('Unassined')} />
       },
       sortable: true,
       reorder: true,

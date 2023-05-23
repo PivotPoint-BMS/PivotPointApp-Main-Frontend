@@ -72,6 +72,10 @@ export default function CreateEditLeadForm({
   const [coutriesList, setCoutriesList] = useState<{ value: string; label: string }[]>([])
   const [citiesList, setCitiesList] = useState<{ value: string; label: string }[]>([])
   const [income, setIncome] = useState(0)
+  const [city, setCity] = useState<{ value: string; label: string } | null>(null)
+  const [country, setCountry] = useState<{ value: string; label: string } | null>(null)
+  const [source, setSource] = useState<{ value: string; label: string } | null>(null)
+  const [priority, setPriority] = useState('0')
 
   const PRIORITIES = [
     { value: '0', label: t('Unassined') },
@@ -112,6 +116,7 @@ export default function CreateEditLeadForm({
       jobTitle: currentLead?.jobTitle || '',
       LeadSourceId: currentLead?.leadSource?.id || '',
       city: currentLead?.address.city || '',
+      priority: currentLead?.priority || 0,
       country: currentLead?.address.country || '',
       incomeK: 0,
     }),
@@ -135,7 +140,8 @@ export default function CreateEditLeadForm({
     formData.append('LeadSourceId', data.LeadSourceId)
     formData.append('city', data.city)
     formData.append('country', data.country)
-
+    formData.append('incomeK', String(income))
+    formData.append('priority', priority)
     if (isEdit) editLead({ data: formData, id: currentLead?.id || '' })
     else createLead(formData)
     invalidateTags(['Leads', 'Lead'])
@@ -178,7 +184,22 @@ export default function CreateEditLeadForm({
   useEffect(() => {
     if (isEdit && currentLead) {
       reset(defaultValues)
+      setCity({
+        value: currentLead.address.city,
+        label: currentLead.address.city,
+      })
+      setCountry({
+        value: currentLead.address.country,
+        label: currentLead.address.country,
+      })
+      setSource({
+        value: currentLead.leadSource.id || '',
+        label: currentLead.leadSource.source || '',
+      })
+      setIncome(currentLead.incomeK || 0)
+      setPriority(String(currentLead.priority) || '0')
     }
+
     if (!isEdit) {
       reset(defaultValues)
     }
@@ -211,15 +232,21 @@ export default function CreateEditLeadForm({
   useEffect(() => {
     if (isSuccess)
       setSourcesList(
-        sources.data.map((source) => ({ value: source.id as string, label: source.source }))
+        sources.data.map((newSource) => ({
+          value: newSource.id as string,
+          label: newSource.source,
+        }))
       )
   }, [isLoading])
   useEffect(() => {
     if (isCountriesSuccess)
-      setCoutriesList(countries.data.map((country) => ({ value: country, label: country })))
+      setCoutriesList(
+        countries.data.map((newCountry) => ({ value: newCountry, label: newCountry }))
+      )
   }, [isCountriesLoading])
   useEffect(() => {
-    if (isCitiesSuccess) setCitiesList(cities.data.map((city) => ({ value: city, label: city })))
+    if (isCitiesSuccess)
+      setCitiesList(cities.data.map((newCity) => ({ value: newCity, label: newCity })))
   }, [isCitiesLoading])
 
   return isLoading ? (
@@ -262,7 +289,9 @@ export default function CreateEditLeadForm({
                   isLoading={isLoading}
                   onChange={(newValue) => {
                     setValue('LeadSourceId', newValue?.value)
+                    setSource(newValue)
                   }}
+                  value={source}
                   className='react-select-container'
                   classNamePrefix='react-select'
                 />
@@ -276,8 +305,10 @@ export default function CreateEditLeadForm({
                   isLoading={isCountriesLoading}
                   onChange={(newValue) => {
                     setValue('country', newValue?.value)
+                    setCountry(newValue)
                     refetch()
                   }}
+                  value={country}
                   // TODO: Add country api
                   // onCreateOption={(value) =>
                   //   setCoutriesList((prevState) => {
@@ -295,7 +326,9 @@ export default function CreateEditLeadForm({
                   isLoading={isCitiesLoading}
                   onChange={(newValue) => {
                     setValue('city', newValue?.value)
+                    setCity(newValue)
                   }}
+                  value={city}
                   className='react-select-container'
                   classNamePrefix='react-select'
                 />
@@ -308,7 +341,11 @@ export default function CreateEditLeadForm({
                 <MySelect
                   items={PRIORITIES}
                   defaultValue='0'
-                  onValueChange={(value) => setValue('priority', value)}
+                  onValueChange={(value) => {
+                    setValue('priority', Number(value))
+                    setPriority(value)
+                  }}
+                  value={priority}
                 />
               </div>
               <div className='flex flex-col gap-1 md:col-span-2'>
@@ -322,6 +359,7 @@ export default function CreateEditLeadForm({
                       setValue('incomeK', value[0])
                       setIncome(value[0])
                     }}
+                    value={[income]}
                   />
                   <p className='rounded-md bg-gray-200 p-1 text-sm dark:bg-gray-600'>{income}</p>
                 </div>

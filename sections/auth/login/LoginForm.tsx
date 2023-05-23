@@ -68,7 +68,7 @@ export default function LoginForm() {
       setError('afterSubmit', { ...error, message: error.data as string })
     }
     if (isSuccess) {
-      push(PATH_DASHBOARD.root)
+      push(PATH_DASHBOARD.crm.dashboard)
     }
   }, [isLoading])
 

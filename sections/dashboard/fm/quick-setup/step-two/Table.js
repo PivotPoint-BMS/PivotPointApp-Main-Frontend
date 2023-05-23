@@ -80,12 +80,17 @@ export default function Table({ columns, data, dispatch: dataDispatch, isSaaS })
         <div className='container min-w-fit max-w-full rounded-lg border border-b-0'>
           <table {...getTableProps()} className='w-full'>
             <thead className='overflow-x-scroll'>
-              {headerGroups.map((headerGroup) => (
-                <tr {...headerGroup.getHeaderGroupProps()} className='divide-x'>
-                  {headerGroup.headers.map((column) => (
+              {headerGroups.map((headerGroup, i) => (
+                <tr
+                  {...headerGroup.getHeaderGroupProps()}
+                  className='divide-x'
+                  key={`table-head-row-${i}`}
+                >
+                  {headerGroup.headers.map((column, index) => (
                     <th
                       {...column.getHeaderProps()}
                       className='border-b bg-gray-100 dark:bg-paper-dark'
+                      key={`table-head-cell-${index}`}
                     >
                       {column.render('Header')}
                     </th>
@@ -100,11 +105,13 @@ export default function Table({ columns, data, dispatch: dataDispatch, isSaaS })
                   return (
                     <tr
                       {...row.getRowProps()}
-                      key={`table-row-${i}`}
+                      key={`table-body-row-${i}`}
                       className='divide-x border-b last-of-type:border-b-0'
                     >
-                      {row.cells.map((cell) => (
-                        <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                      {row.cells.map((cell, index) => (
+                        <td {...cell.getCellProps()} key={`table-row-cell-${index}`}>
+                          {cell.render('Cell')}
+                        </td>
                       ))}
                     </tr>
                   )

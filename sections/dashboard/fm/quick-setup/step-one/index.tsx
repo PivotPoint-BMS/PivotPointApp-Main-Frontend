@@ -5,11 +5,7 @@ import { round } from 'lodash'
 import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
 // api
-import {
-  StepOneState,
-  useGetStepOneQuery,
-  useSetStepOneMutation,
-} from 'store/api/fm/financeSetupApi'
+import { useGetStepOneQuery, useSetStepOneMutation } from 'store/api/fm/financeSetupApi'
 // components
 import { Button, LoadingIndicator, Radiobox } from 'components'
 // sections
@@ -18,7 +14,12 @@ import makeData from './makeData'
 
 function reducer(
   state: {
-    data: StepOneState['financements']
+    data: {
+      source: string
+      amount: number | string
+      interestRate: number | string
+      percentage: string
+    }[]
     columns: {
       id: string
       label: string
@@ -36,7 +37,12 @@ function reducer(
     columnId: string
     value: string
     total: number
-    data: StepOneState['financements']
+    data: {
+      source: string
+      amount: number | string
+      interestRate: number | string
+      percentage: string
+    }[]
   }
 ) {
   switch (action.type) {
@@ -115,20 +121,26 @@ function StepOne({ handleNextStep }: { handleNextStep: (range: number) => void }
         type: 'error',
         autoHideDuration: 6000,
       })
-  }, [])
+  }, [isLoading])
 
   useEffect(() => {
     if (isGetSuccess) {
       dispatch({
         type: 'set_data',
-        data: stepOneData.data.financements,
+        data: stepOneData.data.financements.map((financement) => ({
+          amount: financement.amount,
+          interestRate: financement.interestRate,
+          source: financement.source,
+          percentage: '0%',
+        })),
         rowIndex: 0,
         columnId: '',
         value: '',
         total: 0,
       })
+      setRange(stepOneData.data.years)
     }
-  }, [])
+  }, [isGetLoading])
 
   return (
     <div className='container mx-auto flex h-full flex-col items-center justify-start gap-5 overflow-scroll py-10 px-4'>
@@ -143,12 +155,27 @@ function StepOne({ handleNextStep }: { handleNextStep: (range: number) => void }
             <Radiobox
               name='range'
               label={t('2 years')}
-              defaultChecked
               onChange={() => setRange(2)}
+              checked={range === 2}
             />
-            <Radiobox name='range' label={t('3 years')} onChange={() => setRange(3)} />
-            <Radiobox name='range' label={t('4 years')} onChange={() => setRange(4)} />
-            <Radiobox name='range' label={t('5 years')} onChange={() => setRange(5)} />
+            <Radiobox
+              checked={range === 3}
+              name='range'
+              label={t('3 years')}
+              onChange={() => setRange(3)}
+            />
+            <Radiobox
+              checked={range === 4}
+              name='range'
+              label={t('4 years')}
+              onChange={() => setRange(4)}
+            />
+            <Radiobox
+              checked={range === 5}
+              name='range'
+              label={t('5 years')}
+              onChange={() => setRange(5)}
+            />
           </div>
           <Button
             onClick={() => {
@@ -157,11 +184,10 @@ function StepOne({ handleNextStep }: { handleNextStep: (range: number) => void }
                 state.data.every((d) => d.amount !== '' && d.source !== '' && d.interestRate !== '')
               ) {
                 setStepOne({
-                  financements: state.data.map(({ amount, interestRate, source, percentage }) => ({
+                  financements: state.data.map(({ amount, interestRate, source }) => ({
                     amount,
                     interestRate,
                     source,
-                    percentage,
                   })),
                   years: range,
                 })
