@@ -7,6 +7,7 @@ const fr: { [key: string]: string } = {
   Projects: 'Projets',
   Inventory: 'Inventaire',
   'Supply Chain': 'Chaîne logistique',
+  'Supply Chain & Inventory': 'Chaîne logistique & Inventaire',
   Finance: 'Finance',
   'Dark Mode': 'Mode sombre',
   'Light Mode': 'Mode Claire',

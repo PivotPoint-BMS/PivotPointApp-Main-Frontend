@@ -7,6 +7,7 @@ const ar: { [key: string]: string } = {
   Projects: 'المشاريع',
   Inventory: 'المخزون',
   'Supply Chain': 'سلسلة التوريد',
+  'Supply Chain & Inventory': 'سلسلة التوريد و المخزون',
   Finance: 'الشؤون المالية',
   'Dark Mode': 'الوضع الداكن',
   'Light Mode': 'الوضع الفاتح',

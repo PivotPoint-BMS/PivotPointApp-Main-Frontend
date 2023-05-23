@@ -7,6 +7,7 @@ const en: { [key: string]: string } = {
   Projects: 'Projects',
   Inventory: 'Inventory',
   'Supply Chain': 'Supply Chain',
+  'Supply Chain & Inventory': 'Supply Chain & Inventory',
   Finance: 'Finance',
   'Dark Mode': 'Dark Mode',
   'Light Mode': 'Light Mode',
