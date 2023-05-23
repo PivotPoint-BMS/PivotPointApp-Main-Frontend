@@ -14,6 +14,8 @@ import ProfilePassword from 'sections/dashboard/user/profile/ProfilePassword'
 import ProfileBilling from 'sections/dashboard/user/profile/ProfileBilling'
 import ProfileNotification from 'sections/dashboard/user/profile/ProfileNotification'
 import ProfileSupport from 'sections/dashboard/user/profile/ProfileSupport'
+// layout
+import Layout from 'layout/Index'
 // components
 import { Icon as Iconify } from '@iconify/react'
 import { HeaderBreadcrumbs, Scrollbar } from 'components'
@@ -26,7 +28,7 @@ const TABS = [
   { name: 'Support', icon: 'material-symbols:contact-support-rounded', value: 'support' },
 ]
 
-export default function Profile() {
+function Profile() {
   const { t, locale } = useTranslate()
 
   return (
@@ -89,3 +91,9 @@ export default function Profile() {
     </>
   )
 }
+
+Profile.getLayout = function getLayout(page: JSX.Element) {
+  return <Layout variant='dashboard'>{page}</Layout>
+}
+
+export default Profile
