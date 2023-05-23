@@ -10,7 +10,7 @@ module.exports = {
         permanent: true,
       },
       {
-        source: '/dashboard',
+        source: '/app',
         destination: '/app/crm/dashboard',
         permanent: true,
       },
