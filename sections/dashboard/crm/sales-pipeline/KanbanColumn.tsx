@@ -8,7 +8,6 @@ import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
 // api
 import {
-  invalidateTags,
   useDeleteDealBoardColumnMutation,
   useEditDealBoardColumnMutation,
 } from 'store/api/crm/sales-pipeline/dealsBoardsApi'
@@ -20,7 +19,6 @@ import {
   CardContent,
   CardHeader,
   Dialog,
-  DropdownMenu,
   IconButton,
   Tooltip,
 } from 'components'
