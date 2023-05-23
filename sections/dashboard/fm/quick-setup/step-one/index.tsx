@@ -157,10 +157,11 @@ function StepOne({ handleNextStep }: { handleNextStep: (range: number) => void }
                 state.data.every((d) => d.amount !== '' && d.source !== '' && d.interestRate !== '')
               ) {
                 setStepOne({
-                  financements: state.data.map(({ amount, interestRate, source }) => ({
+                  financements: state.data.map(({ amount, interestRate, source, percentage }) => ({
                     amount,
                     interestRate,
                     source,
+                    percentage,
                   })),
                   years: range,
                 })

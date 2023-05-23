@@ -12,6 +12,7 @@ export interface StepOneState {
     source: string
     amount: number | string
     interestRate: number | string
+    percentage: string
   }[]
   years: number
 }
