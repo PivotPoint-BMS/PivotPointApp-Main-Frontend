@@ -69,7 +69,7 @@ function SideBar() {
       }}
     >
       <div
-        className='group fixed z-10 flex h-screen flex-col items-start   bg-white py-6 px-4 transition-all ltr:border-r rtl:border-l motion-reduce:transition-none dark:border-gray-500 dark:bg-dark'
+        className='group fixed z-10 flex h-screen flex-col items-start bg-gray-50 py-6 px-4 transition-all ltr:border-r rtl:border-l motion-reduce:transition-none dark:border-gray-500 dark:bg-dark'
         style={{ minWidth: NAVBAR.MAIN_NAVBAR_WIDTH }}
       >
         <Link href='/' className='mt-4 mb-12 w-full'>

@@ -25,8 +25,8 @@ type Props =
         icon: string
         disabled?: boolean
         badge?: {
+          color?: 'primary' | 'secondary' | 'info' | 'warning' | 'error' | 'success' | 'default'
           label: string
-          icon?: string
         }
       }[]
     }
@@ -37,6 +37,7 @@ type Props =
       asLink?: never
       href?: never
       subItems?: never
+      badge?: never
     }
 
 function NavItemMobile({ name, icon, asLink = false, href = '', onClick, subItems }: Props) {
@@ -53,24 +54,38 @@ function NavItemMobile({ name, icon, asLink = false, href = '', onClick, subItem
           active && 'bg-primary-500/10 dark:bg-gray-300/10'
         )}
       >
-        <Link href={href} className='flex flex-1 items-center' onClick={onClick}>
-          {icon}
-          <h3 className='truncate text-xs font-medium capitalize group-hover:opacity-100  ltr:ml-3 rtl:mr-3'>
-            {name}
-          </h3>
-          {name && (
-            <span className='absolute left-12 top-0 m-2 h-max w-max origin-left scale-0 rounded-lg bg-gray-300 p-2 text-xs font-medium text-rich-black shadow-xl transition-all duration-300'>
-              {name}
-            </span>
-          )}
-        </Link>
+        {subItems ? (
+          <div className='flex flex-1 items-center whitespace-normal'>
+            {icon}
+            <div className='w-full whitespace-normal '>
+              <h3 className='flex-1 whitespace-normal text-start text-xs font-medium capitalize group-hover:opacity-100  ltr:ml-3 rtl:mr-3'>
+                {name}
+              </h3>
+            </div>
+          </div>
+        ) : (
+          <Link
+            href={href}
+            className='flex flex-1 items-center whitespace-normal'
+            onClick={onClick}
+          >
+            {icon}
+            <div className='w-full whitespace-normal '>
+              <h3 className='flex-1 whitespace-normal text-start text-xs font-medium capitalize group-hover:opacity-100  ltr:ml-3 rtl:mr-3'>
+                {name}
+              </h3>
+            </div>
+          </Link>
+        )}
         {subItems && (
-          <Iconify
-            icon='material-symbols:arrow-drop-down-rounded'
-            height={20}
-            width={20}
-            className='transform duration-300 ease-in-out group-data-[state=open]:rotate-180'
-          />
+          <div>
+            <Iconify
+              icon='material-symbols:arrow-drop-down-rounded'
+              height={20}
+              width={20}
+              className='transform duration-300 ease-in-out group-data-[state=open]:rotate-180'
+            />
+          </div>
         )}
       </CollapsiblePrimitive.Trigger>
       <CollapsiblePrimitive.Content className='mt-2 flex flex-col space-y-4'>
@@ -89,16 +104,13 @@ function NavItemMobile({ name, icon, asLink = false, href = '', onClick, subItem
             onClick={onClick}
           >
             <Iconify icon={item.icon} height={20} width={20} />
-            <label className='flex-1 text-[10px] font-medium capitalize'>{t(item.name)}</label>
+            <label className='flex-1 cursor-pointer text-[10px] font-medium capitalize'>
+              {t(item.name)}
+            </label>
             {item.badge && (
               <Badge
-                icon={
-                  icon && (
-                    <Iconify icon={item.badge.icon ? item.badge.icon : ''} height={20} width={20} />
-                  )
-                }
                 label={t(item.badge?.label)}
-                intent='primary'
+                intent={item.badge?.color || 'primary'}
                 className='truncate text-[10px]'
               />
             )}

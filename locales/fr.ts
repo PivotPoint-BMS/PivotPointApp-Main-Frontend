@@ -230,7 +230,7 @@ const fr: { [key: string]: string } = {
   'Create Lead Source': 'Créer une source de clients',
   'Create Lead': 'Créer un clients potentiel',
   Contacts: 'Contacts',
-  Leads: 'Leads',
+  Leads: 'Clients potentiel',
   'Leads Sources': 'Sources de clients',
   'No Contact Found': 'Aucun contact trouvé',
   Language: 'Langue',
@@ -374,5 +374,6 @@ const fr: { [key: string]: string } = {
   'Step 2': 'Étape 2',
   'Step 3': 'Étape 3',
   'Step 4': 'Étape 4',
+  Monitoring: 'Tableau de bord',
 }
 export default fr

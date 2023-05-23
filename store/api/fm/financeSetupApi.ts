@@ -18,9 +18,9 @@ export interface StepOneState {
 }
 
 export interface StepTwoState {
-  financements: {
-    service: string
-    values: number[]
+  turnOverSources: {
+    source: string
+    contributions: number[]
   }[]
 }
 

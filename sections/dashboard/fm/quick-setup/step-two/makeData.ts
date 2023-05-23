@@ -1,8 +1,8 @@
 /* eslint-disable no-plusplus */
 export default function makeData(range: number) {
-  const data: { service: string; [key: string]: string }[] = []
+  const data: { source: string; [key: string]: string }[] = []
   // eslint-disable-next-line no-plusplus
-  let row = { service: '' }
+  let row = { source: '' }
   for (let i = 1; i <= range; i++) {
     row = { ...row, [i]: '' }
   }
@@ -11,11 +11,11 @@ export default function makeData(range: number) {
 
   const columns = [
     {
-      id: 'service',
-      label: 'Service',
-      accessor: 'service',
+      id: 'source',
+      label: 'Source',
+      accessor: 'source',
       dataType: 'text',
-      placeholder: 'Enter the service',
+      placeholder: 'Enter the source',
       align: 'center',
     },
   ]

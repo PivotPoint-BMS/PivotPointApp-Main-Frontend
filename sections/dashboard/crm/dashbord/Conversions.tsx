@@ -34,7 +34,7 @@ export default function Conversions({
 
   return (
     <Card fullWidth className='sm:col-span-2 md:col-span-4'>
-      <CardHeader title={t('Conversions')} subheader={t('Leads That Became Clients')} />
+      <CardHeader title={t('Conversions')} />
       <CardContent>
         <ReactApexChart
           type='area'

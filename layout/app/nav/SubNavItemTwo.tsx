@@ -44,7 +44,7 @@ export default function SubNavItemTwo({ name, href, icon, badge, disabled, isCol
         className={clsx(
           'flex-1 cursor-pointer font-medium capitalize ',
           isCollapsed
-            ? 'truncate text-[0px] opacity-0 transition-all duration-300 group-hover:text-xs group-hover:opacity-100 ltr:group-hover:ml-3 rtl:group-hover:mr-3'
+            ? 'whitespace-pre-wrap text-[0px] opacity-0 transition-all duration-300 group-hover:text-xs group-hover:opacity-100 ltr:group-hover:ml-3 rtl:group-hover:mr-3'
             : 'text-xs ltr:ml-3 rtl:mr-3',
           disabled && 'cursor-not-allowed'
         )}

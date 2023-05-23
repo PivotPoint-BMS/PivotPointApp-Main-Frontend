@@ -39,7 +39,7 @@ function index() {
   return (
     <>
       <Head>
-        <title>{t('Lead Details')} | Pivot Point BMS</title>
+        <title>{t('Contacts & Leads')} | Pivot Point BMS</title>
       </Head>
       <div className='flex max-w-full flex-col overflow-hidden px-5'>
         <HeaderBreadcrumbs

@@ -370,5 +370,6 @@ const ar: { [key: string]: string } = {
   'Step 2': 'الخطوة 2',
   'Step 3': 'الخطوة 3',
   'Step 4': 'الخطوة 4',
+  Monitoring: 'لوحة المراقبة',
 }
 export default ar

@@ -83,8 +83,8 @@ body {
 
 html[class*='dark'] {
   @apply bg-dark;
-  /* scrollbar-color: #ffffffb3 transparent;
-  scrollbar-width: auto; */
+  scrollbar-color: #ffffffb3 transparent;
+  scrollbar-width: auto;
 }
 
 ::-webkit-scrollbar {
