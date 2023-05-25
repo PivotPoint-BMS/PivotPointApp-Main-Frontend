@@ -24,9 +24,10 @@
     "**/*.ts",
     "**/*.tsx",
     "prettier.config.js",
-    "sections/dashboard/fm/quick-setup/step-one/Table.js",
     "sections/auth/company-setup/workers/Table.js",
+    "sections/dashboard/fm/quick-setup/step-one/Table.js",
     "sections/dashboard/fm/quick-setup/step-two/Table.js",
+    "sections/dashboard/fm/quick-setup/step-four/Table.js",
     "sections/auth/company-setup/workers/Cell.js"
   ],
   "exclude": ["node_modules"]

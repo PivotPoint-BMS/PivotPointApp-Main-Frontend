@@ -1,18 +1,15 @@
 /* eslint-disable no-plusplus */
 export default function makeData(range: number) {
   const data: {
-    inventory: string
-    isRawMaterials: string
     [key: string]: string
   }[] = []
   // eslint-disable-next-line no-plusplus
-  let row = {
-    inventory: '',
-    isRawMaterials: 'true',
-  }
+  let row = {}
   for (let i = 1; i <= range; i++) {
     row = { ...row, [i]: '' }
   }
+  data.push(row)
+  
 
   const columns: {
     id: string
@@ -25,16 +22,7 @@ export default function makeData(range: number) {
       label: string
       value: string
     }[]
-  }[] = [
-    {
-      id: 'inventory',
-      label: 'Inventory',
-      accessor: 'inventory',
-      dataType: 'text',
-      placeholder: 'Enter Inventory',
-      align: 'left',
-    },
-  ]
+  }[] = [  ]
 
   for (let i = 1; i <= range; i++) {
     const column = {
@@ -49,24 +37,6 @@ export default function makeData(range: number) {
     columns.push(column)
   }
 
-  columns.push({
-    id: 'isRawMaterials',
-    label: 'Is Raw Material?',
-    accessor: 'isRawMaterials',
-    dataType: 'select',
-    placeholder: '',
-    align: 'left',
-    options: [
-      {
-        label: 'Yes',
-        value: 'true',
-      },
-      {
-        label: 'No',
-        value: 'false',
-      },
-    ],
-  })
 
   return { columns, data }
 }

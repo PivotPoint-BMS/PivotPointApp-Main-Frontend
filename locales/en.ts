@@ -413,5 +413,11 @@ const en: { [key: string]: string } = {
   'Enter User Percentage': 'Enter User Percentage',
   'Starting Users': 'Starting Users',
   'New Subsription': 'New Subsription',
+  'Enter the amount': 'Enter the amount',
+  Yes: 'Yes',
+  No: 'No',
+  'Is Raw Material?': 'Is Raw Material?',
+  'Inventory Sources': 'Inventory Sources',
+  'Expected Personnel Costs': 'Expected Personnel Costs',
 }
 export default en

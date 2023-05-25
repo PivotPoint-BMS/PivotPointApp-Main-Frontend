@@ -25,17 +25,17 @@ export default function Cell({
   }, [initialValue])
 
   return disabled ? (
-    <p>{initialValue}</p>
+    <p>{t(initialValue)}</p>
   ) : (
     <input
-      value={value}
+      value={t(value)}
       onChange={onChange}
       onBlur={onBlur}
       type={dataType}
       placeholder={t(placeholder)}
       className={clsx(
         'box-border w-full flex-auto resize-none whitespace-nowrap border-0 bg-transparent p-2',
-        dataType === 'number' && 'text-right'
+        dataType === 'number' && 'ltr:text-right rtl:text-left'
       )}
     />
   )

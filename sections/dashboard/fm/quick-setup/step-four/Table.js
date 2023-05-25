@@ -1,14 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useMemo } from 'react'
+import React from 'react'
 // react table
 import { useTable, useFlexLayout, useResizeColumns, useSortBy } from 'react-table'
-// hooks
-import useTranslate from 'hooks/useTranslate'
-// utils
-import { fCurrency } from 'utils/formatNumber'
 // components
-import Button from 'components/Button'
-import { Icon } from '@iconify/react'
 import Cell from './Cell'
 import Header from './Header'
 
@@ -22,19 +16,6 @@ const defaultColumn = {
 }
 
 export default function Table({ columns, data, dispatch: dataDispatch }) {
-  const { t } = useTranslate()
-  const yearTotal = useMemo(
-    () =>
-      columns.slice(1, -1).map((column) => {
-        if (column.id !== 'inventory')
-          return data.reduce(
-            (partialSum, a) => partialSum + (parseInt(a[column.accessor], 10) || 0),
-            0
-          )
-        return 0
-      }),
-    [data, columns]
-  )
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
     {
       columns,
@@ -50,20 +31,10 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
     useSortBy
   )
 
-  useEffect(() => {
-    if (
-      data.length >= 2 &&
-      data
-        .slice(data.length - 2, data.length)
-        .every((cell) => Object.keys(cell).every((key) => cell[key] === ''))
-    )
-      dataDispatch({ type: 'delete_last_cell' })
-  }, [data])
-
   return (
     <div className='w-full flex-1 overflow-visible'>
       <div className='flex w-full justify-center overflow-x-scroll'>
-        <div className='container min-w-fit max-w-full rounded-lg border border-b-0'>
+        <div className='container min-w-fit max-w-full rounded-lg border'>
           <table {...getTableProps()} className='w-full'>
             <thead className='overflow-x-scroll'>
               {headerGroups.map((headerGroup, i) => (
@@ -101,30 +72,8 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
                   </tr>
                 )
               })}
-              <tr className='flex divide-x border-b bg-primary-100/40 last-of-type:border-b-0 rtl:divide-x-reverse dark:bg-primary-900'>
-                <td className='text flex-1 p-2 px-5 text-center font-medium ltr:text-left rtl:text-right'>
-                  {t('Total')}
-                </td>
-                {yearTotal.map((total) => (
-                  <td className='flex-1 p-2 px-5 font-medium ltr:text-right rtl:text-left'>
-                    {fCurrency(total)}
-                  </td>
-                ))}
-                <td className='text flex-1 p-2 px-5 text-center font-medium ltr:text-left rtl:text-right'>
-                  -
-                </td>
-              </tr>
             </tbody>
           </table>
-          <Button
-            variant='outlined'
-            startIcon={<Icon icon='ic:round-add' />}
-            intent='default'
-            className='w-full !justify-start rounded-t-none '
-            onClick={() => dataDispatch({ type: 'add_row' })}
-          >
-            {t('New Row')}
-          </Button>
         </div>
       </div>
     </div>

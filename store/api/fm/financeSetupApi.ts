@@ -23,6 +23,18 @@ export interface StepTwoState {
   }[]
 }
 
+export interface StepThreeState {
+  inventorySources: {
+    inventory: string
+    costs: number[]
+    isRawMaterials: boolean
+  }[]
+}
+
+export interface StepFourState {
+  peronnelCosts: number[]
+}
+
 export const financeSetupApi = createApi({
   reducerPath: 'financeSetupApi',
   baseQuery: fetchBaseQuery({
@@ -71,6 +83,32 @@ export const financeSetupApi = createApi({
       }),
       invalidatesTags: ['StepTwo'],
     }),
+    getStepThree: builder.query<IGenericResponse<StepThreeState>, void>({
+      query: () => 'QuickSetup/Step3',
+      providesTags: ['StepThree'],
+    }),
+    setStepThree: builder.mutation<IGenericResponse<unknown>, StepThreeState>({
+      query: (data) => ({
+        url: 'QuickSetup/Step3',
+        method: 'POST',
+        body: data,
+        responseHandler: 'content-type',
+      }),
+      invalidatesTags: ['StepThree'],
+    }),
+    getStepFour: builder.query<IGenericResponse<StepFourState>, void>({
+      query: () => 'QuickSetup/Step4',
+      providesTags: ['StepFour'],
+    }),
+    setStepFour: builder.mutation<IGenericResponse<unknown>, StepFourState>({
+      query: (data) => ({
+        url: 'QuickSetup/Step4',
+        method: 'POST',
+        body: data,
+        responseHandler: 'content-type',
+      }),
+      invalidatesTags: ['StepFour'],
+    }),
   }),
 })
 
@@ -79,9 +117,13 @@ export const {
   // Queries
   useGetStepOneQuery,
   useGetStepTwoQuery,
+  useGetStepThreeQuery,
+  useGetStepFourQuery,
   // Mutations
   useSetStepOneMutation,
   useSetStepTwoMutation,
+  useSetStepThreeMutation,
+  useSetStepFourMutation,
   util: { getRunningQueriesThunk, invalidateTags },
 } = financeSetupApi
 

@@ -16,7 +16,7 @@ export default function makeData(range: number) {
       accessor: 'source',
       dataType: 'text',
       placeholder: 'Enter the source',
-      align: 'center',
+      align: 'left',
     },
   ]
   for (let i = 1; i <= range; i++) {

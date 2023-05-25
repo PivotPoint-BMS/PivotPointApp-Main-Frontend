@@ -5,19 +5,17 @@ import clsx from 'clsx'
 import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
 // api
-import { useGetStepThreeQuery, useSetStepThreeMutation } from 'store/api/fm/financeSetupApi'
+import { useGetStepFourQuery, useSetStepFourMutation } from 'store/api/fm/financeSetupApi'
 // components
 import { Icon } from '@iconify/react'
 import { Button, IconButton, LoadingIndicator } from 'components'
 // sections
-import Table from './Table'
 import makeData from './makeData'
+import Table from './Table'
 
 function reducer(
   state: {
     data: {
-      inventory: string
-      isRawMaterials: string
       [key: string]: string
     }[]
     columns: {
@@ -27,10 +25,6 @@ function reducer(
       dataType: string
       placeholder: string
       align: string
-      options?: {
-        label: string
-        value: string
-      }[]
     }[]
   },
   action: {
@@ -40,8 +34,6 @@ function reducer(
     value: string
     total: number
     data: {
-      inventory: string
-      isRawMaterials: string
       [key: string]: string
     }[]
   }
@@ -52,21 +44,7 @@ function reducer(
         ...state,
         data: action.data,
       }
-    case 'add_row':
-      if (
-        state.data.every(
-          (cell) =>
-            Object.keys(cell).length > 0 && Object.keys(cell).every((key) => cell[key] !== '')
-        )
-      )
-        return {
-          ...state,
-          data: [...state.data, { inventory: '', isRawMaterials: 'false' }],
-        }
 
-      return {
-        ...state,
-      }
     case 'update_cell':
       return {
         ...state,
@@ -80,17 +58,13 @@ function reducer(
           return row
         }),
       }
-    case 'delete_last_cell':
-      return {
-        ...state,
-        data: state.data.slice(0, -1),
-      }
+
     default:
       return state
   }
 }
 
-function StepThree({
+function StepFour({
   handleNextStep,
   handleBack,
   estimationRange,
@@ -102,12 +76,12 @@ function StepThree({
   const { t, locale } = useTranslate()
   const { open } = useSnackbar()
   const [state, dispatch] = useReducer(reducer, makeData(estimationRange))
-  const [setStepThree, { isLoading, isSuccess, isError }] = useSetStepThreeMutation()
+  const [setStepFour, { isLoading, isSuccess, isError }] = useSetStepFourMutation()
   const {
-    data: stepThreeData,
+    data: stepFourData,
     isLoading: isGetLoading,
     isSuccess: isGetSuccess,
-  } = useGetStepThreeQuery()
+  } = useGetStepFourQuery()
 
   useEffect(() => {
     if (isSuccess) handleNextStep()
@@ -121,25 +95,13 @@ function StepThree({
 
   useEffect(() => {
     if (isGetSuccess) {
-      const data: {
-        inventory: string
-        isRawMaterials: string
-        [key: string]: string
-      }[] = []
-      stepThreeData.data.inventorySources.forEach(({ inventory, costs, isRawMaterials }) => {
-        let years: { [key: string]: string } = {}
-        costs.forEach((value, i) => {
-          years = { ...years, [(i + 1).toString()]: value.toString() }
-        })
-        data.push({
-          inventory,
-          isRawMaterials: String(isRawMaterials),
-          ...years,
-        })
+      let years: { [key: string]: string } = {}
+      stepFourData.data.peronnelCosts.forEach((value, i) => {
+        years = { ...years, [(i + 1).toString()]: value.toString() }
       })
       dispatch({
         type: 'set_data',
-        data,
+        data: [{ ...years }],
         rowIndex: 0,
         columnId: '',
         value: '',
@@ -169,7 +131,7 @@ function StepThree({
               width={20}
             />
           </IconButton>
-          <h1 className='text-center text-2xl font-semibold'>{t('Inventory Sources')}</h1>
+          <h1 className='text-center text-2xl font-semibold'>{t('Expected Personnel Costs')}</h1>
           <Table columns={state.columns} data={state.data} dispatch={dispatch} />
           <Button
             onClick={() => {
@@ -177,34 +139,14 @@ function StepThree({
                 state.data.length > 0 &&
                 state.data.every((cell) => Object.keys(cell).every((key) => cell[key] !== ''))
               ) {
-                const inventorySources = state.data.reduce(
-                  (
-                    acc: {
-                      inventory: string
-                      costs: number[]
-                      isRawMaterials: boolean
-                    }[],
-                    curr
-                  ) => {
-                    const newObj: {
-                      inventory: string
-                      isRawMaterials: boolean
-                      costs: number[]
-                    } = {
-                      inventory: curr.inventory,
-                      isRawMaterials: Boolean(curr.isRawMaterials),
-                      costs: [],
-                    }
-                    for (let j = 0; j < estimationRange; j++) {
-                      newObj.costs.push(Number(curr[j + 1]))
-                    }
-                    acc.push(newObj)
-                    return acc
-                  },
-                  []
-                )
+                const peronnelCosts = state.data.reduce((acc: number[], curr) => {
+                  for (let j = 0; j < estimationRange; j++) {
+                    acc.push(Number(curr[j + 1]))
+                  }
+                  return acc
+                }, [])
 
-                setStepThree({ inventorySources })
+                setStepFour({ peronnelCosts })
               } else
                 open({
                   autoHideDuration: 10000,
@@ -224,4 +166,4 @@ function StepThree({
   )
 }
 
-export default StepThree
+export default StepFour

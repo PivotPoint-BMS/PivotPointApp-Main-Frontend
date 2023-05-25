@@ -25,7 +25,7 @@ export default function Cell({
   }, [initialValue])
 
   return disabled ? (
-    <p>{initialValue}</p>
+    <p>{t(initialValue)}</p>
   ) : (
     <input
       value={value}

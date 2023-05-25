@@ -412,5 +412,13 @@ const ar: { [key: string]: string } = {
   'Enter Price': 'أدخل السعر',
   'Enter User Percentage': 'أدخل النسبة المستخدمين',
   'New Subsription': 'اشتراك جديد',
+  Subscriptions: 'الاشتراكات',
+  'Enter the amount': 'أدخل المبلغ',
+  Yes: 'نعم',
+  No: 'لا',
+  'Is Raw Material?': 'هل هي مادة خام؟',
+  'Enter Inventory': 'أدخل المخزون',
+  'Inventory Sources': 'المخازين',
+  'Expected Personnel Costs': 'تكاليف الموظفين المتوقعة',
 }
 export default ar
