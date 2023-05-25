@@ -23,7 +23,6 @@ export default function Company({ handleNext }: { handleNext: () => void }) {
               'We need some initial information about your company to get you started, please fill in the fields below'
             )}
           </p>
-          <RHFTextField name='yourPosition' label={t('Your Affectation')} />
           <RHFTextField name='companyName' label={t('Company name')} />
           <RHFTextField name='companySlogan' label={t('Company Slogan')} />
           <RHFTextField name='companyWebsite' label={t('Company Website')} />

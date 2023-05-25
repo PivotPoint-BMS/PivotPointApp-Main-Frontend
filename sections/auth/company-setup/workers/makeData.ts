@@ -44,6 +44,10 @@ export default function makeData() {
       align: 'right',
       options: [
         {
+          label: 'Owner',
+          value: 'Owner',
+        },
+        {
           label: 'Customer Relationship Manager',
           value: 'CRM',
         },
@@ -62,6 +66,10 @@ export default function makeData() {
         {
           label: 'Human Resources Manager',
           value: 'HRM',
+        },
+        {
+          label: 'Workflow Manager',
+          value: 'WF',
         },
       ],
     },

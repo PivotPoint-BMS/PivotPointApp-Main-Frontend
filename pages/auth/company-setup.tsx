@@ -11,14 +11,16 @@ import * as TabsPrimitive from '@radix-ui/react-tabs'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 // routes
-import {  PATH_DASHBOARD } from 'routes/paths'
+import { PATH_DASHBOARD } from 'routes/paths'
 // types
 import { CompanySetupInput } from 'types'
+// api
+import { useGetUserMutation } from 'store/api/auth/authApi'
+import { useCreateRequestMutation } from 'store/api/auth/companyApi'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 import useResponsive from 'hooks/useResponsive'
 import { useAppSelector } from 'store/hooks'
-import { useCreateRequestMutation } from 'store/api/auth/companyApi'
 // sections
 import Company from 'sections/auth/company-setup/Company'
 import Workers from 'sections/auth/company-setup/workers'
@@ -42,6 +44,7 @@ function index() {
   const { push } = useRouter()
   const isDesktop = useResponsive('md', 'up')
   const [createRequest, { isLoading, isSuccess }] = useCreateRequestMutation()
+  const [getUser] = useGetUserMutation()
   const { user, refreshToken } = useAppSelector((state) => state.session)
   const [step, setStep] = useState('1')
   const { t, locale } = useTranslate()
@@ -68,7 +71,7 @@ function index() {
   })
 
   const defaultValues = {
-    yourPosition: '',
+    yourPosition: 'Owner',
     companyName: '',
     companySlogan: '',
     companyWebsite: '',
@@ -89,20 +92,12 @@ function index() {
   } = methods
 
   useEffect(() => {
-    if (user && user.hasSetupCompany) {
-      push(PATH_DASHBOARD.root)
-    }
+    if (user && user.hasSetupCompany) push(PATH_DASHBOARD.crm.dashboard)
   }, [user])
 
   const ToSecondStep = () => {
-    trigger(['companyName', 'companySlogan', 'companyWebsite', 'yourPosition']).then(() => {
-      if (
-        isDirty &&
-        !errors.companyName &&
-        !errors.companySlogan &&
-        !errors.companyWebsite &&
-        !errors.yourPosition
-      ) {
+    trigger(['companyName', 'companySlogan', 'companyWebsite']).then(() => {
+      if (isDirty && !errors.companyName && !errors.companySlogan && !errors.companyWebsite) {
         setStep('2')
       }
     })
@@ -130,7 +125,10 @@ function index() {
   }
 
   useEffect(() => {
-    if (!isLoading && isSuccess) push(PATH_DASHBOARD.crm.dashboard)
+    if (!isLoading && isSuccess) {
+      if (refreshToken) getUser(refreshToken).then(() => push(PATH_DASHBOARD.crm.dashboard))
+      else push(PATH_DASHBOARD.crm.dashboard)
+    }
   }, [isLoading, isSuccess])
 
   useEffect(() => {
@@ -209,7 +207,7 @@ function index() {
           <FormProvider methods={methods}>
             <TabsPrimitive.Content
               value='1'
-              className={clsx('mt-12 h-full bg-gray-100/50 py-6 dark:bg-dark')}
+              className={clsx('mt-12 h-full  bg-gray-100/50 py-6 dark:bg-dark')}
             >
               <Company handleNext={ToSecondStep} />
             </TabsPrimitive.Content>

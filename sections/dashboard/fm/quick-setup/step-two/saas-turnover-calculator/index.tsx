@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer, useState } from 'react'
 import * as Yup from 'yup'
-import { merge } from 'lodash'
+import { merge, round } from 'lodash'
 // form
 import { FieldValues, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -125,11 +125,11 @@ function index({
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < estimationRange - 1; i++) {
         const newUsers = usersList[i] * (1 + Number(growthPercentage) / 100)
-        usersList.push(newUsers)
+        usersList.push(round(newUsers))
 
         const newExpence =
           (newUsers - usersList[i]) * Number(acquisationCost) + newUsers * Number(costDeploy) * 12
-        expencesList.push(newExpence)
+        expencesList.push(round(newExpence, 2))
 
         const newIncome =
           subscriptions
@@ -137,10 +137,10 @@ function index({
             .reduce((a, b) => a + b, 0) *
           newUsers *
           12
-        incomesList.push(newIncome)
+        incomesList.push(round(newIncome, 2))
 
         const newProfit = newIncome - newExpence
-        profitList.push(newProfit)
+        profitList.push(round(newProfit, 2))
       }
       setExpence(expencesList)
       setIncome(incomesList)
@@ -163,7 +163,7 @@ function index({
     xaxis: {
       categories: Array(estimationRange)
         .fill(0)
-        .map((_, i) => `Year ${i + 1}`),
+        .map((_, i) => t(`Year ${i + 1}`)),
     },
   })
 
@@ -175,23 +175,23 @@ function index({
             <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4'>
               <RHFTextField
                 name='growthPercentage'
-                label='Growth Percentage'
+                label={t('Growth Percentage')}
                 placeholder={`${t('Ex: ')}150`}
               />
 
               <RHFTextField
                 name='acquisationCost'
-                label='Customer Aquisation Cost'
+                label={t('Customer Acquisition Cost')}
                 placeholder={`${t('Ex: ')}3`}
               />
               <RHFTextField
                 name='startingUsers'
-                label='Starting Users'
+                label={t('Starting Users')}
                 placeholder={`${t('Ex: ')}100`}
               />
               <RHFTextField
                 name='costDeploy'
-                label='Cost Deploy/Month/User'
+                label={t('Cost Deploy/Month/User')}
                 placeholder={`${t('Ex: ')}5`}
               />
             </div>

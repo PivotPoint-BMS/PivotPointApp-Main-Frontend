@@ -2,7 +2,6 @@ import React, { useEffect, useReducer } from 'react'
 import clsx from 'clsx'
 // hooks
 import useTranslate from 'hooks/useTranslate'
-import useSnackbar from 'hooks/useSnackbar'
 // components
 import { Icon as Iconify } from '@iconify/react'
 import Button from 'components/Button'
@@ -119,7 +118,6 @@ export default function index({
   formWorkers,
 }: WorkersProps) {
   const { t, locale } = useTranslate()
-  const { open } = useSnackbar()
   const [state, dispatch] = useReducer(reducer, makeData())
 
   useEffect(() => {
@@ -132,10 +130,8 @@ export default function index({
     })
   }, [])
 
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-
   return (
-    <div className='container relative mx-auto flex h-full flex-col items-center justify-start gap-5 overflow-scroll py-10 px-4'>
+    <div className='relative mx-auto flex h-full w-full min-w-fit flex-col items-center justify-start gap-5 py-10 px-4'>
       <IconButton
         onClick={handleBack}
         className={clsx('absolute top-5', locale === 'ar' ? 'right-5' : 'left-5')}
@@ -157,25 +153,8 @@ export default function index({
       <Table columns={state.columns} data={state.data} dispatch={dispatch} />
       <Button
         onClick={() => {
-          if (
-            state.data.length > 0 &&
-            state.data.every(
-              (d) =>
-                emailRegex.test(d.email) &&
-                d.firstName !== '' &&
-                d.lastName !== '' &&
-                d.position !== ''
-            )
-          ) {
-            handleNext()
-            setFormWorkers(state.data)
-          } else
-            open({
-              autoHideDuration: 10000,
-              message: t('Please fill all fields.'),
-              type: 'warning',
-              closeButton: true,
-            })
+          handleNext()
+          setFormWorkers(state.data)
         }}
         size='large'
       >

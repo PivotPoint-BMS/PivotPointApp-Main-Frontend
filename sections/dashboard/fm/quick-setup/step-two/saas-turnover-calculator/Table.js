@@ -67,7 +67,10 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
           <table {...getTableProps()} className='w-full'>
             <thead className='overflow-x-scroll'>
               {headerGroups.map((headerGroup) => (
-                <tr {...headerGroup.getHeaderGroupProps()} className='divide-x'>
+                <tr
+                  {...headerGroup.getHeaderGroupProps()}
+                  className='divide-x rtl:divide-x-reverse'
+                >
                   {headerGroup.headers.map((column) => (
                     <th
                       {...column.getHeaderProps()}
@@ -86,7 +89,7 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
                   <tr
                     {...row.getRowProps()}
                     key={`table-row-${i}`}
-                    className='divide-x border-b last-of-type:border-b-0'
+                    className='divide-x border-b last-of-type:border-b-0 rtl:divide-x-reverse'
                   >
                     {row.cells.map((cell) => (
                       <td {...cell.getCellProps()}>{cell.render('Cell')}</td>

@@ -83,7 +83,7 @@ export default function Table({ columns, data, dispatch: dataDispatch, isSaaS })
               {headerGroups.map((headerGroup, i) => (
                 <tr
                   {...headerGroup.getHeaderGroupProps()}
-                  className='divide-x'
+                  className='divide-x rtl:divide-x-reverse'
                   key={`table-head-row-${i}`}
                 >
                   {headerGroup.headers.map((column, index) => (
@@ -106,7 +106,7 @@ export default function Table({ columns, data, dispatch: dataDispatch, isSaaS })
                     <tr
                       {...row.getRowProps()}
                       key={`table-body-row-${i}`}
-                      className='divide-x border-b last-of-type:border-b-0'
+                      className='divide-x border-b last-of-type:border-b-0 rtl:divide-x-reverse'
                     >
                       {row.cells.map((cell, index) => (
                         <td {...cell.getCellProps()} key={`table-row-cell-${index}`}>
@@ -116,7 +116,7 @@ export default function Table({ columns, data, dispatch: dataDispatch, isSaaS })
                     </tr>
                   )
                 })}
-              <tr className='flex divide-x border-b bg-primary-100/40 last-of-type:border-b-0 dark:bg-primary-900'>
+              <tr className='flex divide-x border-b bg-primary-100/40 last-of-type:border-b-0 rtl:divide-x-reverse dark:bg-primary-900'>
                 <td className='text flex-1 p-2 px-5 text-center font-medium'>
                   {t('Total HT Annual')}
                 </td>

@@ -1,6 +1,6 @@
 import React from 'react'
 import clsx from 'clsx'
-import Select from 'components/Select'
+import Select from 'react-select'
 
 export default function Cell({
   value: initialValue,
@@ -21,6 +21,7 @@ export default function Cell({
   React.useEffect(() => {
     setValue(initialValue)
   }, [initialValue])
+
   switch (dataType) {
     case 'email':
       return (
@@ -53,15 +54,26 @@ export default function Cell({
     case 'select':
       return (
         <Select
-          value={value}
-          items={options}
-          onValueChange={(newValue) => {
-            setValue(newValue)
-            dataDispatch({ type: 'update_cell', columnId: id, rowIndex: index, value: newValue })
-          }}
-          buttonProps={{
-            className: 'w-full text-base h-full font-normal !justify-end',
-            intent: 'default',
+          options={options}
+          isMulti
+          className='react-select-container'
+          classNamePrefix='react-select'
+          defaultValue={options.filter((v) => initialValue.split(',').includes(v.value))}
+          onChange={(val) => {
+            if (val.map((v) => v.value).includes('Owner'))
+              dataDispatch({
+                type: 'update_cell',
+                columnId: id,
+                rowIndex: index,
+                value: 'Owner',
+              })
+            else
+              dataDispatch({
+                type: 'update_cell',
+                columnId: id,
+                rowIndex: index,
+                value: val.map((v) => v.value).join(','),
+              })
           }}
         />
       )

@@ -161,7 +161,6 @@ function StepTwo({
         <LoadingIndicator />
       ) : (
         <>
-          <h1 className='text-center text-2xl font-semibold'>{t('Business Turnover')}</h1>
           <IconButton
             onClick={handleBack}
             className={clsx('absolute top-5', locale === 'ar' ? 'right-5' : 'left-5')}
@@ -176,8 +175,9 @@ function StepTwo({
               width={20}
             />
           </IconButton>
+          <h1 className='text-center text-2xl font-semibold'>{t('Business Turnover')}</h1>
           <Checkbox
-            label='I have a SaaS solution'
+            label={t('I have a SaaS solution')}
             checked={isSaaS}
             onChange={(e) => setIsSaaS(e.target.checked)}
           />
