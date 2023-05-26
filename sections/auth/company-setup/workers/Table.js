@@ -5,7 +5,7 @@ import { useTable, useFlexLayout, useResizeColumns, useSortBy } from 'react-tabl
 import useTranslate from 'hooks/useTranslate'
 // components
 import { Icon } from '@iconify/react'
-import Button from 'components/Button'
+import { Button, IconButton, Tooltip } from 'components'
 import Cell from './Cell'
 import Header from './Header'
 
@@ -46,11 +46,12 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
                   {headerGroup.headers.map((column) => (
                     <th
                       {...column.getHeaderProps()}
-                      className='border-b bg-gray-100 dark:bg-paper-dark'
+                      className='h-full border-b bg-gray-100 dark:bg-paper-dark'
                     >
                       {column.render('Header')}
                     </th>
                   ))}
+                  <th className='h-[43px] w-[50px] border-b bg-gray-100 dark:bg-paper-dark'></th>
                 </tr>
               ))}
             </thead>
@@ -66,6 +67,19 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
                     {row.cells.map((cell) => (
                       <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                     ))}
+                    <td>
+                      <div className='box-border h-full w-full resize-none truncate whitespace-nowrap border-0 bg-transparent p-2 text-right'>
+                        <Tooltip title={t('Delete')} align='center' side='bottom'>
+                          <IconButton
+                            onClick={() => {
+                              dataDispatch({ type: 'delete_row', rowIndex: i })
+                            }}
+                          >
+                            <Icon icon='ic:delete' className='text-red-600 dark:text-red-400' />
+                          </IconButton>
+                        </Tooltip>
+                      </div>
+                    </td>
                   </tr>
                 )
               })}
