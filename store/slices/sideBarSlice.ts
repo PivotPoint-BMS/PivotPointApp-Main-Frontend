@@ -8,14 +8,19 @@ export interface NavItemConfig {
   root: string
   href: string
   icon: string
-  subItems: {
+  disabled?: boolean
+  badge?: {
+    label: string
+    color?: 'primary' | 'secondary' | 'info' | 'warning' | 'error' | 'success' | 'default'
+  }
+  subItems?: {
     name: string
     href: string
     icon: string
     disabled?: boolean
     badge?: {
       label: string
-      icon?: string
+      color?: 'primary' | 'secondary' | 'info' | 'warning' | 'error' | 'success' | 'default'
     }
   }[]
 }
@@ -35,11 +40,12 @@ const initialState: SideBarConfig = {
       icon: 'fa6-solid:handshake',
       subItems: [
         {
-          name: 'Dashboard',
+          name: 'Monitoring',
           href: PATH_DASHBOARD.crm.dashboard,
-          icon: 'material-symbols:dashboard-rounded',
+          icon: 'solar:graph-bold',
           badge: {
             label: 'Beta',
+            color: 'warning',
           },
         },
         {
@@ -48,6 +54,7 @@ const initialState: SideBarConfig = {
           icon: 'material-symbols:contact-page',
           badge: {
             label: 'Beta',
+            color: 'warning',
           },
         },
 
@@ -57,6 +64,7 @@ const initialState: SideBarConfig = {
           icon: 'icon-park-solid:sales-report',
           badge: {
             label: 'Beta',
+            color: 'warning',
           },
         },
         {
@@ -65,121 +73,85 @@ const initialState: SideBarConfig = {
           icon: 'ri:customer-service-2-fill',
           disabled: true,
           badge: {
-            label: 'Soon',
+            label: 'In Dev',
+            color: 'default',
           },
         },
       ],
     },
     {
-      name: 'Supply Chain',
+      name: 'Supply Chain & Inventory',
       root: PATH_DASHBOARD.scm.root,
       href: PATH_DASHBOARD.scm.dashboard,
       icon: 'fa6-solid:truck-ramp-box',
       subItems: [
         {
-          name: 'Dashboard',
+          name: 'Monitoring',
           href: PATH_DASHBOARD.scm.dashboard,
-          icon: 'material-symbols:dashboard-rounded',
+          icon: 'solar:graph-bold',
           badge: {
-            label: 'Beta',
+            label: 'New',
+            color: 'success',
           },
         },
         {
           name: 'Product/Service',
           href: PATH_DASHBOARD.scm['product-service'],
           icon: 'fa6-solid:boxes-stacked',
-          disabled: true,
           badge: {
-            label: 'Soon',
-          },
-        },
-        {
-          name: 'Demand Forecasting',
-          href: PATH_DASHBOARD.scm['demand-forecasting'],
-          icon: 'material-symbols:batch-prediction',
-          disabled: true,
-          badge: {
-            label: 'Soon',
-          },
-        },
-        {
-          name: 'Invoice',
-          href: PATH_DASHBOARD.scm.invoice,
-          icon: 'fa6-solid:file-invoice',
-          disabled: true,
-          badge: {
-            label: 'Soon',
-          },
-        },
-        {
-          name: 'Monitoring & Planning',
-          href: PATH_DASHBOARD.scm.monitoring,
-          icon: 'material-symbols:monitor-heart-rounded',
-          disabled: true,
-          badge: {
-            label: 'Soon',
-          },
-        },
-        {
-          name: 'Warehousing',
-          href: PATH_DASHBOARD.scm.warehousing,
-          icon: 'fa6-solid:warehouse',
-          disabled: true,
-          badge: {
-            label: 'Soon',
+            label: 'New',
+            color: 'success',
           },
         },
         {
           name: 'Transportation',
           href: PATH_DASHBOARD.scm.transportation,
           icon: 'fluent:vehicle-truck-profile-20-filled',
-          disabled: true,
           badge: {
-            label: 'Soon',
+            label: 'New',
+            color: 'success',
           },
         },
-      ],
-    },
-    {
-      name: 'Human Resource',
-      root: PATH_DASHBOARD.hrm.root,
-      href: PATH_DASHBOARD.hrm.dashboard,
-      icon: 'mdi:account-group',
-      subItems: [
-        {
-          name: 'Dashboard',
-          href: PATH_DASHBOARD.hrm.dashboard,
-          icon: 'material-symbols:dashboard-rounded',
-          badge: {
-            label: 'Beta',
-          },
-        },
-        {
-          name: 'Accounts',
-          href: PATH_DASHBOARD.hrm.accounts,
-          icon: 'material-symbols:manage-accounts',
-          badge: {
-            label: 'Soon',
-          },
-        },
-        {
-          name: 'Recruitment',
-          href: PATH_DASHBOARD.hrm.recruitment,
-          icon: 'fa6-solid:users-gear',
-          disabled: true,
-          badge: {
-            label: 'Soon',
-          },
-        },
-        {
-          name: 'Payroll',
-          href: PATH_DASHBOARD.hrm.payroll,
-          icon: 'material-symbols:payments-outline-rounded',
-          disabled: true,
-          badge: {
-            label: 'Soon',
-          },
-        },
+        // {
+        //   name: 'Demand Forecasting',
+        //   href: PATH_DASHBOARD.scm['demand-forecasting'],
+        //   icon: 'material-symbols:batch-prediction',
+        //   disabled: true,
+        //   badge: {
+        //     label: 'In Dev',
+        //     color: 'default',
+        //   },
+        // },
+        // {
+        //   name: 'Invoice',
+        //   href: PATH_DASHBOARD.scm.invoice,
+        //   icon: 'fa6-solid:file-invoice',
+        //   disabled: true,
+        //   badge: {
+        //     label: 'In Dev',
+        //     color: 'default',
+        //   },
+        // },
+        // {
+        //   name: 'Monitoring & Planning',
+        //   href: PATH_DASHBOARD.scm.monitoring,
+        //   icon: 'material-symbols:monitor-heart-rounded',
+        //   disabled: true,
+        //   badge: {
+        //     label: 'In Dev',
+        //     color: 'default',
+        //   },
+        // },
+        // {
+        //   name: 'Warehousing',
+        //   href: PATH_DASHBOARD.scm.warehousing,
+        //   icon: 'fa6-solid:warehouse',
+        //   disabled: true,
+        //   badge: {
+        //     label: 'In Dev',
+        //     color: 'default',
+        //   },
+        // },
       ],
     },
     {
@@ -189,11 +161,12 @@ const initialState: SideBarConfig = {
       icon: 'fa-solid:money-check-alt',
       subItems: [
         {
-          name: 'Dashboard',
+          name: 'Monitoring',
           href: PATH_DASHBOARD.fm.dashboard,
-          icon: 'material-symbols:dashboard-rounded',
+          icon: 'solar:graph-bold',
           badge: {
             label: 'Beta',
+            color: 'warning',
           },
         },
         {
@@ -202,7 +175,8 @@ const initialState: SideBarConfig = {
           icon: 'ion:cash',
           disabled: true,
           badge: {
-            label: 'Soon',
+            label: 'In Dev',
+            color: 'default',
           },
         },
         {
@@ -211,7 +185,8 @@ const initialState: SideBarConfig = {
           icon: 'fa6-solid:money-bill-transfer',
           disabled: true,
           badge: {
-            label: 'Soon',
+            label: 'In Dev',
+            color: 'default',
           },
         },
         {
@@ -220,7 +195,8 @@ const initialState: SideBarConfig = {
           icon: 'icon-park-outline:funds',
           disabled: true,
           badge: {
-            label: 'Soon',
+            label: 'In Dev',
+            color: 'default',
           },
         },
         {
@@ -229,7 +205,8 @@ const initialState: SideBarConfig = {
           icon: 'material-symbols:real-estate-agent-rounded',
           disabled: true,
           badge: {
-            label: 'Soon',
+            label: 'In Dev',
+            color: 'default',
           },
         },
         {
@@ -238,7 +215,8 @@ const initialState: SideBarConfig = {
           icon: 'jam:triangle-danger-f',
           disabled: true,
           badge: {
-            label: 'Soon',
+            label: 'In Dev',
+            color: 'default',
           },
         },
         {
@@ -247,50 +225,8 @@ const initialState: SideBarConfig = {
           icon: 'majesticons:money-hand',
           disabled: true,
           badge: {
-            label: 'Soon',
-          },
-        },
-      ],
-    },
-    {
-      name: 'Projects',
-      root: PATH_DASHBOARD.pm.root,
-      href: PATH_DASHBOARD.pm.dashboard,
-      icon: 'bi:kanban-fill',
-      subItems: [
-        {
-          name: 'Dashboard',
-          href: PATH_DASHBOARD.pm.dashboard,
-          icon: 'material-symbols:dashboard-rounded',
-          badge: {
-            label: 'Beta',
-          },
-        },
-        {
-          name: 'Project Planning',
-          href: PATH_DASHBOARD.pm.planning,
-          icon: 'icon-park-solid:schedule',
-          disabled: true,
-          badge: {
-            label: 'Soon',
-          },
-        },
-        {
-          name: 'Tracking',
-          href: PATH_DASHBOARD.pm.tracking,
-          icon: 'material-symbols:timer-rounded',
-          disabled: true,
-          badge: {
-            label: 'Soon',
-          },
-        },
-        {
-          name: 'Product Building Pipelines',
-          href: PATH_DASHBOARD.pm.pipelines,
-          icon: 'material-symbols:ac  count-tree-rounded',
-          disabled: true,
-          badge: {
-            label: 'Soon',
+            label: 'In Dev',
+            color: 'default',
           },
         },
       ],
@@ -300,7 +236,110 @@ const initialState: SideBarConfig = {
       root: PATH_DASHBOARD.workflow.root,
       href: PATH_DASHBOARD.workflow.root,
       icon: 'ph:tree-structure-fill',
-      subItems: [],
+    },
+    {
+      name: 'Human Resource',
+      root: PATH_DASHBOARD.hrm.root,
+      href: PATH_DASHBOARD.hrm.dashboard,
+      icon: 'mdi:account-group',
+      disabled: true,
+      badge: {
+        label: 'In Dev',
+      },
+      subItems: [
+        {
+          name: 'Monitoring',
+          href: PATH_DASHBOARD.hrm.dashboard,
+          icon: 'solar:graph-bold',
+          disabled: true,
+          badge: {
+            label: 'Beta',
+            color: 'warning',
+          },
+        },
+        {
+          name: 'Accounts',
+          href: PATH_DASHBOARD.hrm.accounts,
+          icon: 'material-symbols:manage-accounts',
+          badge: {
+            label: 'In Dev',
+            color: 'default',
+          },
+        },
+        {
+          name: 'Recruitment',
+          href: PATH_DASHBOARD.hrm.recruitment,
+          icon: 'fa6-solid:users-gear',
+          disabled: true,
+          badge: {
+            label: 'In Dev',
+            color: 'default',
+          },
+        },
+        {
+          name: 'Payroll',
+          href: PATH_DASHBOARD.hrm.payroll,
+          icon: 'material-symbols:payments-outline-rounded',
+          disabled: true,
+          badge: {
+            label: 'In Dev',
+            color: 'default',
+          },
+        },
+      ],
+    },
+    {
+      name: 'Projects',
+      root: PATH_DASHBOARD.pm.root,
+      href: PATH_DASHBOARD.pm.dashboard,
+      icon: 'bi:kanban-fill',
+      disabled: true,
+      badge: {
+        label: 'In Dev',
+        color: 'default',
+      },
+      subItems: [
+        {
+          name: 'Monitoring',
+          href: PATH_DASHBOARD.pm.dashboard,
+          icon: 'solar:graph-bold',
+          disabled: true,
+          badge: {
+            label: 'Beta',
+            color: 'warning',
+          },
+        },
+        {
+          name: 'Project Planning',
+          href: PATH_DASHBOARD.pm.planning,
+          icon: 'icon-park-solid:schedule',
+          disabled: true,
+          badge: {
+            label: 'In Dev',
+            color: 'default',
+          },
+        },
+        {
+          name: 'Tracking',
+          href: PATH_DASHBOARD.pm.tracking,
+          icon: 'material-symbols:timer-rounded',
+          disabled: true,
+          badge: {
+            label: 'In Dev',
+            color: 'default',
+          },
+        },
+        {
+          name: 'Product Building Pipelines',
+          href: PATH_DASHBOARD.pm.pipelines,
+          icon: 'material-symbols:account-tree-rounded',
+          disabled: true,
+          badge: {
+            label: 'In Dev',
+            color: 'default',
+          },
+        },
+      ],
     },
   ],
   isOpen: false,

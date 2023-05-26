@@ -1,6 +1,8 @@
+import { useEffect } from 'react'
 import clsx from 'clsx'
 import moment from 'moment'
 // next
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 // radix
 import * as TabsPrimitive from '@radix-ui/react-tabs'
@@ -10,6 +12,8 @@ import useTranslate from 'hooks/useTranslate'
 import { PATH_DASHBOARD } from 'routes/paths'
 // types
 import { Lead } from 'types'
+// api
+import { useConvertToContactMutation } from 'store/api/crm/contact-leads/leadApis'
 // config
 import { PIVOTPOINT_API } from 'config'
 // asset
@@ -21,6 +25,7 @@ import Card from 'components/Card'
 import CardContent from 'components/CardContent'
 import IconButton from 'components/IconButton'
 import Image from 'components/Image'
+import useSnackbar from 'hooks/useSnackbar'
 
 const TABS = [
   { name: 'Lead Info', value: 'info' },
@@ -29,6 +34,37 @@ const TABS = [
 
 export default function GeneralInfo({ lead }: { lead: Lead }) {
   const { t, locale } = useTranslate()
+  const { open } = useSnackbar()
+  const { push } = useRouter()
+  const [convertToContact, { isLoading, isError, isSuccess }] = useConvertToContactMutation()
+
+  const handleConvertToContact = () => {
+    convertToContact(lead.id)
+  }
+
+  useEffect(() => {
+    if (isError) {
+      open({
+        message: t('A problem has occured.'),
+        autoHideDuration: 4000,
+        type: 'error',
+        variant: 'contained',
+      })
+    }
+    if (isSuccess) {
+      open({
+        message: t('Lead Added Successfully.'),
+        autoHideDuration: 4000,
+        type: 'success',
+        variant: 'contained',
+      })
+      push({
+        pathname: PATH_DASHBOARD.crm['contacts-leads'].root,
+        query: { tab: 'contacts' },
+      })
+    }
+  }, [isError, isSuccess])
+
   return (
     <Card fullWidth variant='default' className='rounded-none !bg-transparent'>
       <CardContent className='p-0'>
@@ -50,9 +86,9 @@ export default function GeneralInfo({ lead }: { lead: Lead }) {
             width={100}
             height={100}
             src={
-              lead.picture ? `${PIVOTPOINT_API.crmPicUrl}/${lead.picture}` : avatarPlaceholder.src
+              lead?.picture ? `${PIVOTPOINT_API.crmPicUrl}/${lead?.picture}` : avatarPlaceholder.src
             }
-            className='rounded-full'
+            className='aspect-square rounded-full object-cover'
           />
           <h1 className='text-center text-lg font-semibold'>{lead.fullName}</h1>
           <div className='flex w-full items-center justify-center gap-10 text-center'>
@@ -81,7 +117,12 @@ export default function GeneralInfo({ lead }: { lead: Lead }) {
               <span className='text-[13px] '>{t('More')}</span>
             </div>
           </div>
-          <Button variant='outlined' className='w-full'>
+          <Button
+            variant='outlined'
+            className='w-full'
+            onClick={handleConvertToContact}
+            loading={isLoading}
+          >
             {t('Convert to Contact')}
           </Button>
           <div className='flex items-start justify-center gap-1'>

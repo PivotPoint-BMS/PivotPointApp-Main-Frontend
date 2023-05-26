@@ -13,6 +13,7 @@ export default function makeData() {
     accessor: string
     dataType: string
     placeholder: string
+    align:string
   }[] = [
     {
       id: 'name',
@@ -20,6 +21,7 @@ export default function makeData() {
       accessor: 'name',
       dataType: 'text',
       placeholder: 'Enter Subscription name',
+      align: 'left',
     },
     {
       id: 'price',
@@ -27,6 +29,7 @@ export default function makeData() {
       accessor: 'price',
       dataType: 'number',
       placeholder: 'Enter Price',
+      align: 'right',
     },
     {
       id: 'userPercentage',
@@ -34,6 +37,7 @@ export default function makeData() {
       accessor: 'userPercentage',
       dataType: 'number',
       placeholder: 'Enter User Percentage',
+      align: 'right',
     },
   ]
   return { columns, data }

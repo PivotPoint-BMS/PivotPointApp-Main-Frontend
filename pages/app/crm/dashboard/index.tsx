@@ -23,7 +23,7 @@ function Dashboard() {
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const { data, isError, isLoading, isSuccess, isFetching } = useGetCrmStatsQuery(undefined, {
-    pollingInterval: 5 * 60 * 1000, // 5 min
+    pollingInterval: 2 * 60 * 60 * 1000, // 2 hours
   })
 
   useEffect(() => {
@@ -41,7 +41,7 @@ function Dashboard() {
       <Head>
         <title>{t('Customer Relationship')} | Pivot Point BMS</title>
       </Head>
-      <div className='flex max-w-full flex-col px-5'>
+      <div className='px-5'>
         {isLoading ? (
           <div className='flex h-56 w-full items-center justify-center'>
             <LoadingIndicator />
@@ -49,7 +49,7 @@ function Dashboard() {
         ) : (
           <>
             <HeaderBreadcrumbs heading={t('Customer Relationship')} />
-            <div className='grid grid-cols-1 items-center gap-6 sm:grid-cols-2 md:grid-cols-4'>
+            <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4'>
               <Card fullWidth className='h-full'>
                 <CardHeader
                   title={t('Total Contacts')}

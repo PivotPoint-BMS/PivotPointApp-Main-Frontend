@@ -26,24 +26,23 @@ export default function CustomerSatisfaction({
     },
   })
   return (
-    <Card fullWidth className='overflow-scroll sm:col-span-2 md:col-span-3'>
+    <Card fullWidth className='sm:col-span-2 md:col-span-3'>
       <CardHeader
         title={t('Customer Satisfaction')}
-        actions={<Badge label={t('Beta')} intent='warning' />}
+        subheader={t('Customer Feedback Analysis')}
+        actions={<Badge label={t('Beta')} intent='default' />}
       />
       <CardContent>
-        <div className='min-w-[400px]'>
-          <ReactApexChart
-            type='line'
-            series={[
-              { name: t('Positive'), data: dataPositive },
-              { name: t('Negative'), data: dataNegative },
-            ]}
-            options={chartOptions}
-            height={364}
-            width='100%'
-          />
-        </div>
+        <ReactApexChart
+          type='line'
+          series={[
+            { name: t('Positive'), data: dataPositive },
+            { name: t('Negative'), data: dataNegative },
+          ]}
+          options={chartOptions}
+          height={364}
+          width='100%'
+        />
       </CardContent>
     </Card>
   )

@@ -17,7 +17,7 @@ type Props = {
   disabled: boolean
   isCollapsed: boolean
   badge?: {
-    icon?: string
+    color?: 'primary' | 'secondary' | 'info' | 'warning' | 'error' | 'success' | 'default'
     label: string
   }
 }
@@ -31,7 +31,7 @@ export default function SubNavItemTwo({ name, href, icon, badge, disabled, isCol
     <Link
       href={disabled ? '' : href}
       className={clsx(
-        'flex w-full min-w-fit items-center rounded-xl p-4 text-white',
+        'flex w-full items-center rounded-xl p-4 text-white',
         active
           ? 'bg-secondary-800 hover:bg-secondary-900 dark:bg-secondary-800 dark:hover:bg-secondary-700'
           : 'bg-secondary-400/50 hover:bg-secondary-500/80 dark:bg-secondary-300/10 dark:hover:bg-secondary-300/20',
@@ -44,7 +44,7 @@ export default function SubNavItemTwo({ name, href, icon, badge, disabled, isCol
         className={clsx(
           'flex-1 cursor-pointer font-medium capitalize ',
           isCollapsed
-            ? 'truncate text-[0px] opacity-0 transition-all duration-300 group-hover:text-xs group-hover:opacity-100 ltr:group-hover:ml-3 rtl:group-hover:mr-3'
+            ? 'whitespace-pre-wrap text-[0px] opacity-0 transition-all duration-300 group-hover:text-xs group-hover:opacity-100 ltr:group-hover:ml-3 rtl:group-hover:mr-3'
             : 'text-xs ltr:ml-3 rtl:mr-3',
           disabled && 'cursor-not-allowed'
         )}
@@ -53,11 +53,8 @@ export default function SubNavItemTwo({ name, href, icon, badge, disabled, isCol
       </label>
       {badge && (
         <Badge
-          icon={
-            badge.icon && <Iconify icon={badge.icon ? badge.icon : ''} height={20} width={20} />
-          }
           label={t(badge?.label)}
-          intent='warning'
+          intent={badge?.color}
           className={clsx('truncate text-[10px]', isCollapsed && 'hidden group-hover:block')}
         />
       )}

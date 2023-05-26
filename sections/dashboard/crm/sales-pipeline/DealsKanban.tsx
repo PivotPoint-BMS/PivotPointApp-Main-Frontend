@@ -123,7 +123,7 @@ const DealsKanban = ({ boardId }: { boardId: string | null }) => {
     }
     if (isDeleteSuccess) {
       open({
-        message: t('Board Deleted Successfully.'),
+        message: t('Pipeline Deleted Successfully.'),
         type: 'success',
         variant: 'contained',
       })
@@ -364,7 +364,7 @@ const DealsKanban = ({ boardId }: { boardId: string | null }) => {
         <>
           <div className='mb-4 flex max-w-full items-center justify-between'>
             <h1 className='text-xl font-medium'>
-              {t('Current Board :')} {board.dealBoards[boardId]?.title}
+              {t('Current Pipeline :')} {board.dealBoards[boardId]?.title}
             </h1>
             <div className='flex max-w-full items-center gap-2'>
               <Button
@@ -449,7 +449,7 @@ const DealsKanban = ({ boardId }: { boardId: string | null }) => {
         </>
       ) : (
         <div className='flex items-center justify-center'>
-          <h1>{t('No Board')}</h1>
+          <h1>{t('No Pipeline')}</h1>
         </div>
       )}
       <Dialog open={openDialog} title={t('Add New Section')}>

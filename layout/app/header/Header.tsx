@@ -27,7 +27,7 @@ export default function Header() {
 
   return (
     <div
-      className='fixed top-0 z-10 flex items-center justify-between gap-5 bg-white/80 px-5 backdrop-blur-lg ltr:right-0 rtl:left-0 dark:bg-dark/60'
+      className='fixed top-0 z-10 flex items-center justify-between gap-5 bg-gray-50/50 px-5 backdrop-blur-lg ltr:right-0 rtl:left-0 dark:bg-dark/60'
       style={{
         height: HEADER.DESKTOP_HEIGHT,
         width: isDesktop

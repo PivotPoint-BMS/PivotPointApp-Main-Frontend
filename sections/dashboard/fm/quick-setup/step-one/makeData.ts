@@ -1,44 +1,42 @@
-export default function makeData(count: number) {
-  const data: { NOFC: string; Prc: string; Am: string; interestRate: string }[] = []
+export default function makeData() {
+  const data: {
+    source: string
+    amount: number | string
+    interestRate: number | string
+    percentage: string
+  }[] = [{ amount: '', interestRate: '', source: '', percentage: '' }]
   // eslint-disable-next-line no-plusplus
-  for (let i = 0; i < count; i++) {
-    const row = {
-      NOFC: '',
-      Prc: '',
-      Am: '',
-      interestRate: '',
-    }
-
-    data.push(row)
-  }
 
   const columns = [
     {
-      id: 'NOFC',
+      id: 'source',
       label: 'Nature of financial contributions',
-      accessor: 'NOFC',
+      accessor: 'source',
       minWidth: 100,
       dataType: 'text',
       placeholder: 'Enter Nature of financial contributions',
       disabled: false,
+      align: 'left',
     },
     {
-      id: 'Prc',
+      id: 'percentage',
       label: 'Percentage',
-      accessor: 'Prc',
+      accessor: 'percentage',
       minWidth: 100,
       dataType: 'number',
       placeholder: '',
       disabled: true,
+      align: 'right',
     },
     {
-      id: 'Am',
+      id: 'amount',
       label: 'Amount',
-      accessor: 'Am',
+      accessor: 'amount',
       minWidth: 100,
       dataType: 'number',
       placeholder: 'Enter the Amount',
       disabled: false,
+      align: 'right',
     },
     {
       id: 'interestRate',
@@ -46,8 +44,9 @@ export default function makeData(count: number) {
       accessor: 'interestRate',
       minWidth: 100,
       dataType: 'number',
-      placeholder: 'Enter the interest rate',
+      placeholder: 'Enter the interest Rate',
       disabled: false,
+      align: 'right',
     },
   ]
   return { columns, data }

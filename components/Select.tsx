@@ -5,7 +5,7 @@ import React from 'react'
 import Button, { ButtonProps } from './Button'
 
 interface SelectProps extends SelectPrimitive.SelectProps {
-  items?: { label: string; value: string ; disabled?: boolean }[]
+  items?: { label: string; value: string; disabled?: boolean }[]
   buttonProps?: ButtonProps
 }
 

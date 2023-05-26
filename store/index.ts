@@ -8,6 +8,7 @@ import { authApi, companyApi, paymentApi } from './api/auth'
 import { settingsApi } from './api/settings/settingsAPIs'
 import { leadApi, leadSourceApi, dealsBoardsApi, addressApi } from './api/crm'
 import { statsApi } from './api/stats/statsApi'
+import { financeSetupApi } from './api/fm/financeSetupApi'
 
 export const makeStore = () =>
   configureStore({
@@ -25,6 +26,7 @@ export const makeStore = () =>
       [addressApi.reducerPath]: addressApi.reducer,
       [dealsBoardsApi.reducerPath]: dealsBoardsApi.reducer,
       [statsApi.reducerPath]: statsApi.reducer,
+      [financeSetupApi.reducerPath]: financeSetupApi.reducer,
     },
     devTools: process.env.NODE_ENV === 'development',
     middleware: (gDM) =>
@@ -40,7 +42,8 @@ export const makeStore = () =>
         leadSourceApi.middleware,
         addressApi.middleware,
         dealsBoardsApi.middleware,
-        statsApi.middleware
+        statsApi.middleware,
+        financeSetupApi.middleware
       ),
   })
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer, useState } from 'react'
 import * as Yup from 'yup'
-import { merge } from 'lodash'
+import { merge, round } from 'lodash'
 // form
 import { FieldValues, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -23,6 +23,7 @@ function reducer(
       accessor: string
       dataType: string
       placeholder: string
+      align: string
     }[]
   },
   action: { type: string; rowIndex?: number; columnId?: string; value?: string; profit?: number[] }
@@ -79,7 +80,7 @@ function index({
   const [expence, setExpence] = useState<number[]>([])
   const [income, setIncome] = useState<number[]>([])
 
-  const LeadSchema = Yup.object().shape({
+  const calculatorSchema = Yup.object().shape({
     growthPercentage: Yup.string().required(t('This field is required')),
     acquisationCost: Yup.string().required(t('This field is required')),
     startingUsers: Yup.string().required(t('This field is required')),
@@ -94,7 +95,7 @@ function index({
   }
 
   const methods = useForm<FieldValues>({
-    resolver: yupResolver(LeadSchema),
+    resolver: yupResolver(calculatorSchema),
     defaultValues,
   })
 
@@ -118,22 +119,17 @@ function index({
           .reduce((a, b) => a + b, 0) *
         startingUsers *
         12
-      const incomesList = [
-        subscriptions
-          .map((sub) => Number(sub.price) * (Number(sub.userPercentage) / 100))
-          .reduce((a, b) => a + b, 0) *
-          startingUsers *
-          12,
-      ]
+
+      const incomesList = [startIncome]
       const profitList = [startIncome - startExpence]
       // eslint-disable-next-line no-plusplus
-      for (let i = 1; i <= estimationRange; i++) {
-        const newUsers = usersList[i - 1] * (1 + Number(growthPercentage) / 100)
-        usersList.push(newUsers)
+      for (let i = 0; i < estimationRange - 1; i++) {
+        const newUsers = usersList[i] * (1 + Number(growthPercentage) / 100)
+        usersList.push(round(newUsers))
 
         const newExpence =
-          newUsers - usersList[i - 1] * Number(acquisationCost) + newUsers * Number(costDeploy) * 12
-        expencesList.push(newExpence)
+          (newUsers - usersList[i]) * Number(acquisationCost) + newUsers * Number(costDeploy) * 12
+        expencesList.push(round(newExpence, 2))
 
         const newIncome =
           subscriptions
@@ -141,10 +137,10 @@ function index({
             .reduce((a, b) => a + b, 0) *
           newUsers *
           12
-        incomesList.push(newIncome)
+        incomesList.push(round(newIncome, 2))
 
         const newProfit = newIncome - newExpence
-        profitList.push(newProfit)
+        profitList.push(round(newProfit, 2))
       }
       setExpence(expencesList)
       setIncome(incomesList)
@@ -165,9 +161,9 @@ function index({
     legend: { position: 'top', horizontalAlign: 'right' },
     colors: ['#1FAA69', '#FF0800'],
     xaxis: {
-      categories: Array(estimationRange + 1)
+      categories: Array(estimationRange)
         .fill(0)
-        .map((_, i) => `Year ${i}`),
+        .map((_, i) => t(`Year ${i + 1}`)),
     },
   })
 
@@ -177,18 +173,37 @@ function index({
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
           <div className='flex flex-col items-center justify-center gap-4'>
             <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4'>
-              <RHFTextField name='growthPercentage' label='Growth Percentage' />
-              <RHFTextField name='acquisationCost' label='Customer Aquisation Cost' />
-              <RHFTextField name='startingUsers' label='Starting Users' />
-              <RHFTextField name='costDeploy' label='Cost Deploy/Month/User' />
+              <RHFTextField
+                name='growthPercentage'
+                label={t('Growth Percentage')}
+                placeholder={`${t('Ex: ')}150`}
+              />
+
+              <RHFTextField
+                name='acquisationCost'
+                label={t('Customer Acquisition Cost')}
+                placeholder={`${t('Ex: ')}3`}
+              />
+              <RHFTextField
+                name='startingUsers'
+                label={t('Starting Users')}
+                placeholder={`${t('Ex: ')}100`}
+              />
+              <RHFTextField
+                name='costDeploy'
+                label={t('Cost Deploy/Month/User')}
+                placeholder={`${t('Ex: ')}5`}
+              />
             </div>
             <Table columns={state.columns} data={state.data} dispatch={dispatch} />
-            <Button type='submit'>{t('Calculate')}</Button>
+            <Button type='submit' size='large' variant='outlined'>
+              {t('Calculate')}
+            </Button>
           </div>
         </FormProvider>
       </div>
 
-      {income.length === estimationRange + 1 && expence.length === estimationRange + 1 && (
+      {income.length === estimationRange && expence.length === estimationRange && (
         <ReactApexChart
           type='area'
           series={[

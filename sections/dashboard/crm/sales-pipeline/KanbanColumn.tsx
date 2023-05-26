@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
 // dnd
 import type { DraggableSyntheticListeners, UniqueIdentifier } from '@dnd-kit/core'
@@ -7,8 +8,8 @@ import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
 // api
 import {
-  invalidateTags,
   useDeleteDealBoardColumnMutation,
+  useEditDealBoardColumnMutation,
 } from 'store/api/crm/sales-pipeline/dealsBoardsApi'
 // components
 import {
@@ -18,13 +19,11 @@ import {
   CardContent,
   CardHeader,
   Dialog,
-  DropdownMenu,
   IconButton,
   Tooltip,
 } from 'components'
 import { Icon as Iconify } from '@iconify/react'
 import { AnimateLayoutChanges, defaultAnimateLayoutChanges, useSortable } from '@dnd-kit/sortable'
-import { useEffect, useState } from 'react'
 import CreateEditDealForm from './CreateEditDealForm'
 
 interface KanbanColumnProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'id'> {
@@ -51,7 +50,11 @@ export default function KanbanColumn({
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const [deleteColumn, { isError, isSuccess, isLoading }] = useDeleteDealBoardColumnMutation()
+  const [editColumn, { isError: isEditError, isSuccess: isEditSuccess }] =
+    useEditDealBoardColumnMutation()
   const [openDialog, setOpenDialog] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [isEditing, setIsEditing] = useState(false)
   const {
     active,
     attributes,
@@ -94,6 +97,29 @@ export default function KanbanColumn({
     }
   }, [isError, isSuccess])
 
+  useEffect(() => {
+    if (isEditError) {
+      open({
+        message: t('Sorry, Section not updated, A problem has occured.'),
+        autoHideDuration: 4000,
+        type: 'error',
+        variant: 'contained',
+      })
+    }
+    if (isEditSuccess) {
+      open({
+        message: t('Section Updated Successfully.'),
+        autoHideDuration: 4000,
+        type: 'success',
+        variant: 'contained',
+      })
+    }
+  }, [isEditError, isEditSuccess])
+
+  useEffect(() => {
+    if (isEditing) inputRef.current?.focus()
+  }, [isEditing])
+
   return (
     <div
       ref={disabled ? undefined : setNodeRef}
@@ -114,38 +140,37 @@ export default function KanbanColumn({
         )}
       >
         <CardHeader
-          title={name || ''}
+          title={
+            <input
+              type='text'
+              defaultValue={name}
+              onBlur={(e) => {
+                if (e.target.value === '' || e.target.value === name) {
+                  setIsEditing(false)
+                  return
+                }
+                editColumn({ columnTitle: e.target.value, id: id.toString() })
+                setIsEditing(false)
+              }}
+              className='rounded-md bg-transparent p-1 outline-2 outline-offset-0 outline-gray-400 hover:outline active:outline dark:outline-white'
+              ref={inputRef}
+            />
+          }
           actions={
             <div className='flex items-center justify-center gap-2'>
-              <DropdownMenu
-                trigger={
-                  <div>
-                    <Tooltip title={t('Options')} side='bottom' sideOffset={10}>
-                      <IconButton>
-                        <Iconify icon='material-symbols:more-horiz' height={18} />
-                      </IconButton>
-                    </Tooltip>
-                  </div>
-                }
-                items={[
-                  {
-                    type: 'button',
-                    label: t('Edit'),
-                    icon: <Iconify icon='material-symbols:edit' height={18} />,
-                    onClick: () => {},
-                  },
-                  {
-                    type: 'button',
-                    label: t('Delete'),
-                    icon: <Iconify icon='material-symbols:delete-rounded' height={18} />,
-                    className: 'text-red-600',
-                    onClick: () => {
-                      deleteColumn(id.toString())
-                      invalidateTags(['DealsBoards'])
-                    },
-                  },
-                ]}
-              />
+              <Tooltip title={t('Delete')} side='bottom' sideOffset={10}>
+                <IconButton
+                  onClick={() => {
+                    deleteColumn(id.toString())
+                  }}
+                >
+                  <Iconify
+                    icon='material-symbols:delete-rounded'
+                    className='text-red-600 dark:text-red-400'
+                    height={18}
+                  />
+                </IconButton>
+              </Tooltip>
               <IconButton
                 ref={setActivatorNodeRef}
                 tabIndex={0}

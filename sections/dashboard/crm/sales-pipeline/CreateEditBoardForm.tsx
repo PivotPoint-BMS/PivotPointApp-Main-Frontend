@@ -82,9 +82,9 @@ export default function CreateEditBoardForm({
       open({
         message:
           // isEditSuccess
-          // ? t('Board Updated Successfully.')
+          // ? t('Pipeline Updated Successfully.')
           //   :
-          t('Board Added Successfully.'),
+          t('Pipeline Added Successfully.'),
         autoHideDuration: 4000,
         type: 'success',
         variant: 'contained',
@@ -96,7 +96,7 @@ export default function CreateEditBoardForm({
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <div className='mt-2 flex flex-col gap-4'>
-        <RHFTextField name='title' label={t('Board Title')} />{' '}
+        <RHFTextField name='title' label={t('Pipeline Title')} />{' '}
         <RHFTextField name='defColumnTitle' label={t('Default Column Title')} />
       </div>
 
@@ -105,7 +105,7 @@ export default function CreateEditBoardForm({
           {t('Cancel')}
         </Button>
         <Button size='large' type='submit' loading={isCreateLoading}>
-          {isEdit ? t('Edit Board') : t('Add Board')}
+          {isEdit ? t('Edit Pipeline') : t('Add Pipeline')}
         </Button>
       </div>
     </FormProvider>

@@ -37,12 +37,12 @@ export default function WorkflowSidebar() {
   }
 
   return (
-    <aside className='bg-paper overflow-scroll border p-2 dark:border-gray-600 dark:bg-paper-dark'>
+    <aside className='flex h-full flex-col items-start justify-center overflow-hidden border p-2 dark:border-gray-600 dark:bg-paper-dark'>
       <div className='mb-4'>
         <TextField placeholder='Search Node...' startAdornment={<Icon icon='uil:search' />} />
       </div>
       <h1 className='mb-2 font-medium'>{t('Triggers')}</h1>
-      <div className='mb-3 flex flex-col items-center gap-2'>
+      <div className='mb-3 flex h-48 w-full flex-col  gap-2 overflow-y-scroll'>
         {TRIGGERS.map((trigger) => (
           <div
             className='w-full cursor-grab'
@@ -63,7 +63,7 @@ export default function WorkflowSidebar() {
         ))}
       </div>
       <h1 className='mb-2 font-medium'>{t('Actions')}</h1>
-      <div className='flex flex-col items-center gap-2'>
+      <div className='mb-3 flex h-48 w-full flex-col gap-2 overflow-y-scroll'>
         {ACTIONS.map((action) => (
           <div
             className='w-full cursor-grab'

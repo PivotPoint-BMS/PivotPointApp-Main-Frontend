@@ -15,6 +15,8 @@ import SettingsIntegration from 'sections/dashboard/user/settings/SettingsIntegr
 import SettingsSecurity from 'sections/dashboard/user/settings/SettingsSecurity'
 import SettingsData from 'sections/dashboard/user/settings/SettingsData'
 import SettingsApi from 'sections/dashboard/user/settings/SettingsApi'
+// layout
+import Layout from 'layout/Index'
 // componenets
 import { Icon as Iconify } from '@iconify/react'
 import { HeaderBreadcrumbs, Scrollbar } from 'components'
@@ -27,7 +29,7 @@ const TABS = [
   { name: 'API', icon: 'ant-design:api-filled', value: 'api' },
 ]
 
-export default function Settings() {
+function Settings() {
   const { t, locale } = useTranslate()
   return (
     <>
@@ -92,3 +94,9 @@ export default function Settings() {
     </>
   )
 }
+
+Settings.getLayout = function getLayout(page: JSX.Element) {
+  return <Layout variant='dashboard'>{page}</Layout>
+}
+
+export default Settings

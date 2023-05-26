@@ -45,7 +45,7 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
     []
   )
   const total = useMemo(
-    () => data.reduce((partialSum, a) => partialSum + (parseInt(a.Am, 10) || 0), 0),
+    () => data.reduce((partialSum, a) => partialSum + (parseInt(a.amount, 10) || 0), 0),
     [data, columns]
   )
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
@@ -70,23 +70,28 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
       data.length >= 2 &&
       data
         .slice(data.length - 2, data.length)
-        .every((cell) => cell.Am === '' && cell.NOFC === '' && cell.interestRate === '')
+        .every((cell) => cell.amount === '' && cell.interestRate === '' && cell.source === '')
     )
       dataDispatch({ type: 'delete_last_cell' })
   }, [data])
 
   return (
     <>
-      <div className='flex w-full justify-center overflow-x-scroll'>
-        <div className='container min-w-fit max-w-5xl rounded-lg border border-b-0'>
+      <div className='flex w-full justify-center'>
+        <div className='container w-full rounded-lg border border-b-0'>
           <table {...getTableProps()} className='w-full'>
             <thead>
-              {headerGroups.map((headerGroup) => (
-                <tr {...headerGroup.getHeaderGroupProps()} className='divide-x'>
-                  {headerGroup.headers.map((column) => (
+              {headerGroups.map((headerGroup, i) => (
+                <tr
+                  {...headerGroup.getHeaderGroupProps()}
+                  className='divide-x rtl:divide-x-reverse'
+                  key={`table-head-row-${i}`}
+                >
+                  {headerGroup.headers.map((column, index) => (
                     <th
                       {...column.getHeaderProps()}
                       className='border-b bg-gray-100 dark:bg-paper-dark'
+                      key={`table-header-cell-${index}`}
                     >
                       {column.render('Header')}
                     </th>
@@ -95,25 +100,31 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
               ))}
             </thead>
             <tbody {...getTableBodyProps()}>
-              {rows.map((row, i) => {
+              {rows.map((row, index) => {
                 prepareRow(row)
                 return (
                   <tr
                     {...row.getRowProps()}
-                    key={`table-row-${i}`}
-                    className='divide-x border-b last-of-type:border-b-0'
+                    key={`table-body-row-${index}`}
+                    className='divide-x border-b last-of-type:border-b-0 rtl:divide-x-reverse'
                   >
-                    {row.cells.map((cell) => (
-                      <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                    {row.cells.map((cell, i) => (
+                      <td {...cell.getCellProps()} key={`table-cell-${i}`}>
+                        {cell.render('Cell')}
+                      </td>
                     ))}
                   </tr>
                 )
               })}
-              <tr className='flex divide-x border-b bg-primary-100/40 last-of-type:border-b-0 dark:bg-primary-900'>
+              <tr className='flex divide-x border-b bg-primary-100/40 last-of-type:border-b-0 rtl:divide-x-reverse dark:bg-primary-900'>
                 <td className='flex-1 p-2 px-5 text-center font-medium'>{t('Total HT Annual')}</td>
-                <td className='flex-1 p-2 px-5 text-right'>-</td>
-                {<td className='flex-1 p-2 px-5 text-right font-medium'>{fCurrency(total)}</td>}
-                <td className='flex-1 p-2 px-5 text-right'>-</td>
+                <td className='flex-1 p-2 px-5 ltr:text-right rtl:text-left'>-</td>
+                {
+                  <td className='flex-1 p-2 px-5 font-medium ltr:text-right rtl:text-left'>
+                    {fCurrency(total)} {t('Da')}
+                  </td>
+                }
+                <td className='flex-1 p-2 px-5 ltr:text-right rtl:text-left'>-</td>
               </tr>
             </tbody>
           </table>

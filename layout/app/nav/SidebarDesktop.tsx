@@ -69,7 +69,7 @@ function SideBar() {
       }}
     >
       <div
-        className='group fixed z-10 flex h-screen flex-col items-start   bg-white py-6 px-4 transition-all ltr:border-r rtl:border-l motion-reduce:transition-none dark:border-gray-500 dark:bg-dark'
+        className='group fixed z-10 flex h-screen flex-col items-start bg-gray-50 py-6 px-4 transition-all ltr:border-r rtl:border-l motion-reduce:transition-none dark:border-gray-500 dark:bg-dark'
         style={{ minWidth: NAVBAR.MAIN_NAVBAR_WIDTH }}
       >
         <Link href='/' className='mt-4 mb-12 w-full'>
@@ -83,6 +83,8 @@ function SideBar() {
               icon={<Iconify icon={item.icon} height={22} width={22} />}
               href={item.href}
               asLink
+              badge={item.badge}
+              disabled={item.disabled}
             />
           ))}
         </nav>
@@ -142,17 +144,18 @@ function SideBar() {
             </div>
             <Scrollbar tabIndex={-1} className='h-full px-5 pb-10' style={{ maxHeight: '100vh' }}>
               <div className='flex flex-col gap-4'>
-                {subItems.map(({ name, href, icon, badge, disabled }, i) => (
-                  <SubNavItemTwo
-                    key={i}
-                    name={t(name)}
-                    href={href}
-                    icon={icon}
-                    badge={badge}
-                    disabled={disabled as boolean}
-                    isCollapsed={isCollapsed}
-                  />
-                ))}
+                {subItems &&
+                  subItems.map(({ name, href, icon, badge, disabled }, i) => (
+                    <SubNavItemTwo
+                      key={i}
+                      name={t(name)}
+                      href={href}
+                      icon={icon}
+                      badge={badge}
+                      disabled={disabled as boolean}
+                      isCollapsed={isCollapsed}
+                    />
+                  ))}
               </div>
             </Scrollbar>
           </motion.div>

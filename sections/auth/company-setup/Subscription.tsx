@@ -7,6 +7,7 @@ import { Icon as Iconify } from '@iconify/react'
 import MotionContainer from 'components/animate/MotionContainer'
 import IconButton from 'components/IconButton'
 import Button from 'components/Button'
+import { fCurrency } from 'utils/formatNumber'
 
 interface SubscriptionProps {
   handleBack: () => void
@@ -58,36 +59,43 @@ export default function Subscription({ handleBack, handleNext, isLoading }: Subs
                       )}
                     </p>
                     <h3 className='mb-10 text-5xl'>
-                      <span className='text-gray-400'>$</span>0.00
+                      {fCurrency(0)}
+                      <span className='text-2xl text-gray-400'>Da</span>
                       <span className='text-sm text-gray-600 dark:text-gray-300'>
                         {' '}
                         {t('per month')}
                       </span>
                     </h3>
                     <h6 className='mb-2 font-semibold'>{t('Free includes')}: </h6>
-                    <ul className='mb-10 flex flex-col justify-center gap-3'>
+                    <ul className='mb-10 flex flex-1 flex-col justify-center gap-3'>
                       <li className='flex items-center gap-2 text-gray-600 dark:text-gray-300'>
-                        <Iconify
-                          icon='ph:check-circle-fill'
-                          height={20}
-                          className='text-primary-900 dark:text-primary-400'
-                        />{' '}
+                        <div>
+                          <Iconify
+                            icon='ph:check-circle-fill'
+                            height={20}
+                            className='text-primary-900 dark:text-primary-400'
+                          />
+                        </div>{' '}
                         {t('Up to')} 2 {t('Users')}
                       </li>
                       <li className='flex items-center gap-2 text-gray-600 dark:text-gray-300'>
-                        <Iconify
-                          icon='ph:check-circle-fill'
-                          height={20}
-                          className='text-primary-900 dark:text-primary-400'
-                        />{' '}
+                        <div>
+                          <Iconify
+                            icon='ph:check-circle-fill'
+                            height={20}
+                            className='text-primary-900 dark:text-primary-400'
+                          />
+                        </div>{' '}
                         {t('Up to')} 100 {t('Contacts/Leads')}
                       </li>
                       <li className='flex items-center gap-2 text-gray-600 dark:text-gray-300'>
-                        <Iconify
-                          icon='ph:check-circle-fill'
-                          height={20}
-                          className='text-primary-900 dark:text-primary-400'
-                        />{' '}
+                        <div>
+                          <Iconify
+                            icon='ph:check-circle-fill'
+                            height={20}
+                            className='text-primary-900 dark:text-primary-400'
+                          />
+                        </div>{' '}
                         {t('Up to')} 4 {t('Users Segments')}
                       </li>
                     </ul>
@@ -110,36 +118,43 @@ export default function Subscription({ handleBack, handleNext, isLoading }: Subs
                       )}
                     </p>
                     <h3 className='mb-10 text-5xl'>
-                      <span className='text-gray-400'>$</span>25.00
+                      {fCurrency(5000)}
+                      <span className='text-2xl text-gray-400'>Da</span>
                       <span className='text-sm text-gray-600 dark:text-gray-300'>
                         {' '}
                         {t('per month')}
                       </span>
                     </h3>
                     <h6 className='mb-2 font-semibold'>{t('Professional includes')}: </h6>
-                    <ul className='mb-10 flex flex-col justify-center gap-3'>
+                    <ul className='mb-10 flex flex-1 flex-col justify-center gap-3'>
                       <li className='flex items-center gap-2 text-gray-600 dark:text-gray-300'>
-                        <Iconify
-                          icon='ph:check-circle-fill'
-                          height={20}
-                          className='text-secondary-900 dark:text-secondary-400'
-                        />{' '}
+                        <div>
+                          <Iconify
+                            icon='ph:check-circle-fill'
+                            height={20}
+                            className='text-secondary-900 dark:text-secondary-400'
+                          />
+                        </div>{' '}
                         {t('Up to')} 5 {t('Users')}
                       </li>
                       <li className='flex items-center gap-2 text-gray-600 dark:text-gray-300'>
-                        <Iconify
-                          icon='ph:check-circle-fill'
-                          height={20}
-                          className='text-secondary-900 dark:text-secondary-400'
-                        />{' '}
+                        <div>
+                          <Iconify
+                            icon='ph:check-circle-fill'
+                            height={20}
+                            className='text-secondary-900 dark:text-secondary-400'
+                          />
+                        </div>{' '}
                         {t('Up to')} 300 {t('Contacts/Leads')}
                       </li>
                       <li className='flex items-center gap-2 text-gray-600 dark:text-gray-300'>
-                        <Iconify
-                          icon='ph:check-circle-fill'
-                          height={20}
-                          className='text-secondary-900 dark:text-secondary-400'
-                        />{' '}
+                        <div>
+                          <Iconify
+                            icon='ph:check-circle-fill'
+                            height={20}
+                            className='text-secondary-900 dark:text-secondary-400'
+                          />
+                        </div>{' '}
                         {t('Up to')} 20 {t('Users Segments')}
                       </li>
                     </ul>
@@ -162,36 +177,43 @@ export default function Subscription({ handleBack, handleNext, isLoading }: Subs
                       )}
                     </p>
                     <h3 className='mb-10 text-5xl'>
-                      <span className='text-gray-400'>$</span>70.00
+                      {fCurrency(15000)}
+                      <span className='text-2xl text-gray-400'>Da</span>
                       <span className='text-sm text-gray-600 dark:text-gray-300'>
                         {' '}
                         {t('per month')}
                       </span>
                     </h3>
                     <h6 className='mb-2 font-semibold'>{t('Enterprise includes')}: </h6>
-                    <ul className='mb-10 flex flex-col justify-center gap-3'>
+                    <ul className='mb-10 flex flex-1 flex-col justify-center gap-3'>
                       <li className='flex items-center gap-2 text-gray-600 dark:text-gray-300'>
-                        <Iconify
-                          icon='ph:check-circle-fill'
-                          height={20}
-                          className='text-primary-900 dark:text-primary-400'
-                        />{' '}
+                        <div>
+                          <Iconify
+                            icon='ph:check-circle-fill'
+                            height={20}
+                            className='text-primary-900 dark:text-primary-400'
+                          />
+                        </div>{' '}
                         {t('Up to')} 12 {t('Users')}
                       </li>
                       <li className='flex items-center gap-2 text-gray-600 dark:text-gray-300'>
-                        <Iconify
-                          icon='ph:check-circle-fill'
-                          height={20}
-                          className='text-primary-900 dark:text-primary-400'
-                        />{' '}
+                        <div>
+                          <Iconify
+                            icon='ph:check-circle-fill'
+                            height={20}
+                            className='text-primary-900 dark:text-primary-400'
+                          />
+                        </div>{' '}
                         {t('Up to')} 1000 {t('Contacts/Leads')}
                       </li>
                       <li className='flex items-center gap-2 text-gray-600 dark:text-gray-300'>
-                        <Iconify
-                          icon='ph:check-circle-fill'
-                          height={20}
-                          className='text-primary-900 dark:text-primary-400'
-                        />{' '}
+                        <div>
+                          <Iconify
+                            icon='ph:check-circle-fill'
+                            height={20}
+                            className='text-primary-900 dark:text-primary-400'
+                          />
+                        </div>{' '}
                         {t('Up to')} 100 {t('Users Segments')}
                       </li>
                     </ul>

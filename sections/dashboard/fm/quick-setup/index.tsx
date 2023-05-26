@@ -13,6 +13,8 @@ import { Icon } from '@iconify/react'
 // sections
 import StepOne from './step-one'
 import StepTwo from './step-two'
+import StepThree from './step-three'
+import StepFour from './step-four'
 
 const Tabs = [
   { name: 'Step 1', value: '1' },
@@ -37,6 +39,12 @@ export default function QuickSetup({ open }: { open: boolean }) {
 
   const handleStepTwo = () => {
     setStep('3')
+  }
+  const handleStepThree = () => {
+    setStep('4')
+  }
+  const handleStepFour = () => {
+    setStep('5')
   }
 
   const handleBack = () => {
@@ -120,20 +128,36 @@ export default function QuickSetup({ open }: { open: boolean }) {
 
         <TabsPrimitive.Content
           value='1'
-          className={clsx('mt-12 h-full bg-white py-6 dark:bg-dark')}
+          className={clsx('mt-12 h-full overflow-scroll bg-white py-6 dark:bg-dark')}
         >
           <StepOne handleNextStep={handleStepOne} />
         </TabsPrimitive.Content>
         <TabsPrimitive.Content
           value='2'
-          className={clsx('mt-12 h-full bg-white py-6 dark:bg-dark')}
+          className={clsx('mt-12 h-full overflow-scroll bg-white py-6 dark:bg-dark')}
         >
           <StepTwo handleNextStep={handleStepTwo} handleBack={handleBack} estimationRange={range} />
         </TabsPrimitive.Content>
         <TabsPrimitive.Content
           value='3'
-          className={clsx('mt-12 h-full bg-white py-6 dark:bg-dark')}
-        ></TabsPrimitive.Content>
+          className={clsx('mt-12 h-full overflow-scroll bg-white py-6 dark:bg-dark')}
+        >
+          <StepThree
+            handleBack={handleBack}
+            handleNextStep={handleStepThree}
+            estimationRange={range}
+          />
+        </TabsPrimitive.Content>
+        <TabsPrimitive.Content
+          value='4'
+          className={clsx('mt-12 h-full overflow-scroll bg-white py-6 dark:bg-dark')}
+        >
+          <StepFour
+            handleBack={handleBack}
+            handleNextStep={handleStepFour}
+            estimationRange={range}
+          />
+        </TabsPrimitive.Content>
       </TabsPrimitive.Root>
     </motion.div>
   )

@@ -7,32 +7,9 @@
 }
 
 html {
-  @apply bg-white;
+  @apply bg-gray-50;
   scrollbar-color: #00000080 transparent;
   scrollbar-width: auto;
-}
-
-html[class*='dark'] {
-  @apply bg-dark;
-  scrollbar-color: #ffffffb3 transparent;
-  scrollbar-width: auto;
-}
-
-::-webkit-scrollbar {
-  height: 8px;
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  @apply bg-transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply rounded-full bg-black/50 dark:bg-white/70;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-black/60 dark:hover:bg-white/80;
 }
 
 body {
@@ -93,6 +70,8 @@ body {
   @apply dark:!fill-gray-500;
 }
 
+/* scrollbar */
+
 .scrollbar-none {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
@@ -100,6 +79,29 @@ body {
 
 .scrollbar-none::-webkit-scrollbar {
   display: none; /* Chrome, Safari, and Opera */
+}
+
+html[class*='dark'] {
+  @apply bg-dark;
+  scrollbar-color: #ffffffb3 transparent;
+  scrollbar-width: auto;
+}
+
+::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-black/50 dark:bg-white/70;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-black/60 dark:hover:bg-white/80;
 }
 
 /* Checkbox */
@@ -300,7 +302,7 @@ body {
   @apply dark:!text-white;
 }
 .react-select__multi-value__remove {
-  @apply text-black/80;
+  @apply text-black/80 dark:text-white;
 }
 
 /* React Flow */

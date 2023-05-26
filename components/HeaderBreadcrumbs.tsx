@@ -26,7 +26,7 @@ export default function HeaderBreadcrumbs({
   ...other
 }: HeaderBreadcrumbsProps) {
   return (
-    <div className='mb-10'>
+    <div className='mb-5'>
       <div className='flex items-center'>
         <div className='flex-grow'>
           <h4 className='mb-2 text-xl font-semibold md:text-3xl'>{heading}</h4>

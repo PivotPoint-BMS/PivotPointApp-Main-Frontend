@@ -21,9 +21,9 @@ import { Icon as Iconify } from '@iconify/react'
 import { HeaderBreadcrumbs, Card, Button } from 'components'
 
 const TABS = [
-  { name: 'Contacts', value: 'contacts', icon: 'material-symbols:contacts-rounded' },
-  { name: 'Leads', value: 'leads', icon: 'mdi:person-tie' },
   { name: 'Leads Sources', value: 'sources', icon: 'mdi:person-tie' },
+  { name: 'Leads', value: 'leads', icon: 'mdi:person-tie' },
+  { name: 'Contacts', value: 'contacts', icon: 'material-symbols:contacts-rounded' },
 ]
 
 function index() {
@@ -39,7 +39,7 @@ function index() {
   return (
     <>
       <Head>
-        <title>{t('Lead Details')} | Pivot Point BMS</title>
+        <title>{t('Contacts & Leads')} | Pivot Point BMS</title>
       </Head>
       <div className='flex max-w-full flex-col overflow-hidden px-5'>
         <HeaderBreadcrumbs
@@ -68,7 +68,7 @@ function index() {
         />
         <Card fullWidth className='overflow-hidden'>
           <TabsPrimitive.Root
-            defaultValue='contacts'
+            defaultValue='leads'
             dir={locale === 'ar' ? 'rtl' : 'ltr'}
             className='overflow-hidden'
             value={tab}

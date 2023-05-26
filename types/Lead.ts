@@ -18,4 +18,5 @@ export default interface Lead {
   leadStatus: number
   leadSource: LeadSource
   address: Address
+  incomeK: number
 }

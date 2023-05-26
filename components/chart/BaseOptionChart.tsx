@@ -112,7 +112,7 @@ export default function BaseOptionChart(): ApexCharts.ApexOptions {
         radius: 12,
       },
       fontWeight: 500,
-      itemMargin: { horizontal: 12 },
+      itemMargin: { horizontal: 12, vertical: 5 },
       labels: {
         colors: '#161c24',
       },

@@ -1,5 +1,7 @@
-import clsx from 'clsx'
 import React from 'react'
+import clsx from 'clsx'
+// hooks
+import useTranslate from 'hooks/useTranslate'
 
 export default function Cell({
   value: initialValue,
@@ -7,6 +9,7 @@ export default function Cell({
   column: { id, dataType, placeholder, disabled },
   dataDispatch,
 }) {
+  const { t } = useTranslate()
   const [value, setValue] = React.useState(initialValue)
 
   const onChange = (e) => {
@@ -22,7 +25,7 @@ export default function Cell({
   }, [initialValue])
 
   return disabled ? (
-    <p className='box-border w-full flex-auto resize-none whitespace-nowrap border-0 bg-transparent p-2 text-right'>
+    <p className='box-border w-full flex-auto resize-none whitespace-nowrap border-0 bg-transparent p-2 px-5 ltr:text-right rtl:text-left'>
       {value}
     </p>
   ) : (
@@ -31,10 +34,10 @@ export default function Cell({
       onChange={onChange}
       onBlur={onBlur}
       type={dataType}
-      placeholder={placeholder}
+      placeholder={t(placeholder)}
       className={clsx(
         'box-border w-full flex-auto resize-none whitespace-nowrap border-0 bg-transparent p-2',
-        dataType === 'number' && 'text-right'
+        dataType === 'number' && 'ltr:text-right rtl:text-left'
       )}
     />
   )
