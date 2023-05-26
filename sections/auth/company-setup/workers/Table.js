@@ -51,7 +51,7 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
                       {column.render('Header')}
                     </th>
                   ))}
-                  <th className='h-[43px] w-[50px] border-b bg-gray-100 dark:bg-paper-dark'></th>
+                  <th className='h-[43px] w-[51px] border-b bg-gray-100 dark:bg-paper-dark'></th>
                 </tr>
               ))}
             </thead>
