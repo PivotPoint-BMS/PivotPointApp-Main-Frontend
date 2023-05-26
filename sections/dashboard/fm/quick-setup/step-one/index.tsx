@@ -81,6 +81,12 @@ function reducer(
           return row
         }),
       }
+    case 'delete_row':
+      return {
+        ...state,
+        data: state.data.filter((_, i) => i !== action.rowIndex),
+        rowIndex: action.rowIndex,
+      }
     case 'update_percentage':
       return {
         ...state,
@@ -101,7 +107,13 @@ function reducer(
   }
 }
 
-function StepOne({ handleNextStep }: { handleNextStep: (range: number) => void }) {
+function StepOne({
+  handleNextStep,
+  setInvestementTotal,
+}: {
+  handleNextStep: (range: number) => void
+  setInvestementTotal: (total: number) => void
+}) {
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const [state, dispatch] = useReducer(reducer, makeData())
@@ -191,6 +203,9 @@ function StepOne({ handleNextStep }: { handleNextStep: (range: number) => void }
                   })),
                   years: range,
                 })
+                setInvestementTotal(
+                  state.data.reduce((partialSum, a) => partialSum + Number(a.amount), 0)
+                )
               } else
                 open({
                   autoHideDuration: 10000,

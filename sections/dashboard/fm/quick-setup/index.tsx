@@ -15,6 +15,8 @@ import StepOne from './step-one'
 import StepTwo from './step-two'
 import StepThree from './step-three'
 import StepFour from './step-four'
+import StepFive from './step-five'
+import StepSix from './step-six'
 
 const Tabs = [
   { name: 'Step 1', value: '1' },
@@ -31,6 +33,7 @@ export default function QuickSetup({ open }: { open: boolean }) {
   const { t, locale } = useTranslate()
   const [step, setStep] = useState('1')
   const [range, setRange] = useState(2)
+  const [investementTotal, setInvestementTotal] = useState(0)
 
   const handleStepOne = (_range: number) => {
     setStep('2')
@@ -46,7 +49,12 @@ export default function QuickSetup({ open }: { open: boolean }) {
   const handleStepFour = () => {
     setStep('5')
   }
-
+  const handleStepFive = () => {
+    setStep('6')
+  }
+  const handleStepSix = () => {
+    setStep('7')
+  }
   const handleBack = () => {
     setStep((prevStep) => (parseInt(prevStep, 10) - 1).toString())
   }
@@ -130,7 +138,7 @@ export default function QuickSetup({ open }: { open: boolean }) {
           value='1'
           className={clsx('mt-12 h-full overflow-scroll bg-white py-6 dark:bg-dark')}
         >
-          <StepOne handleNextStep={handleStepOne} />
+          <StepOne handleNextStep={handleStepOne} setInvestementTotal={setInvestementTotal} />
         </TabsPrimitive.Content>
         <TabsPrimitive.Content
           value='2'
@@ -157,6 +165,22 @@ export default function QuickSetup({ open }: { open: boolean }) {
             handleNextStep={handleStepFour}
             estimationRange={range}
           />
+        </TabsPrimitive.Content>
+        <TabsPrimitive.Content
+          value='5'
+          className={clsx('mt-12 h-full overflow-scroll bg-white py-6 dark:bg-dark')}
+        >
+          <StepFive
+            handleBack={handleBack}
+            handleNextStep={handleStepFive}
+            investementTotal={investementTotal}
+          />
+        </TabsPrimitive.Content>
+        <TabsPrimitive.Content
+          value='6'
+          className={clsx('mt-12 h-full overflow-scroll bg-white py-6 dark:bg-dark')}
+        >
+          <StepSix handleBack={handleBack} handleNextStep={handleStepSix} estimationRange={range} />
         </TabsPrimitive.Content>
       </TabsPrimitive.Root>
     </motion.div>

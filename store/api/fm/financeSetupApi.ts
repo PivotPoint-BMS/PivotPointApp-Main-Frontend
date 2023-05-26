@@ -35,6 +35,23 @@ export interface StepFourState {
   peronnelCosts: number[]
 }
 
+export interface StepFiveState {
+  investements: {
+    investement: string
+    amount: number
+    yearsOfUse: number
+    physical: boolean
+  }[]
+}
+
+export interface StepSixState {
+  expenses: {
+    expense: string
+    expectedCosts: number[]
+    isFixedCharge: boolean
+  }[]
+}
+
 export const financeSetupApi = createApi({
   reducerPath: 'financeSetupApi',
   baseQuery: fetchBaseQuery({
@@ -109,6 +126,32 @@ export const financeSetupApi = createApi({
       }),
       invalidatesTags: ['StepFour'],
     }),
+    getStepFive: builder.query<IGenericResponse<StepFiveState>, void>({
+      query: () => 'QuickSetup/Step5',
+      providesTags: ['StepFive'],
+    }),
+    setStepFive: builder.mutation<IGenericResponse<unknown>, StepFiveState>({
+      query: (data) => ({
+        url: 'QuickSetup/Step5',
+        method: 'POST',
+        body: data,
+        responseHandler: 'content-type',
+      }),
+      invalidatesTags: ['StepFive'],
+    }),
+    getStepSix: builder.query<IGenericResponse<StepSixState>, void>({
+      query: () => 'QuickSetup/Step6',
+      providesTags: ['StepSix'],
+    }),
+    setStepSix: builder.mutation<IGenericResponse<unknown>, StepSixState>({
+      query: (data) => ({
+        url: 'QuickSetup/Step6',
+        method: 'POST',
+        body: data,
+        responseHandler: 'content-type',
+      }),
+      invalidatesTags: ['StepSix'],
+    }),
   }),
 })
 
@@ -119,11 +162,15 @@ export const {
   useGetStepTwoQuery,
   useGetStepThreeQuery,
   useGetStepFourQuery,
+  useGetStepFiveQuery,
+  useGetStepSixQuery,
   // Mutations
   useSetStepOneMutation,
   useSetStepTwoMutation,
   useSetStepThreeMutation,
   useSetStepFourMutation,
+  useSetStepFiveMutation,
+  useSetStepSixMutation,
   util: { getRunningQueriesThunk, invalidateTags },
 } = financeSetupApi
 
