@@ -80,8 +80,10 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
                     key={`table-row-${i}`}
                     className='divide-x border-b last-of-type:border-b-0 rtl:divide-x-reverse'
                   >
-                    {row.cells.map((cell) => (
-                      <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                    {row.cells.map((cell, i) => (
+                      <td {...cell.getCellProps()} key={`table-row-cell-${i}`}>
+                        {cell.render('Cell')}
+                      </td>
                     ))}
                     <td>
                       <div className='box-border h-full w-full resize-none truncate whitespace-nowrap border-0 bg-transparent p-2 text-right'>

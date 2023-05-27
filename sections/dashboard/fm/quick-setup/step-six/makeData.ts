@@ -3,12 +3,14 @@ export default function makeData(range: number) {
   const data: {
     expense: string
     isFixedCharge: string
-    [key: string]: string
+    isDeletable: boolean
+    [key: string]: string | boolean
   }[] = []
   // eslint-disable-next-line no-plusplus
   let row = {
     expense: '',
     isFixedCharge: 'true',
+    isDeletable: true,
   }
   for (let i = 1; i <= range; i++) {
     row = { ...row, [i]: '' }

@@ -49,6 +49,7 @@ export interface StepSixState {
     expense: string
     expectedCosts: number[]
     isFixedCharge: boolean
+    isDeletable: boolean
   }[]
 }
 

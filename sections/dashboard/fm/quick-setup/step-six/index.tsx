@@ -18,7 +18,8 @@ function reducer(
     data: {
       expense: string
       isFixedCharge: string
-      [key: string]: string
+      isDeletable: boolean
+      [key: string]: string | boolean
     }[]
     columns: {
       id: string
@@ -42,7 +43,8 @@ function reducer(
     data: {
       expense: string
       isFixedCharge: string
-      [key: string]: string
+      isDeletable: boolean
+      [key: string]: string | boolean
     }[]
   }
 ) {
@@ -61,7 +63,7 @@ function reducer(
       )
         return {
           ...state,
-          data: [...state.data, { expense: '', isFixedCharge: 'false' }],
+          data: [...state.data, { expense: '', isFixedCharge: 'false', isDeletable: true }],
         }
 
       return {
@@ -130,19 +132,23 @@ function StepSix({
       const data: {
         expense: string
         isFixedCharge: string
-        [key: string]: string
+        isDeletable: boolean
+        [key: string]: string | boolean
       }[] = []
-      stepSixData.data.expenses.forEach(({ expense, expectedCosts, isFixedCharge }) => {
-        let years: { [key: string]: string } = {}
-        expectedCosts.forEach((value, i) => {
-          years = { ...years, [(i + 1).toString()]: value.toString() }
-        })
-        data.push({
-          expense,
-          isFixedCharge: String(isFixedCharge),
-          ...years,
-        })
-      })
+      stepSixData.data.expenses.forEach(
+        ({ expense, expectedCosts, isFixedCharge, isDeletable }) => {
+          let years: { [key: string]: string } = {}
+          expectedCosts.forEach((value, i) => {
+            years = { ...years, [(i + 1).toString()]: value.toString() }
+          })
+          data.push({
+            expense,
+            isFixedCharge: String(isFixedCharge),
+            isDeletable,
+            ...years,
+          })
+        }
+      )
       dispatch({
         type: 'set_data',
         data,
@@ -189,6 +195,7 @@ function StepSix({
                       expense: string
                       expectedCosts: number[]
                       isFixedCharge: boolean
+                      isDeletable: boolean
                     }[],
                     curr
                   ) => {
@@ -196,10 +203,12 @@ function StepSix({
                       expense: string
                       isFixedCharge: boolean
                       expectedCosts: number[]
+                      isDeletable: boolean
                     } = {
                       expense: curr.expense,
                       isFixedCharge: Boolean(curr.isFixedCharge),
                       expectedCosts: [],
+                      isDeletable: true,
                     }
                     for (let j = 0; j < estimationRange; j++) {
                       newObj.expectedCosts.push(Number(curr[j + 1]))

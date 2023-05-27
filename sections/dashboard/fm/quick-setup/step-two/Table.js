@@ -122,8 +122,11 @@ export default function Table({ columns, data, dispatch: dataDispatch, isSaaS })
                 <td className='text flex-1 p-2 px-5 text-center font-medium'>
                   {t('Total HT Annual')}
                 </td>
-                {yearTotal.map((total) => (
-                  <td className='flex-1 p-2 px-5 font-medium ltr:text-right rtl:text-left'>
+                {yearTotal.map((total, index) => (
+                  <td
+                    key={`table-total-${index}`}
+                    className='flex-1 p-2 px-5 font-medium ltr:text-right rtl:text-left'
+                  >
                     {fCurrency(total)}
                   </td>
                 ))}

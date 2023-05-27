@@ -101,19 +101,23 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
                         {cell.render('Cell')}
                       </td>
                     ))}
-                    <td>
-                      <div className='box-border h-full w-full resize-none truncate whitespace-nowrap border-0 bg-transparent p-2 text-right'>
-                        <Tooltip title={t('Delete')} align='center' side='bottom'>
-                          <IconButton
-                            onClick={() => {
-                              dataDispatch({ type: 'delete_row', rowIndex: i })
-                            }}
-                          >
-                            <Icon icon='ic:delete' className='text-red-600 dark:text-red-400' />
-                          </IconButton>
-                        </Tooltip>
-                      </div>
-                    </td>
+                    {row.original.isDeletable ? (
+                      <td>
+                        <div className='box-border h-full w-full resize-none truncate whitespace-nowrap border-0 bg-transparent p-2 text-right'>
+                          <Tooltip title={t('Delete')} align='center' side='bottom'>
+                            <IconButton
+                              onClick={() => {
+                                dataDispatch({ type: 'delete_row', rowIndex: i })
+                              }}
+                            >
+                              <Icon icon='ic:delete' className='text-red-600 dark:text-red-400' />
+                            </IconButton>
+                          </Tooltip>
+                        </div>
+                      </td>
+                    ) : (
+                      <td className='h-[43px] w-[51px] border-b bg-gray-100 dark:bg-paper-dark'></td>
+                    )}
                   </tr>
                 )
               })}

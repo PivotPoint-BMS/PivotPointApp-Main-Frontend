@@ -162,7 +162,7 @@ function StepTwo({
   }, [isGetLoading])
 
   return (
-    <div className='relative mx-auto flex h-full w-full min-w-fit flex-col items-center justify-start gap-5 py-10 px-4'>
+    <div className='relative mx-auto flex h-full w-full min-w-fit flex-col items-center justify-start gap-5 overflow-y-scroll py-10 px-4'>
       {' '}
       {isGetLoading ? (
         <LoadingIndicator />

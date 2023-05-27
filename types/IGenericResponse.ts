@@ -3,8 +3,8 @@ export default interface ListGenericResponse<T = never> {
   succeeded: boolean
   errors: string | null
   message: string
-  pageNumber: number
-  pageSize: number
-  totalPages: number
-  totalRecords: number
+  // pageNumber: number
+  // pageSize: number
+  // totalPages: number
+  // totalRecords: number
 }
