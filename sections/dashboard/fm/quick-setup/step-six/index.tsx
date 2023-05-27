@@ -5,7 +5,7 @@ import clsx from 'clsx'
 import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
 // api
-import { useGetStepThreeQuery, useSetStepThreeMutation } from 'store/api/fm/financeSetupApi'
+import { useGetStepSixQuery, useSetStepSixMutation } from 'store/api/fm/financeSetupApi'
 // components
 import { Icon } from '@iconify/react'
 import { Button, IconButton, LoadingIndicator } from 'components'
@@ -16,9 +16,10 @@ import makeData from './makeData'
 function reducer(
   state: {
     data: {
-      inventory: string
-      isRawMaterials: string
-      [key: string]: string
+      expense: string
+      isFixedCharge: string
+      isDeletable: boolean
+      [key: string]: string | boolean
     }[]
     columns: {
       id: string
@@ -40,9 +41,10 @@ function reducer(
     value: string
     total: number
     data: {
-      inventory: string
-      isRawMaterials: string
-      [key: string]: string
+      expense: string
+      isFixedCharge: string
+      isDeletable: boolean
+      [key: string]: string | boolean
     }[]
   }
 ) {
@@ -61,7 +63,7 @@ function reducer(
       )
         return {
           ...state,
-          data: [...state.data, { inventory: '', isRawMaterials: 'false' }],
+          data: [...state.data, { expense: '', isFixedCharge: 'false', isDeletable: true }],
         }
 
       return {
@@ -96,7 +98,7 @@ function reducer(
   }
 }
 
-function StepThree({
+function StepSix({
   handleNextStep,
   handleBack,
   estimationRange,
@@ -108,12 +110,12 @@ function StepThree({
   const { t, locale } = useTranslate()
   const { open } = useSnackbar()
   const [state, dispatch] = useReducer(reducer, makeData(estimationRange))
-  const [setStepThree, { isLoading, isSuccess, isError }] = useSetStepThreeMutation()
+  const [setStepSix, { isLoading, isSuccess, isError }] = useSetStepSixMutation()
   const {
-    data: stepThreeData,
+    data: stepSixData,
     isLoading: isGetLoading,
     isSuccess: isGetSuccess,
-  } = useGetStepThreeQuery()
+  } = useGetStepSixQuery()
 
   useEffect(() => {
     if (isSuccess) handleNextStep()
@@ -128,21 +130,25 @@ function StepThree({
   useEffect(() => {
     if (isGetSuccess) {
       const data: {
-        inventory: string
-        isRawMaterials: string
-        [key: string]: string
+        expense: string
+        isFixedCharge: string
+        isDeletable: boolean
+        [key: string]: string | boolean
       }[] = []
-      stepThreeData.data.inventorySources.forEach(({ inventory, costs, isRawMaterials }) => {
-        let years: { [key: string]: string } = {}
-        costs.forEach((value, i) => {
-          years = { ...years, [(i + 1).toString()]: value.toString() }
-        })
-        data.push({
-          inventory,
-          isRawMaterials: String(isRawMaterials),
-          ...years,
-        })
-      })
+      stepSixData.data.expenses.forEach(
+        ({ expense, expectedCosts, isFixedCharge, isDeletable }) => {
+          let years: { [key: string]: string } = {}
+          expectedCosts.forEach((value, i) => {
+            years = { ...years, [(i + 1).toString()]: value.toString() }
+          })
+          data.push({
+            expense,
+            isFixedCharge: String(isFixedCharge),
+            isDeletable,
+            ...years,
+          })
+        }
+      )
       dispatch({
         type: 'set_data',
         data,
@@ -183,26 +189,29 @@ function StepThree({
                 state.data.length > 0 &&
                 state.data.every((cell) => Object.keys(cell).every((key) => cell[key] !== ''))
               ) {
-                const inventorySources = state.data.reduce(
+                const expenses = state.data.reduce(
                   (
                     acc: {
-                      inventory: string
-                      costs: number[]
-                      isRawMaterials: boolean
+                      expense: string
+                      expectedCosts: number[]
+                      isFixedCharge: boolean
+                      isDeletable: boolean
                     }[],
                     curr
                   ) => {
                     const newObj: {
-                      inventory: string
-                      isRawMaterials: boolean
-                      costs: number[]
+                      expense: string
+                      isFixedCharge: boolean
+                      expectedCosts: number[]
+                      isDeletable: boolean
                     } = {
-                      inventory: curr.inventory,
-                      isRawMaterials: Boolean(curr.isRawMaterials),
-                      costs: [],
+                      expense: curr.expense,
+                      isFixedCharge: Boolean(curr.isFixedCharge),
+                      expectedCosts: [],
+                      isDeletable: true,
                     }
                     for (let j = 0; j < estimationRange; j++) {
-                      newObj.costs.push(Number(curr[j + 1]))
+                      newObj.expectedCosts.push(Number(curr[j + 1]))
                     }
                     acc.push(newObj)
                     return acc
@@ -210,7 +219,7 @@ function StepThree({
                   []
                 )
 
-                setStepThree({ inventorySources })
+                setStepSix({ expenses })
               } else
                 open({
                   autoHideDuration: 10000,
@@ -230,4 +239,4 @@ function StepThree({
   )
 }
 
-export default StepThree
+export default StepSix

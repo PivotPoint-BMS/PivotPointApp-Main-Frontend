@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import clsx from 'clsx'
 // radix
 import * as TabsPrimitive from '@radix-ui/react-tabs'
@@ -10,11 +10,14 @@ import useResponsive from 'hooks/useResponsive'
 import useTranslate from 'hooks/useTranslate'
 // components
 import { Icon } from '@iconify/react'
+import Button from 'components/Button'
 // sections
 import StepOne from './step-one'
 import StepTwo from './step-two'
 import StepThree from './step-three'
 import StepFour from './step-four'
+import StepFive from './step-five'
+import StepSix from './step-six'
 
 const Tabs = [
   { name: 'Step 1', value: '1' },
@@ -23,14 +26,31 @@ const Tabs = [
   { name: 'Step 4', value: '4' },
   { name: 'Step 5', value: '5' },
   { name: 'Step 6', value: '6' },
-  { name: 'Step 7', value: '7' },
+  { name: 'Complete', value: '7' },
 ]
 
-export default function QuickSetup({ open }: { open: boolean }) {
+export default function QuickSetup({
+  open,
+  startStep,
+  estimationRange,
+  total,
+  handleClose,
+}: {
+  open: boolean
+  startStep: string
+  estimationRange: number
+  total: number
+  handleClose: () => void
+}) {
   const isDesktop = useResponsive('md', 'up')
   const { t, locale } = useTranslate()
-  const [step, setStep] = useState('1')
-  const [range, setRange] = useState(2)
+  const [step, setStep] = useState(startStep)
+  const [range, setRange] = useState(estimationRange)
+  const [investementTotal, setInvestementTotal] = useState(total)
+
+  useEffect(() => {
+    setStep(startStep)
+  }, [startStep])
 
   const handleStepOne = (_range: number) => {
     setStep('2')
@@ -46,7 +66,12 @@ export default function QuickSetup({ open }: { open: boolean }) {
   const handleStepFour = () => {
     setStep('5')
   }
-
+  const handleStepFive = () => {
+    setStep('6')
+  }
+  const handleStepSix = () => {
+    setStep('7')
+  }
   const handleBack = () => {
     setStep((prevStep) => (parseInt(prevStep, 10) - 1).toString())
   }
@@ -65,7 +90,7 @@ export default function QuickSetup({ open }: { open: boolean }) {
       className='fixed top-0 right-0 z-[999] flex h-screen w-screen flex-col items-center'
     >
       <TabsPrimitive.Root
-        defaultValue='tab1'
+        defaultValue={step}
         className='h-full w-full'
         value={step}
         dir={locale === 'ar' ? 'rtl' : 'ltr'}
@@ -130,7 +155,7 @@ export default function QuickSetup({ open }: { open: boolean }) {
           value='1'
           className={clsx('mt-12 h-full overflow-scroll bg-white py-6 dark:bg-dark')}
         >
-          <StepOne handleNextStep={handleStepOne} />
+          <StepOne handleNextStep={handleStepOne} setInvestementTotal={setInvestementTotal} />
         </TabsPrimitive.Content>
         <TabsPrimitive.Content
           value='2'
@@ -157,6 +182,31 @@ export default function QuickSetup({ open }: { open: boolean }) {
             handleNextStep={handleStepFour}
             estimationRange={range}
           />
+        </TabsPrimitive.Content>
+        <TabsPrimitive.Content
+          value='5'
+          className={clsx('mt-12 h-full overflow-scroll bg-white py-6 dark:bg-dark')}
+        >
+          <StepFive
+            handleBack={handleBack}
+            handleNextStep={handleStepFive}
+            investementTotal={investementTotal}
+          />
+        </TabsPrimitive.Content>
+        <TabsPrimitive.Content
+          value='6'
+          className={clsx('mt-12 h-full overflow-scroll bg-white py-6 dark:bg-dark')}
+        >
+          <StepSix handleBack={handleBack} handleNextStep={handleStepSix} estimationRange={range} />
+        </TabsPrimitive.Content>
+        <TabsPrimitive.Content
+          value='7'
+          className={clsx('mt-12 h-full overflow-scroll bg-white py-6 dark:bg-dark')}
+        >
+          <div className='relative mx-auto flex h-full w-full min-w-fit flex-col items-center justify-center  gap-10 py-10 px-4'>
+            <h1 className='text-3xl font-medium'>{t('Setup Complete')}</h1>
+            <Button onClick={handleClose}>{t('Go To Dashboard')}</Button>
+          </div>
         </TabsPrimitive.Content>
       </TabsPrimitive.Root>
     </motion.div>

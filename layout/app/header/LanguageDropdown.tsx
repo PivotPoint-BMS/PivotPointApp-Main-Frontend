@@ -25,10 +25,10 @@ export default function LanguageDropdown() {
 
   return (
     <DropdownMenuPrimitive.Root>
-      <DropdownMenuPrimitive.Trigger className='outline-none'>
-        <Button variant='text' intent='default' className='outline-none'>
-          {t('Language')}
-        </Button>
+      <DropdownMenuPrimitive.Trigger
+        className={buttonText({ intent: 'default', disabled: false, className: 'outline-none' })}
+      >
+        {t('Language')}
       </DropdownMenuPrimitive.Trigger>
       <DropdownMenuPrimitive.Portal>
         <DropdownMenuPrimitive.Content

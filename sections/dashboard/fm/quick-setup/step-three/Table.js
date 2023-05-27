@@ -7,8 +7,10 @@ import useTranslate from 'hooks/useTranslate'
 // utils
 import { fCurrency } from 'utils/formatNumber'
 // components
-import Button from 'components/Button'
 import { Icon } from '@iconify/react'
+import Button from 'components/Button'
+import Tooltip from 'components/Tooltip'
+import IconButton from 'components/IconButton'
 import Cell from './Cell'
 import Header from './Header'
 
@@ -81,6 +83,7 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
                       {column.render('Header')}
                     </th>
                   ))}
+                  <th className='h-[43px] w-[51px] border-b bg-gray-100 dark:bg-paper-dark'></th>
                 </tr>
               ))}
             </thead>
@@ -98,6 +101,19 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
                         {cell.render('Cell')}
                       </td>
                     ))}
+                    <td>
+                      <div className='box-border h-full w-full resize-none truncate whitespace-nowrap border-0 bg-transparent p-2 text-right'>
+                        <Tooltip title={t('Delete')} align='center' side='bottom'>
+                          <IconButton
+                            onClick={() => {
+                              dataDispatch({ type: 'delete_row', rowIndex: i })
+                            }}
+                          >
+                            <Icon icon='ic:delete' className='text-red-600 dark:text-red-400' />
+                          </IconButton>
+                        </Tooltip>
+                      </div>
+                    </td>
                   </tr>
                 )
               })}
@@ -113,6 +129,7 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
                 <td className='text flex-1 p-2 px-5 text-center font-medium ltr:text-left rtl:text-right'>
                   -
                 </td>
+                <td className='h-[43px] w-[51px]'></td>
               </tr>
             </tbody>
           </table>

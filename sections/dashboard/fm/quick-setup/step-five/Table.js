@@ -4,6 +4,8 @@ import React, { useEffect } from 'react'
 import { useTable, useFlexLayout, useResizeColumns, useSortBy } from 'react-table'
 // hooks
 import useTranslate from 'hooks/useTranslate'
+// utils
+import { fCurrency } from 'utils/formatNumber'
 // components
 import { Icon } from '@iconify/react'
 import Button from 'components/Button'
@@ -21,8 +23,9 @@ const defaultColumn = {
   sortType: 'alphanumericFalsyLast',
 }
 
-export default function Table({ columns, data, dispatch: dataDispatch }) {
+export default function Table({ columns, data, dispatch: dataDispatch, total }) {
   const { t } = useTranslate()
+
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
     {
       columns,
@@ -49,20 +52,22 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
   }, [data])
 
   return (
-    <>
-      <div className='flex w-full flex-1 justify-center overflow-x-scroll'>
-        <div className='container h-fit min-w-fit max-w-full rounded-lg border border-b-0'>
+    <div className='w-full flex-1'>
+      <div className='flex w-full justify-center'>
+        <div className='container min-w-fit max-w-full rounded-lg border border-b-0'>
           <table {...getTableProps()} className='w-full'>
-            <thead className='overflow-x-scroll'>
-              {headerGroups.map((headerGroup) => (
+            <thead>
+              {headerGroups.map((headerGroup, i) => (
                 <tr
                   {...headerGroup.getHeaderGroupProps()}
                   className='divide-x rtl:divide-x-reverse'
+                  key={`table-head-row-${i}`}
                 >
-                  {headerGroup.headers.map((column) => (
+                  {headerGroup.headers.map((column, index) => (
                     <th
                       {...column.getHeaderProps()}
                       className='border-b bg-gray-100 dark:bg-paper-dark'
+                      key={`table-head-cell-${index}`}
                     >
                       {column.render('Header')}
                     </th>
@@ -77,11 +82,11 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
                 return (
                   <tr
                     {...row.getRowProps()}
-                    key={`table-row-${i}`}
+                    key={`table-body-row-${i}`}
                     className='divide-x border-b last-of-type:border-b-0 rtl:divide-x-reverse'
                   >
-                    {row.cells.map((cell, i) => (
-                      <td {...cell.getCellProps()} key={`table-row-cell-${i}`}>
+                    {row.cells.map((cell, index) => (
+                      <td {...cell.getCellProps()} key={`table-row-cell-${index}`}>
                         {cell.render('Cell')}
                       </td>
                     ))}
@@ -101,6 +106,23 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
                   </tr>
                 )
               })}
+              <tr className='flex divide-x border-b bg-primary-100/40 last-of-type:border-b-0 rtl:divide-x-reverse dark:bg-primary-900'>
+                <td className='text flex-1 p-2 px-5 text-center font-medium ltr:text-left rtl:text-right'>
+                  {t('Total')}
+                </td>
+
+                <td className='flex-1 p-2 px-5 font-medium ltr:text-right rtl:text-left'>
+                  {fCurrency(total)} {t('Da')}
+                </td>
+
+                <td className='text flex-1 p-2 px-5 text-center font-medium ltr:text-left rtl:text-right'>
+                  -
+                </td>
+                <td className='text flex-1 p-2 px-5 text-center font-medium ltr:text-left rtl:text-right'>
+                  -
+                </td>
+                <td className='h-[43px] w-[51px]'></td>
+              </tr>
             </tbody>
           </table>
           <Button
@@ -110,10 +132,10 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
             className='w-full !justify-start rounded-t-none '
             onClick={() => dataDispatch({ type: 'add_row' })}
           >
-            {t('New Subsription')}
+            {t('New Row')}
           </Button>
         </div>
       </div>
-    </>
+    </div>
   )
 }

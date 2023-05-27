@@ -57,6 +57,12 @@ function reducer(
           return row
         }),
       }
+    case 'delete_row':
+      return {
+        ...state,
+        data: state.data.filter((_, i) => i !== action.rowIndex),
+        rowIndex: action.rowIndex,
+      }
     case 'delete_last_cell':
       return {
         ...state,

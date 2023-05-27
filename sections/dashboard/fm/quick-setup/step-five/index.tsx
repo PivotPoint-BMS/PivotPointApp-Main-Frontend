@@ -1,11 +1,11 @@
 /* eslint-disable no-plusplus */
-import { useEffect, useReducer } from 'react'
+import { useEffect, useMemo, useReducer } from 'react'
 import clsx from 'clsx'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
 // api
-import { useGetStepThreeQuery, useSetStepThreeMutation } from 'store/api/fm/financeSetupApi'
+import { useGetStepFiveQuery, useSetStepFiveMutation } from 'store/api/fm/financeSetupApi'
 // components
 import { Icon } from '@iconify/react'
 import { Button, IconButton, LoadingIndicator } from 'components'
@@ -16,9 +16,10 @@ import makeData from './makeData'
 function reducer(
   state: {
     data: {
-      inventory: string
-      isRawMaterials: string
-      [key: string]: string
+      investement: string
+      amount: number | string
+      yearsOfUse: number | string
+      physical: string
     }[]
     columns: {
       id: string
@@ -40,9 +41,10 @@ function reducer(
     value: string
     total: number
     data: {
-      inventory: string
-      isRawMaterials: string
-      [key: string]: string
+      investement: string
+      amount: number
+      yearsOfUse: number
+      physical: string
     }[]
   }
 ) {
@@ -55,13 +57,12 @@ function reducer(
     case 'add_row':
       if (
         state.data.every(
-          (cell) =>
-            Object.keys(cell).length > 0 && Object.keys(cell).every((key) => cell[key] !== '')
+          (cell) => cell.amount !== '' && cell.investement !== '' && cell.yearsOfUse !== ''
         )
       )
         return {
           ...state,
-          data: [...state.data, { inventory: '', isRawMaterials: 'false' }],
+          data: [...state.data, { investement: '', amount: '', yearsOfUse: '', physical: 'false' }],
         }
 
       return {
@@ -96,24 +97,28 @@ function reducer(
   }
 }
 
-function StepThree({
+function StepFive({
   handleNextStep,
   handleBack,
-  estimationRange,
+  investementTotal,
 }: {
   handleNextStep: () => void
   handleBack: () => void
-  estimationRange: number
+  investementTotal: number
 }) {
   const { t, locale } = useTranslate()
   const { open } = useSnackbar()
-  const [state, dispatch] = useReducer(reducer, makeData(estimationRange))
-  const [setStepThree, { isLoading, isSuccess, isError }] = useSetStepThreeMutation()
+  const [state, dispatch] = useReducer(reducer, makeData())
+  const total = useMemo(
+    () => state.data.reduce((partialSum, a) => partialSum + Number(a.amount), 0),
+    [state.data]
+  )
+  const [setStepFive, { isLoading, isSuccess, isError }] = useSetStepFiveMutation()
   const {
-    data: stepThreeData,
+    data: stepFiveData,
     isLoading: isGetLoading,
     isSuccess: isGetSuccess,
-  } = useGetStepThreeQuery()
+  } = useGetStepFiveQuery()
 
   useEffect(() => {
     if (isSuccess) handleNextStep()
@@ -128,21 +133,19 @@ function StepThree({
   useEffect(() => {
     if (isGetSuccess) {
       const data: {
-        inventory: string
-        isRawMaterials: string
-        [key: string]: string
+        investement: string
+        amount: number
+        yearsOfUse: number
+        physical: string
       }[] = []
-      stepThreeData.data.inventorySources.forEach(({ inventory, costs, isRawMaterials }) => {
-        let years: { [key: string]: string } = {}
-        costs.forEach((value, i) => {
-          years = { ...years, [(i + 1).toString()]: value.toString() }
-        })
+      stepFiveData.data.investements.forEach((investement) =>
         data.push({
-          inventory,
-          isRawMaterials: String(isRawMaterials),
-          ...years,
+          investement: investement.investement,
+          amount: investement.amount,
+          yearsOfUse: investement.yearsOfUse,
+          physical: investement.physical ? 'true' : 'false',
         })
-      })
+      )
       dispatch({
         type: 'set_data',
         data,
@@ -153,6 +156,16 @@ function StepThree({
       })
     }
   }, [isGetLoading])
+
+  useEffect(() => {
+    if (total > investementTotal)
+      open({
+        autoHideDuration: 10000,
+        closeButton: true,
+        type: 'warning',
+        message: t('Total must be smaller or equal to invetement total'),
+      })
+  }, [total])
 
   return (
     <div className='relative mx-auto flex h-full w-full min-w-fit flex-col items-center justify-start gap-5 py-10 px-4'>
@@ -176,41 +189,31 @@ function StepThree({
             />
           </IconButton>
           <h1 className='text-center text-2xl font-semibold'>{t('Inventory Sources')}</h1>
-          <Table columns={state.columns} data={state.data} dispatch={dispatch} />
+          <Table columns={state.columns} data={state.data} dispatch={dispatch} total={total} />
           <Button
             onClick={() => {
+              if (total > investementTotal) {
+                open({
+                  autoHideDuration: 10000,
+                  closeButton: true,
+                  type: 'warning',
+                  message: t('Total must be smaller or equal to invetement total'),
+                })
+                return
+              }
               if (
                 state.data.length > 0 &&
-                state.data.every((cell) => Object.keys(cell).every((key) => cell[key] !== ''))
-              ) {
-                const inventorySources = state.data.reduce(
-                  (
-                    acc: {
-                      inventory: string
-                      costs: number[]
-                      isRawMaterials: boolean
-                    }[],
-                    curr
-                  ) => {
-                    const newObj: {
-                      inventory: string
-                      isRawMaterials: boolean
-                      costs: number[]
-                    } = {
-                      inventory: curr.inventory,
-                      isRawMaterials: Boolean(curr.isRawMaterials),
-                      costs: [],
-                    }
-                    for (let j = 0; j < estimationRange; j++) {
-                      newObj.costs.push(Number(curr[j + 1]))
-                    }
-                    acc.push(newObj)
-                    return acc
-                  },
-                  []
+                state.data.every(
+                  (cell) => cell.amount !== '' && cell.investement !== '' && cell.yearsOfUse !== ''
                 )
-
-                setStepThree({ inventorySources })
+              ) {
+                const investements = state.data.map((d) => ({
+                  investement: d.investement,
+                  amount: Number(d.amount),
+                  yearsOfUse: Number(d.yearsOfUse),
+                  physical: Boolean(d.physical),
+                }))
+                setStepFive({ investements })
               } else
                 open({
                   autoHideDuration: 10000,
@@ -230,4 +233,4 @@ function StepThree({
   )
 }
 
-export default StepThree
+export default StepFive

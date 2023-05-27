@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 // next
 import Head from 'next/head'
-// utils
-import { getItem } from 'utils/localStorage'
+// apis
+import { useGetFmDashboardStatsQuery } from 'store/api/fm/fmDashboardApi'
+import { useGetStepOneQuery } from 'store/api/fm/financeSetupApi'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // sections
@@ -10,13 +11,24 @@ import QuickSetup from 'sections/dashboard/fm/quick-setup'
 // layout
 import Layout from 'layout/Index'
 // components
-import { AlertDialog } from 'components'
+import { AlertDialog, Backdrop } from 'components'
 
 function index() {
-  const hasDonQuickSetup = getItem('hasDonQuickSetup')
-  const [openQuickSetupAlert, setOpenQuickSetupAlert] = useState(!hasDonQuickSetup)
-  const [openQuickSetup, setOpenQuickSetup] = useState(false)
   const { t } = useTranslate()
+  const [startStep, setStartStep] = useState('1')
+  const [openQuickSetupAlert, setOpenQuickSetupAlert] = useState(false)
+  const [openQuickSetup, setOpenQuickSetup] = useState(false)
+  const { isLoading, isError, isSuccess, error } = useGetFmDashboardStatsQuery()
+  const { data, isLoading: isYearsLoading } = useGetStepOneQuery()
+
+  useEffect(() => {
+    if (isSuccess) setOpenQuickSetupAlert(false)
+    else if (isError && error) {
+      setOpenQuickSetupAlert(true)
+      setStartStep(String(error))
+    }
+  }, [isLoading, isYearsLoading])
+
   return (
     <>
       <Head>
@@ -43,7 +55,18 @@ function index() {
         }}
         onClose={() => setOpenQuickSetupAlert(false)}
       />
-      <QuickSetup open={openQuickSetup} />
+      {!isYearsLoading && !isLoading && (
+        <QuickSetup
+          open={openQuickSetup}
+          startStep={startStep}
+          estimationRange={data?.data.years || 2}
+          total={
+            data?.data.financements.reduce((partialSum, a) => partialSum + Number(a.amount), 0) || 0
+          }
+          handleClose={() => setOpenQuickSetup(false)}
+        />
+      )}
+      <Backdrop loading={isLoading || isYearsLoading} open={isLoading || isYearsLoading} />
     </>
   )
 }
