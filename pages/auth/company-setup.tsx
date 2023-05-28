@@ -12,8 +12,6 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 // routes
 import { PATH_DASHBOARD } from 'routes/paths'
-// types
-import { CompanySetupInput } from 'types'
 // api
 import { useGetUserMutation } from 'store/api/auth/authApi'
 import { useCreateRequestMutation } from 'store/api/auth/companyApi'
@@ -113,15 +111,17 @@ function index() {
 
   const ToFourthStep = (plan: number) => {
     setFormValue('subscription', plan)
-    const companySetupData: CompanySetupInput = {
-      companyName: getValues('companyName'),
-      companySlogan: getValues('companySlogan'),
-      companyWebsite: getValues('companyWebsite'),
-      companyWorkers: getValues('companyWorkers'),
-      subscription: getValues('subscription'),
-      yourPosition: getValues('yourPosition'),
-    }
-    createRequest(companySetupData)
+
+    const formData = new FormData()
+
+    formData.append('companyName', getValues('companyName'))
+    formData.append('companySlogan', getValues('companySlogan'))
+    formData.append('companyWebsite', getValues('companyWebsite'))
+    formData.append('subscription', getValues('subscription'))
+    formData.append('yourPosition', getValues('yourPosition'))
+    formData.append('companyWorkers', JSON.stringify(getValues('companyWorkers')))
+
+    createRequest(formData)
   }
 
   useEffect(() => {

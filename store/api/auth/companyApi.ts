@@ -28,7 +28,7 @@ export const companyApi = createApi({
   },
   tagTypes: [],
   endpoints: (builder) => ({
-    createRequest: builder.mutation<string[], CompanySetupInput>({
+    createRequest: builder.mutation<string[], FormData>({
       query: (data) => ({
         url: 'CreateRequest',
         method: 'POST',
