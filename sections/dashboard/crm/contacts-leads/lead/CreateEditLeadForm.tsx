@@ -21,11 +21,13 @@ import {
 import { wrapper } from 'store'
 import { getLeadSources, useGetLeadSourcesQuery } from 'store/api/crm/contact-leads/leadSourceApi'
 // config
-import { PIVOTPOINT_API } from 'config'
+import { LEAD_PRIORITIES, PIVOTPOINT_API } from 'config'
 // utils
 import { fData } from 'utils/formatNumber'
 // types
 import Lead from 'types/Lead'
+// routes
+import { PATH_DASHBOARD } from 'routes/paths'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
@@ -43,7 +45,6 @@ import {
 } from 'components'
 import { FormProvider, RHFTextField } from 'components/hook-form'
 import RHFUploadAvatar from 'components/hook-form/RHFUpload'
-import { PATH_DASHBOARD } from 'routes/paths'
 
 export default function CreateEditLeadForm({
   isEdit,
@@ -55,7 +56,14 @@ export default function CreateEditLeadForm({
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const { push } = useRouter()
-  const { data: sources, isLoading, isSuccess } = useGetLeadSourcesQuery()
+  const {
+    data: sources,
+    isLoading,
+    isSuccess,
+  } = useGetLeadSourcesQuery({
+    PageNumber: undefined,
+    PageSize: undefined,
+  })
   const {
     data: countries,
     isLoading: isCountriesLoading,
@@ -76,13 +84,6 @@ export default function CreateEditLeadForm({
   const [country, setCountry] = useState<{ value: string; label: string } | null>(null)
   const [source, setSource] = useState<{ value: string; label: string } | null>(null)
   const [priority, setPriority] = useState('0')
-
-  const PRIORITIES = [
-    { value: '0', label: t('Unassined') },
-    { value: '1', label: t('Low') },
-    { value: '2', label: t('Medium') },
-    { value: '3', label: t('High') },
-  ]
 
   const LeadSchema = Yup.object().shape({
     picture: Yup.mixed().required(t('Image is required')),
@@ -339,7 +340,7 @@ export default function CreateEditLeadForm({
               <div className='flex flex-col gap-1'>
                 <label className='text-sm font-medium dark:text-white'>{t('Priority')}</label>
                 <MySelect
-                  items={PRIORITIES}
+                  items={LEAD_PRIORITIES.map((item) => ({ ...item, label: t(item.label) }))}
                   defaultValue='0'
                   onValueChange={(value) => {
                     setValue('priority', Number(value))
@@ -380,7 +381,7 @@ export default function CreateEditLeadForm({
 export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
   const id = context.params?.id
   if (typeof id === 'string') store.dispatch(getLead.initiate(id))
-  store.dispatch(getLeadSources.initiate())
+  store.dispatch(getLeadSources.initiate({ PageNumber: undefined, PageSize: undefined }))
   store.dispatch(getCountries.initiate())
 
   await Promise.all(store.dispatch(getRunningQueriesThunk()))

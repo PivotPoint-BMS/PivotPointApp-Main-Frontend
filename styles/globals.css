@@ -288,7 +288,7 @@ html[class*='dark'] {
   @apply overflow-hidden !rounded-lg;
 }
 .react-select__option {
-  @apply rounded-none bg-paper-dark !text-black hover:!bg-gray-200 dark:bg-paper-dark dark:!text-white dark:hover:!bg-paper-hover-dark;
+  @apply rounded-none bg-paper-dark !text-black hover:!bg-gray-200 ltr:text-left rtl:text-right dark:bg-paper-dark dark:!text-white dark:hover:!bg-paper-hover-dark;
 }
 
 .react-select__option--is-selected {

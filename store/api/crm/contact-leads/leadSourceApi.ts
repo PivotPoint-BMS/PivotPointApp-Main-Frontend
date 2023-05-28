@@ -3,7 +3,7 @@ import { HYDRATE } from 'next-redux-wrapper'
 // config
 import { PIVOTPOINT_API } from 'config'
 // types
-import { IGenericResponse } from 'types'
+import { IGenericResponse, ListGenericResponse, RequestParams } from 'types'
 // store
 import { RootState } from 'store'
 import { LeadSource } from 'types/Lead'
@@ -30,7 +30,7 @@ export const leadSourceApi = createApi({
   },
   tagTypes: ['LeadSources'],
   endpoints: (builder) => ({
-    getLeadSources: builder.query<IGenericResponse<LeadSource[]>, void>({
+    getLeadSources: builder.query<ListGenericResponse<LeadSource[]>, RequestParams>({
       query: () => 'LeadSources',
       providesTags: (result) =>
         result
@@ -66,6 +66,15 @@ export const leadSourceApi = createApi({
       }),
       invalidatesTags: ['LeadSources'],
     }),
+    bulkDeleteLeadSources: builder.mutation<ListGenericResponse<unknown>, string[]>({
+      query: (toDelete) => ({
+        url: 'Lead/bulk',
+        body: { toDelete },
+        method: 'DELETE',
+        responseHandler: 'content-type',
+      }),
+      invalidatesTags: ['LeadSources'],
+    }),
   }),
 })
 
@@ -75,8 +84,9 @@ export const {
   useGetLeadSourcesQuery,
   // Mutations
   useCreateLeadSourceMutation,
-  useDeleteLeadSourceMutation,
   useEditLeadSourceMutation,
+  useDeleteLeadSourceMutation,
+  useBulkDeleteLeadSourcesMutation,
   util: { getRunningQueriesThunk, invalidateTags },
 } = leadSourceApi
 

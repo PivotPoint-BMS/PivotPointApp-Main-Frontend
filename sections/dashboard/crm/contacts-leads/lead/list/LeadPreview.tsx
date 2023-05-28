@@ -85,8 +85,8 @@ export default function LeadPreview() {
               )}
             </Link>
           </div>
-          <div className='mx-6 grid grid-cols-2 rounded-lg border   sm:grid-cols-4 '>
-            <div className=' col-span-2 flex flex-col items-start justify-between gap-4 border-b   p-3 sm:col-span-4 sm:flex-row'>
+          <div className='mx-6 grid grid-cols-2 divide-x divide-y   rounded-lg border rtl:divide-x-reverse sm:grid-cols-4'>
+            <div className='col-span-2 flex flex-col items-start justify-between gap-4 p-3 sm:col-span-4 sm:flex-row'>
               <div className='flex w-full flex-col items-center justify-center gap-4 truncate sm:flex-row sm:items-start sm:justify-start'>
                 <Image
                   alt='avatar'
@@ -104,21 +104,21 @@ export default function LeadPreview() {
                     {lead?.fullName}
                   </h1>
                   <p className='flex  items-center gap-1 text-sm text-gray-500 dark:text-gray-300'>
-                    <div>
+                    <span>
                       <Iconify icon='material-symbols:mail-rounded' height={18} />{' '}
-                    </div>
+                    </span>
                     <span className='truncate'>{lead?.email}</span>{' '}
                   </p>
                   <p className='flex items-center gap-1 text-sm text-gray-500 dark:text-gray-300'>
-                    <div>
+                    <span>
                       <Iconify icon='material-symbols:call' height={18} />
-                    </div>
+                    </span>
                     <span className='truncate'>{lead?.phoneNumber}</span>
                   </p>
                   <p className='flex items-center gap-1 text-sm text-gray-500 dark:text-gray-300'>
-                    <div>
+                    <span>
                       <Iconify icon='mdi:map-marker' height={18} />
-                    </div>
+                    </span>
                     <span className='truncate capitalize'>
                       {lead?.address.city}, {lead?.address.country}
                     </span>
@@ -144,7 +144,7 @@ export default function LeadPreview() {
                 </IconButton>
               </div>
             </div>
-            <div className='flex flex-col gap-2 border-b border-r   p-3 sm:border-b-0'>
+            <div className='flex flex-col gap-2 p-3'>
               <h6 className='flex-1 text-sm font-medium text-gray-500 dark:text-gray-300'>
                 {t('Priority')}
               </h6>
@@ -155,21 +155,21 @@ export default function LeadPreview() {
                 {lead?.priority === 3 && t('High')}
               </p>
             </div>
-            <div className='flex flex-col gap-2 border-b   p-3 sm:border-b-0 sm:border-r'>
+            <div className='flex flex-col gap-2 p-3 '>
               <h6 className='flex-1 text-sm font-medium text-gray-500 dark:text-gray-300'>
-                {t('Lead Source')}
+                {t('Source')}
               </h6>
               <p className='font-medium'>
                 {lead?.leadSource?.source ? lead?.leadSource?.source : t('No Source')}
               </p>
             </div>
-            <div className='flex flex-col gap-2 border-r   p-3'>
+            <div className='flex flex-col gap-2  p-3'>
               <h6 className='flex-1 text-sm font-medium text-gray-500 dark:text-gray-300'>
                 {t('Job Title')}
               </h6>
               <p className='font-medium'>{lead?.jobTitle ? lead?.jobTitle : t('No Job Title')}</p>
             </div>
-            <div className='flex flex-col gap-2 p-3'>
+            <div className='flex flex-col gap-2 p-3 '>
               <h6 className='flex-1 text-sm font-medium text-gray-500 dark:text-gray-300'>
                 {t('Annual Revenue')}
               </h6>

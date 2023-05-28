@@ -81,7 +81,7 @@ export const authApi = createApi({
         }
       },
     }),
-    resetPassword: builder.mutation<IGenericResponse, ResetPasswordInput>({
+    resetPassword: builder.mutation<IGenericResponse<unknown>, ResetPasswordInput>({
       query: (data) => ({
         url: 'ResetPassword',
         method: 'POST',
@@ -89,7 +89,7 @@ export const authApi = createApi({
         responseHandler: 'content-type',
       }),
     }),
-    changePassword: builder.mutation<IGenericResponse, ResetPasswordInput>({
+    changePassword: builder.mutation<IGenericResponse<unknown>, ResetPasswordInput>({
       query: (data) => ({
         url: 'ChangePassword',
         method: 'PUT',

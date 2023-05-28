@@ -29,7 +29,7 @@ const TABS = [
 function index() {
   const { t, locale } = useTranslate()
   const { push, pathname, query } = useRouter()
-  const [tab, setTab] = useState(query?.tab ? (query?.tab as string) : 'contacts')
+  const [tab, setTab] = useState(query?.tab ? (query?.tab as string) : 'leads')
   const [openAddDialog, setOpenAddDialog] = useState(false)
 
   useEffect(() => {
@@ -66,7 +66,7 @@ function index() {
             )
           }
         />
-        <Card fullWidth className='overflow-hidden'>
+        <Card fullWidth className='mb-10 overflow-hidden'>
           <TabsPrimitive.Root
             defaultValue='leads'
             dir={locale === 'ar' ? 'rtl' : 'ltr'}
