@@ -56,7 +56,11 @@ export default function CreateEditLeadForm({
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const { push } = useRouter()
-  const { data: sources, isLoading, isSuccess } = useGetLeadSourcesQuery({
+  const {
+    data: sources,
+    isLoading,
+    isSuccess,
+  } = useGetLeadSourcesQuery({
     PageNumber: undefined,
     PageSize: undefined,
   })
@@ -377,7 +381,7 @@ export default function CreateEditLeadForm({
 export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
   const id = context.params?.id
   if (typeof id === 'string') store.dispatch(getLead.initiate(id))
-  store.dispatch(getLeadSources.initiate())
+  store.dispatch(getLeadSources.initiate({ PageNumber: undefined, PageSize: undefined }))
   store.dispatch(getCountries.initiate())
 
   await Promise.all(store.dispatch(getRunningQueriesThunk()))
