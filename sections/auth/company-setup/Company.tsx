@@ -12,7 +12,7 @@ export default function Company({ handleNext }: { handleNext: () => void }) {
   const { t } = useTranslate()
   return (
     <MotionContainer>
-      <div className='container mx-auto flex h-full flex-col items-center justify-center gap-5 rounded-xl px-10 py-10 shadow-md sm:px-16 md:px-32 lg:w-1/2'>
+      <div className='container mx-auto flex h-full flex-col items-center justify-center gap-5 rounded-xl px-10 py-10  sm:px-16 md:px-32 lg:w-1/2'>
         <motion.div
           variants={varFade().in}
           className='flex h-full w-full flex-col items-center gap-6'

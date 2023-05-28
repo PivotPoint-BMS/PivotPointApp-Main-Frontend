@@ -426,5 +426,15 @@ const fr: { [key: string]: string } = {
   'Enter Inventory': "Entrez l'inventaire",
   'Inventory Sources': "Sources d'inventaire",
   'Expected Personnel Costs': 'Coûts de personnel prévus',
+  'Select Source': 'Selectioner la source',
+  'Select Priority': 'Selectioner la priority',
+  Filter: 'Filtrer',
+  'Lead priority': 'Priorité de client potentiel',
+  'Row per page : ': 'Ligne par page :',
+  of: 'parmi',
+  'First page': 'Première page',
+  'Previous page': 'Page précédente',
+  'Next page': 'Page suivante',
+  'Last page': 'Dernière page',
 }
 export default fr

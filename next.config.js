@@ -55,4 +55,14 @@ module.exports = {
     locales: ['en', 'fr', 'ar'],
     defaultLocale: 'en',
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+        port: '',
+        pathname: '**',
+      },
+    ],
+  },
 }

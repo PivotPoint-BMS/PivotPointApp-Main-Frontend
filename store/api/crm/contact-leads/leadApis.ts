@@ -3,7 +3,7 @@ import { HYDRATE } from 'next-redux-wrapper'
 // config
 import { PIVOTPOINT_API } from 'config'
 // types
-import { IGenericResponse, Lead, LeadRequestParams } from 'types'
+import { ListGenericResponse, Lead, LeadRequestParams } from 'types'
 // store
 import { RootState } from 'store'
 
@@ -29,7 +29,7 @@ export const leadApi = createApi({
   },
   tagTypes: ['Leads', 'Lead'],
   endpoints: (builder) => ({
-    getLeads: builder.query<IGenericResponse<Lead[]>, LeadRequestParams>({
+    getLeads: builder.query<ListGenericResponse<Lead[]>, LeadRequestParams>({
       query: (params) => ({
         url: 'Lead',
         params,
@@ -42,11 +42,11 @@ export const leadApi = createApi({
             ]
           : [{ type: 'Leads', id: 'LIST' }],
     }),
-    getLead: builder.query<IGenericResponse<Lead>, string>({
+    getLead: builder.query<ListGenericResponse<Lead>, string>({
       query: (id) => `Lead/${id}`,
       providesTags: ['Lead'],
     }),
-    createLead: builder.mutation<string[], FormData>({
+    createLead: builder.mutation<ListGenericResponse<unknown>, FormData>({
       query: (data) => ({
         url: 'Lead',
         method: 'POST',
@@ -55,7 +55,7 @@ export const leadApi = createApi({
       }),
       invalidatesTags: ['Leads', 'Lead'],
     }),
-    editLead: builder.mutation<string[], { data: FormData; id: string }>({
+    editLead: builder.mutation<ListGenericResponse<unknown>, { data: FormData; id: string }>({
       query: ({ data, id }) => ({
         url: `Lead/${id}`,
         method: 'PUT',
@@ -64,7 +64,7 @@ export const leadApi = createApi({
       }),
       invalidatesTags: ['Leads', 'Lead'],
     }),
-    deleteLead: builder.mutation<string[], string>({
+    deleteLead: builder.mutation<ListGenericResponse<unknown>, string>({
       query: (id) => ({
         url: `Lead/${id}`,
         method: 'DELETE',
@@ -72,7 +72,16 @@ export const leadApi = createApi({
       }),
       invalidatesTags: ['Leads', 'Lead'],
     }),
-    convertToContact: builder.mutation<string[], string>({
+    bulkDeleteLead: builder.mutation<ListGenericResponse<unknown>, string[]>({
+      query: (toDelete) => ({
+        url: 'Lead/bulk',
+        body: { toDelete },
+        method: 'DELETE',
+        responseHandler: 'content-type',
+      }),
+      invalidatesTags: ['Leads', 'Lead'],
+    }),
+    convertToContact: builder.mutation<ListGenericResponse<unknown>, string>({
       query: (id) => ({
         url: `Lead/toContact/${id}`,
         method: 'PUT',
@@ -92,6 +101,7 @@ export const {
   useCreateLeadMutation,
   useEditLeadMutation,
   useDeleteLeadMutation,
+  useBulkDeleteLeadMutation,
   useConvertToContactMutation,
   util: { getRunningQueriesThunk, invalidateTags },
 } = leadApi

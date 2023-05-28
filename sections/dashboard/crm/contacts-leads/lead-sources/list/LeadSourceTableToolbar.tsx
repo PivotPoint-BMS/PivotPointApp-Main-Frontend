@@ -1,23 +1,56 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 // motion
 import { Variant, motion } from 'framer-motion'
+// api
+import { useBulkDeleteLeadSourcesMutation } from 'store/api/crm/contact-leads/leadSourceApi'
 // hooks
 import useTranslate from 'hooks/useTranslate'
+import useSnackbar from 'hooks/useSnackbar'
 // components
 import { Icon as Iconify } from '@iconify/react'
 import Button from 'components/Button'
 
 interface LeadTableToolbarProps {
   selectedCount: number
+  selectedIds: string[]
 }
 
-export default function LeadSourceTableToolbar({ selectedCount }: LeadTableToolbarProps) {
+export default function LeadSourceTableToolbar({
+  selectedCount,
+  selectedIds,
+}: LeadTableToolbarProps) {
   const { t } = useTranslate()
-
+  const { open } = useSnackbar()
+  const [bulkDeleteLeadSources, { isLoading, isSuccess, isError }] =
+    useBulkDeleteLeadSourcesMutation()
   const variants: { [key: string]: Variant } = {
     closed: { y: '200%', x: '-50%' },
     opened: { y: '0%', x: '-50%' },
   }
+
+  const handleBulkDelete = () => {
+    bulkDeleteLeadSources(selectedIds)
+  }
+
+  useEffect(() => {
+    if (isError) {
+      open({
+        message: t('A problem has occured.'),
+        autoHideDuration: 4000,
+        type: 'error',
+        variant: 'contained',
+      })
+    }
+    if (isSuccess) {
+      open({
+        message: t('Lead Sources Deleted Successfully.'),
+        autoHideDuration: 4000,
+        type: 'success',
+        variant: 'contained',
+      })
+    }
+  }, [isError, isSuccess])
+
   return (
     <motion.div
       initial='closed'
@@ -36,6 +69,8 @@ export default function LeadSourceTableToolbar({ selectedCount }: LeadTableToolb
           variant='text'
           intent='error'
           startIcon={<Iconify icon='material-symbols:delete-rounded' height={20} />}
+          onClick={handleBulkDelete}
+          loading={isLoading}
         >
           {t('Delete')}
         </Button>

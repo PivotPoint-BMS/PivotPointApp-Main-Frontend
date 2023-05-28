@@ -1,10 +1,6 @@
-export default interface ListGenericResponse<T = never> {
-  data: T | never
+export default interface IGenericResponse<T> {
+  data: T
   succeeded: boolean
   errors: string | null
   message: string
-  // pageNumber: number
-  // pageSize: number
-  // totalPages: number
-  // totalRecords: number
 }

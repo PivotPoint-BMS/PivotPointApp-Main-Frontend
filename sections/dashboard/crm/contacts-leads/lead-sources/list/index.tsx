@@ -1,6 +1,5 @@
-import React, { ReactNode, useEffect, useState } from 'react'
-// next
-import { useTheme } from 'next-themes'
+import React, { useEffect, useState } from 'react'
+import { min } from 'lodash'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
@@ -15,23 +14,27 @@ import {
 } from 'store/api/crm/contact-leads/leadSourceApi'
 // types
 import { LeadSource } from 'types/Lead'
-// asset
-import noData from 'public/no-data.png'
-import noDataDark from 'public/no-data-dark.png'
 // components
-import DataTable, { TableColumn } from 'react-data-table-component'
-import { Icon as Iconify } from '@iconify/react'
 import {
-  Image,
+  useReactTable,
+  getCoreRowModel,
+  flexRender,
+  createColumnHelper,
+  RowSelectionState,
+  SortingState,
+  getSortedRowModel,
+} from '@tanstack/react-table'
+import { Icon } from '@iconify/react'
+import {
   LoadingIndicator,
   TextField,
-  Button,
   IconButton,
-  Checkbox,
   Tooltip,
   Backdrop,
   Dialog,
   AlertDialog,
+  IndeterminateCheckbox,
+  Select as MySelect,
 } from 'components'
 // sections
 import LeadSourceTableToolbar from './LeadSourceTableToolbar'
@@ -46,40 +49,71 @@ export default function LeadSourcesList({
 }) {
   const { t } = useTranslate()
   const { open } = useSnackbar()
-  const { theme } = useTheme()
-  const [selectedRows, setSelectedRows] = useState<LeadSource[]>([])
-  const [selectedCount, setSelectedCount] = useState(0)
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+  const [sorting, setSorting] = React.useState<SortingState>([])
+
+  const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [openEditDialog, setOpenEditDialog] = useState(false)
   const [leadSourceToEdit, setLeadSourceToEdit] = useState<LeadSource | null>(null)
   const [idToDelete, setIdToDelete] = useState<string | null>(null)
-  const { data, isLoading } = useGetLeadSourcesQuery(undefined, {
-    refetchOnFocus: true,
-  })
+  // Pogination
+  const [PageNumber, setPageNumber] = useState(1)
+  const [PageSize, setPageSize] = useState(10)
+  // Filters
+  const [searchValue, setSearchValue] = useState('')
+  // Query Params
+  const [SearchTerm, setSearchTerm] = useState<string | undefined>(undefined)
+  const { data, isLoading, isFetching } = useGetLeadSourcesQuery(
+    { PageNumber, PageSize },
+    { refetchOnFocus: true }
+  )
 
   const [deleteLeadSource, { isLoading: isDeleteLeading, isSuccess, isError }] =
     useDeleteLeadSourceMutation()
 
-  const columns: TableColumn<LeadSource>[] = [
-    {
-      name: t('Source'),
-      cell: ({ source }) => <p>{source}</p>,
-      sortable: true,
-      reorder: true,
-    },
-    {
-      name: t('Source Link'),
-      cell: ({ sourceLink }) => <p>{sourceLink}</p>,
-      sortable: true,
-      reorder: true,
-    },
-    {
-      name: t('Actions'),
-      right: true,
+  const columnHelper = createColumnHelper<LeadSource>()
+  const columns = [
+    columnHelper.accessor('id', {
+      id: 'select',
+      header: ({ table }) => (
+        <IndeterminateCheckbox
+          {...{
+            checked: table.getIsAllRowsSelected(),
+            indeterminate: table.getIsSomeRowsSelected(),
+            onChange: table.getToggleAllRowsSelectedHandler(),
+          }}
+        />
+      ),
+      cell: ({ row }) => (
+        <IndeterminateCheckbox
+          {...{
+            checked: row.getIsSelected(),
+            disabled: !row.getCanSelect(),
+            indeterminate: row.getIsSomeSelected(),
+            onChange: row.getToggleSelectedHandler(),
+          }}
+        />
+      ),
+    }),
+    columnHelper.accessor('source', {
+      id: 'source',
+      header: () => t('Source'),
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor('sourceLink', {
+      id: 'sourceLink',
+      header: () => t('Source Link'),
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor((row) => row, {
+      id: 'actions ',
+      enableSorting: false,
+      header: () => <p className='w-full text-right'>{t('Actions')}</p>,
       cell: (leadSource) => (
-        <div className='flex items-center gap-2'>
+        <div className='flex items-center justify-end gap-2'>
           <Tooltip title={t('Delete')} side='bottom'>
-            <IconButton onClick={() => setIdToDelete(leadSource.id || '')}>
-              <Iconify
+            <IconButton onClick={() => setIdToDelete(leadSource.getValue().id || '')}>
+              <Icon
                 className='text-red-600 dark:text-red-500'
                 icon='material-symbols:delete-rounded'
                 height={20}
@@ -90,21 +124,17 @@ export default function LeadSourcesList({
           <Tooltip title={t('Edit')} side='bottom'>
             <IconButton
               onClick={() => {
-                setLeadSourceToEdit(leadSource)
+                setLeadSourceToEdit(leadSource.row.original)
                 setOpenEditDialog(true)
               }}
             >
-              <Iconify icon='material-symbols:edit' height={20} />
+              <Icon icon='material-symbols:edit' height={20} />
             </IconButton>
           </Tooltip>
         </div>
       ),
-    },
+    }),
   ]
-
-  useEffect(() => {
-    console.log(selectedRows)
-  }, [selectedRows])
 
   useEffect(() => {
     if (isError) {
@@ -125,63 +155,189 @@ export default function LeadSourcesList({
     }
   }, [isError, isSuccess])
 
+  const table = useReactTable({
+    data: data?.data || [],
+    columns,
+    state: {
+      rowSelection,
+      sorting,
+    },
+    getCoreRowModel: getCoreRowModel(),
+    enableRowSelection: true,
+    onRowSelectionChange: setRowSelection,
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+  })
+
+  useEffect(() => {
+    setSelectedIds(
+      data?.data
+        .filter((item) => item.id && Object.keys(rowSelection).includes(item.id))
+        .map((item) => item.id || '') || []
+    )
+  }, [rowSelection])
+
   return (
     <>
-      {isLoading ? (
+      <div className='p-3 '>
+        <TextField
+          placeholder={t('Search...')}
+          endAdornment={
+            <IconButton onClick={() => setSearchTerm(searchValue)}>
+              <Icon icon='ion:search-outline' height={18} className='text-gray-500' />
+            </IconButton>
+          }
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+          className='flex h-full'
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') setSearchTerm(e.currentTarget.value)
+          }}
+        />
+      </div>
+
+      {isLoading || isFetching ? (
         <div className='flex h-56 w-full items-center justify-center'>
           <LoadingIndicator />
         </div>
       ) : (
         <>
-          {data?.data && data?.data.length ? (
+          {data?.data && data?.data.length > 0 ? (
             <>
-              <div className='flex items-center justify-center gap-6 p-3'>
-                <TextField
-                  placeholder={t('Search...')}
-                  startAdornment={
-                    <Iconify icon='ion:search-outline' height={24} className='text-gray-500' />
-                  }
-                  className='flex h-full'
+              <div className='w-full overflow-x-scroll'>
+                <div className='w-max min-w-full'>
+                  <table className='w-full'>
+                    <thead className='bg-gray-100 ltr:text-left rtl:text-right dark:!bg-paper-dark-contrast dark:text-white'>
+                      {table.getHeaderGroups().map((headerGroup) => (
+                        <tr key={headerGroup.id} className='border-none text-sm'>
+                          {headerGroup.headers.map((header) => (
+                            <th
+                              key={header.id}
+                              className='whitespace-nowrap p-4 text-sm font-medium'
+                            >
+                              {header.isPlaceholder ? null : (
+                                <div
+                                  {...{
+                                    className: header.column.getCanSort()
+                                      ? 'cursor-pointer select-none flex items-center gap-2'
+                                      : '',
+                                    onClick: header.column.getToggleSortingHandler(),
+                                  }}
+                                >
+                                  {flexRender(header.column.columnDef.header, header.getContext())}
+                                  {{
+                                    asc: (
+                                      <Icon
+                                        icon='material-symbols:arrow-drop-up-rounded'
+                                        fontSize={24}
+                                      />
+                                    ),
+                                    desc: (
+                                      <Icon
+                                        icon='material-symbols:arrow-drop-down-rounded'
+                                        fontSize={24}
+                                      />
+                                    ),
+                                  }[header.column.getIsSorted() as string] ?? null}
+                                </div>
+                              )}
+                            </th>
+                          ))}
+                        </tr>
+                      ))}
+                    </thead>
+                    <tbody>
+                      {table.getRowModel().rows.map((row) => (
+                        <tr
+                          key={row.id}
+                          className='cursor-pointer border-b last-of-type:border-b-0 hover:bg-gray-50 dark:border-gray-600 dark:hover:bg-paper-hover-dark'
+                        >
+                          {row.getVisibleCells().map((cell) => (
+                            <td key={cell.id} className='px-4 py-2'>
+                              {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  <div className='flex w-max min-w-full items-center justify-end divide-x border-t p-4 rtl:divide-x-reverse dark:divide-gray-600 dark:border-gray-600'>
+                    <div className='flex items-center justify-center gap-2 px-2'>
+                      <p className='text-sm'>{t('Row per page : ')}</p>
+                      <MySelect
+                        items={['10', '25', '50'].map((item) => ({ label: item, value: item }))}
+                        onValueChange={(page) => setPageSize(Number(page))}
+                        value={String(PageSize)}
+                        buttonProps={{ intent: 'default' }}
+                      />
+                    </div>
+                    <div className='flex h-full items-center justify-center gap-2 p-2 '>
+                      <p className='text-sm'>
+                        {(data.pageNumber - 1) * (data.pageSize + 1) === 0
+                          ? 1
+                          : (data.pageNumber - 1) * (data.pageSize + 1)}{' '}
+                        - {min([data.pageNumber * data.pageSize, data.totalRecords])} {t('of')}{' '}
+                        {data.totalRecords}
+                      </p>
+                    </div>
+                    <div className='flex items-center justify-center gap-2 px-2'>
+                      <Tooltip side='bottom' title={t('First page')}>
+                        <IconButton
+                          className='border dark:border-gray-600'
+                          onClick={() => setPageNumber(1)}
+                        >
+                          <Icon
+                            icon='fluent:chevron-double-left-20-filled'
+                            className='rtl:rotate-180'
+                          />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip side='bottom' title={t('Previous page')}>
+                        <IconButton
+                          className='border dark:border-gray-600'
+                          onClick={() => setPageNumber((prev) => (prev > 1 ? prev - 1 : 1))}
+                        >
+                          <Icon icon='fluent:chevron-left-20-filled' className='rtl:rotate-180' />
+                        </IconButton>
+                      </Tooltip>
+                      <p className='text-sm'>
+                        {PageNumber} / {data.totalPages}
+                      </p>
+                      <Tooltip side='bottom' title={t('Next page')}>
+                        <IconButton
+                          className='border dark:border-gray-600'
+                          onClick={() =>
+                            setPageNumber((prev) =>
+                              prev < data.totalPages ? prev + 1 : data.totalPages
+                            )
+                          }
+                        >
+                          <Icon icon='fluent:chevron-right-20-filled' className='rtl:rotate-180' />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip side='bottom' title={t('Last page')}>
+                        <IconButton
+                          className='border dark:border-gray-600'
+                          onClick={() => setPageNumber(data.totalPages)}
+                        >
+                          <Icon
+                            icon='fluent:chevron-double-right-20-filled'
+                            className='rtl:rotate-180'
+                          />
+                        </IconButton>
+                      </Tooltip>
+                    </div>
+                  </div>
+                </div>
+                <LeadSourceTableToolbar
+                  selectedCount={Object.keys(rowSelection).length}
+                  selectedIds={selectedIds}
                 />
-                <Button
-                  variant='outlined'
-                  intent='default'
-                  size='large'
-                  className='h-full'
-                  startIcon={<Iconify icon='material-symbols:filter-list-rounded' height={20} />}
-                >
-                  {t('Filters')}
-                </Button>
-              </div>
-              <div>
-                <DataTable
-                  columns={columns}
-                  data={data.data}
-                  selectableRows
-                  pagination
-                  highlightOnHover
-                  pointerOnHover
-                  onSelectedRowsChange={({
-                    selectedCount: _selectedCount,
-                    selectedRows: _selectedRows,
-                  }) => {
-                    setSelectedCount(_selectedCount)
-                    setSelectedRows(_selectedRows)
-                  }}
-                  selectableRowsComponent={Checkbox as unknown as ReactNode}
-                  sortIcon={<Iconify icon='typcn:arrow-sorted-down' />}
-                />
-                <LeadSourceTableToolbar selectedCount={selectedCount} />
               </div>
             </>
           ) : (
-            <div className='flex flex-col items-center justify-center gap-2 p-4'>
-              <Image
-                src={theme === 'dark' ? noDataDark.src : noData.src}
-                height={300}
-                width={300}
-              />
-              <h1 className='text-xl font-semibold'>{t('No Contact Found')}</h1>
+            <div className='flex h-56 flex-col items-center justify-center gap-2 px-4 py-2'>
+              <h1 className='text-xl font-semibold'>{t('No Lead Found')}</h1>
             </div>
           )}
         </>
@@ -225,7 +381,7 @@ export default function LeadSourcesList({
 }
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
-  store.dispatch(getLeadSources.initiate())
+  store.dispatch(getLeadSources.initiate({ PageNumber: 0, PageSize: 10 }))
 
   await Promise.all(store.dispatch(getRunningQueriesThunk()))
 

@@ -27,3 +27,12 @@ export const NAVBAR = {
 export const PREVIEW = {
   PREVIEW_WIDTH: 650,
 }
+
+// CONSTANTS
+
+export const LEAD_PRIORITIES = [
+  { value: '0', label: 'Unassined' },
+  { value: '1', label: 'Low' },
+  { value: '2', label: 'Medium' },
+  { value: '3', label: 'High' },
+]

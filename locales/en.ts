@@ -419,5 +419,15 @@ const en: { [key: string]: string } = {
   'Is Raw Material?': 'Is Raw Material?',
   'Inventory Sources': 'Inventory Sources',
   'Expected Personnel Costs': 'Expected Personnel Costs',
+  'Select Source': 'Select Source',
+  'Select Priority': 'Select Priority',
+  Filter: 'Filter',
+  'Lead priority': 'Lead priority',
+  'Row per page: ': 'Row per page: ',
+  of: 'of',
+  'First page': 'First page',
+  'Previous page': 'Previous page',
+  'Next page': 'Next page',
+  'Last page': 'Last page',
 }
 export default en

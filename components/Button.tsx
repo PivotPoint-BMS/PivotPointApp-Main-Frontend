@@ -177,7 +177,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           disabled: disabled || loading,
         })}
       >
-        {startIcon && <span>{startIcon}</span>}
+        {startIcon && !loading && <span>{startIcon}</span>}
         <span className='flex items-center justify-center gap-1'>
           {loading && (
             <svg
