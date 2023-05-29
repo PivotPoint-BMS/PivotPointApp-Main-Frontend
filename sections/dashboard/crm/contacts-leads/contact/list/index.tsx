@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { HTMLProps, useEffect, useRef, useState } from 'react'
 import { min } from 'lodash'
+import clsx from 'clsx'
 // next
 import { useRouter } from 'next/router'
 import Image from 'next/image'
@@ -147,6 +148,7 @@ export default function LeadsList() {
   const columns = [
     columnHelper.accessor((row) => ({ fullName: row.fullName, picture: row.picture }), {
       id: 'select',
+      size: 1,
       header: ({ table }) => (
         <IndeterminateCheckbox
           {...{
@@ -237,6 +239,7 @@ export default function LeadsList() {
     }),
     columnHelper.accessor((row) => row, {
       id: 'actions ',
+      size: 50,
       enableSorting: false,
       header: () => <p className='w-full text-right'>{t('Actions')}</p>,
       cell: (lead) => (
@@ -316,6 +319,10 @@ export default function LeadsList() {
   }, [isLoading, isFetching])
 
   const table = useReactTable({
+    defaultColumn: {
+      minSize: 0,
+      size: 0,
+    },
     data: data?.data || [],
     columns,
     state: {
@@ -435,7 +442,10 @@ export default function LeadsList() {
                           {headerGroup.headers.map((header) => (
                             <th
                               key={header.id}
-                              className='whitespace-nowrap p-4 text-sm font-medium'
+                              className='whitespace-nowrap p-4 text-sm font-semibold'
+                              style={{
+                                width: header.getSize() !== 0 ? header.getSize() : undefined,
+                              }}
                             >
                               {header.isPlaceholder ? null : (
                                 <div
@@ -472,11 +482,21 @@ export default function LeadsList() {
                       {table.getRowModel().rows.map((row) => (
                         <tr
                           key={row.id}
-                          className='cursor-pointer border-b last-of-type:border-b-0 hover:bg-gray-50 dark:border-gray-600 dark:hover:bg-paper-hover-dark'
+                          className={clsx(
+                            'cursor-pointer border-b last-of-type:border-b-0 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-paper-hover-dark',
+                            row.getIsSelected() && 'bg-gray-50 dark:bg-paper-hover-dark/80'
+                          )}
                           onDoubleClick={() => dispatch(previewLead(row.original))}
                         >
                           {row.getVisibleCells().map((cell) => (
-                            <td key={cell.id} className='px-4 py-2'>
+                            <td
+                              key={cell.id}
+                              className='px-4 py-2'
+                              style={{
+                                width:
+                                  cell.column.getSize() !== 0 ? cell.column.getSize() : undefined,
+                              }}
+                            >
                               {flexRender(cell.column.columnDef.cell, cell.getContext())}
                             </td>
                           ))}
@@ -508,6 +528,7 @@ export default function LeadsList() {
                         <IconButton
                           className='border dark:border-gray-600'
                           onClick={() => setPageNumber(1)}
+                          disabled={PageNumber === 1}
                         >
                           <Icon
                             icon='fluent:chevron-double-left-20-filled'
@@ -519,6 +540,7 @@ export default function LeadsList() {
                         <IconButton
                           className='border dark:border-gray-600'
                           onClick={() => setPageNumber((prev) => (prev > 1 ? prev - 1 : 1))}
+                          disabled={PageNumber === 1}
                         >
                           <Icon icon='fluent:chevron-left-20-filled' className='rtl:rotate-180' />
                         </IconButton>
@@ -534,6 +556,7 @@ export default function LeadsList() {
                               prev < data.totalPages ? prev + 1 : data.totalPages
                             )
                           }
+                          disabled={PageNumber === data.totalPages}
                         >
                           <Icon icon='fluent:chevron-right-20-filled' className='rtl:rotate-180' />
                         </IconButton>
@@ -542,6 +565,7 @@ export default function LeadsList() {
                         <IconButton
                           className='border dark:border-gray-600'
                           onClick={() => setPageNumber(data.totalPages)}
+                          disabled={PageNumber === data.totalPages}
                         >
                           <Icon
                             icon='fluent:chevron-double-right-20-filled'

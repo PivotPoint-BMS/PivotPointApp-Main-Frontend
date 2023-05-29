@@ -20,8 +20,8 @@ export const iconButton = cva('rounded-full flex items-start justify-center outl
     },
     disabled: {
       true: [
-        'cursor-not-allowed bg-gray-100 hover:!bg-gray-100 active:bg-gray-100 text-gray-300',
-        'dark:bg-gray-600 dark:hover:bg-gray-600 dark:active:bg-gray-600 dark:text-gray-400',
+        'cursor-not-allowed bg-gray-100 hover:!bg-gray-100 active:!bg-gray-100 !text-gray-400',
+        'dark:bg-gray-600 dark:hover:!bg-gray-600 dark:active:!bg-gray-600 dark:!text-gray-400',
       ],
     },
   },
