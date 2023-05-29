@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { min } from 'lodash'
+import clsx from 'clsx'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
@@ -75,6 +76,7 @@ export default function LeadSourcesList({
   const columns = [
     columnHelper.accessor('id', {
       id: 'select',
+      size: 20,
       header: ({ table }) => (
         <IndeterminateCheckbox
           {...{
@@ -108,6 +110,7 @@ export default function LeadSourcesList({
     columnHelper.accessor((row) => row, {
       id: 'actions ',
       enableSorting: false,
+      size: 50,
       header: () => <p className='w-full text-right'>{t('Actions')}</p>,
       cell: (leadSource) => (
         <div className='flex items-center justify-end gap-2'>
@@ -156,6 +159,10 @@ export default function LeadSourcesList({
   }, [isError, isSuccess])
 
   const table = useReactTable({
+    defaultColumn: {
+      minSize: 0,
+      size: 0,
+    },
     data: data?.data || [],
     columns,
     state: {
@@ -213,7 +220,10 @@ export default function LeadSourcesList({
                           {headerGroup.headers.map((header) => (
                             <th
                               key={header.id}
-                              className='whitespace-nowrap p-4 text-sm font-medium'
+                              className='whitespace-nowrap p-4 text-sm font-semibold'
+                              style={{
+                                width: header.getSize() !== 0 ? header.getSize() : undefined,
+                              }}
                             >
                               {header.isPlaceholder ? null : (
                                 <div
@@ -250,10 +260,20 @@ export default function LeadSourcesList({
                       {table.getRowModel().rows.map((row) => (
                         <tr
                           key={row.id}
-                          className='cursor-pointer border-b last-of-type:border-b-0 hover:bg-gray-50 dark:border-gray-600 dark:hover:bg-paper-hover-dark'
+                          className={clsx(
+                            'cursor-pointer border-b last-of-type:border-b-0 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-paper-hover-dark',
+                            row.getIsSelected() && 'bg-gray-50 dark:bg-paper-hover-dark/80'
+                          )}
                         >
                           {row.getVisibleCells().map((cell) => (
-                            <td key={cell.id} className='px-4 py-2'>
+                            <td
+                              key={cell.id}
+                              className='px-4 py-2'
+                              style={{
+                                width:
+                                  cell.column.getSize() !== 0 ? cell.column.getSize() : undefined,
+                              }}
+                            >
                               {flexRender(cell.column.columnDef.cell, cell.getContext())}
                             </td>
                           ))}
@@ -285,6 +305,7 @@ export default function LeadSourcesList({
                         <IconButton
                           className='border dark:border-gray-600'
                           onClick={() => setPageNumber(1)}
+                          disabled={PageNumber === 1}
                         >
                           <Icon
                             icon='fluent:chevron-double-left-20-filled'
@@ -296,6 +317,7 @@ export default function LeadSourcesList({
                         <IconButton
                           className='border dark:border-gray-600'
                           onClick={() => setPageNumber((prev) => (prev > 1 ? prev - 1 : 1))}
+                          disabled={PageNumber === 1}
                         >
                           <Icon icon='fluent:chevron-left-20-filled' className='rtl:rotate-180' />
                         </IconButton>
@@ -311,6 +333,7 @@ export default function LeadSourcesList({
                               prev < data.totalPages ? prev + 1 : data.totalPages
                             )
                           }
+                          disabled={PageNumber === data.totalPages}
                         >
                           <Icon icon='fluent:chevron-right-20-filled' className='rtl:rotate-180' />
                         </IconButton>
@@ -319,6 +342,7 @@ export default function LeadSourcesList({
                         <IconButton
                           className='border dark:border-gray-600'
                           onClick={() => setPageNumber(data.totalPages)}
+                          disabled={PageNumber === data.totalPages}
                         >
                           <Icon
                             icon='fluent:chevron-double-right-20-filled'
