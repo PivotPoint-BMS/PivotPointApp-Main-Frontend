@@ -99,6 +99,33 @@ export const dealsBoardsApi = createApi({
         }
       },
     }),
+    editDealBoardTitle: builder.mutation<
+      IGenericResponse<DealBoard>,
+      {
+        id: string
+        title: string
+      }
+    >({
+      query: ({ title, id }) => ({
+        url: `DealBoards/Title/${id}`,
+        method: 'PUT',
+        body: { title },
+        responseHandler: 'content-type',
+      }),
+      async onQueryStarted({ title, id }, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled
+          dispatch(
+            dealsBoardsApi.util.updateQueryData('getDealBoards', undefined, (draftedList) => {
+              const board = draftedList.find((item) => item.id === id)
+              if (board) board.title = title
+            })
+          )
+        } catch {
+          /* empty */
+        }
+      },
+    }),
     deleteDealBoard: builder.mutation<IGenericResponse<unknown>, string>({
       query: (id) => ({
         url: `DealBoards/${id}`,
@@ -339,6 +366,7 @@ export const {
   useGetDealBoardQuery,
   // Mutations
   useCreateDealBoardMutation,
+  useEditDealBoardTitleMutation,
   useDeleteDealBoardMutation,
   useCreateDealBoardColumnMutation,
   useEditDealBoardColumnMutation,

@@ -13,8 +13,8 @@ import { Button } from 'components'
 import { FormProvider, RHFTextField } from 'components/hook-form'
 import useSnackbar from 'hooks/useSnackbar'
 import {
-  invalidateTags,
   useCreateDealBoardMutation,
+  useEditDealBoardTitleMutation,
 } from 'store/api/crm/sales-pipeline/dealsBoardsApi'
 
 export default function CreateEditBoardForm({
@@ -35,12 +35,16 @@ export default function CreateEditBoardForm({
     createBoard,
     { isLoading: isCreateLoading, isSuccess: isCreateSuccess, isError: isCreateError },
   ] = useCreateDealBoardMutation()
-  //   const [editBoard, { isLoading: isEditLoading, isSuccess: isEditSuccess, isError: isEditError }] =
-  //     useEditBoardMutation()
+  const [
+    editBoardTitle,
+    { isLoading: isEditLoading, isSuccess: isEditSuccess, isError: isEditError },
+  ] = useEditDealBoardTitleMutation()
 
   const BoardSchema = Yup.object().shape({
     title: Yup.string().min(3, t('Too short')).required(t('This field is required')),
-    defColumnTitle: Yup.string().min(3, t('Too short')).required(t('This field is required')),
+    defColumnTitle: isEdit
+      ? Yup.string().min(3, t('Too short'))
+      : Yup.string().min(3, t('Too short')).required(t('This field is required')),
   })
 
   const defaultValues = useMemo(
@@ -62,13 +66,12 @@ export default function CreateEditBoardForm({
       title: string
       defColumnTitle: string
     } = { title: data.title, defColumnTitle: data.defColumnTitle }
-    // if (isEdit) editBoard({ data: board, id: currentBoard?.id || '' })
-    createBoard(board)
-    invalidateTags(['DealsBoards'])
+    if (isEdit) editBoardTitle({ title: board.title, id: currentBoard?.id || '' })
+    else createBoard(board)
   }
 
   useEffect(() => {
-    if (isCreateError) {
+    if (isCreateError || isEditError) {
       open({
         message: t('A problem has occured.'),
         autoHideDuration: 4000,
@@ -77,34 +80,32 @@ export default function CreateEditBoardForm({
       })
       onFailure()
     }
-    if (isCreateSuccess) {
+    if (isCreateSuccess || isEditSuccess) {
       reset()
       open({
-        message:
-          // isEditSuccess
-          // ? t('Pipeline Updated Successfully.')
-          //   :
-          t('Pipeline Added Successfully.'),
+        message: isEditSuccess
+          ? t('Pipeline Updated Successfully.')
+          : t('Pipeline Added Successfully.'),
         autoHideDuration: 4000,
         type: 'success',
         variant: 'contained',
       })
       onSuccess()
     }
-  }, [isCreateError, isCreateSuccess])
+  }, [isEditError, isEditSuccess, isCreateError, isCreateSuccess])
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <div className='mt-2 flex flex-col gap-4'>
         <RHFTextField name='title' label={t('Pipeline Title')} />{' '}
-        <RHFTextField name='defColumnTitle' label={t('Default Column Title')} />
+        {!isEdit && <RHFTextField name='defColumnTitle' label={t('Default Column Title')} />}
       </div>
 
       <div className='mt-6 flex w-full items-center justify-end gap-3'>
         <Button size='large' variant='outlined' intent='default' onClick={onFailure}>
           {t('Cancel')}
         </Button>
-        <Button size='large' type='submit' loading={isCreateLoading}>
+        <Button size='large' type='submit' loading={isCreateLoading || isEditLoading}>
           {isEdit ? t('Edit Pipeline') : t('Add Pipeline')}
         </Button>
       </div>

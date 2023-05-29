@@ -54,6 +54,7 @@ import { Item } from './Item'
 import KanbanColumn from './KanbanColumn'
 import SortableItem from './SortableItem'
 import CreateEditColumnForm from './CreateEditColumnForm'
+import CreateEditBoardForm from './CreateEditBoardForm'
 
 export const EMPTY_BOARD: DealBoardProps = {
   columns: {},
@@ -84,6 +85,7 @@ const DealsKanban = ({
   const { isFallback, pathname, push } = useRouter()
 
   const [openDialog, setOpenDialog] = useState(false)
+  const [openEditBoardDialog, setOpenEditBoardDialog] = useState(false)
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null)
   const lastOverId = useRef<UniqueIdentifier | null>(null)
@@ -407,6 +409,7 @@ const DealsKanban = ({
                 variant='outlined'
                 intent='default'
                 startIcon={<Iconify icon='material-symbols:edit' height={18} />}
+                onClick={() => setOpenEditBoardDialog(true)}
               >
                 {t('Edit')}
               </Button>
@@ -514,6 +517,18 @@ const DealsKanban = ({
         onClose={() => setOpenDeleteDialog(false)}
         buttonProps={{ intent: 'error' }}
       />
+      <Dialog open={openEditBoardDialog} title={t('Edit Pipeline')}>
+        <CreateEditBoardForm
+          currentBoard={boardId ? board.dealBoards[boardId] : null}
+          isEdit={true}
+          onSuccess={() => {
+            setOpenEditBoardDialog(false)
+          }}
+          onFailure={() => {
+            setOpenEditBoardDialog(false)
+          }}
+        />
+      </Dialog>
     </div>
   )
 }

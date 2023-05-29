@@ -44,11 +44,8 @@ function index() {
   }, [isError, isSuccess, isFetching, isLoading, data, boardId])
 
   useEffect(() => {
-    
-  
     push(pathname, { query: { boardId } })
   }, [boardId])
-  
 
   return (
     <>
@@ -84,7 +81,6 @@ function index() {
         <DealsKanban boardId={boardId} setBoardId={setBoardId} />
         <Dialog open={openDialog} title={t('Add New Pipeline')}>
           <CreateEditBoardForm
-            // TODO: Add Edit Pipeline
             currentBoard={null}
             isEdit={false}
             onSuccess={() => {
