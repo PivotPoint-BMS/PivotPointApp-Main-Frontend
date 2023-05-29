@@ -3,7 +3,7 @@ import { HYDRATE } from 'next-redux-wrapper'
 // config
 import { PIVOTPOINT_API } from 'config'
 // types
-import { IGenericResponse, ListGenericResponse, RequestParams } from 'types'
+import { ListGenericResponse, RequestParams } from 'types'
 // store
 import { RootState } from 'store'
 import { LeadSource } from 'types/Lead'
@@ -28,7 +28,7 @@ export const leadSourceApi = createApi({
       return action.payload[reducerPath]
     }
   },
-  tagTypes: ['LeadSources'],
+  tagTypes: ['LeadSources', 'AllLeadSources'],
   endpoints: (builder) => ({
     getLeadSources: builder.query<ListGenericResponse<LeadSource[]>, RequestParams>({
       query: () => 'LeadSources',
@@ -39,6 +39,16 @@ export const leadSourceApi = createApi({
               { type: 'LeadSources', id: 'LIST' },
             ]
           : [{ type: 'LeadSources', id: 'LIST' }],
+    }),
+    getAllLeadSources: builder.query<ListGenericResponse<LeadSource[]>, void>({
+      query: () => 'LeadSources/All',
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.data.map(({ id }) => ({ type: 'AllLeadSources' as const, id })),
+              { type: 'AllLeadSources', id: 'LIST' },
+            ]
+          : [{ type: 'AllLeadSources', id: 'LIST' }],
     }),
     createLeadSource: builder.mutation<string[], LeadSource>({
       query: (data) => ({
@@ -82,6 +92,7 @@ export const leadSourceApi = createApi({
 export const {
   // Queries
   useGetLeadSourcesQuery,
+  useGetAllLeadSourcesQuery,
   // Mutations
   useCreateLeadSourceMutation,
   useEditLeadSourceMutation,
@@ -91,4 +102,4 @@ export const {
 } = leadSourceApi
 
 // export endpoints for use in SSR
-export const { getLeadSources } = leadSourceApi.endpoints
+export const { getLeadSources, getAllLeadSources } = leadSourceApi.endpoints

@@ -18,6 +18,7 @@ import {
   getLeads,
   getRunningQueriesThunk,
   invalidateTags,
+  useConvertToContactMutation,
   useDeleteLeadMutation,
   useGetLeadsQuery,
 } from 'store/api/crm/contact-leads/leadApis'
@@ -86,8 +87,6 @@ export default function LeadsList() {
   // Queries
   const { data, isLoading, isSuccess, isFetching } = useGetLeadsQuery(
     {
-      IsContact: false,
-      IsLead: true,
       SearchTerm,
       ...filters,
       PageNumber,
@@ -109,13 +108,18 @@ export default function LeadsList() {
     deleteLead,
     { isLoading: isDeleteLeading, isError: isDeleteError, isSuccess: isDeleteSuccess },
   ] = useDeleteLeadMutation()
+  const [
+    convertToContact,
+    { isLoading: isConvertLoading, isError: isConvertError, isSuccess: isConvertSuccess },
+  ] = useConvertToContactMutation()
 
   const columnHelper = createColumnHelper<Lead>()
 
   const columns = [
     columnHelper.accessor((row) => ({ fullName: row.fullName, picture: row.picture }), {
       id: 'select',
-      size: 1,
+      size: 24,
+      enableSorting: false,
       header: ({ table }) => (
         <IndeterminateCheckbox
           {...{
@@ -240,9 +244,17 @@ export default function LeadsList() {
               },
               {
                 type: 'button',
+                label: t('Convert to Contact'),
+                icon: <Iconify icon='material-symbols:person-add-rounded' height={18} />,
+                loading: isConvertLoading,
+                onClick: () => convertToContact(lead.getValue().id),
+              },
+              {
+                type: 'button',
                 label: t('Delete'),
                 icon: <Iconify icon='material-symbols:delete-rounded' height={18} />,
-                className: 'text-red-600',
+                className: 'text-red-600 dark:text-red-400',
+                loading: isDeleteLeading,
                 onClick: () => setIdToDelete(lead.getValue().id),
               },
             ]}
@@ -270,6 +282,29 @@ export default function LeadsList() {
       })
     }
   }, [isDeleteError, isDeleteSuccess])
+
+  useEffect(() => {
+    if (isConvertError) {
+      open({
+        message: t('A problem has occured.'),
+        autoHideDuration: 4000,
+        type: 'error',
+        variant: 'contained',
+      })
+    }
+    if (isConvertSuccess) {
+      open({
+        message: t('Lead Added Successfully.'),
+        autoHideDuration: 4000,
+        type: 'success',
+        variant: 'contained',
+      })
+      push({
+        pathname: PATH_DASHBOARD.crm['contacts-leads'].root,
+        query: { tab: 'contacts' },
+      })
+    }
+  }, [isConvertError, isConvertSuccess])
 
   useEffect(() => {
     if (isSourcesSuccess)
@@ -513,7 +548,7 @@ export default function LeadsList() {
                         </IconButton>
                       </Tooltip>
                       <p className='text-sm'>
-                        {PageNumber} / {data.totalPages}
+                        {t('Page')} {PageNumber} {t('of')} {data.totalPages}
                       </p>
                       <Tooltip side='bottom' title={t('Next page')}>
                         <IconButton
@@ -546,6 +581,7 @@ export default function LeadsList() {
                 <LeadTableToolbar
                   selectedCount={Object.keys(rowSelection).length}
                   selectedIds={selectedIds}
+                  setRowSelection={setRowSelection}
                 />
                 <LeadPreview />
               </div>
@@ -578,7 +614,7 @@ export default function LeadsList() {
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
   if (store.getState().session.token)
-    store.dispatch(getLeads.initiate({ IsContact: false, IsLead: true }))
+    store.dispatch(getLeads.initiate({ PageSize: 10, PageNumber: 1 }))
 
   await Promise.all(store.dispatch(getRunningQueriesThunk()))
 

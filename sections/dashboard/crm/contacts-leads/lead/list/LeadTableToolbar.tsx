@@ -12,13 +12,19 @@ import useSnackbar from 'hooks/useSnackbar'
 // components
 import { Icon as Iconify } from '@iconify/react'
 import Button from 'components/Button'
+import { RowSelectionState } from '@tanstack/react-table'
 
 interface LeadTableToolbarProps {
   selectedCount: number
   selectedIds: string[]
+  setRowSelection: (value: RowSelectionState) => void
 }
 
-export default function LeadTableToolbar({ selectedCount, selectedIds }: LeadTableToolbarProps) {
+export default function LeadTableToolbar({
+  selectedCount,
+  selectedIds,
+  setRowSelection,
+}: LeadTableToolbarProps) {
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const [bulkDeleteLead, { isLoading, isSuccess, isError }] = useBulkDeleteLeadMutation()
@@ -30,10 +36,12 @@ export default function LeadTableToolbar({ selectedCount, selectedIds }: LeadTab
 
   const handleBulkDelete = () => {
     bulkDeleteLead(selectedIds)
+    setRowSelection({})
   }
 
   const handleConvertToContact = () => {
     selectedIds.forEach((id) => convertToContact(id))
+    setRowSelection({})
   }
 
   useEffect(() => {
@@ -64,7 +72,7 @@ export default function LeadTableToolbar({ selectedCount, selectedIds }: LeadTab
       className='fixed bottom-10 left-1/2 z-50 h-fit max-w-full px-4'
     >
       <div className='overflow-x-scroll'>
-        <div className='flex h-full w-max flex-wrap items-center justify-center divide-x whitespace-pre-wrap rounded-lg border border-r bg-white py-1 px-4 drop-shadow-xl rtl:divide-x-reverse dark:bg-paper-dark'>
+        <div className='flex h-full w-max flex-wrap items-center justify-center divide-x whitespace-pre-wrap rounded-lg border border-r bg-white py-1 px-4 drop-shadow-xl rtl:divide-x-reverse dark:divide-gray-600 dark:border-gray-600 dark:bg-paper-dark'>
           <p className='font-medium ltr:mr-10 rtl:ml-10'>
             {selectedCount} {t('Items Selected')}
           </p>

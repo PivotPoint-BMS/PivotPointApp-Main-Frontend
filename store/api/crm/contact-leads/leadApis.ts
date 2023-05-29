@@ -6,6 +6,7 @@ import { PIVOTPOINT_API } from 'config'
 import { ListGenericResponse, Lead, LeadRequestParams } from 'types'
 // store
 import { RootState } from 'store'
+// import { assign } from 'lodash'
 
 export const leadApi = createApi({
   reducerPath: 'leadApi',
@@ -32,45 +33,111 @@ export const leadApi = createApi({
     getLeads: builder.query<ListGenericResponse<Lead[]>, LeadRequestParams>({
       query: (params) => ({
         url: 'Lead',
-        params,
+        params: {
+          ...params,
+          IsContact: false,
+          IsLead: true,
+        },
       }),
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.data.map(({ id }) => ({ type: 'Leads' as const, id })),
-              { type: 'Leads', id: 'LIST' },
-            ]
-          : [{ type: 'Leads', id: 'LIST' }],
+    }),
+    getContacts: builder.query<ListGenericResponse<Lead[]>, LeadRequestParams>({
+      query: (params) => ({
+        url: 'Lead',
+        params: {
+          ...params,
+          IsContact: true,
+          IsLead: false,
+        },
+      }),
     }),
     getLead: builder.query<ListGenericResponse<Lead>, string>({
       query: (id) => `Lead/${id}`,
-      providesTags: ['Lead'],
     }),
-    createLead: builder.mutation<ListGenericResponse<unknown>, FormData>({
+    createLead: builder.mutation<ListGenericResponse<Lead>, FormData>({
       query: (data) => ({
         url: 'Lead',
         method: 'POST',
         body: data,
         responseHandler: 'content-type',
       }),
-      invalidatesTags: ['Leads', 'Lead'],
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const {
+            data: { data },
+          } = await queryFulfilled
+          dispatch(
+            leadApi.util.updateQueryData(
+              'getLeads',
+              { PageNumber: 1, PageSize: 10 },
+              (draftedList) => {
+                draftedList.data.push(data)
+              }
+            )
+          )
+        } catch {
+          /* empty */
+        }
+      },
     }),
-    editLead: builder.mutation<ListGenericResponse<unknown>, { data: FormData; id: string }>({
+    editLead: builder.mutation<ListGenericResponse<Lead>, { data: FormData; id: string }>({
       query: ({ data, id }) => ({
         url: `Lead/${id}`,
         method: 'PUT',
         body: data,
         responseHandler: 'content-type',
       }),
-      invalidatesTags: ['Leads', 'Lead'],
+
+      // async onQueryStarted({ id }, { dispatch, queryFulfilled }) {
+      //   try {
+      //     const {
+      //       data: { data },
+      //     } = await queryFulfilled
+
+      //     dispatch(
+      //       leadApi.util.updateQueryData(
+      //         'getLeads',
+      //         { IsContact: false, IsLead: true, PageNumber: 1, PageSize: 10 },
+      //         (draftedList) => {
+      //           draftedList.data.map((lead) => {
+      //             if (lead.id === id) return data
+      //             return lead
+      //           })
+      //         }
+      //       )
+      //     )
+      //     dispatch(
+      //       leadApi.util.updateQueryData('getLead', id, (draft) => {
+      //         assign(draft.data, data)
+      //       })
+      //     )
+      //   } catch {
+      //     /* empty */
+      //   }
+      // },
     }),
-    deleteLead: builder.mutation<ListGenericResponse<unknown>, string>({
+    deleteLead: builder.mutation<ListGenericResponse<Lead>, string>({
       query: (id) => ({
         url: `Lead/${id}`,
         method: 'DELETE',
         responseHandler: 'content-type',
       }),
-      invalidatesTags: ['Leads', 'Lead'],
+      async onQueryStarted(id, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled
+          dispatch(
+            leadApi.util.updateQueryData(
+              'getLeads',
+              { PageNumber: 1, PageSize: 10 },
+              (draftedList) => ({
+                ...draftedList,
+                data: draftedList.data.filter((lead) => lead.id !== id),
+              })
+            )
+          )
+        } catch {
+          /* empty */
+        }
+      },
     }),
     bulkDeleteLead: builder.mutation<ListGenericResponse<unknown>, string[]>({
       query: (toDelete) => ({
@@ -79,15 +146,70 @@ export const leadApi = createApi({
         method: 'DELETE',
         responseHandler: 'content-type',
       }),
-      invalidatesTags: ['Leads', 'Lead'],
+      async onQueryStarted(toDelete, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled
+          dispatch(
+            leadApi.util.updateQueryData(
+              'getLeads',
+              { PageNumber: 1, PageSize: 10 },
+              (draftedList) => ({
+                ...draftedList,
+                data: draftedList.data.filter((lead) => !toDelete.includes(lead.id)),
+              })
+            )
+          )
+          dispatch(
+            leadApi.util.updateQueryData(
+              'getContacts',
+              { PageNumber: 1, PageSize: 10 },
+              (draftedList) => ({
+                ...draftedList,
+                data: draftedList.data.filter((contact) => !toDelete.includes(contact.id)),
+              })
+            )
+          )
+        } catch {
+          /* empty */
+        }
+      },
     }),
-    convertToContact: builder.mutation<ListGenericResponse<unknown>, string>({
+    convertToContact: builder.mutation<ListGenericResponse<Lead>, string>({
       query: (id) => ({
         url: `Lead/toContact/${id}`,
         method: 'PUT',
         responseHandler: 'content-type',
       }),
-      invalidatesTags: ['Leads', 'Lead'],
+      async onQueryStarted(id, { dispatch, queryFulfilled }) {
+        try {
+          // TODO: REMOVE COMMENT AFTER BE FIX
+          // const {
+          //   data: { data },
+          // } =
+          await queryFulfilled
+          dispatch(
+            leadApi.util.updateQueryData(
+              'getLeads',
+              { PageNumber: 1, PageSize: 10 },
+              (draftedList) => ({
+                ...draftedList,
+                data: draftedList.data.filter((lead) => lead.id !== id),
+              })
+            )
+          )
+          // dispatch(
+          //   leadApi.util.updateQueryData(
+          //     'getContacts',
+          //     { PageNumber: 1, PageSize: 10 },
+          //     (draftedList) => {
+          //       draftedList.data.push(data)
+          //     }
+          //   )
+          // )
+        } catch {
+          /* empty */
+        }
+      },
     }),
   }),
 })
@@ -97,6 +219,7 @@ export const {
   // Queries
   useGetLeadQuery,
   useGetLeadsQuery,
+  useGetContactsQuery,
   // Mutations
   useCreateLeadMutation,
   useEditLeadMutation,
@@ -107,4 +230,4 @@ export const {
 } = leadApi
 
 // export endpoints for use in SSR
-export const { getLead, getLeads } = leadApi.endpoints
+export const { getLead, getContacts, getLeads } = leadApi.endpoints

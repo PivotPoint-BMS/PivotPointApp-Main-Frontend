@@ -19,7 +19,10 @@ import {
   useGetCountriesQuery,
 } from 'store/api/crm/contact-leads/addressApi'
 import { wrapper } from 'store'
-import { getLeadSources, useGetLeadSourcesQuery } from 'store/api/crm/contact-leads/leadSourceApi'
+import {
+  getAllLeadSources,
+  useGetAllLeadSourcesQuery,
+} from 'store/api/crm/contact-leads/leadSourceApi'
 // config
 import { LEAD_PRIORITIES, PIVOTPOINT_API } from 'config'
 // utils
@@ -56,14 +59,7 @@ export default function CreateEditLeadForm({
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const { push } = useRouter()
-  const {
-    data: sources,
-    isLoading,
-    isSuccess,
-  } = useGetLeadSourcesQuery({
-    PageNumber: undefined,
-    PageSize: undefined,
-  })
+  const { data: sources, isLoading, isSuccess } = useGetAllLeadSourcesQuery()
   const {
     data: countries,
     isLoading: isCountriesLoading,
@@ -381,7 +377,7 @@ export default function CreateEditLeadForm({
 export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
   const id = context.params?.id
   if (typeof id === 'string') store.dispatch(getLead.initiate(id))
-  store.dispatch(getLeadSources.initiate({ PageNumber: undefined, PageSize: undefined }))
+  store.dispatch(getAllLeadSources.initiate())
   store.dispatch(getCountries.initiate())
 
   await Promise.all(store.dispatch(getRunningQueriesThunk()))

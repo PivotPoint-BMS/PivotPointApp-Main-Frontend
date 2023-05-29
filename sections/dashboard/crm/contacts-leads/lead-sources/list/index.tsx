@@ -65,8 +65,8 @@ export default function LeadSourcesList({
   // Query Params
   const [SearchTerm, setSearchTerm] = useState<string | undefined>(undefined)
   const { data, isLoading, isFetching } = useGetLeadSourcesQuery(
-    { PageNumber, PageSize },
-    { refetchOnFocus: true }
+    { PageNumber, PageSize, SearchTerm },
+    { refetchOnFocus: true, refetchOnMountOrArgChange: true }
   )
 
   const [deleteLeadSource, { isLoading: isDeleteLeading, isSuccess, isError }] =
@@ -76,7 +76,8 @@ export default function LeadSourcesList({
   const columns = [
     columnHelper.accessor('id', {
       id: 'select',
-      size: 20,
+      enableSorting: false,
+      size: 24,
       header: ({ table }) => (
         <IndeterminateCheckbox
           {...{
@@ -117,7 +118,7 @@ export default function LeadSourcesList({
           <Tooltip title={t('Delete')} side='bottom'>
             <IconButton onClick={() => setIdToDelete(leadSource.getValue().id || '')}>
               <Icon
-                className='text-red-600 dark:text-red-500'
+                className='text-red-600 dark:text-red-400'
                 icon='material-symbols:delete-rounded'
                 height={20}
               />
@@ -323,7 +324,7 @@ export default function LeadSourcesList({
                         </IconButton>
                       </Tooltip>
                       <p className='text-sm'>
-                        {PageNumber} / {data.totalPages}
+                        {t('Page')} {PageNumber} {t('of')} {data.totalPages}
                       </p>
                       <Tooltip side='bottom' title={t('Next page')}>
                         <IconButton
@@ -353,10 +354,6 @@ export default function LeadSourcesList({
                     </div>
                   </div>
                 </div>
-                <LeadSourceTableToolbar
-                  selectedCount={Object.keys(rowSelection).length}
-                  selectedIds={selectedIds}
-                />
               </div>
             </>
           ) : (
@@ -366,6 +363,10 @@ export default function LeadSourcesList({
           )}
         </>
       )}
+      <LeadSourceTableToolbar
+        selectedCount={Object.keys(rowSelection).length}
+        selectedIds={selectedIds}
+      />
       <Backdrop loading={isDeleteLeading} />
       <Dialog
         open={openEditDialog || openAddDialog}

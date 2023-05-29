@@ -7,17 +7,20 @@ import { useBulkDeleteLeadSourcesMutation } from 'store/api/crm/contact-leads/le
 import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
 // components
+import { RowSelectionState } from '@tanstack/react-table'
 import { Icon as Iconify } from '@iconify/react'
 import Button from 'components/Button'
 
 interface LeadTableToolbarProps {
   selectedCount: number
   selectedIds: string[]
+  setRowSelection: (value: RowSelectionState) => void
 }
 
 export default function LeadSourceTableToolbar({
   selectedCount,
   selectedIds,
+  setRowSelection,
 }: LeadTableToolbarProps) {
   const { t } = useTranslate()
   const { open } = useSnackbar()
@@ -30,6 +33,7 @@ export default function LeadSourceTableToolbar({
 
   const handleBulkDelete = () => {
     bulkDeleteLeadSources(selectedIds)
+    setRowSelection({})
   }
 
   useEffect(() => {
@@ -59,21 +63,21 @@ export default function LeadSourceTableToolbar({
       transition={{ type: 'spring', duration: 0.6 }}
       className='fixed bottom-10 left-1/2 h-14 max-w-full px-4'
     >
-      <div className='flex h-full items-center gap-4 rounded-lg border   bg-white py-1 px-4  drop-shadow-xl dark:bg-paper-dark'>
-        <div className='flex h-full w-max  items-center gap-4 border-r   py-1 pr-4'>
-          <p className='font-medium ltr:mr-10 rtl:ml-10'>
-            {selectedCount} {t('Items Selected')}
-          </p>
+      <div className='flex h-full w-max flex-wrap items-center justify-center divide-x whitespace-pre-wrap rounded-lg border border-r bg-white py-1 px-4 drop-shadow-xl rtl:divide-x-reverse dark:divide-gray-600 dark:border-gray-600 dark:bg-paper-dark'>
+        <p className='font-medium ltr:mr-10 rtl:ml-10'>
+          {selectedCount} {t('Items Selected')}
+        </p>
+        <div className='px-1'>
+          <Button
+            variant='text'
+            intent='error'
+            startIcon={<Iconify icon='material-symbols:delete-rounded' height={20} />}
+            onClick={handleBulkDelete}
+            loading={isLoading}
+          >
+            {t('Delete')}
+          </Button>
         </div>
-        <Button
-          variant='text'
-          intent='error'
-          startIcon={<Iconify icon='material-symbols:delete-rounded' height={20} />}
-          onClick={handleBulkDelete}
-          loading={isLoading}
-        >
-          {t('Delete')}
-        </Button>
       </div>
     </motion.div>
   )

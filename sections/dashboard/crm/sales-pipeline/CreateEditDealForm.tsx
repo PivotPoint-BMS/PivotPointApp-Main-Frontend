@@ -36,7 +36,7 @@ export default function CreateEditDealForm({
     data: leadsResponse,
     isSuccess,
     isLoading,
-  } = useGetLeadsQuery({ IsContact: false, IsLead: true })
+  } = useGetLeadsQuery({ PageNumber: undefined, PageSize: undefined })
   const [
     createDeal,
     { isLoading: isCreateLoading, isSuccess: isCreateSuccess, isError: isCreateError },

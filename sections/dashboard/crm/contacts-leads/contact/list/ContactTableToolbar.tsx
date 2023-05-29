@@ -6,16 +6,22 @@ import { useBulkDeleteLeadMutation } from 'store/api/crm/contact-leads/leadApis'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
+import { RowSelectionState } from '@tanstack/react-table'
 // components
 import { Icon as Iconify } from '@iconify/react'
 import Button from 'components/Button'
 
-interface LeadTableToolbarProps {
+interface ContactTableToolbarProps {
   selectedCount: number
   selectedIds: string[]
+  setRowSelection: (value: RowSelectionState) => void
 }
 
-export default function LeadTableToolbar({ selectedCount, selectedIds }: LeadTableToolbarProps) {
+export default function ContactTableToolbar({
+  selectedCount,
+  selectedIds,
+  setRowSelection,
+}: ContactTableToolbarProps) {
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const [bulkDeleteLead, { isLoading, isSuccess, isError }] = useBulkDeleteLeadMutation()
@@ -26,6 +32,7 @@ export default function LeadTableToolbar({ selectedCount, selectedIds }: LeadTab
 
   const handleBulkDelete = () => {
     bulkDeleteLead(selectedIds)
+    setRowSelection({})
   }
 
   useEffect(() => {
@@ -56,9 +63,9 @@ export default function LeadTableToolbar({ selectedCount, selectedIds }: LeadTab
       className='fixed bottom-10 left-1/2 z-50 h-14 max-w-full px-4'
     >
       <div className='overflow-x-scroll'>
-        <div className='flex h-full w-max flex-wrap items-center justify-center divide-x whitespace-pre-wrap rounded-lg border border-r bg-white py-1 px-4 drop-shadow-xl rtl:divide-x-reverse dark:bg-paper-dark'>
+        <div className='flex h-full w-max flex-wrap items-center justify-center divide-x whitespace-pre-wrap rounded-lg border border-r bg-white py-1 px-4 drop-shadow-xl rtl:divide-x-reverse dark:divide-gray-600 dark:border-gray-600 dark:bg-paper-dark'>
           {' '}
-          <p className='font-medium'>
+          <p className='font-medium ltr:mr-10 rtl:ml-10'>
             {selectedCount} {t('Items Selected')}
           </p>
           <div className='px-1'>

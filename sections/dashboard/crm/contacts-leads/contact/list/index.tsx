@@ -19,7 +19,7 @@ import {
   getRunningQueriesThunk,
   invalidateTags,
   useDeleteLeadMutation,
-  useGetLeadsQuery,
+  useGetContactsQuery,
 } from 'store/api/crm/contact-leads/leadApis'
 import { useGetLeadSourcesQuery } from 'store/api/crm/contact-leads/leadSourceApi'
 // config
@@ -117,10 +117,8 @@ export default function LeadsList() {
   }>({ LeadSourceId: undefined, LeadPriority: undefined })
 
   // Queries
-  const { data, isLoading, isSuccess, isFetching } = useGetLeadsQuery(
+  const { data, isLoading, isSuccess, isFetching } = useGetContactsQuery(
     {
-      IsContact: true,
-      IsLead: false,
       SearchTerm,
       ...filters,
       PageNumber,
@@ -148,7 +146,8 @@ export default function LeadsList() {
   const columns = [
     columnHelper.accessor((row) => ({ fullName: row.fullName, picture: row.picture }), {
       id: 'select',
-      size: 1,
+      enableSorting: false,
+      size: 24,
       header: ({ table }) => (
         <IndeterminateCheckbox
           {...{
@@ -275,7 +274,7 @@ export default function LeadsList() {
                 type: 'button',
                 label: t('Delete'),
                 icon: <Iconify icon='material-symbols:delete-rounded' height={18} />,
-                className: 'text-red-600',
+                className: 'text-red-600 dark:text-red-400 rtl:flex-row-reverse',
                 onClick: () => setIdToDelete(lead.getValue().id),
               },
             ]}
@@ -546,7 +545,7 @@ export default function LeadsList() {
                         </IconButton>
                       </Tooltip>
                       <p className='text-sm'>
-                        {PageNumber} / {data.totalPages}
+                        {t('Page')} {PageNumber} {t('of')} {data.totalPages}
                       </p>
                       <Tooltip side='bottom' title={t('Next page')}>
                         <IconButton
@@ -578,6 +577,7 @@ export default function LeadsList() {
                   <ContactTableToolbar
                     selectedCount={Object.keys(rowSelection).length}
                     selectedIds={selectedIds}
+                    setRowSelection={setRowSelection}
                   />
                   <ContactPreview />
                 </div>
@@ -611,7 +611,7 @@ export default function LeadsList() {
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
   if (store.getState().session.token)
-    store.dispatch(getLeads.initiate({ IsContact: false, IsLead: true }))
+    store.dispatch(getLeads.initiate({ PageSize: 10, PageNumber: 1 }))
 
   await Promise.all(store.dispatch(getRunningQueriesThunk()))
 
