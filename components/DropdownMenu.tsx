@@ -35,7 +35,7 @@ const RenderItems = (
         )}
       >
         <div>{icon}</div>
-        <span className='flex-grow'>{label}</span>
+        <span className='flex-grow rtl:text-right'>{label}</span>
         <DropdownMenuPrimitive.ItemIndicator>
           <Iconify icon='material-symbols:check-small-rounded' height={14} />
         </DropdownMenuPrimitive.ItemIndicator>
@@ -52,7 +52,7 @@ const RenderItems = (
           )}
         >
           <div>{icon}</div>
-          <span className='flex-grow'>{label}</span>
+          <span className='flex-grow rtl:text-right'>{label}</span>
           <Iconify icon='material-symbols:arrow-forward-ios-rounded' height={12} />
         </DropdownMenuPrimitive.SubTrigger>
         <DropdownMenuPrimitive.Portal>
@@ -120,7 +120,7 @@ const RenderItems = (
     <DropdownMenuPrimitive.Item
       key={`${label?.toLowerCase()}-${i}`}
       className={clsx(
-        'flex cursor-default select-none items-center gap-2 rounded-md px-2 py-2 text-xs outline-none',
+        'flex cursor-default select-none items-center gap-2 rounded-md px-2 py-2 text-xs outline-none rtl:flex-row-reverse',
         ' focus:bg-gray-200 dark:focus:bg-paper-hover-dark',
         className
       )}
@@ -150,7 +150,7 @@ const RenderItems = (
       ) : (
         <div>{icon}</div>
       )}
-      <span className='flex-grow'>{label}</span>
+      <span className='flex-grow rtl:text-right'>{label}</span>
     </DropdownMenuPrimitive.Item>
   )
 }
