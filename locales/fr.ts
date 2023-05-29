@@ -258,7 +258,8 @@ const fr: { [key: string]: string } = {
   'Lead status': 'Statut du clients potentiel',
   'Lead Source': 'Source du clients potentiel',
   'A problem has occured.': 'Un problème est survenu.',
-  'Lead Deleted Successfully.': 'Prospect supprimé avec succès.',
+  'Lead Deleted Successfully.': 'Client potentiel supprimé avec succès.',
+  'LeadS Deleted Successfully.': 'Clients potentiel supprimé avec succès.',
   'No Lead Found': 'Aucun clients potentiel trouvé',
   'Confirm Delete': 'Confirmer la suppression',
   'This action cannot be undone. This will permanently delete this clients potentiel.':
@@ -268,6 +269,7 @@ const fr: { [key: string]: string } = {
   Source: 'Source',
   'Source Link': 'Lien de la source',
   'Lead Source Deleted Successfully.': 'Source de clients potentiel supprimée avec succès.',
+  'Lead Sources Deleted Successfully.': 'Sources de clients potentiel supprimée avec succès.',
   'This action cannot be undone. This will permanently delete this clients potentiel source.':
     'Cette action ne peut pas être annulée. Cela supprimera définitivement cette source de clients potentiel.',
   'Contact Details': 'Détails du contact',
@@ -436,5 +438,6 @@ const fr: { [key: string]: string } = {
   'Previous page': 'Page précédente',
   'Next page': 'Page suivante',
   'Last page': 'Dernière page',
+  Page: 'Page',
 }
 export default fr

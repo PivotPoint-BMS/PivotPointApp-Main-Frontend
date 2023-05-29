@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 const en: { [key: string]: string } = {
   crm: 'Customer Relationship',
   'Back Home': 'Back Home',
@@ -256,6 +257,7 @@ const en: { [key: string]: string } = {
   'Lead Source': 'Lead Source',
   'A problem has occured.': 'A problem has occured.',
   'Lead Deleted Successfully.': 'Lead Deleted Successfully.',
+  'Leads Deleted Successfully.': 'Leads Deleted Successfully.',
   'No Lead Found': 'No Lead Found',
   'Confirm Delete': 'Confirm Delete',
   'This action cannot be undone. This will permanently delete this lead.':
@@ -265,6 +267,7 @@ const en: { [key: string]: string } = {
   Source: 'Source',
   'Source Link': 'Source Link',
   'Lead Source Deleted Successfully.': 'Lead Source Deleted Successfully.',
+  'Lead Sources Deleted Successfully.': 'Lead Sources Deleted Successfully.',
   'This action cannot be undone. This will permanently delete this lead source.':
     'This action cannot be undone. This will permanently delete this lead source.',
   'Contact Details': 'Contact Details',
@@ -429,5 +432,6 @@ const en: { [key: string]: string } = {
   'Previous page': 'Previous page',
   'Next page': 'Next page',
   'Last page': 'Last page',
+  Page: 'Page',
 }
 export default en

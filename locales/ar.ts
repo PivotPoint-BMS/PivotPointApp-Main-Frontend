@@ -255,6 +255,7 @@ const ar: { [key: string]: string } = {
   'Lead Source': 'مصدر العميل',
   'A problem has occured.': 'حدثت مشكلة.',
   'Lead Deleted Successfully.': 'تم حذف العميل بنجاح.',
+  'Leads Deleted Successfully.': 'تم حذف العملاء بنجاح.',
   'No Lead Found': 'لم يتم العثور على عميل',
   'Confirm Delete': 'تأكيد الحذف',
   'This action cannot be undone. This will permanently delete this lead.':
@@ -264,6 +265,7 @@ const ar: { [key: string]: string } = {
   Source: 'المصدر',
   'Source Link': 'رابط المصدر',
   'Lead Source Deleted Successfully.': 'تم حذف مصدر العميل بنجاح.',
+  'Lead Sources Deleted Successfully.': 'تم حذف مصادر العملاء بنجاح.',
   'This action cannot be undone. This will permanently delete this lead source.':
     'لا يمكن التراجع عن هذا الإجراء. سيتم حذف مصدر العميل هذا بشكل دائم.',
   'Contact Details': 'تفاصيل الاتصال',
@@ -430,5 +432,6 @@ const ar: { [key: string]: string } = {
   'Previous page': 'الصفحة السابقة',
   'Next page': 'الصفحة التالية',
   'Last page': 'الصفحة الأخيرة',
+  Page: 'الصفحة',
 }
 export default ar
