@@ -28,6 +28,7 @@ import CreateEditDealForm from './CreateEditDealForm'
 
 interface KanbanColumnProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'id'> {
   id: UniqueIdentifier
+  boardId: string
   name?: string
   listeners?: DraggableSyntheticListeners
   disabled?: boolean
@@ -45,6 +46,7 @@ export default function KanbanColumn({
   id,
   items,
   isDraggingOverlay,
+  boardId,
   ...props
 }: KanbanColumnProps) {
   const { t } = useTranslate()
@@ -161,7 +163,7 @@ export default function KanbanColumn({
               <Tooltip title={t('Delete')} side='bottom' sideOffset={10}>
                 <IconButton
                   onClick={() => {
-                    deleteColumn(id.toString())
+                    deleteColumn({ id: id.toString(), boardId })
                   }}
                 >
                   <Iconify
@@ -204,6 +206,7 @@ export default function KanbanColumn({
         <CreateEditDealForm
           // TODO: Edit Deal
           columnId={id.toString()}
+          boardId={boardId}
           currentDeal={null}
           isEdit={false}
           onSuccess={() => {

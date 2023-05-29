@@ -37,6 +37,7 @@ import {
   getRunningQueriesThunk,
   useDeleteDealBoardMutation,
   useGetDealBoardQuery,
+  usePresistColumnOrderMutation,
 } from 'store/api/crm/sales-pipeline/dealsBoardsApi'
 import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { wrapper } from 'store'
@@ -71,10 +72,26 @@ const dropAnimation: DropAnimation = {
   }),
 }
 
-const DealsKanban = ({ boardId }: { boardId: string | null }) => {
+const DealsKanban = ({
+  boardId,
+  setBoardId,
+}: {
+  boardId: string | null
+  setBoardId: (id: string | null) => void
+}) => {
   const { t } = useTranslate()
   const { open } = useSnackbar()
-  const { isFallback, push, pathname } = useRouter()
+  const { isFallback, pathname, push } = useRouter()
+
+  const [openDialog, setOpenDialog] = useState(false)
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
+  const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null)
+  const lastOverId = useRef<UniqueIdentifier | null>(null)
+  const [clonedItems, setClonedItems] = useState<{
+    [key: string]: DealBoardColumnProps
+  } | null>(null)
+
+  // Query
   const { data, isError, isLoading, isSuccess, isFetching } = useGetDealBoardQuery(
     boardId && boardId.length > 0 ? boardId : skipToken,
     {
@@ -82,54 +99,17 @@ const DealsKanban = ({ boardId }: { boardId: string | null }) => {
       skip: isFallback,
     }
   )
+  const [board, setBoard] = useState<DealBoardProps>(data || EMPTY_BOARD)
+
+  // Mutations
   const [
     deleteBoard,
     { isError: isDeleteError, isLoading: isDeleteLoading, isSuccess: isDeleteSuccess },
   ] = useDeleteDealBoardMutation()
-  const [openDialog, setOpenDialog] = useState(false)
-  const [board, setBoard] = useState<DealBoardProps>(data || EMPTY_BOARD)
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
-  const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null)
-  const lastOverId = useRef<UniqueIdentifier | null>(null)
-  const [clonedItems, setClonedItems] = useState<{
-    [key: string]: DealBoardColumnProps
-  } | null>(null)
+  const [presistColumnOrder, { isError: isPresistError }] = usePresistColumnOrderMutation()
+
   const recentlyMovedToNewContainer = useRef(false)
   const isSortingContainer = activeId ? board.columnsOrder.includes(activeId) : false
-
-  useEffect(() => {
-    if (isError && boardId && boardId?.length > 0) {
-      open({
-        message: t('A problem has occured.'),
-        type: 'error',
-        variant: 'contained',
-      })
-    }
-    if (isSuccess) {
-      setBoard(data)
-      if (!boardId || (boardId && !(boardId in data.dealBoards))) {
-        push(pathname, { query: { boardId: data.dealBoards[Object.keys(data.dealBoards)[0]].id } })
-      }
-    }
-  }, [isError, isSuccess, isLoading, boardId, isFetching])
-
-  useEffect(() => {
-    if (isDeleteError) {
-      open({
-        message: t('A problem has occured.'),
-        type: 'error',
-        variant: 'contained',
-      })
-    }
-    if (isDeleteSuccess) {
-      open({
-        message: t('Pipeline Deleted Successfully.'),
-        type: 'success',
-        variant: 'contained',
-      })
-    }
-    push(pathname, { query: { boardId: '' } })
-  }, [isDeleteError, isDeleteSuccess, isDeleteLoading])
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -147,22 +127,16 @@ const DealsKanban = ({ boardId }: { boardId: string | null }) => {
         })
       }
 
-      // Start by finding any intersecting droppable
       const pointerIntersections = pointerWithin(args)
       const intersections =
-        pointerIntersections.length > 0
-          ? // If there are droppables intersecting with the pointer, return those
-            pointerIntersections
-          : rectIntersection(args)
+        pointerIntersections.length > 0 ? pointerIntersections : rectIntersection(args)
       let overId = getFirstCollision(intersections, 'id')
 
       if (overId != null) {
         if (overId in board.columns) {
           const containerItems = board.columns[overId]
 
-          // If a container is matched and it contains items (columns 'A', 'B', 'C')
           if (containerItems.deals.length > 0) {
-            // Return the closest droppable within that container
             overId = closestCenter({
               ...args,
               droppableContainers: args.droppableContainers.filter(
@@ -178,15 +152,10 @@ const DealsKanban = ({ boardId }: { boardId: string | null }) => {
         return [{ id: overId }]
       }
 
-      // When a draggable item moves to a new container, the layout may shift
-      // and the `overId` may become `null`. We manually set the cached `lastOverId`
-      // to the id of the draggable item that was moved to the new container, otherwise
-      // the previous `overId` will be returned which can cause items to incorrectly shift positions
       if (recentlyMovedToNewContainer.current) {
         lastOverId.current = activeId
       }
 
-      // If no droppable is matched, return the last match
       return lastOverId.current ? [{ id: lastOverId.current }] : []
     },
     [activeId, board.columns]
@@ -217,7 +186,13 @@ const DealsKanban = ({ boardId }: { boardId: string | null }) => {
 
   function renderContainerDragOverlay(columnId: UniqueIdentifier) {
     return (
-      <KanbanColumn name={board.columns[columnId].columnTitle} id={''} items={[]} isDraggingOverlay>
+      <KanbanColumn
+        name={board.columns[columnId].columnTitle}
+        id={''}
+        boardId=''
+        items={[]}
+        isDraggingOverlay
+      >
         {board.columns[columnId].deals.map((item) => (
           <Item key={item} deal={board.deals[item]} />
         ))}
@@ -301,6 +276,12 @@ const DealsKanban = ({ boardId }: { boardId: string | null }) => {
         const activeIndex = columnsOrder.indexOf(active.id)
         const overIndex = columnsOrder.indexOf(over.id)
 
+        presistColumnOrder({
+          boardId: boardId?.toLowerCase() || '',
+          id: active.id.toString(),
+          order: overIndex,
+        })
+
         return {
           ..._board,
           columnsOrder: arrayMove(columnsOrder, activeIndex, overIndex),
@@ -358,6 +339,53 @@ const DealsKanban = ({ boardId }: { boardId: string | null }) => {
     setClonedItems(null)
   }
 
+  // Effects
+
+  useEffect(() => {
+    if (isError && boardId && boardId?.length > 0) {
+      open({
+        message: t('A problem has occured.'),
+        type: 'error',
+        variant: 'contained',
+      })
+      setBoardId(null)
+    }
+    if (isSuccess) {
+      setBoard(data)
+      if (!boardId || (boardId && !(boardId in data.dealBoards))) {
+        push(pathname, { query: { boardId: data.dealBoards[Object.keys(data.dealBoards)[0]].id } })
+      }
+    }
+  }, [isError, isSuccess, isLoading, boardId, isFetching, data])
+
+  useEffect(() => {
+    if (isDeleteError) {
+      open({
+        message: t('A problem has occured.'),
+        type: 'error',
+        variant: 'contained',
+      })
+    }
+    if (isDeleteSuccess) {
+      open({
+        message: t('Pipeline Deleted Successfully.'),
+        type: 'success',
+        variant: 'contained',
+      })
+      setBoardId(null)
+    }
+  }, [isDeleteError, isDeleteSuccess, isDeleteLoading])
+
+  useEffect(() => {
+    if (isPresistError) {
+      open({
+        message: t('A problem has occured.'),
+        type: 'error',
+        variant: 'contained',
+      })
+    }
+  }, [isPresistError])
+
   return (
     <div>
       {boardId ? (
@@ -403,6 +431,7 @@ const DealsKanban = ({ boardId }: { boardId: string | null }) => {
                   <KanbanColumn
                     key={columnId}
                     id={columnId}
+                    boardId={boardId}
                     name={board.columns[columnId].columnTitle}
                     items={board.columns[columnId].deals}
                   >

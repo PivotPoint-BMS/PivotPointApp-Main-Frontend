@@ -36,3 +36,9 @@ export const LEAD_PRIORITIES = [
   { value: '2', label: 'Medium' },
   { value: '3', label: 'High' },
 ]
+
+export const DEALTYPES = [
+  { value: 0, label: 'General' },
+  { value: 1, label: 'Leads' },
+  { value: 2, label: 'Contacts' },
+]

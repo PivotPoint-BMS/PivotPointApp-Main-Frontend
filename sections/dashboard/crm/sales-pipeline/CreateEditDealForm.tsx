@@ -5,26 +5,30 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { FieldValues, useForm } from 'react-hook-form'
 // api
 import { useCreateDealMutation } from 'store/api/crm/sales-pipeline/dealsBoardsApi'
+// config
+import { DEALTYPES } from 'config'
 // types
 import { Deal } from 'types'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // components
 import Select from 'react-select'
-import { Button } from 'components'
+import { AutoComplete, Button } from 'components'
 import { FormProvider, RHFTextField } from 'components/hook-form'
 import useSnackbar from 'hooks/useSnackbar'
 import RHFTextArea from 'components/hook-form/RHFTextArea'
-import { useGetLeadsQuery } from 'store/api/crm/contact-leads/leadApis'
+import { useGetContactsQuery, useGetLeadsQuery } from 'store/api/crm/contact-leads/leadApis'
 
 export default function CreateEditDealForm({
   columnId,
+  boardId,
   currentDeal,
   isEdit,
   onSuccess,
   onFailure,
 }: {
   columnId: string
+  boardId: string
   currentDeal: Deal | null
   isEdit: boolean
   onSuccess: () => void
@@ -32,17 +36,30 @@ export default function CreateEditDealForm({
 }) {
   const { t } = useTranslate()
   const { open } = useSnackbar()
+  const [type, setType] = useState<{ value: number; label: string } | null>(null)
+  // Query
   const {
     data: leadsResponse,
     isSuccess,
     isLoading,
   } = useGetLeadsQuery({ PageNumber: undefined, PageSize: undefined })
+  const {
+    data: contactsResponse,
+    isSuccess: isContactsSuccess,
+    isLoading: isContactsLoading,
+  } = useGetContactsQuery({ PageNumber: undefined, PageSize: undefined })
+  // Mutation
   const [
     createDeal,
     { isLoading: isCreateLoading, isSuccess: isCreateSuccess, isError: isCreateError },
   ] = useCreateDealMutation()
   const [leads, setLeads] = useState<{ value: string; label: string }[]>(
     isSuccess ? leadsResponse?.data.map((lead) => ({ value: lead.id, label: lead.fullName })) : []
+  )
+  const [contacts, setContacts] = useState<{ value: string; label: string }[]>(
+    isContactsSuccess
+      ? contactsResponse?.data.map((contact) => ({ value: contact.id, label: contact.fullName }))
+      : []
   )
   //   const [edit, { isLoading: isEditLoading, isSuccess: isEditSuccess, isError: isEditError }] =
   //     useEditMutation()
@@ -52,11 +69,18 @@ export default function CreateEditDealForm({
       setLeads(leadsResponse?.data.map((lead) => ({ value: lead.id, label: lead.fullName })))
   }, [isLoading])
 
+  useEffect(() => {
+    if (isContactsSuccess)
+      setContacts(
+        contactsResponse?.data.map((contact) => ({ value: contact.id, label: contact.fullName }))
+      )
+  }, [isContactsLoading])
+
   const Schema = Yup.object().shape({
     title: Yup.string().min(3, t('Too short')).required(t('This field is required')),
     type: Yup.number().required(t('This field is required')),
     tags: Yup.string().min(3, t('Too short')).required(t('This field is required')),
-    leadIds: Yup.array().required(t('This field is required')),
+    leadIds: Yup.array(),
   })
 
   const defaultValues = useMemo(
@@ -65,7 +89,7 @@ export default function CreateEditDealForm({
       potentialDealValue: currentDeal?.potentialDealValue || '',
       type: currentDeal?.type || '',
       tags: currentDeal?.tags || '',
-      leadIds: currentDeal?.tags || [],
+      leadIds: currentDeal?.leadIds || [],
       columnId,
     }),
     [currentDeal]
@@ -76,12 +100,13 @@ export default function CreateEditDealForm({
     defaultValues,
   })
 
-  const { handleSubmit, reset } = methods
+  const { handleSubmit, reset, setValue } = methods
 
   const onSubmit = async (data: FieldValues) => {
-    const deal: Omit<Deal, 'id'> & { columnId: string } = {
+    const deal: Omit<Deal, 'id'> & { columnId: string; boardId: string } = {
       description: data.description,
       columnId,
+      boardId,
       leadIds: data.leadIds,
       potentialDealValue: 0,
       successProbability: 0,
@@ -123,7 +148,20 @@ export default function CreateEditDealForm({
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <div className='mt-2 grid grid-cols-1 gap-4 md:grid-cols-2'>
         <RHFTextField name='title' label={t('Title')} />
-        <RHFTextField name='type' label={t('Type')} type='number' />
+        <AutoComplete name='type' label={t('Type')}>
+          <Select
+            options={DEALTYPES.map((item) => ({ value: item.value, label: item.label }))}
+            isLoading={isLoading}
+            onChange={(newValue) => {
+              setValue('type', newValue?.value)
+              setType(newValue)
+            }}
+            value={type}
+            isSearchable={false}
+            className='react-select-container'
+            classNamePrefix='react-select'
+          />
+        </AutoComplete>
         <div className='md:col-span-2'>
           <RHFTextField name='tags' label={t('Tags (Comma Separated)')} />{' '}
         </div>
@@ -131,13 +169,42 @@ export default function CreateEditDealForm({
           <RHFTextArea name='description' label={t('Description')} />
         </div>
         <div className='md:col-span-2'>
-          <Select
-            options={leads}
-            isMulti
-            isLoading={isLoading}
-            className='react-select-container'
-            classNamePrefix='react-select'
-          />
+          {type && type.value === 1 && (
+            <AutoComplete name='leadIds' label={t('Leads')}>
+              <Select
+                options={leads}
+                isMulti
+                isLoading={isLoading}
+                onChange={(newValue) => {
+                  setValue(
+                    'leadIds',
+                    newValue?.map((id) => id)
+                  )
+                }}
+                placeholder={t('Select leads')}
+                className='react-select-container'
+                classNamePrefix='react-select'
+              />
+            </AutoComplete>
+          )}
+          {type && type.value === 2 && (
+            <AutoComplete name='leadIds' label={t('Contacts')}>
+              <Select
+                options={contacts}
+                isMulti
+                isLoading={isLoading}
+                onChange={(newValue) => {
+                  setValue(
+                    'leadIds',
+                    newValue?.map((id) => id)
+                  )
+                }}
+                placeholder={t('Select contacts')}
+                className='react-select-container'
+                classNamePrefix='react-select'
+              />
+            </AutoComplete>
+          )}
         </div>{' '}
       </div>
 

@@ -24,9 +24,8 @@ function index() {
   const { open } = useSnackbar()
   const { query, push, pathname } = useRouter()
   const { data, isError, isSuccess, isLoading, isFetching } = useGetDealBoardsQuery()
-  const [boards, setBoards] = useState<{ label: string; value: string; disabled?: boolean }[]>([])
   const [boardId, setBoardId] = useState<string | null>(
-    query?.boardId ? (query?.boardId as string) : null
+    query?.boardId !== null ? (query?.boardId as string) : null
   )
   const [openDialog, setOpenDialog] = useState(false)
 
@@ -38,18 +37,18 @@ function index() {
         variant: 'contained',
       })
     }
-    if (isSuccess && data.length > 0) {
-      setBoards(data?.map((board) => ({ label: board.title, value: board.id })) || [])
-      if (!boardId) {
-        setBoardId(data[0].id)
-        push(pathname, { query: { boardId: data[0].id } })
-      }
+    if ((boardId === null || boardId === '') && isSuccess && data.length > 0) {
+      setBoardId(data[0].id)
+      push(pathname, { query: { boardId: data[0].id } })
     }
-  }, [isError, isSuccess, isFetching, isLoading])
+  }, [isError, isSuccess, isFetching, isLoading, data, boardId])
 
   useEffect(() => {
+    
+  
     push(pathname, { query: { boardId } })
-  }, [pathname, boardId])
+  }, [boardId])
+  
 
   return (
     <>
@@ -68,7 +67,7 @@ function index() {
             <div className='flex items-center gap-2'>
               {data && data.length > 0 && (
                 <Select
-                  items={boards}
+                  items={data.map((board) => ({ value: board.id, label: board.title }))}
                   value={boardId || ''}
                   onValueChange={(value) => setBoardId(value)}
                 />
@@ -82,7 +81,7 @@ function index() {
             </div>
           }
         />
-        <DealsKanban boardId={boardId} />
+        <DealsKanban boardId={boardId} setBoardId={setBoardId} />
         <Dialog open={openDialog} title={t('Add New Pipeline')}>
           <CreateEditBoardForm
             // TODO: Add Edit Pipeline

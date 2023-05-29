@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+import { arrayMove } from '@dnd-kit/sortable'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { HYDRATE } from 'next-redux-wrapper'
 // config
@@ -33,7 +35,6 @@ export const dealsBoardsApi = createApi({
   endpoints: (builder) => ({
     getDealBoards: builder.query<DealBoard[], void>({
       query: () => 'DealBoards',
-      providesTags: ['DealsBoards'],
       transformResponse: (response: IGenericResponse<DealBoardResponse>) =>
         response.data.dealBoards,
     }),
@@ -42,7 +43,6 @@ export const dealsBoardsApi = createApi({
       string
     >({
       query: (id) => `DealBoards/Board/${id}`,
-      providesTags: ['DealsBoards'],
       transformResponse: (response: IGenericResponse<DealBoardResponse>) => {
         const columns = response.data.columns.reduce<{ [key: string]: DealBoardColumnProps }>(
           (acc, curr) => {
@@ -72,7 +72,7 @@ export const dealsBoardsApi = createApi({
       },
     }),
     createDealBoard: builder.mutation<
-      IGenericResponse<unknown>,
+      IGenericResponse<DealBoard>,
       {
         title: string
         defColumnTitle: string
@@ -84,7 +84,20 @@ export const dealsBoardsApi = createApi({
         body: data,
         responseHandler: 'content-type',
       }),
-      invalidatesTags: ['DealsBoards'],
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const {
+            data: { data },
+          } = await queryFulfilled
+          dispatch(
+            dealsBoardsApi.util.updateQueryData('getDealBoards', undefined, (draftedList) => {
+              draftedList.push(data)
+            })
+          )
+        } catch {
+          /* empty */
+        }
+      },
     }),
     deleteDealBoard: builder.mutation<IGenericResponse<unknown>, string>({
       query: (id) => ({
@@ -92,10 +105,21 @@ export const dealsBoardsApi = createApi({
         method: 'DELETE',
         responseHandler: 'content-type',
       }),
-      invalidatesTags: ['DealsBoards'],
+      async onQueryStarted(id, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled
+          dispatch(
+            dealsBoardsApi.util.updateQueryData('getDealBoards', undefined, (draftedList) =>
+              draftedList.filter((board) => board.id !== id)
+            )
+          )
+        } catch {
+          /* empty */
+        }
+      },
     }),
     createDealBoardColumn: builder.mutation<
-      IGenericResponse<unknown>,
+      IGenericResponse<DealBoardColumnProps>,
       { boardId: string; columnTitle: string }
     >({
       query: ({ columnTitle, boardId }) => ({
@@ -104,10 +128,32 @@ export const dealsBoardsApi = createApi({
         body: { columnTitle },
         responseHandler: 'content-type',
       }),
-      invalidatesTags: ['DealsBoards'],
+      async onQueryStarted({ boardId }, { dispatch, queryFulfilled }) {
+        try {
+          const {
+            data: { data },
+          } = await queryFulfilled
+
+          dispatch(
+            dealsBoardsApi.util.updateQueryData('getDealBoard', boardId, (draft) => {
+              const { columns } = draft
+
+              const newColumns = columns
+
+              Object.assign(newColumns, { [data.id]: data })
+
+              draft.columns = newColumns
+              draft.columnsOrder.push(data.id)
+              return draft
+            })
+          )
+        } catch {
+          /* empty */
+        }
+      },
     }),
     editDealBoardColumn: builder.mutation<
-      IGenericResponse<unknown>,
+      IGenericResponse<DealBoardColumnProps>,
       { id: string; columnTitle: string }
     >({
       query: ({ columnTitle, id }) => ({
@@ -118,32 +164,170 @@ export const dealsBoardsApi = createApi({
       }),
       invalidatesTags: ['DealsBoards'],
     }),
-    deleteDealBoardColumn: builder.mutation<IGenericResponse<unknown>, string>({
-      query: (id) => ({
+    deleteDealBoardColumn: builder.mutation<
+      IGenericResponse<unknown>,
+      { boardId: string; id: string }
+    >({
+      query: ({ id }) => ({
         url: `BoardColumns/${id}`,
         method: 'DELETE',
         responseHandler: 'content-type',
       }),
-      invalidatesTags: ['DealsBoards'],
+      async onQueryStarted({ boardId, id }, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled
+
+          dispatch(
+            dealsBoardsApi.util.updateQueryData('getDealBoard', boardId, (draft) => {
+              const { columns, columnsOrder } = draft
+
+              const newColumns = {}
+              Object.keys(columns).forEach((key) => {
+                if (key !== id)
+                  Object.assign(newColumns, {
+                    [key]: {
+                      id: columns[key].id,
+                      columnTitle: columns[key].columnTitle,
+                      deals: columns[key].deals,
+                    },
+                  })
+              })
+              const newColumnsOrder = columnsOrder.filter((column) => column !== id)
+
+              draft.columns = newColumns
+              draft.columnsOrder = newColumnsOrder
+              return draft
+            })
+          )
+        } catch {
+          /* empty */
+        }
+      },
     }),
-    presistColumnOrder: builder.mutation<IGenericResponse<unknown>, { id: string; order: number }>({
-      query: (data) => ({
-        url: '/api/crm/BoardColumns',
+    presistColumnOrder: builder.mutation<
+      IGenericResponse<unknown>,
+      { id: string; order: number; boardId: string }
+    >({
+      query: ({ id, order }) => ({
+        url: 'BoardColumns',
         method: 'PUT',
-        body: data,
+        body: { id, order: order + 1 },
         responseHandler: 'content-type',
       }),
-      invalidatesTags: ['DealsBoards'],
+      async onQueryStarted({ id, boardId, order }, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled
+
+          dispatch(
+            dealsBoardsApi.util.updateQueryData('getDealBoard', boardId, (draft) => {
+              const { columnsOrder } = draft
+
+              const activeIndex = columnsOrder.indexOf(id)
+              const newColumnsOrder = arrayMove(columnsOrder, activeIndex, order)
+
+              draft.columnsOrder = newColumnsOrder
+              return draft
+            })
+          )
+        } catch {
+          /* empty */
+        }
+      },
     }),
 
-    createDeal: builder.mutation<string[], Omit<Deal, 'id'> & { columnId: string }>({
+    createDeal: builder.mutation<
+      IGenericResponse<{
+        assignedTo: null
+        createdBy: string
+        dealComments: []
+        description: string
+        id: string
+        lastUpdatedBy: null
+        leads: []
+        potentialDealValue: number
+        successProbability: number
+        tags: string
+        title: string
+        type: number
+      }>,
+      Omit<Deal, 'id'> & { columnId: string; boardId: string }
+    >({
       query: (data) => ({
         url: 'Deals',
         method: 'POST',
         body: data,
         responseHandler: 'content-type',
       }),
-      invalidatesTags: ['DealsBoards'],
+      async onQueryStarted({ boardId, columnId }, { dispatch, queryFulfilled }) {
+        try {
+          const {
+            data: { data },
+          } = await queryFulfilled
+
+          dispatch(
+            dealsBoardsApi.util.updateQueryData('getDealBoard', boardId, (draft) => {
+              const { columns, deals } = draft
+
+              const newColumns = columns
+              newColumns[columnId].deals.push(data.id)
+
+              const newDeals = deals
+              Object.assign(newDeals, { [data.id]: data })
+
+              draft.columns = newColumns
+              draft.deals = newDeals
+
+              return draft
+            })
+          )
+        } catch {
+          /* empty */
+        }
+      },
+    }),
+    deleteDeal: builder.mutation<
+      IGenericResponse<unknown>,
+      { dealId: string; columnId: string; boardId: string }
+    >({
+      query: ({ dealId }) => ({
+        url: `Deals/${dealId}`,
+        method: 'DELETE',
+        responseHandler: 'content-type',
+      }),
+      async onQueryStarted({ dealId, boardId, columnId }, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled
+
+          dispatch(
+            dealsBoardsApi.util.updateQueryData('getDealBoard', boardId, (draft) => {
+              const { columns, deals } = draft
+
+              const newColumns = columns
+              newColumns[columnId].deals.filter((deal) => deal === dealId)
+
+              const newDeals = {}
+              Object.keys(deals).forEach((key) => {
+                if (key !== dealId)
+                  Object.assign(newDeals, {
+                    [key]: {
+                      id: deals[key].id,
+                      title: deals[key].title,
+                      successProbability: deals[key].successProbability,
+                      potentialDealValue: deals[key].potentialDealValue,
+                    },
+                  })
+              })
+
+              draft.columns = newColumns
+              draft.deals = newDeals
+
+              return draft
+            })
+          )
+        } catch {
+          /* empty */
+        }
+      },
     }),
   }),
 })
@@ -159,7 +343,9 @@ export const {
   useCreateDealBoardColumnMutation,
   useEditDealBoardColumnMutation,
   useDeleteDealBoardColumnMutation,
+  usePresistColumnOrderMutation,
   useCreateDealMutation,
+  useDeleteDealMutation,
   util: { getRunningQueriesThunk, invalidateTags },
 } = dealsBoardsApi
 

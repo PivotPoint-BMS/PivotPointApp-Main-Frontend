@@ -3,7 +3,7 @@ import { HYDRATE } from 'next-redux-wrapper'
 // config
 import { PIVOTPOINT_API } from 'config'
 // types
-import { ListGenericResponse, RequestParams } from 'types'
+import { IGenericResponse, ListGenericResponse, RequestParams } from 'types'
 // store
 import { RootState } from 'store'
 import { LeadSource } from 'types/Lead'
@@ -32,32 +32,40 @@ export const leadSourceApi = createApi({
   endpoints: (builder) => ({
     getLeadSources: builder.query<ListGenericResponse<LeadSource[]>, RequestParams>({
       query: () => 'LeadSources',
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.data.map(({ id }) => ({ type: 'LeadSources' as const, id })),
-              { type: 'LeadSources', id: 'LIST' },
-            ]
-          : [{ type: 'LeadSources', id: 'LIST' }],
     }),
     getAllLeadSources: builder.query<ListGenericResponse<LeadSource[]>, void>({
       query: () => 'LeadSources/All',
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.data.map(({ id }) => ({ type: 'AllLeadSources' as const, id })),
-              { type: 'AllLeadSources', id: 'LIST' },
-            ]
-          : [{ type: 'AllLeadSources', id: 'LIST' }],
     }),
-    createLeadSource: builder.mutation<string[], LeadSource>({
+    createLeadSource: builder.mutation<IGenericResponse<LeadSource>, LeadSource>({
       query: (data) => ({
         url: 'LeadSources',
         method: 'POST',
         body: data,
         responseHandler: 'content-type',
       }),
-      invalidatesTags: ['LeadSources'],
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const {
+            data: { data },
+          } = await queryFulfilled
+          dispatch(
+            leadSourceApi.util.updateQueryData(
+              'getLeadSources',
+              { PageNumber: 1, PageSize: 10 },
+              (draftedList) => {
+                draftedList.data.push(data)
+              }
+            )
+          )
+          dispatch(
+            leadSourceApi.util.updateQueryData('getAllLeadSources', undefined, (draftedList) => {
+              draftedList.data.push(data)
+            })
+          )
+        } catch {
+          /* empty */
+        }
+      },
     }),
     editLeadSource: builder.mutation<string[], { data: LeadSource; id: string }>({
       query: ({ data, id }) => ({
@@ -66,7 +74,34 @@ export const leadSourceApi = createApi({
         body: data,
         responseHandler: 'content-type',
       }),
-      invalidatesTags: ['LeadSources'],
+      async onQueryStarted({ id, ...patch }, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled
+
+          dispatch(
+            leadSourceApi.util.updateQueryData(
+              'getLeadSources',
+              { PageNumber: 1, PageSize: 10 },
+              (draftedList) => {
+                draftedList.data.map((source) => {
+                  if (source.id === id) return { ...source, ...patch }
+                  return source
+                })
+              }
+            )
+          )
+          dispatch(
+            leadSourceApi.util.updateQueryData('getAllLeadSources', undefined, (draftedList) => {
+              draftedList.data.map((source) => {
+                if (source.id === id) return { ...source, ...patch }
+                return source
+              })
+            })
+          )
+        } catch {
+          /* empty */
+        }
+      },
     }),
     deleteLeadSource: builder.mutation<string[], string>({
       query: (id) => ({
@@ -74,7 +109,29 @@ export const leadSourceApi = createApi({
         method: 'DELETE',
         responseHandler: 'content-type',
       }),
-      invalidatesTags: ['LeadSources'],
+      async onQueryStarted(id, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled
+          dispatch(
+            leadSourceApi.util.updateQueryData(
+              'getLeadSources',
+              { PageNumber: 1, PageSize: 10 },
+              (draftedList) => ({
+                ...draftedList,
+                data: draftedList.data.filter((source) => source.id !== id),
+              })
+            )
+          )
+          dispatch(
+            leadSourceApi.util.updateQueryData('getAllLeadSources', undefined, (draftedList) => ({
+              ...draftedList,
+              data: draftedList.data.filter((source) => source.id !== id),
+            }))
+          )
+        } catch {
+          /* empty */
+        }
+      },
     }),
     bulkDeleteLeadSources: builder.mutation<ListGenericResponse<unknown>, string[]>({
       query: (toDelete) => ({
@@ -83,7 +140,31 @@ export const leadSourceApi = createApi({
         method: 'DELETE',
         responseHandler: 'content-type',
       }),
-      invalidatesTags: ['LeadSources'],
+      async onQueryStarted(toDelete, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled
+          dispatch(
+            leadSourceApi.util.updateQueryData(
+              'getLeadSources',
+              { PageNumber: 1, PageSize: 10 },
+              (draftedList) => ({
+                ...draftedList,
+                data: draftedList.data.filter(
+                  (source) => source.id && !toDelete.includes(source.id)
+                ),
+              })
+            )
+          )
+          dispatch(
+            leadSourceApi.util.updateQueryData('getAllLeadSources', undefined, (draftedList) => ({
+              ...draftedList,
+              data: draftedList.data.filter((source) => source.id && !toDelete.includes(source.id)),
+            }))
+          )
+        } catch {
+          /* empty */
+        }
+      },
     }),
   }),
 })
