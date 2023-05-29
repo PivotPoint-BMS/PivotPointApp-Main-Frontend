@@ -366,6 +366,7 @@ export default function LeadSourcesList({
       <LeadSourceTableToolbar
         selectedCount={Object.keys(rowSelection).length}
         selectedIds={selectedIds}
+        setRowSelection={setRowSelection}
       />
       <Backdrop loading={isDeleteLeading} />
       <Dialog
