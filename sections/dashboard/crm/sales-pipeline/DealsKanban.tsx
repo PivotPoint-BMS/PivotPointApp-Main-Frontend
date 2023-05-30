@@ -55,6 +55,7 @@ import KanbanColumn from './KanbanColumn'
 import SortableItem from './SortableItem'
 import CreateEditColumnForm from './CreateEditColumnForm'
 import CreateEditBoardForm from './CreateEditBoardForm'
+import DealPreview from './DealPreview'
 
 export const EMPTY_BOARD: DealBoardProps = {
   columns: {},
@@ -442,17 +443,19 @@ const DealsKanban = ({
                       items={board.columns[columnId].deals}
                       strategy={verticalListSortingStrategy}
                     >
-                      {board.columns[columnId].deals.map((dealId, index) => (
-                        <SortableItem
-                          disabled={isSortingContainer}
-                          key={dealId}
-                          id={dealId}
-                          index={index}
-                          containerId={columnId}
-                          getIndex={getIndex}
-                          deal={board.deals[dealId]}
-                        />
-                      ))}
+                      {board.columns[columnId].deals.map((dealId, index) =>
+                        board.deals[dealId] ? (
+                          <SortableItem
+                            disabled={isSortingContainer}
+                            key={dealId}
+                            id={dealId}
+                            index={index}
+                            containerId={columnId}
+                            getIndex={getIndex}
+                            deal={board.deals[dealId]}
+                          />
+                        ) : null
+                      )}
                     </SortableContext>
                   </KanbanColumn>
                 ))}
@@ -529,6 +532,7 @@ const DealsKanban = ({
           }}
         />
       </Dialog>
+      <DealPreview boardId={boardId || ''} />
     </div>
   )
 }

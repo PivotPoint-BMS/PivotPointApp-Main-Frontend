@@ -80,7 +80,7 @@ export default function CreateEditDealForm({
     title: Yup.string().min(3, t('Too short')).required(t('This field is required')),
     type: Yup.number().required(t('This field is required')),
     tags: Yup.string().min(3, t('Too short')).required(t('This field is required')),
-    leadIds: Yup.array(),
+    leads: Yup.array(),
   })
 
   const defaultValues = useMemo(
@@ -89,7 +89,7 @@ export default function CreateEditDealForm({
       potentialDealValue: currentDeal?.potentialDealValue || '',
       type: currentDeal?.type || '',
       tags: currentDeal?.tags || '',
-      leadIds: currentDeal?.leadIds || [],
+      leads: currentDeal?.leads || [],
       columnId,
     }),
     [currentDeal]
@@ -103,11 +103,11 @@ export default function CreateEditDealForm({
   const { handleSubmit, reset, setValue } = methods
 
   const onSubmit = async (data: FieldValues) => {
-    const deal: Omit<Deal, 'id'> & { columnId: string; boardId: string } = {
+    const deal: Partial<Deal> & { columnId: string; boardId: string } = {
       description: data.description,
       columnId,
       boardId,
-      leadIds: data.leadIds,
+      leads: data.leads.map((item: { value: string; label: string }) => item.value),
       potentialDealValue: 0,
       successProbability: 0,
       tags: data.tags,
@@ -170,14 +170,14 @@ export default function CreateEditDealForm({
         </div>
         <div className='md:col-span-2'>
           {type && type.value === 1 && (
-            <AutoComplete name='leadIds' label={t('Leads')}>
+            <AutoComplete name='leads' label={t('Leads')}>
               <Select
                 options={leads}
                 isMulti
                 isLoading={isLoading}
                 onChange={(newValue) => {
                   setValue(
-                    'leadIds',
+                    'leads',
                     newValue?.map((id) => id)
                   )
                 }}
@@ -188,14 +188,14 @@ export default function CreateEditDealForm({
             </AutoComplete>
           )}
           {type && type.value === 2 && (
-            <AutoComplete name='leadIds' label={t('Contacts')}>
+            <AutoComplete name='leads' label={t('Contacts')}>
               <Select
                 options={contacts}
                 isMulti
                 isLoading={isLoading}
                 onChange={(newValue) => {
                   setValue(
-                    'leadIds',
+                    'leads',
                     newValue?.map((id) => id)
                   )
                 }}

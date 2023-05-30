@@ -136,7 +136,7 @@ export default function KanbanColumn({
       <Card
         variant='outlined-dashed'
         className={clsx(
-          'min-w-[300px] transition-all',
+          'w-80 transition-all',
           isOverContainer && 'bg-gray-100',
           isDraggingOverlay && 'scale-105 shadow-lg'
         )}
@@ -154,7 +154,7 @@ export default function KanbanColumn({
                 editColumn({ columnTitle: e.target.value, id: id.toString() })
                 setIsEditing(false)
               }}
-              className='rounded-md bg-transparent p-1 outline-2 outline-offset-0 outline-gray-400 hover:outline active:outline dark:outline-white'
+              className='w-full rounded-md bg-transparent py-1 outline-2 outline-offset-0 outline-black transition-all focus-within:px-1 hover:px-1 hover:outline active:outline dark:outline-white'
               ref={inputRef}
             />
           }
@@ -204,7 +204,6 @@ export default function KanbanColumn({
       </Card>
       <Dialog open={openDialog} title={t('Add New Deal')}>
         <CreateEditDealForm
-          // TODO: Edit Deal
           columnId={id.toString()}
           boardId={boardId}
           currentDeal={null}

@@ -1,12 +1,16 @@
 import { UniqueIdentifier } from '@dnd-kit/core'
 
 export default interface Deal {
-  id: UniqueIdentifier
-  title: string
+  id: string | UniqueIdentifier
+  assignedTo: string | null
+  createdBy: string
+  dealComments: []
   description: string
-  type: number
+  lastUpdatedBy: null
+  leads: string[]
   potentialDealValue: number
   successProbability: number
   tags: string
-  leadIds: string[]
+  title: string
+  type: number
 }

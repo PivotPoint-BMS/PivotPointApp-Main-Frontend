@@ -358,7 +358,7 @@ export default function LeadSourcesList({
             </>
           ) : (
             <div className='flex h-56 flex-col items-center justify-center gap-2 px-4 py-2'>
-              <h1 className='text-xl font-semibold'>{t('No Lead Found')}</h1>
+              <h1 className='text-xl font-semibold'>{t('No Lead Sources Found')}</h1>
             </div>
           )}
         </>

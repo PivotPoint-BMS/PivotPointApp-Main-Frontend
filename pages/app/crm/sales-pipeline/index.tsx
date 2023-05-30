@@ -44,7 +44,8 @@ function index() {
   }, [isError, isSuccess, isFetching, isLoading, data, boardId])
 
   useEffect(() => {
-    push(pathname, { query: { boardId } })
+    if ((boardId === null || boardId === '') && isSuccess && data.length > 0)
+      push(pathname, { query: { boardId: data[0].id } })
   }, [boardId])
 
   return (
