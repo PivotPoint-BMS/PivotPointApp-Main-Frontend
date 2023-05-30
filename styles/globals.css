@@ -296,13 +296,16 @@ html[class*='dark'] {
 }
 
 .react-select__multi-value {
-  @apply !rounded-md dark:border dark:!bg-paper-dark-contrast;
+  @apply items-center gap-1 !rounded-full px-1 dark:!bg-paper-dark-contrast;
 }
 .react-select__multi-value__label {
   @apply dark:!text-white;
 }
 .react-select__multi-value__remove {
-  @apply text-black/80 dark:text-white;
+  @apply flex h-4 w-4 items-center justify-center !rounded-full bg-gray-500 !p-0 text-black/80 text-white hover:!bg-gray-400 hover:!text-white;
+}
+.react-select__indicator.react-select__clear-indicator {
+  @apply cursor-pointer rounded-full p-1 hover:bg-gray-100 ltr:mr-1 rtl:ml-1 dark:text-white dark:hover:bg-gray-600;
 }
 
 /* React Flow */
