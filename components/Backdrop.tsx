@@ -1,4 +1,5 @@
 import React from 'react'
+import { motion } from 'framer-motion'
 
 interface BackdropProps extends React.HTMLAttributes<HTMLDivElement> {
   open?: boolean
@@ -8,7 +9,13 @@ interface BackdropProps extends React.HTMLAttributes<HTMLDivElement> {
 export default function Backdrop({ open, loading, children }: BackdropProps) {
   if (open)
     return (
-      <div className='pointer-events-auto fixed top-0 left-0 z-[99999] flex h-screen w-screen items-center justify-center bg-black/50 backdrop-blur-sm'>
+      <motion.div
+        initial={{ opacity: 0 }}
+        variants={{ open: { opacity: 1 }, close: { opacity: 0 } }}
+        animate={open ? 'open' : 'close'}
+        transition={{ duration: 0.1 }}
+        className='pointer-events-auto fixed top-0 left-0 z-[99999] flex h-screen w-screen items-center justify-center bg-gray-800/80 backdrop-blur-sm'
+      >
         {loading && (
           <svg
             aria-hidden='true'
@@ -28,7 +35,7 @@ export default function Backdrop({ open, loading, children }: BackdropProps) {
           </svg>
         )}
         {children}
-      </div>
+      </motion.div>
     )
   return null
 }

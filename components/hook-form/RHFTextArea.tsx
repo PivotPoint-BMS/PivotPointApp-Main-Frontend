@@ -18,6 +18,7 @@ export default function RHFTextArea({
   startAdornment,
   endAdornment,
   rows = 4,
+  disabled,
   ...other
 }: RHFTextAreaProps) {
   const { control } = useFormContext()
@@ -37,10 +38,12 @@ export default function RHFTextArea({
           <div
             className={clsx(
               'flex w-full items-center justify-center rounded-lg bg-transparent',
-              'outline outline-1 outline-gray-400 focus-within:outline-2 focus-within:outline-primary-600 hover:outline-primary-600',
-              'dark:outline-gray-300 dark:focus-within:outline-primary-300 dark:hover:outline-primary-300',
+              'border border-gray-400 outline-none focus-within:border-black hover:border-black',
+              'dark:border-gray-600 dark:focus-within:border-white dark:hover:border-white',
               error &&
-                '!outline-red-500 focus-within:outline-red-500 hover:outline-red-500 dark:outline-red-500'
+                '!border-red-500 focus-within:!border-black hover:!border-red-500 dark:border-red-500 dark:focus-within:!border-red-500',
+              disabled &&
+                '!border-none !bg-gray-200 !text-gray-500 dark:!bg-gray-600 dark:!text-gray-400 dark:hover:bg-gray-600'
             )}
           >
             {startAdornment && <span className='mx-2'>{startAdornment}</span>}

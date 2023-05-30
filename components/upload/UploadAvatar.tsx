@@ -2,7 +2,8 @@ import React from 'react'
 import isString from 'lodash/isString'
 import { DropzoneProps, useDropzone } from 'react-dropzone'
 import clsx from 'clsx'
-
+// hooks
+import useTranslate from 'hooks/useTranslate'
 // components
 import { Icon as Iconify } from '@iconify/react'
 import RejectionFiles from './RejectionFiles'
@@ -15,6 +16,7 @@ export interface UploadAvatarProps extends DropzoneProps {
 }
 
 export default function UploadAvatar({ error, file, helperText, ...other }: UploadAvatarProps) {
+  const { t } = useTranslate()
   const { getRootProps, getInputProps, isDragActive, isDragReject, fileRejections } = useDropzone({
     multiple: false,
     ...other,
@@ -47,13 +49,13 @@ export default function UploadAvatar({ error, file, helperText, ...other }: Uplo
           )}
           <div
             className={clsx(
-              'absolute flex h-full w-full flex-col items-center justify-center rounded-full text-gray-900 opacity-0  backdrop-blur-sm group-hover:z-10 group-hover:opacity-100 dark:text-gray-300 dark:hover:bg-gray-900/50',
+              'absolute flex h-full w-full flex-col items-center justify-center rounded-full bg-gray-600/30 text-white opacity-0 backdrop-blur-sm group-hover:z-10 group-hover:opacity-100 dark:text-gray-300 dark:hover:bg-gray-900/50',
               !file && 'bg-gray-400/30 opacity-100',
               (isDragReject || error) && 'bg-red-400/50'
             )}
           >
             <Iconify icon='ic:round-add-a-photo' height={24} width={24} className='mb-[1px]' />
-            <p>{file ? 'Update photo' : 'Upload photo'}</p>
+            <p>{file ? t('Change photo') : t('Upload photo')}</p>
           </div>
         </div>
       </div>

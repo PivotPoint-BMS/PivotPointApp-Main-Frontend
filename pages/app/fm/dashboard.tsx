@@ -25,7 +25,7 @@ function index() {
     if (isSuccess) setOpenQuickSetupAlert(false)
     else if (isError && error) {
       setOpenQuickSetupAlert(true)
-      setStartStep(String(error))
+      setStartStep(String(error) || '1')
     }
   }, [isLoading, isYearsLoading])
 

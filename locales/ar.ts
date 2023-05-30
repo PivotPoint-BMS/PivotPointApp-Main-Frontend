@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 const ar: { [key: string]: string } = {
   crm: 'علاقات العملاء',
   'Back Home': 'Back Home',
@@ -268,6 +269,10 @@ const ar: { [key: string]: string } = {
   'Lead Sources Deleted Successfully.': 'تم حذف مصادر العملاء بنجاح.',
   'This action cannot be undone. This will permanently delete this lead source.':
     'لا يمكن التراجع عن هذا الإجراء. سيتم حذف مصدر العميل هذا بشكل دائم.',
+  'This action cannot be undone. This will permanently delete these leads.':
+    'لا يمكن التراجع عن هذا الإجراء. سيؤدي هذا إلى حذف هؤلاء العملاء المتوقعين بشكل دائم.',
+  'This action cannot be undone. This will permanently delete these lead sources.':
+    'لا يمكن التراجع عن هذا الإجراء. سيؤدي هذا إلى حذف هذه المصادر بشكل دائم.',
   'Contact Details': 'تفاصيل الاتصال',
   'Contact Not Found': 'الاتصال غير موجود',
   'Sorry, The requested lead was not found.': 'عذرًا، لم يتم العثور على العميل المطلوب.',
@@ -433,5 +438,10 @@ const ar: { [key: string]: string } = {
   'Next page': 'الصفحة التالية',
   'Last page': 'الصفحة الأخيرة',
   Page: 'الصفحة',
+  'Select Source...': 'اختر المصدر ...',
+  'Select Country...': 'اختر الدولة...',
+  'Select City...': 'اختر مدينة...',
+  'Upload photo': 'حمل الصورة',
+  'Change photo': 'غير الصورة',
 }
 export default ar

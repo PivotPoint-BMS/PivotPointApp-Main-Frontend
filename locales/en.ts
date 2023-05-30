@@ -262,14 +262,16 @@ const en: { [key: string]: string } = {
   'Confirm Delete': 'Confirm Delete',
   'This action cannot be undone. This will permanently delete this lead.':
     'This action cannot be undone. This will permanently delete this lead.',
+  'This action cannot be undone. This will permanently delete these leads.':
+    'This action cannot be undone. This will permanently delete these leads.',
+  'This action cannot be undone. This will permanently delete these lead sources.':
+    'This action cannot be undone. This will permanently delete these lead sources.',
   Cancel: 'Cancel',
   'Yes, Delete': 'Yes, Delete',
   Source: 'Source',
   'Source Link': 'Source Link',
   'Lead Source Deleted Successfully.': 'Lead Source Deleted Successfully.',
   'Lead Sources Deleted Successfully.': 'Lead Sources Deleted Successfully.',
-  'This action cannot be undone. This will permanently delete this lead source.':
-    'This action cannot be undone. This will permanently delete this lead source.',
   'Contact Details': 'Contact Details',
   'Contact Not Found': 'Contact Not Found',
   'Sorry, The requested lead was not found.': 'Sorry, The requested lead was not found.',
@@ -362,7 +364,7 @@ const en: { [key: string]: string } = {
   'Last activity': 'Last activity',
   'Lead Info': 'Lead Info',
   'Back to Leads': 'Back to Leads',
-  'Create Deal': 'إنشاء صفقة',
+  'Create Deal': 'Create Deal',
   Account: 'Account',
   Notifications: 'Notifications',
   'Company Settings': 'Company Settings',
@@ -433,5 +435,10 @@ const en: { [key: string]: string } = {
   'Next page': 'Next page',
   'Last page': 'Last page',
   Page: 'Page',
+  'Select Source...': 'Select Source...',
+  'Select Country...': 'Select Country...',
+  'Select City...': 'Select City...',
+  'Upload photo': 'Upload photo',
+  'Change photo': 'Change photo',
 }
 export default en

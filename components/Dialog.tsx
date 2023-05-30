@@ -25,7 +25,7 @@ export default function Dialog({ open, description, title, children }: DialogPro
             'fixed z-[10000]',
             'max-h-screen w-[95vw] max-w-lg overflow-y-scroll rounded-lg p-4 md:w-full',
             'top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%]',
-            'bg-white dark:bg-gray-800',
+            'bg-white shadow-2xl shadow-white/40 dark:bg-gray-800 dark:shadow-black/40',
             'focus:outline-none focus-visible:ring focus-visible:ring-primary-500 focus-visible:ring-opacity-75'
           )}
         >

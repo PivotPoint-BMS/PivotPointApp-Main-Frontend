@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 // motion
 import { Variant, motion } from 'framer-motion'
 // api
@@ -13,6 +13,7 @@ import useSnackbar from 'hooks/useSnackbar'
 import { Icon as Iconify } from '@iconify/react'
 import Button from 'components/Button'
 import { RowSelectionState } from '@tanstack/react-table'
+import AlertDialog from 'components/AlertDialog'
 
 interface LeadTableToolbarProps {
   selectedCount: number
@@ -27,6 +28,7 @@ export default function LeadTableToolbar({
 }: LeadTableToolbarProps) {
   const { t } = useTranslate()
   const { open } = useSnackbar()
+  const [openBulkDeleteDialog, setOpenBulkDeleteDialog] = useState(false)
   const [bulkDeleteLead, { isLoading, isSuccess, isError }] = useBulkDeleteLeadMutation()
   const [convertToContact] = useConvertToContactMutation()
   const variants: { [key: string]: Variant } = {
@@ -37,6 +39,7 @@ export default function LeadTableToolbar({
   const handleBulkDelete = () => {
     bulkDeleteLead(selectedIds)
     setRowSelection({})
+    setOpenBulkDeleteDialog(false)
   }
 
   const handleConvertToContact = () => {
@@ -64,48 +67,64 @@ export default function LeadTableToolbar({
   }, [isError, isSuccess])
 
   return (
-    <motion.div
-      initial='closed'
-      animate={selectedCount > 0 ? 'opened' : 'closed'}
-      variants={variants}
-      transition={{ type: 'spring', duration: 0.6 }}
-      className='fixed bottom-10 left-1/2 z-50 h-fit max-w-full px-4'
-    >
-      <div className='overflow-x-scroll'>
-        <div className='flex h-full w-max flex-wrap items-center justify-center divide-x whitespace-pre-wrap rounded-lg border border-r bg-white py-1 px-4 drop-shadow-xl rtl:divide-x-reverse dark:divide-gray-600 dark:border-gray-600 dark:bg-paper-dark'>
-          <p className='font-medium ltr:mr-10 rtl:ml-10'>
-            {selectedCount} {t('Items Selected')}
-          </p>
-          <div className='flex items-center gap-2 px-1'>
-            <Button
-              variant='text'
-              intent='default'
-              startIcon={<Iconify icon='material-symbols:library-add-rounded' height={20} />}
-            >
-              {t('Create Deal')}
-            </Button>
-            <Button
-              variant='text'
-              intent='default'
-              startIcon={<Iconify icon='material-symbols:group-add-rounded' height={20} />}
-              onClick={handleConvertToContact}
-            >
-              {t('Convert to Contact')}
-            </Button>
-          </div>
-          <div className='px-1'>
-            <Button
-              variant='text'
-              intent='error'
-              startIcon={<Iconify icon='material-symbols:delete-rounded' height={20} />}
-              onClick={handleBulkDelete}
-              loading={isLoading}
-            >
-              {t('Delete')}
-            </Button>
+    <>
+      <motion.div
+        initial='closed'
+        animate={selectedCount > 0 ? 'opened' : 'closed'}
+        variants={variants}
+        transition={{ type: 'spring', duration: 0.6 }}
+        className='fixed bottom-10 left-1/2 z-50 h-fit max-w-full px-4'
+      >
+        <div className='overflow-x-scroll'>
+          <div className='flex h-full w-max flex-wrap items-center justify-center divide-x whitespace-pre-wrap rounded-lg border border-r bg-white py-1 px-4 drop-shadow-xl rtl:divide-x-reverse dark:divide-gray-600 dark:border-gray-600 dark:bg-paper-dark'>
+            <p className='font-medium ltr:mr-10 rtl:ml-10'>
+              {selectedCount} {t('Items Selected')}
+            </p>
+            <div className='flex items-center gap-2 px-1'>
+              <Button
+                variant='text'
+                intent='default'
+                startIcon={<Iconify icon='material-symbols:library-add-rounded' height={20} />}
+              >
+                {t('Create Deal')}
+              </Button>
+              <Button
+                variant='text'
+                intent='default'
+                startIcon={<Iconify icon='material-symbols:group-add-rounded' height={20} />}
+                onClick={handleConvertToContact}
+              >
+                {t('Convert to Contact')}
+              </Button>
+            </div>
+            <div className='px-1'>
+              <Button
+                variant='text'
+                intent='error'
+                startIcon={<Iconify icon='material-symbols:delete-rounded' height={20} />}
+                onClick={() => setOpenBulkDeleteDialog(true)}
+                loading={isLoading}
+              >
+                {t('Delete')}
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+      <AlertDialog
+        title={t('Confirm Delete')}
+        description={
+          <p className='py-1 text-sm text-red-500 dark:text-red-400'>
+            {t('This action cannot be undone. This will permanently delete these leads.')}
+          </p>
+        }
+        cancelText={t('Cancel')}
+        confirmText={t('Yes, Delete')}
+        onConfirm={handleBulkDelete}
+        open={openBulkDeleteDialog}
+        onClose={() => setOpenBulkDeleteDialog(false)}
+        buttonProps={{ intent: 'error' }}
+      />
+    </>
   )
 }

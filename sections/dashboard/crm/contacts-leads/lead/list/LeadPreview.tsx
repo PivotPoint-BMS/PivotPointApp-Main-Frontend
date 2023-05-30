@@ -47,7 +47,7 @@ export default function LeadPreview() {
   return (
     <div
       className={clsx(
-        'fixed top-0 right-0 z-50 flex h-screen w-screen bg-gray-600/50 backdrop-blur-sm transition-all dark:bg-gray-500/20',
+        'fixed top-0 right-0 z-50 flex h-screen w-screen bg-gray-800/80  backdrop-blur-sm transition-all dark:bg-gray-500/20',
         isOpen ? 'block' : 'hidden'
       )}
     >
@@ -58,7 +58,7 @@ export default function LeadPreview() {
         variants={variants}
         transition={{ type: 'keyframes' }}
       >
-        <div className='z-50 m-0 h-screen w-full bg-white py-4 transition-all delay-100 dark:border-gray-600 dark:bg-paper-dark sm:w-[650px]'>
+        <div className='z-50 m-0 h-screen w-full bg-white py-4 shadow-2xl shadow-white/80 transition-all delay-100 dark:border-gray-600 dark:bg-paper-dark sm:w-[650px]'>
           <div className='mb-6 flex w-full  items-center gap-4 border-b   px-4 pb-4'>
             <div className='flex flex-1 items-center gap-2'>
               <IconButton onClick={handleClose}>

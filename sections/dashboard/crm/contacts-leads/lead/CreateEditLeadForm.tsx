@@ -37,16 +37,8 @@ import useSnackbar from 'hooks/useSnackbar'
 // components
 import Select from 'react-select'
 import CreatableSelect from 'react-select/creatable'
-import {
-  Card,
-  CardContent,
-  Button,
-  LoadingIndicator,
-  AutoComplete,
-  Select as MySelect,
-  Slider,
-} from 'components'
-import { FormProvider, RHFTextField } from 'components/hook-form'
+import { Card, CardContent, Button, LoadingIndicator, Select as MySelect, Slider } from 'components'
+import { FormProvider, RHFTextField, RHFAutoComplete } from 'components/hook-form'
 import RHFUploadAvatar from 'components/hook-form/RHFUpload'
 
 export default function CreateEditLeadForm({
@@ -280,7 +272,7 @@ export default function CreateEditLeadForm({
             </div>
             <h6 className='mb-5 text-lg font-semibold'>{t('Source Informations')}</h6>
             <div className='mb-6'>
-              <AutoComplete name='LeadSourceId'>
+              <RHFAutoComplete name='LeadSourceId'>
                 <Select
                   options={sourcesList}
                   isLoading={isLoading}
@@ -291,12 +283,13 @@ export default function CreateEditLeadForm({
                   value={source}
                   className='react-select-container'
                   classNamePrefix='react-select'
+                  placeholder=''
                 />
-              </AutoComplete>
+              </RHFAutoComplete>
             </div>
             <h6 className='mb-5 text-lg font-semibold'>{t('Address Informations')}</h6>
             <div className='mb-6 grid grid-cols-1 gap-6 sm:grid-cols-2 '>
-              <AutoComplete label={t('Country')} name='country'>
+              <RHFAutoComplete label={t('Country')} name='country'>
                 <CreatableSelect
                   options={coutriesList}
                   isLoading={isCountriesLoading}
@@ -306,18 +299,12 @@ export default function CreateEditLeadForm({
                     refetch()
                   }}
                   value={country}
-                  // TODO: Add country api
-                  // onCreateOption={(value) =>
-                  //   setCoutriesList((prevState) => {
-                  //     prevState.push({ label: value, value })
-                  //     return prevState
-                  //   })
-                  // }
                   className='react-select-container'
                   classNamePrefix='react-select'
+                  placeholder=''
                 />
-              </AutoComplete>
-              <AutoComplete label={t('City')} name='city'>
+              </RHFAutoComplete>
+              <RHFAutoComplete label={t('City')} name='city'>
                 <CreatableSelect
                   options={citiesList}
                   isLoading={isCitiesLoading}
@@ -328,8 +315,9 @@ export default function CreateEditLeadForm({
                   value={city}
                   className='react-select-container'
                   classNamePrefix='react-select'
+                  placeholder=''
                 />
-              </AutoComplete>
+              </RHFAutoComplete>
             </div>
             <h6 className='mb-5 text-lg font-semibold'>{t('Finance Informations')}</h6>
             <div className='mb-6 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3'>
@@ -346,7 +334,7 @@ export default function CreateEditLeadForm({
                 />
               </div>
               <div className='flex flex-col gap-1 md:col-span-2'>
-                <label className='text-sm font-medium dark:text-white'>{t('income')}</label>
+                <label className='text-sm font-medium dark:text-white'>{t('Income')}</label>
                 <div className='flex items-center justify-between gap-2'>
                   <Slider
                     className='w-full'
@@ -358,7 +346,9 @@ export default function CreateEditLeadForm({
                     }}
                     value={[income]}
                   />
-                  <p className='rounded-md bg-gray-200 p-1 text-sm dark:bg-gray-600'>{income}</p>
+                  <p className='whitespace-nowrap rounded-md bg-gray-200 p-1 text-sm dark:bg-gray-600'>
+                    {income} {t('Da')}
+                  </p>
                 </div>
               </div>
             </div>

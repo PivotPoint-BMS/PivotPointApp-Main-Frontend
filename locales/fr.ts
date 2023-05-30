@@ -272,6 +272,10 @@ const fr: { [key: string]: string } = {
   'Lead Sources Deleted Successfully.': 'Sources de clients potentiel supprimée avec succès.',
   'This action cannot be undone. This will permanently delete this clients potentiel source.':
     'Cette action ne peut pas être annulée. Cela supprimera définitivement cette source de clients potentiel.',
+  'This action cannot be undone. This will permanently delete these leads.':
+    'Cette action ne peut pas être annulée. Cela supprimera définitivement ces clients potentiels.',
+  'This action cannot be undone. This will permanently delete these lead sources.':
+    'Cette action ne peut pas être annulée. Cela supprimera définitivement ces sources des clients potentiel.',
   'Contact Details': 'Détails du contact',
   'Contact Not Found': 'Contact introuvable',
   'Sorry, The requested clients potentiel was not found.':
@@ -439,5 +443,10 @@ const fr: { [key: string]: string } = {
   'Next page': 'Page suivante',
   'Last page': 'Dernière page',
   Page: 'Page',
+  'Select Source...': 'Sélectionner la source...',
+  'Select Country...': 'Sélectionner le pays...',
+  'Select City...': 'Sélectionner la ville...',
+  'Upload photo': 'Charger une photo',
+  'Change photo': 'Changer la photo',
 }
 export default fr

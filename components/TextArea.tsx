@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes } from 'react'
+import React, { InputHTMLAttributes, forwardRef } from 'react'
 import clsx from 'clsx'
 
 interface TextAreaProps extends InputHTMLAttributes<HTMLTextAreaElement> {
@@ -11,18 +11,21 @@ interface TextAreaProps extends InputHTMLAttributes<HTMLTextAreaElement> {
     message: string
     type: string
   }
+  inputClassName: string
 }
 
-export default function TextArea({
-  label,
-  name,
-  rows = 4,
-  startAdornment,
-  endAdornment,
-  error,
-  ...other
-}: TextAreaProps) {
-  return (
+const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
+  ({
+    label,
+    name,
+    rows = 4,
+    startAdornment,
+    endAdornment,
+    error,
+    disabled,
+    inputClassName,
+    ...other
+  }) => (
     <div className='group flex w-full flex-col gap-1'>
       <label
         htmlFor={name}
@@ -33,23 +36,28 @@ export default function TextArea({
       <div
         className={clsx(
           'flex w-full items-center justify-center rounded-lg bg-transparent',
-          'outline outline-1 outline-gray-400 focus-within:outline-2 focus-within:outline-primary-600 hover:outline-primary-600',
-          'dark:outline-gray-300 dark:focus-within:outline-primary-300 dark:hover:outline-primary-300',
+          'border border-gray-400 outline-none focus-within:border-black hover:border-black',
+          'dark:border-gray-600 dark:focus-within:border-white dark:hover:border-white',
           error &&
-            '!outline-red-500 focus-within:outline-red-500 hover:outline-red-500 dark:outline-red-500'
+            '!border-red-500 focus-within:!border-black hover:!border-red-500 dark:border-red-500 dark:focus-within:!border-red-500',
+          disabled &&
+            '!border-none !bg-gray-200 !text-gray-500 dark:!bg-gray-600 dark:!text-gray-400 dark:hover:bg-gray-600'
         )}
       >
         {startAdornment && <span className='mx-2'>{startAdornment}</span>}
         <textarea
-          rows={rows}
           {...other}
+          rows={rows}
           id={name}
           name={name}
-          className='flex-1 rounded-lg bg-transparent p-2 outline-none'
+          disabled={disabled}
+          className={clsx('flex-1 rounded-lg bg-transparent p-2 outline-none', inputClassName)}
         />
         {endAdornment && <span className='mx-2'>{endAdornment}</span>}
       </div>
       {error?.message && <span className='text-xs text-red-500'>{error?.message}</span>}
     </div>
   )
-}
+)
+
+export default TextArea

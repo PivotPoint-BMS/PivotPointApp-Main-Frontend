@@ -60,7 +60,7 @@ export default function TextField({
           'group',
           'flex w-full items-center justify-center rounded-lg bg-transparent',
           'border border-gray-400 outline-none focus-within:border-black hover:border-black',
-          'dark:border-gray-500 dark:focus-within:border-white dark:hover:border-white',
+          'dark:border-gray-600 dark:focus-within:border-white dark:hover:border-white',
           error &&
             '!border-red-500 focus-within:!border-black hover:!border-current dark:border-red-500',
           disabled &&
