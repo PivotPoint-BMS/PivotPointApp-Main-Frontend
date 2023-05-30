@@ -78,6 +78,11 @@ module.exports = {
           '0%': { opacity: 1 },
           '100%': { opacity: 0 },
         },
+        'fade-out-to-hidden': {
+          '0%': { opacity: 1 },
+          '50%': { opacity: 0.5 },
+          '100%': { display: 'none' },
+        },
         // Toast
         'toast-hide': {
           '0%': { opacity: 1 },
@@ -123,6 +128,7 @@ module.exports = {
         'scale-out-content': 'scale-out-content 0.2s ease',
         'fade-in': 'fade-in 0.2s ease',
         'fade-out': 'fade-out 0.2s ease',
+        'fade-out-to-hidden': 'fade-out-to-hidden 0.2s ease',
         // Toast
         'toast-hide': 'toast-hide 100ms ease-in forwards',
         'toast-slide-in-right': 'toast-slide-in-right 150ms cubic-bezier(0.16, 1, 0.3, 1)',
@@ -134,7 +140,7 @@ module.exports = {
         'navbar-main': '88px',
       },
       fontFamily: {
-        sans: ['Poppins', 'Noto Sans Arabic', 'sans-serif'],
+        sans: ['Public Sans', 'Noto Sans Arabic', 'sans-serif'],
       },
       colors: {
         'rich-black': '#161c24',
