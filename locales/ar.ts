@@ -443,5 +443,16 @@ const ar: { [key: string]: string } = {
   'Select City...': 'اختر مدينة...',
   'Upload photo': 'حمل الصورة',
   'Change photo': 'غير الصورة',
+  'Potential Deal Value': 'قيمة الصفقة المحتملة',
+  'Success Probability': 'احتمالية النجاح',
+  'Deal Preview': 'معاينة الصفقة',
+  'Created At': 'تم الإنشاء في',
+  'Created By': 'تم الإنشاء بواسطة',
+  'Last Update By': 'آخر تحديث بواسطة',
+  Assignee: 'الشخص المعين للصفقة',
+  'No Assignee': 'لا يوجد الشخص المعين للصفقة',
+  'Type a comment': 'اكتب تعليقًا',
+  Comment: 'تعليق',
+  'Deal Updated Successfully.': 'تم تحديث الصفقة بنجاح.',
 }
 export default ar

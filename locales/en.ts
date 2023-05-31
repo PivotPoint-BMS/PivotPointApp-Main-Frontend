@@ -440,5 +440,16 @@ const en: { [key: string]: string } = {
   'Select City...': 'Select City...',
   'Upload photo': 'Upload photo',
   'Change photo': 'Change photo',
+  'Potential Deal Value': 'Potential Deal Value',
+  'Success Probability': 'Success Probability',
+  'Deal Preview': 'Deal Preview',
+  'Created At': 'Created At',
+  'Created By': 'Created By',
+  'Last Update By': 'Last Update By',
+  Assignee: 'Assignee',
+  'No Assignee': 'No Assignee',
+  'Type a comment': 'Type a comment',
+  Comment: 'Comment',
+  'Deal Updated Successfully.': 'Deal Updated Successfully.',
 }
 export default en

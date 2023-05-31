@@ -448,5 +448,16 @@ const fr: { [key: string]: string } = {
   'Select City...': 'Sélectionner la ville...',
   'Upload photo': 'Charger une photo',
   'Change photo': 'Changer la photo',
+  'Potential Deal Value': "Valeur potentielle de l'affaire",
+  'Success Probability': 'Probabilité de réussite',
+  'Deal Preview': "Aperçu de l'affaire",
+  'Created At': 'Créé le',
+  'Created By': 'Créé par',
+  'Last Update By': 'Dernière mise à jour par',
+  Assignee: 'Assigné à',
+  'No Assignee': 'Aucun assigné',
+  'Type a comment': 'Tapez un commentaire',
+  Comment: 'Commentaire',
+  'Deal Updated Successfully.': 'Affaire mise à jour avec succès.',
 }
 export default fr
