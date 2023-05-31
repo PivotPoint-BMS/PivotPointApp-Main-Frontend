@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import clsx from 'clsx'
 // motion
 import { Variant, motion } from 'framer-motion'
@@ -30,20 +30,20 @@ import Tooltip from 'components/Tooltip'
 import AlertDialog from 'components/AlertDialog'
 import { Deal, Lead } from 'types'
 import moment from 'moment'
+import TextField from 'components/TextField'
 
 export default function DealPreview({ boardId }: { boardId: string }) {
   const { t, locale } = useTranslate()
   const { open } = useSnackbar()
   const dispatch = useAppDispatch()
 
-  const inputRef = useRef<HTMLInputElement>(null)
-
   const [opened, setOpened] = useState(false)
   const [backdropOpen, setBackdropOpen] = useState(false)
-  const [isEditing, setIsEditing] = useState(false)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [type, setType] = useState(0)
+  const [potentialDealValue, setPotentialDealValue] = useState<string | number>('')
+  const [successProbability, setSuccessProbability] = useState<string | number>('')
   const [dealLeads, setDealLeads] = useState<Deal['leads']>([])
   const { isOpen, dealId } = useAppSelector((state) => state.dealPreview)
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
@@ -98,6 +98,8 @@ export default function DealPreview({ boardId }: { boardId: string }) {
       setDescription(data.data.description)
       setType(data.data.type)
       setDealLeads(data.data.leads)
+      setPotentialDealValue(data.data.potentialDealValue)
+      setSuccessProbability(data.data.successProbability)
     }
   }, [isLoading, data])
 
@@ -150,10 +152,6 @@ export default function DealPreview({ boardId }: { boardId: string }) {
       setOpenDeleteDialog(false)
     }
   }, [isDeleteError, isDeleteSuccess])
-
-  useEffect(() => {
-    if (isEditing) inputRef.current?.focus()
-  }, [isEditing])
 
   return (
     <>
@@ -208,7 +206,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                       onChange={(e) => setTitle(e.target.value)}
                       onBlur={(e) => {
                         if (e.target.value === '' || e.target.value === data.data.title) {
-                          setIsEditing(false)
+                          setTitle(data.data.title)
                           return
                         }
                         editDeal({
@@ -217,18 +215,16 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                           leadIds: data.data.leads.map((lead) => lead.id),
                           title: e.target.value,
                         })
-                        setIsEditing(false)
                       }}
                       className='rounded-md bg-transparent py-1 text-lg outline-2 outline-offset-0 outline-black transition-all focus-within:px-1 hover:px-1 hover:outline active:outline dark:outline-white'
-                      ref={inputRef}
                     />
-                    <div className='flex items-start gap-2'>
+                    <div className='flex items-center gap-2'>
                       <p className='w-36 text-sm text-gray-500 dark:text-gray-400'>
                         {t('Created By')}
                       </p>
                       <p>{data.data.createdBy}</p>
                     </div>
-                    <div className='flex items-start gap-2'>
+                    <div className='flex items-center gap-2'>
                       <p className='w-36 text-sm text-gray-500 dark:text-gray-400'>
                         {t('Created At')}
                       </p>
@@ -238,19 +234,87 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                           .format('ddd DD MMMM YYYY, HH:mm')}
                       </p>
                     </div>
-                    <div className='flex items-start gap-2'>
-                      <p className='w-36 text-sm text-gray-500 dark:text-gray-400'>
-                        {t('Last Update By')}
-                      </p>
-                      <p>{data.data.lastUpdatedBy}</p>
-                    </div>
-                    <div className='flex items-start gap-2'>
+                    {data.data.lastUpdatedBy && (
+                      <div className='flex items-center gap-2'>
+                        <p className='w-36 text-sm text-gray-500 dark:text-gray-400'>
+                          {t('Last Update By')}
+                        </p>
+                        <p>{data.data.lastUpdatedBy}</p>
+                      </div>
+                    )}
+                    <div className='flex items-center gap-2'>
                       <p className='w-36 text-sm text-gray-500 dark:text-gray-400'>
                         {t('Assignee')}
                       </p>
                       <p>{data.data.assignedTo || t('No Assignee')}</p>
                     </div>
-                    <div className='flex items-start gap-2'>
+                    <div className='flex items-center gap-2'>
+                      <p className='w-36 text-sm text-gray-500 dark:text-gray-400'>
+                        {t('Potential Deal Value')}
+                      </p>
+                      <div className='flex-1'>
+                        <TextField
+                          type='number'
+                          defaultValue={data.data.potentialDealValue}
+                          value={potentialDealValue}
+                          onChange={(e) =>
+                            setPotentialDealValue(
+                              Number(e.target.value !== '' ? e.target.value : 0)
+                            )
+                          }
+                          onBlur={(e) => {
+                            if (
+                              e.target.value === '' ||
+                              e.target.value === data.data.potentialDealValue.toString()
+                            ) {
+                              return
+                            }
+                            editDeal({
+                              ...data.data,
+                              boardId,
+                              leadIds: data.data.leads.map((lead) => lead.id),
+                              potentialDealValue: Number(
+                                e.target.value !== '' ? e.target.value : 0
+                              ),
+                            })
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <div className='flex items-center gap-2'>
+                      <p className='w-36 text-sm text-gray-500 dark:text-gray-400'>
+                        {t('Success Probability')}
+                      </p>
+                      <div className='flex-1'>
+                        <TextField
+                          type='number'
+                          defaultValue={data.data.successProbability}
+                          value={successProbability}
+                          onChange={(e) =>
+                            setSuccessProbability(
+                              Number(e.target.value !== '' ? e.target.value : 0)
+                            )
+                          }
+                          onBlur={(e) => {
+                            if (
+                              e.target.value === '' ||
+                              e.target.value === data.data.successProbability.toString()
+                            ) {
+                              return
+                            }
+                            editDeal({
+                              ...data.data,
+                              boardId,
+                              leadIds: data.data.leads.map((lead) => lead.id),
+                              successProbability: Number(
+                                e.target.value !== '' ? e.target.value : 0
+                              ),
+                            })
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <div className='flex items-center gap-2'>
                       <p className='w-36 text-sm text-gray-500 dark:text-gray-400'>{t('Type')}</p>
                       <div className='flex items-center gap-2'>
                         {DEALTYPES.map((item) => (
@@ -280,92 +344,90 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                         ))}
                       </div>
                     </div>
-                    <div className='flex items-start gap-2'>
-                      {type === 1 && (
-                        <>
-                          <p className='w-36 text-sm text-gray-500 dark:text-gray-400'>
-                            {t('Leads')}
-                          </p>
-                          <div className='flex-1'>
-                            <AutoComplete name='leadIds'>
-                              <Select
-                                options={leads}
-                                isMulti
-                                isLoading={isLeadLoading}
-                                getOptionLabel={(option) => option.fullName}
-                                getOptionValue={(option) => option.id}
-                                onChange={(newValue) => {
-                                  setDealLeads(
-                                    newValue.map((item) => ({
-                                      fullName: item.fullName,
-                                      id: item.id,
-                                      imageFile: item.picture,
-                                    }))
-                                  )
-                                  editDeal({
-                                    ...data.data,
-                                    boardId,
-                                    leadIds: newValue.map((item) => item.id),
-                                    leads: newValue.map((item) => ({
-                                      fullName: item.fullName,
-                                      id: item.id,
-                                      imageFile: item.picture,
-                                    })),
-                                  })
-                                }}
-                                value={leads.filter((item) =>
-                                  dealLeads.find((lead) => lead.id === item.id)
-                                )}
-                                placeholder={t('Select leads')}
-                                className='react-select-container'
-                                classNamePrefix='react-select'
-                              />
-                            </AutoComplete>
-                          </div>
-                        </>
-                      )}
-                      {type === 2 && (
-                        <>
-                          <p className='w-36 text-sm text-gray-500 dark:text-gray-400'>
-                            {t('Contacts')}
-                          </p>
-                          <div className='flex-1'>
-                            <AutoComplete name='leadIds'>
-                              <Select
-                                options={contacts}
-                                isMulti
-                                isLoading={isContactsLoading}
-                                onChange={(newValue) => {
-                                  setDealLeads(
-                                    newValue.map((item) => ({
-                                      fullName: item.fullName,
-                                      id: item.id,
-                                      imageFile: item.picture,
-                                    }))
-                                  )
-                                  editDeal({
-                                    ...data.data,
-                                    boardId,
-                                    leadIds: newValue.map((item) => item.id),
-                                    leads: newValue.map((item) => ({
-                                      fullName: item.fullName,
-                                      id: item.id,
-                                      imageFile: item.picture,
-                                    })),
-                                  })
-                                }}
-                                value={contacts.filter((item) =>
-                                  dealLeads.find((contact) => contact.id === item.id)
-                                )}
-                                placeholder={t('Select contacts')}
-                                className='react-select-container'
-                                classNamePrefix='react-select'
-                              />
-                            </AutoComplete>
-                          </div>
-                        </>
-                      )}
-                    </div>
+                    {type === 1 && (
+                      <div className='flex items-center gap-2'>
+                        <p className='w-36 text-sm text-gray-500 dark:text-gray-400'>
+                          {t('Leads')}
+                        </p>
+                        <div className='flex-1'>
+                          <AutoComplete name='leadIds'>
+                            <Select
+                              options={leads}
+                              isMulti
+                              isLoading={isLeadLoading}
+                              getOptionLabel={(option) => option.fullName}
+                              getOptionValue={(option) => option.id}
+                              onChange={(newValue) => {
+                                setDealLeads(
+                                  newValue.map((item) => ({
+                                    fullName: item.fullName,
+                                    id: item.id,
+                                    imageFile: item.picture,
+                                  }))
+                                )
+                                editDeal({
+                                  ...data.data,
+                                  boardId,
+                                  leadIds: newValue.map((item) => item.id),
+                                  leads: newValue.map((item) => ({
+                                    fullName: item.fullName,
+                                    id: item.id,
+                                    imageFile: item.picture,
+                                  })),
+                                })
+                              }}
+                              value={leads.filter((item) =>
+                                dealLeads.find((lead) => lead.id === item.id)
+                              )}
+                              placeholder=''
+                              className='react-select-container'
+                              classNamePrefix='react-select'
+                            />
+                          </AutoComplete>
+                        </div>
+                      </div>
+                    )}
+                    {type === 2 && (
+                      <div className='flex items-center gap-2'>
+                        <p className='w-36 text-sm text-gray-500 dark:text-gray-400'>
+                          {t('Contacts')}
+                        </p>
+                        <div className='flex-1'>
+                          <AutoComplete name='leadIds'>
+                            <Select
+                              options={contacts}
+                              isMulti
+                              isLoading={isContactsLoading}
+                              onChange={(newValue) => {
+                                setDealLeads(
+                                  newValue.map((item) => ({
+                                    fullName: item.fullName,
+                                    id: item.id,
+                                    imageFile: item.picture,
+                                  }))
+                                )
+                                editDeal({
+                                  ...data.data,
+                                  boardId,
+                                  leadIds: newValue.map((item) => item.id),
+                                  leads: newValue.map((item) => ({
+                                    fullName: item.fullName,
+                                    id: item.id,
+                                    imageFile: item.picture,
+                                  })),
+                                })
+                              }}
+                              value={contacts.filter((item) =>
+                                dealLeads.find((contact) => contact.id === item.id)
+                              )}
+                              placeholder=''
+                              className='react-select-container'
+                              classNamePrefix='react-select'
+                            />
+                          </AutoComplete>
+                        </div>
+                      </div>
+                    )}
 
                     <div className='flex items-start gap-2'>
                       <p className='w-36 text-sm text-gray-500 dark:text-gray-400'>
@@ -381,7 +443,6 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                               (e.target.value !== '' && e.target.value.trim() === '') ||
                               e.target.value === data.data.title
                             ) {
-                              setIsEditing(false)
                               e.target.value = data.data.description
                               return
                             }
@@ -391,7 +452,6 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                               leadIds: data.data.leads.map((lead) => lead.id),
                               description: e.target.value.trim(),
                             })
-                            setIsEditing(false)
                           }}
                           rows={description.split('\n').length || 1}
                           className='h-auto rounded-md bg-transparent py-1 transition-all focus-within:px-1 hover:px-1'

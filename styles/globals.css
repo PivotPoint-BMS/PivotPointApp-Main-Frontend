@@ -16,6 +16,19 @@ body {
   @apply h-full w-full;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+/* Chart */
+
 .apexcharts-canvas .apexcharts-xaxistooltip {
   @apply rounded-lg border-0 bg-gray-50/10 text-primary-600 shadow-md !backdrop-blur before:border-b-transparent after:border-b-white/10 dark:after:border-b-dark/10;
 }
@@ -45,29 +58,6 @@ body {
 .apexcharts-canvas .apexcharts-text.apexcharts-xaxis-label,
 .apexcharts-canvas .apexcharts-text.apexcharts-yaxis-label {
   @apply !fill-rich-black dark:!fill-gray-300;
-}
-
-.rdt_Table {
-  @apply dark:!bg-paper-dark;
-}
-
-.rdt_Table .rdt_TableHead {
-  @apply bg-gray-100 text-right dark:!bg-paper-dark-contrast dark:text-white;
-}
-
-.rdt_Table .rdt_TableHeadRow {
-  @apply border-none  bg-transparent  text-sm dark:!bg-paper-dark-contrast;
-}
-
-.rdt_Table .rdt_TableRow {
-  @apply !border-b-0 bg-transparent text-rich-black hover:border-0 hover:bg-gray-100 hover:outline-none dark:text-white dark:hover:bg-paper-hover-dark;
-}
-.rdt_Pagination {
-  @apply dark:bg-paper-dark  dark:text-white;
-}
-
-.rdt_Pagination button:disabled {
-  @apply dark:!fill-gray-500;
 }
 
 /* scrollbar */

@@ -81,12 +81,13 @@ export default function CreateDealForm({
 
   const defaultValues = {
     title: '',
-    potentialDealValue: '',
     type: '',
     tags: '',
     leadIds: [],
     leads: [],
     columnId,
+    potentialDealValue: '',
+    successProbability: '',
   }
 
   const methods = useForm<FieldValues>({
@@ -102,8 +103,8 @@ export default function CreateDealForm({
       columnId,
       boardId,
       leadIds: data.leads.map((item: { value: string; label: string }) => item.value),
-      potentialDealValue: 0,
-      successProbability: 0,
+      potentialDealValue: data.potentialDealValue !== '' ? data.potentialDealValue : 0,
+      successProbability: data.successProbability !== '' ? data.successProbability : 0,
       tags: data.tags,
       title: data.title,
       type: data.type,
@@ -139,7 +140,7 @@ export default function CreateDealForm({
         <RHFTextField name='title' label={t('Title')} />
         <AutoComplete name='type' label={t('Type')}>
           <Select
-            options={DEALTYPES.map((item) => ({ value: item.value, label: item.label }))}
+            options={DEALTYPES.map((item) => ({ value: item.value, label: t(item.label) }))}
             isLoading={isLoading}
             onChange={(newValue) => {
               setValue('type', newValue?.value)
@@ -149,8 +150,21 @@ export default function CreateDealForm({
             isSearchable={false}
             className='react-select-container'
             classNamePrefix='react-select'
+            placeholder=''
           />
         </AutoComplete>
+        <RHFTextField
+          type='number'
+          name='potentialDealValue'
+          label={t('Potential Deal Value')}
+          endAdornment={t('Da')}
+        />
+        <RHFTextField
+          type='number'
+          name='successProbability'
+          label={t('Success Probability')}
+          endAdornment={t('%')}
+        />
         <div className='md:col-span-2'>
           <RHFTextField name='tags' label={t('Tags (Comma Separated)')} />{' '}
         </div>
@@ -170,7 +184,7 @@ export default function CreateDealForm({
                     newValue?.map((id) => id)
                   )
                 }}
-                placeholder={t('Select leads')}
+                placeholder=''
                 className='react-select-container'
                 classNamePrefix='react-select'
               />
@@ -188,7 +202,7 @@ export default function CreateDealForm({
                     newValue?.map((id) => id)
                   )
                 }}
-                placeholder={t('Select contacts')}
+                placeholder=''
                 className='react-select-container'
                 classNamePrefix='react-select'
               />
