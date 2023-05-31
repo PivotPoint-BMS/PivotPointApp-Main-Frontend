@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react'
+import moment from 'moment'
+import 'moment/min/locales'
 // next
 import Head from 'next/head'
 import type { AppProps } from 'next/app'
@@ -38,6 +40,7 @@ function MyApp({
   const { store, props } = wrapper.useWrappedStore(rest)
   const { pageProps } = props
   useEffect(() => {
+    moment.locale(locale === 'ar' ? 'ar-dz' : locale)
     const body = document.querySelector('body')
     if (body)
       if (locale === 'ar') {
