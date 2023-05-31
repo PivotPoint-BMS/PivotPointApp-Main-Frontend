@@ -74,7 +74,7 @@ function index() {
             value={tab}
             onValueChange={(value) => setTab(value)}
           >
-            <TabsPrimitive.List className='flex w-full items-center gap-8 bg-gray-100 px-4  dark:bg-gray-900'>
+            <TabsPrimitive.List className='flex w-full items-center gap-8 overflow-x-scroll bg-gray-100 px-4 dark:bg-gray-900'>
               {TABS.map((item, i) => (
                 <TabsPrimitive.Trigger
                   key={i}
