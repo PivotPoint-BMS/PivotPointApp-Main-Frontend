@@ -24,7 +24,7 @@ import {
 } from 'components'
 import { Icon as Iconify } from '@iconify/react'
 import { AnimateLayoutChanges, defaultAnimateLayoutChanges, useSortable } from '@dnd-kit/sortable'
-import CreateEditDealForm from './CreateEditDealForm'
+import CreateDealForm from './CreateDealForm'
 
 interface KanbanColumnProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'id'> {
   id: UniqueIdentifier
@@ -203,10 +203,9 @@ export default function KanbanColumn({
         </CardContent>
       </Card>
       <Dialog open={openDialog} title={t('Add New Deal')}>
-        <CreateEditDealForm
+        <CreateDealForm
           columnId={id.toString()}
           boardId={boardId}
-          currentDeal={null}
           isEdit={false}
           onSuccess={() => {
             setOpenDialog(false)

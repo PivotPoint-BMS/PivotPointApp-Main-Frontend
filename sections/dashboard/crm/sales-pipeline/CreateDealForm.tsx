@@ -19,7 +19,7 @@ import useSnackbar from 'hooks/useSnackbar'
 import RHFTextArea from 'components/hook-form/RHFTextArea'
 import { useGetContactsQuery, useGetLeadsQuery } from 'store/api/crm/contact-leads/leadApis'
 
-export default function CreateEditDealForm({
+export default function CreateDealForm({
   columnId,
   boardId,
   isEdit,
