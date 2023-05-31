@@ -25,7 +25,6 @@ export interface Props {
   fadeIn?: boolean
   transform?: Transform | null
   listeners?: DraggableSyntheticListeners
-  sorting?: boolean
   transition?: string | null
   deal: Deal
   onRemove?(): void

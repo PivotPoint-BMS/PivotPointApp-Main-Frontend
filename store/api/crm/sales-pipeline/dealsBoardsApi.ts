@@ -330,9 +330,56 @@ export const dealsBoardsApi = createApi({
               const { deals } = draft
 
               const newDeals = deals
-              Object.assign(newDeals, { [id]: { ...newDeals[id], ...data } })
+              Object.assign(newDeals, { [id]: { ...deals[id], ...data } })
 
               draft.deals = newDeals
+
+              return draft
+            })
+          )
+        } catch {
+          /* empty */
+        }
+      },
+    }),
+
+    changeDealsColums: builder.mutation<
+      IGenericResponse<boolean>,
+      { id: string; columnId: string; boardId: string }
+    >({
+      query: ({ id, ...data }) => ({
+        url: `Deals/Column/${id}`,
+        method: 'PUT',
+        body: data,
+        responseHandler: 'content-type',
+      }),
+      async onQueryStarted({ boardId, id, columnId }, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled
+
+          dispatch(
+            dealsBoardsApi.util.updateQueryData('getDealBoard', boardId, (draft) => {
+              const { columns } = draft
+
+              const newColumns = columns
+
+              let oldColumnId = ''
+
+              Object.keys(columns).forEach((column) => {
+                if (columns[column].deals.includes(id)) oldColumnId = columns[column].id.toString()
+              })
+
+              Object.assign(newColumns, {
+                [oldColumnId]: {
+                  ...newColumns[oldColumnId],
+                  deals: [...newColumns[oldColumnId].deals.filter((dealId) => dealId !== id)],
+                },
+              })
+              Object.assign(newColumns, {
+                [columnId]: { ...newColumns[columnId], deals: [...newColumns[columnId].deals, id] },
+              })
+
+              draft.columns = newColumns
 
               return draft
             })
@@ -406,6 +453,7 @@ export const {
   usePresistColumnOrderMutation,
   useCreateDealMutation,
   useEditDealMutation,
+  useChangeDealsColumsMutation,
   useDeleteDealMutation,
   util: { getRunningQueriesThunk, invalidateTags },
 } = dealsBoardsApi

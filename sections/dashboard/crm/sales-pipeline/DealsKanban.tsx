@@ -35,6 +35,7 @@ import {
 import {
   getDealBoard,
   getRunningQueriesThunk,
+  useChangeDealsColumsMutation,
   useDeleteDealBoardMutation,
   useGetDealBoardQuery,
   usePresistColumnOrderMutation,
@@ -110,6 +111,7 @@ const DealsKanban = ({
     { isError: isDeleteError, isLoading: isDeleteLoading, isSuccess: isDeleteSuccess },
   ] = useDeleteDealBoardMutation()
   const [presistColumnOrder, { isError: isPresistError }] = usePresistColumnOrderMutation()
+  const [changeDealColumn, { isError: isDealEditError }] = useChangeDealsColumsMutation()
 
   const recentlyMovedToNewContainer = useRef(false)
   const isSortingContainer = activeId ? board.columnsOrder.includes(activeId) : false
@@ -290,42 +292,46 @@ const DealsKanban = ({
           columnsOrder: arrayMove(columnsOrder, activeIndex, overIndex),
         }
       })
-    }
+    } else {
+      const activeContainer = findContainer(active.id)
 
-    const activeContainer = findContainer(active.id)
-
-    if (!activeContainer) {
-      setActiveId(null)
-      return
-    }
-
-    const overId = over?.id
-
-    if (overId == null) {
-      setActiveId(null)
-      return
-    }
-
-    const overContainer = findContainer(overId)
-
-    if (overContainer) {
-      const activeIndex = board.columns[activeContainer].deals.indexOf(active.id)
-      const overIndex = board.columns[overContainer].deals.indexOf(overId)
-
-      if (activeIndex !== overIndex) {
-        setBoard(({ columns, ..._board }) => ({
-          ..._board,
-          columns: {
-            ...columns,
-            [overContainer]: {
-              ...columns[overContainer],
-              deals: arrayMove(board.columns[overContainer].deals, activeIndex, overIndex),
-            },
-          },
-        }))
+      if (!activeContainer) {
+        setActiveId(null)
+        return
       }
-    }
 
+      const overId = over?.id
+
+      if (overId == null) {
+        setActiveId(null)
+        return
+      }
+
+      const overContainer = findContainer(overId)
+
+      if (overContainer) {
+        const activeIndex = board.columns[activeContainer].deals.indexOf(active.id)
+        const overIndex = board.columns[overContainer].deals.indexOf(overId)
+
+        if (activeIndex !== overIndex) {
+          setBoard(({ columns, ..._board }) => ({
+            ..._board,
+            columns: {
+              ...columns,
+              [overContainer]: {
+                ...columns[overContainer],
+                deals: arrayMove(board.columns[overContainer].deals, activeIndex, overIndex),
+              },
+            },
+          }))
+        }
+      }
+      changeDealColumn({
+        boardId: boardId || '',
+        id: active.id.toString(),
+        columnId: activeContainer.toString(),
+      })
+    }
     setActiveId(null)
   }
   const handleDragCancel = () => {
@@ -380,14 +386,14 @@ const DealsKanban = ({
   }, [isDeleteError, isDeleteSuccess, isDeleteLoading])
 
   useEffect(() => {
-    if (isPresistError) {
+    if (isPresistError || isDealEditError) {
       open({
         message: t('A problem has occured.'),
         type: 'error',
         variant: 'contained',
       })
     }
-  }, [isPresistError])
+  }, [isPresistError, isDealEditError])
 
   return (
     <div>

@@ -7,10 +7,16 @@ export default interface Deal {
   dealComments: []
   description: string
   lastUpdatedBy: null
-  leads: string[]
+  leadIds: string[]
+  leads: {
+    fullName: string
+    id: string
+    imageFile: string
+  }[]
   potentialDealValue: number
   successProbability: number
   tags: string
   title: string
   type: number
+  createdAt: string
 }

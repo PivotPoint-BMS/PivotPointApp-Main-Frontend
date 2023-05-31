@@ -28,6 +28,8 @@ import Button from 'components/Button'
 import AutoComplete from 'components/AutoComplete'
 import Tooltip from 'components/Tooltip'
 import AlertDialog from 'components/AlertDialog'
+import { Deal, Lead } from 'types'
+import moment from 'moment'
 
 export default function DealPreview({ boardId }: { boardId: string }) {
   const { t, locale } = useTranslate()
@@ -42,6 +44,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [type, setType] = useState(0)
+  const [dealLeads, setDealLeads] = useState<Deal['leads']>([])
   const { isOpen, dealId } = useAppSelector((state) => state.dealPreview)
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
   const { user } = useAppSelector((state) => state.session)
@@ -64,16 +67,8 @@ export default function DealPreview({ boardId }: { boardId: string }) {
   const [deleteDeal, { isError: isDeleteError, isSuccess: isDeleteSuccess }] =
     useDeleteDealMutation()
 
-  const [leads, setLeads] = useState<{ value: string; label: string }[]>(
-    isLeadSuccess
-      ? leadsResponse?.data.map((lead) => ({ value: lead.id, label: lead.fullName }))
-      : []
-  )
-  const [contacts, setContacts] = useState<{ value: string; label: string }[]>(
-    isContactsSuccess
-      ? contactsResponse?.data.map((contact) => ({ value: contact.id, label: contact.fullName }))
-      : []
-  )
+  const [leads, setLeads] = useState<Lead[]>(isLeadSuccess ? leadsResponse?.data : [])
+  const [contacts, setContacts] = useState<Lead[]>(isContactsSuccess ? contactsResponse?.data : [])
 
   const handleDelete = () => {
     deleteDeal({ dealId: dealId || '', boardId })
@@ -85,15 +80,11 @@ export default function DealPreview({ boardId }: { boardId: string }) {
   }
 
   useEffect(() => {
-    if (isLeadSuccess)
-      setLeads(leadsResponse?.data.map((lead) => ({ value: lead.id, label: lead.fullName })))
+    if (isLeadSuccess) setLeads(leadsResponse?.data)
   }, [isLeadLoading])
 
   useEffect(() => {
-    if (isContactsSuccess)
-      setContacts(
-        contactsResponse?.data.map((contact) => ({ value: contact.id, label: contact.fullName }))
-      )
+    if (isContactsSuccess) setContacts(contactsResponse?.data)
   }, [isContactsLoading])
 
   useEffect(() => {
@@ -106,12 +97,9 @@ export default function DealPreview({ boardId }: { boardId: string }) {
       setTitle(data.data.title)
       setDescription(data.data.description)
       setType(data.data.type)
+      setDealLeads(data.data.leads)
     }
   }, [isLoading, data])
-
-  useEffect(() => {
-    if (isSuccess) setTitle(data.data.title)
-  }, [isLoading])
 
   const handleClose = () => {
     setOpened(false)
@@ -226,6 +214,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                         editDeal({
                           ...data.data,
                           boardId,
+                          leadIds: data.data.leads.map((lead) => lead.id),
                           title: e.target.value,
                         })
                         setIsEditing(false)
@@ -241,9 +230,25 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                     </div>
                     <div className='flex items-start gap-2'>
                       <p className='w-36 text-sm text-gray-500 dark:text-gray-400'>
+                        {t('Created At')}
+                      </p>
+                      <p className='capitalize'>
+                        {moment(data.data.createdAt)
+                          .add('hour', 1)
+                          .format('ddd DD MMMM YYYY, HH:mm')}
+                      </p>
+                    </div>
+                    <div className='flex items-start gap-2'>
+                      <p className='w-36 text-sm text-gray-500 dark:text-gray-400'>
                         {t('Last Update By')}
                       </p>
                       <p>{data.data.lastUpdatedBy}</p>
+                    </div>
+                    <div className='flex items-start gap-2'>
+                      <p className='w-36 text-sm text-gray-500 dark:text-gray-400'>
+                        {t('Assignee')}
+                      </p>
+                      <p>{data.data.assignedTo || t('No Assignee')}</p>
                     </div>
                     <div className='flex items-start gap-2'>
                       <p className='w-36 text-sm text-gray-500 dark:text-gray-400'>{t('Type')}</p>
@@ -264,6 +269,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                               editDeal({
                                 ...data.data,
                                 boardId,
+                                leadIds: data.data.leads.map((lead) => lead.id),
                                 type: item.value,
                               })
                               setType(item.value)
@@ -273,12 +279,6 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                           </Button>
                         ))}
                       </div>
-                    </div>
-                    <div className='flex items-start gap-2'>
-                      <p className='w-36 text-sm text-gray-500 dark:text-gray-400'>
-                        {t('Assignee')}
-                      </p>
-                      <p>{data.data.assignedTo || t('No Assignee')}</p>
                     </div>
                     <div className='flex items-start gap-2'>
                       {type === 1 && (
@@ -292,15 +292,31 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                                 options={leads}
                                 isMulti
                                 isLoading={isLeadLoading}
+                                getOptionLabel={(option) => option.fullName}
+                                getOptionValue={(option) => option.id}
                                 onChange={(newValue) => {
+                                  setDealLeads(
+                                    newValue.map((item) => ({
+                                      fullName: item.fullName,
+                                      id: item.id,
+                                      imageFile: item.picture,
+                                    }))
+                                  )
                                   editDeal({
                                     ...data.data,
                                     boardId,
-                                    leads: newValue.map((item) => item.value),
+                                    leadIds: newValue.map((item) => item.id),
+                                    leads: newValue.map((item) => ({
+                                      fullName: item.fullName,
+                                      id: item.id,
+                                      imageFile: item.picture,
+                                    })),
                                   })
                                 }}
-                                value={leads.filter((item) => data.data.leads.includes(item.value))}
-                                placeholder={t('Select contacts')}
+                                value={leads.filter((item) =>
+                                  dealLeads.find((lead) => lead.id === item.id)
+                                )}
+                                placeholder={t('Select leads')}
                                 className='react-select-container'
                                 classNamePrefix='react-select'
                               />
@@ -320,14 +336,26 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                                 isMulti
                                 isLoading={isContactsLoading}
                                 onChange={(newValue) => {
+                                  setDealLeads(
+                                    newValue.map((item) => ({
+                                      fullName: item.fullName,
+                                      id: item.id,
+                                      imageFile: item.picture,
+                                    }))
+                                  )
                                   editDeal({
                                     ...data.data,
                                     boardId,
-                                    leads: newValue.map((item) => item.value),
+                                    leadIds: newValue.map((item) => item.id),
+                                    leads: newValue.map((item) => ({
+                                      fullName: item.fullName,
+                                      id: item.id,
+                                      imageFile: item.picture,
+                                    })),
                                   })
                                 }}
                                 value={contacts.filter((item) =>
-                                  data.data.leads.includes(item.value)
+                                  dealLeads.find((contact) => contact.id === item.id)
                                 )}
                                 placeholder={t('Select contacts')}
                                 className='react-select-container'
@@ -360,6 +388,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                             editDeal({
                               ...data.data,
                               boardId,
+                              leadIds: data.data.leads.map((lead) => lead.id),
                               description: e.target.value.trim(),
                             })
                             setIsEditing(false)

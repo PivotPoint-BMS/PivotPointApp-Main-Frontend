@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import * as Yup from 'yup'
 // form
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -22,14 +22,12 @@ import { useGetContactsQuery, useGetLeadsQuery } from 'store/api/crm/contact-lea
 export default function CreateEditDealForm({
   columnId,
   boardId,
-  currentDeal,
   isEdit,
   onSuccess,
   onFailure,
 }: {
   columnId: string
   boardId: string
-  currentDeal: Deal | null
   isEdit: boolean
   onSuccess: () => void
   onFailure: () => void
@@ -61,8 +59,6 @@ export default function CreateEditDealForm({
       ? contactsResponse?.data.map((contact) => ({ value: contact.id, label: contact.fullName }))
       : []
   )
-  //   const [edit, { isLoading: isEditLoading, isSuccess: isEditSuccess, isError: isEditError }] =
-  //     useEditMutation()
 
   useEffect(() => {
     if (isSuccess)
@@ -83,17 +79,15 @@ export default function CreateEditDealForm({
     leads: Yup.array(),
   })
 
-  const defaultValues = useMemo(
-    () => ({
-      title: currentDeal?.title || '',
-      potentialDealValue: currentDeal?.potentialDealValue || '',
-      type: currentDeal?.type || '',
-      tags: currentDeal?.tags || '',
-      leads: currentDeal?.leads || [],
-      columnId,
-    }),
-    [currentDeal]
-  )
+  const defaultValues = {
+    title: '',
+    potentialDealValue: '',
+    type: '',
+    tags: '',
+    leadIds: [],
+    leads: [],
+    columnId,
+  }
 
   const methods = useForm<FieldValues>({
     resolver: yupResolver(Schema),
@@ -107,14 +101,13 @@ export default function CreateEditDealForm({
       description: data.description,
       columnId,
       boardId,
-      leads: data.leads.map((item: { value: string; label: string }) => item.value),
+      leadIds: data.leads.map((item: { value: string; label: string }) => item.value),
       potentialDealValue: 0,
       successProbability: 0,
       tags: data.tags,
       title: data.title,
       type: data.type,
     }
-    // if (isEdit) edit({ data: deal, id: currentDeal?.id || '' })
     createDeal(deal)
   }
 
@@ -131,11 +124,7 @@ export default function CreateEditDealForm({
     if (isCreateSuccess) {
       reset()
       open({
-        message:
-          // isEditSuccess
-          // ? t(' Updated Successfully.')
-          //   :
-          t('Deal Added Successfully.'),
+        message: t('Deal Added Successfully.'),
         autoHideDuration: 4000,
         type: 'success',
         variant: 'contained',
@@ -188,14 +177,14 @@ export default function CreateEditDealForm({
             </AutoComplete>
           )}
           {type && type.value === 2 && (
-            <AutoComplete name='leads' label={t('Contacts')}>
+            <AutoComplete name='leadIds' label={t('Contacts')}>
               <Select
                 options={contacts}
                 isMulti
                 isLoading={isLoading}
                 onChange={(newValue) => {
                   setValue(
-                    'leads',
+                    'leadIds',
                     newValue?.map((id) => id)
                   )
                 }}

@@ -37,14 +37,14 @@ function index() {
         variant: 'contained',
       })
     }
-    if ((boardId === null || boardId === '') && isSuccess && data.length > 0) {
+    if ((!boardId || boardId === null || boardId === '') && isSuccess && data.length > 0) {
       setBoardId(data[0].id)
       push(pathname, { query: { boardId: data[0].id } })
     }
   }, [isError, isSuccess, isFetching, isLoading, data, boardId])
 
   useEffect(() => {
-    if ((boardId === null || boardId === '') && isSuccess && data.length > 0)
+    if ((!boardId || boardId === null || boardId === '') && isSuccess && data.length > 0)
       push(pathname, { query: { boardId: data[0].id } })
   }, [boardId])
 

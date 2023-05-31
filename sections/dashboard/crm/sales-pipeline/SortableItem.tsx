@@ -17,20 +17,13 @@ interface SortableItemProps {
 }
 
 export default function SortableItem({ disabled, id, deal, index }: SortableItemProps) {
-  const {
-    setNodeRef,
-    listeners,
-    isDragging,
-    isSorting,
-    transform,
-    transition,
-    setActivatorNodeRef,
-  } = useSortable({
-    id,
-    data: {
-      type: 'card',
-    },
-  })
+  const { setNodeRef, listeners, isDragging, transform, transition, setActivatorNodeRef } =
+    useSortable({
+      id,
+      data: {
+        type: 'card',
+      },
+    })
   const mounted = useMountStatus()
   const mountedWhileDragging = isDragging && !mounted
 
@@ -39,7 +32,6 @@ export default function SortableItem({ disabled, id, deal, index }: SortableItem
       ref={disabled ? undefined : setNodeRef}
       deal={deal}
       dragging={isDragging}
-      sorting={isSorting}
       index={index}
       transition={transition}
       transform={transform}
