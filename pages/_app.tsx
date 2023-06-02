@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/inline-script-id */
 import React, { useEffect } from 'react'
 // next
 import Head from 'next/head'
@@ -19,6 +20,7 @@ import 'simplebar-react/dist/simplebar.min.css'
 import 'react-lazy-load-image-component/src/effects/blur.css'
 import 'react-lazy-load-image-component/src/effects/opacity.css'
 import 'react-lazy-load-image-component/src/effects/black-and-white.css'
+import Script from 'next/script'
 // import 'reactflow/dist/style.css'
 
 // function getDirection(locale: string) {
@@ -47,6 +49,21 @@ function MyApp({ Component, ...rest }: AppProps) {
 
   return (
     <>
+      <Script
+        strategy='lazyOnload'
+        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
+      />
+
+      <Script strategy='lazyOnload'>
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}', {
+          page_path: window.location.pathname,
+          });
+        `}
+      </Script>
       <Head>
         <meta charSet='utf-8' />
         <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
