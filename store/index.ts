@@ -5,6 +5,7 @@ import { createWrapper } from 'next-redux-wrapper'
 import {
   dealPreviewSlice,
   leadPreviewSlice,
+  pagginationSlice,
   sessionSlice,
   sideBarSlice,
   snackbarSlice,
@@ -16,6 +17,9 @@ import { leadApi, leadSourceApi, dealsBoardsApi, addressApi } from './api/crm'
 import { statsApi } from './api/stats/statsApi'
 import { financeSetupApi } from './api/fm/financeSetupApi'
 import { financeDashboardApi } from './api/fm/fmDashboardApi'
+import { supplierApi } from './api/scm/products-service/suppliersApis'
+import supplierPreviewSlice from './slices/supplierPreviewSlice'
+import { productsApi } from './api/scm/products-service/productsApi'
 
 export const makeStore = () =>
   configureStore({
@@ -23,19 +27,27 @@ export const makeStore = () =>
       [sessionSlice.name]: sessionSlice.reducer,
       [sideBarSlice.name]: sideBarSlice.reducer,
       [snackbarSlice.name]: snackbarSlice.reducer,
-      [leadPreviewSlice.name]: leadPreviewSlice.reducer,
-      [dealPreviewSlice.name]: dealPreviewSlice.reducer,
+      [pagginationSlice.name]: pagginationSlice.reducer,
+      [statsApi.reducerPath]: statsApi.reducer,
+      // Auth
       [authApi.reducerPath]: authApi.reducer,
       [companyApi.reducerPath]: companyApi.reducer,
       [paymentApi.reducerPath]: paymentApi.reducer,
       [settingsApi.reducerPath]: settingsApi.reducer,
+      // CRM
       [leadApi.reducerPath]: leadApi.reducer,
       [leadSourceApi.reducerPath]: leadSourceApi.reducer,
+      [leadPreviewSlice.name]: leadPreviewSlice.reducer,
       [addressApi.reducerPath]: addressApi.reducer,
       [dealsBoardsApi.reducerPath]: dealsBoardsApi.reducer,
-      [statsApi.reducerPath]: statsApi.reducer,
+      [dealPreviewSlice.name]: dealPreviewSlice.reducer,
+      // FM
       [financeSetupApi.reducerPath]: financeSetupApi.reducer,
       [financeDashboardApi.reducerPath]: financeDashboardApi.reducer,
+      // SCM
+      [supplierApi.reducerPath]: supplierApi.reducer,
+      [productsApi.reducerPath]: productsApi.reducer,
+      [supplierPreviewSlice.name]: supplierPreviewSlice.reducer,
     },
     devTools: process.env.NODE_ENV === 'development',
     middleware: (gDM) =>
@@ -53,7 +65,9 @@ export const makeStore = () =>
         dealsBoardsApi.middleware,
         statsApi.middleware,
         financeSetupApi.middleware,
-        financeDashboardApi.middleware
+        financeDashboardApi.middleware,
+        supplierApi.middleware,
+        productsApi.middleware
       ),
   })
 

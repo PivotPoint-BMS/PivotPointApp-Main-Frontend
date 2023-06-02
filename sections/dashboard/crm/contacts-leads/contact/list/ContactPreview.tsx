@@ -9,20 +9,19 @@ import { PATH_DASHBOARD } from 'routes/paths'
 // redux
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { closePreviewLead } from 'store/slices/leadPreviewSlice'
+// config
+import { PIVOTPOINT_API } from 'config'
 // hooks
 import useTranslate from 'hooks/useTranslate'
-import useResponsive from 'hooks/useResponsive'
 // asset
 import avatarPlaceholder from 'public/avatar_placeholder.png'
 // components
 import { Icon as Iconify } from '@iconify/react'
 import IconButton from 'components/IconButton'
-import Button from 'components/Button'
 import Image from 'components/Image'
-import { PIVOTPOINT_API } from 'config'
+import Tooltip from 'components/Tooltip'
 
 export default function ContactPreview() {
-  const isDesktop = useResponsive('sm', 'up')
   const { t, locale } = useTranslate()
   const dispatch = useAppDispatch()
   const { isOpen, lead } = useAppSelector((state) => state.leadPreview)
@@ -62,28 +61,24 @@ export default function ContactPreview() {
           <div className='mb-6 flex w-full  items-center gap-4 border-b   px-4 pb-4'>
             <div className='flex flex-1 items-center gap-2'>
               <IconButton onClick={handleClose}>
-                <Iconify
-                  icon={locale === 'ar' ? 'pajamas:collapse-left' : 'pajamas:collapse-right'}
-                  height={20}
-                />
+                <Iconify icon='ic:round-close' height={22} />
               </IconButton>
               <h6 className='flex-1 text-xl font-semibold'>{t('Contact Preview')}</h6>
             </div>
-            <Link href={PATH_DASHBOARD.crm['contacts-leads'].contact(lead?.id)}>
-              {isDesktop ? (
-                <Button
-                  variant='outlined'
-                  intent='default'
-                  endIcon={<Iconify icon='mingcute:external-link-fill' height={18} />}
-                >
-                  {t('View Full Details')}
-                </Button>
-              ) : (
+            <Tooltip title={t('View Full Details')}>
+              <Link href={PATH_DASHBOARD.crm['contacts-leads'].contact(lead?.id)}>
                 <IconButton>
                   <Iconify icon='mingcute:external-link-fill' height={18} />
                 </IconButton>
-              )}
-            </Link>
+              </Link>
+            </Tooltip>
+            <Tooltip title={t('Edit')}>
+              <Link href={PATH_DASHBOARD.crm['contacts-leads'].edit(lead?.id)}>
+                <IconButton>
+                  <Iconify icon='material-symbols:edit' height={18} />
+                </IconButton>
+              </Link>
+            </Tooltip>
           </div>
           <div className='mx-6 grid grid-cols-2 divide-x divide-y   rounded-lg border rtl:divide-x-reverse sm:grid-cols-4'>
             <div className='col-span-2 flex flex-col items-start justify-between gap-4 p-3 sm:col-span-4 sm:flex-row'>

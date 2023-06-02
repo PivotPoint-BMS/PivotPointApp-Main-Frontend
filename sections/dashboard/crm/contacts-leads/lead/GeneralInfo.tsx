@@ -7,6 +7,7 @@ import Link from 'next/link'
 // radix
 import * as TabsPrimitive from '@radix-ui/react-tabs'
 // hooks
+import { useAppSelector } from 'store/hooks'
 import useTranslate from 'hooks/useTranslate'
 // routes
 import { PATH_DASHBOARD } from 'routes/paths'
@@ -36,10 +37,11 @@ export default function GeneralInfo({ lead }: { lead: Lead }) {
   const { t, locale } = useTranslate()
   const { open } = useSnackbar()
   const { push } = useRouter()
+  const { PageNumber, PageSize } = useAppSelector((state) => state.paggination)
   const [convertToContact, { isLoading, isError, isSuccess }] = useConvertToContactMutation()
 
   const handleConvertToContact = () => {
-    convertToContact(lead.id)
+    convertToContact({ id: lead.id, PageNumber, PageSize })
   }
 
   useEffect(() => {

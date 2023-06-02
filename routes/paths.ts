@@ -89,7 +89,13 @@ export const PATH_DASHBOARD = {
     root: path(ROOTS_APP, '/scm'),
     dashboard: path(ROOTS_APP, '/scm/dashboard'),
     monitoring: path(ROOTS_APP, '/scm/monitoring'),
-    'product-service': path(ROOTS_APP, '/scm/product-service'),
+    'product-service': {
+      list: path(ROOTS_APP, '/scm/product-service'),
+      product: (id: string) => path(ROOTS_APP, `/scm/product-service/product/${id}`),
+      products: {
+        create: path(ROOTS_APP, '/scm/product-service/product/create'),
+      },
+    },
     transportation: path(ROOTS_APP, '/scm/transportation'),
     warehousing: path(ROOTS_APP, '/scm/warehousing'),
     'demand-forecasting': path(ROOTS_APP, '/scm/demand-forecasting'),

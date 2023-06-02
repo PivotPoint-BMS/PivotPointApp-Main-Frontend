@@ -12,7 +12,7 @@ import useSnackbar from 'hooks/useSnackbar'
 import { PATH_DASHBOARD } from 'routes/paths'
 // redux
 import { wrapper } from 'store'
-import { useAppDispatch } from 'store/hooks'
+import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { previewLead } from 'store/slices/leadPreviewSlice'
 import {
   getLeads,
@@ -21,7 +21,8 @@ import {
   useDeleteLeadMutation,
   useGetContactsQuery,
 } from 'store/api/crm/contact-leads/leadApis'
-import { useGetLeadSourcesQuery } from 'store/api/crm/contact-leads/leadSourceApi'
+import { useGetAllLeadSourcesQuery } from 'store/api/crm/contact-leads/leadSourceApi'
+import { changePageNumber, changePageSize, resetPaggination } from 'store/slices/pagginationSlice'
 // config
 import { LEAD_PRIORITIES, PIVOTPOINT_API } from 'config'
 // types
@@ -101,8 +102,7 @@ export default function LeadsList() {
   const [idToDelete, setIdToDelete] = useState<string | null>(null)
   const [sourcesList, setSourcesList] = useState<{ value: string; label: string }[]>([])
   // Pogination
-  const [PageNumber, setPageNumber] = useState(1)
-  const [PageSize, setPageSize] = useState(10)
+  const { PageSize, PageNumber } = useAppSelector((state) => state.paggination)
   // Filters
   const [searchValue, setSearchValue] = useState('')
   const [source, setSource] = useState<{ value: string; label: string } | null>(null)
@@ -130,10 +130,7 @@ export default function LeadsList() {
     data: sources,
     isLoading: isSourcesLoading,
     isSuccess: isSourcesSuccess,
-  } = useGetLeadSourcesQuery({
-    PageNumber: undefined,
-    PageSize: undefined,
-  })
+  } = useGetAllLeadSourcesQuery()
 
   // Mutation
   const [
@@ -314,8 +311,12 @@ export default function LeadsList() {
   }, [isSourcesLoading])
 
   useEffect(() => {
-    if (isSuccess) setPageSize(data.pageSize)
+    if (isSuccess) dispatch(changePageSize(data.pageSize))
   }, [isLoading, isFetching])
+
+  useEffect(() => {
+    dispatch(resetPaggination())
+  }, [])
 
   const table = useReactTable({
     defaultColumn: {
@@ -403,7 +404,7 @@ export default function LeadsList() {
                 <label className='text-sm font-medium dark:text-white'>{t('Priority')}</label>
                 <Select
                   options={LEAD_PRIORITIES.map((item) => ({
-                    value: item.value,
+                    value: item.value.toString(),
                     label: t(item.label),
                   }))}
                   isLoading={isSourcesLoading}
@@ -508,7 +509,7 @@ export default function LeadsList() {
                       <p className='text-sm'>{t('Row per page : ')}</p>
                       <MySelect
                         items={['10', '25', '50'].map((item) => ({ label: item, value: item }))}
-                        onValueChange={(page) => setPageSize(Number(page))}
+                        onValueChange={(page) => dispatch(changePageSize(Number(page)))}
                         value={String(PageSize)}
                         buttonProps={{ intent: 'default' }}
                       />
@@ -526,7 +527,7 @@ export default function LeadsList() {
                       <Tooltip side='bottom' title={t('First page')}>
                         <IconButton
                           className='border dark:border-gray-600'
-                          onClick={() => setPageNumber(1)}
+                          onClick={() => dispatch(changePageNumber(1))}
                           disabled={PageNumber === 1}
                         >
                           <Icon
@@ -538,7 +539,9 @@ export default function LeadsList() {
                       <Tooltip side='bottom' title={t('Previous page')}>
                         <IconButton
                           className='border dark:border-gray-600'
-                          onClick={() => setPageNumber((prev) => (prev > 1 ? prev - 1 : 1))}
+                          onClick={() =>
+                            dispatch(changePageNumber(PageNumber > 1 ? PageNumber - 1 : 1))
+                          }
                           disabled={PageNumber === 1}
                         >
                           <Icon icon='fluent:chevron-left-20-filled' className='rtl:rotate-180' />
@@ -551,8 +554,10 @@ export default function LeadsList() {
                         <IconButton
                           className='border dark:border-gray-600'
                           onClick={() =>
-                            setPageNumber((prev) =>
-                              prev < data.totalPages ? prev + 1 : data.totalPages
+                            dispatch(
+                              changePageNumber(
+                                PageNumber < data.totalPages ? PageNumber + 1 : data.totalPages
+                              )
                             )
                           }
                           disabled={PageNumber === data.totalPages}
@@ -563,7 +568,7 @@ export default function LeadsList() {
                       <Tooltip side='bottom' title={t('Last page')}>
                         <IconButton
                           className='border dark:border-gray-600'
-                          onClick={() => setPageNumber(data.totalPages)}
+                          onClick={() => dispatch(changePageNumber(data.totalPages))}
                           disabled={PageNumber === data.totalPages}
                         >
                           <Icon
@@ -597,7 +602,7 @@ export default function LeadsList() {
         cancelText={t('Cancel')}
         confirmText={t('Yes, Delete')}
         onConfirm={() => {
-          deleteLead(idToDelete || '')
+          deleteLead({ id: idToDelete || '', PageNumber, PageSize })
           invalidateTags(['Leads'])
           setIdToDelete(null)
         }}

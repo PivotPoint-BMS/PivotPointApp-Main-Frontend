@@ -37,9 +37,10 @@ import useSnackbar from 'hooks/useSnackbar'
 // components
 import Select from 'react-select'
 import CreatableSelect from 'react-select/creatable'
-import { Card, CardContent, Button, LoadingIndicator, Select as MySelect, Slider } from 'components'
+import { Card, CardContent, Button, LoadingIndicator, AutoComplete } from 'components'
 import { FormProvider, RHFTextField, RHFAutoComplete } from 'components/hook-form'
 import RHFUploadAvatar from 'components/hook-form/RHFUpload'
+import { useAppSelector } from 'store/hooks'
 
 export default function CreateEditLeadForm({
   isEdit,
@@ -51,6 +52,9 @@ export default function CreateEditLeadForm({
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const { push } = useRouter()
+
+  const { PageNumber, PageSize } = useAppSelector((state) => state.paggination)
+
   const { data: sources, isLoading, isSuccess } = useGetAllLeadSourcesQuery()
   const {
     data: countries,
@@ -71,7 +75,7 @@ export default function CreateEditLeadForm({
   const [city, setCity] = useState<{ value: string; label: string } | null>(null)
   const [country, setCountry] = useState<{ value: string; label: string } | null>(null)
   const [source, setSource] = useState<{ value: string; label: string } | null>(null)
-  const [priority, setPriority] = useState('0')
+  const [priority, setPriority] = useState(0)
 
   const LeadSchema = Yup.object().shape({
     picture: Yup.mixed().required(t('Image is required')),
@@ -130,9 +134,9 @@ export default function CreateEditLeadForm({
     formData.append('city', data.city)
     formData.append('country', data.country)
     formData.append('incomeK', String(income))
-    formData.append('priority', priority)
-    if (isEdit) editLead({ data: formData, id: currentLead?.id || '' })
-    else createLead(formData)
+    formData.append('priority', String(priority))
+    if (isEdit) editLead({ data: formData, id: currentLead?.id || '', PageNumber, PageSize })
+    else createLead({ data: formData, PageNumber, PageSize })
     invalidateTags(['Leads', 'Lead'])
   }
 
@@ -186,7 +190,7 @@ export default function CreateEditLeadForm({
         label: currentLead.leadSource.source || '',
       })
       setIncome(currentLead.incomeK || 0)
-      setPriority(String(currentLead.priority) || '0')
+      setPriority(currentLead?.priority || 0)
     }
 
     if (!isEdit) {
@@ -320,37 +324,27 @@ export default function CreateEditLeadForm({
               </RHFAutoComplete>
             </div>
             <h6 className='mb-5 text-lg font-semibold'>{t('Finance Informations')}</h6>
-            <div className='mb-6 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3'>
-              <div className='flex flex-col gap-1'>
-                <label className='text-sm font-medium dark:text-white'>{t('Priority')}</label>
-                <MySelect
-                  items={LEAD_PRIORITIES.map((item) => ({ ...item, label: t(item.label) }))}
-                  defaultValue='0'
-                  onValueChange={(value) => {
-                    setValue('priority', Number(value))
-                    setPriority(value)
+            <div className='mb-6 grid grid-cols-1 gap-6 sm:grid-cols-2'>
+              <AutoComplete name='priority' label={t('Priority')}>
+                <Select
+                  options={LEAD_PRIORITIES}
+                  getOptionLabel={(option) => t(option.label)}
+                  onChange={(newValue) => {
+                    setValue('priority', newValue?.value)
+                    setPriority(newValue?.value || 0)
                   }}
-                  value={priority}
+                  value={LEAD_PRIORITIES.find((item) => item.value === priority)}
+                  className='react-select-container'
+                  classNamePrefix='react-select'
+                  placeholder=''
                 />
-              </div>
-              <div className='flex flex-col gap-1 md:col-span-2'>
-                <label className='text-sm font-medium dark:text-white'>{t('Income')}</label>
-                <div className='flex items-center justify-between gap-2'>
-                  <Slider
-                    className='w-full'
-                    max={99999}
-                    step={1000}
-                    onValueChange={(value) => {
-                      setValue('incomeK', value[0])
-                      setIncome(value[0])
-                    }}
-                    value={[income]}
-                  />
-                  <p className='whitespace-nowrap rounded-md bg-gray-200 p-1 text-sm dark:bg-gray-600'>
-                    {income} {t('Da')}
-                  </p>
-                </div>
-              </div>
+              </AutoComplete>
+              <RHFTextField
+                type='number'
+                name='incomek'
+                label={t('Income')}
+                endAdornment={t('Da')}
+              />
             </div>
             <div className='mt-6 flex w-full items-center justify-center'>
               <Button size='large' type='submit' loading={isCreateLoading || isEditLoading}>

@@ -1,5 +1,4 @@
 export default interface RequestParams {
-  PageNumber?: number
-  PageSize?: number
-  SearchTerm?: string
+  PageNumber: number
+  PageSize: number
 }

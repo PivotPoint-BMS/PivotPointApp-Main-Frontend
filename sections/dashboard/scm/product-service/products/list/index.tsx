@@ -1,22 +1,24 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useEffect, useState } from 'react'
 import { min } from 'lodash'
 import clsx from 'clsx'
+// next
+import { useRouter } from 'next/router'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
 // redux
 import { wrapper } from 'store'
 import {
-  getLeadSources,
+  getProducts,
   getRunningQueriesThunk,
-  invalidateTags,
-  useDeleteLeadSourceMutation,
-  useGetLeadSourcesQuery,
-} from 'store/api/crm/contact-leads/leadSourceApi'
-import { changePageNumber, changePageSize, resetPaggination } from 'store/slices/pagginationSlice'
+  useDeleteProductMutation,
+  useGetProductsQuery,
+} from 'store/api/scm/products-service/productsApi'
+import { changePageNumber, changePageSize } from 'store/slices/pagginationSlice'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 // types
-import { LeadSource } from 'types/Lead'
+import { Product } from 'types'
 // components
 import {
   useReactTable,
@@ -27,59 +29,61 @@ import {
   SortingState,
   getSortedRowModel,
 } from '@tanstack/react-table'
-import { Icon } from '@iconify/react'
 import {
-  LoadingIndicator,
-  TextField,
-  IconButton,
-  Tooltip,
-  Backdrop,
-  Dialog,
   AlertDialog,
-  IndeterminateCheckbox,
+  Backdrop,
+  LoadingIndicator,
+  IconButton,
+  TextField,
+  DropdownMenu,
+  Tooltip,
   Select as MySelect,
+  IndeterminateCheckbox,
 } from 'components'
-// sections
-import LeadSourceTableToolbar from './LeadSourceTableToolbar'
-import CreateEditLeadSourceForm from '../create/CreateEditLeadSourceForm'
+import { Icon, Icon as Iconify } from '@iconify/react'
+import ProductTableToolbar from './ProductsTableToolbar'
+import ProductPreview from './ProductPreview'
 
-export default function LeadSourcesList({
-  openAddDialog,
-  setOpenAddDialog,
-}: {
-  openAddDialog: boolean
-  setOpenAddDialog: (value: boolean) => void
-}) {
+export default function ProductsList() {
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const dispatch = useAppDispatch()
+  const { isFallback } = useRouter()
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
   const [sorting, setSorting] = React.useState<SortingState>([])
-
   const [selectedIds, setSelectedIds] = useState<string[]>([])
-  const [openEditDialog, setOpenEditDialog] = useState(false)
-  const [leadSourceToEdit, setLeadSourceToEdit] = useState<LeadSource | null>(null)
   const [idToDelete, setIdToDelete] = useState<string | null>(null)
   // Pogination
   const { PageSize, PageNumber } = useAppSelector((state) => state.paggination)
   // Filters
   const [searchValue, setSearchValue] = useState('')
+
   // Query Params
   const [SearchTerm, setSearchTerm] = useState<string | undefined>(undefined)
-  const { data, isLoading, isFetching, isSuccess } = useGetLeadSourcesQuery(
-    { PageNumber, PageSize, SearchTerm },
-    { refetchOnFocus: true, refetchOnMountOrArgChange: true }
+
+  // Queries
+  const { data, isLoading, isSuccess, isFetching } = useGetProductsQuery(
+    {
+      SearchTerm,
+      PageNumber,
+      PageSize,
+    },
+    { skip: isFallback, refetchOnMountOrArgChange: true }
   )
 
-  const [deleteLeadSource, { isLoading: isDeleteLeading, isSuccess: isDeleteSuccess, isError }] =
-    useDeleteLeadSourceMutation()
+  // Mutation
+  const [
+    deleteProduct,
+    { isLoading: isDeleteProducting, isError: isDeleteError, isSuccess: isDeleteSuccess },
+  ] = useDeleteProductMutation()
 
-  const columnHelper = createColumnHelper<LeadSource>()
+  const columnHelper = createColumnHelper<Product>()
+
   const columns = [
     columnHelper.accessor('id', {
       id: 'select',
-      enableSorting: false,
       size: 24,
+      enableSorting: false,
       header: ({ table }) => (
         <IndeterminateCheckbox
           {...{
@@ -100,50 +104,78 @@ export default function LeadSourcesList({
         />
       ),
     }),
-    columnHelper.accessor('source', {
-      id: 'source',
-      header: () => t('Source'),
-      cell: (info) => info.getValue(),
+    columnHelper.accessor((row) => ({ fullName: row.name }), {
+      id: 'name',
+      header: () => t('Name'),
+      cell: (info) => (
+        <div className='flex items-center gap-2'>
+          {/* <div className='h-12 w-12'>
+            <Image
+              alt='avatar'
+              width={48}
+              height={48}
+              src={
+                info.getValue().picture
+                  ? `${PIVOTPOINT_API.crmPicUrl}/${info.getValue().picture}`
+                  : avatarPlaceholder.src
+              }
+              className='aspect-square h-12 w-12 rounded-full object-cover'
+            />
+          </div> */}
+          <p>{info.getValue().fullName}</p>
+        </div>
+      ),
     }),
-    columnHelper.accessor('sourceLink', {
-      id: 'sourceLink',
-      header: () => t('Source Link'),
-      cell: (info) => info.getValue(),
-    }),
+
     columnHelper.accessor((row) => row, {
       id: 'actions ',
+      size: 1,
       enableSorting: false,
-      size: 50,
       header: () => <p className='w-full text-right'>{t('Actions')}</p>,
-      cell: (leadSource) => (
+      cell: (product) => (
         <div className='flex items-center justify-end gap-2'>
-          <Tooltip title={t('Delete')} side='bottom'>
-            <IconButton onClick={() => setIdToDelete(leadSource.getValue().id || '')}>
-              <Icon
-                className='text-red-600 dark:text-red-400'
-                icon='material-symbols:delete-rounded'
-                height={20}
-              />
+          <Tooltip title={t('View Details')} side='bottom'>
+            <IconButton>
+              <Iconify icon='mingcute:external-link-fill' height={18} />
             </IconButton>
           </Tooltip>
-
-          <Tooltip title={t('Edit')} side='bottom'>
-            <IconButton
-              onClick={() => {
-                setLeadSourceToEdit(leadSource.row.original)
-                setOpenEditDialog(true)
-              }}
-            >
-              <Icon icon='material-symbols:edit' height={20} />
+          <Tooltip title={t('Preview')} side='bottom'>
+            <IconButton /* onClick={() => dispatch(previewProduct(product.getValue()))} */>
+              <Iconify icon='material-symbols:preview' height={18} />
             </IconButton>
           </Tooltip>
+          <DropdownMenu
+            trigger={
+              <IconButton>
+                <Tooltip title={t('More')} side='bottom' sideOffset={10}>
+                  <Iconify icon='material-symbols:more-vert' height={20} />
+                </Tooltip>
+              </IconButton>
+            }
+            items={[
+              {
+                type: 'button',
+                label: t('Edit'),
+                icon: <Iconify icon='material-symbols:edit' height={18} />,
+                // onClick: () => push(PATH_DASHBOARD.crm['contacts-products'].edit(product.getValue().id)),
+              },
+              {
+                type: 'button',
+                label: t('Delete'),
+                icon: <Iconify icon='material-symbols:delete-rounded' height={18} />,
+                className: 'text-red-600 dark:text-red-400',
+                loading: isDeleteProducting,
+                onClick: () => setIdToDelete(product.getValue().id),
+              },
+            ]}
+          />
         </div>
       ),
     }),
   ]
 
   useEffect(() => {
-    if (isError) {
+    if (isDeleteError) {
       open({
         message: t('A problem has occured.'),
         autoHideDuration: 4000,
@@ -153,13 +185,17 @@ export default function LeadSourcesList({
     }
     if (isDeleteSuccess) {
       open({
-        message: t('Lead Source Deleted Successfully.'),
+        message: t('Product Deleted Successfully.'),
         autoHideDuration: 4000,
         type: 'success',
         variant: 'contained',
       })
     }
-  }, [isError, isDeleteSuccess])
+  }, [isDeleteError, isDeleteSuccess])
+
+  useEffect(() => {
+    if (isSuccess) dispatch(changePageSize(data.pageSize))
+  }, [isLoading, isFetching])
 
   const table = useReactTable({
     defaultColumn: {
@@ -182,25 +218,19 @@ export default function LeadSourcesList({
   useEffect(() => {
     setSelectedIds(
       data?.data
-        .filter((item) => item.id && Object.keys(rowSelection).includes(item.id))
-        .map((item) => item.id || '') || []
+        .map((product, i) => (Object.keys(rowSelection).includes(i.toString()) ? product.id : ''))
+        .filter((item) => item !== '') || []
     )
   }, [rowSelection])
 
-  useEffect(() => {
-    if (isSuccess) dispatch(changePageSize(data.pageSize))
-  }, [isLoading, isFetching])
-  useEffect(() => {
-    dispatch(resetPaggination())
-  }, [])
   return (
     <>
-      <div className='p-3 '>
+      <div className='flex items-center justify-center gap-6 p-3 '>
         <TextField
           placeholder={t('Search...')}
           endAdornment={
             <IconButton onClick={() => setSearchTerm(searchValue)}>
-              <Icon icon='ion:search-outline' height={18} className='text-gray-500' />
+              <Iconify icon='ion:search-outline' height={18} className='text-gray-500' />
             </IconButton>
           }
           value={searchValue}
@@ -210,8 +240,46 @@ export default function LeadSourcesList({
             if (e.key === 'Enter') setSearchTerm(e.currentTarget.value)
           }}
         />
+        {/* <Popover
+          trigger={
+            <Button
+              variant='outlined'
+              intent='default'
+              size='large'
+              className='h-full'
+              startIcon={<Iconify icon='material-symbols:filter-list-rounded' height={20} />}
+            >
+              {t('Filters')}
+            </Button>
+          }
+          align='start'
+        >
+          <div className='flex flex-col items-start px-2'>
+            <h1 className='mb-4 font-semibold'>{t('Filters')}</h1>
+            <div className='flex flex-col gap-4'>
+              <div className='flex w-full flex-col items-start gap-1'>
+                <label className='text-sm font-medium dark:text-white'>{t('Product Source')}</label>
+                <Select
+                  options={sourcesList}
+                  isLoading={isSourcesLoading}
+                  onChange={(newValue) => {
+                    setSource(newValue)
+                  }}
+                  value={source}
+                  className='react-select-container'
+                  classNamePrefix='react-select'
+                  isClearable
+                  placeholder={t('Select Source')}
+                />
+              </div>
+              
+              <Button variant='outlined' intent='secondary' onClick={handleFilter}>
+                {t('Filter')}
+              </Button>
+            </div>
+          </div>
+        </Popover> */}
       </div>
-
       {isLoading || isFetching ? (
         <div className='flex h-56 w-full items-center justify-center'>
           <LoadingIndicator />
@@ -273,6 +341,7 @@ export default function LeadSourcesList({
                             'cursor-pointer border-b last-of-type:border-b-0 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-paper-hover-dark',
                             row.getIsSelected() && 'bg-gray-50 dark:bg-paper-hover-dark/80'
                           )}
+                          // onDoubleClick={() => dispatch(previewProduct(row.original))}
                         >
                           {row.getVisibleCells().map((cell) => (
                             <td
@@ -366,48 +435,29 @@ export default function LeadSourcesList({
                     </div>
                   </div>
                 </div>
+                <ProductTableToolbar
+                  selectedCount={Object.keys(rowSelection).length}
+                  selectedIds={selectedIds}
+                  setRowSelection={setRowSelection}
+                />
+                <ProductPreview />
               </div>
             </>
           ) : (
             <div className='flex h-56 flex-col items-center justify-center gap-2 px-4 py-2'>
-              <h1 className='text-xl font-semibold'>{t('No Lead Sources Found')}</h1>
+              <h1 className='text-xl font-semibold'>{t('No Product Found')}</h1>
             </div>
           )}
         </>
       )}
-      <LeadSourceTableToolbar
-        selectedCount={Object.keys(rowSelection).length}
-        selectedIds={selectedIds}
-        setRowSelection={setRowSelection}
-      />
-      <Backdrop loading={isDeleteLeading} />
-      <Dialog
-        open={openEditDialog || openAddDialog}
-        title={openEditDialog ? t('Edit Lead Source') : t('Add Lead Source')}
-      >
-        <CreateEditLeadSourceForm
-          isEdit={openEditDialog}
-          currentLeadSource={leadSourceToEdit}
-          onSuccess={() => {
-            setOpenAddDialog(false)
-            setOpenEditDialog(false)
-          }}
-          onFailure={() => {
-            setOpenAddDialog(false)
-            setOpenEditDialog(false)
-          }}
-        />
-      </Dialog>
+      <Backdrop loading={isDeleteProducting} />
       <AlertDialog
         title={t('Confirm Delete')}
-        description={t(
-          'This action cannot be undone. This will permanently delete this lead source.'
-        )}
+        description={t('This action cannot be undone. This will permanently delete this product.')}
         cancelText={t('Cancel')}
         confirmText={t('Yes, Delete')}
         onConfirm={() => {
-          deleteLeadSource({ id: idToDelete || '', PageNumber, PageSize })
-          invalidateTags(['LeadSources'])
+          deleteProduct({ id: idToDelete || '', PageNumber, PageSize })
           setIdToDelete(null)
         }}
         open={idToDelete !== null}
@@ -419,7 +469,8 @@ export default function LeadSourcesList({
 }
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
-  store.dispatch(getLeadSources.initiate({ PageNumber: 0, PageSize: 10 }))
+  if (store.getState().session.token)
+    store.dispatch(getProducts.initiate({ PageSize: 10, PageNumber: 1 }))
 
   await Promise.all(store.dispatch(getRunningQueriesThunk()))
 

@@ -1,22 +1,25 @@
-import React, { useEffect, useState } from 'react'
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import React, { HTMLProps, useEffect, useRef, useState } from 'react'
 import { min } from 'lodash'
 import clsx from 'clsx'
+// next
+import { useRouter } from 'next/router'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
 // redux
 import { wrapper } from 'store'
-import {
-  getLeadSources,
-  getRunningQueriesThunk,
-  invalidateTags,
-  useDeleteLeadSourceMutation,
-  useGetLeadSourcesQuery,
-} from 'store/api/crm/contact-leads/leadSourceApi'
-import { changePageNumber, changePageSize, resetPaggination } from 'store/slices/pagginationSlice'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
+import { previewSupplier } from 'store/slices/supplierPreviewSlice'
+import {
+  getRunningQueriesThunk,
+  getSuppliers,
+  useDeleteSupplierMutation,
+  useGetSuppliersQuery,
+} from 'store/api/scm/products-service/suppliersApis'
+import { changePageNumber, changePageSize } from 'store/slices/pagginationSlice'
 // types
-import { LeadSource } from 'types/Lead'
+import { Supplier } from 'types'
 // components
 import {
   useReactTable,
@@ -24,26 +27,60 @@ import {
   flexRender,
   createColumnHelper,
   RowSelectionState,
-  SortingState,
   getSortedRowModel,
+  SortingState,
 } from '@tanstack/react-table'
-import { Icon } from '@iconify/react'
 import {
-  LoadingIndicator,
-  TextField,
-  IconButton,
-  Tooltip,
-  Backdrop,
-  Dialog,
   AlertDialog,
-  IndeterminateCheckbox,
+  Backdrop,
+  LoadingIndicator,
+  IconButton,
+  TextField,
+  DropdownMenu,
+  Tooltip,
   Select as MySelect,
+  Dialog,
 } from 'components'
-// sections
-import LeadSourceTableToolbar from './LeadSourceTableToolbar'
-import CreateEditLeadSourceForm from '../create/CreateEditLeadSourceForm'
+import { Icon, Icon as Iconify } from '@iconify/react'
+import SupplierTableToolbar from './SuppliersTableToolbar'
+import SupplierPreview from './SupplierPreview'
+import CreateSupplierForm from '../create/CreateSupplierForm'
 
-export default function LeadSourcesList({
+function IndeterminateCheckbox({
+  indeterminate,
+  ...rest
+}: { indeterminate?: boolean } & HTMLProps<HTMLInputElement>) {
+  const ref = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (typeof indeterminate === 'boolean' && ref.current) {
+      ref.current.indeterminate = !rest.checked && indeterminate
+    }
+  }, [ref, indeterminate])
+
+  return (
+    <label className='checkbox-container'>
+      <input
+        {...rest}
+        ref={ref}
+        type='checkbox'
+        className='absolute h-0 w-0 cursor-pointer opacity-0'
+      />
+      <span className='checkbox-checkmark'>
+        <Iconify
+          icon='material-symbols:check-small-rounded'
+          className='checkbox-checked h-5 w-5 self-center'
+        />
+        <Iconify
+          icon='material-symbols:check-indeterminate-small-rounded'
+          className='checkbox-indeterminate h-5 w-5 self-center'
+        />
+      </span>
+    </label>
+  )
+}
+
+export default function SuppliersList({
   openAddDialog,
   setOpenAddDialog,
 }: {
@@ -53,12 +90,10 @@ export default function LeadSourcesList({
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const dispatch = useAppDispatch()
+  const { isFallback } = useRouter()
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
   const [sorting, setSorting] = React.useState<SortingState>([])
-
   const [selectedIds, setSelectedIds] = useState<string[]>([])
-  const [openEditDialog, setOpenEditDialog] = useState(false)
-  const [leadSourceToEdit, setLeadSourceToEdit] = useState<LeadSource | null>(null)
   const [idToDelete, setIdToDelete] = useState<string | null>(null)
   // Pogination
   const { PageSize, PageNumber } = useAppSelector((state) => state.paggination)
@@ -66,17 +101,23 @@ export default function LeadSourcesList({
   const [searchValue, setSearchValue] = useState('')
   // Query Params
   const [SearchTerm, setSearchTerm] = useState<string | undefined>(undefined)
-  const { data, isLoading, isFetching, isSuccess } = useGetLeadSourcesQuery(
-    { PageNumber, PageSize, SearchTerm },
-    { refetchOnFocus: true, refetchOnMountOrArgChange: true }
+
+  // Queries
+  const { data, isLoading, isSuccess, isFetching } = useGetSuppliersQuery(
+    { SearchTerm, PageNumber, PageSize },
+    { skip: isFallback, refetchOnMountOrArgChange: true }
   )
 
-  const [deleteLeadSource, { isLoading: isDeleteLeading, isSuccess: isDeleteSuccess, isError }] =
-    useDeleteLeadSourceMutation()
+  // Mutation
+  const [
+    deleteSupplier,
+    { isLoading: isDeleteSupplier, isError: isDeleteError, isSuccess: isDeleteSuccess },
+  ] = useDeleteSupplierMutation()
 
-  const columnHelper = createColumnHelper<LeadSource>()
+  const columnHelper = createColumnHelper<Supplier>()
+
   const columns = [
-    columnHelper.accessor('id', {
+    columnHelper.accessor((row) => row, {
       id: 'select',
       enableSorting: false,
       size: 24,
@@ -100,50 +141,54 @@ export default function LeadSourcesList({
         />
       ),
     }),
-    columnHelper.accessor('source', {
-      id: 'source',
-      header: () => t('Source'),
-      cell: (info) => info.getValue(),
-    }),
-    columnHelper.accessor('sourceLink', {
-      id: 'sourceLink',
-      header: () => t('Source Link'),
-      cell: (info) => info.getValue(),
+    columnHelper.accessor(() => 'name', {
+      id: 'name',
+      header: () => t('Full Name'),
+      cell: (info) => <p>{info.getValue()}</p>,
     }),
     columnHelper.accessor((row) => row, {
       id: 'actions ',
-      enableSorting: false,
       size: 50,
+      enableSorting: false,
       header: () => <p className='w-full text-right'>{t('Actions')}</p>,
-      cell: (leadSource) => (
+      cell: (supplier) => (
         <div className='flex items-center justify-end gap-2'>
-          <Tooltip title={t('Delete')} side='bottom'>
-            <IconButton onClick={() => setIdToDelete(leadSource.getValue().id || '')}>
-              <Icon
-                className='text-red-600 dark:text-red-400'
-                icon='material-symbols:delete-rounded'
-                height={20}
-              />
+          <Tooltip title={t('Preview')} side='bottom'>
+            <IconButton onClick={() => dispatch(previewSupplier(supplier.getValue()))}>
+              <Iconify icon='material-symbols:preview' height={18} />
             </IconButton>
           </Tooltip>
-
-          <Tooltip title={t('Edit')} side='bottom'>
-            <IconButton
-              onClick={() => {
-                setLeadSourceToEdit(leadSource.row.original)
-                setOpenEditDialog(true)
-              }}
-            >
-              <Icon icon='material-symbols:edit' height={20} />
-            </IconButton>
-          </Tooltip>
+          <DropdownMenu
+            trigger={
+              <IconButton>
+                <Tooltip title={t('More')} side='bottom' sideOffset={10}>
+                  <Iconify icon='material-symbols:more-vert' height={20} />
+                </Tooltip>
+              </IconButton>
+            }
+            items={[
+              {
+                type: 'button',
+                label: t('Edit'),
+                icon: <Iconify icon='material-symbols:edit' height={18} />,
+                // onClick: () => push(PATH_DASHBOARD.crm['suppliers-suppliers'].edit(supplier.getValue().id)),
+              },
+              {
+                type: 'button',
+                label: t('Delete'),
+                icon: <Iconify icon='material-symbols:delete-rounded' height={18} />,
+                className: 'text-red-600 dark:text-red-400 rtl:flex-row-reverse',
+                onClick: () => setIdToDelete(supplier.getValue().id),
+              },
+            ]}
+          />
         </div>
       ),
     }),
   ]
 
   useEffect(() => {
-    if (isError) {
+    if (isDeleteError) {
       open({
         message: t('A problem has occured.'),
         autoHideDuration: 4000,
@@ -153,13 +198,17 @@ export default function LeadSourcesList({
     }
     if (isDeleteSuccess) {
       open({
-        message: t('Lead Source Deleted Successfully.'),
+        message: t('Supplier Deleted Successfully.'),
         autoHideDuration: 4000,
         type: 'success',
         variant: 'contained',
       })
     }
-  }, [isError, isDeleteSuccess])
+  }, [isDeleteError, isDeleteSuccess])
+
+  useEffect(() => {
+    if (isSuccess) dispatch(changePageSize(data.pageSize))
+  }, [isLoading, isFetching])
 
   const table = useReactTable({
     defaultColumn: {
@@ -182,25 +231,20 @@ export default function LeadSourcesList({
   useEffect(() => {
     setSelectedIds(
       data?.data
-        .filter((item) => item.id && Object.keys(rowSelection).includes(item.id))
-        .map((item) => item.id || '') || []
+        .map((supplier, i) => (Object.keys(rowSelection).includes(i.toString()) ? supplier.id : ''))
+        .filter((item) => item !== '') || []
     )
   }, [rowSelection])
 
-  useEffect(() => {
-    if (isSuccess) dispatch(changePageSize(data.pageSize))
-  }, [isLoading, isFetching])
-  useEffect(() => {
-    dispatch(resetPaggination())
-  }, [])
   return (
     <>
+      {' '}
       <div className='p-3 '>
         <TextField
           placeholder={t('Search...')}
           endAdornment={
             <IconButton onClick={() => setSearchTerm(searchValue)}>
-              <Icon icon='ion:search-outline' height={18} className='text-gray-500' />
+              <Iconify icon='ion:search-outline' height={18} className='text-gray-500' />
             </IconButton>
           }
           value={searchValue}
@@ -211,7 +255,6 @@ export default function LeadSourcesList({
           }}
         />
       </div>
-
       {isLoading || isFetching ? (
         <div className='flex h-56 w-full items-center justify-center'>
           <LoadingIndicator />
@@ -273,6 +316,7 @@ export default function LeadSourcesList({
                             'cursor-pointer border-b last-of-type:border-b-0 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-paper-hover-dark',
                             row.getIsSelected() && 'bg-gray-50 dark:bg-paper-hover-dark/80'
                           )}
+                          // onDoubleClick={() => dispatch(previewSupplier(row.original))}
                         >
                           {row.getVisibleCells().map((cell) => (
                             <td
@@ -290,7 +334,7 @@ export default function LeadSourcesList({
                       ))}
                     </tbody>
                   </table>
-                  <div className='flex w-max min-w-full items-center justify-end divide-x border-t p-4 rtl:divide-x-reverse dark:divide-gray-600 dark:border-gray-600'>
+                  <div className='flex w-full items-center justify-end divide-x border-t p-4 rtl:divide-x-reverse dark:divide-gray-600 dark:border-gray-600'>
                     <div className='flex items-center justify-center gap-2 px-2'>
                       <p className='text-sm'>{t('Row per page : ')}</p>
                       <MySelect
@@ -365,49 +409,40 @@ export default function LeadSourcesList({
                       </Tooltip>
                     </div>
                   </div>
+                  <SupplierTableToolbar
+                    selectedCount={Object.keys(rowSelection).length}
+                    selectedIds={selectedIds}
+                    setRowSelection={setRowSelection}
+                  />
+                  <SupplierPreview />
                 </div>
               </div>
             </>
           ) : (
             <div className='flex h-56 flex-col items-center justify-center gap-2 px-4 py-2'>
-              <h1 className='text-xl font-semibold'>{t('No Lead Sources Found')}</h1>
+              <h1 className='text-xl font-semibold'>{t('No Supplier Found')}</h1>
             </div>
           )}
         </>
       )}
-      <LeadSourceTableToolbar
-        selectedCount={Object.keys(rowSelection).length}
-        selectedIds={selectedIds}
-        setRowSelection={setRowSelection}
-      />
-      <Backdrop loading={isDeleteLeading} />
-      <Dialog
-        open={openEditDialog || openAddDialog}
-        title={openEditDialog ? t('Edit Lead Source') : t('Add Lead Source')}
-      >
-        <CreateEditLeadSourceForm
-          isEdit={openEditDialog}
-          currentLeadSource={leadSourceToEdit}
+      <Backdrop loading={isDeleteSupplier} />
+      <Dialog open={openAddDialog} title={t('Add Supplier')}>
+        <CreateSupplierForm
           onSuccess={() => {
             setOpenAddDialog(false)
-            setOpenEditDialog(false)
           }}
           onFailure={() => {
             setOpenAddDialog(false)
-            setOpenEditDialog(false)
           }}
         />
       </Dialog>
       <AlertDialog
         title={t('Confirm Delete')}
-        description={t(
-          'This action cannot be undone. This will permanently delete this lead source.'
-        )}
+        description={t('This action cannot be undone. This will permanently delete this supplier.')}
         cancelText={t('Cancel')}
         confirmText={t('Yes, Delete')}
         onConfirm={() => {
-          deleteLeadSource({ id: idToDelete || '', PageNumber, PageSize })
-          invalidateTags(['LeadSources'])
+          deleteSupplier({ id: idToDelete || '', PageNumber, PageSize })
           setIdToDelete(null)
         }}
         open={idToDelete !== null}
@@ -419,7 +454,8 @@ export default function LeadSourcesList({
 }
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
-  store.dispatch(getLeadSources.initiate({ PageNumber: 0, PageSize: 10 }))
+  if (store.getState().session.token)
+    store.dispatch(getSuppliers.initiate({ PageSize: 10, PageNumber: 1 }))
 
   await Promise.all(store.dispatch(getRunningQueriesThunk()))
 

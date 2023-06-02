@@ -174,7 +174,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
           className='w-full sm:w-[500px]'
         >
           <div className='z-50 m-0 flex h-screen w-full flex-col bg-white py-4 shadow-2xl shadow-white/80 transition-all delay-100 dark:border-gray-600 dark:bg-paper-dark dark:shadow-black/80'>
-            <div className='mb-6 flex w-full items-center gap-4 border-b px-4 pb-4'>
+            <div className='flex w-full items-center gap-4 border-b px-4 pb-4'>
               <div className='flex w-full items-center gap-2 '>
                 <IconButton onClick={handleClose}>
                   <Icon icon='ic:round-close' height={22} />
@@ -196,7 +196,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                 <LoadingIndicator />
               </div>
             ) : (
-              <div className='flex flex-1 flex-col gap-5 overflow-y-scroll p-4'>
+              <div className='flex flex-1 flex-col gap-5 overflow-y-scroll px-4 py-2'>
                 {isSuccess && data.data ? (
                   <>
                     <input

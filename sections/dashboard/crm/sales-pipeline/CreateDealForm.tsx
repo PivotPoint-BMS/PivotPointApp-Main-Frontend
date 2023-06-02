@@ -141,6 +141,7 @@ export default function CreateDealForm({
         <AutoComplete name='type' label={t('Type')}>
           <Select
             options={DEALTYPES.map((item) => ({ value: item.value, label: t(item.label) }))}
+            getOptionLabel={(option) => t(option.label)}
             isLoading={isLoading}
             onChange={(newValue) => {
               setValue('type', newValue?.value)

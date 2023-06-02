@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { min } from 'lodash'
 import clsx from 'clsx'
 // hooks
 import useTranslate from 'hooks/useTranslate'
@@ -7,16 +6,13 @@ import useSnackbar from 'hooks/useSnackbar'
 // redux
 import { wrapper } from 'store'
 import {
-  getLeadSources,
+  getCategories,
   getRunningQueriesThunk,
-  invalidateTags,
-  useDeleteLeadSourceMutation,
-  useGetLeadSourcesQuery,
-} from 'store/api/crm/contact-leads/leadSourceApi'
-import { changePageNumber, changePageSize, resetPaggination } from 'store/slices/pagginationSlice'
-import { useAppDispatch, useAppSelector } from 'store/hooks'
+  useDeleteCategoryMutation,
+  useGetCategoriesQuery,
+} from 'store/api/scm/products-service/productsApi'
 // types
-import { LeadSource } from 'types/Lead'
+import { Category } from 'types'
 // components
 import {
   useReactTable,
@@ -30,20 +26,18 @@ import {
 import { Icon } from '@iconify/react'
 import {
   LoadingIndicator,
-  TextField,
   IconButton,
   Tooltip,
   Backdrop,
   Dialog,
   AlertDialog,
   IndeterminateCheckbox,
-  Select as MySelect,
 } from 'components'
 // sections
-import LeadSourceTableToolbar from './LeadSourceTableToolbar'
-import CreateEditLeadSourceForm from '../create/CreateEditLeadSourceForm'
+import CategoriesTableToolbar from './CategoriesTableToolbar'
+import CreateEditCategoryForm from '../create/CreateEditCategoryForm'
 
-export default function LeadSourcesList({
+export default function CategoriesList({
   openAddDialog,
   setOpenAddDialog,
 }: {
@@ -52,29 +46,22 @@ export default function LeadSourcesList({
 }) {
   const { t } = useTranslate()
   const { open } = useSnackbar()
-  const dispatch = useAppDispatch()
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
   const [sorting, setSorting] = React.useState<SortingState>([])
 
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [openEditDialog, setOpenEditDialog] = useState(false)
-  const [leadSourceToEdit, setLeadSourceToEdit] = useState<LeadSource | null>(null)
+  const [categoryToEdit, setCategoryToEdit] = useState<Category | null>(null)
   const [idToDelete, setIdToDelete] = useState<string | null>(null)
-  // Pogination
-  const { PageSize, PageNumber } = useAppSelector((state) => state.paggination)
-  // Filters
-  const [searchValue, setSearchValue] = useState('')
   // Query Params
-  const [SearchTerm, setSearchTerm] = useState<string | undefined>(undefined)
-  const { data, isLoading, isFetching, isSuccess } = useGetLeadSourcesQuery(
-    { PageNumber, PageSize, SearchTerm },
-    { refetchOnFocus: true, refetchOnMountOrArgChange: true }
-  )
+  const { data, isLoading, isFetching } = useGetCategoriesQuery(undefined, {
+    refetchOnFocus: true,
+  })
 
-  const [deleteLeadSource, { isLoading: isDeleteLeading, isSuccess: isDeleteSuccess, isError }] =
-    useDeleteLeadSourceMutation()
+  const [deleteCategory, { isLoading: isDeleteLeading, isSuccess, isError }] =
+    useDeleteCategoryMutation()
 
-  const columnHelper = createColumnHelper<LeadSource>()
+  const columnHelper = createColumnHelper<Category>()
   const columns = [
     columnHelper.accessor('id', {
       id: 'select',
@@ -100,25 +87,21 @@ export default function LeadSourcesList({
         />
       ),
     }),
-    columnHelper.accessor('source', {
-      id: 'source',
-      header: () => t('Source'),
+    columnHelper.accessor('name', {
+      id: 'name',
+      header: () => t('Name'),
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor('sourceLink', {
-      id: 'sourceLink',
-      header: () => t('Source Link'),
-      cell: (info) => info.getValue(),
-    }),
+
     columnHelper.accessor((row) => row, {
       id: 'actions ',
       enableSorting: false,
       size: 50,
       header: () => <p className='w-full text-right'>{t('Actions')}</p>,
-      cell: (leadSource) => (
+      cell: (category) => (
         <div className='flex items-center justify-end gap-2'>
           <Tooltip title={t('Delete')} side='bottom'>
-            <IconButton onClick={() => setIdToDelete(leadSource.getValue().id || '')}>
+            <IconButton onClick={() => setIdToDelete(category.getValue().id || '')}>
               <Icon
                 className='text-red-600 dark:text-red-400'
                 icon='material-symbols:delete-rounded'
@@ -126,11 +109,10 @@ export default function LeadSourcesList({
               />
             </IconButton>
           </Tooltip>
-
           <Tooltip title={t('Edit')} side='bottom'>
             <IconButton
               onClick={() => {
-                setLeadSourceToEdit(leadSource.row.original)
+                setCategoryToEdit(category.row.original)
                 setOpenEditDialog(true)
               }}
             >
@@ -151,15 +133,15 @@ export default function LeadSourcesList({
         variant: 'contained',
       })
     }
-    if (isDeleteSuccess) {
+    if (isSuccess) {
       open({
-        message: t('Lead Source Deleted Successfully.'),
+        message: t('Category Deleted Successfully.'),
         autoHideDuration: 4000,
         type: 'success',
         variant: 'contained',
       })
     }
-  }, [isError, isDeleteSuccess])
+  }, [isError, isSuccess])
 
   const table = useReactTable({
     defaultColumn: {
@@ -187,31 +169,8 @@ export default function LeadSourcesList({
     )
   }, [rowSelection])
 
-  useEffect(() => {
-    if (isSuccess) dispatch(changePageSize(data.pageSize))
-  }, [isLoading, isFetching])
-  useEffect(() => {
-    dispatch(resetPaggination())
-  }, [])
   return (
     <>
-      <div className='p-3 '>
-        <TextField
-          placeholder={t('Search...')}
-          endAdornment={
-            <IconButton onClick={() => setSearchTerm(searchValue)}>
-              <Icon icon='ion:search-outline' height={18} className='text-gray-500' />
-            </IconButton>
-          }
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-          className='flex h-full'
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') setSearchTerm(e.currentTarget.value)
-          }}
-        />
-      </div>
-
       {isLoading || isFetching ? (
         <div className='flex h-56 w-full items-center justify-center'>
           <LoadingIndicator />
@@ -290,92 +249,17 @@ export default function LeadSourcesList({
                       ))}
                     </tbody>
                   </table>
-                  <div className='flex w-max min-w-full items-center justify-end divide-x border-t p-4 rtl:divide-x-reverse dark:divide-gray-600 dark:border-gray-600'>
-                    <div className='flex items-center justify-center gap-2 px-2'>
-                      <p className='text-sm'>{t('Row per page : ')}</p>
-                      <MySelect
-                        items={['10', '25', '50'].map((item) => ({ label: item, value: item }))}
-                        onValueChange={(page) => dispatch(changePageSize(Number(page)))}
-                        value={String(PageSize)}
-                        buttonProps={{ intent: 'default' }}
-                      />
-                    </div>
-                    <div className='flex h-full items-center justify-center gap-2 p-2 '>
-                      <p className='text-sm'>
-                        {(data.pageNumber - 1) * (data.pageSize + 1) === 0
-                          ? 1
-                          : (data.pageNumber - 1) * (data.pageSize + 1)}{' '}
-                        - {min([data.pageNumber * data.pageSize, data.totalRecords])} {t('of')}{' '}
-                        {data.totalRecords}
-                      </p>
-                    </div>
-                    <div className='flex items-center justify-center gap-2 px-2'>
-                      <Tooltip side='bottom' title={t('First page')}>
-                        <IconButton
-                          className='border dark:border-gray-600'
-                          onClick={() => dispatch(changePageNumber(1))}
-                          disabled={PageNumber === 1}
-                        >
-                          <Icon
-                            icon='fluent:chevron-double-left-20-filled'
-                            className='rtl:rotate-180'
-                          />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip side='bottom' title={t('Previous page')}>
-                        <IconButton
-                          className='border dark:border-gray-600'
-                          onClick={() =>
-                            dispatch(changePageNumber(PageNumber > 1 ? PageNumber - 1 : 1))
-                          }
-                          disabled={PageNumber === 1}
-                        >
-                          <Icon icon='fluent:chevron-left-20-filled' className='rtl:rotate-180' />
-                        </IconButton>
-                      </Tooltip>
-                      <p className='text-sm'>
-                        {t('Page')} {PageNumber} {t('of')} {data.totalPages}
-                      </p>
-                      <Tooltip side='bottom' title={t('Next page')}>
-                        <IconButton
-                          className='border dark:border-gray-600'
-                          onClick={() =>
-                            dispatch(
-                              changePageNumber(
-                                PageNumber < data.totalPages ? PageNumber + 1 : data.totalPages
-                              )
-                            )
-                          }
-                          disabled={PageNumber === data.totalPages}
-                        >
-                          <Icon icon='fluent:chevron-right-20-filled' className='rtl:rotate-180' />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip side='bottom' title={t('Last page')}>
-                        <IconButton
-                          className='border dark:border-gray-600'
-                          onClick={() => dispatch(changePageNumber(data.totalPages))}
-                          disabled={PageNumber === data.totalPages}
-                        >
-                          <Icon
-                            icon='fluent:chevron-double-right-20-filled'
-                            className='rtl:rotate-180'
-                          />
-                        </IconButton>
-                      </Tooltip>
-                    </div>
-                  </div>
                 </div>
               </div>
             </>
           ) : (
             <div className='flex h-56 flex-col items-center justify-center gap-2 px-4 py-2'>
-              <h1 className='text-xl font-semibold'>{t('No Lead Sources Found')}</h1>
+              <h1 className='text-xl font-semibold'>{t('No Categories Found')}</h1>
             </div>
           )}
         </>
       )}
-      <LeadSourceTableToolbar
+      <CategoriesTableToolbar
         selectedCount={Object.keys(rowSelection).length}
         selectedIds={selectedIds}
         setRowSelection={setRowSelection}
@@ -383,11 +267,11 @@ export default function LeadSourcesList({
       <Backdrop loading={isDeleteLeading} />
       <Dialog
         open={openEditDialog || openAddDialog}
-        title={openEditDialog ? t('Edit Lead Source') : t('Add Lead Source')}
+        title={openEditDialog ? t('Edit Category') : t('Add Category')}
       >
-        <CreateEditLeadSourceForm
+        <CreateEditCategoryForm
           isEdit={openEditDialog}
-          currentLeadSource={leadSourceToEdit}
+          currentCategory={categoryToEdit}
           onSuccess={() => {
             setOpenAddDialog(false)
             setOpenEditDialog(false)
@@ -400,14 +284,11 @@ export default function LeadSourcesList({
       </Dialog>
       <AlertDialog
         title={t('Confirm Delete')}
-        description={t(
-          'This action cannot be undone. This will permanently delete this lead source.'
-        )}
+        description={t('This action cannot be undone. This will permanently delete this category.')}
         cancelText={t('Cancel')}
         confirmText={t('Yes, Delete')}
         onConfirm={() => {
-          deleteLeadSource({ id: idToDelete || '', PageNumber, PageSize })
-          invalidateTags(['LeadSources'])
+          deleteCategory(idToDelete || '')
           setIdToDelete(null)
         }}
         open={idToDelete !== null}
@@ -419,7 +300,7 @@ export default function LeadSourcesList({
 }
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
-  store.dispatch(getLeadSources.initiate({ PageNumber: 0, PageSize: 10 }))
+  store.dispatch(getCategories.initiate())
 
   await Promise.all(store.dispatch(getRunningQueriesThunk()))
 

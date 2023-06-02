@@ -9,11 +9,12 @@ import {
 // hooks
 import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
+import { useAppSelector } from 'store/hooks'
 // components
+import AlertDialog from 'components/AlertDialog'
 import { Icon as Iconify } from '@iconify/react'
 import Button from 'components/Button'
 import { RowSelectionState } from '@tanstack/react-table'
-import AlertDialog from 'components/AlertDialog'
 
 interface LeadTableToolbarProps {
   selectedCount: number
@@ -28,6 +29,7 @@ export default function LeadTableToolbar({
 }: LeadTableToolbarProps) {
   const { t } = useTranslate()
   const { open } = useSnackbar()
+  const { PageNumber, PageSize } = useAppSelector((state) => state.paggination)
   const [openBulkDeleteDialog, setOpenBulkDeleteDialog] = useState(false)
   const [bulkDeleteLead, { isLoading, isSuccess, isError }] = useBulkDeleteLeadMutation()
   const [convertToContact] = useConvertToContactMutation()
@@ -37,13 +39,13 @@ export default function LeadTableToolbar({
   }
 
   const handleBulkDelete = () => {
-    bulkDeleteLead(selectedIds)
+    bulkDeleteLead({ toDelete: selectedIds, PageNumber, PageSize })
     setRowSelection({})
     setOpenBulkDeleteDialog(false)
   }
 
   const handleConvertToContact = () => {
-    selectedIds.forEach((id) => convertToContact(id))
+    selectedIds.forEach((id) => convertToContact({ id, PageNumber, PageSize }))
     setRowSelection({})
   }
 

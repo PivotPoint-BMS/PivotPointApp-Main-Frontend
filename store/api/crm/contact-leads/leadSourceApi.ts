@@ -7,6 +7,7 @@ import { IGenericResponse, ListGenericResponse, RequestParams } from 'types'
 // store
 import { RootState } from 'store'
 import { LeadSource } from 'types/Lead'
+import RequestSearchParams from 'types/RequestSearchParams'
 
 export const leadSourceApi = createApi({
   reducerPath: 'leadSourceApi',
@@ -30,20 +31,26 @@ export const leadSourceApi = createApi({
   },
   tagTypes: ['LeadSources', 'AllLeadSources'],
   endpoints: (builder) => ({
-    getLeadSources: builder.query<ListGenericResponse<LeadSource[]>, RequestParams>({
-      query: () => 'LeadSources',
+    getLeadSources: builder.query<ListGenericResponse<LeadSource[]>, RequestSearchParams>({
+      query: (params) => ({
+        url: 'LeadSources',
+        params,
+      }),
     }),
     getAllLeadSources: builder.query<ListGenericResponse<LeadSource[]>, void>({
       query: () => 'LeadSources/All',
     }),
-    createLeadSource: builder.mutation<IGenericResponse<LeadSource>, LeadSource>({
-      query: (data) => ({
+    createLeadSource: builder.mutation<
+      IGenericResponse<LeadSource>,
+      { data: LeadSource } & RequestParams
+    >({
+      query: ({ data }) => ({
         url: 'LeadSources',
         method: 'POST',
         body: data,
         responseHandler: 'content-type',
       }),
-      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ PageNumber, PageSize }, { dispatch, queryFulfilled }) {
         try {
           const {
             data: { data },
@@ -51,7 +58,7 @@ export const leadSourceApi = createApi({
           dispatch(
             leadSourceApi.util.updateQueryData(
               'getLeadSources',
-              { PageNumber: 1, PageSize: 10 },
+              { PageNumber, PageSize },
               (draftedList) => {
                 draftedList.data.push(data)
               }
@@ -67,24 +74,24 @@ export const leadSourceApi = createApi({
         }
       },
     }),
-    editLeadSource: builder.mutation<string[], { data: LeadSource; id: string }>({
+    editLeadSource: builder.mutation<string[], { data: LeadSource; id: string } & RequestParams>({
       query: ({ data, id }) => ({
         url: `LeadSources/${id}`,
         method: 'PUT',
         body: data,
         responseHandler: 'content-type',
       }),
-      async onQueryStarted({ id, ...patch }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ id, PageNumber, PageSize, data }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
 
           dispatch(
             leadSourceApi.util.updateQueryData(
               'getLeadSources',
-              { PageNumber: 1, PageSize: 10 },
+              { PageNumber, PageSize },
               (draftedList) => {
                 draftedList.data.map((source) => {
-                  if (source.id === id) return { ...source, ...patch }
+                  if (source.id === id) return { id, ...data }
                   return source
                 })
               }
@@ -93,7 +100,7 @@ export const leadSourceApi = createApi({
           dispatch(
             leadSourceApi.util.updateQueryData('getAllLeadSources', undefined, (draftedList) => {
               draftedList.data.map((source) => {
-                if (source.id === id) return { ...source, ...patch }
+                if (source.id === id) return { id, ...data }
                 return source
               })
             })
@@ -103,19 +110,19 @@ export const leadSourceApi = createApi({
         }
       },
     }),
-    deleteLeadSource: builder.mutation<string[], string>({
-      query: (id) => ({
+    deleteLeadSource: builder.mutation<string[], { id: string } & RequestParams>({
+      query: ({ id }) => ({
         url: `LeadSources/${id}`,
         method: 'DELETE',
         responseHandler: 'content-type',
       }),
-      async onQueryStarted(id, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
           dispatch(
             leadSourceApi.util.updateQueryData(
               'getLeadSources',
-              { PageNumber: 1, PageSize: 10 },
+              { PageNumber, PageSize },
               (draftedList) => ({
                 ...draftedList,
                 data: draftedList.data.filter((source) => source.id !== id),
@@ -133,20 +140,23 @@ export const leadSourceApi = createApi({
         }
       },
     }),
-    bulkDeleteLeadSources: builder.mutation<ListGenericResponse<unknown>, string[]>({
-      query: (toDelete) => ({
+    bulkDeleteLeadSources: builder.mutation<
+      ListGenericResponse<unknown>,
+      { toDelete: string[] } & RequestParams
+    >({
+      query: ({ toDelete }) => ({
         url: 'Lead/bulk',
         body: { toDelete },
         method: 'DELETE',
         responseHandler: 'content-type',
       }),
-      async onQueryStarted(toDelete, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ toDelete, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
           dispatch(
             leadSourceApi.util.updateQueryData(
               'getLeadSources',
-              { PageNumber: 1, PageSize: 10 },
+              { PageNumber, PageSize },
               (draftedList) => ({
                 ...draftedList,
                 data: draftedList.data.filter(

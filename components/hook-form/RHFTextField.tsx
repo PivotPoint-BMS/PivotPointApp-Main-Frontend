@@ -65,7 +65,7 @@ export default function RHFTextField({
               'border border-gray-400 outline-none focus-within:border-black hover:border-black',
               'dark:border-gray-600 dark:focus-within:border-white dark:hover:border-white',
               error &&
-                '!border-red-500 focus-within:!border-black hover:!border-red-500 dark:border-red-500 dark:focus-within:!border-red-500',
+                '!border-red-500 focus-within:!border-red-500 hover:!border-red-500 dark:border-red-500 dark:focus-within:!border-red-500',
               disabled &&
                 '!border-none !bg-gray-200 !text-gray-500 dark:!bg-gray-600 dark:!text-gray-400 dark:hover:bg-gray-600'
             )}

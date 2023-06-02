@@ -5,26 +5,25 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { FieldValues, useForm } from 'react-hook-form'
 // api
 import {
-  useCreateLeadSourceMutation,
-  useEditLeadSourceMutation,
-} from 'store/api/crm/contact-leads/leadSourceApi'
+  useCreateCategoryMutation,
+  useEditCategoryMutation,
+} from 'store/api/scm/products-service/productsApi'
 // types
-import { LeadSource } from 'types/Lead'
+import { Category } from 'types'
 // hooks
-import { useAppSelector } from 'store/hooks'
 import useTranslate from 'hooks/useTranslate'
 // components
 import { Button } from 'components'
 import { FormProvider, RHFTextField } from 'components/hook-form'
 import useSnackbar from 'hooks/useSnackbar'
 
-export default function CreateEditLeadSourceForm({
-  currentLeadSource,
+export default function CreateEditCategoryForm({
+  currentCategory,
   isEdit,
   onSuccess,
   onFailure,
 }: {
-  currentLeadSource: LeadSource | null
+  currentCategory: Category | null
   isEdit: boolean
   onSuccess: () => void
   onFailure: () => void
@@ -32,28 +31,24 @@ export default function CreateEditLeadSourceForm({
   const { t } = useTranslate()
   const { open } = useSnackbar()
 
-  const { PageNumber, PageSize } = useAppSelector((state) => state.paggination)
-
   const [
-    createLeadSource,
+    createCategory,
     { isLoading: isCreateLoading, isSuccess: isCreateSuccess, isError: isCreateError },
-  ] = useCreateLeadSourceMutation()
+  ] = useCreateCategoryMutation()
   const [
-    editLeadSource,
+    editCategory,
     { isLoading: isEditLoading, isSuccess: isEditSuccess, isError: isEditError },
-  ] = useEditLeadSourceMutation()
+  ] = useEditCategoryMutation()
 
   const LeadSchema = Yup.object().shape({
-    source: Yup.string().min(3, t('Too short')).required(t('This field is required')),
-    sourceLink: Yup.string().min(3, t('Too short')).required(t('This field is required')),
+    name: Yup.string().min(3, t('Too short')).required(t('This field is required')),
   })
 
   const defaultValues = useMemo(
     () => ({
-      source: currentLeadSource?.source || '',
-      sourceLink: currentLeadSource?.sourceLink || '',
+      name: currentCategory?.name || '',
     }),
-    [currentLeadSource]
+    [currentCategory]
   )
 
   const methods = useForm<FieldValues>({
@@ -64,10 +59,9 @@ export default function CreateEditLeadSourceForm({
   const { handleSubmit, reset } = methods
 
   const onSubmit = async (data: FieldValues) => {
-    const leadSource: LeadSource = { source: data.source, sourceLink: data.sourceLink }
-    if (isEdit)
-      editLeadSource({ data: leadSource, id: currentLeadSource?.id || '', PageNumber, PageSize })
-    else createLeadSource({ data: leadSource, PageNumber, PageSize })
+    const category: Omit<Category, 'id'> = { name: data.name }
+    if (isEdit) editCategory({ name: data.name, id: currentCategory?.id || '' })
+    else createCategory(category)
   }
 
   useEffect(() => {
@@ -78,15 +72,14 @@ export default function CreateEditLeadSourceForm({
         type: 'error',
         variant: 'contained',
       })
-      reset()
       onFailure()
     }
     if (isCreateSuccess || isEditSuccess) {
       reset()
       open({
         message: isEditSuccess
-          ? t('Lead Source Updated Successfully.')
-          : t('Lead Source Added Successfully.'),
+          ? t('Category Updated Successfully.')
+          : t('Category Added Successfully.'),
         autoHideDuration: 4000,
         type: 'success',
         variant: 'contained',
@@ -98,24 +91,15 @@ export default function CreateEditLeadSourceForm({
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <div className='mt-2 flex flex-col gap-4'>
-        <RHFTextField name='source' label={t('Source')} />
-        <RHFTextField name='sourceLink' label={t('Source Link')} />
+        <RHFTextField name='name' label={t('Name')} />
       </div>
 
       <div className='mt-6 flex w-full items-center justify-end gap-3'>
-        <Button
-          size='large'
-          variant='outlined'
-          intent='default'
-          onClick={() => {
-            onFailure()
-            reset()
-          }}
-        >
+        <Button size='large' variant='outlined' intent='default' onClick={onFailure}>
           {t('Cancel')}
         </Button>
         <Button size='large' type='submit' loading={isEditLoading || isCreateLoading}>
-          {isEdit ? t('Edit Lead Source') : t('Add Lead Source')}
+          {isEdit ? t('Edit Category') : t('Add Category')}
         </Button>
       </div>
     </FormProvider>

@@ -31,14 +31,19 @@ export const PREVIEW = {
 // CONSTANTS
 
 export const LEAD_PRIORITIES = [
-  { value: '0', label: 'Unassined' },
-  { value: '1', label: 'Low' },
-  { value: '2', label: 'Medium' },
-  { value: '3', label: 'High' },
+  { value: 0, label: 'Unassined' },
+  { value: 1, label: 'Low' },
+  { value: 2, label: 'Medium' },
+  { value: 3, label: 'High' },
 ]
 
 export const DEALTYPES = [
   { value: 0, label: 'General' },
   { value: 1, label: 'Leads' },
   { value: 2, label: 'Contacts' },
+]
+
+export const PRODUCTS_TYPES = [
+  { value: 1, label: 'Product' },
+  { value: 2, label: 'Service' },
 ]

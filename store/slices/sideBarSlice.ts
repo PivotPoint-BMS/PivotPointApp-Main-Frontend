@@ -96,7 +96,7 @@ const initialState: SideBarConfig = {
         },
         {
           name: 'Product/Service',
-          href: PATH_DASHBOARD.scm['product-service'],
+          href: PATH_DASHBOARD.scm['product-service'].list,
           icon: 'fa6-solid:boxes-stacked',
           badge: {
             label: 'New',
