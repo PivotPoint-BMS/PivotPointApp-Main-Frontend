@@ -11,7 +11,6 @@ import useTranslate from 'hooks/useTranslate'
 // routes
 import { PATH_DASHBOARD } from 'routes/paths'
 // sections
-import SuppliersList from 'sections/dashboard/scm/product-service/suppliers/list'
 import CategoriesList from 'sections/dashboard/scm/product-service/categories/list'
 import ProductsList from 'sections/dashboard/scm/product-service/products/list'
 // layout
@@ -21,16 +20,14 @@ import { Icon as Iconify } from '@iconify/react'
 import { HeaderBreadcrumbs, Card, Button } from 'components'
 
 const TABS = [
-  { name: 'Suppliers', value: 'suppliers', icon: 'solar:delivery-bold' },
-  { name: 'Categories', value: 'categories', icon: 'material-symbols:play-shapes-rounded' },
   { name: 'Products', value: 'products', icon: 'ic:baseline-inventory' },
+  { name: 'Categories', value: 'categories', icon: 'material-symbols:play-shapes-rounded' },
 ]
 
 function index() {
   const { t, locale } = useTranslate()
   const { push, pathname, query } = useRouter()
-  const [tab, setTab] = useState(query?.tab ? (query?.tab as string) : 'suppliers')
-  const [openAddSupplierDialog, setOpenAddSupplierDialog] = useState(false)
+  const [tab, setTab] = useState(query?.tab ? (query?.tab as string) : 'products')
   const [openAddCategoryDialog, setOpenAddCategoryDialog] = useState(false)
 
   useEffect(() => {
@@ -52,14 +49,6 @@ function index() {
           ]}
           action={
             <>
-              {tab === 'suppliers' && (
-                <Button
-                  startIcon={<Iconify icon='ic:round-add' height={24} />}
-                  onClick={() => setOpenAddSupplierDialog(true)}
-                >
-                  {t('Add a Supplier')}
-                </Button>
-              )}
               {tab === 'categories' && (
                 <Button
                   startIcon={<Iconify icon='ic:round-add' height={24} />}
@@ -80,7 +69,7 @@ function index() {
         />
         <Card fullWidth className='mb-10 overflow-hidden'>
           <TabsPrimitive.Root
-            defaultValue='suppliers'
+            defaultValue='products'
             dir={locale === 'ar' ? 'rtl' : 'ltr'}
             className='overflow-hidden'
             value={tab}
@@ -105,20 +94,15 @@ function index() {
                 </TabsPrimitive.Trigger>
               ))}
             </TabsPrimitive.List>
-            <TabsPrimitive.Content value='suppliers' className='w-full'>
-              <SuppliersList
-                openAddDialog={openAddSupplierDialog}
-                setOpenAddDialog={setOpenAddSupplierDialog}
-              />
+
+            <TabsPrimitive.Content value='products' className='w-full'>
+              <ProductsList />
             </TabsPrimitive.Content>
             <TabsPrimitive.Content value='categories' className='w-full'>
               <CategoriesList
                 openAddDialog={openAddCategoryDialog}
                 setOpenAddDialog={setOpenAddCategoryDialog}
               />
-            </TabsPrimitive.Content>
-            <TabsPrimitive.Content value='products' className='w-full'>
-              <ProductsList />
             </TabsPrimitive.Content>
           </TabsPrimitive.Root>
         </Card>

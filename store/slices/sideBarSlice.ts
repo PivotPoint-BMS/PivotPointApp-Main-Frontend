@@ -104,6 +104,15 @@ const initialState: SideBarConfig = {
           },
         },
         {
+          name: 'Suppliers',
+          href: PATH_DASHBOARD.scm.suppliers,
+          icon: 'solar:delivery-bold',
+          badge: {
+            label: 'New',
+            color: 'success',
+          },
+        },
+        {
           name: 'Transportation',
           href: PATH_DASHBOARD.scm.transportation,
           icon: 'fluent:vehicle-truck-profile-20-filled',
