@@ -55,12 +55,12 @@ export default function DealPreview({ boardId }: { boardId: string }) {
     data: leadsResponse,
     isSuccess: isLeadSuccess,
     isLoading: isLeadLoading,
-  } = useGetLeadsQuery({ PageNumber: undefined, PageSize: undefined })
+  } = useGetLeadsQuery({ PageNumber: 1, PageSize: 50 })
   const {
     data: contactsResponse,
     isSuccess: isContactsSuccess,
     isLoading: isContactsLoading,
-  } = useGetContactsQuery({ PageNumber: undefined, PageSize: undefined })
+  } = useGetContactsQuery({ PageNumber: 1, PageSize: 50 })
 
   // Mutation
   const [editDeal, { isError: isEditError, isSuccess: isEditSuccess }] = useEditDealMutation()

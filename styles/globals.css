@@ -252,7 +252,7 @@ html[class*='dark'] {
   @apply !w-full;
 }
 .react-select-container .react-select__control {
-  @apply rounded-lg border border-gray-400 bg-transparent shadow-none hover:border-black focus:border-black dark:!border-gray-500 dark:!text-white dark:hover:!border-white dark:focus:!border-white;
+  @apply rounded-lg border border-gray-400 bg-transparent shadow-none focus-within:border-black hover:border-black dark:!border-gray-500 dark:!text-white dark:hover:!border-white dark:focus:!border-white;
 }
 
 .react-select-container .react-select__control .react-select__value-container {

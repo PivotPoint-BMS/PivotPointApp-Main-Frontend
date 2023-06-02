@@ -40,12 +40,12 @@ export default function CreateDealForm({
     data: leadsResponse,
     isSuccess,
     isLoading,
-  } = useGetLeadsQuery({ PageNumber: undefined, PageSize: undefined })
+  } = useGetLeadsQuery({ PageNumber: 1, PageSize: 50 })
   const {
     data: contactsResponse,
     isSuccess: isContactsSuccess,
     isLoading: isContactsLoading,
-  } = useGetContactsQuery({ PageNumber: undefined, PageSize: undefined })
+  } = useGetContactsQuery({ PageNumber: 1, PageSize: 50 })
   // Mutation
   const [
     createDeal,
