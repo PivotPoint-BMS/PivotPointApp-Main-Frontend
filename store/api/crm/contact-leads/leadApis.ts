@@ -3,9 +3,10 @@ import { HYDRATE } from 'next-redux-wrapper'
 // config
 import { PIVOTPOINT_API } from 'config'
 // types
-import { ListGenericResponse, Lead, LeadRequestParams, RequestParams } from 'types'
+import { ListGenericResponse, Lead, LeadRequestParams, RequestParams, SegmentClient } from 'types'
 // store
 import { RootState } from 'store'
+import RequestSearchParams from 'types/RequestSearchParams'
 
 export const leadApi = createApi({
   reducerPath: 'leadApi',
@@ -37,6 +38,21 @@ export const leadApi = createApi({
           IsContact: false,
           IsLead: true,
         },
+      }),
+    }),
+    getAll: builder.query<ListGenericResponse<SegmentClient[]>, { searchTerm?: string }>({
+      query: (params) => ({
+        url: 'Lead/Summary/All',
+        params,
+      }),
+    }),
+    getSegmentClients: builder.query<
+      ListGenericResponse<SegmentClient[]>,
+      RequestSearchParams & { id: string }
+    >({
+      query: ({ id, ...params }) => ({
+        url: `Lead/Summary/Segment/${id}`,
+        params: { ...params },
       }),
     }),
     getContacts: builder.query<ListGenericResponse<Lead[]>, LeadRequestParams>({
@@ -211,9 +227,11 @@ export const {
   useGetLeadQuery,
   useGetLeadsQuery,
   useGetContactsQuery,
+  useGetAllQuery,
+  useGetSegmentClientsQuery,
   // Mutations
-  useCreateLeadMutation,
   useEditLeadMutation,
+  useCreateLeadMutation,
   useDeleteLeadMutation,
   useBulkDeleteLeadMutation,
   useConvertToContactMutation,

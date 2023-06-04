@@ -57,11 +57,19 @@ const initialState: SideBarConfig = {
             color: 'warning',
           },
         },
-
         {
           name: 'Sales Pipeline',
           href: PATH_DASHBOARD.crm['sales-pipeline'],
           icon: 'icon-park-solid:sales-report',
+          badge: {
+            label: 'Beta',
+            color: 'warning',
+          },
+        },
+        {
+          name: 'Customer Segmentation',
+          href: PATH_DASHBOARD.crm['customer-segmentation'],
+          icon: 'ph:line-segments-fill',
           badge: {
             label: 'Beta',
             color: 'warning',

@@ -13,7 +13,13 @@ import {
 // apis
 import { authApi, companyApi, paymentApi } from './api/auth'
 import { settingsApi } from './api/settings/settingsAPIs'
-import { leadApi, leadSourceApi, dealsBoardsApi, addressApi } from './api/crm'
+import {
+  leadApi,
+  leadSourceApi,
+  dealsBoardsApi,
+  addressApi,
+  customerSegmentationApi,
+} from './api/crm'
 import { statsApi } from './api/stats/statsApi'
 import { financeSetupApi } from './api/fm/financeSetupApi'
 import { financeDashboardApi } from './api/fm/fmDashboardApi'
@@ -24,11 +30,11 @@ import { productsApi } from './api/scm/products-service/productsApi'
 export const makeStore = () =>
   configureStore({
     reducer: {
+      [statsApi.reducerPath]: statsApi.reducer,
       [sessionSlice.name]: sessionSlice.reducer,
       [sideBarSlice.name]: sideBarSlice.reducer,
       [snackbarSlice.name]: snackbarSlice.reducer,
       [pagginationSlice.name]: pagginationSlice.reducer,
-      [statsApi.reducerPath]: statsApi.reducer,
       // Auth
       [authApi.reducerPath]: authApi.reducer,
       [companyApi.reducerPath]: companyApi.reducer,
@@ -36,11 +42,12 @@ export const makeStore = () =>
       [settingsApi.reducerPath]: settingsApi.reducer,
       // CRM
       [leadApi.reducerPath]: leadApi.reducer,
-      [leadSourceApi.reducerPath]: leadSourceApi.reducer,
-      [leadPreviewSlice.name]: leadPreviewSlice.reducer,
       [addressApi.reducerPath]: addressApi.reducer,
-      [dealsBoardsApi.reducerPath]: dealsBoardsApi.reducer,
+      [leadPreviewSlice.name]: leadPreviewSlice.reducer,
       [dealPreviewSlice.name]: dealPreviewSlice.reducer,
+      [leadSourceApi.reducerPath]: leadSourceApi.reducer,
+      [dealsBoardsApi.reducerPath]: dealsBoardsApi.reducer,
+      [customerSegmentationApi.reducerPath]: customerSegmentationApi.reducer,
       // FM
       [financeSetupApi.reducerPath]: financeSetupApi.reducer,
       [financeDashboardApi.reducerPath]: financeDashboardApi.reducer,
@@ -56,23 +63,24 @@ export const makeStore = () =>
         immutableCheck: true,
       }).concat(
         authApi.middleware,
+        leadApi.middleware,
+        statsApi.middleware,
+        addressApi.middleware,
         companyApi.middleware,
         paymentApi.middleware,
         settingsApi.middleware,
-        leadApi.middleware,
+        supplierApi.middleware,
+        productsApi.middleware,
         leadSourceApi.middleware,
-        addressApi.middleware,
         dealsBoardsApi.middleware,
-        statsApi.middleware,
         financeSetupApi.middleware,
         financeDashboardApi.middleware,
-        supplierApi.middleware,
-        productsApi.middleware
+        customerSegmentationApi.middleware
       ),
   })
 
 setupListeners(makeStore().dispatch)
 type AppStore = ReturnType<typeof makeStore>
-export type RootState = ReturnType<AppStore['getState']>
 export type AppDispatch = AppStore['dispatch']
+export type RootState = ReturnType<AppStore['getState']>
 export const wrapper = createWrapper<AppStore>(makeStore, { debug: true })
