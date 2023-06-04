@@ -22,7 +22,7 @@ export default function GeneralInfo({ supplier }: { supplier: Supplier }) {
     <Card fullWidth variant='default' className='rounded-none !bg-transparent'>
       <CardContent className='p-0'>
         <div className='mb-4 flex items-center gap-2 px-4'>
-          <Link href={`${PATH_DASHBOARD.scm.supplier}`}>
+          <Link href={`${PATH_DASHBOARD.scm.suppliers}`}>
             <IconButton>
               <Iconify
                 icon='material-symbols:arrow-back-ios-new-rounded'
