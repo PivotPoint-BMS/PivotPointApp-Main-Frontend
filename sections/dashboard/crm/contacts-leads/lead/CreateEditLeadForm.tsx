@@ -8,7 +8,6 @@ import { FieldValues, useForm } from 'react-hook-form'
 import {
   getLead,
   getRunningQueriesThunk,
-  invalidateTags,
   useCreateLeadMutation,
   useEditLeadMutation,
 } from 'store/api/crm/contact-leads/leadApis'
@@ -71,7 +70,6 @@ export default function CreateEditLeadForm({
   const [sourcesList, setSourcesList] = useState<{ value: string; label: string }[]>([])
   const [coutriesList, setCoutriesList] = useState<{ value: string; label: string }[]>([])
   const [citiesList, setCitiesList] = useState<{ value: string; label: string }[]>([])
-  const [income, setIncome] = useState(0)
   const [city, setCity] = useState<{ value: string; label: string } | null>(null)
   const [country, setCountry] = useState<{ value: string; label: string } | null>(null)
   const [source, setSource] = useState<{ value: string; label: string } | null>(null)
@@ -92,8 +90,8 @@ export default function CreateEditLeadForm({
     city: Yup.string().required(t('This field is required')),
     country: Yup.string().required(t('This field is required')),
     priority: Yup.number().required(t('This field is required')),
-    spendingScore: Yup.number(),
-    incomeK: Yup.number().required(t('This field is required')),
+    incomeK: Yup.number().min(1).max(100).required(t('This field is required')),
+    spendingScore: Yup.number().min(1).max(100).required(t('This field is required')),
     LeadSourceId: Yup.string().required(t('This field is required')),
   })
 
@@ -111,7 +109,8 @@ export default function CreateEditLeadForm({
       city: currentLead?.address.city || '',
       priority: currentLead?.priority || 0,
       country: currentLead?.address.country || '',
-      incomeK: 0,
+      incomeK: currentLead?.incomeK,
+      spendingScore: currentLead?.spendingScore,
     }),
     [currentLead]
   )
@@ -121,7 +120,15 @@ export default function CreateEditLeadForm({
     defaultValues,
   })
 
-  const { handleSubmit, setValue, getValues, reset } = methods
+  const {
+    handleSubmit,
+    setValue,
+    getValues,
+    reset,
+    formState: { errors },
+  } = methods
+
+  console.log(errors)
 
   const onSubmit = async (data: FieldValues) => {
     const formData = new FormData()
@@ -133,11 +140,11 @@ export default function CreateEditLeadForm({
     formData.append('LeadSourceId', data.LeadSourceId)
     formData.append('city', data.city)
     formData.append('country', data.country)
-    formData.append('incomeK', String(income))
+    formData.append('incomeK', data.incomeK)
+    formData.append('spendingScore', String(data.spendingScore))
     formData.append('priority', String(priority))
     if (isEdit) editLead({ data: formData, id: currentLead?.id || '', PageNumber, PageSize })
     else createLead({ data: formData, PageNumber, PageSize })
-    invalidateTags(['Leads', 'Lead'])
   }
 
   const {
@@ -189,7 +196,6 @@ export default function CreateEditLeadForm({
         value: currentLead.leadSource.id || '',
         label: currentLead.leadSource.source || '',
       })
-      setIncome(currentLead.incomeK || 0)
       setPriority(currentLead?.priority || 0)
     }
 
@@ -273,10 +279,7 @@ export default function CreateEditLeadForm({
               <RHFTextField name='email' label={t('Email')} />
               <RHFTextField name='phoneNumber' label={t('Phone Number')} />
               <RHFTextField name='jobTitle' label={t('Job Title')} />
-            </div>
-            <h6 className='mb-5 text-lg font-semibold'>{t('Source Informations')}</h6>
-            <div className='mb-6'>
-              <RHFAutoComplete name='LeadSourceId'>
+              <RHFAutoComplete name='LeadSourceId' label={t('Source')}>
                 <Select
                   options={sourcesList}
                   isLoading={isLoading}
@@ -290,6 +293,20 @@ export default function CreateEditLeadForm({
                   placeholder=''
                 />
               </RHFAutoComplete>
+              <AutoComplete name='priority' label={t('Priority')}>
+                <Select
+                  options={LEAD_PRIORITIES}
+                  getOptionLabel={(option) => t(option.label)}
+                  onChange={(newValue) => {
+                    setValue('priority', newValue?.value)
+                    setPriority(newValue?.value || 0)
+                  }}
+                  value={LEAD_PRIORITIES.find((item) => item.value === priority)}
+                  className='react-select-container'
+                  classNamePrefix='react-select'
+                  placeholder=''
+                />
+              </AutoComplete>
             </div>
             <h6 className='mb-5 text-lg font-semibold'>{t('Address Informations')}</h6>
             <div className='mb-6 grid grid-cols-1 gap-6 sm:grid-cols-2 '>
@@ -325,25 +342,19 @@ export default function CreateEditLeadForm({
             </div>
             <h6 className='mb-5 text-lg font-semibold'>{t('Finance Informations')}</h6>
             <div className='mb-6 grid grid-cols-1 gap-6 sm:grid-cols-2'>
-              <AutoComplete name='priority' label={t('Priority')}>
-                <Select
-                  options={LEAD_PRIORITIES}
-                  getOptionLabel={(option) => t(option.label)}
-                  onChange={(newValue) => {
-                    setValue('priority', newValue?.value)
-                    setPriority(newValue?.value || 0)
-                  }}
-                  value={LEAD_PRIORITIES.find((item) => item.value === priority)}
-                  className='react-select-container'
-                  classNamePrefix='react-select'
-                  placeholder=''
-                />
-              </AutoComplete>
               <RHFTextField
                 type='number'
-                name='incomek'
-                label={t('Income')}
-                endAdornment={t('Da')}
+                name='incomeK'
+                label={t('Income Score')}
+                min={1}
+                max={100}
+              />
+              <RHFTextField
+                type='number'
+                name='spendingScore'
+                label={t('Spending Score')}
+                min={1}
+                max={100}
               />
             </div>
             <div className='mt-6 flex w-full items-center justify-center'>

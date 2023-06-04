@@ -19,4 +19,5 @@ export default interface Lead {
   leadSource: LeadSource
   address: Address
   incomeK: number
+  spendingScore: number
 }
