@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { HYDRATE } from 'next-redux-wrapper'
 // config
 import { PIVOTPOINT_API } from 'config'
 // types
-import { ListGenericResponse, Supplier, RequestParams } from 'types'
+import { ListGenericResponse, Supplier, RequestParams, IGenericResponse } from 'types'
 // store
 import { RootState } from 'store'
 import RequestSearchParams from 'types/RequestSearchParams'
@@ -36,7 +38,7 @@ export const supplierApi = createApi({
         params,
       }),
     }),
-    getSupplier: builder.query<ListGenericResponse<Supplier>, string>({
+    getSupplier: builder.query<IGenericResponse<Supplier>, string>({
       query: (id) => `Suppliers/${id}`,
     }),
     createSupplier: builder.mutation<
@@ -70,7 +72,7 @@ export const supplierApi = createApi({
     }),
     editSupplier: builder.mutation<
       ListGenericResponse<Supplier>,
-      { data: FormData; id: string } & RequestParams
+      { data: Omit<Supplier, 'id'>; id: string } & RequestParams
     >({
       query: ({ data, id }) => ({
         url: `Suppliers/${id}`,
@@ -90,13 +92,12 @@ export const supplierApi = createApi({
               'getSuppliers',
               { PageNumber, PageSize },
               (draftedList) => {
-                draftedList.data.map((supplier) => {
-                  if (supplier.id === id) return data
-                  return supplier
-                })
+                Object.assign(draftedList.data.find((item) => item.id === id)!, data)
+                return draftedList
               }
             )
           )
+
           dispatch(
             supplierApi.util.updateQueryData('getSupplier', id, (draft) => {
               Object.assign(draft.data, data)
@@ -133,31 +134,67 @@ export const supplierApi = createApi({
         },
       }
     ),
-    // bulkDeleteSupplier: builder.mutation<ListGenericResponse<unknown>, string[]>({
-    //   query: (toDelete) => ({
-    //     url: 'Suppliers/bulk',
-    //     body: { toDelete },
-    //     method: 'DELETE',
-    //     responseHandler: 'content-type',
-    //   }),
-    //   async onQueryStarted(toDelete, { dispatch, queryFulfilled }) {
-    //     try {
-    //       await queryFulfilled
-    //       dispatch(
-    //         supplierApi.util.updateQueryData(
-    //           'getSuppliers',
-    //           { PageNumber: 1, PageSize: 10 },
-    //           (draftedList) => ({
-    //             ...draftedList,
-    //             data: draftedList.data.filter((supplier) => !toDelete.includes(supplier.id)),
-    //           })
-    //         )
-    //       )
-    //     } catch {
-    //       /* empty */
-    //     }
-    //   },
-    // }),
+    appSupplierProduct: builder.mutation<
+      ListGenericResponse<Supplier>,
+      {
+        supplierId: string
+        itemId: string
+        cost: number
+        name: string
+        type: number
+      }
+    >({
+      query: (data) => ({
+        url: 'Suppliers/AddProduct',
+        method: 'POST',
+        body: data,
+        responseHandler: 'content-type',
+      }),
+      async onQueryStarted({ supplierId, cost, itemId, name, type }, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled
+          dispatch(
+            supplierApi.util.updateQueryData('getSupplier', supplierId, (drafted) => {
+              drafted.data.supplierItems.push({ cost, id: itemId, name, type })
+            })
+          )
+        } catch {
+          /* empty */
+        }
+      },
+    }),
+    deleteSupplierProduct: builder.mutation<
+      ListGenericResponse<Supplier>,
+      {
+        supplierId: string
+        itemId: string
+      }
+    >({
+      query: (data) => ({
+        url: 'Suppliers/DeleteProduct',
+        method: 'POST',
+        body: data,
+        responseHandler: 'content-type',
+      }),
+      async onQueryStarted({ supplierId, itemId }, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled
+          dispatch(
+            supplierApi.util.updateQueryData('getSupplier', supplierId, (drafted) => ({
+              ...drafted,
+              data: {
+                ...drafted.data,
+                supplierItems: drafted.data.supplierItems.filter(
+                  (supplier) => supplier.id !== itemId
+                ),
+              },
+            }))
+          )
+        } catch {
+          /* empty */
+        }
+      },
+    }),
   }),
 })
 
@@ -170,7 +207,8 @@ export const {
   useCreateSupplierMutation,
   useEditSupplierMutation,
   useDeleteSupplierMutation,
-  // useBulkDeleteSupplierMutation,
+  useAppSupplierProductMutation,
+  useDeleteSupplierProductMutation,
   util: { getRunningQueriesThunk, invalidateTags },
 } = supplierApi
 

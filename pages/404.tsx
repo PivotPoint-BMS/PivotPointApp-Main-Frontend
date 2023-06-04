@@ -1,42 +1,28 @@
 import React from 'react'
-import { useRouter } from 'next/router'
-import Image from 'next/image'
-
-// assets
-import error from 'public/404.svg'
-import errorDark from 'public/404-dark.svg'
-
 // hooks
 import useTranslate from 'hooks/useTranslate'
+import Image from 'components/Image'
+// assets
+import notFound from 'public/404.png'
+import Button from 'components/Button'
+import Link from 'next/link'
 
-// components
-import { Button } from 'components'
-
-export default function Custom404Page() {
-  const router = useRouter()
+export default function Custom404() {
   const { t } = useTranslate()
   return (
-    <div className='flex h-screen w-screen flex-col items-center justify-center dark:bg-primary-900'>
-      <Image
-        src={error}
-        alt='404 Error'
-        className='dark:hidden'
-        priority
-        height={400}
-        width={400}
-      />
-      <Image
-        src={errorDark}
-        alt='404 Error'
-        className='hidden dark:block'
-        priority
-        height={400}
-        width={400}
-      />
-      <h1 className='mb-10 text-6xl font-semibold text-primary-600 dark:text-white'>
-        {t('Page Not Found')}
-      </h1>
-      <Button onClick={() => router.push('/')}>{t('Back Home')}</Button>
+    <div className='flex h-screen w-screen items-center justify-center'>
+      <div className='flex max-w-md flex-col items-center justify-center gap-5 text-center'>
+        <h1 className='text-4xl font-semibold'>{t('Sorry, page not found!')}</h1>
+        <p className='text-gray-600'>
+          {t(
+            'Sorry, we couldn’t find the page you’re looking for. Perhaps you’ve mistyped the URL? Be sure to check your spelling.'
+          )}
+        </p>
+        <Image src={notFound.src} height='100%' width='95%' />
+        <Link href='/'>
+          <Button size='large'>{t('Go To Home')}</Button>
+        </Link>
+      </div>
     </div>
   )
 }

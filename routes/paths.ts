@@ -96,6 +96,7 @@ export const PATH_DASHBOARD = {
         create: path(ROOTS_APP, '/scm/product-service/product/create'),
       },
     },
+    supplier: (id: string) => path(ROOTS_APP, `/scm/supplier/${id}`),
     suppliers: path(ROOTS_APP, '/scm/suppliers'),
     transportation: path(ROOTS_APP, '/scm/transportation'),
     warehousing: path(ROOTS_APP, '/scm/warehousing'),

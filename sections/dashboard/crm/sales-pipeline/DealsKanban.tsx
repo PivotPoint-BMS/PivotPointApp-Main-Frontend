@@ -407,7 +407,7 @@ const DealsKanban = ({
               <Button
                 variant='outlined'
                 intent='error'
-                startIcon={<Iconify icon='material-symbols:delete-rounded' height={18} />}
+                startIcon={<Iconify icon='ic:round-delete' height={18} />}
                 onClick={() => setOpenDeleteDialog(true)}
               >
                 {t('Delete')}

@@ -90,19 +90,15 @@ export const leadSourceApi = createApi({
               'getLeadSources',
               { PageNumber, PageSize },
               (draftedList) => {
-                draftedList.data.map((source) => {
-                  if (source.id === id) return { id, ...data }
-                  return source
-                })
+                Object.assign(draftedList.data.find((item) => item.id === id)!, data)
+                return draftedList
               }
             )
           )
           dispatch(
             leadSourceApi.util.updateQueryData('getAllLeadSources', undefined, (draftedList) => {
-              draftedList.data.map((source) => {
-                if (source.id === id) return { id, ...data }
-                return source
-              })
+              Object.assign(draftedList.data.find((item) => item.id === id)!, data)
+              return draftedList
             })
           )
         } catch {

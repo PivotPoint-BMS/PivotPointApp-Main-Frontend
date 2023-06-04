@@ -162,7 +162,7 @@ export default function ProductsList() {
               {
                 type: 'button',
                 label: t('Delete'),
-                icon: <Iconify icon='material-symbols:delete-rounded' height={18} />,
+                icon: <Iconify icon='ic:round-delete' height={18} />,
                 className: 'text-red-600 dark:text-red-400',
                 loading: isDeleteProducting,
                 onClick: () => setIdToDelete(product.getValue().id),

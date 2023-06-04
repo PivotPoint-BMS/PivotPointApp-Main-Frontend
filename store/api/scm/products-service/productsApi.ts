@@ -36,6 +36,12 @@ export const productsApi = createApi({
         params,
       }),
     }),
+    getAllProducts: builder.query<ListGenericResponse<Product[]>, { searchTerm?: string }>({
+      query: (params) => ({
+        url: 'Products/Summary',
+        params,
+      }),
+    }),
     getCategories: builder.query<ListGenericResponse<Category[]>, void>({
       query: () => 'Categories',
     }),
@@ -61,6 +67,15 @@ export const productsApi = createApi({
             productsApi.util.updateQueryData(
               'getProducts',
               { PageNumber, PageSize },
+              (draftedList) => {
+                draftedList.data.push(data)
+              }
+            )
+          )
+          dispatch(
+            productsApi.util.updateQueryData(
+              'getAllProducts',
+              { searchTerm: undefined },
               (draftedList) => {
                 draftedList.data.push(data)
               }
@@ -111,6 +126,18 @@ export const productsApi = createApi({
             productsApi.util.updateQueryData(
               'getProducts',
               { PageNumber, PageSize },
+              (draftedList) => {
+                draftedList.data.map((product) => {
+                  if (product.id === id) return data
+                  return product
+                })
+              }
+            )
+          )
+          dispatch(
+            productsApi.util.updateQueryData(
+              'getAllProducts',
+              { searchTerm: undefined },
               (draftedList) => {
                 draftedList.data.map((product) => {
                   if (product.id === id) return data
@@ -180,6 +207,16 @@ export const productsApi = createApi({
               })
             )
           )
+          dispatch(
+            productsApi.util.updateQueryData(
+              'getAllProducts',
+              { searchTerm: undefined },
+              (draftedList) => ({
+                ...draftedList,
+                data: draftedList.data.filter((product) => product.id !== id),
+              })
+            )
+          )
         } catch {
           /* empty */
         }
@@ -211,8 +248,9 @@ export const productsApi = createApi({
 // Export hooks for usage in functional components
 export const {
   // Queries
-  useGetProductQuery,
   useGetProductsQuery,
+  useGetAllProductsQuery,
+  useGetProductQuery,
   useGetCategoriesQuery,
   // Mutations
   useCreateProductMutation,

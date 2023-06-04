@@ -183,7 +183,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                 <Tooltip title={t('Delete')}>
                   <IconButton onClick={() => setOpenDeleteDialog(true)}>
                     <Icon
-                      icon='material-symbols:delete-rounded'
+                      icon='ic:round-delete'
                       height={20}
                       className='text-red-600 dark:text-red-400'
                     />

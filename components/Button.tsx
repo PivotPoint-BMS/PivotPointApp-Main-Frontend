@@ -3,25 +3,25 @@ import { cva, VariantProps } from 'class-variance-authority'
 import { ClassProp } from 'class-variance-authority/dist/types'
 
 export const buttonContained = cva(
-  'select-none outline-none focus:ring-2 ring-offset-1 flex items-center justify-center gap-2 font-semibold rounded-lg capitalize transition-all',
+  'select-none outline-none flex items-center justify-center gap-2 font-semibold rounded-lg capitalize transition-all',
   {
     variants: {
       intent: {
         primary: [
-          'ring-primary-400 bg-primary-600 hover:bg-primary-700 text-white active:bg-primary-500',
-          'dark:ring-primary-500 ring-offset-dark dark:bg-primary-700 dark:hover:bg-primary-700/70 dark:active:bg-primary-600',
+          'bg-primary-600 focus-visible:bg-primary-500 hover:bg-primary-700 text-white active:bg-primary-500',
+          'dark:bg-primary-700 dark:focus-visible:bg-primary-600 dark:hover:bg-primary-700/70 dark:active:bg-primary-600',
         ],
         secondary: [
-          ' ring-secondary-400 bg-secondary-500 hover:bg-secondary-700 text-white active:bg-secondary-400',
-          'dark:ring-secondary-500 dark:bg-secondary-600 dark:hover:bg-secondary-700/70 dark:active:bg-secondary-500',
+          ' bg-secondary-500 focus-visible:bg-secondary-400 hover:bg-secondary-700 text-white active:bg-secondary-400',
+          'dark:bg-secondary-600 dark:focus-visible:bg-secondary-500 dark:hover:bg-secondary-700/70 dark:active:bg-secondary-500',
         ],
         error: [
-          'ring-red-400 bg-red-500 hover:bg-red-700 text-white active:bg-red-400',
-          'ring-red-500 dark:bg-red-600 dark:hover:bg-red-700/70 dark:active:bg-red-500',
+          'bg-red-500 focus-visible:bg-red-400 hover:bg-red-700 text-white active:bg-red-400',
+          'dark:bg-red-600 dark:focus-visible:bg-red-500 dark:hover:bg-red-700/70 dark:active:bg-red-500',
         ],
         default: [
-          'ring-gray-400 bg-gray-300 hover:bg-gray-400 active:bg-gray-200',
-          'dark:ring-gray-500 dark:bg-gray-200 text-black dark:hover:bg-gray-400  dark:active:bg-gray-100',
+          'bg-gray-300 focus-visible:bg-gray-200 hover:bg-gray-400 active:bg-gray-200',
+          'dark:bg-gray-200 text-black dark:focus-visible:bg-gray-100 dark:hover:bg-gray-400  dark:active:bg-gray-100',
         ],
       },
       size: {
@@ -31,8 +31,8 @@ export const buttonContained = cva(
       },
       disabled: {
         true: [
-          'cursor-not-allowed bg-gray-400 hover:bg-gray-400 active:bg-gray-400',
-          'cursor-not-allowed dark:bg-gray-600 dark:hover:bg-gray-600 dark:active:bg-gray-600',
+          'cursor-not-allowed bg-gray-400  hover:bg-gray-400 active:bg-gray-400',
+          'cursor-not-allowed dark:bg-gray-600 dark:focus-visible:bg-gray-600 dark:hover:bg-gray-600 dark:active:bg-gray-600',
         ],
       },
     },
@@ -45,25 +45,25 @@ export const buttonContained = cva(
 )
 
 export const buttonOutlined = cva(
-  'select-none outline-none focus:ring-2 ring-offset-1 flex items-center justify-center gap-2 font-semibold rounded-lg capitalize border transition-all',
+  'select-none outline-none flex items-center justify-center gap-2 font-semibold rounded-lg capitalize border transition-all',
   {
     variants: {
       intent: {
         primary: [
-          'ring-primary-400 border-primary-200 text-primary-600 hover:border-primary-600 hover:bg-primary-600/10 active:bg-primary-600/30',
-          'dark:ring-primary-500 ring-offset-dark dark:border-primary-600 dark:text-primary-200 dark:hover:border-primary-200 dark:hover:bg-primary-400/10 dark:active:bg-primary-400/30',
+          'border-primary-200 focus-visible:bg-primary--600/30 text-primary-600 hover:border-primary-600 hover:bg-primary-600/10 active:bg-primary-600/30',
+          'dark:border-primary-600 dark:text-primary-200 dark:hover:border-primary-200 dark:focus-visible:bg-primary-400/30 dark:hover:bg-primary-400/10 dark:active:bg-primary-400/30',
         ],
         secondary: [
-          ' ring-secondary-400 border-secondary-200 text-secondary-600 hover:border-secondary-600 hover:bg-secondary-600/10 active:bg-secondary-600/30',
-          'dark:ring-secondary-500 dark:border-secondary-600 dark:text-secondary-200 dark:hover:border-secondary-200 dark:hover:bg-secondary-400/10 dark:active:bg-secondary-400/30',
+          ' border-secondary-200 focus-visible:bg-secondary--600/30 text-secondary-600 hover:border-secondary-600 hover:bg-secondary-600/10 active:bg-secondary-600/30',
+          'dark:border-secondary-600 dark:text-secondary-200 dark:hover:border-secondary-200 dark:focus-visible:bg-secondary-400/30 dark:hover:bg-secondary-400/10 dark:active:bg-secondary-400/30',
         ],
         error: [
-          'ring-red-400 border-red-300 text-red-600 hover:border-red-600 hover:bg-red-600/10 active:bg-red-600/30',
-          'ring-red-500 dark:border-red-600 dark:text-red-400 dark:hover:border-red-200 dark:hover:bg-red-400/10 dark:active:bg-secondary-400/30',
+          'border-red-300 focus-visible:bg-red--600/30 text-red-600 hover:border-red-600 hover:bg-red-600/10 active:bg-red-600/30',
+          'dark:border-red-600 dark:text-red-400 dark:hover:border-red-200 dark:focus-visible:bg-red-400/30 dark:hover:bg-red-400/10 dark:active:bg-red-400/30',
         ],
         default: [
-          'ring-gray-400  text-gray-900 hover:bg-gray-600/10 hover:border-black active:bg-gray-600/40',
-          'dark:ring-gray-500 dark:border-gray-500 dark:text-white dark:hover:bg-gray-500/25 dark:hover:border-white dark:active:bg-gray-400/50 dark:focus:outline-gray-900',
+          ' focus-visible:bg-gray--600/40 text-gray-900 hover:bg-gray-600/10 hover:border-black active:bg-gray-600/40',
+          'dark:border-gray-500 dark:text-white dark:focus-visible:bg-gray-400/50 dark:hover:bg-gray-500/25 dark:hover:border-white dark:active:bg-gray-400/50',
         ],
       },
       size: {
@@ -84,25 +84,25 @@ export const buttonOutlined = cva(
 )
 
 export const buttonText = cva(
-  'select-none outline-none focus:ring-2 ring-offset-1 flex items-center justify-center gap-2 font-semibold rounded-lg capitalize transition-all',
+  'select-none outline-none flex items-center justify-center gap-2 font-semibold rounded-lg capitalize transition-all',
   {
     variants: {
       intent: {
         primary: [
-          'ring-primary-400 text-primary-600 hover:bg-primary-600/10 active:bg-primary-600/30',
-          'dark:ring-primary-500 ring-offset-dark dark:text-primary-200 dark:hover:bg-primary-400/10',
+          'text-primary-600 focus-visible:bg-primary-600/30 hover:bg-primary-600/10 active:bg-primary-600/30',
+          'dark:text-primary-200 dark:focus-visible:bg-primary-400/30 dark:hover:bg-primary-400/10 dark:active:bg-primary-400/30',
         ],
         secondary: [
-          ' ring-secondary-400 text-secondary-600 hover:bg-secondary-600/10 active:bg-secondary-600/30',
-          'dark:ring-secondary-500 dark:text-secondary-200 dark:hover:bg-secondary-400/10',
+          ' text-secondary-600 focus-visible:bg-secondary-600/30 hover:bg-secondary-600/10 active:bg-secondary-600/30',
+          'dark:text-secondary-200 dark:focus-visible:bg-secondary-400/30 dark:hover:bg-secondary-400/10 dark:active:bg-secondary-400/30',
         ],
         error: [
-          'ring-red-400 text-red-600 hover:bg-red-600/10 active:bg-red-600/30',
-          'ring-red-500 dark:text-red-400 dark:hover:bg-red-400/10',
+          'text-red-600 focus-visible:bg-red-600/30 hover:bg-red-600/10 active:bg-red-600/30',
+          'dark:text-red-400 dark:focus-visible:bg-red-400/30 dark:hover:bg-red-400/10 dark:active:bg-red-400/30',
         ],
         default: [
-          'ring-gray-400 text-gray-900 hover:bg-gray-600/10  active:bg-gray-600/40',
-          'dark:ring-gray-500 dark:text-white dark:hover:bg-gray-500/25 dark:focus:outline-gray-900',
+          'text-gray-900 focus-visible:bg-gray-600/40 hover:bg-gray-600/10  active:bg-gray-600/40',
+          'dark:text-white dark:focus-visible:bg-gray-400/30 dark:active:bg-gray-400/30 dark:hover:bg-gray-500/25 dark-900',
         ],
       },
       size: {
@@ -111,7 +111,7 @@ export const buttonText = cva(
         large: 'text-[15px] px-6 py-2',
       },
       disabled: {
-        true: 'cursor-not-allowed dark:bg-gray-600 dark:hover:bg-gray-600 dark:active:bg-gray-600',
+        true: 'cursor-not-allowed dark:bg-gray-600 dark:focus-visible:bg-gray-600 dark:hover:bg-gray-600 dark:active:bg-gray-600',
       },
     },
     defaultVariants: {

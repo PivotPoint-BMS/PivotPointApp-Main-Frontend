@@ -1,12 +1,15 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { HTMLProps, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { min } from 'lodash'
 import clsx from 'clsx'
 // next
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
+// config
+import { PATH_DASHBOARD } from 'routes/paths'
 // redux
 import { wrapper } from 'store'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
@@ -46,40 +49,6 @@ import SupplierTableToolbar from './SuppliersTableToolbar'
 import SupplierPreview from './SupplierPreview'
 import CreateSupplierForm from '../create/CreateSupplierForm'
 
-function IndeterminateCheckbox({
-  indeterminate,
-  ...rest
-}: { indeterminate?: boolean } & HTMLProps<HTMLInputElement>) {
-  const ref = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    if (typeof indeterminate === 'boolean' && ref.current) {
-      ref.current.indeterminate = !rest.checked && indeterminate
-    }
-  }, [ref, indeterminate])
-
-  return (
-    <label className='checkbox-container'>
-      <input
-        {...rest}
-        ref={ref}
-        type='checkbox'
-        className='absolute h-0 w-0 cursor-pointer opacity-0'
-      />
-      <span className='checkbox-checkmark'>
-        <Iconify
-          icon='material-symbols:check-small-rounded'
-          className='checkbox-checked h-5 w-5 self-center'
-        />
-        <Iconify
-          icon='material-symbols:check-indeterminate-small-rounded'
-          className='checkbox-indeterminate h-5 w-5 self-center'
-        />
-      </span>
-    </label>
-  )
-}
-
 export default function SuppliersList({
   openAddDialog,
   setOpenAddDialog,
@@ -117,31 +86,7 @@ export default function SuppliersList({
   const columnHelper = createColumnHelper<Supplier>()
 
   const columns = [
-    columnHelper.accessor((row) => row, {
-      id: 'select',
-      enableSorting: false,
-      size: 24,
-      header: ({ table }) => (
-        <IndeterminateCheckbox
-          {...{
-            checked: table.getIsAllRowsSelected(),
-            indeterminate: table.getIsSomeRowsSelected(),
-            onChange: table.getToggleAllRowsSelectedHandler(),
-          }}
-        />
-      ),
-      cell: ({ row }) => (
-        <IndeterminateCheckbox
-          {...{
-            checked: row.getIsSelected(),
-            disabled: !row.getCanSelect(),
-            indeterminate: row.getIsSomeSelected(),
-            onChange: row.getToggleSelectedHandler(),
-          }}
-        />
-      ),
-    }),
-    columnHelper.accessor(() => 'name', {
+    columnHelper.accessor('name', {
       id: 'name',
       header: () => t('Full Name'),
       cell: (info) => <p>{info.getValue()}</p>,
@@ -178,6 +123,13 @@ export default function SuppliersList({
       header: () => <p className='w-full text-right'>{t('Actions')}</p>,
       cell: (supplier) => (
         <div className='flex items-center justify-end gap-2'>
+          <Tooltip title={t('View Full Details')}>
+            <Link href={PATH_DASHBOARD.scm.supplier(supplier.getValue().id || '')}>
+              <IconButton>
+                <Iconify icon='mingcute:external-link-fill' height={18} />
+              </IconButton>
+            </Link>
+          </Tooltip>
           <Tooltip title={t('Preview')} side='bottom'>
             <IconButton onClick={() => dispatch(previewSupplier(supplier.getValue()))}>
               <Iconify icon='material-symbols:preview' height={18} />
@@ -201,7 +153,7 @@ export default function SuppliersList({
               {
                 type: 'button',
                 label: t('Delete'),
-                icon: <Iconify icon='material-symbols:delete-rounded' height={18} />,
+                icon: <Iconify icon='ic:round-delete' height={18} />,
                 className: 'text-red-600 dark:text-red-400 rtl:flex-row-reverse',
                 onClick: () => setIdToDelete(supplier.getValue().id),
               },

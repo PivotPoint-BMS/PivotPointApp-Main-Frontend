@@ -41,7 +41,7 @@ export default function ActionNode({ data }: NodeProps<ActionNodeData>) {
                   { label: 'Edit', icon: <Icon icon='material-symbols:edit' />, type: 'button' },
                   {
                     label: 'Delete',
-                    icon: <Icon icon='material-symbols:delete-rounded' />,
+                    icon: <Icon icon='ic:round-delete' />,
                     type: 'button',
                     className: buttonText({
                       intent: 'error',
@@ -82,7 +82,7 @@ export default function ActionNode({ data }: NodeProps<ActionNodeData>) {
               variant='text'
               intent='error'
               className='w-full !justify-start !text-xs font-normal'
-              startIcon={<Icon icon='material-symbols:delete-rounded' />}
+              startIcon={<Icon icon='ic:round-delete' />}
             >
               Delete
             </Button>

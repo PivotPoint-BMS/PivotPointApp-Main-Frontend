@@ -93,10 +93,8 @@ export const leadApi = createApi({
 
           dispatch(
             leadApi.util.updateQueryData('getLeads', { PageNumber, PageSize }, (draftedList) => {
-              draftedList.data.map((lead) => {
-                if (lead.id === id) return data
-                return lead
-              })
+              Object.assign(draftedList.data.find((item) => item.id === id)!, data)
+              return draftedList
             })
           )
           dispatch(

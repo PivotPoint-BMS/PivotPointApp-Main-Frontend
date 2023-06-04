@@ -102,11 +102,7 @@ export default function CategoriesList({
         <div className='flex items-center justify-end gap-2'>
           <Tooltip title={t('Delete')} side='bottom'>
             <IconButton onClick={() => setIdToDelete(category.getValue().id || '')}>
-              <Icon
-                className='text-red-600 dark:text-red-400'
-                icon='material-symbols:delete-rounded'
-                height={20}
-              />
+              <Icon className='text-red-600 dark:text-red-400' icon='ic:round-delete' height={20} />
             </IconButton>
           </Tooltip>
           <Tooltip title={t('Edit')} side='bottom'>

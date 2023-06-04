@@ -87,7 +87,7 @@ export default function ContactTableToolbar({
               <Button
                 variant='text'
                 intent='error'
-                startIcon={<Iconify icon='material-symbols:delete-rounded' height={20} />}
+                startIcon={<Iconify icon='ic:round-delete' height={20} />}
                 onClick={() => setOpenBulkDeleteDialog(true)}
                 loading={isLoading}
               >
