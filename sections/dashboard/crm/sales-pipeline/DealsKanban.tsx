@@ -400,8 +400,9 @@ const DealsKanban = ({
       {boardId ? (
         <>
           <div className='mb-4 flex max-w-full items-center justify-between'>
-            <h1 className='text-xl font-medium'>
-              {t('Current Pipeline :')} {board.dealBoards[boardId]?.title}
+            <h1 className='text-xl font-medium capitalize'>
+              <span className='text-gray-600 dark:text-gray-400'>{t('Current Pipeline :')}</span>{' '}
+              {board.dealBoards[boardId]?.title}
             </h1>
             <div className='flex max-w-full items-center gap-2'>
               <Button
