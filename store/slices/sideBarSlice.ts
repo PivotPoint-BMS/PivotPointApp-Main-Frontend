@@ -262,14 +262,15 @@ const initialState: SideBarConfig = {
           icon: 'solar:graph-bold',
           disabled: true,
           badge: {
-            label: 'Beta',
-            color: 'warning',
+            label: 'In Dev',
+            color: 'default',
           },
         },
         {
           name: 'Accounts',
           href: PATH_DASHBOARD.hrm.accounts,
           icon: 'material-symbols:manage-accounts',
+          disabled: true,
           badge: {
             label: 'In Dev',
             color: 'default',
@@ -314,8 +315,8 @@ const initialState: SideBarConfig = {
           icon: 'solar:graph-bold',
           disabled: true,
           badge: {
-            label: 'Beta',
-            color: 'warning',
+            label: 'In Dev',
+            color: 'default',
           },
         },
         {

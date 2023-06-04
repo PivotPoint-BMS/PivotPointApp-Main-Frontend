@@ -18,6 +18,7 @@ type Props =
       name: string
       icon: React.ReactElement
       asLink?: boolean
+      disabled?: boolean
       onClick?: () => void
       subItems?: {
         name: string
@@ -35,12 +36,21 @@ type Props =
       icon: React.ReactElement
       onClick?: () => void
       asLink?: never
+      disabled?: boolean
       href?: never
       subItems?: never
       badge?: never
     }
 
-function NavItemMobile({ name, icon, asLink = false, href = '', onClick, subItems }: Props) {
+function NavItemMobile({
+  name,
+  icon,
+  asLink = false,
+  disabled,
+  href = '',
+  onClick,
+  subItems,
+}: Props) {
   const { pathname, asPath } = useRouter()
   const { t } = useTranslate()
   const active = getActivePath(href, pathname, asPath)
@@ -49,13 +59,20 @@ function NavItemMobile({ name, icon, asLink = false, href = '', onClick, subItem
   return asLink ? (
     <CollapsiblePrimitive.Root open={isOpen} onOpenChange={setIsOpen} className='w-full'>
       <CollapsiblePrimitive.Trigger
+        disabled={disabled}
         className={clsx(
           'group flex w-full items-center gap-2 rounded-xl p-4 text-secondary-900 dark:text-white',
           active && 'bg-primary-500/10 dark:bg-gray-300/10'
         )}
       >
         {subItems ? (
-          <div className='flex flex-1 items-center whitespace-normal'>
+          <div
+            className={clsx(
+              'flex flex-1 items-center whitespace-normal',
+              disabled &&
+                'pointer-events-none cursor-not-allowed opacity-40 hover:bg-secondary-500/10 dark:hover:bg-gray-300/10'
+            )}
+          >
             {icon}
             <div className='w-full whitespace-normal '>
               <h3 className='flex-1 whitespace-normal text-start text-xs font-medium capitalize group-hover:opacity-100  ltr:ml-3 rtl:mr-3'>
@@ -66,7 +83,11 @@ function NavItemMobile({ name, icon, asLink = false, href = '', onClick, subItem
         ) : (
           <Link
             href={href}
-            className='flex flex-1 items-center whitespace-normal'
+            className={clsx(
+              'flex flex-1 items-center whitespace-normal',
+              disabled &&
+                'pointer-events-none cursor-not-allowed opacity-40 hover:bg-secondary-500/10 dark:hover:bg-gray-300/10'
+            )}
             onClick={onClick}
           >
             {icon}
@@ -99,7 +120,7 @@ function NavItemMobile({ name, icon, asLink = false, href = '', onClick, subItem
                 ? 'bg-secondary-700 text-gray-200 hover:bg-secondary-800 dark:text-white'
                 : 'bg-gray-100 text-secondary-900 hover:bg-gray-100/60 dark:bg-secondary-100/20 dark:text-white dark:hover:bg-secondary-200/50',
               item.disabled &&
-                'cursor-not-allowed opacity-40 hover:bg-gray-100/40 dark:hover:bg-secondary-100/60'
+                'pointer-events-none cursor-not-allowed opacity-40 hover:bg-secondary-500/10 dark:hover:bg-gray-300/10'
             )}
             onClick={onClick}
           >

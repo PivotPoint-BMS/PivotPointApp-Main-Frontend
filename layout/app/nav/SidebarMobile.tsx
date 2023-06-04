@@ -84,6 +84,7 @@ export default function SidebarMobile() {
                   asLink
                   subItems={item.subItems}
                   onClick={handleClose}
+                  disabled={item.disabled}
                 />
               ))}
             </nav>
