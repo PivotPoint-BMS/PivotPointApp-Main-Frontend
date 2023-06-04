@@ -511,7 +511,7 @@ const DealsKanban = ({
       <AlertDialog
         title={t('Confirm Delete')}
         description={
-          <p className='mb-4 text-sm text-red-600'>
+          <p className='mb-4 text-sm text-red-600 dark:text-red-400'>
             {t('This action cannot be undone. All section and deals will be permanently deleted.')}
           </p>
         }

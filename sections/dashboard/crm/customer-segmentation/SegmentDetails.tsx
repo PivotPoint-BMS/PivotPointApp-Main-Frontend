@@ -474,7 +474,7 @@ export default function SegmentDetails({ segment }: { segment: Segment | null })
           <AlertDialog
             title={t('Confirm Delete')}
             description={
-              <p className='mb-4 text-sm text-red-600'>
+              <p className='mb-4 text-sm text-red-600 dark:text-red-400'>
                 {t('This action cannot be undone. this segment will be permanently deleted.')}
               </p>
             }
