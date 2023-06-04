@@ -27,9 +27,9 @@ export default function HeaderBreadcrumbs({
 }: HeaderBreadcrumbsProps) {
   return (
     <div className='mb-5'>
-      <div className='flex items-center'>
+      <div className='flex items-center '>
         <div className='flex-grow'>
-          <h4 className='mb-2 text-xl font-semibold md:text-3xl'>{heading}</h4>
+          <h4 className='mb-2 text-xl font-bold md:text-2xl'>{heading}</h4>
           {links && <Breadcrumbs links={links} {...other} />}
         </div>
 
@@ -39,11 +39,11 @@ export default function HeaderBreadcrumbs({
       <div className='mt-1'>
         {isString(moreLink) ? (
           <Link href={moreLink} target='_blank'>
-            <h2 className='text-lg'>{moreLink}</h2>
+            <h2 className='text-sm'>{moreLink}</h2>
           </Link>
         ) : (
           moreLink.map((href) => (
-            <Link key={href} href={href} className='table' target='_blank'>
+            <Link key={href} href={href} className='text-sm' target='_blank'>
               {href}
             </Link>
           ))

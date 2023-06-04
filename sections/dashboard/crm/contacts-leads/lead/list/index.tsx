@@ -375,7 +375,7 @@ export default function LeadsList() {
           trigger={
             <Button
               variant='outlined'
-              intent='default'
+              intent={filters.LeadPriority || filters.LeadSourceId ? 'secondary' : 'default'}
               size='large'
               className='h-full'
               startIcon={<Iconify icon='material-symbols:filter-list-rounded' height={20} />}

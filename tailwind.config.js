@@ -2,7 +2,7 @@
 module.exports = {
   darkMode: 'class',
   mode: 'jit',
-  plugins: [require('tailwindcss-radix')({})],
+  plugins: [require('@tailwindcss/container-queries'), require('tailwindcss-radix')({})],
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',
     './components/**/*.{js,ts,jsx,tsx}',

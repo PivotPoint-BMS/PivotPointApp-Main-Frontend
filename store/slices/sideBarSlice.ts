@@ -95,18 +95,18 @@ const initialState: SideBarConfig = {
           },
         },
         {
-          name: 'Product/Service',
-          href: PATH_DASHBOARD.scm['product-service'].list,
-          icon: 'fa6-solid:boxes-stacked',
+          name: 'Suppliers',
+          href: PATH_DASHBOARD.scm.suppliers,
+          icon: 'solar:delivery-bold',
           badge: {
             label: 'New',
             color: 'success',
           },
         },
         {
-          name: 'Suppliers',
-          href: PATH_DASHBOARD.scm.suppliers,
-          icon: 'solar:delivery-bold',
+          name: 'Product/Service',
+          href: PATH_DASHBOARD.scm['product-service'].list,
+          icon: 'fa6-solid:boxes-stacked',
           badge: {
             label: 'New',
             color: 'success',

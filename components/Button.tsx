@@ -3,25 +3,25 @@ import { cva, VariantProps } from 'class-variance-authority'
 import { ClassProp } from 'class-variance-authority/dist/types'
 
 export const buttonContained = cva(
-  'select-none outline-none flex items-center justify-center gap-2 font-semibold rounded-lg capitalize transition-all',
+  'select-none outline-none focus:ring-2 ring-offset-1 flex items-center justify-center gap-2 font-semibold rounded-lg capitalize transition-all',
   {
     variants: {
       intent: {
         primary: [
-          'bg-primary-600 hover:bg-primary-700 text-white active:bg-primary-500',
-          'dark:bg-primary-700 dark:hover:bg-primary-700/70 dark:active:bg-primary-600',
+          'ring-primary-400 bg-primary-600 hover:bg-primary-700 text-white active:bg-primary-500',
+          'dark:ring-primary-500 ring-offset-dark dark:bg-primary-700 dark:hover:bg-primary-700/70 dark:active:bg-primary-600',
         ],
         secondary: [
-          'bg-secondary-500 hover:bg-secondary-700 text-white active:bg-secondary-400',
-          'dark:bg-secondary-600 dark:hover:bg-secondary-700/70 dark:active:bg-secondary-500',
+          ' ring-secondary-400 bg-secondary-500 hover:bg-secondary-700 text-white active:bg-secondary-400',
+          'dark:ring-secondary-500 dark:bg-secondary-600 dark:hover:bg-secondary-700/70 dark:active:bg-secondary-500',
         ],
         error: [
-          'bg-red-500 hover:bg-red-700 text-white active:bg-red-400',
-          'dark:bg-red-600 dark:hover:bg-red-700/70 dark:active:bg-red-500',
+          'ring-red-400 bg-red-500 hover:bg-red-700 text-white active:bg-red-400',
+          'ring-red-500 dark:bg-red-600 dark:hover:bg-red-700/70 dark:active:bg-red-500',
         ],
         default: [
-          'bg-gray-300 hover:bg-gray-400 active:bg-gray-200',
-          ' dark:bg-gray-200 text-black dark:hover:bg-gray-400 dark:active:bg-gray-100',
+          'ring-gray-400 bg-gray-300 hover:bg-gray-400 active:bg-gray-200',
+          'dark:ring-gray-500 dark:bg-gray-200 text-black dark:hover:bg-gray-400  dark:active:bg-gray-100',
         ],
       },
       size: {
@@ -45,25 +45,25 @@ export const buttonContained = cva(
 )
 
 export const buttonOutlined = cva(
-  'select-none outline-none flex items-center justify-center gap-2 font-semibold rounded-lg capitalize border transition-all',
+  'select-none outline-none focus:ring-2 ring-offset-1 flex items-center justify-center gap-2 font-semibold rounded-lg capitalize border transition-all',
   {
     variants: {
       intent: {
         primary: [
-          'border-primary-200 text-primary-600 hover:border-primary-600 hover:bg-primary-600/10 active:bg-primary-600/30',
-          'dark:border-primary-600 dark:text-primary-200 dark:hover:border-primary-200 dark:hover:bg-primary-400/10 dark:active:bg-primary-400/30',
+          'ring-primary-400 border-primary-200 text-primary-600 hover:border-primary-600 hover:bg-primary-600/10 active:bg-primary-600/30',
+          'dark:ring-primary-500 ring-offset-dark dark:border-primary-600 dark:text-primary-200 dark:hover:border-primary-200 dark:hover:bg-primary-400/10 dark:active:bg-primary-400/30',
         ],
         secondary: [
-          'border-secondary-200 text-secondary-600 hover:border-secondary-600 hover:bg-secondary-600/10 active:bg-secondary-600/30',
-          'dark:border-secondary-600 dark:text-secondary-200 dark:hover:border-secondary-200 dark:hover:bg-secondary-400/10 dark:active:bg-secondary-400/30',
+          ' ring-secondary-400 border-secondary-200 text-secondary-600 hover:border-secondary-600 hover:bg-secondary-600/10 active:bg-secondary-600/30',
+          'dark:ring-secondary-500 dark:border-secondary-600 dark:text-secondary-200 dark:hover:border-secondary-200 dark:hover:bg-secondary-400/10 dark:active:bg-secondary-400/30',
         ],
         error: [
-          'border-red-300 text-red-600 hover:border-red-600 hover:bg-red-600/10 active:bg-red-600/30',
-          'dark:border-red-600 dark:text-red-400 dark:hover:border-red-200 dark:hover:bg-red-400/10 dark:active:bg-secondary-400/30',
+          'ring-red-400 border-red-300 text-red-600 hover:border-red-600 hover:bg-red-600/10 active:bg-red-600/30',
+          'ring-red-500 dark:border-red-600 dark:text-red-400 dark:hover:border-red-200 dark:hover:bg-red-400/10 dark:active:bg-secondary-400/30',
         ],
         default: [
-          ' text-gray-900 hover:bg-gray-600/10 hover:border-black active:bg-gray-600/40',
-          'dark:border-gray-500 dark:text-white dark:hover:bg-gray-500/25 dark:hover:border-white dark:active:bg-gray-400/50 dark:focus:outline-gray-900',
+          'ring-gray-400  text-gray-900 hover:bg-gray-600/10 hover:border-black active:bg-gray-600/40',
+          'dark:ring-gray-500 dark:border-gray-500 dark:text-white dark:hover:bg-gray-500/25 dark:hover:border-white dark:active:bg-gray-400/50 dark:focus:outline-gray-900',
         ],
       },
       size: {
@@ -84,25 +84,25 @@ export const buttonOutlined = cva(
 )
 
 export const buttonText = cva(
-  'select-none outline-none flex items-center justify-center gap-2 font-semibold rounded-lg capitalize transition-all',
+  'select-none outline-none focus:ring-2 ring-offset-1 flex items-center justify-center gap-2 font-semibold rounded-lg capitalize transition-all',
   {
     variants: {
       intent: {
         primary: [
-          'text-primary-600 hover:bg-primary-600/10 active:bg-primary-600/30',
-          'dark:text-primary-200 dark:hover:bg-primary-400/10',
+          'ring-primary-400 text-primary-600 hover:bg-primary-600/10 active:bg-primary-600/30',
+          'dark:ring-primary-500 ring-offset-dark dark:text-primary-200 dark:hover:bg-primary-400/10',
         ],
         secondary: [
-          'text-secondary-600 hover:bg-secondary-600/10 active:bg-secondary-600/30',
-          'dark:text-secondary-200 dark:hover:bg-secondary-400/10',
+          ' ring-secondary-400 text-secondary-600 hover:bg-secondary-600/10 active:bg-secondary-600/30',
+          'dark:ring-secondary-500 dark:text-secondary-200 dark:hover:bg-secondary-400/10',
         ],
         error: [
-          'text-red-600 hover:bg-red-600/10 active:bg-red-600/30',
-          'dark:text-red-400 dark:hover:bg-red-400/10',
+          'ring-red-400 text-red-600 hover:bg-red-600/10 active:bg-red-600/30',
+          'ring-red-500 dark:text-red-400 dark:hover:bg-red-400/10',
         ],
         default: [
-          'text-gray-900 hover:bg-gray-600/10  active:bg-gray-600/40',
-          'dark:text-white dark:hover:bg-gray-500/25 dark:focus:outline-gray-900',
+          'ring-gray-400 text-gray-900 hover:bg-gray-600/10  active:bg-gray-600/40',
+          'dark:ring-gray-500 dark:text-white dark:hover:bg-gray-500/25 dark:focus:outline-gray-900',
         ],
       },
       size: {
