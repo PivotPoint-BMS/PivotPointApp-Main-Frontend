@@ -35,9 +35,9 @@ function index() {
           <LoadingIndicator />
         </div>
       ) : (
-        <div className='flex max-w-full flex-col overflow-hidden'>
+        <div className='flex h-full max-w-full flex-col overflow-hidden'>
           {data ? (
-            <div className='grid grid-cols-1  divide-x md:grid-cols-3'>
+            <div className='grid h-full grid-cols-1 divide-x dark:divide-gray-600 md:grid-cols-3'>
               <GeneralInfo supplier={data.data} />
               <SupplierProductsList id={data.data.id} itemsList={data.data.supplierItems} />
             </div>

@@ -43,7 +43,7 @@ export default function GeneralInfo({ supplier }: { supplier: Supplier }) {
           />
           <h1 className='text-center text-lg font-semibold'>{supplier.name}</h1>
         </div>
-        <div className='flex flex-col gap-3 border-t p-4'>
+        <div className='flex flex-col gap-3 border-t p-4 dark:border-gray-600'>
           <div className='flex flex-col gap-1 truncate'>
             <h6 className='text-sm text-gray-600 dark:text-gray-400'>{t('Email')}</h6>
             <p className='truncate text-[15px]'>{supplier.email}</p>
