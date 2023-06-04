@@ -72,7 +72,7 @@ export const supplierApi = createApi({
     }),
     editSupplier: builder.mutation<
       ListGenericResponse<Supplier>,
-      { data: Omit<Supplier, 'id'>; id: string } & RequestParams
+      { data: Omit<Omit<Supplier, 'id'>, 'supplierItems'>; id: string } & RequestParams
     >({
       query: ({ data, id }) => ({
         url: `Suppliers/${id}`,

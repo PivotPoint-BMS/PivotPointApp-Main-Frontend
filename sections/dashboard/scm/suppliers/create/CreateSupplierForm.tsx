@@ -62,6 +62,7 @@ export default function CreateSupplierForm({
       address: data.address,
       email: data.email,
       phoneNumber: data.phoneNumber,
+      supplierItems: [],
     }
     createSupplier({ ...supplier, PageNumber, PageSize })
   }
