@@ -6,7 +6,6 @@ import useTranslate from 'hooks/useTranslate'
 // routes
 import { PATH_DASHBOARD } from 'routes/paths'
 // sections
-import AccountsList from 'sections/dashboard/hrm/accounts/list/AccountsList'
 // layout
 import Layout from 'layout/Index'
 // components
@@ -35,7 +34,7 @@ function index() {
           }
         />
         <Card fullWidth className='overflow-hidden'>
-          <AccountsList />
+          e
         </Card>
       </div>
     </>
