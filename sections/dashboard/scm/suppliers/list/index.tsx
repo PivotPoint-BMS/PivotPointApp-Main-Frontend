@@ -146,6 +146,31 @@ export default function SuppliersList({
       header: () => t('Full Name'),
       cell: (info) => <p>{info.getValue()}</p>,
     }),
+    columnHelper.accessor((row) => ({ email: row.email, phoneNumber: row.phoneNumber }), {
+      id: 'contact',
+      header: () => t('Contact'),
+      cell: (info) => (
+        <div className='flex flex-col gap-2'>
+          <p className='hyphens  flex items-center gap-1 truncate text-sm'>
+            <Iconify icon='material-symbols:mail-rounded' height={18} className='text-gray-500' />{' '}
+            {info.getValue().email}{' '}
+          </p>
+          <p className='flex items-center gap-1 truncate text-sm'>
+            <Iconify icon='material-symbols:call' height={18} className='text-gray-500' />{' '}
+            {info.getValue().phoneNumber}{' '}
+          </p>
+        </div>
+      ),
+    }),
+    columnHelper.accessor('address', {
+      id: 'address',
+      header: () => t('Address'),
+      cell: (info) => (
+        <p className='hyphens  flex items-center gap-1 truncate text-sm'>
+          <Iconify icon='mdi:location' height={18} className='text-gray-500' /> {info.getValue()}{' '}
+        </p>
+      ),
+    }),
     columnHelper.accessor((row) => row, {
       id: 'actions ',
       size: 50,
@@ -243,7 +268,7 @@ export default function SuppliersList({
         <TextField
           placeholder={t('Search...')}
           endAdornment={
-            <IconButton onClick={() => setSearchTerm(searchValue)}>
+            <IconButton onClick={() => setSearchTerm(searchValue === '' ? undefined : searchValue)}>
               <Iconify icon='ion:search-outline' height={18} className='text-gray-500' />
             </IconButton>
           }
@@ -251,7 +276,8 @@ export default function SuppliersList({
           onChange={(e) => setSearchValue(e.target.value)}
           className='flex h-full'
           onKeyDown={(e) => {
-            if (e.key === 'Enter') setSearchTerm(e.currentTarget.value)
+            if (e.key === 'Enter')
+              setSearchTerm(e.currentTarget.value === '' ? undefined : e.currentTarget.value)
           }}
         />
       </div>
@@ -316,7 +342,7 @@ export default function SuppliersList({
                             'cursor-pointer border-b last-of-type:border-b-0 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-paper-hover-dark',
                             row.getIsSelected() && 'bg-gray-50 dark:bg-paper-hover-dark/80'
                           )}
-                          // onDoubleClick={() => dispatch(previewSupplier(row.original))}
+                          onDoubleClick={() => dispatch(previewSupplier(row.original))}
                         >
                           {row.getVisibleCells().map((cell) => (
                             <td

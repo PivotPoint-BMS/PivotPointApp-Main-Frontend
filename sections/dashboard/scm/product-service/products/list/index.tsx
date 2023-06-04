@@ -229,7 +229,7 @@ export default function ProductsList() {
         <TextField
           placeholder={t('Search...')}
           endAdornment={
-            <IconButton onClick={() => setSearchTerm(searchValue)}>
+            <IconButton onClick={() => setSearchTerm(searchValue === '' ? undefined : searchValue)}>
               <Iconify icon='ion:search-outline' height={18} className='text-gray-500' />
             </IconButton>
           }
@@ -237,7 +237,8 @@ export default function ProductsList() {
           onChange={(e) => setSearchValue(e.target.value)}
           className='flex h-full'
           onKeyDown={(e) => {
-            if (e.key === 'Enter') setSearchTerm(e.currentTarget.value)
+            if (e.key === 'Enter')
+              setSearchTerm(e.currentTarget.value === '' ? undefined : e.currentTarget.value)
           }}
         />
         {/* <Popover
