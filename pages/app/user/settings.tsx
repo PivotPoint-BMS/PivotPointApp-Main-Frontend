@@ -55,7 +55,7 @@ function Settings() {
           ]}
         />
         <TabsRoot defaultValue='details' dir={locale === 'ar' ? 'rtl' : 'ltr'}>
-          <TabsList className={clsx('flex w-full items-center gap-8')}>
+          <TabsList className='rounded-lg border dark:border-gray-600'>
             {TABS.map((item, i) => (
               <TabsTrigger key={i} value={item.value} disabled={item.disabled}>
                 {item.icon && <Iconify icon={item.icon} height={20} width={20} />}

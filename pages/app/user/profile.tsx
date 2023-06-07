@@ -1,9 +1,6 @@
 import React from 'react'
-import clsx from 'clsx'
 // next
 import Head from 'next/head'
-// radix
-import * as TabsPrimitive from '@radix-ui/react-tabs'
 // routes
 import { PATH_ACCOUNT, PATH_DASHBOARD } from 'routes/paths'
 // hooks
@@ -18,7 +15,8 @@ import ProfileSupport from 'sections/dashboard/user/profile/ProfileSupport'
 import Layout from 'layout/Index'
 // components
 import { Icon as Iconify } from '@iconify/react'
-import { HeaderBreadcrumbs, Scrollbar } from 'components'
+import { HeaderBreadcrumbs } from 'components'
+import { TabsContent, TabsList, TabsRoot, TabsTrigger } from 'components/Tabs'
 
 const TABS = [
   { name: 'General', icon: 'mdi:user-circle', value: 'general' },
@@ -45,48 +43,33 @@ function Profile() {
             { name: t('Profile') },
           ]}
         />
-        <TabsPrimitive.Root
-          defaultValue='general'
-          dir={locale === 'ar' ? 'rtl' : 'ltr'}
-          className='overflow-hidden'
-        >
-          <Scrollbar className='w-full py-3'>
-            <TabsPrimitive.List className={clsx('flex w-full items-center gap-8')}>
-              {TABS.map((item, i) => (
-                <TabsPrimitive.Trigger
-                  key={i}
-                  value={item.value}
-                  className={clsx(
-                    'relative flex cursor-pointer items-center justify-start gap-3 px-1 pt-3 pb-3 transition-all',
-                    'before:absolute before:bottom-0 before:h-[3px] before:w-full before:rounded-full before:bg-primary-600 before:transition-all ltr:before:left-0 rtl:before:right-0',
-                    'before:duration-500 data-[state=inactive]:before:w-0',
-                    'data-[state=inactive]:text-gray-600 dark:data-[state=inactive]:text-gray-400'
-                  )}
-                >
-                  <div className='flex w-max cursor-pointer items-center gap-2'>
-                    {item.icon && <Iconify icon={item.icon} height={20} width={20} />}
-                    <label className='cursor-pointer font-medium'>{t(item.name)}</label>
-                  </div>
-                </TabsPrimitive.Trigger>
-              ))}
-            </TabsPrimitive.List>
-          </Scrollbar>
-          <TabsPrimitive.Content value='general' className='w-full py-6'>
+        <TabsRoot defaultValue='general' dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+          <TabsList className='rounded-lg border dark:border-gray-600'>
+            {TABS.map((item, i) => (
+              <TabsTrigger key={i} value={item.value}>
+                <div className='flex w-max cursor-pointer items-center gap-2'>
+                  {item.icon && <Iconify icon={item.icon} height={20} width={20} />}
+                  <label className='cursor-pointer font-medium'>{t(item.name)}</label>
+                </div>
+              </TabsTrigger>
+            ))}
+          </TabsList>
+          <TabsContent value='general' className=' py-6'>
             <ProfileGeneral />
-          </TabsPrimitive.Content>
-          <TabsPrimitive.Content value='password' className='w-full py-6'>
+          </TabsContent>
+          <TabsContent value='password' className=' py-6'>
             <ProfilePassword />
-          </TabsPrimitive.Content>
-          <TabsPrimitive.Content value='billing' className='w-full py-6'>
+          </TabsContent>
+          <TabsContent value='billing' className=' py-6'>
             <ProfileBilling />
-          </TabsPrimitive.Content>
-          <TabsPrimitive.Content value='notification' className='w-full py-6'>
+          </TabsContent>
+          <TabsContent value='notification' className=' py-6'>
             <ProfileNotification />
-          </TabsPrimitive.Content>
-          <TabsPrimitive.Content value='support' className='w-full py-6'>
+          </TabsContent>
+          <TabsContent value='support' className='w-full py-6'>
             <ProfileSupport />
-          </TabsPrimitive.Content>
-        </TabsPrimitive.Root>
+          </TabsContent>
+        </TabsRoot>
       </div>
     </>
   )
