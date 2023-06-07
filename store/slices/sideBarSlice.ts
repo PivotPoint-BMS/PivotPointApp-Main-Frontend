@@ -248,12 +248,6 @@ const initialState: SideBarConfig = {
       ],
     },
     {
-      name: 'Workflow',
-      root: PATH_DASHBOARD.workflow.root,
-      href: PATH_DASHBOARD.workflow.root,
-      icon: 'ph:tree-structure-fill',
-    },
-    {
       name: 'Human Resource',
       root: PATH_DASHBOARD.hrm.root,
       href: PATH_DASHBOARD.hrm.dashboard,
@@ -357,6 +351,17 @@ const initialState: SideBarConfig = {
           },
         },
       ],
+    },
+    {
+      name: 'Workflow',
+      root: PATH_DASHBOARD.workflow.root,
+      href: PATH_DASHBOARD.workflow.root,
+      icon: 'ph:tree-structure-fill',
+      disabled: true,
+      badge: {
+        label: 'In Dev',
+        color: 'default',
+      },
     },
   ],
   isOpen: false,

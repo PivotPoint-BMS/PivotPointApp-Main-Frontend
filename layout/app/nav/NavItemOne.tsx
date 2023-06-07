@@ -156,7 +156,11 @@ function NavItemOne({
     </Link>
   ) : (
     <button
-      className='relative flex w-full cursor-pointer items-center rounded-xl p-4 text-secondary-900 transition-colors hover:bg-secondary-500/10 dark:text-white dark:hover:bg-gray-300/10'
+      className={clsx([
+        'relative flex w-fit items-center rounded-xl p-4 text-secondary-900 transition-all group-hover:w-full dark:text-white',
+        disabled &&
+          'pointer-events-none cursor-not-allowed opacity-40 hover:bg-secondary-500/10 dark:hover:bg-gray-300/10',
+      ])}
       onClick={onClick}
     >
       {icon}
