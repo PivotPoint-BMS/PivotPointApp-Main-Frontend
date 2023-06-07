@@ -101,19 +101,22 @@ function SideBar() {
             name={t('Account')}
             icon={
               <div className='relative h-[22px] w-[22px] '>
-                <Iconify
-                  icon='heroicons:user-circle-20-solid'
-                  className='absolute top-0 right-0'
-                  height={22}
-                  width={22}
-                />
-                <Image
-                  alt='avatar'
-                  width={22}
-                  height={22}
-                  src={`${PIVOTPOINT_API.profilePicUrl}/${user?.profilePicture}`}
-                  className='aspect-square rounded-full object-cover'
-                />
+                {user && user?.profilePicture && user?.profilePicture !== '' ? (
+                  <Image
+                    alt='avatar'
+                    width={22}
+                    height={22}
+                    src={`${PIVOTPOINT_API.profilePicUrl}/${user?.profilePicture}`}
+                    className='aspect-square rounded-full object-cover'
+                  />
+                ) : (
+                  <Iconify
+                    icon='heroicons:user-circle-20-solid'
+                    className='absolute top-0 right-0'
+                    height={22}
+                    width={22}
+                  />
+                )}
               </div>
             }
             asLink
