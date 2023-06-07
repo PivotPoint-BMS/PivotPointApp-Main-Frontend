@@ -163,7 +163,7 @@ function NavItemMobile({
       onClick={onClick}
     >
       {icon}
-      <label className='w-max text-xs font-medium capitalize ltr:ml-3 rtl:mr-3'>{name}</label>
+      <label className='w-max text-xs font-medium capitalize ltr:ml-2 rtl:mr-2'>{name}</label>
     </button>
   )
 }

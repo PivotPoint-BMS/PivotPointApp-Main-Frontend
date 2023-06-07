@@ -99,7 +99,7 @@ function NavItemOne({
                 key={i}
                 href={item.href}
                 className={clsx(
-                  'flex items-center gap-3 rounded-xl py-3 px-5 ltr:ml-6 rtl:mr-6',
+                  'flex items-center gap-3 rounded-xl py-3 px-5 ltr:ml-3 rtl:mr-3',
                   getActivePath(item.href, pathname, asPath)
                     ? 'bg-secondary-700 text-gray-200 hover:bg-secondary-800 dark:text-white'
                     : 'bg-gray-100 text-secondary-900 hover:bg-gray-100/60 dark:bg-secondary-100/20 dark:text-white dark:hover:bg-secondary-200/50'
@@ -114,7 +114,7 @@ function NavItemOne({
               <button
                 key={i}
                 className={clsx(
-                  'flex items-center gap-3 rounded-xl py-3 px-5 ltr:ml-6 rtl:mr-6',
+                  'flex items-center gap-3 rounded-xl py-3 px-5 ltr:ml-3 rtl:mr-3',
                   'bg-gray-100 text-secondary-900 hover:bg-gray-100/60 dark:bg-secondary-100/20 dark:text-white dark:hover:bg-secondary-200/50'
                 )}
                 onClick={item.onClick}

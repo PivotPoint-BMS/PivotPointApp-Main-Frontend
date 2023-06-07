@@ -17,8 +17,9 @@ import useTranslate from 'hooks/useTranslate'
 // redux
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { collapse, extend, NavItemConfig } from 'store/slices/sideBarSlice'
+import { logout } from 'store/slices/sessionSlice'
 // routes
-import { PATH_ACCOUNT, PATH_DASHBOARD } from 'routes/paths'
+import { PATH_ACCOUNT, PATH_AUTH, PATH_DASHBOARD } from 'routes/paths'
 // Components
 import { Scrollbar } from 'components'
 import NavItemOne from './NavItemOne'
@@ -127,6 +128,14 @@ function SideBar() {
                 name: 'Settings',
                 href: PATH_ACCOUNT.settings,
                 icon: <Iconify icon='ion:settings' height={22} width={22} />,
+              },
+              {
+                name: 'Logout',
+                onClick: () => {
+                  dispatch(logout())
+                  push(PATH_AUTH.login)
+                },
+                icon: <Iconify icon='ion:exit' height={22} width={22} />,
               },
             ]}
           />

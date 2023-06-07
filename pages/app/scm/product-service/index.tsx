@@ -1,11 +1,8 @@
 import { useEffect, useState } from 'react'
-import clsx from 'clsx'
 // next
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-// radix
-import * as TabsPrimitive from '@radix-ui/react-tabs'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // routes
@@ -18,6 +15,7 @@ import Layout from 'layout/Index'
 // components
 import { Icon as Iconify } from '@iconify/react'
 import { HeaderBreadcrumbs, Card, Button } from 'components'
+import { TabsContent, TabsList, TabsRoot, TabsTrigger } from 'components/Tabs'
 
 const TABS = [
   { name: 'Products', value: 'products', icon: 'ic:baseline-inventory' },
@@ -68,43 +66,31 @@ function index() {
           }
         />
         <Card fullWidth className='mb-10 overflow-hidden'>
-          <TabsPrimitive.Root
+          <TabsRoot
             defaultValue='products'
             dir={locale === 'ar' ? 'rtl' : 'ltr'}
-            className='overflow-hidden'
             value={tab}
             onValueChange={(value) => setTab(value)}
           >
-            <TabsPrimitive.List className='flex w-full items-center gap-8 overflow-x-scroll bg-gray-100 px-4 dark:bg-gray-900'>
+            <TabsList>
               {TABS.map((item, i) => (
-                <TabsPrimitive.Trigger
-                  key={i}
-                  value={item.value}
-                  className={clsx(
-                    'relative flex cursor-pointer items-center justify-start gap-3  px-1 pt-3 pb-3 text-sm transition-all',
-                    'before:absolute before:bottom-0 before:h-[3px] before:w-full before:rounded-t-full before:bg-primary-600 before:transition-all ltr:before:left-0 rtl:before:right-0',
-                    'before:duration-500 data-[state=inactive]:before:w-0',
-                    'data-[state=inactive]:text-gray-600 dark:data-[state=inactive]:text-gray-400'
-                  )}
-                >
-                  <div className='flex w-max cursor-pointer items-center gap-2'>
-                    {item.icon && <Iconify icon={item.icon} height={20} width={20} />}
-                    <label className='cursor-pointer font-medium'>{t(item.name)}</label>
-                  </div>
-                </TabsPrimitive.Trigger>
+                <TabsTrigger key={i} value={item.value}>
+                  {item.icon && <Iconify icon={item.icon} height={20} width={20} />}
+                  <label className='cursor-pointer font-medium'>{t(item.name)}</label>
+                </TabsTrigger>
               ))}
-            </TabsPrimitive.List>
+            </TabsList>
 
-            <TabsPrimitive.Content value='products' className='w-full'>
+            <TabsContent value='products'>
               <ProductsList />
-            </TabsPrimitive.Content>
-            <TabsPrimitive.Content value='categories' className='w-full'>
+            </TabsContent>
+            <TabsContent value='categories'>
               <CategoriesList
                 openAddDialog={openAddCategoryDialog}
                 setOpenAddDialog={setOpenAddCategoryDialog}
               />
-            </TabsPrimitive.Content>
-          </TabsPrimitive.Root>
+            </TabsContent>
+          </TabsRoot>
         </Card>
       </div>
     </>

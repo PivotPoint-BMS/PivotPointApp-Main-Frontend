@@ -13,8 +13,10 @@ import { LANGS, NAVBAR, PIVOTPOINT_API } from 'config'
 import { Icon as Iconify } from '@iconify/react'
 // assets
 import logo from 'public/logo.svg'
+// redux
+import { logout } from 'store/slices/sessionSlice'
 // routes
-import { PATH_ACCOUNT } from 'routes/paths'
+import { PATH_ACCOUNT, PATH_AUTH } from 'routes/paths'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // redux
@@ -131,6 +133,14 @@ export default function SidebarMobile() {
                   name: 'Settings',
                   href: PATH_ACCOUNT.settings,
                   icon: 'ion:settings',
+                },
+                {
+                  name: 'Logout',
+                  onClick: () => {
+                    dispatch(logout())
+                    push(PATH_AUTH.login)
+                  },
+                  icon: 'ion:exit',
                 },
               ]}
             />

@@ -2,8 +2,6 @@ import React from 'react'
 import clsx from 'clsx'
 // next
 import Head from 'next/head'
-// radix
-import * as TabsPrimitive from '@radix-ui/react-tabs'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 import { useAppSelector } from 'store/hooks'
@@ -20,7 +18,8 @@ import SettingsApi from 'sections/dashboard/user/settings/SettingsApi'
 import Layout from 'layout/Index'
 // componenets
 import { Icon as Iconify } from '@iconify/react'
-import { HeaderBreadcrumbs, Scrollbar } from 'components'
+import { HeaderBreadcrumbs } from 'components'
+import { TabsContent, TabsList, TabsRoot, TabsTrigger } from 'components/Tabs'
 
 function Settings() {
   const { t, locale } = useTranslate()
@@ -55,55 +54,36 @@ function Settings() {
             { name: t('Company Settings') },
           ]}
         />
-        <TabsPrimitive.Root
-          defaultValue='details'
-          dir={locale === 'ar' ? 'rtl' : 'ltr'}
-          className='overflow-hidden'
-        >
-          <Scrollbar className='w-full py-3'>
-            <TabsPrimitive.List className={clsx('flex w-full items-center gap-8')}>
-              {TABS.map((item, i) => (
-                <TabsPrimitive.Trigger
-                  key={i}
-                  value={item.value}
-                  disabled={item.disabled}
-                  className={clsx(
-                    'relative flex cursor-pointer items-center justify-start gap-3 px-1 pt-3 pb-3 transition-all',
-                    'before:absolute before:bottom-0 before:h-[3px] before:w-full before:rounded-full before:bg-primary-600 before:transition-all ltr:before:left-0 rtl:before:right-0',
-                    'before:duration-500 data-[state=inactive]:before:w-0',
-                    'data-[state=inactive]:text-gray-600 dark:data-[state=inactive]:text-gray-400',
-                    item.disabled && '!text-gray-300 dark:!text-gray-600'
-                  )}
-                >
-                  <div className='flex w-max cursor-pointer items-center gap-2'>
-                    {item.icon && <Iconify icon={item.icon} height={20} width={20} />}
-                    <label className='cursor-pointer font-medium'>{t(item.name)}</label>
-                  </div>
-                </TabsPrimitive.Trigger>
-              ))}
-            </TabsPrimitive.List>
-          </Scrollbar>
-          <TabsPrimitive.Content value='details' className={clsx('w-full py-6')}>
+        <TabsRoot defaultValue='details' dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+          <TabsList className={clsx('flex w-full items-center gap-8')}>
+            {TABS.map((item, i) => (
+              <TabsTrigger key={i} value={item.value} disabled={item.disabled}>
+                {item.icon && <Iconify icon={item.icon} height={20} width={20} />}
+                <label className='cursor-pointer font-medium'>{t(item.name)}</label>
+              </TabsTrigger>
+            ))}
+          </TabsList>
+          <TabsContent value='details' className={clsx('w-full py-6')}>
             <SettingsDetails />
-          </TabsPrimitive.Content>{' '}
-          <TabsPrimitive.Content value='email' className={clsx('w-full py-6')}>
+          </TabsContent>{' '}
+          <TabsContent value='email' className={clsx('w-full py-6')}>
             <SettingsEmail />
-          </TabsPrimitive.Content>{' '}
-          <TabsPrimitive.Content value='storage' className={clsx('w-full py-6')}>
+          </TabsContent>{' '}
+          <TabsContent value='storage' className={clsx('w-full py-6')}>
             <SettingsStorage />
-          </TabsPrimitive.Content>{' '}
-          <TabsPrimitive.Content value='integration' className={clsx('w-full py-6')}>
+          </TabsContent>{' '}
+          <TabsContent value='integration' className={clsx('w-full py-6')}>
             <SettingsIntegration />
-          </TabsPrimitive.Content>{' '}
-          <TabsPrimitive.Content value='4' className={clsx('w-full py-6')}>
+          </TabsContent>{' '}
+          <TabsContent value='4' className={clsx('w-full py-6')}>
             <SettingsSecurity />
-          </TabsPrimitive.Content>{' '}
+          </TabsContent>{' '}
           {hasApi && (
-            <TabsPrimitive.Content value='api' className={clsx('w-full py-6')}>
+            <TabsContent value='api' className={clsx('w-full py-6')}>
               <SettingsApi />
-            </TabsPrimitive.Content>
+            </TabsContent>
           )}
-        </TabsPrimitive.Root>
+        </TabsRoot>
       </div>
     </>
   )
