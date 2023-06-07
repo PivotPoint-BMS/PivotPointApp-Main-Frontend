@@ -31,7 +31,7 @@ export default function SubNavItemTwo({ name, href, icon, badge, disabled, isCol
     <Link
       href={disabled ? '' : href}
       className={clsx(
-        'flex w-full items-center rounded-xl p-4 text-white',
+        'flex  w-full items-center rounded-xl p-4  text-white transition-all',
         active
           ? 'bg-secondary-800 hover:bg-secondary-900 dark:bg-secondary-800 dark:hover:bg-secondary-700'
           : 'bg-secondary-400/50 hover:bg-secondary-500/80 dark:bg-secondary-300/10 dark:hover:bg-secondary-300/20',
@@ -39,7 +39,9 @@ export default function SubNavItemTwo({ name, href, icon, badge, disabled, isCol
           'pointer-events-none cursor-not-allowed opacity-40 hover:bg-gray-100/40 dark:hover:bg-secondary-100/60'
       )}
     >
-      <Iconify icon={icon} height={20} width={20} />
+      <div className='h-[20px] w-[20px]'>
+        <Iconify icon={icon} height={20} width={20} />
+      </div>
       <label
         className={clsx(
           'flex-1 cursor-pointer font-medium capitalize ',

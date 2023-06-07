@@ -1,16 +1,20 @@
 /* eslint-disable no-constant-condition */
 import { useEffect, useState } from 'react'
+import clsx from 'clsx'
+import { motion, Variant } from 'framer-motion'
+// next
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useTheme } from 'next-themes'
-import { motion, Variant } from 'framer-motion'
-import clsx from 'clsx'
 // config
-import { NAVBAR } from 'config'
+import { LANGS, NAVBAR, PIVOTPOINT_API } from 'config'
 // icons
 import { Icon as Iconify } from '@iconify/react'
 // assets
 import logo from 'public/logo.svg'
+// routes
+import { PATH_ACCOUNT } from 'routes/paths'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // redux
@@ -22,8 +26,10 @@ import MobileNavItem from './MobileNavItem'
 
 export default function SidebarMobile() {
   const { theme, setTheme } = useTheme()
+  const { pathname, push, asPath, query } = useRouter()
   const [mounted, setMounted] = useState(false)
   const [opened, setOpened] = useState(false)
+  const { user } = useAppSelector((state) => state.session)
   const { items, isOpen } = useAppSelector((state) => state.sideBar)
   const dispatch = useAppDispatch()
   const { t, locale } = useTranslate()
@@ -46,6 +52,10 @@ export default function SidebarMobile() {
     setTimeout(() => {
       dispatch(close())
     }, 200)
+  }
+
+  const changeLocale = (nextLocale: string) => {
+    push({ pathname, query }, asPath, { locale: nextLocale })
   }
 
   return (
@@ -90,6 +100,50 @@ export default function SidebarMobile() {
             </nav>
           </div>
           <div className='flex w-full flex-col items-start justify-between gap-2'>
+            <MobileNavItem
+              href='#'
+              name={t('Account')}
+              icon={
+                <div className='relative h-[22px] w-[22px] '>
+                  <Iconify
+                    icon='heroicons:user-circle-20-solid'
+                    className='absolute top-0 right-0'
+                    height={22}
+                    width={22}
+                  />
+                  <Image
+                    alt='avatar'
+                    width={22}
+                    height={22}
+                    src={`${PIVOTPOINT_API.profilePicUrl}/${user?.profilePicture}`}
+                    className='aspect-square rounded-full object-cover'
+                  />
+                </div>
+              }
+              asLink
+              subItems={[
+                {
+                  name: 'Profile',
+                  href: PATH_ACCOUNT.profile,
+                  icon: 'ion:person-circle',
+                },
+                {
+                  name: 'Settings',
+                  href: PATH_ACCOUNT.settings,
+                  icon: 'ion:settings',
+                },
+              ]}
+            />
+            <MobileNavItem
+              href='#'
+              name={t('Language')}
+              icon={<Iconify icon='fluent:globe-16-filled' height={22} width={22} />}
+              asLink
+              subItems={LANGS.map((language) => ({
+                name: language.label,
+                onClick: () => changeLocale(language.value),
+              }))}
+            />
             {mounted && (
               <MobileNavItem
                 icon={

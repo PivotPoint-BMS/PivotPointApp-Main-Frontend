@@ -22,13 +22,14 @@ type Props =
       onClick?: () => void
       subItems?: {
         name: string
-        href: string
-        icon: string
+        href?: string
+        icon?: string
         disabled?: boolean
         badge?: {
           color?: 'primary' | 'secondary' | 'info' | 'warning' | 'error' | 'success' | 'default'
           label: string
         }
+        onClick?: () => void
       }[]
     }
   | {
@@ -110,33 +111,50 @@ function NavItemMobile({
         )}
       </CollapsiblePrimitive.Trigger>
       <CollapsiblePrimitive.Content className='mt-2 flex flex-col space-y-4'>
-        {subItems?.map((item, i) => (
-          <Link
-            key={i}
-            href={item.disabled ? '' : item.href}
-            className={clsx(
-              'flex items-center gap-3 rounded-xl py-3 px-5 ltr:ml-6 rtl:mr-6',
-              getActivePath(item.href, pathname, asPath)
-                ? 'bg-secondary-700 text-gray-200 hover:bg-secondary-800 dark:text-white'
-                : 'bg-gray-100 text-secondary-900 hover:bg-gray-100/60 dark:bg-secondary-100/20 dark:text-white dark:hover:bg-secondary-200/50',
-              item.disabled &&
-                'pointer-events-none cursor-not-allowed opacity-40 hover:bg-secondary-500/10 dark:hover:bg-gray-300/10'
-            )}
-            onClick={onClick}
-          >
-            <Iconify icon={item.icon} height={20} width={20} />
-            <label className='flex-1 cursor-pointer text-[10px] font-medium capitalize'>
-              {t(item.name)}
-            </label>
-            {item.badge && (
-              <Badge
-                label={t(item.badge?.label)}
-                intent={item.badge?.color || 'primary'}
-                className='truncate text-[10px]'
-              />
-            )}
-          </Link>
-        ))}
+        {subItems?.map((item, i) =>
+          item.href ? (
+            <Link
+              key={i}
+              href={item.disabled ? '' : item.href}
+              className={clsx(
+                'flex items-center gap-3 rounded-xl py-3 px-5 ltr:ml-6 rtl:mr-6',
+                getActivePath(item.href, pathname, asPath)
+                  ? 'bg-secondary-700 text-gray-200 hover:bg-secondary-800 dark:text-white'
+                  : 'bg-gray-100 text-secondary-900 hover:bg-gray-100/60 dark:bg-secondary-100/20 dark:text-white dark:hover:bg-secondary-200/50',
+                item.disabled &&
+                  'pointer-events-none cursor-not-allowed opacity-40 hover:bg-secondary-500/10 dark:hover:bg-gray-300/10'
+              )}
+            >
+              <Iconify icon={item.icon || ''} height={20} width={20} />
+              <label className='flex-1 cursor-pointer text-[10px] font-medium capitalize'>
+                {t(item.name)}
+              </label>
+              {item.badge && (
+                <Badge
+                  label={t(item.badge?.label)}
+                  intent={item.badge?.color || 'primary'}
+                  className='truncate text-[10px]'
+                />
+              )}
+            </Link>
+          ) : (
+            <button
+              key={i}
+              className={clsx(
+                'flex items-center gap-3 rounded-xl py-3 px-5 ltr:ml-6 rtl:mr-6',
+                'bg-gray-100 text-secondary-900 hover:bg-gray-100/60 dark:bg-secondary-100/20 dark:text-white dark:hover:bg-secondary-200/50',
+                item.disabled &&
+                  'pointer-events-none cursor-not-allowed opacity-40 hover:bg-secondary-500/10 dark:hover:bg-gray-300/10'
+              )}
+              onClick={item.onClick}
+            >
+              {item.icon && <Iconify icon={item.icon} height={20} width={20} />}
+              <label className='cursor-pointer text-[10px] font-medium capitalize'>
+                {t(item.name)}
+              </label>
+            </button>
+          )
+        )}
       </CollapsiblePrimitive.Content>
     </CollapsiblePrimitive.Root>
   ) : (

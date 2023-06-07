@@ -7,7 +7,7 @@ import { useTheme } from 'next-themes'
 import { motion } from 'framer-motion'
 import clsx from 'clsx'
 // config
-import { NAVBAR } from 'config'
+import { LANGS, NAVBAR, PIVOTPOINT_API } from 'config'
 // icons
 import { Icon as Iconify } from '@iconify/react'
 // assets
@@ -18,11 +18,13 @@ import useTranslate from 'hooks/useTranslate'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { collapse, extend, NavItemConfig } from 'store/slices/sideBarSlice'
 // routes
-import { PATH_DASHBOARD } from 'routes/paths'
+import { PATH_ACCOUNT, PATH_DASHBOARD } from 'routes/paths'
 // Components
 import { Scrollbar } from 'components'
 import NavItemOne from './NavItemOne'
 import SubNavItemTwo from './SubNavItemTwo'
+// import LanguageDropdown from '../header/LanguageDropdown'
+// import AccountDropdown from '../header/AccountDropdown'
 
 const getSubItems = (items: NavItemConfig[], path: string) => {
   const activePath = path.split('/')[2]
@@ -35,18 +37,23 @@ const getSubItems = (items: NavItemConfig[], path: string) => {
 
 function SideBar() {
   const { theme, setTheme } = useTheme()
-  const router = useRouter()
+  const { push, pathname, query, asPath } = useRouter()
   const [mounted, setMounted] = useState(false)
+  const { user } = useAppSelector((state) => state.session)
   const { items, isCollapsed } = useAppSelector((state) => state.sideBar)
   const dispatch = useAppDispatch()
 
   const { t, locale } = useTranslate()
 
-  const subItems = useMemo(() => getSubItems(items, router.pathname), [router.pathname])
+  const subItems = useMemo(() => getSubItems(items, pathname), [pathname])
 
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  const changeLocale = (nextLocale: string) => {
+    push({ pathname, query }, asPath, { locale: nextLocale })
+  }
 
   const toggleCollapse = () => {
     if (isCollapsed) {
@@ -68,7 +75,7 @@ function SideBar() {
       }}
     >
       <div
-        className='group fixed z-10 flex h-screen flex-col items-start bg-gray-50 py-6 px-4 transition-all ltr:border-r rtl:border-l motion-reduce:transition-none dark:border-gray-500 dark:bg-dark'
+        className='group fixed z-10 flex h-screen flex-col items-start overflow-y-auto bg-gray-50 py-6 px-4 transition-all ltr:border-r rtl:border-l motion-reduce:transition-none dark:border-gray-500 dark:bg-dark'
         style={{ minWidth: NAVBAR.MAIN_NAVBAR_WIDTH }}
       >
         <Link href='/' className='mt-4 mb-12 w-full'>
@@ -88,6 +95,52 @@ function SideBar() {
           ))}
         </nav>
         <div className='flex w-full flex-col items-start justify-between gap-2'>
+          <NavItemOne
+            href='#'
+            name={t('Account')}
+            icon={
+              <div className='relative h-[22px] w-[22px] '>
+                <Iconify
+                  icon='heroicons:user-circle-20-solid'
+                  className='absolute top-0 right-0'
+                  height={22}
+                  width={22}
+                />
+                <Image
+                  alt='avatar'
+                  width={22}
+                  height={22}
+                  src={`${PIVOTPOINT_API.profilePicUrl}/${user?.profilePicture}`}
+                  className='aspect-square rounded-full object-cover'
+                />
+              </div>
+            }
+            asLink
+            collapsible
+            subItems={[
+              {
+                name: 'Profile',
+                href: PATH_ACCOUNT.profile,
+                icon: <Iconify icon='ion:person-circle' height={22} width={22} />,
+              },
+              {
+                name: 'Settings',
+                href: PATH_ACCOUNT.settings,
+                icon: <Iconify icon='ion:settings' height={22} width={22} />,
+              },
+            ]}
+          />
+          <NavItemOne
+            href='#'
+            name={t('Language')}
+            icon={<Iconify icon='fluent:globe-16-filled' height={22} width={22} />}
+            asLink
+            collapsible
+            subItems={LANGS.map((language) => ({
+              name: language.label,
+              onClick: () => changeLocale(language.value),
+            }))}
+          />
           {mounted && (
             <NavItemOne
               icon={

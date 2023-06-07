@@ -31,9 +31,12 @@ function Layout({
   return (
     <AuthGuard>
       <div className='flex h-screen w-screen'>
-        <Header />
+        {!isDesktop && <Header />}
         {isDesktop ? <SidebarDesktop /> : <SidebarMobile />}
-        <main className='flex-1 overflow-x-hidden' style={{ paddingTop: HEADER.DESKTOP_HEIGHT }}>
+        <main
+          className='mt-5 flex-1 overflow-x-hidden'
+          style={{ marginTop: !isDesktop ? HEADER.MAIN_DESKTOP_HEIGHT : 20 }}
+        >
           {children}
         </main>
       </div>

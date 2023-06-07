@@ -61,3 +61,9 @@ export const VEHICULES_SIZES = [
   { value: 2, label: 'Large' },
   { value: 3, label: 'Very Large' },
 ]
+
+export const LANGS = [
+  { value: 'en', label: 'English' },
+  { value: 'fr', label: 'Français' },
+  { value: 'ar', label: 'العربية' },
+]
