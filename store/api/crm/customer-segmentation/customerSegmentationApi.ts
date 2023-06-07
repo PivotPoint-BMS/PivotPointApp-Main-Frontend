@@ -158,6 +158,42 @@ export const customerSegmentationApi = createApi({
         }
       },
     }),
+    deleteSegmentClient: builder.mutation<
+      IGenericResponse<boolean>,
+      {
+        segmentId: string
+        clientId: string
+        PageNumber: number
+        PageSize: number
+      }
+    >({
+      query: (data) => ({
+        url: 'ClientSegmentation/Client/Delete',
+        method: 'POST',
+        body: data,
+        responseHandler: 'content-type',
+      }),
+      async onQueryStarted(
+        { clientId, segmentId, PageNumber, PageSize },
+        { dispatch, queryFulfilled }
+      ) {
+        try {
+          await queryFulfilled
+          dispatch(
+            leadApi.util.updateQueryData(
+              'getSegmentClients',
+              { id: segmentId, PageNumber, PageSize },
+              (draftedList) => ({
+                ...draftedList,
+                data: draftedList.data.filter((client) => client.id !== clientId),
+              })
+            )
+          )
+        } catch {
+          /* empty */
+        }
+      },
+    }),
     initiateSegmentation: builder.mutation<IGenericResponse<boolean>, void>({
       query: () => ({
         url: 'ClientSegmentation/Initiate',
@@ -178,6 +214,7 @@ export const {
   useDeleteSegmentMutation,
   useAddClientToSegmentMutation,
   useInitiateSegmentationMutation,
+  useDeleteSegmentClientMutation,
   util: { getRunningQueriesThunk },
 } = customerSegmentationApi
 

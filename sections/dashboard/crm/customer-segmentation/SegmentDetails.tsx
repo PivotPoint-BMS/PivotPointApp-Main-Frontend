@@ -15,6 +15,7 @@ import { changePageNumber, changePageSize } from 'store/slices/pagginationSlice'
 // api
 import {
   useAddClientToSegmentMutation,
+  useDeleteSegmentClientMutation,
   useDeleteSegmentMutation,
   useInitiateSegmentationMutation,
 } from 'store/api/crm/customer-segmentation/customerSegmentationApi'
@@ -61,9 +62,11 @@ export default function SegmentDetails({ segment }: { segment: Segment | null })
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
+  const [clientToRemove, setClientToRemove] = useState('')
   const [openEditSegmentDialog, setOpenEditSegmentDialog] = useState(false)
   const [openAddLeadsDialog, setOpenAddLeadsDialog] = useState(false)
   const [openInitiateDialog, setOpenInitiateDialog] = useState(false)
+  const [openDeleteClientDialog, setOpenDeleteClientDialog] = useState(false)
   // Pogination
   const { PageSize, PageNumber } = useAppSelector((state) => state.paggination)
   // Filters
@@ -99,6 +102,8 @@ export default function SegmentDetails({ segment }: { segment: Segment | null })
   ] = useDeleteSegmentMutation()
   const [addClient, { isError: isAddClientError, isLoading: isAddClientLoading }] =
     useAddClientToSegmentMutation()
+  const [deleteClient, { isLoading: isDeleteClientClientLoading }] =
+    useDeleteSegmentClientMutation()
   const [initiateSegmentation, { isLoading: isSegmentationLoading }] =
     useInitiateSegmentationMutation()
 
@@ -170,7 +175,12 @@ export default function SegmentDetails({ segment }: { segment: Segment | null })
             </IconButton>
           </Tooltip>
           <Tooltip title={t('Delete From Segment')} side='bottom'>
-            <IconButton>
+            <IconButton
+              onClick={() => {
+                setClientToRemove(lead.getValue().id)
+                setOpenDeleteClientDialog(true)
+              }}
+            >
               <Icon icon='ic:round-delete' className='text-red-500 dark:text-red-400' height={18} />
             </IconButton>
           </Tooltip>
@@ -640,7 +650,7 @@ export default function SegmentDetails({ segment }: { segment: Segment | null })
           initiateSegmentation()
             .then(() =>
               open({
-                message: t('Client Segmentation Initiated.'),
+                message: t('Client Removed From Segmentation.'),
                 type: 'success',
                 variant: 'contained',
               })
@@ -656,9 +666,45 @@ export default function SegmentDetails({ segment }: { segment: Segment | null })
         open={openInitiateDialog}
         onClose={() => setOpenInitiateDialog(false)}
       />
+      <AlertDialog
+        title={t('Confirm Initiation')}
+        description={
+          <p className='my-4 text-sm text-red-700 dark:text-red-400'>
+            {t('Are you sure you want to remove this client from this segment.')}
+          </p>
+        }
+        cancelText={t('Cancel')}
+        confirmText={t('Remove Client?')}
+        onConfirm={() => {
+          setOpenDeleteClientDialog(false)
+          deleteClient({
+            clientId: clientToRemove || '',
+            segmentId: segment?.id || '',
+            PageNumber,
+            PageSize,
+          })
+            .then(() =>
+              open({
+                message: t('Client Segmentation Initiated.'),
+                type: 'success',
+                variant: 'contained',
+              })
+            )
+            .catch(() =>
+              open({
+                message: t('A problem has occured.'),
+                type: 'error',
+                variant: 'contained',
+              })
+            )
+        }}
+        open={openDeleteClientDialog}
+        onClose={() => setOpenDeleteClientDialog(false)}
+        buttonProps={{ intent: 'error' }}
+      />
       <Backdrop
-        open={isAddClientLoading || isSegmentationLoading}
-        loading={isAddClientLoading || isSegmentationLoading}
+        open={isAddClientLoading || isSegmentationLoading || isDeleteClientClientLoading}
+        loading={isAddClientLoading || isSegmentationLoading || isDeleteClientClientLoading}
       />
     </div>
   )
