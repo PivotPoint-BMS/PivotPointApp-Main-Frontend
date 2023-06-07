@@ -28,10 +28,11 @@ import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
 // components
 import Select from 'react-select'
-import { Card, CardContent, Button, LoadingIndicator } from 'components'
+import { Card, CardContent, Button, LoadingIndicator, Tooltip } from 'components'
 import { FormProvider, RHFTextField, RHFAutoComplete } from 'components/hook-form'
 import RHFUploadAvatar from 'components/hook-form/RHFUpload'
 import { Category } from 'types'
+import { Icon } from '@iconify/react'
 
 export default function CreateEditProductForm({
   isEdit,
@@ -65,9 +66,23 @@ export default function CreateEditProductForm({
     price: Yup.number().nullable().required(t('This field is required')),
     productCode: Yup.string().nullable(),
     cost: Yup.number().nullable(),
-    weight: Yup.number().nullable(),
     brand: Yup.string().nullable(),
-    dimensions: Yup.number().nullable(),
+    weight: Yup.string().when('type', {
+      is: 1,
+      then: (schema) => schema.required(t('This field is required')),
+    }),
+    height: Yup.string().when('type', {
+      is: 1,
+      then: (schema) => schema.required(t('This field is required')),
+    }),
+    length: Yup.string().when('type', {
+      is: 1,
+      then: (schema) => schema.required(t('This field is required')),
+    }),
+    width: Yup.string().when('type', {
+      is: 1,
+      then: (schema) => schema.required(t('This field is required')),
+    }),
   })
 
   const defaultValues = useMemo(
@@ -78,9 +93,12 @@ export default function CreateEditProductForm({
       price: null,
       productCode: null,
       cost: null,
-      weight: null,
       brand: null,
       dimensions: null,
+      weight: '',
+      height: '',
+      length: '',
+      width: '',
     }),
     [currentProduct]
   )
@@ -101,8 +119,8 @@ export default function CreateEditProductForm({
       price: data.price || '',
       productCode: data.productCode || '',
       type: data.type || '',
-      dimensions: data.dimensions || 0,
       weight: data.weight || 0,
+      dimensions: `${data.height},${data.length},${data.width}` || '',
     }
 
     if (isEdit) editProduct({ id: currentProduct?.id || '', PageNumber, PageSize, ...product })
@@ -228,11 +246,27 @@ export default function CreateEditProductForm({
                     label={t('Cost')}
                     endAdornment={t('Da')}
                   />
-                  <RHFTextField type='number' name='weight' label={t('Weight')} />
-                  <RHFTextField type='number' name='dimensions' label={t('Dimensions')} />
                   <div className='sm:col-span-2'>
                     <RHFTextField name='productCode' label={t('Product Code')} />
                   </div>
+                  <h6 className='col-span-2 text-lg font-semibold'>
+                    {t('Warehousing Infotmations')}{' '}
+                    <Tooltip
+                      className='font-normal'
+                      title={t('These information help us in the warehousing fuctions')}
+                      side='bottom'
+                    >
+                      <Icon
+                        icon='ic:info'
+                        height={18}
+                        className='inline-block cursor-help text-secondary-600'
+                      />
+                    </Tooltip>
+                  </h6>
+                  <RHFTextField type='number' name='weight' label={t('Weight')} />
+                  <RHFTextField type='number' name='height' label={t('Height')} />
+                  <RHFTextField type='number' name='width' label={t('Width')} />
+                  <RHFTextField type='number' name='length' label={t('Length')} />
                 </>
               )}
             </div>

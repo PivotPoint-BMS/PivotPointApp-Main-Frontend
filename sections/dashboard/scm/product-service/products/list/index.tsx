@@ -39,6 +39,7 @@ import {
   Tooltip,
   Select as MySelect,
   IndeterminateCheckbox,
+  Badge,
 } from 'components'
 import { Icon, Icon as Iconify } from '@iconify/react'
 import ProductTableToolbar from './ProductsTableToolbar'
@@ -104,7 +105,7 @@ export default function ProductsList() {
         />
       ),
     }),
-    columnHelper.accessor((row) => ({ fullName: row.name }), {
+    columnHelper.accessor('name', {
       id: 'name',
       header: () => t('Name'),
       cell: (info) => (
@@ -122,11 +123,31 @@ export default function ProductsList() {
               className='aspect-square h-12 w-12 rounded-full object-cover'
             />
           </div> */}
-          <p>{info.getValue().fullName}</p>
+          <p>{info.getValue()}</p>
         </div>
       ),
     }),
-
+    columnHelper.accessor('type', {
+      id: 'type',
+      header: () => t('Type'),
+      cell: (type) => {
+        if (type.getValue() === 1)
+          return <Badge variant='ghost' intent='success' size='small' label={t('Product')} />
+        if (type.getValue() === 2)
+          return <Badge variant='ghost' intent='info' size='small' label={t('Service')} />
+        return <Badge variant='ghost' intent='success' size='small' label={t('Product')} />
+      },
+    }),
+    columnHelper.accessor('price', {
+      id: 'price',
+      header: () => t('Price'),
+      cell: (price) => `${price.getValue()} ${t('Da')}`,
+    }),
+    columnHelper.accessor('cost', {
+      id: 'cost',
+      header: () => t('Cose'),
+      cell: (price) => `${price.getValue()} ${t('Da')}`,
+    }),
     columnHelper.accessor((row) => row, {
       id: 'actions ',
       size: 1,

@@ -8,5 +8,5 @@ export default interface Product {
   cost: number
   weight?: number
   brand: string
-  dimensions?: number
+  dimensions?: string
 }

@@ -69,7 +69,7 @@ const initialState: SideBarConfig = {
         {
           name: 'Customer Segmentation',
           href: PATH_DASHBOARD.crm['customer-segmentation'],
-          icon: 'ph:line-segments-fill',
+          icon: 'fa6-solid:users-viewfinder',
           badge: {
             label: 'Beta',
             color: 'warning',
@@ -105,7 +105,7 @@ const initialState: SideBarConfig = {
         {
           name: 'Suppliers',
           href: PATH_DASHBOARD.scm.suppliers,
-          icon: 'solar:delivery-bold',
+          icon: 'fa6-solid:boxes-packing',
           badge: {
             label: 'New',
             color: 'success',
@@ -115,6 +115,15 @@ const initialState: SideBarConfig = {
           name: 'Product/Service',
           href: PATH_DASHBOARD.scm['product-service'].list,
           icon: 'fa6-solid:boxes-stacked',
+          badge: {
+            label: 'New',
+            color: 'success',
+          },
+        },
+        {
+          name: 'Warehousing',
+          href: PATH_DASHBOARD.scm.warehousing,
+          icon: 'fa6-solid:warehouse',
           badge: {
             label: 'New',
             color: 'success',
@@ -153,16 +162,6 @@ const initialState: SideBarConfig = {
         //   name: 'Monitoring & Planning',
         //   href: PATH_DASHBOARD.scm.monitoring,
         //   icon: 'material-symbols:monitor-heart-rounded',
-        //   disabled: true,
-        //   badge: {
-        //     label: 'In Dev',
-        //     color: 'default',
-        //   },
-        // },
-        // {
-        //   name: 'Warehousing',
-        //   href: PATH_DASHBOARD.scm.warehousing,
-        //   icon: 'fa6-solid:warehouse',
         //   disabled: true,
         //   badge: {
         //     label: 'In Dev',

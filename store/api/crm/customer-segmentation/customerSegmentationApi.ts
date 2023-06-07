@@ -158,6 +158,13 @@ export const customerSegmentationApi = createApi({
         }
       },
     }),
+    initiateSegmentation: builder.mutation<IGenericResponse<boolean>, void>({
+      query: () => ({
+        url: 'ClientSegmentation/Initiate',
+        method: 'POST',
+        responseHandler: 'content-type',
+      }),
+    }),
   }),
 })
 
@@ -170,6 +177,7 @@ export const {
   useEditSegmentMutation,
   useDeleteSegmentMutation,
   useAddClientToSegmentMutation,
+  useInitiateSegmentationMutation,
   util: { getRunningQueriesThunk },
 } = customerSegmentationApi
 

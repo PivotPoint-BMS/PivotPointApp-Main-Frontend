@@ -9,6 +9,8 @@ import {
   sessionSlice,
   sideBarSlice,
   snackbarSlice,
+  vehiculePreviewSlice,
+  supplierPreviewSlice,
 } from './slices'
 // apis
 import { authApi, companyApi, paymentApi } from './api/auth'
@@ -24,8 +26,8 @@ import { statsApi } from './api/stats/statsApi'
 import { financeSetupApi } from './api/fm/financeSetupApi'
 import { financeDashboardApi } from './api/fm/fmDashboardApi'
 import { supplierApi } from './api/scm/products-service/suppliersApis'
-import supplierPreviewSlice from './slices/supplierPreviewSlice'
 import { productsApi } from './api/scm/products-service/productsApi'
+import { vehiculesApi } from './api/scm/transportation/vehiculesApis'
 
 export const makeStore = () =>
   configureStore({
@@ -54,7 +56,9 @@ export const makeStore = () =>
       // SCM
       [supplierApi.reducerPath]: supplierApi.reducer,
       [productsApi.reducerPath]: productsApi.reducer,
+      [vehiculesApi.reducerPath]: vehiculesApi.reducer,
       [supplierPreviewSlice.name]: supplierPreviewSlice.reducer,
+      [vehiculePreviewSlice.name]: vehiculePreviewSlice.reducer,
     },
     devTools: process.env.NODE_ENV === 'development',
     middleware: (gDM) =>
@@ -71,6 +75,7 @@ export const makeStore = () =>
         settingsApi.middleware,
         supplierApi.middleware,
         productsApi.middleware,
+        vehiculesApi.middleware,
         leadSourceApi.middleware,
         dealsBoardsApi.middleware,
         financeSetupApi.middleware,

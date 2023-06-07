@@ -4,16 +4,17 @@ import clsx from 'clsx'
 import Head from 'next/head'
 // radix
 import * as TabsPrimitive from '@radix-ui/react-tabs'
-// hoos
+// hooks
 import useTranslate from 'hooks/useTranslate'
+import { useAppSelector } from 'store/hooks'
 // routes
 import { PATH_ACCOUNT, PATH_DASHBOARD } from 'routes/paths'
 // sections
+import SettingsDetails from 'sections/dashboard/user/settings/SettingsDetails'
 import SettingsEmail from 'sections/dashboard/user/settings/SettingsEmail'
 import SettingsStorage from 'sections/dashboard/user/settings/SettingsStorage'
 import SettingsIntegration from 'sections/dashboard/user/settings/SettingsIntegration'
 import SettingsSecurity from 'sections/dashboard/user/settings/SettingsSecurity'
-import SettingsData from 'sections/dashboard/user/settings/SettingsData'
 import SettingsApi from 'sections/dashboard/user/settings/SettingsApi'
 // layout
 import Layout from 'layout/Index'
@@ -21,16 +22,25 @@ import Layout from 'layout/Index'
 import { Icon as Iconify } from '@iconify/react'
 import { HeaderBreadcrumbs, Scrollbar } from 'components'
 
-const TABS = [
-  { name: 'Email', icon: 'ion:mail', value: 'email' },
-  { name: 'Storage', icon: 'material-symbols:home-storage-rounded', value: 'storage' },
-  { name: 'Integration', icon: 'mdi:link-box', value: 'integration' },
-  { name: 'Data Export', icon: 'mingcute:file-export-fill', value: 'data-export' },
-  { name: 'API', icon: 'ant-design:api-filled', value: 'api' },
-]
-
 function Settings() {
   const { t, locale } = useTranslate()
+  const { user } = useAppSelector((state) => state.session)
+
+  const hasApi = user?.tier === 1 || user?.tier === 2
+
+  const TABS = [
+    { name: 'Details', icon: 'fluent:card-ui-24-filled', value: 'details', disabled: false },
+    { name: 'Email', icon: 'ion:mail', value: 'email', disabled: false },
+    {
+      name: 'Storage',
+      icon: 'material-symbols:home-storage-rounded',
+      value: 'storage',
+      disabled: true,
+    },
+    { name: 'Integration', icon: 'mdi:link-box', value: 'integration', disabled: true },
+    { name: 'API', icon: 'ant-design:api-filled', value: 'api', disabled: !hasApi },
+  ]
+
   return (
     <>
       <Head>
@@ -46,7 +56,7 @@ function Settings() {
           ]}
         />
         <TabsPrimitive.Root
-          defaultValue='email'
+          defaultValue='details'
           dir={locale === 'ar' ? 'rtl' : 'ltr'}
           className='overflow-hidden'
         >
@@ -56,11 +66,13 @@ function Settings() {
                 <TabsPrimitive.Trigger
                   key={i}
                   value={item.value}
+                  disabled={item.disabled}
                   className={clsx(
                     'relative flex cursor-pointer items-center justify-start gap-3 px-1 pt-3 pb-3 transition-all',
                     'before:absolute before:bottom-0 before:h-[3px] before:w-full before:rounded-full before:bg-primary-600 before:transition-all ltr:before:left-0 rtl:before:right-0',
                     'before:duration-500 data-[state=inactive]:before:w-0',
-                    'data-[state=inactive]:text-gray-600 dark:data-[state=inactive]:text-gray-400'
+                    'data-[state=inactive]:text-gray-600 dark:data-[state=inactive]:text-gray-400',
+                    item.disabled && '!text-gray-300 dark:!text-gray-600'
                   )}
                 >
                   <div className='flex w-max cursor-pointer items-center gap-2'>
@@ -71,6 +83,9 @@ function Settings() {
               ))}
             </TabsPrimitive.List>
           </Scrollbar>
+          <TabsPrimitive.Content value='details' className={clsx('w-full py-6')}>
+            <SettingsDetails />
+          </TabsPrimitive.Content>{' '}
           <TabsPrimitive.Content value='email' className={clsx('w-full py-6')}>
             <SettingsEmail />
           </TabsPrimitive.Content>{' '}
@@ -83,12 +98,11 @@ function Settings() {
           <TabsPrimitive.Content value='4' className={clsx('w-full py-6')}>
             <SettingsSecurity />
           </TabsPrimitive.Content>{' '}
-          <TabsPrimitive.Content value='data-export' className={clsx('w-full py-6')}>
-            <SettingsData />
-          </TabsPrimitive.Content>{' '}
-          <TabsPrimitive.Content value='api' className={clsx('w-full py-6')}>
-            <SettingsApi />
-          </TabsPrimitive.Content>
+          {hasApi && (
+            <TabsPrimitive.Content value='api' className={clsx('w-full py-6')}>
+              <SettingsApi />
+            </TabsPrimitive.Content>
+          )}
         </TabsPrimitive.Root>
       </div>
     </>
