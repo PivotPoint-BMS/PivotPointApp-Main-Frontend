@@ -181,7 +181,7 @@ export const dealsBoardsApi = createApi({
     }),
     editDealBoardColumn: builder.mutation<
       IGenericResponse<DealBoardColumnProps>,
-      { id: string; columnTitle: string }
+      { id: string; columnTitle: string; boardId: string }
     >({
       query: ({ columnTitle, id }) => ({
         url: `BoardColumns/${id}`,
@@ -189,7 +189,206 @@ export const dealsBoardsApi = createApi({
         body: { columnTitle },
         responseHandler: 'content-type',
       }),
-      invalidatesTags: ['DealsBoards'],
+      async onQueryStarted({ boardId, id, columnTitle }, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled
+
+          dispatch(
+            dealsBoardsApi.util.updateQueryData('getDealBoard', boardId, (draft) => {
+              const { columns } = draft
+
+              const newColumns = {}
+              Object.keys(columns).forEach((key) => {
+                if (key === id)
+                  Object.assign(newColumns, {
+                    [key]: {
+                      id: columns[key].id,
+                      columnTitle,
+                      deals: columns[key].deals,
+                      columnType: columns[key].columnType,
+                    },
+                  })
+                else
+                  Object.assign(newColumns, {
+                    [key]: {
+                      id: columns[key].id,
+                      columnTitle: columns[key].columnTitle,
+                      deals: columns[key].deals,
+                      columnType: columns[key].columnType,
+                    },
+                  })
+              })
+
+              draft.columns = newColumns
+              return draft
+            })
+          )
+        } catch {
+          /* empty */
+        }
+      },
+    }),
+    makeSuccessColumn: builder.mutation<
+      IGenericResponse<DealBoardColumnProps>,
+      { id: string; boardId: string }
+    >({
+      query: ({ id }) => ({
+        url: `BoardColumns/Success/${id}`,
+        method: 'PUT',
+        responseHandler: 'content-type',
+      }),
+      async onQueryStarted({ boardId, id }, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled
+
+          dispatch(
+            dealsBoardsApi.util.updateQueryData('getDealBoard', boardId, (draft) => {
+              const { columns } = draft
+
+              const newColumns = {}
+              Object.keys(columns).forEach((key) => {
+                if (key === id)
+                  Object.assign(newColumns, {
+                    [key]: {
+                      id: columns[key].id,
+                      columnTitle: columns[key].columnTitle,
+                      deals: columns[key].deals,
+                      columnType: 1,
+                    },
+                  })
+                // else if (columns[key].columnType === 1)
+                //   Object.assign(newColumns, {
+                //     [key]: {
+                //       id: columns[key].id,
+                //       columnTitle: columns[key].columnTitle,
+                //       deals: columns[key].deals,
+                //       columnType: 0,
+                //     },
+                //   })
+                else
+                  Object.assign(newColumns, {
+                    [key]: {
+                      id: columns[key].id,
+                      columnTitle: columns[key].columnTitle,
+                      deals: columns[key].deals,
+                      columnType: columns[key].columnType,
+                    },
+                  })
+              })
+
+              draft.columns = newColumns
+              return draft
+            })
+          )
+        } catch {
+          /* empty */
+        }
+      },
+    }),
+    makeFailureColumn: builder.mutation<
+      IGenericResponse<DealBoardColumnProps>,
+      { id: string; boardId: string }
+    >({
+      query: ({ id }) => ({
+        url: `BoardColumns/Failure/${id}`,
+        method: 'PUT',
+        responseHandler: 'content-type',
+      }),
+      async onQueryStarted({ boardId, id }, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled
+
+          dispatch(
+            dealsBoardsApi.util.updateQueryData('getDealBoard', boardId, (draft) => {
+              const { columns } = draft
+
+              const newColumns = {}
+              Object.keys(columns).forEach((key) => {
+                if (key === id)
+                  Object.assign(newColumns, {
+                    [key]: {
+                      id: columns[key].id,
+                      columnTitle: columns[key].columnTitle,
+                      deals: columns[key].deals,
+                      columnType: 2,
+                    },
+                  })
+                // else if (columns[key].columnType === 2)
+                //   Object.assign(newColumns, {
+                //     [key]: {
+                //       id: columns[key].id,
+                //       columnTitle: columns[key].columnTitle,
+                //       deals: columns[key].deals,
+                //       columnType: 0,
+                //     },
+                //   })
+                else
+                  Object.assign(newColumns, {
+                    [key]: {
+                      id: columns[key].id,
+                      columnTitle: columns[key].columnTitle,
+                      deals: columns[key].deals,
+                      columnType: columns[key].columnType,
+                    },
+                  })
+              })
+
+              draft.columns = newColumns
+              return draft
+            })
+          )
+        } catch {
+          /* empty */
+        }
+      },
+    }),
+    makeNormalColumn: builder.mutation<
+      IGenericResponse<DealBoardColumnProps>,
+      { id: string; boardId: string }
+    >({
+      query: ({ id }) => ({
+        url: `BoardColumns/Failure/${id}`,
+        method: 'PUT',
+        responseHandler: 'content-type',
+      }),
+      async onQueryStarted({ boardId, id }, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled
+
+          dispatch(
+            dealsBoardsApi.util.updateQueryData('getDealBoard', boardId, (draft) => {
+              const { columns } = draft
+
+              const newColumns = {}
+              Object.keys(columns).forEach((key) => {
+                if (key === id)
+                  Object.assign(newColumns, {
+                    [key]: {
+                      id: columns[key].id,
+                      columnTitle: columns[key].columnTitle,
+                      deals: columns[key].deals,
+                      columnType: 0,
+                    },
+                  })
+                else
+                  Object.assign(newColumns, {
+                    [key]: {
+                      id: columns[key].id,
+                      columnTitle: columns[key].columnTitle,
+                      deals: columns[key].deals,
+                      columnType: columns[key].columnType,
+                    },
+                  })
+              })
+
+              draft.columns = newColumns
+              return draft
+            })
+          )
+        } catch {
+          /* empty */
+        }
+      },
     }),
     deleteDealBoardColumn: builder.mutation<
       IGenericResponse<unknown>,
@@ -455,6 +654,9 @@ export const {
   useEditDealMutation,
   useChangeDealsColumsMutation,
   useDeleteDealMutation,
+  useMakeFailureColumnMutation,
+  useMakeNormalColumnMutation,
+  useMakeSuccessColumnMutation,
   util: { getRunningQueriesThunk, invalidateTags },
 } = dealsBoardsApi
 

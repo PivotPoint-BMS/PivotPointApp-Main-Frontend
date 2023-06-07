@@ -10,19 +10,23 @@ import useSnackbar from 'hooks/useSnackbar'
 import {
   useDeleteDealBoardColumnMutation,
   useEditDealBoardColumnMutation,
+  useMakeFailureColumnMutation,
+  useMakeNormalColumnMutation,
+  useMakeSuccessColumnMutation,
 } from 'store/api/crm/sales-pipeline/dealsBoardsApi'
 // components
 import {
+  AlertDialog,
   Backdrop,
   Button,
   Card,
   CardContent,
   CardHeader,
   Dialog,
+  DropdownMenu,
   IconButton,
-  Tooltip,
 } from 'components'
-import { Icon as Iconify } from '@iconify/react'
+import { Icon } from '@iconify/react'
 import { AnimateLayoutChanges, defaultAnimateLayoutChanges, useSortable } from '@dnd-kit/sortable'
 import CreateDealForm from './CreateDealForm'
 
@@ -34,6 +38,7 @@ interface KanbanColumnProps extends Omit<React.HTMLAttributes<HTMLDivElement>, '
   disabled?: boolean
   items: UniqueIdentifier[]
   isDraggingOverlay?: boolean
+  type: 0 | 1 | 2
 }
 
 const animateLayoutChanges: AnimateLayoutChanges = (args) =>
@@ -47,11 +52,16 @@ export default function KanbanColumn({
   items,
   isDraggingOverlay,
   boardId,
+  type,
   ...props
 }: KanbanColumnProps) {
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const [deleteColumn, { isError, isSuccess, isLoading }] = useDeleteDealBoardColumnMutation()
+  const [makeFailure, { isLoading: isFailureLoading }] = useMakeFailureColumnMutation()
+  const [makeNormal, { isLoading: isNormalLoading }] = useMakeNormalColumnMutation()
+  const [makeSuccess, { isLoading: isSuccessLoading }] = useMakeSuccessColumnMutation()
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
   const [editColumn, { isError: isEditError, isSuccess: isEditSuccess }] =
     useEditDealBoardColumnMutation()
   const [openDialog, setOpenDialog] = useState(false)
@@ -136,9 +146,11 @@ export default function KanbanColumn({
       <Card
         variant='outlined-dashed'
         className={clsx(
-          'w-80 transition-all',
+          'w-80 cursor-default transition-all',
           isOverContainer && 'bg-gray-100',
-          isDraggingOverlay && 'scale-105 shadow-lg'
+          isDraggingOverlay && 'scale-105 shadow-lg',
+          type === 1 && '!bg-green-200 dark:!bg-green-900/80',
+          type === 2 && '!bg-red-200 dark:!bg-red-900/80'
         )}
       >
         <CardHeader
@@ -151,7 +163,7 @@ export default function KanbanColumn({
                   setIsEditing(false)
                   return
                 }
-                editColumn({ columnTitle: e.target.value, id: id.toString() })
+                editColumn({ columnTitle: e.target.value, id: id.toString(), boardId })
                 setIsEditing(false)
               }}
               className='w-full rounded-md bg-transparent py-1 outline-2 outline-offset-0 outline-black transition-all focus-within:px-1 hover:px-1 hover:outline active:outline dark:outline-white'
@@ -160,19 +172,114 @@ export default function KanbanColumn({
           }
           actions={
             <div className='flex items-center justify-center gap-2'>
-              <Tooltip title={t('Delete')} side='bottom' sideOffset={10}>
-                <IconButton
-                  onClick={() => {
-                    deleteColumn({ id: id.toString(), boardId })
-                  }}
-                >
-                  <Iconify
-                    icon='ic:round-delete'
-                    className='text-red-600 dark:text-red-400'
-                    height={18}
-                  />
-                </IconButton>
-              </Tooltip>
+              <DropdownMenu
+                items={[
+                  {
+                    type: 'button',
+                    icon: (
+                      <Icon
+                        icon='material-symbols:circle'
+                        className='text-green-600 dark:text-green-400'
+                        height={14}
+                      />
+                    ),
+                    label: t('Make Succes Column'),
+                    onClick: () =>
+                      makeSuccess({ boardId, id: id.toString() })
+                        .then(() =>
+                          open({
+                            message: t('Section Updated Successfully.'),
+                            autoHideDuration: 4000,
+                            type: 'success',
+                            variant: 'contained',
+                          })
+                        )
+                        .catch(() =>
+                          open({
+                            message: t('Sorry, Section not updated, A problem has occured.'),
+                            autoHideDuration: 4000,
+                            type: 'error',
+                            variant: 'contained',
+                          })
+                        ),
+                  },
+                  {
+                    type: 'button',
+                    icon: (
+                      <Icon
+                        icon='material-symbols:circle'
+                        className='text-red-600 dark:text-red-400'
+                        height={14}
+                      />
+                    ),
+                    label: t('Make Failure Column'),
+                    onClick: () =>
+                      makeFailure({ boardId, id: id.toString() })
+                        .then(() =>
+                          open({
+                            message: t('Section Updated Successfully.'),
+                            autoHideDuration: 4000,
+                            type: 'success',
+                            variant: 'contained',
+                          })
+                        )
+                        .catch(() =>
+                          open({
+                            message: t('Sorry, Section not updated, A problem has occured.'),
+                            autoHideDuration: 4000,
+                            type: 'error',
+                            variant: 'contained',
+                          })
+                        ),
+                  },
+                  {
+                    type: 'button',
+                    icon: (
+                      <Icon
+                        icon='material-symbols:circle'
+                        className='text-black dark:text-white'
+                        height={14}
+                      />
+                    ),
+                    label: t('Make Normal Column'),
+                    onClick: () =>
+                      makeNormal({ boardId, id: id.toString() })
+                        .then(() =>
+                          open({
+                            message: t('Section Updated Successfully.'),
+                            autoHideDuration: 4000,
+                            type: 'success',
+                            variant: 'contained',
+                          })
+                        )
+                        .catch(() =>
+                          open({
+                            message: t('Sorry, Section not updated, A problem has occured.'),
+                            autoHideDuration: 4000,
+                            type: 'error',
+                            variant: 'contained',
+                          })
+                        ),
+                  },
+                  {
+                    type: 'button',
+                    icon: (
+                      <Icon
+                        icon='ic:round-delete'
+                        className='text-red-600 dark:text-red-400'
+                        height={18}
+                      />
+                    ),
+                    label: t('Delete'),
+                    onClick: () => setOpenDeleteDialog(true),
+                  },
+                ]}
+                trigger={
+                  <IconButton>
+                    <Icon icon='material-symbols:more-vert' height={18} />
+                  </IconButton>
+                }
+              />
               <IconButton
                 ref={setActivatorNodeRef}
                 tabIndex={0}
@@ -182,9 +289,7 @@ export default function KanbanColumn({
                 )}
                 {...listeners}
               >
-                <svg viewBox='0 0 20 20' width='12'>
-                  <path d='M7 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 2zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 14zm6-8a2 2 0 1 0-.001-4.001A2 2 0 0 0 13 6zm0 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 14z'></path>
-                </svg>
+                <Icon icon='ci:move-horizontal' />
               </IconButton>
             </div>
           }
@@ -195,7 +300,8 @@ export default function KanbanColumn({
             className='mt-4 w-full'
             variant='text'
             size='large'
-            startIcon={<Iconify icon='ic:round-plus' height={24} />}
+            intent='default'
+            startIcon={<Icon icon='ic:round-plus' height={24} />}
             onClick={() => setOpenDialog(true)}
           >
             {t('Add Deal')}
@@ -215,7 +321,27 @@ export default function KanbanColumn({
           }}
         />
       </Dialog>
-      <Backdrop open={isLoading} loading={isLoading} />
+      <Backdrop
+        open={isLoading || isFailureLoading || isNormalLoading || isSuccessLoading}
+        loading={isLoading || isFailureLoading || isNormalLoading || isSuccessLoading}
+      />
+      <AlertDialog
+        title={t('Confirm Delete')}
+        description={
+          <p className='mb-4 text-sm text-red-600 dark:text-red-400'>
+            {t('This action cannot be undone. this section will be permanently deleted.')}
+          </p>
+        }
+        cancelText={t('Cancel')}
+        confirmText={t('Yes, Delete')}
+        onConfirm={() => {
+          deleteColumn({ id: id.toString(), boardId })
+          setOpenDeleteDialog(false)
+        }}
+        open={openDeleteDialog}
+        onClose={() => setOpenDeleteDialog(false)}
+        buttonProps={{ intent: 'error' }}
+      />
     </div>
   )
 }

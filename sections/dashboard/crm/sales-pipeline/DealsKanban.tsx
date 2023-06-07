@@ -196,6 +196,7 @@ const DealsKanban = ({
         id={''}
         boardId=''
         items={[]}
+        type={board.columns[columnId].columnType}
         isDraggingOverlay
       >
         {board.columns[columnId].deals.map((item) => (
@@ -255,12 +256,13 @@ const DealsKanban = ({
             [activeContainer]: {
               id: columns[overContainer].id,
               columnTitle: columns[overContainer].columnTitle,
-
+              columnType: columns[overContainer].columnType,
               deals: columns[activeContainer].deals.filter((item) => item !== active.id),
             },
             [overContainer]: {
               id: columns[overContainer].id,
               columnTitle: columns[overContainer].columnTitle,
+              columnType: columns[overContainer].columnType,
               deals: [
                 ...columns[overContainer].deals.slice(0, newIndex),
                 columns[activeContainer].deals[activeIndex],
@@ -444,6 +446,7 @@ const DealsKanban = ({
                     id={columnId}
                     boardId={boardId}
                     name={board.columns[columnId].columnTitle}
+                    type={board.columns[columnId].columnType}
                     items={board.columns[columnId].deals}
                   >
                     <SortableContext
