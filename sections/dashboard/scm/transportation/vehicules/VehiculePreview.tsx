@@ -1,78 +1,116 @@
-import React, { useEffect, useState } from 'react'
-import clsx from 'clsx'
-// motion
-import { Variant, motion } from 'framer-motion'
+import React, { useState } from 'react'
 // redux
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { closePreviewVehicule } from 'store/slices/vehiculePreviewSlice'
+// api
+import { useDeleteVehiculeMutation } from 'store/api/scm/transportation/vehiculesApis'
+// utils
+import getVehiculesImage from 'utils/getVehiculeImage'
+import { fNumber } from 'utils/formatNumber'
 // hooks
 import useTranslate from 'hooks/useTranslate'
+import useSnackbar from 'hooks/useSnackbar'
 // components
-import { IconButton, Tooltip } from 'components'
+import { AlertDialog, IconButton, Image, Sheet, Tooltip } from 'components'
 import { Icon } from '@iconify/react'
 
 export default function VehiculePreview() {
-  const { t, locale } = useTranslate()
+  const { t } = useTranslate()
+  const { open } = useSnackbar()
   const dispatch = useAppDispatch()
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
   const { isOpen, vehicule } = useAppSelector((state) => state.vehiculePreview)
-  const [opened, setOpened] = useState(false)
-
-  const variants: { [key: string]: Variant } = {
-    closed: { x: locale === 'ar' ? '-100%' : '100%' },
-    opened: { x: '0%' },
-  }
-
-  useEffect(() => {
-    setOpened(isOpen)
-  }, [isOpen])
-
-  const handleClose = () => {
-    setOpened(false)
-    setTimeout(() => {
-      dispatch(closePreviewVehicule())
-    }, 200)
-  }
+  const { PageNumber, PageSize } = useAppSelector((state) => state.paggination)
+  const [deleteVehicule, { isLoading: isDeleteLoading }] = useDeleteVehiculeMutation()
 
   return (
-    <div
-      className={clsx(
-        'fixed top-0 right-0 z-50 flex h-screen w-screen bg-gray-800/80  backdrop-blur-sm transition-all dark:bg-gray-500/20',
-        isOpen ? 'block' : 'hidden'
-      )}
-    >
-      <div className='flex-1' onClick={handleClose}></div>
-      <motion.div
-        initial='closed'
-        animate={opened ? 'opened' : 'closed'}
-        variants={variants}
-        transition={{ type: 'keyframes' }}
+    <>
+      <Sheet
+        title={t('Vehicule Preview')}
+        isOpen={isOpen}
+        handleClose={() => dispatch(closePreviewVehicule())}
+        actions={
+          <Tooltip title={t('Delete')}>
+            <IconButton onClick={() => setOpenDeleteDialog(true)}>
+              <Icon icon='ic:round-delete' height={20} className='text-red-600 dark:text-red-400' />
+            </IconButton>
+          </Tooltip>
+        }
+        className='sm:w-[550px]'
       >
-        <div className='z-50 m-0 flex h-screen w-full flex-col bg-white py-4 shadow-2xl shadow-white/80 transition-all delay-100 dark:border-gray-600 dark:bg-paper-dark dark:shadow-black/80'>
-          <div className='flex w-full items-center gap-4 border-b px-4 pb-4'>
-            <div className='flex w-full items-center gap-2 '>
-              <IconButton onClick={handleClose}>
-                <Icon icon='ic:round-close' height={22} />
-              </IconButton>
-              <h6 className='flex-1 text-xl font-semibold'>{t('Deal Preview')}</h6>
-              <Tooltip title={t('Delete')}>
-                <IconButton>
-                  <Icon
-                    icon='ic:round-delete'
-                    height={20}
-                    className='text-red-600 dark:text-red-400'
-                  />
-                </IconButton>
-              </Tooltip>
+        {vehicule && (
+          <div className='space-y-4 overflow-y-auto px-4 py-2'>
+            <Image
+              src={getVehiculesImage(vehicule.type, vehicule.size).src}
+              className='px-6 py-2'
+            />
+            <div className='grid grid-cols-2 gap-3 sm:grid-cols-6'>
+              <div className='col-span-2 space-y-1 rounded-md bg-gray-100 p-2 sm:col-span-3'>
+                <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>{t('Model')}</p>
+                <p className='font-bold'>{vehicule.model}</p>
+              </div>
+              <div className='col-span-2 space-y-1 rounded-md bg-gray-100 p-2 sm:col-span-3'>
+                <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>{t('Code')}</p>
+                <p className='font-bold'>{vehicule.code}</p>
+              </div>
+              <div className='col-span-2 space-y-1 rounded-md bg-gray-100 p-2 sm:col-span-2'>
+                <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
+                  {t('Weight')}
+                </p>
+                <p className='font-bold'>{fNumber(vehicule.weight)}</p>
+              </div>
+              <div className='col-span-2 space-y-1 rounded-md bg-gray-100 p-2 sm:col-span-2'>
+                <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
+                  {t('Volume')}
+                </p>
+                <p className='font-bold'>{fNumber(vehicule.volumne)}&sup2;</p>
+              </div>
+              <div className='col-span-2 space-y-1 rounded-md bg-gray-100 p-2 sm:col-span-2'>
+                <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
+                  {t('Max Capacity')}
+                </p>
+                <p className='font-bold'>
+                  {fNumber(vehicule.maxCapacity)} {t('Kg')}
+                </p>
+              </div>
             </div>
           </div>
-          <div className='flex flex-1 flex-col gap-5 overflow-y-scroll px-4 py-2'>
-            <div className='flex items-center gap-2'>
-              <p className='w-36 text-sm text-gray-500 dark:text-gray-400'>{t('Model')}</p>
-              <p>{vehicule?.model}</p>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-    </div>
+        )}
+      </Sheet>
+      <AlertDialog
+        title={t('Confirm Delete')}
+        description={
+          <p className='py-1 text-sm text-red-500 dark:text-red-400'>
+            {t('This action cannot be undone. This will permanently delete this vehicule.')}
+          </p>
+        }
+        cancelText={t('Cancel')}
+        confirmText={t('Yes, Delete')}
+        onConfirm={() => {
+          deleteVehicule({ id: vehicule?.id || '', PageNumber, PageSize })
+            .then(() => {
+              setOpenDeleteDialog(false)
+              dispatch(closePreviewVehicule())
+              open({
+                message: t('Vehicule Deleted Successfully.'),
+                autoHideDuration: 4000,
+                type: 'success',
+                variant: 'contained',
+              })
+            })
+            .catch(() =>
+              open({
+                message: t('Sorry, Vehicule not deleted, A problem has occured.'),
+                autoHideDuration: 4000,
+                type: 'error',
+                variant: 'contained',
+              })
+            )
+        }}
+        open={openDeleteDialog}
+        onClose={() => setOpenDeleteDialog(false)}
+        buttonProps={{ intent: 'error', loading: isDeleteLoading }}
+      />
+    </>
   )
 }

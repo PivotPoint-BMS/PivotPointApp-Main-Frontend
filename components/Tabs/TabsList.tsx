@@ -8,9 +8,9 @@ const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
       ref={ref}
       {...props}
       className={clsx(
-        'w-fulloverflow-x-scroll',
-        'flex items-center gap-8',
-        'bg-gray-100 px-4 dark:bg-gray-900',
+        'w-full overflow-x-auto py-1',
+        'flex items-center gap-4',
+        'bg-gray-100 px-1 dark:bg-gray-900',
         className
       )}
     >

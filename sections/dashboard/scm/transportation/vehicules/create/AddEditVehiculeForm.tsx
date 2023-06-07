@@ -39,7 +39,6 @@ export default function AddEditVehiculeForm({
 
   const VehiculeSchema = Yup.object().shape({
     model: Yup.string().required(t('This field is required')),
-    licenseNumber: Yup.string().min(3, t('Too short')).required(t('This field is required')),
     type: Yup.number().nullable().required(t('This field is required')),
     size: Yup.number().nullable().required(t('This field is required')),
     weight: Yup.number().nullable().required(t('This field is required')),
@@ -49,7 +48,6 @@ export default function AddEditVehiculeForm({
 
   const defaultValues = {
     model: currentVehicule?.model || '',
-    licenseNumber: currentVehicule?.licenseNumber || '',
     type: currentVehicule?.type || null,
     size: currentVehicule?.size || null,
     weight: currentVehicule?.weight || null,
@@ -66,14 +64,13 @@ export default function AddEditVehiculeForm({
 
   const onSubmit = async (data: FieldValues) => {
     const vehicule: Omit<Vehicule, 'id'> = {
-      code: 'dfsf',
+      code: data.code,
       model: data.model,
       type: data.type,
       size: data.size,
       weight: data.weight,
       volumne: data.volumne,
       maxCapacity: data.maxCapacity,
-      licenseNumber: data.licenseNumber,
     }
     createVehicule({ ...vehicule, PageNumber, PageSize })
   }
@@ -104,7 +101,7 @@ export default function AddEditVehiculeForm({
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <div className='mt-2 grid grid-cols-1 gap-4 md:grid-cols-2'>
         <RHFTextField name='model' label={t('Model')} />
-        <RHFTextField name='licenseNumber' label={t('License Number')} />
+        <RHFTextField name='code' label={t('Code')} />
         <AutoComplete name='type' label={t('Type')}>
           <Select
             options={VEHICULES_TYPES}

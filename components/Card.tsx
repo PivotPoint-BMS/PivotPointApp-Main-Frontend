@@ -24,15 +24,13 @@ const card = cva('rounded-lg divide-gray-300 bg-paper-light dark:bg-paper-dark',
   },
 })
 
-export interface CardProps
-  extends React.HTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof card> {
+export interface CardProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof card> {
   children: React.ReactNode | React.ReactNode[]
 }
 //
 export const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ children, variant, fullWidth, divided, className }, ref) => (
-    <div ref={ref} className={card({ fullWidth, variant, divided, class: className })}>
+  ({ children, variant, fullWidth, divided, className, ...props }, ref) => (
+    <div ref={ref} className={card({ fullWidth, variant, divided, class: className })} {...props}>
       {children}
     </div>
   )
