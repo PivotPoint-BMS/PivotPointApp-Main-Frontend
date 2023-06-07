@@ -45,27 +45,27 @@ export default function VehiculePreview() {
               className='px-6 py-2'
             />
             <div className='grid grid-cols-2 gap-3 sm:grid-cols-6'>
-              <div className='col-span-2 space-y-1 rounded-md bg-gray-100 p-2 sm:col-span-3'>
+              <div className='col-span-2 space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast sm:col-span-3'>
                 <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>{t('Model')}</p>
                 <p className='font-bold'>{vehicule.model}</p>
               </div>
-              <div className='col-span-2 space-y-1 rounded-md bg-gray-100 p-2 sm:col-span-3'>
+              <div className='col-span-2 space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast sm:col-span-3'>
                 <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>{t('Code')}</p>
                 <p className='font-bold'>{vehicule.code}</p>
               </div>
-              <div className='col-span-2 space-y-1 rounded-md bg-gray-100 p-2 sm:col-span-2'>
+              <div className='col-span-2 space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast sm:col-span-2'>
                 <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
                   {t('Weight')}
                 </p>
                 <p className='font-bold'>{fNumber(vehicule.weight)}</p>
               </div>
-              <div className='col-span-2 space-y-1 rounded-md bg-gray-100 p-2 sm:col-span-2'>
+              <div className='col-span-2 space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast sm:col-span-2'>
                 <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
                   {t('Volume')}
                 </p>
                 <p className='font-bold'>{fNumber(vehicule.volumne)}&sup2;</p>
               </div>
-              <div className='col-span-2 space-y-1 rounded-md bg-gray-100 p-2 sm:col-span-2'>
+              <div className='col-span-2 space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast sm:col-span-2'>
                 <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
                   {t('Max Capacity')}
                 </p>

@@ -153,7 +153,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
           <div className='flex flex-1 flex-col gap-5 overflow-y-scroll px-4 py-2'>
             {isSuccess && data.data ? (
               <>
-                <div className='space-y-1 rounded-md bg-gray-100 p-2 '>
+                <div className='space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast '>
                   <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
                     {t('Title')}
                   </p>
@@ -177,13 +177,13 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                   />
                 </div>
                 <div className='grid grid-cols-2 gap-3'>
-                  <div className='space-y-1 rounded-md bg-gray-100 p-2 '>
+                  <div className='space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast '>
                     <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
                       {t('Created By')}
                     </p>
                     <p className='font-bold'>{data.data.createdBy}</p>
                   </div>
-                  <div className='space-y-1 rounded-md bg-gray-100 p-2 '>
+                  <div className='space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast '>
                     <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
                       {t('Created At')}
                     </p>
@@ -192,20 +192,20 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                     </p>
                   </div>
                   {data.data.lastUpdatedBy && (
-                    <div className='space-y-1 rounded-md bg-gray-100 p-2 '>
+                    <div className='space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast '>
                       <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
                         {t('Last Update By')}
                       </p>
                       <p className='font-bold'>{data.data.lastUpdatedBy}</p>
                     </div>
                   )}
-                  <div className='space-y-1 rounded-md bg-gray-100 p-2 '>
+                  <div className='space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast '>
                     <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
                       {t('Assignee')}
                     </p>
                     <p className='font-bold'>{data.data.assignedTo || t('No Assignee')}</p>
                   </div>
-                  <div className='space-y-1 rounded-md bg-gray-100 p-2 '>
+                  <div className='space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast '>
                     <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
                       {t('Potential Deal Value')}
                     </p>
@@ -233,7 +233,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                       className='!border-0 font-bold'
                     />
                   </div>
-                  <div className='space-y-1 rounded-md bg-gray-100 p-2 '>
+                  <div className='space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast '>
                     <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
                       {t('Success Probability')}
                     </p>
@@ -261,7 +261,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                     />
                   </div>
                 </div>
-                <div className='space-y-2 rounded-md bg-gray-100 p-2 '>
+                <div className='space-y-2 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast '>
                   <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
                     {t('Type')}
                   </p>
@@ -294,7 +294,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                   </div>
                 </div>
                 {type === 1 && (
-                  <div className='space-y-1 rounded-md bg-gray-100 p-2 '>
+                  <div className='space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast '>
                     <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
                       {t('Leads')}
                     </p>
@@ -335,7 +335,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                   </div>
                 )}
                 {type === 2 && (
-                  <div className='space-y-1 rounded-md bg-gray-100 p-2 '>
+                  <div className='space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast '>
                     <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
                       {t('Contacts')}
                     </p>
@@ -373,7 +373,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                     </AutoComplete>
                   </div>
                 )}
-                <div className='space-y-1 rounded-md bg-gray-100 p-2 '>
+                <div className='space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast '>
                   <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
                     {t('Description')}
                   </p>
