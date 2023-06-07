@@ -16,6 +16,7 @@ import { changePageNumber, changePageSize } from 'store/slices/pagginationSlice'
 import {
   useAddClientToSegmentMutation,
   useDeleteSegmentMutation,
+  useInitiateSegmentationMutation,
 } from 'store/api/crm/customer-segmentation/customerSegmentationApi'
 import { useGetAllQuery, useGetSegmentClientsQuery } from 'store/api/crm/contact-leads/leadApis'
 // config
@@ -62,6 +63,7 @@ export default function SegmentDetails({ segment }: { segment: Segment | null })
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
   const [openEditSegmentDialog, setOpenEditSegmentDialog] = useState(false)
   const [openAddLeadsDialog, setOpenAddLeadsDialog] = useState(false)
+  const [openInitiateDialog, setOpenInitiateDialog] = useState(false)
   // Pogination
   const { PageSize, PageNumber } = useAppSelector((state) => state.paggination)
   // Filters
@@ -97,6 +99,8 @@ export default function SegmentDetails({ segment }: { segment: Segment | null })
   ] = useDeleteSegmentMutation()
   const [addClient, { isError: isAddClientError, isLoading: isAddClientLoading }] =
     useAddClientToSegmentMutation()
+  const [initiateSegmentation, { isLoading: isSegmentationLoading }] =
+    useInitiateSegmentationMutation()
 
   const columnHelper = createColumnHelper<SegmentClient>()
 
@@ -258,6 +262,16 @@ export default function SegmentDetails({ segment }: { segment: Segment | null })
                 }}
               >
                 {t('Add Lead')}
+              </Button>
+              <Button
+                variant='outlined'
+                intent='primary'
+                startIcon={<Icon icon='ic:round-rocket-launch' height={18} />}
+                onClick={() => {
+                  setOpenInitiateDialog(true)
+                }}
+              >
+                {t('Initiate Segmentation')}
               </Button>
             </div>
           </div>
@@ -471,133 +485,6 @@ export default function SegmentDetails({ segment }: { segment: Segment | null })
               </>
             )}
           </Card>
-          <AlertDialog
-            title={t('Confirm Delete')}
-            description={
-              <p className='mb-4 text-sm text-red-600 dark:text-red-400'>
-                {t('This action cannot be undone. this segment will be permanently deleted.')}
-              </p>
-            }
-            cancelText={t('Cancel')}
-            confirmText={t('Yes, Delete')}
-            onConfirm={() => {
-              if (segment) {
-                deleteSegment(segment.id)
-                setOpenDeleteDialog(false)
-              }
-            }}
-            open={openDeleteDialog}
-            onClose={() => setOpenDeleteDialog(false)}
-            buttonProps={{ intent: 'error' }}
-          />
-          <Dialog open={openEditSegmentDialog} title={t('Edit Segment')}>
-            <CreateEditSegmentForm
-              currentSegment={segment}
-              isEdit={true}
-              onSuccess={() => {
-                setOpenEditSegmentDialog(false)
-              }}
-              onFailure={() => {
-                setOpenEditSegmentDialog(false)
-              }}
-            />
-          </Dialog>
-          <Dialog
-            open={openAddLeadsDialog}
-            title={t('Add Leads to Segment')}
-            handleClose={() => {
-              setOpenAddLeadsDialog(false)
-              setSearchTerm('')
-            }}
-          >
-            <div className='flex flex-col items-center  justify-center gap-2 py-2'>
-              <TextField
-                placeholder={t('Search...')}
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter')
-                    setSearchTerm(e.currentTarget.value === '' ? undefined : e.currentTarget.value)
-                }}
-                endAdornment={
-                  <IconButton
-                    onClick={() => setSearchTerm(searchValue === '' ? undefined : searchValue)}
-                  >
-                    <Icon icon='ion:search-outline' height={18} className='text-gray-500' />
-                  </IconButton>
-                }
-              />
-              {isLeadsLoading ? (
-                <LoadingIndicator />
-              ) : (
-                <>
-                  {isLeadsSuccess && leads.data.length > 0 ? (
-                    <div className='w-full divide-y dark:divide-gray-600'>
-                      {leads.data.map((lead) => (
-                        <div className='flex w-full items-center justify-between py-2'>
-                          <div className='flex items-center gap-2'>
-                            <Image
-                              alt='avatar'
-                              width={46}
-                              height={46}
-                              src={
-                                lead.imageFile
-                                  ? `${PIVOTPOINT_API.crmPicUrl}/${lead.imageFile}`
-                                  : avatarPlaceholder.src
-                              }
-                              className='aspect-square rounded-full object-cover'
-                            />
-                            <div>
-                              <p>{lead.fullName}</p>
-                              <p className='text-xs text-gray-600 dark:text-gray-400'>
-                                {lead.isContact ? t('Contact') : t('Lead')}
-                              </p>
-                            </div>
-                          </div>
-                          <Button
-                            intent={
-                              !segmentLeads?.data.every((item) => item.id !== lead.id)
-                                ? 'secondary'
-                                : 'primary'
-                            }
-                            startIcon={
-                              <Icon
-                                icon={
-                                  !segmentLeads?.data.every((item) => item.id !== lead.id)
-                                    ? 'ic:round-check'
-                                    : 'ic:round-add'
-                                }
-                                height={24}
-                              />
-                            }
-                            variant='text'
-                            size='small'
-                            onClick={
-                              segmentLeads?.data.every((item) => item.id !== lead.id)
-                                ? () =>
-                                    addClient({
-                                      segmentId: segment.id,
-                                      client: lead,
-                                      PageNumber,
-                                      PageSize,
-                                    })
-                                : () => {}
-                            }
-                          >
-                            {!segmentLeads?.data.every((item) => item.id !== lead.id)
-                              ? t('Added')
-                              : t('Add')}
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <h1 className='py-5 text-xl'>{t('No Leads Found')}</h1>
-                  )}
-                </>
-              )}
-            </div>
-          </Dialog>
         </>
       ) : (
         <div className='flex h-full w-full items-center justify-center'>
@@ -605,10 +492,173 @@ export default function SegmentDetails({ segment }: { segment: Segment | null })
             {t('No Segment Selected')}
           </h1>
         </div>
-      )}{' '}
+      )}
+      {/* Edit Segment Dialog */}
+      <Dialog open={openEditSegmentDialog} title={t('Edit Segment')}>
+        <CreateEditSegmentForm
+          currentSegment={segment}
+          isEdit={true}
+          onSuccess={() => {
+            setOpenEditSegmentDialog(false)
+          }}
+          onFailure={() => {
+            setOpenEditSegmentDialog(false)
+          }}
+        />
+      </Dialog>
+      {/* Add Client Dialog */}
+      <Dialog
+        open={openAddLeadsDialog}
+        title={t('Add Leads to Segment')}
+        handleClose={() => {
+          setOpenAddLeadsDialog(false)
+          setSearchTerm('')
+        }}
+      >
+        <div className='flex flex-col items-center  justify-center gap-2 py-2'>
+          <TextField
+            placeholder={t('Search...')}
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter')
+                setSearchTerm(e.currentTarget.value === '' ? undefined : e.currentTarget.value)
+            }}
+            endAdornment={
+              <IconButton
+                onClick={() => setSearchTerm(searchValue === '' ? undefined : searchValue)}
+              >
+                <Icon icon='ion:search-outline' height={18} className='text-gray-500' />
+              </IconButton>
+            }
+          />
+          {isLeadsLoading ? (
+            <LoadingIndicator />
+          ) : (
+            <>
+              {isLeadsSuccess && leads.data.length > 0 ? (
+                <div className='w-full divide-y dark:divide-gray-600'>
+                  {leads.data.map((lead) => (
+                    <div className='flex w-full items-center justify-between py-2'>
+                      <div className='flex items-center gap-2'>
+                        <Image
+                          alt='avatar'
+                          width={46}
+                          height={46}
+                          src={
+                            lead.imageFile
+                              ? `${PIVOTPOINT_API.crmPicUrl}/${lead.imageFile}`
+                              : avatarPlaceholder.src
+                          }
+                          className='aspect-square rounded-full object-cover'
+                        />
+                        <div>
+                          <p>{lead.fullName}</p>
+                          <p className='text-xs text-gray-600 dark:text-gray-400'>
+                            {lead.isContact ? t('Contact') : t('Lead')}
+                          </p>
+                        </div>
+                      </div>
+                      <Button
+                        intent={
+                          !segmentLeads?.data.every((item) => item.id !== lead.id)
+                            ? 'secondary'
+                            : 'primary'
+                        }
+                        startIcon={
+                          <Icon
+                            icon={
+                              !segmentLeads?.data.every((item) => item.id !== lead.id)
+                                ? 'ic:round-check'
+                                : 'ic:round-add'
+                            }
+                            height={24}
+                          />
+                        }
+                        variant='text'
+                        size='small'
+                        onClick={
+                          segmentLeads?.data.every((item) => item.id !== lead.id)
+                            ? () =>
+                                addClient({
+                                  segmentId: segment?.id || '',
+                                  client: lead,
+                                  PageNumber,
+                                  PageSize,
+                                })
+                            : () => {}
+                        }
+                      >
+                        {!segmentLeads?.data.every((item) => item.id !== lead.id)
+                          ? t('Added')
+                          : t('Add')}
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <h1 className='py-5 text-xl'>{t('No Leads Found')}</h1>
+              )}
+            </>
+          )}
+        </div>
+      </Dialog>
+      {/* Delete Segment Alert Dialog */}
+      <AlertDialog
+        title={t('Confirm Delete')}
+        description={
+          <p className='mb-4 text-sm text-red-600 dark:text-red-400'>
+            {t('This action cannot be undone. this segment will be permanently deleted.')}
+          </p>
+        }
+        cancelText={t('Cancel')}
+        confirmText={t('Yes, Delete')}
+        onConfirm={() => {
+          if (segment) {
+            deleteSegment(segment.id)
+            setOpenDeleteDialog(false)
+          }
+        }}
+        open={openDeleteDialog}
+        onClose={() => setOpenDeleteDialog(false)}
+        buttonProps={{ intent: 'error' }}
+      />
+      {/* Initiate Segment Alert Dialog */}
+      <AlertDialog
+        title={t('Confirm Initiation')}
+        description={
+          <p className='my-4 text-sm text-primary-700 dark:text-primary-400'>
+            {t(
+              'Customer segmentation process will initiate, unlocking insights, personalizing experiences, and driving business growth.'
+            )}
+          </p>
+        }
+        cancelText={t('Cancel')}
+        confirmText={t("Let's Start")}
+        onConfirm={() => {
+          setOpenInitiateDialog(false)
+          initiateSegmentation()
+            .then(() =>
+              open({
+                message: t('Client Segmentation Initiated.'),
+                type: 'success',
+                variant: 'contained',
+              })
+            )
+            .catch(() =>
+              open({
+                message: t('A problem has occured.'),
+                type: 'error',
+                variant: 'contained',
+              })
+            )
+        }}
+        open={openInitiateDialog}
+        onClose={() => setOpenInitiateDialog(false)}
+      />
       <Backdrop
-        open={isAddClientLoading /* || isDeleteClientLoading */}
-        loading={isAddClientLoading /* || isDeleteClientLoading */}
+        open={isAddClientLoading || isSegmentationLoading}
+        loading={isAddClientLoading || isSegmentationLoading}
       />
     </div>
   )

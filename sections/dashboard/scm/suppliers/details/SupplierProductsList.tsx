@@ -155,6 +155,7 @@ export default function SupplierProductsList({
   return (
     <>
       <div className='col-span-2'>
+        <h6 className='px-2 text-lg font-semibold'>{t('Supplier Items')}</h6>
         {itemsList && itemsList.length > 0 ? (
           <>
             <div className='w-full overflow-x-scroll'>
