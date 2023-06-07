@@ -120,15 +120,7 @@ export default function CreateEditLeadForm({
     defaultValues,
   })
 
-  const {
-    handleSubmit,
-    setValue,
-    getValues,
-    reset,
-    formState: { errors },
-  } = methods
-
-  console.log(errors)
+  const { handleSubmit, setValue, getValues, reset } = methods
 
   const onSubmit = async (data: FieldValues) => {
     const formData = new FormData()
@@ -208,7 +200,7 @@ export default function CreateEditLeadForm({
     if (isCreateError || isEditError) {
       open({
         message: t('A problem has occured.'),
-        autoHideDuration: 4000,
+        autoHideDuration: 6000,
         type: 'error',
         variant: 'contained',
       })
@@ -217,7 +209,7 @@ export default function CreateEditLeadForm({
       reset()
       open({
         message: isEdit ? t('Lead Updated Successfully.') : t('Lead Added Successfully.'),
-        autoHideDuration: 4000,
+        autoHideDuration: 6000,
         type: 'success',
         variant: 'contained',
       })

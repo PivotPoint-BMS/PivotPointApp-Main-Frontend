@@ -107,19 +107,21 @@ export default function AccountDropdown() {
                 </Button>
               </DropdownMenuPrimitive.Item>
             </Link>
-            <Link href={PATH_ACCOUNT.settings} className='w-full'>
-              <DropdownMenuPrimitive.Item className='w-full outline-none'>
-                <Button
-                  variant='text'
-                  intent='default'
-                  className='w-full font-normal ltr:!justify-start rtl:!justify-end'
-                  startIcon={locale === 'ar' ? null : <Iconify icon='ion:settings' height={16} />}
-                  endIcon={locale === 'ar' ? <Iconify icon='ion:settings' height={16} /> : null}
-                >
-                  {t('Company Settings')}
-                </Button>
-              </DropdownMenuPrimitive.Item>
-            </Link>
+            {user?.isOwner && (
+              <Link href={PATH_ACCOUNT.settings} className='w-full'>
+                <DropdownMenuPrimitive.Item className='w-full outline-none'>
+                  <Button
+                    variant='text'
+                    intent='default'
+                    className='w-full font-normal ltr:!justify-start rtl:!justify-end'
+                    startIcon={locale === 'ar' ? null : <Iconify icon='ion:settings' height={16} />}
+                    endIcon={locale === 'ar' ? <Iconify icon='ion:settings' height={16} /> : null}
+                  >
+                    {t('Company Settings')}
+                  </Button>
+                </DropdownMenuPrimitive.Item>
+              </Link>
+            )}
           </div>
           <div className='p-2'>
             <Button

@@ -47,3 +47,17 @@ export const PRODUCTS_TYPES = [
   { value: 1, label: 'Product' },
   { value: 2, label: 'Service' },
 ]
+
+export const VEHICULES_TYPES = [
+  { value: 0, label: 'Road' },
+  { value: 1, label: 'Plane' },
+  { value: 2, label: 'Train' },
+  { value: 3, label: 'Boat' },
+]
+
+export const VEHICULES_SIZES = [
+  { value: 0, label: 'Small' },
+  { value: 1, label: 'Medium' },
+  { value: 2, label: 'Large' },
+  { value: 3, label: 'Very Large' },
+]
