@@ -98,6 +98,7 @@ export const PATH_DASHBOARD = {
       },
     },
     supplier: (id: string) => path(ROOTS_APP, `/scm/supplier/${id}`),
+    warehouse: (id: string) => path(ROOTS_APP, `/scm/warehouse/${id}`),
     suppliers: path(ROOTS_APP, '/scm/suppliers'),
     transportation: path(ROOTS_APP, '/scm/transportation'),
     warehousing: path(ROOTS_APP, '/scm/warehousing'),

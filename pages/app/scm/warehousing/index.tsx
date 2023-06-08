@@ -1,5 +1,4 @@
-import React from 'react'
-import * as HoverCardPrimitive from '@radix-ui/react-hover-card'
+import React, { useState } from 'react'
 // next
 import Head from 'next/head'
 // hooks
@@ -8,84 +7,81 @@ import useTranslate from 'hooks/useTranslate'
 import { PATH_DASHBOARD } from 'routes/paths'
 // layout
 import Layout from 'layout/Index'
-import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs'
-import clsx from 'clsx'
-import Button from 'components/Button'
+// components
+import { Button, Card, HeaderBreadcrumbs } from 'components'
 import { Icon } from '@iconify/react'
-import Progressbar from 'components/Progressbar'
+import WarehousesList from 'sections/dashboard/scm/warehousing/WarehousesList'
+// import 'react-grid-layout/css/styles.css'
+// import 'react-resizable/css/styles.css'
+
+// const ReactGridLayout = WidthProvider(RGL)
+
+// const COLS = 16
 
 function index() {
   const { t } = useTranslate()
+  const [openAddEditWarehouseDialog, setOpenAddEditWarehouseDialog] = useState(false)
+
+  // const generateDOM = () =>
+  //   _.map(_.range(1), () => (
+  //     <div key='dewdwefref+5ref' className='h-full w-full select-none'>
+  //       <Section />
+  //     </div>
+  //   ))
+
   return (
     <>
       <Head>
         <title>{t('Warehousing')} | Pivot Point BMS</title>
       </Head>
-      <div className='h-full w-full px-5'>
+      <div className='flex max-w-full flex-col overflow-hidden px-5'>
         <HeaderBreadcrumbs
-          heading={t('Warehousing')}
+          heading={t('Warhousing')}
           links={[
             { name: t('Dashboard'), href: PATH_DASHBOARD.root },
             { name: t('Supply Chain & Inventory'), href: PATH_DASHBOARD.scm.dashboard },
-            { name: t('Warehousing') },
+            { name: t('Warhousing') },
           ]}
+          action={
+            <Button
+              startIcon={<Icon icon='ic:round-add' height={24} />}
+              onClick={() => setOpenAddEditWarehouseDialog(true)}
+            >
+              {t('Create a Warehouse')}
+            </Button>
+          }
         />
-        <div className='grid w-full grid-cols-4 gap-5'>
-          <div className='group relative h-48 w-full cursor-pointer rounded-lg bg-red-200/70 ring-secondary-400 transition-all hover:ring-4'>
-            <HoverCardPrimitive.Root>
-              <HoverCardPrimitive.Trigger asChild>
-                <h1 className='absolute top-1/2 -left-2 -translate-y-1/2 rounded-lg bg-white p-4 text-xl font-semibold text-red-600 shadow-xl group-hover:bg-secondary-400 group-hover:text-white'>
-                  A1
-                </h1>
-              </HoverCardPrimitive.Trigger>
-              <HoverCardPrimitive.Content
-                align='start'
-                side='right'
-                className={clsx(
-                  ' data[side=top]:animate-slide-up data[side:bo=tom]:animate-slide-down',
-                  'max-w-sm rounded-lg p-4 md:w-full',
-                  'bg-white dark:bg-gray-800',
-                  'focus-visible:ring-secondary-500-500 focus:outline-none focus-visible:ring focus-visible:ring-opacity-75',
-                  'shadow-xl'
-                )}
-              >
-                <HoverCardPrimitive.Arrow className='fill-current text-white dark:text-gray-800' />
-
-                <div className='flex h-full w-full flex-col space-y-4'>
-                  <p className='text-lg font-semibold'>Section A1</p>
-                  <p>
-                    <span className='text-sm text-gray-600'>Capacity :</span> 400
-                  </p>
-                  <Progressbar progress={16} intent='secondary' />
-                  <Button startIcon={<Icon icon='mdi:eye' />} variant='outlined' intent='secondary'>
-                    {t('View Details')}
-                  </Button>
-                </div>
-              </HoverCardPrimitive.Content>
-            </HoverCardPrimitive.Root>
-            <div className='h-full w-1/6 rounded-lg bg-red-600'></div>
-          </div>
-          <div className='group relative h-48 w-full cursor-pointer rounded-lg bg-orange-200/70 ring-secondary-400 transition-all hover:ring-4'>
-            <h1 className='absolute top-1/2 -left-2 -translate-y-1/2 rounded-lg bg-white p-4 text-xl font-semibold text-orange-600 shadow-xl group-hover:bg-secondary-400 group-hover:text-white'>
-              A1
-            </h1>
-            <div className='h-full w-1/3 rounded-lg bg-orange-600'></div>
-          </div>
-
-          <div className='group relative h-48 w-full cursor-pointer rounded-lg bg-blue-200/70 ring-secondary-400 transition-all hover:ring-4'>
-            <h1 className='absolute top-1/2 -left-2 -translate-y-1/2 rounded-lg bg-white p-4 text-xl font-semibold text-blue-600 shadow-xl group-hover:bg-secondary-400 group-hover:text-white'>
-              A1
-            </h1>
-            <div className='h-full w-3/5 rounded-lg bg-blue-600'></div>
-          </div>
-          <div className='group relative h-48 w-full cursor-pointer rounded-lg bg-green-200/70 ring-secondary-400 transition-all hover:ring-4'>
-            <h1 className='absolute top-1/2 -left-2 -translate-y-1/2 rounded-lg bg-white p-4 text-xl font-semibold text-green-600 shadow-xl group-hover:bg-secondary-400 group-hover:text-white'>
-              A1
-            </h1>
-            <div className='h-full w-4/5 rounded-lg bg-green-600'></div>
-          </div>
-        </div>
+        <Card fullWidth className='mb-10 overflow-hidden'>
+          <WarehousesList
+            setOpenAddEditDialog={setOpenAddEditWarehouseDialog}
+            openAddEditDialog={openAddEditWarehouseDialog}
+          />
+        </Card>
       </div>
+      {/* <div className='w-full flex-1 overflow-auto'>
+          <ReactGridLayout
+            className='layout grid-background overflow-auto'
+            style={{ width: 121 * COLS, height: 121 * COLS }}
+            layout={[
+              {
+                x: 1,
+                y: 1,
+                w: 1,
+                h: 1,
+                i: 'dewdwefref+5ref',
+                resizeHandles: ['se'],
+              },
+            ]}
+            cols={COLS}
+            rowHeight={100}
+            verticalCompact={false}
+            preventCollision
+            margin={[20, 20]}
+            onLayoutChange={(l) => console.log(l)}
+          >
+            {generateDOM()}
+          </ReactGridLayout>
+        </div> */}
     </>
   )
 }

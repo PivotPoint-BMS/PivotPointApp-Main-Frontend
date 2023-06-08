@@ -298,4 +298,29 @@ html[class*='dark'] {
   @apply cursor-pointer rounded-full p-1 hover:bg-gray-100 ltr:mr-1 rtl:ml-1 dark:text-white dark:hover:bg-gray-600;
 }
 
-/* React Flow */
+/* React Grid */
+
+.react-grid-placeholder {
+  @apply rounded-md !bg-gray-500;
+}
+
+.grid-background {
+  --grid-size: 120px;
+  --grid-padding: 20px;
+  background-image: repeating-linear-gradient(
+      0deg,
+      transparent 20px,
+      transparent calc(var(--grid-size) - 1px),
+      #dddddd60 calc(var(--grid-size) - var(--grid-padding)),
+      #dddddd60 var(--grid-size)
+    ),
+    repeating-linear-gradient(
+      -90deg,
+      transparent var(--grid-padding),
+      transparent calc(var(--grid-size) - 1px),
+      #dddddd60 calc(var(--grid-size) - var(--grid-padding)),
+      #dddddd60 var(--grid-size)
+    );
+  background-position: var(--grid-padding) var(--grid-padding);
+  background-size: var(--grid-size) var(--grid-size);
+}
