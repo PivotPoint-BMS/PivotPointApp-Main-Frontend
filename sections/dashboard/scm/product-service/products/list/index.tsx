@@ -4,6 +4,7 @@ import { min } from 'lodash'
 import clsx from 'clsx'
 // next
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
@@ -44,6 +45,7 @@ import {
 import { Icon, Icon as Iconify } from '@iconify/react'
 import ProductTableToolbar from './ProductsTableToolbar'
 import ProductPreview from './ProductPreview'
+import { PIVOTPOINT_API } from 'config'
 
 export default function ProductsList() {
   const { t } = useTranslate()
@@ -105,25 +107,27 @@ export default function ProductsList() {
         />
       ),
     }),
-    columnHelper.accessor('name', {
+    columnHelper.accessor((row) => ({ name: row.name, picture: row.picture }), {
       id: 'name',
       header: () => t('Name'),
       cell: (info) => (
         <div className='flex items-center gap-2'>
-          {/* <div className='h-12 w-12'>
-            <Image
-              alt='avatar'
-              width={48}
-              height={48}
-              src={
-                info.getValue().picture
-                  ? `${PIVOTPOINT_API.crmPicUrl}/${info.getValue().picture}`
-                  : avatarPlaceholder.src
-              }
-              className='aspect-square h-12 w-12 rounded-full object-cover'
-            />
-          </div> */}
-          <p>{info.getValue()}</p>
+          {info.getValue().picture ? (
+            <div className='h-12 w-12'>
+              <Image
+                alt={info.getValue().name}
+                width={48}
+                height={48}
+                src={`${PIVOTPOINT_API.scmPicUrl}/${info.getValue().picture}`}
+                className='aspect-square h-12 w-12 rounded-full object-cover'
+              />
+            </div>
+          ) : (
+            <div className='flex h-12 w-12 items-center justify-center rounded-full bg-gray-200 dark:bg-paper-dark-contrast'>
+              <Icon icon='ic:round-no-photography' height={20} />
+            </div>
+          )}
+          <p>{info.getValue().name}</p>
         </div>
       ),
     }),

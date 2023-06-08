@@ -64,8 +64,8 @@ export default function CreateEditProductForm({
     categoryId: Yup.string().nullable().required(t('This field is required')),
     name: Yup.string().nullable().min(3, t('Too short')).required(t('This field is required')),
     price: Yup.number().nullable().required(t('This field is required')),
-    productCode: Yup.string().nullable(),
-    cost: Yup.number().nullable(),
+    productCode: Yup.string().nullable().required(t('This field is required')),
+    cost: Yup.number().nullable().required(t('This field is required')),
     brand: Yup.string().nullable(),
     weight: Yup.string().when('type', {
       is: 1,
@@ -238,17 +238,12 @@ export default function CreateEditProductForm({
                 />
               </RHFAutoComplete>
               <RHFTextField type='number' name='price' label={t('Price')} endAdornment={t('Da')} />
+              <RHFTextField name='productCode' label={t('Product Code')} />
+              <RHFTextField type='number' name='cost' label={t('Cost')} endAdornment={t('Da')} />
               {type === 1 && (
                 <>
-                  <RHFTextField name='brand' label={t('Brand')} />
-                  <RHFTextField
-                    type='number'
-                    name='cost'
-                    label={t('Cost')}
-                    endAdornment={t('Da')}
-                  />
                   <div className='sm:col-span-2'>
-                    <RHFTextField name='productCode' label={t('Product Code')} />
+                    <RHFTextField name='brand' label={t('Brand')} />
                   </div>
                   <h6 className='col-span-2 text-lg font-semibold'>
                     {t('Warehousing Infotmations')}{' '}
