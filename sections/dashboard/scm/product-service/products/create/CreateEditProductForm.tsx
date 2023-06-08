@@ -64,8 +64,8 @@ export default function CreateEditProductForm({
     categoryId: Yup.string().nullable().required(t('This field is required')),
     name: Yup.string().nullable().min(3, t('Too short')).required(t('This field is required')),
     price: Yup.number().nullable().required(t('This field is required')),
-    productCode: Yup.string().nullable(),
-    cost: Yup.number().nullable(),
+    productCode: Yup.string().nullable().required(t('This field is required')),
+    cost: Yup.number().nullable().required(t('This field is required')),
     brand: Yup.string().nullable(),
     weight: Yup.string().when('type', {
       is: 1,
@@ -87,18 +87,19 @@ export default function CreateEditProductForm({
 
   const defaultValues = useMemo(
     () => ({
-      type: null,
-      categoryId: null,
-      name: null,
-      price: null,
-      productCode: null,
-      cost: null,
-      brand: null,
-      dimensions: null,
-      weight: '',
+      type: currentProduct?.type || null,
+      categoryId: currentProduct?.categoryId || null,
+      name: currentProduct?.name || null,
+      price: currentProduct?.price || null,
+      productCode: currentProduct?.productCode || null,
+      cost: currentProduct?.cost || null,
+      brand: currentProduct?.brand || null,
+      dimensions: currentProduct?.dimensions || null,
+      weight: currentProduct?.weight || '',
       height: '',
       length: '',
       width: '',
+      picture: currentProduct?.picture || '',
     }),
     [currentProduct]
   )
@@ -111,20 +112,20 @@ export default function CreateEditProductForm({
   const { handleSubmit, setValue, reset } = methods
 
   const onSubmit = async (data: FieldValues) => {
-    const product: Omit<Product, 'id'> = {
-      brand: data.brand || '',
-      categoryId: data.categoryId || '',
-      cost: data.cost || 0,
-      name: data.name || '',
-      price: data.price || '',
-      productCode: data.productCode || '',
-      type: data.type || '',
-      weight: data.weight || 0,
-      dimensions: `${data.height},${data.length},${data.width}` || '',
-    }
+    const formData = new FormData()
+    formData.append('picture', data.picture)
+    formData.append('brand', data.brand || '')
+    formData.append('categoryId', data.categoryId || '')
+    formData.append('cost', data.cost || 0)
+    formData.append('name', data.name || '')
+    formData.append('price', data.price || '')
+    formData.append('productCode', data.productCode || '')
+    formData.append('type', data.type || '')
+    formData.append('weight', data.weight || 0)
+    formData.append('dimensions', `${data.height},${data.length},${data.width}` || '')
 
-    if (isEdit) editProduct({ id: currentProduct?.id || '', PageNumber, PageSize, ...product })
-    else createProduct({ data: product, PageNumber, PageSize })
+    if (isEdit) editProduct({ id: currentProduct?.id || '', PageNumber, PageSize, data: formData })
+    else createProduct({ data: formData, PageNumber, PageSize })
   }
 
   // ImageUpload
@@ -237,17 +238,12 @@ export default function CreateEditProductForm({
                 />
               </RHFAutoComplete>
               <RHFTextField type='number' name='price' label={t('Price')} endAdornment={t('Da')} />
+              <RHFTextField name='productCode' label={t('Product Code')} />
+              <RHFTextField type='number' name='cost' label={t('Cost')} endAdornment={t('Da')} />
               {type === 1 && (
                 <>
-                  <RHFTextField name='brand' label={t('Brand')} />
-                  <RHFTextField
-                    type='number'
-                    name='cost'
-                    label={t('Cost')}
-                    endAdornment={t('Da')}
-                  />
                   <div className='sm:col-span-2'>
-                    <RHFTextField name='productCode' label={t('Product Code')} />
+                    <RHFTextField name='brand' label={t('Brand')} />
                   </div>
                   <h6 className='col-span-2 text-lg font-semibold'>
                     {t('Warehousing Infotmations')}{' '}

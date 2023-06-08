@@ -110,7 +110,7 @@ function NavItemMobile({
           </div>
         )}
       </CollapsiblePrimitive.Trigger>
-      <CollapsiblePrimitive.Content className='mt-2 flex flex-col space-y-4'>
+      <CollapsiblePrimitive.Content className='mt-1 flex flex-col space-y-2'>
         {subItems?.map((item, i) =>
           item.href ? (
             <Link
@@ -124,6 +124,7 @@ function NavItemMobile({
                 item.disabled &&
                   'pointer-events-none cursor-not-allowed opacity-40 hover:bg-secondary-500/10 dark:hover:bg-gray-300/10'
               )}
+              onClick={onClick}
             >
               <Iconify icon={item.icon || ''} height={20} width={20} />
               <label className='flex-1 cursor-pointer text-[10px] font-medium capitalize'>

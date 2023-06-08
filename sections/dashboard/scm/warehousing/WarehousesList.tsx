@@ -4,24 +4,24 @@ import { min } from 'lodash'
 import clsx from 'clsx'
 // next
 import { useRouter } from 'next/router'
-import Image from 'next/image'
+import Link from 'next/link'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
+// config
+import { PATH_DASHBOARD } from 'routes/paths'
 // redux
 import { wrapper } from 'store'
-import {
-  getProducts,
-  getRunningQueriesThunk,
-  useDeleteProductMutation,
-  useGetProductsQuery,
-} from 'store/api/scm/products-service/productsApi'
-import { changePageNumber, changePageSize } from 'store/slices/pagginationSlice'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
-// conig
-import { PIVOTPOINT_API } from 'config'
+import {
+  getRunningQueriesThunk,
+  getWarehouses,
+  useDeleteWarehouseMutation,
+  useGetWarehousesQuery,
+} from 'store/api/scm/warehousing/warehousingApis'
+import { changePageNumber, changePageSize } from 'store/slices/pagginationSlice'
 // types
-import { Product } from 'types'
+import { Warehouse } from 'types'
 // components
 import {
   useReactTable,
@@ -29,8 +29,8 @@ import {
   flexRender,
   createColumnHelper,
   RowSelectionState,
-  SortingState,
   getSortedRowModel,
+  SortingState,
 } from '@tanstack/react-table'
 import {
   AlertDialog,
@@ -41,134 +41,76 @@ import {
   DropdownMenu,
   Tooltip,
   Select as MySelect,
-  IndeterminateCheckbox,
-  Badge,
+  Dialog,
 } from 'components'
 import { Icon, Icon as Iconify } from '@iconify/react'
-import ProductTableToolbar from './ProductsTableToolbar'
-import ProductPreview from './ProductPreview'
+import CreateEditWarehouseForm from './create/CreateEditWarehouseForm'
 
-export default function ProductsList() {
+export default function WarehousesList({
+  openAddEditDialog,
+  setOpenAddEditDialog,
+}: {
+  openAddEditDialog: boolean
+  setOpenAddEditDialog: (value: boolean) => void
+}) {
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const dispatch = useAppDispatch()
   const { isFallback } = useRouter()
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
   const [sorting, setSorting] = React.useState<SortingState>([])
-  const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [idToDelete, setIdToDelete] = useState<string | null>(null)
+  const [warehouseToEdit, setWarehouseToEdit] = useState<Warehouse | null>(null)
   // Pogination
   const { PageSize, PageNumber } = useAppSelector((state) => state.paggination)
   // Filters
   const [searchValue, setSearchValue] = useState('')
-
   // Query Params
   const [SearchTerm, setSearchTerm] = useState<string | undefined>(undefined)
 
   // Queries
-  const { data, isLoading, isSuccess, isFetching } = useGetProductsQuery(
-    {
-      SearchTerm,
-      PageNumber,
-      PageSize,
-    },
+  const { data, isLoading, isSuccess, isFetching } = useGetWarehousesQuery(
+    { SearchTerm, PageNumber, PageSize },
     { skip: isFallback, refetchOnMountOrArgChange: true }
   )
 
   // Mutation
   const [
-    deleteProduct,
-    { isLoading: isDeleteProducting, isError: isDeleteError, isSuccess: isDeleteSuccess },
-  ] = useDeleteProductMutation()
+    deleteWarehouse,
+    { isLoading: isDeleteWarehouse, isError: isDeleteError, isSuccess: isDeleteSuccess },
+  ] = useDeleteWarehouseMutation()
 
-  const columnHelper = createColumnHelper<Product>()
+  const columnHelper = createColumnHelper<Warehouse>()
 
   const columns = [
-    columnHelper.accessor('id', {
-      id: 'select',
-      size: 24,
-      enableSorting: false,
-      header: ({ table }) => (
-        <IndeterminateCheckbox
-          {...{
-            checked: table.getIsAllRowsSelected(),
-            indeterminate: table.getIsSomeRowsSelected(),
-            onChange: table.getToggleAllRowsSelectedHandler(),
-          }}
-        />
-      ),
-      cell: ({ row }) => (
-        <IndeterminateCheckbox
-          {...{
-            checked: row.getIsSelected(),
-            disabled: !row.getCanSelect(),
-            indeterminate: row.getIsSomeSelected(),
-            onChange: row.getToggleSelectedHandler(),
-          }}
-        />
-      ),
-    }),
-    columnHelper.accessor((row) => ({ name: row.name, picture: row.picture }), {
+    columnHelper.accessor('name', {
       id: 'name',
-      header: () => t('Name'),
+      header: () => t('Full Name'),
+      cell: (info) => <p>{info.getValue()}</p>,
+    }),
+
+    columnHelper.accessor('location', {
+      id: 'location',
+      header: () => t('Location'),
       cell: (info) => (
-        <div className='flex items-center gap-2'>
-          {info.getValue().picture ? (
-            <div className='h-12 w-12'>
-              <Image
-                alt={info.getValue().name}
-                width={48}
-                height={48}
-                src={`${PIVOTPOINT_API.scmPicUrl}/${info.getValue().picture}`}
-                className='aspect-square h-12 w-12 rounded-full object-cover'
-              />
-            </div>
-          ) : (
-            <div className='flex h-12 w-12 items-center justify-center rounded-full bg-gray-200 dark:bg-paper-dark-contrast'>
-              <Icon icon='ic:round-no-photography' height={20} />
-            </div>
-          )}
-          <p>{info.getValue().name}</p>
-        </div>
+        <p className='hyphens  flex items-center gap-1 truncate text-sm'>
+          <Iconify icon='mdi:location' height={18} className='text-gray-500' /> {info.getValue()}{' '}
+        </p>
       ),
-    }),
-    columnHelper.accessor('type', {
-      id: 'type',
-      header: () => t('Type'),
-      cell: (type) => {
-        if (type.getValue() === 1)
-          return <Badge variant='ghost' intent='success' size='small' label={t('Product')} />
-        if (type.getValue() === 2)
-          return <Badge variant='ghost' intent='info' size='small' label={t('Service')} />
-        return <Badge variant='ghost' intent='success' size='small' label={t('Product')} />
-      },
-    }),
-    columnHelper.accessor('price', {
-      id: 'price',
-      header: () => t('Price'),
-      cell: (price) => `${price.getValue()} ${t('Da')}`,
-    }),
-    columnHelper.accessor('cost', {
-      id: 'cost',
-      header: () => t('Cose'),
-      cell: (price) => `${price.getValue()} ${t('Da')}`,
     }),
     columnHelper.accessor((row) => row, {
       id: 'actions ',
-      size: 1,
+      size: 50,
       enableSorting: false,
       header: () => <p className='w-full text-right'>{t('Actions')}</p>,
-      cell: (product) => (
+      cell: (warehouse) => (
         <div className='flex items-center justify-end gap-2'>
-          <Tooltip title={t('View Details')} side='bottom'>
-            <IconButton>
-              <Iconify icon='mingcute:external-link-fill' height={18} />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title={t('Preview')} side='bottom'>
-            <IconButton /* onClick={() => dispatch(previewProduct(product.getValue()))} */>
-              <Iconify icon='material-symbols:preview' height={18} />
-            </IconButton>
+          <Tooltip title={t('View Full Details')}>
+            <Link href={PATH_DASHBOARD.scm.warehousing.warehouse(warehouse.getValue().id || '')}>
+              <IconButton>
+                <Iconify icon='mingcute:external-link-fill' height={18} />
+              </IconButton>
+            </Link>
           </Tooltip>
           <DropdownMenu
             trigger={
@@ -183,15 +125,17 @@ export default function ProductsList() {
                 type: 'button',
                 label: t('Edit'),
                 icon: <Iconify icon='material-symbols:edit' height={18} />,
-                // onClick: () => push(PATH_DASHBOARD.crm['contacts-products'].edit(product.getValue().id)),
+                onClick: () => {
+                  setWarehouseToEdit(warehouse.getValue())
+                  setOpenAddEditDialog(true)
+                },
               },
               {
                 type: 'button',
                 label: t('Delete'),
                 icon: <Iconify icon='ic:round-delete' height={18} />,
-                className: 'text-red-600 dark:text-red-400',
-                loading: isDeleteProducting,
-                onClick: () => setIdToDelete(product.getValue().id),
+                className: 'text-red-600 dark:text-red-400 rtl:flex-row-reverse',
+                onClick: () => setIdToDelete(warehouse.getValue().id),
               },
             ]}
           />
@@ -211,7 +155,7 @@ export default function ProductsList() {
     }
     if (isDeleteSuccess) {
       open({
-        message: t('Product Deleted Successfully.'),
+        message: t('Warehouse Deleted Successfully.'),
         autoHideDuration: 4000,
         type: 'success',
         variant: 'contained',
@@ -241,17 +185,10 @@ export default function ProductsList() {
     getSortedRowModel: getSortedRowModel(),
   })
 
-  useEffect(() => {
-    setSelectedIds(
-      data?.data
-        .map((product, i) => (Object.keys(rowSelection).includes(i.toString()) ? product.id : ''))
-        .filter((item) => item !== '') || []
-    )
-  }, [rowSelection])
-
   return (
     <>
-      <div className='flex items-center justify-center gap-6 p-3 '>
+      {' '}
+      <div className='p-3 '>
         <TextField
           placeholder={t('Search...')}
           endAdornment={
@@ -267,45 +204,6 @@ export default function ProductsList() {
               setSearchTerm(e.currentTarget.value === '' ? undefined : e.currentTarget.value)
           }}
         />
-        {/* <Popover
-          trigger={
-            <Button
-              variant='outlined'
-              intent='default'
-              size='large'
-              className='h-full'
-              startIcon={<Iconify icon='material-symbols:filter-list-rounded' height={20} />}
-            >
-              {t('Filters')}
-            </Button>
-          }
-          align='start'
-        >
-          <div className='flex flex-col items-start px-2'>
-            <h1 className='mb-4 font-semibold'>{t('Filters')}</h1>
-            <div className='flex flex-col gap-4'>
-              <div className='flex w-full flex-col items-start gap-1'>
-                <label className='text-sm font-medium dark:text-white'>{t('Product Source')}</label>
-                <Select
-                  options={sourcesList}
-                  isLoading={isSourcesLoading}
-                  onChange={(newValue) => {
-                    setSource(newValue)
-                  }}
-                  value={source}
-                  className='react-select-container'
-                  classNamePrefix='react-select'
-                  isClearable
-                  placeholder={t('Select Source')}
-                />
-              </div>
-              
-              <Button variant='outlined' intent='secondary' onClick={handleFilter}>
-                {t('Filter')}
-              </Button>
-            </div>
-          </div>
-        </Popover> */}
       </div>
       {isLoading || isFetching ? (
         <div className='flex h-56 w-full items-center justify-center'>
@@ -368,7 +266,6 @@ export default function ProductsList() {
                             'cursor-pointer border-b last-of-type:border-b-0 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-paper-hover-dark',
                             row.getIsSelected() && 'bg-gray-50 dark:bg-paper-hover-dark/80'
                           )}
-                          // onDoubleClick={() => dispatch(previewProduct(row.original))}
                         >
                           {row.getVisibleCells().map((cell) => (
                             <td
@@ -386,7 +283,7 @@ export default function ProductsList() {
                       ))}
                     </tbody>
                   </table>
-                  <div className='flex w-max min-w-full items-center justify-end divide-x border-t p-4 rtl:divide-x-reverse dark:divide-gray-600 dark:border-gray-600'>
+                  <div className='flex w-full items-center justify-end divide-x border-t p-4 rtl:divide-x-reverse dark:divide-gray-600 dark:border-gray-600'>
                     <div className='flex items-center justify-center gap-2 px-2'>
                       <p className='text-sm'>{t('Row per page : ')}</p>
                       <MySelect
@@ -462,29 +359,39 @@ export default function ProductsList() {
                     </div>
                   </div>
                 </div>
-                <ProductTableToolbar
-                  selectedCount={Object.keys(rowSelection).length}
-                  selectedIds={selectedIds}
-                  setRowSelection={setRowSelection}
-                />
-                <ProductPreview />
               </div>
             </>
           ) : (
             <div className='flex h-56 flex-col items-center justify-center gap-2 px-4 py-2'>
-              <h1 className='text-xl font-semibold'>{t('No Product Found')}</h1>
+              <h1 className='text-xl font-semibold'>{t('No Warehouse Found')}</h1>
             </div>
           )}
         </>
       )}
-      <Backdrop loading={isDeleteProducting} />
+      <Backdrop loading={isDeleteWarehouse} />
+      <Dialog open={openAddEditDialog} title={t('Add Warehouse')}>
+        <CreateEditWarehouseForm
+          isEdit={Boolean(warehouseToEdit)}
+          currentWarehouse={warehouseToEdit}
+          onSuccess={() => {
+            setOpenAddEditDialog(false)
+          }}
+          onFailure={() => {
+            setOpenAddEditDialog(false)
+          }}
+        />
+      </Dialog>
       <AlertDialog
         title={t('Confirm Delete')}
-        description={t('This action cannot be undone. This will permanently delete this product.')}
+        description={
+          <p className='text-red-600 dark:text-red-400'>
+            {t('This action cannot be undone. This will permanently delete this warehouse.')}
+          </p>
+        }
         cancelText={t('Cancel')}
         confirmText={t('Yes, Delete')}
         onConfirm={() => {
-          deleteProduct({ id: idToDelete || '', PageNumber, PageSize })
+          deleteWarehouse({ id: idToDelete || '', PageNumber, PageSize })
           setIdToDelete(null)
         }}
         open={idToDelete !== null}
@@ -497,7 +404,7 @@ export default function ProductsList() {
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
   if (store.getState().session.token)
-    store.dispatch(getProducts.initiate({ PageSize: 10, PageNumber: 1 }))
+    store.dispatch(getWarehouses.initiate({ PageSize: 10, PageNumber: 1 }))
 
   await Promise.all(store.dispatch(getRunningQueriesThunk()))
 

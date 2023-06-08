@@ -3,6 +3,7 @@ export default interface Product {
   type: number
   categoryId: string
   name: string
+  picture?: string
   price: number
   productCode: string
   cost: number

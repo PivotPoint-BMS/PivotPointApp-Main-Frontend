@@ -48,10 +48,7 @@ export const productsApi = createApi({
     getProduct: builder.query<IGenericResponse<Product>, string>({
       query: (id) => `Products/${id}`,
     }),
-    createProduct: builder.mutation<
-      IGenericResponse<Product>,
-      { data: Omit<Product, 'id'> } & RequestParams
-    >({
+    createProduct: builder.mutation<IGenericResponse<Product>, { data: FormData } & RequestParams>({
       query: ({ data }) => ({
         url: 'Products',
         method: 'POST',
@@ -108,8 +105,11 @@ export const productsApi = createApi({
         }
       },
     }),
-    editProduct: builder.mutation<IGenericResponse<Product>, Product & RequestParams>({
-      query: ({ id, ...data }) => ({
+    editProduct: builder.mutation<
+      IGenericResponse<Product>,
+      { data: FormData; id: string } & RequestParams
+    >({
+      query: ({ id, data }) => ({
         url: `Products/${id}`,
         method: 'PUT',
         body: data,

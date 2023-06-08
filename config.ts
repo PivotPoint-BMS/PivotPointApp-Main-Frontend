@@ -4,6 +4,7 @@ export const PIVOTPOINT_API = {
   statsUrl: process.env.NEXT_PUBLIC_PIVOTPOINT_API_STATS_URL,
   profilePicUrl: process.env.NEXT_PUBLIC_PIVOTPOINT_PROFILE_PIC_URL,
   crmPicUrl: process.env.NEXT_PUBLIC_PIVOTPOINT_CRM_PIC_URL,
+  scmPicUrl: process.env.NEXT_PUBLIC_PIVOTPOINT_SCM_PIC_URL,
 }
 
 export const PIVOTPOINT_SOCIALS = {

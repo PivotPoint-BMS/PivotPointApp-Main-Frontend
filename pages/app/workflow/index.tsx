@@ -156,7 +156,7 @@ const index = () => {
                   nodeTypes={nodeTypes}
                   onDrop={onDrop}
                   onDragOver={onDragOver}
-                  onNodeDoubleClick={(e, node) => console.log(node)}
+                  // onNodeDoubleClick={(e, node) => console.log(node)}
                   className='h-full w-full bg-gray-100 dark:bg-paper-dark-contrast'
                 >
                   <Controls />
