@@ -87,18 +87,19 @@ export default function CreateEditProductForm({
 
   const defaultValues = useMemo(
     () => ({
-      type: null,
-      categoryId: null,
-      name: null,
-      price: null,
-      productCode: null,
-      cost: null,
-      brand: null,
-      dimensions: null,
-      weight: '',
+      type: currentProduct?.type || null,
+      categoryId: currentProduct?.categoryId || null,
+      name: currentProduct?.name || null,
+      price: currentProduct?.price || null,
+      productCode: currentProduct?.productCode || null,
+      cost: currentProduct?.cost || null,
+      brand: currentProduct?.brand || null,
+      dimensions: currentProduct?.dimensions || null,
+      weight: currentProduct?.weight || '',
       height: '',
       length: '',
       width: '',
+      picture: currentProduct?.picture || '',
     }),
     [currentProduct]
   )
@@ -111,20 +112,20 @@ export default function CreateEditProductForm({
   const { handleSubmit, setValue, reset } = methods
 
   const onSubmit = async (data: FieldValues) => {
-    const product: Omit<Product, 'id'> = {
-      brand: data.brand || '',
-      categoryId: data.categoryId || '',
-      cost: data.cost || 0,
-      name: data.name || '',
-      price: data.price || '',
-      productCode: data.productCode || '',
-      type: data.type || '',
-      weight: data.weight || 0,
-      dimensions: `${data.height},${data.length},${data.width}` || '',
-    }
+    const formData = new FormData()
+    formData.append('picture', data.picture)
+    formData.append('brand', data.brand || '')
+    formData.append('categoryId', data.categoryId || '')
+    formData.append('cost', data.cost || 0)
+    formData.append('name', data.name || '')
+    formData.append('price', data.price || '')
+    formData.append('productCode', data.productCode || '')
+    formData.append('type', data.type || '')
+    formData.append('weight', data.weight || 0)
+    formData.append('dimensions', `${data.height},${data.length},${data.width}` || '')
 
-    if (isEdit) editProduct({ id: currentProduct?.id || '', PageNumber, PageSize, ...product })
-    else createProduct({ data: product, PageNumber, PageSize })
+    if (isEdit) editProduct({ id: currentProduct?.id || '', PageNumber, PageSize, data: formData })
+    else createProduct({ data: formData, PageNumber, PageSize })
   }
 
   // ImageUpload
