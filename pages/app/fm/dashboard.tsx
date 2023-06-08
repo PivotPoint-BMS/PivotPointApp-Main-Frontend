@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 import React, { useEffect, useState } from 'react'
 // next
 import Head from 'next/head'
