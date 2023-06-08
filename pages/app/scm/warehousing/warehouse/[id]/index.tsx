@@ -33,7 +33,7 @@ const COLS = 16
 function index() {
   const { t } = useTranslate()
   const [openAddEditSectionDialog, setOpenAddEditSectionDialog] = useState(false)
-  const [sectionToEdit, setSectionToEdit] = useState<WarehouseSection | null>(null)
+  const [sectionToEdit] = useState<WarehouseSection | null>(null)
   const { query } = useRouter()
 
   const [warehouseId, setWarehouseId] = useState(query?.id !== null ? (query?.id as string) : '')
