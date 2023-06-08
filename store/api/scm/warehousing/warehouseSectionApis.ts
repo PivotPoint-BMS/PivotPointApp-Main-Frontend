@@ -5,11 +5,9 @@ import { HYDRATE } from 'next-redux-wrapper'
 // config
 import { PIVOTPOINT_API } from 'config'
 // types
-import { ListGenericResponse, RequestParams, IGenericResponse, WarehouseSection } from 'types'
+import { ListGenericResponse, IGenericResponse, WarehouseSection } from 'types'
 // store
 import { RootState } from 'store'
-import RequestSearchParams from 'types/RequestSearchParams'
-// import { assign } from 'lodash'
 
 export const warehouseSectionApi = createApi({
   reducerPath: 'warehouseSectionApi',
@@ -32,29 +30,23 @@ export const warehouseSectionApi = createApi({
     }
   },
   endpoints: (builder) => ({
-    getWarehouseSections: builder.query<
-      ListGenericResponse<WarehouseSection[]>,
-      RequestSearchParams
-    >({
-      query: (params) => ({
-        url: 'WarehouseSection',
-        params,
-      }),
+    getWarehouseSections: builder.query<ListGenericResponse<WarehouseSection[]>, string>({
+      query: (id) => `WarehouseSection/${id}`,
     }),
     getWarehouseSection: builder.query<IGenericResponse<WarehouseSection>, string>({
       query: (id) => `WarehouseSection/${id}`,
     }),
     createWarehouseSection: builder.mutation<
       IGenericResponse<WarehouseSection>,
-      Omit<WarehouseSection, 'id'> & RequestParams
+      Omit<WarehouseSection, 'id'> & { warehouseId: string }
     >({
-      query: (data) => ({
-        url: 'WarehouseSection',
+      query: ({ warehouseId, ...data }) => ({
+        url: `WarehouseSection/${warehouseId}`,
         method: 'POST',
-        body: data,
+        body: { ...data, dimensions: 'ded' },
         responseHandler: 'content-type',
       }),
-      async onQueryStarted({ PageNumber, PageSize }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ warehouseId }, { dispatch, queryFulfilled }) {
         try {
           const {
             data: { data },
@@ -62,7 +54,7 @@ export const warehouseSectionApi = createApi({
           dispatch(
             warehouseSectionApi.util.updateQueryData(
               'getWarehouseSections',
-              { PageNumber, PageSize },
+              warehouseId,
               (draftedList) => {
                 draftedList.data.push(data)
               }
@@ -75,7 +67,7 @@ export const warehouseSectionApi = createApi({
     }),
     editWarehouseSection: builder.mutation<
       ListGenericResponse<WarehouseSection>,
-      { data: Omit<WarehouseSection, 'id'>; id: string } & RequestParams
+      { data: Omit<WarehouseSection, 'id'>; id: string; warehouseId: string }
     >({
       query: ({ data, id }) => ({
         url: `WarehouseSection/${id}`,
@@ -84,7 +76,7 @@ export const warehouseSectionApi = createApi({
         responseHandler: 'content-type',
       }),
 
-      async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ id, warehouseId }, { dispatch, queryFulfilled }) {
         try {
           const {
             data: { data },
@@ -93,7 +85,7 @@ export const warehouseSectionApi = createApi({
           dispatch(
             warehouseSectionApi.util.updateQueryData(
               'getWarehouseSections',
-              { PageNumber, PageSize },
+              warehouseId,
               (draftedList) => {
                 Object.assign(draftedList.data.find((item) => item.id === id)!, data)
                 return draftedList
@@ -113,20 +105,20 @@ export const warehouseSectionApi = createApi({
     }),
     deleteWarehouseSection: builder.mutation<
       ListGenericResponse<WarehouseSection>,
-      { id: string } & RequestParams
+      { id: string; warehouseId: string }
     >({
       query: ({ id }) => ({
         url: `WarehouseSection/${id}`,
         method: 'DELETE',
         responseHandler: 'content-type',
       }),
-      async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ id, warehouseId }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
           dispatch(
             warehouseSectionApi.util.updateQueryData(
               'getWarehouseSections',
-              { PageNumber, PageSize },
+              warehouseId,
               (draftedList) => ({
                 ...draftedList,
                 data: draftedList.data.filter((warehouseSection) => warehouseSection.id !== id),

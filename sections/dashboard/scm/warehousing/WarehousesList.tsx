@@ -106,7 +106,7 @@ export default function WarehousesList({
       cell: (warehouse) => (
         <div className='flex items-center justify-end gap-2'>
           <Tooltip title={t('View Full Details')}>
-            <Link href={PATH_DASHBOARD.scm.warehouse(warehouse.getValue().id || '')}>
+            <Link href={PATH_DASHBOARD.scm.warehousing.warehouse(warehouse.getValue().id || '')}>
               <IconButton>
                 <Iconify icon='mingcute:external-link-fill' height={18} />
               </IconButton>

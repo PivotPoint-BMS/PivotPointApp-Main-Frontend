@@ -122,7 +122,7 @@ const initialState: SideBarConfig = {
         },
         {
           name: 'Warehousing',
-          href: PATH_DASHBOARD.scm.warehousing,
+          href: PATH_DASHBOARD.scm.warehousing.list,
           icon: 'fa6-solid:warehouse',
           badge: {
             label: 'New',

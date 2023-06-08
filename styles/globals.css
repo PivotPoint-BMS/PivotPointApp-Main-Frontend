@@ -301,7 +301,7 @@ html[class*='dark'] {
 /* React Grid */
 
 .react-grid-placeholder {
-  @apply rounded-md !bg-gray-500;
+  @apply rounded-md !bg-gray-500 dark:!bg-gray-300;
 }
 
 .grid-background {
