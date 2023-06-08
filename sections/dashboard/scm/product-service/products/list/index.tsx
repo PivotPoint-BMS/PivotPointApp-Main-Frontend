@@ -18,6 +18,8 @@ import {
 } from 'store/api/scm/products-service/productsApi'
 import { changePageNumber, changePageSize } from 'store/slices/pagginationSlice'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
+// conig
+import { PIVOTPOINT_API } from 'config'
 // types
 import { Product } from 'types'
 // components
@@ -45,7 +47,6 @@ import {
 import { Icon, Icon as Iconify } from '@iconify/react'
 import ProductTableToolbar from './ProductsTableToolbar'
 import ProductPreview from './ProductPreview'
-import { PIVOTPOINT_API } from 'config'
 
 export default function ProductsList() {
   const { t } = useTranslate()
