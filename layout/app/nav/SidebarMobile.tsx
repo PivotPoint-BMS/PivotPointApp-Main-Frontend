@@ -101,7 +101,7 @@ export default function SidebarMobile() {
               ))}
             </nav>
           </div>
-          <div className='flex w-full flex-col items-start justify-between gap-2'>
+          <div className='flex w-full flex-col items-start justify-between gap-1'>
             <MobileNavItem
               href='#'
               name={t('Account')}
@@ -131,15 +131,22 @@ export default function SidebarMobile() {
                   name: 'Profile',
                   href: PATH_ACCOUNT.profile,
                   icon: 'ion:person-circle',
+                  onClick: () => {
+                    handleClose()
+                  },
                 },
                 {
                   name: 'Settings',
                   href: PATH_ACCOUNT.settings,
                   icon: 'ion:settings',
+                  onClick: () => {
+                    handleClose()
+                  },
                 },
                 {
                   name: 'Logout',
                   onClick: () => {
+                    handleClose()
                     dispatch(logout())
                     push(PATH_AUTH.login)
                   },
@@ -154,7 +161,10 @@ export default function SidebarMobile() {
               asLink
               subItems={LANGS.map((language) => ({
                 name: language.label,
-                onClick: () => changeLocale(language.value),
+                onClick: () => {
+                  changeLocale(language.value)
+                  handleClose()
+                },
               }))}
             />
             {mounted && (
