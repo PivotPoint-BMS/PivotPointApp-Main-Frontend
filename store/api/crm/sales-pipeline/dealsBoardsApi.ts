@@ -347,7 +347,7 @@ export const dealsBoardsApi = createApi({
       { id: string; boardId: string }
     >({
       query: ({ id }) => ({
-        url: `BoardColumns/Failure/${id}`,
+        url: `BoardColumns/Normal/${id}`,
         method: 'PUT',
         responseHandler: 'content-type',
       }),
