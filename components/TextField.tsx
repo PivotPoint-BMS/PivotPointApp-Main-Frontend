@@ -42,6 +42,7 @@ export default function TextField({
   endAdornment,
   error,
   disabled,
+  className,
   ...other
 }: TextFieldProps) {
   return (
@@ -72,12 +73,15 @@ export default function TextField({
           </span>
         )}
         <input
-          {...other}
           disabled={disabled}
           id={name}
           name={name}
           type={type}
-          className='w-full flex-1 rounded-lg border-none bg-transparent p-2 outline-none'
+          className={clsx(
+            'w-full flex-1 rounded-lg border-none bg-transparent p-2 outline-none',
+            className
+          )}
+          {...other}
         />
         {endAdornment && (
           <span className='mx-2 text-gray-400 group-focus-within:text-black dark:group-focus-within:text-white'>

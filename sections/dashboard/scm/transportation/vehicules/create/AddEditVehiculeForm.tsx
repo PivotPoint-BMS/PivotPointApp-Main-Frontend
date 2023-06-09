@@ -15,7 +15,7 @@ import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
 // components
 import Select from 'react-select'
-import { AutoComplete, Button } from 'components'
+import { RHFField, Button } from 'components'
 import { FormProvider, RHFTextField } from 'components/hook-form'
 
 export default function AddEditVehiculeForm({
@@ -102,7 +102,7 @@ export default function AddEditVehiculeForm({
       <div className='mt-2 grid grid-cols-1 gap-4 md:grid-cols-2'>
         <RHFTextField name='model' label={t('Model')} />
         <RHFTextField name='code' label={t('Code')} />
-        <AutoComplete name='type' label={t('Type')}>
+        <RHFField name='type' label={t('Type')}>
           <Select
             options={VEHICULES_TYPES}
             getOptionLabel={(option) => t(option.label)}
@@ -115,9 +115,9 @@ export default function AddEditVehiculeForm({
             classNamePrefix='react-select'
             placeholder=''
           />
-        </AutoComplete>
+        </RHFField>
 
-        <AutoComplete name='size' label={t('Size')}>
+        <RHFField name='size' label={t('Size')}>
           <Select
             options={VEHICULES_SIZES}
             getOptionLabel={(option) => t(option.label)}
@@ -130,7 +130,7 @@ export default function AddEditVehiculeForm({
             classNamePrefix='react-select'
             placeholder=''
           />
-        </AutoComplete>
+        </RHFField>
         <div className='col-span-1 sm:col-span-2'>
           <RHFTextField type='number' name='weight' label={t('Weight')} endAdornment={t('Kg')} />
         </div>

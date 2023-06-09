@@ -30,7 +30,7 @@ const RenderItems = (
         checked={checked}
         onCheckedChange={onCheckedChange}
         className={clsx(
-          'flex w-full cursor-default select-none items-center rounded-md px-2 py-2 text-xs outline-none',
+          'flex w-full cursor-default select-none items-center rounded-md px-2 py-2 text-xs font-medium outline-none',
           ' focus:bg-gray-200 dark:focus:bg-paper-hover-dark'
         )}
       >
@@ -46,7 +46,7 @@ const RenderItems = (
       <DropdownMenuPrimitive.Sub>
         <DropdownMenuPrimitive.SubTrigger
           className={clsx(
-            'flex w-full cursor-default select-none items-center gap-2 rounded-md px-2 py-2 text-xs outline-none',
+            'flex w-full cursor-default select-none items-center gap-2 rounded-md px-2 py-2 text-xs font-medium outline-none',
             ' focus:bg-gray-200 dark:focus:bg-paper-hover-dark',
             className
           )}
@@ -59,7 +59,7 @@ const RenderItems = (
           <DropdownMenuPrimitive.SubContent
             className={clsx(
               'origin-top-right data-[side=left]:animate-scale-in',
-              'w-48 rounded-md px-1 py-1 text-xs shadow-md',
+              'w-48 rounded-md px-1 py-1 text-xs font-medium shadow-md',
               'bg-white dark:bg-paper-hover-dark',
               loading && 'cursor-not-allowed bg-gray-400 hover:bg-gray-400 active:bg-gray-400',
               className
@@ -109,7 +109,7 @@ const RenderItems = (
     return (
       <DropdownMenuPrimitive.Label
         className={clsx(
-          'select-none px-2 py-2 text-xs text-gray-700 dark:text-gray-200',
+          'select-none px-2 py-2 text-xs font-medium text-gray-700 dark:text-gray-200',
           className
         )}
       >
@@ -120,7 +120,7 @@ const RenderItems = (
     <DropdownMenuPrimitive.Item
       key={`${label?.toLowerCase()}-${i}`}
       className={clsx(
-        'flex cursor-default select-none items-center gap-2 rounded-md px-2 py-2 text-xs outline-none rtl:flex-row-reverse',
+        'flex cursor-default select-none items-center gap-2 rounded-md px-2 py-2 text-xs font-medium outline-none rtl:flex-row-reverse',
         ' focus:bg-gray-200 dark:focus:bg-paper-hover-dark',
         className
       )}

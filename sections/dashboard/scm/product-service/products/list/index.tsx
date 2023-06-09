@@ -140,6 +140,8 @@ export default function ProductsList() {
           return <Badge variant='ghost' intent='success' size='small' label={t('Product')} />
         if (type.getValue() === 2)
           return <Badge variant='ghost' intent='info' size='small' label={t('Service')} />
+        if (type.getValue() === 3)
+          return <Badge variant='ghost' intent='warning' size='small' label={t('Raw Material')} />
         return <Badge variant='ghost' intent='success' size='small' label={t('Product')} />
       },
     }),
@@ -251,7 +253,7 @@ export default function ProductsList() {
 
   return (
     <>
-      <div className='flex items-center justify-center gap-6 p-3 '>
+      <div className='flex items-center justify-center gap-6 p-3'>
         <TextField
           placeholder={t('Search...')}
           endAdornment={
