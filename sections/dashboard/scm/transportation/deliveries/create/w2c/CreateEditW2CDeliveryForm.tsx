@@ -132,7 +132,7 @@ function CreateEditW2CDeliveryForm() {
   } = methods
 
   const onSubmit = async (data: FieldValues) => {
-    const delivery: Delivery = {
+    const delivery: Omit<Delivery, 'id'> = {
       transportationTitle: data.transportationTitle,
       startWarehouseId: data.startWarehouseId,
       startingAddress: data.startingAddress,

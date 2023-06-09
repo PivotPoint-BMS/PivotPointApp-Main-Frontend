@@ -8,7 +8,7 @@ export interface DeliveryItem {
   price: number
 }
 export default interface Delivery {
-  id?: string
+  id: string
   transportationTitle: string
   expectedArrival: string
   driverName: string

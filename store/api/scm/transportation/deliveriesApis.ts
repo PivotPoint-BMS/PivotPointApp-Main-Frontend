@@ -99,9 +99,13 @@ export const deliveriesApi = createApi({
           )
 
           dispatch(
-            deliveriesApi.util.updateQueryData('getDeliveries', id, (draft) => {
-              Object.assign(draft.data, data)
-            })
+            deliveriesApi.util.updateQueryData(
+              'getDeliveries',
+              { PageNumber, PageSize },
+              (draft) => {
+                Object.assign(draft.data, data)
+              }
+            )
           )
         } catch {
           /* empty */

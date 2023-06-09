@@ -29,7 +29,7 @@ import useSnackbar from 'hooks/useSnackbar'
 // components
 import Select from 'react-select'
 import { Card, CardContent, Button, LoadingIndicator, Tooltip } from 'components'
-import { FormProvider, RHFTextField, RHFAutoComplete } from 'components/hook-form'
+import { FormProvider, RHFTextField, RHFFieldContainer } from 'components/hook-form'
 import RHFUploadAvatar from 'components/hook-form/RHFUpload'
 import { Category } from 'types'
 import { Icon } from '@iconify/react'
@@ -94,7 +94,6 @@ export default function CreateEditProductForm({
       productCode: currentProduct?.productCode || null,
       cost: currentProduct?.cost || null,
       brand: currentProduct?.brand || null,
-      dimensions: currentProduct?.dimensions || null,
       weight: currentProduct?.weight || '',
       height: '',
       length: '',
@@ -207,7 +206,7 @@ export default function CreateEditProductForm({
             <h6 className='mb-5 text-lg font-semibold'>{t('Product Informations')}</h6>
             <div className='mb-6 grid gap-6 sm:grid-cols-2'>
               <RHFTextField name='name' label={t('Name')} />
-              <RHFAutoComplete name='type' label={t('Type')}>
+              <RHFFieldContainer name='type' label={t('Type')}>
                 <Select
                   options={PRODUCTS_TYPES}
                   getOptionLabel={(option) => t(option.label)}
@@ -222,8 +221,8 @@ export default function CreateEditProductForm({
                   classNamePrefix='react-select'
                   placeholder=''
                 />
-              </RHFAutoComplete>
-              <RHFAutoComplete name='categoryId' label={t('Category')}>
+              </RHFFieldContainer>
+              <RHFFieldContainer name='categoryId' label={t('Category')}>
                 <Select
                   options={isSuccess ? categories?.data : ([] as Category[])}
                   isLoading={isLoading}
@@ -236,7 +235,7 @@ export default function CreateEditProductForm({
                   classNamePrefix='react-select'
                   placeholder=''
                 />
-              </RHFAutoComplete>
+              </RHFFieldContainer>
               <RHFTextField type='number' name='price' label={t('Price')} endAdornment={t('Da')} />
               <RHFTextField name='productCode' label={t('Product Code')} />
               <RHFTextField type='number' name='cost' label={t('Cost')} endAdornment={t('Da')} />
