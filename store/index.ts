@@ -30,6 +30,7 @@ import { productsApi } from './api/scm/products-service/productsApi'
 import { vehiculesApi } from './api/scm/transportation/vehiculesApis'
 import { warehousingApi } from './api/scm/warehousing/warehousingApis'
 import { warehouseSectionApi } from './api/scm/warehousing/warehouseSectionApis'
+import { deliveriesApi } from './api/scm/transportation/deliveriesApis'
 
 export const makeStore = () =>
   configureStore({
@@ -59,6 +60,7 @@ export const makeStore = () =>
       [supplierApi.reducerPath]: supplierApi.reducer,
       [productsApi.reducerPath]: productsApi.reducer,
       [vehiculesApi.reducerPath]: vehiculesApi.reducer,
+      [deliveriesApi.reducerPath]: deliveriesApi.reducer,
       [warehousingApi.reducerPath]: warehousingApi.reducer,
       [supplierPreviewSlice.name]: supplierPreviewSlice.reducer,
       [vehiculePreviewSlice.name]: vehiculePreviewSlice.reducer,
@@ -81,6 +83,7 @@ export const makeStore = () =>
         productsApi.middleware,
         vehiculesApi.middleware,
         leadSourceApi.middleware,
+        deliveriesApi.middleware,
         warehousingApi.middleware,
         dealsBoardsApi.middleware,
         financeSetupApi.middleware,

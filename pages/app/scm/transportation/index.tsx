@@ -12,9 +12,10 @@ import Layout from 'layout/Index'
 // sections
 import VehiculesList from 'sections/dashboard/scm/transportation/vehicules/VehiculesList'
 import AddEditVehiculeForm from 'sections/dashboard/scm/transportation/vehicules/create/AddEditVehiculeForm'
+import DeliveriesList from 'sections/dashboard/scm/transportation/deliveries/list'
 // components
 import { Icon } from '@iconify/react'
-import { Button, Dialog, HeaderBreadcrumbs } from 'components'
+import { Button, Card, Dialog, DropdownMenu, HeaderBreadcrumbs } from 'components'
 import { TabsContent, TabsList, TabsRoot, TabsTrigger } from 'components/Tabs'
 
 const TABS = [
@@ -48,12 +49,51 @@ function index() {
           action={
             <>
               {tab === 'deliveries' && (
-                <Button
-                  startIcon={<Icon icon='ic:round-add' height={24} />}
-                  // onClick={() => setOpenAddCategoryDialog(true)}
-                >
-                  {t('New Order')}
-                </Button>
+                <DropdownMenu
+                  items={[
+                    {
+                      type: 'button',
+                      label: 'Warehouse To Customer',
+                      onClick: () => push(PATH_DASHBOARD.scm.transportation.deliveries.create.w2c),
+                      icon: (
+                        <Icon
+                          className='text-gray-600 dark:text-gray-400'
+                          icon='mdi:package'
+                          height={20}
+                        />
+                      ),
+                    },
+                    {
+                      type: 'button',
+                      label: 'Warehouse To Warehouse',
+                      onClick: () => push(PATH_DASHBOARD.scm.transportation.deliveries.create.w2w),
+                      icon: (
+                        <Icon
+                          className='text-gray-600 dark:text-gray-400'
+                          icon='material-symbols:warehouse-rounded'
+                          height={20}
+                        />
+                      ),
+                    },
+                    {
+                      type: 'button',
+                      label: 'Supplier To Customer',
+                      onClick: () => push(PATH_DASHBOARD.scm.transportation.deliveries.create.s2w),
+                      icon: (
+                        <Icon
+                          className='text-gray-600 dark:text-gray-400'
+                          icon='solar:delivery-bold'
+                          height={20}
+                        />
+                      ),
+                    },
+                  ]}
+                  trigger={
+                    <Button startIcon={<Icon icon='ic:round-add' height={24} />}>
+                      {t('New Order')}
+                    </Button>
+                  }
+                />
               )}
               {tab === 'vehicules' && (
                 <Button
@@ -66,23 +106,27 @@ function index() {
             </>
           }
         />
-        <TabsRoot defaultValue='deliveries' value={tab} onValueChange={(value) => setTab(value)}>
-          <TabsList className='rounded-lg border dark:border-gray-600'>
-            {TABS.map((item, i) => (
-              <TabsTrigger key={i} value={item.value}>
-                <div className='flex w-max cursor-pointer items-center gap-2'>
-                  {item.icon && <Icon icon={item.icon} height={20} width={20} />}
-                  <label className='cursor-pointer font-medium'>{t(item.name)}</label>
-                </div>
-              </TabsTrigger>
-            ))}
-          </TabsList>
+        <Card fullWidth>
+          <TabsRoot defaultValue='deliveries' value={tab} onValueChange={(value) => setTab(value)}>
+            <TabsList className='rounded-lg border dark:border-gray-600'>
+              {TABS.map((item, i) => (
+                <TabsTrigger key={i} value={item.value}>
+                  <div className='flex w-max cursor-pointer items-center gap-2'>
+                    {item.icon && <Icon icon={item.icon} height={20} width={20} />}
+                    <label className='cursor-pointer font-medium'>{t(item.name)}</label>
+                  </div>
+                </TabsTrigger>
+              ))}
+            </TabsList>
 
-          <TabsContent value='deliveries'></TabsContent>
-          <TabsContent value='vehicules' className='!bg-transparent'>
-            <VehiculesList />
-          </TabsContent>
-        </TabsRoot>
+            <TabsContent value='deliveries'>
+              <DeliveriesList />
+            </TabsContent>
+            <TabsContent value='vehicules' className='!bg-transparent'>
+              <VehiculesList />
+            </TabsContent>
+          </TabsRoot>
+        </Card>
       </div>
       <Dialog open={openAddVehiculeDialog}>
         <AddEditVehiculeForm
