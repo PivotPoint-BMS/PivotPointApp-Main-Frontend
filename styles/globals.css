@@ -256,11 +256,11 @@ html[class*='dark'] {
 }
 
 .react-select-container .react-select__control .react-select__value-container {
-  @apply text-white;
+  @apply p-2 text-white;
 }
 
 .react-select__input-container {
-  @apply dark:!text-white;
+  @apply !m-0 !p-0 dark:!text-white;
 }
 
 .react-select__single-value {
@@ -323,4 +323,75 @@ html[class*='dark'] {
     );
   background-position: var(--grid-padding) var(--grid-padding);
   background-size: var(--grid-size) var(--grid-size);
+}
+
+/* Date Pickers */
+
+.react-date-picker {
+  @apply w-full;
+}
+.react-date-picker .react-date-picker__wrapper {
+  @apply w-full rounded-lg px-2 py-1 ring-black focus-within:ring-1 dark:ring-white;
+}
+
+.react-date-picker .react-date-picker__button {
+  @apply mx-0.5 flex aspect-square items-center justify-center rounded-full p-2 outline-none transition-colors hover:bg-gray-200 focus-visible:bg-gray-200 active:bg-gray-300 dark:hover:bg-gray-700 dark:focus-visible:bg-gray-700 dark:active:bg-gray-500;
+}
+
+.react-date-picker .react-date-picker__wrapper .react-date-picker__inputGroup input {
+  @apply bg-transparent outline-none;
+}
+.react-date-picker__calendar.react-date-picker__calendar--open {
+  @apply !right-0;
+}
+.react-date-picker .react-calendar {
+  @apply mt-1 rounded-lg border-gray-300 bg-paper-light font-sans shadow-xl dark:border-gray-600 dark:bg-paper-dark;
+}
+.react-date-picker .react-calendar .react-calendar__navigation {
+  @apply p-1;
+}
+.react-date-picker .react-calendar .react-calendar__navigation button {
+  @apply mx-1 flex aspect-square items-center justify-center rounded-lg p-2 outline-none transition-colors hover:bg-gray-200 focus-visible:bg-gray-200 active:bg-gray-300 dark:hover:bg-gray-700 dark:focus-visible:bg-gray-700 dark:active:bg-gray-500;
+}
+.react-date-picker
+  .react-calendar
+  .react-calendar__navigation
+  button:not(.react-calendar__navigation__label) {
+  @apply h-10 w-10 min-w-0 rounded-full;
+}
+
+.react-calendar__month-view__weekdays abbr {
+  @apply text-sm capitalize decoration-transparent;
+}
+
+button.react-calendar__tile.react-calendar__tile--now.react-calendar__tile--hasActive.react-calendar__century-view__decades__decade {
+  @apply bg-secondary-500 text-white dark:bg-secondary-700;
+}
+
+button.react-calendar__tile.react-calendar__tile--now.react-calendar__century-view__decades__decade {
+  @apply bg-primary-100/40 dark:bg-primary-700;
+}
+
+.react-date-picker .react-calendar .react-calendar__viewContainer button {
+  @apply flex items-center justify-center rounded-lg outline-none transition-colors hover:bg-gray-200 hover:text-rich-black focus-visible:bg-gray-200 active:bg-gray-300 dark:hover:bg-gray-700 dark:hover:text-white dark:focus-visible:bg-gray-700 dark:active:bg-gray-500;
+}
+
+button.react-calendar__tile.react-calendar__tile--now.react-calendar__decade-view__years__year {
+  @apply bg-primary-100/40 dark:bg-primary-600/60;
+}
+
+button.react-calendar__tile.react-calendar__tile--hasActive.react-calendar__decade-view__years__year {
+  @apply bg-secondary-500 text-white dark:bg-secondary-700;
+}
+
+button.react-calendar__tile.react-calendar__tile--now.react-calendar__year-view__months__month {
+  @apply bg-primary-100/40 dark:bg-primary-600/60;
+}
+
+button.react-calendar__tile.react-calendar__tile--hasActive.react-calendar__year-view__months__month {
+  @apply bg-secondary-500 text-white dark:bg-secondary-700;
+}
+
+button.react-calendar__tile.react-calendar__tile--now.react-calendar__month-view__days__day {
+  @apply bg-primary-100/40 dark:bg-primary-600/60;
 }
