@@ -131,7 +131,7 @@ const initialState: SideBarConfig = {
         },
         {
           name: 'Transportation',
-          href: PATH_DASHBOARD.scm.transportation,
+          href: PATH_DASHBOARD.scm.transportation.root,
           icon: 'fluent:vehicle-truck-profile-20-filled',
           badge: {
             label: 'New',

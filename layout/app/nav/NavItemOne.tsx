@@ -158,6 +158,7 @@ function NavItemOne({
     <button
       className={clsx([
         'relative flex w-fit items-center rounded-xl p-4 text-secondary-900 transition-all group-hover:w-full dark:text-white',
+        'hover:bg-secondary-500/10 dark:hover:bg-gray-300/10',
         disabled &&
           'pointer-events-none cursor-not-allowed opacity-40 hover:bg-secondary-500/10 dark:hover:bg-gray-300/10',
       ])}
