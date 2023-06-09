@@ -102,7 +102,11 @@ export const PATH_DASHBOARD = {
     transportation: {
       root: path(ROOTS_APP, '/scm/transportation'),
       deliveries: {
-        create: path(ROOTS_APP, '/scm/transportation/deliveries/create'),
+        create: {
+          w2w: path(ROOTS_APP, '/scm/transportation/deliveries/create/w2w'),
+          w2c: path(ROOTS_APP, '/scm/transportation/deliveries/create/w2c'),
+          s2w: path(ROOTS_APP, '/scm/transportation/deliveries/create/s2w'),
+        },
         delivery: (id: string) => path(ROOTS_APP, `/scm/transportation/deliveries/${id}`),
       },
     },

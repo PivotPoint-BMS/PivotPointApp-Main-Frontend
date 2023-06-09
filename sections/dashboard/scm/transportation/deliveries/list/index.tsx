@@ -2,26 +2,24 @@
 import React, { useEffect, useState } from 'react'
 import { min } from 'lodash'
 import clsx from 'clsx'
+import moment from 'moment'
 // next
 import { useRouter } from 'next/router'
-import Image from 'next/image'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
 // redux
 import { wrapper } from 'store'
 import {
-  getProducts,
+  getDeliveries,
+  useDeleteDeliveryMutation,
+  useGetDeliveriesQuery,
   getRunningQueriesThunk,
-  useDeleteProductMutation,
-  useGetProductsQuery,
-} from 'store/api/scm/products-service/productsApi'
+} from 'store/api/scm/transportation/deliveriesApis'
 import { changePageNumber, changePageSize } from 'store/slices/pagginationSlice'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
-// conig
-import { PIVOTPOINT_API } from 'config'
 // types
-import { Product } from 'types'
+import { Delivery } from 'types'
 // components
 import {
   useReactTable,
@@ -45,10 +43,10 @@ import {
   Badge,
 } from 'components'
 import { Icon, Icon as Iconify } from '@iconify/react'
-import ProductTableToolbar from './ProductsTableToolbar'
-import ProductPreview from './ProductPreview'
+import DeliveryTableToolbar from './DeliveriesTableToolbar'
+import DeliveryPreview from './DeliveryPreview'
 
-export default function ProductsList() {
+export default function DeliveriesList() {
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const dispatch = useAppDispatch()
@@ -66,7 +64,7 @@ export default function ProductsList() {
   const [SearchTerm, setSearchTerm] = useState<string | undefined>(undefined)
 
   // Queries
-  const { data, isLoading, isSuccess, isFetching } = useGetProductsQuery(
+  const { data, isLoading, isSuccess, isFetching } = useGetDeliveriesQuery(
     {
       SearchTerm,
       PageNumber,
@@ -77,11 +75,11 @@ export default function ProductsList() {
 
   // Mutation
   const [
-    deleteProduct,
-    { isLoading: isDeleteProducting, isError: isDeleteError, isSuccess: isDeleteSuccess },
-  ] = useDeleteProductMutation()
+    deleteDelivery,
+    { isLoading: isDeleteDeliverying, isError: isDeleteError, isSuccess: isDeleteSuccess },
+  ] = useDeleteDeliveryMutation()
 
-  const columnHelper = createColumnHelper<Product>()
+  const columnHelper = createColumnHelper<Delivery>()
 
   const columns = [
     columnHelper.accessor('id', {
@@ -108,70 +106,67 @@ export default function ProductsList() {
         />
       ),
     }),
-    columnHelper.accessor((row) => ({ name: row.name, picture: row.picture }), {
-      id: 'name',
-      header: () => t('Name'),
-      cell: (info) => (
-        <div className='flex items-center gap-2'>
-          {info.getValue().picture ? (
-            <div className='h-12 w-12'>
-              <Image
-                alt={info.getValue().name}
-                width={48}
-                height={48}
-                src={`${PIVOTPOINT_API.scmPicUrl}/${info.getValue().picture}`}
-                className='aspect-square h-12 w-12 rounded-full object-cover'
-              />
-            </div>
-          ) : (
-            <div className='flex h-12 w-12 items-center justify-center rounded-full bg-gray-200 dark:bg-paper-dark-contrast'>
-              <Icon icon='ic:round-no-photography' height={20} />
-            </div>
-          )}
-          <p>{info.getValue().name}</p>
-        </div>
-      ),
+    columnHelper.accessor('transportationTitle', {
+      id: 'transportationTitle',
+      header: () => t('Title'),
+      cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor('type', {
-      id: 'type',
-      header: () => t('Type'),
-      cell: (type) => {
-        if (type.getValue() === 1)
-          return <Badge variant='ghost' intent='success' size='small' label={t('Product')} />
-        if (type.getValue() === 2)
-          return <Badge variant='ghost' intent='info' size='small' label={t('Service')} />
-        if (type.getValue() === 3)
-          return <Badge variant='ghost' intent='warning' size='small' label={t('Raw Material')} />
-        return <Badge variant='ghost' intent='success' size='small' label={t('Product')} />
+    columnHelper.accessor('expectedArrival', {
+      id: 'expectedArrival',
+      header: () => t('Expected Arrival Date'),
+      cell: (expectedArrival) => moment(expectedArrival.getValue()).format('LL'),
+    }),
+    columnHelper.accessor('startingAddress', {
+      id: 'startingAddress',
+      header: () => t('Start Addess'),
+      cell: (startingAddress) => startingAddress.getValue(),
+    }),
+    columnHelper.accessor('stoppingAddress', {
+      id: 'stoppingAddress',
+      header: () => t('Destination Addess'),
+      cell: (stoppingAddress) => stoppingAddress.getValue(),
+    }),
+    columnHelper.accessor('deliveryCost', {
+      id: 'deliveryCost',
+      header: () => t('Amount'),
+      cell: (deliveryCost) => `${deliveryCost.getValue()} ${t('Da')}`,
+    }),
+    columnHelper.accessor('currentStatus', {
+      id: 'currentStatus',
+      header: () => t('Status'),
+      cell: (currentStatus) => {
+        if (currentStatus.getValue() === 0)
+          return <Badge variant='ghost' intent='info' size='small' label={t('Initiated')} />
+        if (currentStatus.getValue() === 1)
+          return <Badge variant='ghost' intent='warning' size='small' label={t('In Transmit')} />
+        if (currentStatus.getValue() === 2)
+          return (
+            <Badge
+              variant='ghost'
+              intent='secondary'
+              size='small'
+              label={t('Arrived to Destination')}
+            />
+          )
+        if (currentStatus.getValue() === 3)
+          return (
+            <Badge
+              variant='ghost'
+              intent='success'
+              size='small'
+              label={t('Arrived to Destination')}
+            />
+          )
+        return <Badge variant='ghost' intent='success' size='small' label={t('Initiated')} />
       },
-    }),
-    columnHelper.accessor('price', {
-      id: 'price',
-      header: () => t('Price'),
-      cell: (price) => `${price.getValue()} ${t('Da')}`,
-    }),
-    columnHelper.accessor('cost', {
-      id: 'cost',
-      header: () => t('Cose'),
-      cell: (price) => `${price.getValue()} ${t('Da')}`,
     }),
     columnHelper.accessor((row) => row, {
       id: 'actions ',
       size: 1,
       enableSorting: false,
       header: () => <p className='w-full text-right'>{t('Actions')}</p>,
-      cell: (product) => (
+      cell: (delivery) => (
         <div className='flex items-center justify-end gap-2'>
-          <Tooltip title={t('View Details')} side='bottom'>
-            <IconButton>
-              <Iconify icon='mingcute:external-link-fill' height={18} />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title={t('Preview')} side='bottom'>
-            <IconButton /* onClick={() => dispatch(previewProduct(product.getValue()))} */>
-              <Iconify icon='material-symbols:preview' height={18} />
-            </IconButton>
-          </Tooltip>
           <DropdownMenu
             trigger={
               <IconButton>
@@ -183,17 +178,23 @@ export default function ProductsList() {
             items={[
               {
                 type: 'button',
+                label: t('View Details'),
+                icon: <Iconify icon='mingcute:external-link-fill' height={18} />,
+                // onClick: () => push(PATH_DASHBOARD.crm['contacts-products'].edit(delivery.getValue().id)),
+              },
+              {
+                type: 'button',
                 label: t('Edit'),
                 icon: <Iconify icon='material-symbols:edit' height={18} />,
-                // onClick: () => push(PATH_DASHBOARD.crm['contacts-products'].edit(product.getValue().id)),
+                // onClick: () => push(PATH_DASHBOARD.crm['contacts-products'].edit(delivery.getValue().id)),
               },
               {
                 type: 'button',
                 label: t('Delete'),
                 icon: <Iconify icon='ic:round-delete' height={18} />,
                 className: 'text-red-600 dark:text-red-400',
-                loading: isDeleteProducting,
-                onClick: () => setIdToDelete(product.getValue().id),
+                loading: isDeleteDeliverying,
+                onClick: () => setIdToDelete(delivery.getValue().id),
               },
             ]}
           />
@@ -213,7 +214,7 @@ export default function ProductsList() {
     }
     if (isDeleteSuccess) {
       open({
-        message: t('Product Deleted Successfully.'),
+        message: t('Delivery Deleted Successfully.'),
         autoHideDuration: 4000,
         type: 'success',
         variant: 'contained',
@@ -246,14 +247,14 @@ export default function ProductsList() {
   useEffect(() => {
     setSelectedIds(
       data?.data
-        .map((product, i) => (Object.keys(rowSelection).includes(i.toString()) ? product.id : ''))
+        .map((delivery, i) => (Object.keys(rowSelection).includes(i.toString()) ? delivery.id : ''))
         .filter((item) => item !== '') || []
     )
   }, [rowSelection])
 
   return (
     <>
-      <div className='flex items-center justify-center gap-6 p-3'>
+      <div className='flex items-center justify-center gap-6 p-3 '>
         <TextField
           placeholder={t('Search...')}
           endAdornment={
@@ -287,7 +288,7 @@ export default function ProductsList() {
             <h1 className='mb-4 font-semibold'>{t('Filters')}</h1>
             <div className='flex flex-col gap-4'>
               <div className='flex w-full flex-col items-start gap-1'>
-                <label className='text-sm font-medium dark:text-white'>{t('Product Source')}</label>
+                <label className='text-sm font-medium dark:text-white'>{t('Delivery Source')}</label>
                 <Select
                   options={sourcesList}
                   isLoading={isSourcesLoading}
@@ -370,7 +371,7 @@ export default function ProductsList() {
                             'cursor-pointer border-b last-of-type:border-b-0 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-paper-hover-dark',
                             row.getIsSelected() && 'bg-gray-50 dark:bg-paper-hover-dark/80'
                           )}
-                          // onDoubleClick={() => dispatch(previewProduct(row.original))}
+                          // onDoubleClick={() => dispatch(previewDelivery(row.original))}
                         >
                           {row.getVisibleCells().map((cell) => (
                             <td
@@ -464,29 +465,29 @@ export default function ProductsList() {
                     </div>
                   </div>
                 </div>
-                <ProductTableToolbar
+                <DeliveryTableToolbar
                   selectedCount={Object.keys(rowSelection).length}
                   selectedIds={selectedIds}
                   setRowSelection={setRowSelection}
                 />
-                <ProductPreview />
+                <DeliveryPreview />
               </div>
             </>
           ) : (
             <div className='flex h-56 flex-col items-center justify-center gap-2 px-4 py-2'>
-              <h1 className='text-xl font-semibold'>{t('No Product Found')}</h1>
+              <h1 className='text-xl font-semibold'>{t('No Delivery Found')}</h1>
             </div>
           )}
         </>
       )}
-      <Backdrop loading={isDeleteProducting} />
+      <Backdrop loading={isDeleteDeliverying} />
       <AlertDialog
         title={t('Confirm Delete')}
-        description={t('This action cannot be undone. This will permanently delete this product.')}
+        description={t('This action cannot be undone. This will permanently delete this delivery.')}
         cancelText={t('Cancel')}
         confirmText={t('Yes, Delete')}
         onConfirm={() => {
-          deleteProduct({ id: idToDelete || '', PageNumber, PageSize })
+          deleteDelivery({ id: idToDelete || '', PageNumber, PageSize })
           setIdToDelete(null)
         }}
         open={idToDelete !== null}
@@ -499,7 +500,7 @@ export default function ProductsList() {
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
   if (store.getState().session.token)
-    store.dispatch(getProducts.initiate({ PageSize: 10, PageNumber: 1 }))
+    store.dispatch(getDeliveries.initiate({ PageSize: 10, PageNumber: 1 }))
 
   await Promise.all(store.dispatch(getRunningQueriesThunk()))
 

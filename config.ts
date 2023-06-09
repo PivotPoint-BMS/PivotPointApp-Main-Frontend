@@ -47,6 +47,7 @@ export const DEALTYPES = [
 export const PRODUCTS_TYPES = [
   { value: 1, label: 'Product' },
   { value: 2, label: 'Service' },
+  { value: 3, label: 'Raw Materiel' },
 ]
 
 export const VEHICULES_TYPES = [
@@ -67,4 +68,11 @@ export const LANGS = [
   { value: 'en', label: 'English' },
   { value: 'fr', label: 'Français' },
   { value: 'ar', label: 'العربية' },
+]
+
+export const DELIVERY_STATUS = [
+  { value: 0, label: 'Initiated' },
+  { value: 1, label: 'In Transit' },
+  { value: 2, label: 'Arrived At Destination' },
+  { value: 3, label: 'Delivery Complete' },
 ]

@@ -13,7 +13,7 @@ import { Deal } from 'types'
 import useTranslate from 'hooks/useTranslate'
 // components
 import Select from 'react-select'
-import { AutoComplete, Button } from 'components'
+import { RHFField, Button } from 'components'
 import { FormProvider, RHFTextField } from 'components/hook-form'
 import useSnackbar from 'hooks/useSnackbar'
 import RHFTextArea from 'components/hook-form/RHFTextArea'
@@ -138,7 +138,7 @@ export default function CreateDealForm({
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <div className='mt-2 grid grid-cols-1 gap-4 md:grid-cols-2'>
         <RHFTextField name='title' label={t('Title')} />
-        <AutoComplete name='type' label={t('Type')}>
+        <RHFField name='type' label={t('Type')}>
           <Select
             options={DEALTYPES.map((item) => ({ value: item.value, label: t(item.label) }))}
             getOptionLabel={(option) => t(option.label)}
@@ -153,7 +153,7 @@ export default function CreateDealForm({
             classNamePrefix='react-select'
             placeholder=''
           />
-        </AutoComplete>
+        </RHFField>
         <RHFTextField
           type='number'
           name='potentialDealValue'
@@ -174,7 +174,7 @@ export default function CreateDealForm({
         </div>
         <div className='md:col-span-2'>
           {type && type.value === 1 && (
-            <AutoComplete name='leads' label={t('Leads')}>
+            <RHFField name='leads' label={t('Leads')}>
               <Select
                 options={leads}
                 isMulti
@@ -189,10 +189,10 @@ export default function CreateDealForm({
                 className='react-select-container'
                 classNamePrefix='react-select'
               />
-            </AutoComplete>
+            </RHFField>
           )}
           {type && type.value === 2 && (
-            <AutoComplete name='leadIds' label={t('Contacts')}>
+            <RHFField name='leadIds' label={t('Contacts')}>
               <Select
                 options={contacts}
                 isMulti
@@ -207,7 +207,7 @@ export default function CreateDealForm({
                 className='react-select-container'
                 classNamePrefix='react-select'
               />
-            </AutoComplete>
+            </RHFField>
           )}
         </div>{' '}
       </div>

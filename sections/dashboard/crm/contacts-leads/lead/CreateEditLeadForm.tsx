@@ -36,8 +36,8 @@ import useSnackbar from 'hooks/useSnackbar'
 // components
 import Select from 'react-select'
 import CreatableSelect from 'react-select/creatable'
-import { Card, CardContent, Button, LoadingIndicator, AutoComplete } from 'components'
-import { FormProvider, RHFTextField, RHFAutoComplete } from 'components/hook-form'
+import { Card, CardContent, Button, LoadingIndicator, RHFField } from 'components'
+import { FormProvider, RHFTextField, RHFFieldContainer } from 'components/hook-form'
 import RHFUploadAvatar from 'components/hook-form/RHFUpload'
 import { useAppSelector } from 'store/hooks'
 
@@ -76,7 +76,7 @@ export default function CreateEditLeadForm({
   const [priority, setPriority] = useState(0)
 
   const LeadSchema = Yup.object().shape({
-    picture: Yup.mixed().required(t('Image is required')),
+    picture: Yup.mixed(),
     fullName: Yup.string().min(3, t('Too short')).required(t('This field is required')),
     email: Yup.string()
       .email(t('Email must be a valid email address'))
@@ -271,7 +271,7 @@ export default function CreateEditLeadForm({
               <RHFTextField name='email' label={t('Email')} />
               <RHFTextField name='phoneNumber' label={t('Phone Number')} />
               <RHFTextField name='jobTitle' label={t('Job Title')} />
-              <RHFAutoComplete name='LeadSourceId' label={t('Source')}>
+              <RHFFieldContainer name='LeadSourceId' label={t('Source')}>
                 <Select
                   options={sourcesList}
                   isLoading={isLoading}
@@ -284,8 +284,8 @@ export default function CreateEditLeadForm({
                   classNamePrefix='react-select'
                   placeholder=''
                 />
-              </RHFAutoComplete>
-              <AutoComplete name='priority' label={t('Priority')}>
+              </RHFFieldContainer>
+              <RHFField name='priority' label={t('Priority')}>
                 <Select
                   options={LEAD_PRIORITIES}
                   getOptionLabel={(option) => t(option.label)}
@@ -298,11 +298,11 @@ export default function CreateEditLeadForm({
                   classNamePrefix='react-select'
                   placeholder=''
                 />
-              </AutoComplete>
+              </RHFField>
             </div>
             <h6 className='mb-5 text-lg font-semibold'>{t('Address Informations')}</h6>
             <div className='mb-6 grid grid-cols-1 gap-6 sm:grid-cols-2 '>
-              <RHFAutoComplete label={t('Country')} name='country'>
+              <RHFFieldContainer label={t('Country')} name='country'>
                 <CreatableSelect
                   options={coutriesList}
                   isLoading={isCountriesLoading}
@@ -316,8 +316,8 @@ export default function CreateEditLeadForm({
                   classNamePrefix='react-select'
                   placeholder=''
                 />
-              </RHFAutoComplete>
-              <RHFAutoComplete label={t('City')} name='city'>
+              </RHFFieldContainer>
+              <RHFFieldContainer label={t('City')} name='city'>
                 <CreatableSelect
                   options={citiesList}
                   isLoading={isCitiesLoading}
@@ -330,7 +330,7 @@ export default function CreateEditLeadForm({
                   classNamePrefix='react-select'
                   placeholder=''
                 />
-              </RHFAutoComplete>
+              </RHFFieldContainer>
             </div>
             <h6 className='mb-5 text-lg font-semibold'>{t('Finance Informations')}</h6>
             <div className='mb-6 grid grid-cols-1 gap-6 sm:grid-cols-2'>

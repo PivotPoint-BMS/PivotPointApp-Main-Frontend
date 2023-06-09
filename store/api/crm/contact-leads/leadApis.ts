@@ -65,6 +65,12 @@ export const leadApi = createApi({
         },
       }),
     }),
+    getContactsSummary: builder.query<ListGenericResponse<Lead[]>, { searchTerm?: string }>({
+      query: (params) => ({
+        url: 'Lead/Summary/Contacts',
+        params: { ...params },
+      }),
+    }),
     getLead: builder.query<ListGenericResponse<Lead>, string>({
       query: (id) => `Lead/${id}`,
     }),
@@ -227,6 +233,7 @@ export const {
   useGetLeadQuery,
   useGetLeadsQuery,
   useGetContactsQuery,
+  useGetContactsSummaryQuery,
   useGetAllQuery,
   useGetSegmentClientsQuery,
   // Mutations

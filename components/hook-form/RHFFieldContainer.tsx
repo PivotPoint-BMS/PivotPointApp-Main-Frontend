@@ -2,20 +2,20 @@ import React from 'react'
 import clsx from 'clsx'
 import { Controller, useFormContext } from 'react-hook-form'
 
-interface RHFAutoCompleteProps extends React.HTMLAttributes<HTMLDivElement> {
+interface RHFFieldContainerProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string
   label?: string
   startAdornment?: React.ReactNode
   endAdornment?: React.ReactNode
 }
 
-export default function RHFAutoComplete({
+export default function RHFFieldContainer({
   label,
   name,
   startAdornment,
   endAdornment,
   children,
-}: RHFAutoCompleteProps) {
+}: RHFFieldContainerProps) {
   const { control } = useFormContext()
   return (
     <Controller
