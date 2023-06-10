@@ -441,7 +441,7 @@ function CreateEditW2CDeliveryForm() {
                 <div>
                   <RHFTextField name='clientPaymentMethod' label={t('Payment Method')} />
                 </div>
-                <div className='h-full'>
+                <div>
                   <RHFTextField
                     type='number'
                     name='deliveryCost'
