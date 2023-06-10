@@ -314,7 +314,6 @@ function CreateEditW2CDeliveryForm() {
                               className='!p-1'
                               label={t('Name')}
                               value={product.name}
-                              disabled
                             />
                           </div>
                         </div>
@@ -326,7 +325,6 @@ function CreateEditW2CDeliveryForm() {
                             label={t('Price')}
                             value={product.price}
                             endAdornment={t('Da')}
-                            disabled
                           />
                         </div>
                         <div>
@@ -381,7 +379,7 @@ function CreateEditW2CDeliveryForm() {
                             label={t('Total')}
                             value={product.quantity * product.price}
                             endAdornment={t('Da')}
-                            disabled
+                            
                           />
                         </div>
                       </div>
