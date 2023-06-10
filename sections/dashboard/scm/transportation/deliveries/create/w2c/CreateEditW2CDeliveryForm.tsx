@@ -378,7 +378,7 @@ function CreateEditW2CDeliveryForm() {
                             min={1}
                             type='number'
                             className='!p-1'
-                            label={t('Quantity')}
+                            label={t('Total')}
                             value={product.quantity * product.price}
                             endAdornment={t('Da')}
                             disabled
