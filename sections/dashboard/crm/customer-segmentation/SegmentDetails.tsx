@@ -264,7 +264,7 @@ export default function SegmentDetails({ segment }: { segment: Segment | null })
               </Button>
               <Button
                 variant='outlined'
-                intent='default'
+                intent='secondary'
                 startIcon={<Icon icon='ic:round-add' height={18} />}
                 onClick={() => {
                   setOpenAddLeadsDialog(true)
