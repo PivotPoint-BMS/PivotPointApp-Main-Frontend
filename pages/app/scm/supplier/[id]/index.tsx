@@ -3,6 +3,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 // api
 import { useGetSupplierQuery } from 'store/api/scm/products-service/suppliersApis'
+import { skipToken } from '@reduxjs/toolkit/dist/query'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // asset
@@ -21,7 +22,7 @@ function index() {
     query: { id },
     isFallback,
   } = useRouter()
-  const { data, isLoading } = useGetSupplierQuery(id?.toString() ? id?.toString() : '', {
+  const { data, isLoading } = useGetSupplierQuery(id?.toString() ? id?.toString() : skipToken, {
     skip: isFallback,
     refetchOnFocus: true,
   })

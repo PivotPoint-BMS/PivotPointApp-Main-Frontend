@@ -43,7 +43,7 @@ export const deliveriesApi = createApi({
     }),
     createDelivery: builder.mutation<
       ListGenericResponse<Delivery>,
-      Omit<Delivery, 'id'> & RequestParams
+      Partial<Delivery> & RequestParams
     >({
       query: (data) => ({
         url: 'Delivery',
@@ -112,6 +112,141 @@ export const deliveriesApi = createApi({
         }
       },
     }),
+    inTransmitDelivery: builder.mutation<
+      ListGenericResponse<Delivery>,
+      { id: string } & RequestParams
+    >({
+      query: ({ id }) => ({
+        url: `Delivery/InTransit/${id}`,
+        method: 'PUT',
+        responseHandler: 'content-type',
+      }),
+
+      async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled
+
+          dispatch(
+            deliveriesApi.util.updateQueryData(
+              'getDeliveries',
+              { PageNumber, PageSize },
+              (draftedList) => {
+                Object.assign(draftedList.data.find((item) => item.id === id)!, {
+                  ...draftedList.data.find((item) => item.id === id),
+                  currentStatus: 1,
+                })
+                return draftedList
+              }
+            )
+          )
+
+          dispatch(
+            deliveriesApi.util.updateQueryData(
+              'getDeliveries',
+              { PageNumber, PageSize },
+              (draft) => {
+                Object.assign(draft.data, {
+                  ...draft.data,
+                  currentStatus: 1,
+                })
+              }
+            )
+          )
+        } catch {
+          /* empty */
+        }
+      },
+    }),
+    arrivedDelivery: builder.mutation<
+      ListGenericResponse<Delivery>,
+      { id: string } & RequestParams
+    >({
+      query: ({ id }) => ({
+        url: `Delivery/Arrived/${id}`,
+        method: 'PUT',
+        responseHandler: 'content-type',
+      }),
+
+      async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled
+
+          dispatch(
+            deliveriesApi.util.updateQueryData(
+              'getDeliveries',
+              { PageNumber, PageSize },
+              (draftedList) => {
+                Object.assign(draftedList.data.find((item) => item.id === id)!, {
+                  ...draftedList.data.find((item) => item.id === id),
+                  currentStatus: 2,
+                })
+                return draftedList
+              }
+            )
+          )
+
+          dispatch(
+            deliveriesApi.util.updateQueryData(
+              'getDeliveries',
+              { PageNumber, PageSize },
+              (draft) => {
+                Object.assign(draft.data, {
+                  ...draft.data,
+                  currentStatus: 2,
+                })
+              }
+            )
+          )
+        } catch {
+          /* empty */
+        }
+      },
+    }),
+    completedDelivery: builder.mutation<
+      ListGenericResponse<Delivery>,
+      { id: string } & RequestParams
+    >({
+      query: ({ id }) => ({
+        url: `Delivery/Completed/${id}`,
+        method: 'PUT',
+        responseHandler: 'content-type',
+      }),
+
+      async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled
+
+          dispatch(
+            deliveriesApi.util.updateQueryData(
+              'getDeliveries',
+              { PageNumber, PageSize },
+              (draftedList) => {
+                Object.assign(draftedList.data.find((item) => item.id === id)!, {
+                  ...draftedList.data.find((item) => item.id === id),
+                  currentStatus: 3,
+                })
+                return draftedList
+              }
+            )
+          )
+
+          dispatch(
+            deliveriesApi.util.updateQueryData(
+              'getDeliveries',
+              { PageNumber, PageSize },
+              (draft) => {
+                Object.assign(draft.data, {
+                  ...draft.data,
+                  currentStatus: 3,
+                })
+              }
+            )
+          )
+        } catch {
+          /* empty */
+        }
+      },
+    }),
     deleteDelivery: builder.mutation<ListGenericResponse<Delivery>, { id: string } & RequestParams>(
       {
         query: ({ id }) => ({
@@ -149,6 +284,9 @@ export const {
   // Mutations
   useEditDeliveryMutation,
   useCreateDeliveryMutation,
+  useArrivedDeliveryMutation,
+  useCompletedDeliveryMutation,
+  useInTransmitDeliveryMutation,
   useDeleteDeliveryMutation,
   util: { getRunningQueriesThunk, invalidateTags },
 } = deliveriesApi

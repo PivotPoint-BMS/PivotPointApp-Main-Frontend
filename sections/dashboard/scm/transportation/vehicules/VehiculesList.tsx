@@ -69,7 +69,7 @@ function VehiculesList() {
             <Card
               key={`vehicule-${vehicule.id}`}
               fullWidth
-              className='cursor-pointer divide-y !bg-gray-50/50 shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg'
+              className='cursor-pointer divide-y !bg-gray-50/50 shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg dark:divide-gray-600 dark:!bg-paper-dark-contrast'
               onClick={() => dispatch(previewVehicule(vehicule))}
             >
               <CardHeader

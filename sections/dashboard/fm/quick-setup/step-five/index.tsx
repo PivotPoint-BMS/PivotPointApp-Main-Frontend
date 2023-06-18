@@ -188,7 +188,7 @@ function StepFive({
               width={20}
             />
           </IconButton>
-          <h1 className='text-center text-2xl font-semibold'>{t('Inventory Sources')}</h1>
+          <h1 className='text-center text-2xl font-semibold'>{t('Investement Sources')}</h1>
           <Table columns={state.columns} data={state.data} dispatch={dispatch} total={total} />
           <Button
             onClick={() => {

@@ -34,7 +34,7 @@ export const warehouseSectionApi = createApi({
       query: (id) => `WarehouseSection/${id}`,
     }),
     getWarehouseSection: builder.query<IGenericResponse<WarehouseSection>, string>({
-      query: (id) => `WarehouseSection/${id}`,
+      query: (id) => `WarehouseSection/Detailed/${id}`,
     }),
     createWarehouseSection: builder.mutation<
       IGenericResponse<WarehouseSection>,
@@ -103,6 +103,50 @@ export const warehouseSectionApi = createApi({
         }
       },
     }),
+    addWarehouseSectionItem: builder.mutation<
+      ListGenericResponse<WarehouseSection>,
+      {
+        warehouseId: string
+        sectionId: string
+        itemId: string
+        cost: number
+        quantity: number
+      }
+    >({
+      query: (data) => ({
+        url: 'Warehousing/Item',
+        method: 'POST',
+        body: data,
+        responseHandler: 'content-type',
+      }),
+
+      async onQueryStarted({ sectionId, warehouseId }, { dispatch, queryFulfilled }) {
+        try {
+          const {
+            data: { data },
+          } = await queryFulfilled
+
+          dispatch(
+            warehouseSectionApi.util.updateQueryData(
+              'getWarehouseSections',
+              warehouseId,
+              (draftedList) => {
+                Object.assign(draftedList.data.find((item) => item.id === sectionId)!, data)
+                return draftedList
+              }
+            )
+          )
+
+          dispatch(
+            warehouseSectionApi.util.updateQueryData('getWarehouseSection', sectionId, (draft) => {
+              Object.assign(draft.data, data)
+            })
+          )
+        } catch {
+          /* empty */
+        }
+      },
+    }),
     deleteWarehouseSection: builder.mutation<
       ListGenericResponse<WarehouseSection>,
       { id: string; warehouseId: string }
@@ -130,6 +174,51 @@ export const warehouseSectionApi = createApi({
         }
       },
     }),
+    deleteSectionItem: builder.mutation<
+      ListGenericResponse<WarehouseSection>,
+      {
+        warehouseId: string
+        itemId: string
+        sectionId: string
+      }
+    >({
+      query: (body) => ({
+        url: 'Warehousing/Item',
+        method: 'POST',
+        body,
+        responseHandler: 'content-type',
+      }),
+      async onQueryStarted({ sectionId, warehouseId, itemId }, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled
+          dispatch(
+            warehouseSectionApi.util.updateQueryData(
+              'getWarehouseSections',
+              warehouseId,
+              (draftedList) => {
+                Object.assign(draftedList.data.find((item) => item.id === sectionId)!, {
+                  sectionItems: draftedList.data
+                    .find((item) => item.id === sectionId)
+                    ?.sectionItems.filter((item) => item.id !== itemId),
+                })
+                return draftedList
+              }
+            )
+          )
+
+          dispatch(
+            warehouseSectionApi.util.updateQueryData('getWarehouseSection', sectionId, (draft) => {
+              Object.assign(draft.data, {
+                sectionItems: draft.data.sectionItems.filter((item) => item.id !== itemId),
+              })
+              return draft
+            })
+          )
+        } catch {
+          /* empty */
+        }
+      },
+    }),
   }),
 })
 
@@ -142,6 +231,8 @@ export const {
   useEditWarehouseSectionMutation,
   useCreateWarehouseSectionMutation,
   useDeleteWarehouseSectionMutation,
+  useAddWarehouseSectionItemMutation,
+  useDeleteSectionItemMutation,
   util: { getRunningQueriesThunk },
 } = warehouseSectionApi
 

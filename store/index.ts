@@ -11,6 +11,7 @@ import {
   snackbarSlice,
   vehiculePreviewSlice,
   supplierPreviewSlice,
+  sectionPreviewSlice,
 } from './slices'
 // apis
 import { authApi, companyApi, paymentApi } from './api/auth'
@@ -31,6 +32,7 @@ import { vehiculesApi } from './api/scm/transportation/vehiculesApis'
 import { warehousingApi } from './api/scm/warehousing/warehousingApis'
 import { warehouseSectionApi } from './api/scm/warehousing/warehouseSectionApis'
 import { deliveriesApi } from './api/scm/transportation/deliveriesApis'
+import { fmBusinessPlanApi } from './api/fm/fmBusinessPlanApis'
 
 export const makeStore = () =>
   configureStore({
@@ -55,6 +57,7 @@ export const makeStore = () =>
       [customerSegmentationApi.reducerPath]: customerSegmentationApi.reducer,
       // FM
       [financeSetupApi.reducerPath]: financeSetupApi.reducer,
+      [fmBusinessPlanApi.reducerPath]: fmBusinessPlanApi.reducer,
       [financeDashboardApi.reducerPath]: financeDashboardApi.reducer,
       // SCM
       [supplierApi.reducerPath]: supplierApi.reducer,
@@ -64,6 +67,7 @@ export const makeStore = () =>
       [warehousingApi.reducerPath]: warehousingApi.reducer,
       [supplierPreviewSlice.name]: supplierPreviewSlice.reducer,
       [vehiculePreviewSlice.name]: vehiculePreviewSlice.reducer,
+      [sectionPreviewSlice.name]: sectionPreviewSlice.reducer,
       [warehouseSectionApi.reducerPath]: warehouseSectionApi.reducer,
     },
     devTools: process.env.NODE_ENV === 'development',
@@ -87,6 +91,7 @@ export const makeStore = () =>
         warehousingApi.middleware,
         dealsBoardsApi.middleware,
         financeSetupApi.middleware,
+        fmBusinessPlanApi.middleware,
         financeDashboardApi.middleware,
         warehouseSectionApi.middleware,
         customerSegmentationApi.middleware

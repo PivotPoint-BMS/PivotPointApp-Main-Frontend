@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react'
 import { clsx } from 'clsx'
+import { v4 as uuid } from 'uuid'
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import { Icon as Iconify } from '@iconify/react'
 
@@ -9,7 +10,7 @@ export interface MenuItem {
   icon?: ReactNode
   onClick?: () => void
   checked?: boolean
-  onCheckedChange?: () => void
+  onCheckedChange?: (checked: boolean) => void
   subItems?: MenuItem[]
   className?: string
   loading?: boolean
@@ -20,17 +21,25 @@ interface DropdownMenuProps {
   items: MenuItem[]
 }
 
-const RenderItems = (
-  { checked, label, onCheckedChange, onClick, type, icon, subItems, className, loading }: MenuItem,
-  i: number
-) => {
+const RenderItems = ({
+  checked,
+  label,
+  onCheckedChange,
+  onClick,
+  type,
+  icon,
+  subItems,
+  className,
+  loading,
+}: MenuItem) => {
   if (type === 'checkbox')
     return (
       <DropdownMenuPrimitive.CheckboxItem
+        key={`checkbox-${uuid()}`}
         checked={checked}
         onCheckedChange={onCheckedChange}
         className={clsx(
-          'flex w-full cursor-default select-none items-center rounded-md px-2 py-2 text-xs font-medium outline-none',
+          'flex w-full cursor-pointer select-none items-center rounded-md px-2 py-2 text-xs font-medium outline-none',
           ' focus:bg-gray-200 dark:focus:bg-paper-hover-dark'
         )}
       >
@@ -43,10 +52,10 @@ const RenderItems = (
     )
   if (type === 'dropdown')
     return (
-      <DropdownMenuPrimitive.Sub>
+      <DropdownMenuPrimitive.Sub key={`dropdown-${uuid()}`}>
         <DropdownMenuPrimitive.SubTrigger
           className={clsx(
-            'flex w-full cursor-default select-none items-center gap-2 rounded-md px-2 py-2 text-xs font-medium outline-none',
+            'flex w-full cursor-pointer select-none items-center gap-2 rounded-md px-2 py-2 text-xs font-medium outline-none',
             ' focus:bg-gray-200 dark:focus:bg-paper-hover-dark',
             className
           )}
@@ -66,8 +75,18 @@ const RenderItems = (
             )}
           >
             {subItems?.map(
-              (
-                {
+              ({
+                checked: subchecked,
+                label: subLabel,
+                onCheckedChange: subOnCheckedChange,
+                onClick: subOnClick,
+                subItems: subSubItems,
+                type: subType,
+                icon: subIcon,
+                className: subClassName,
+                loading: subLoading,
+              }) =>
+                RenderItems({
                   checked: subchecked,
                   label: subLabel,
                   onCheckedChange: subOnCheckedChange,
@@ -77,23 +96,7 @@ const RenderItems = (
                   icon: subIcon,
                   className: subClassName,
                   loading: subLoading,
-                },
-                index
-              ) =>
-                RenderItems(
-                  {
-                    checked: subchecked,
-                    label: subLabel,
-                    onCheckedChange: subOnCheckedChange,
-                    onClick: subOnClick,
-                    subItems: subSubItems,
-                    type: subType,
-                    icon: subIcon,
-                    className: subClassName,
-                    loading: subLoading,
-                  },
-                  index
-                )
+                })
             )}
           </DropdownMenuPrimitive.SubContent>
         </DropdownMenuPrimitive.Portal>
@@ -103,6 +106,7 @@ const RenderItems = (
     return (
       <DropdownMenuPrimitive.Separator
         className={clsx('my-1 h-px bg-gray-200 dark:bg-gray-700', className)}
+        key={`separator-${uuid()}`}
       />
     )
   if (type === 'text')
@@ -112,15 +116,16 @@ const RenderItems = (
           'select-none px-2 py-2 text-xs font-medium text-gray-700 dark:text-gray-200',
           className
         )}
+        key={`text-${uuid()}`}
       >
         {label}
       </DropdownMenuPrimitive.Label>
     )
   return (
     <DropdownMenuPrimitive.Item
-      key={`${label?.toLowerCase()}-${i}`}
+      key={`button-${uuid()}`}
       className={clsx(
-        'flex cursor-default select-none items-center gap-2 rounded-md px-2 py-2 text-xs font-medium outline-none rtl:flex-row-reverse',
+        'flex cursor-pointer select-none items-center gap-2 rounded-md px-2 py-2 text-xs font-medium outline-none rtl:flex-row-reverse',
         ' focus:bg-gray-200 dark:focus:bg-paper-hover-dark',
         className
       )}
@@ -173,8 +178,18 @@ export default function DropdownMenu({ trigger, items, ...props }: DropdownMenuP
             )}
           >
             {items.map(
-              (
-                {
+              ({
+                type,
+                label,
+                onClick,
+                subItems,
+                icon,
+                checked,
+                onCheckedChange,
+                className,
+                loading,
+              }) =>
+                RenderItems({
                   type,
                   label,
                   onClick,
@@ -184,23 +199,7 @@ export default function DropdownMenu({ trigger, items, ...props }: DropdownMenuP
                   onCheckedChange,
                   className,
                   loading,
-                },
-                i
-              ) =>
-                RenderItems(
-                  {
-                    type,
-                    label,
-                    onClick,
-                    subItems,
-                    icon,
-                    checked,
-                    onCheckedChange,
-                    className,
-                    loading,
-                  },
-                  i
-                )
+                })
             )}
           </DropdownMenuPrimitive.Content>
         </DropdownMenuPrimitive.Portal>

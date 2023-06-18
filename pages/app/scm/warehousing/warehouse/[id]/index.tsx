@@ -25,6 +25,7 @@ import Section from 'sections/dashboard/scm/warehousing/details/Section'
 // styles
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
+import SectionPreview from 'sections/dashboard/scm/warehousing/details/SectionPreview'
 
 const ReactGridLayout = WidthProvider(RGL)
 
@@ -133,6 +134,7 @@ function index() {
           }}
         />
       </Dialog>
+      <SectionPreview warehouseId={warehouseId} />
     </>
   )
 }

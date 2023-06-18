@@ -1,3 +1,6 @@
+import Supplier from './Supplier'
+import Vehicule from './Vehicule'
+
 export interface DeliveryItem {
   id: string
   type: number
@@ -5,7 +8,7 @@ export interface DeliveryItem {
   name: string
   quantity: number
   cost: number
-  price: number
+  value: number
 }
 export default interface Delivery {
   id: string
@@ -26,4 +29,12 @@ export default interface Delivery {
   clientName?: string
   clientPaymentMethod?: string
   deliveryItems: DeliveryItem[]
+  warehouseStart: string
+  warehouseEnd: string
+  supplier: Supplier | null
+  vehicule: Vehicule
+  checkingDate: string
+  inTransit: string
+  deliveryComplete: string
+  arrivedAtDest: string
 }

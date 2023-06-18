@@ -62,6 +62,7 @@ export const PATH_DASHBOARD = {
   fm: {
     root: path(ROOTS_APP, '/fm'),
     dashboard: path(ROOTS_APP, '/fm/dashboard'),
+    'business-plan': path(ROOTS_APP, '/fm/business-plan'),
     assets: path(ROOTS_APP, '/fm/assets'),
     cash: path(ROOTS_APP, '/fm/cash'),
     funding: path(ROOTS_APP, '/fm/funding'),
