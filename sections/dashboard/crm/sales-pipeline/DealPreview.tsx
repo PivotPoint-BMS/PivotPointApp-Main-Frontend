@@ -258,6 +258,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                           successProbability: Number(e.target.value !== '' ? e.target.value : 0),
                         })
                       }}
+                      className='!border-0 font-bold'
                     />
                   </div>
                 </div>
@@ -397,7 +398,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                       })
                     }}
                     rows={description.split('\n').length || 1}
-                    className='h-auto rounded-md bg-transparent py-1 transition-all focus-within:px-1 hover:px-1'
+                    className='h-auto rounded-md bg-transparent py-1 font-bold transition-all focus-within:px-1 hover:px-1'
                     inputClassName='resize-none'
                   />
                 </div>

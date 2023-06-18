@@ -15,9 +15,13 @@ import {
   useDeleteDeliveryMutation,
   useGetDeliveriesQuery,
   getRunningQueriesThunk,
+  useInTransmitDeliveryMutation,
+  useArrivedDeliveryMutation,
+  useCompletedDeliveryMutation,
 } from 'store/api/scm/transportation/deliveriesApis'
 import { changePageNumber, changePageSize } from 'store/slices/pagginationSlice'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
+import { PATH_DASHBOARD } from 'routes/paths'
 // types
 import { Delivery } from 'types'
 // components
@@ -50,7 +54,7 @@ export default function DeliveriesList() {
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const dispatch = useAppDispatch()
-  const { isFallback } = useRouter()
+  const { isFallback, push } = useRouter()
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [selectedIds, setSelectedIds] = useState<string[]>([])
@@ -76,8 +80,13 @@ export default function DeliveriesList() {
   // Mutation
   const [
     deleteDelivery,
-    { isLoading: isDeleteDeliverying, isError: isDeleteError, isSuccess: isDeleteSuccess },
+    { isLoading: isDeleteDeliveryLoading, isError: isDeleteError, isSuccess: isDeleteSuccess },
   ] = useDeleteDeliveryMutation()
+  const [inTransmitDelivery, { isLoading: isInTransmitDeliveryLoading }] =
+    useInTransmitDeliveryMutation()
+  const [arrivedDelivery, { isLoading: isArrivedDeliveryLoading }] = useArrivedDeliveryMutation()
+  const [completedDelivery, { isLoading: isCompletedDeliveryLoading }] =
+    useCompletedDeliveryMutation()
 
   const columnHelper = createColumnHelper<Delivery>()
 
@@ -149,14 +158,7 @@ export default function DeliveriesList() {
             />
           )
         if (currentStatus.getValue() === 3)
-          return (
-            <Badge
-              variant='ghost'
-              intent='success'
-              size='small'
-              label={t('Arrived to Destination')}
-            />
-          )
+          return <Badge variant='ghost' intent='success' size='small' label={t('Completed')} />
         return <Badge variant='ghost' intent='success' size='small' label={t('Initiated')} />
       },
     }),
@@ -180,7 +182,74 @@ export default function DeliveriesList() {
                 type: 'button',
                 label: t('View Details'),
                 icon: <Iconify icon='mingcute:external-link-fill' height={18} />,
-                // onClick: () => push(PATH_DASHBOARD.crm['contacts-products'].edit(delivery.getValue().id)),
+                onClick: () =>
+                  push(
+                    PATH_DASHBOARD.scm.transportation.deliveries.delivery(delivery.getValue().id)
+                  ),
+              },
+              {
+                type: 'dropdown',
+                label: t('Change Status'),
+                icon: <Iconify icon='ic:round-change-circle' height={18} />,
+                subItems: [
+                  {
+                    type: 'button',
+                    label: t('In Transmit'),
+                    icon: (
+                      <Icon
+                        icon={
+                          delivery.getValue().currentStatus !== 1
+                            ? 'tabler:point-filled'
+                            : 'ic:round-check'
+                        }
+                        className='text-orange-400'
+                        height={18}
+                      />
+                    ),
+                    onClick: () => {
+                      if (delivery.getValue().currentStatus !== 1)
+                        inTransmitDelivery({ id: delivery.getValue().id, PageNumber, PageSize })
+                    },
+                  },
+                  {
+                    type: 'button',
+                    label: t('Arrived At Destination'),
+                    icon: (
+                      <Icon
+                        icon={
+                          delivery.getValue().currentStatus !== 2
+                            ? 'tabler:point-filled'
+                            : 'ic:round-check'
+                        }
+                        className='text-secondary-400'
+                        height={18}
+                      />
+                    ),
+                    onClick: () => {
+                      if (delivery.getValue().currentStatus !== 2)
+                        arrivedDelivery({ id: delivery.getValue().id, PageNumber, PageSize })
+                    },
+                  },
+                  {
+                    type: 'button',
+                    label: t('Delivery Complete'),
+                    icon: (
+                      <Icon
+                        icon={
+                          delivery.getValue().currentStatus !== 3
+                            ? 'tabler:point-filled'
+                            : 'ic:round-check'
+                        }
+                        className='text-green-400'
+                        height={18}
+                      />
+                    ),
+                    onClick: () => {
+                      if (delivery.getValue().currentStatus !== 3)
+                        completedDelivery({ id: delivery.getValue().id, PageNumber, PageSize })
+                    },
+                  },
+                ],
               },
               {
                 type: 'button',
@@ -193,7 +262,7 @@ export default function DeliveriesList() {
                 label: t('Delete'),
                 icon: <Iconify icon='ic:round-delete' height={18} />,
                 className: 'text-red-600 dark:text-red-400',
-                loading: isDeleteDeliverying,
+                loading: isDeleteDeliveryLoading,
                 onClick: () => setIdToDelete(delivery.getValue().id),
               },
             ]}
@@ -270,45 +339,6 @@ export default function DeliveriesList() {
               setSearchTerm(e.currentTarget.value === '' ? undefined : e.currentTarget.value)
           }}
         />
-        {/* <Popover
-          trigger={
-            <Button
-              variant='outlined'
-              intent='default'
-              size='large'
-              className='h-full'
-              startIcon={<Iconify icon='material-symbols:filter-list-rounded' height={20} />}
-            >
-              {t('Filters')}
-            </Button>
-          }
-          align='start'
-        >
-          <div className='flex flex-col items-start px-2'>
-            <h1 className='mb-4 font-semibold'>{t('Filters')}</h1>
-            <div className='flex flex-col gap-4'>
-              <div className='flex w-full flex-col items-start gap-1'>
-                <label className='text-sm font-medium dark:text-white'>{t('Delivery Source')}</label>
-                <Select
-                  options={sourcesList}
-                  isLoading={isSourcesLoading}
-                  onChange={(newValue) => {
-                    setSource(newValue)
-                  }}
-                  value={source}
-                  className='react-select-container'
-                  classNamePrefix='react-select'
-                  isClearable
-                  placeholder={t('Select Source')}
-                />
-              </div>
-              
-              <Button variant='outlined' intent='secondary' onClick={handleFilter}>
-                {t('Filter')}
-              </Button>
-            </div>
-          </div>
-        </Popover> */}
       </div>
       {isLoading || isFetching ? (
         <div className='flex h-56 w-full items-center justify-center'>
@@ -480,7 +510,20 @@ export default function DeliveriesList() {
           )}
         </>
       )}
-      <Backdrop loading={isDeleteDeliverying} />
+      <Backdrop
+        open={
+          isDeleteDeliveryLoading ||
+          isInTransmitDeliveryLoading ||
+          isArrivedDeliveryLoading ||
+          isCompletedDeliveryLoading
+        }
+        loading={
+          isDeleteDeliveryLoading ||
+          isInTransmitDeliveryLoading ||
+          isArrivedDeliveryLoading ||
+          isCompletedDeliveryLoading
+        }
+      />
       <AlertDialog
         title={t('Confirm Delete')}
         description={t('This action cannot be undone. This will permanently delete this delivery.')}

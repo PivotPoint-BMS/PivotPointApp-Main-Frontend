@@ -30,6 +30,7 @@
     "@radix-ui/react-tabs": "^1.0.2",
     "@radix-ui/react-toggle-group": "^1.0.3",
     "@radix-ui/react-tooltip": "^1.0.3",
+    "@react-pdf/renderer": "^3.1.12",
     "@reduxjs/toolkit": "^1.9.1",
     "@tailwindcss/container-queries": "^0.1.1",
     "@tanstack/react-table": "^8.9.1",

@@ -134,12 +134,8 @@ export default function SegmentDetails({ segment }: { segment: Segment | null })
     }),
     columnHelper.accessor('incomeK', {
       id: 'incomeK ',
-      header: () => t('Income'),
-      cell: (incomeK) => (
-        <p>
-          {incomeK.getValue()} {t('Da')}
-        </p>
-      ),
+      header: () => t('Income Score'),
+      cell: (incomeK) => <p>{incomeK.getValue()}</p>,
     }),
     columnHelper.accessor('spendingScore', {
       id: 'spendingScore ',
@@ -549,7 +545,7 @@ export default function SegmentDetails({ segment }: { segment: Segment | null })
               {isLeadsSuccess && leads.data.length > 0 ? (
                 <div className='w-full divide-y dark:divide-gray-600'>
                   {leads.data.map((lead) => (
-                    <div className='flex w-full items-center justify-between py-2'>
+                    <div key={lead.id} className='flex w-full items-center justify-between py-2'>
                       <div className='flex items-center gap-2'>
                         <Image
                           alt='avatar'

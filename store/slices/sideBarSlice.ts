@@ -186,6 +186,15 @@ const initialState: SideBarConfig = {
           },
         },
         {
+          name: 'Business Plan',
+          href: PATH_DASHBOARD.fm['business-plan'],
+          icon: 'ion:cash',
+          badge: {
+            label: 'In Dev',
+            color: 'default',
+          },
+        },
+        {
           name: 'Cash',
           href: PATH_DASHBOARD.fm.cash,
           icon: 'ion:cash',

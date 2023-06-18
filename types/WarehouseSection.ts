@@ -6,4 +6,12 @@ export default interface WarehouseSection {
   y: number
   w: number
   h: number
+  sectionItems: {
+    cost: number
+    id: string
+    name: string
+    picture: string | null
+    quantity: number
+    type: 1 | 3
+  }[]
 }

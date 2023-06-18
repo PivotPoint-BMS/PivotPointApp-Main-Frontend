@@ -2,7 +2,7 @@ import React from 'react'
 import { cva, VariantProps } from 'class-variance-authority'
 
 export const badgeContained = cva(
-  'flex truncate w-max items-center justify-center text-xs rounded-full py-1 font-medium select-none',
+  'flex truncate w-max items-center justify-center text-xs rounded-full py-1 font-bold select-none',
   {
     variants: {
       intent: {
@@ -28,7 +28,7 @@ export const badgeContained = cva(
 )
 
 export const badgeOutlined = cva(
-  'flex truncate items-center w-max text-xs rounded-full py-1 font-medium select-none',
+  'flex truncate items-center w-max text-xs rounded-full py-1 font-bold select-none',
   {
     variants: {
       intent: {
@@ -54,7 +54,7 @@ export const badgeOutlined = cva(
 )
 
 export const badgeGhost = cva(
-  'flex truncate items-start justify-center w-max rounded-full py-1 font-medium select-none',
+  'flex truncate items-start justify-center w-max rounded-full py-1 font-bold select-none',
   {
     variants: {
       intent: {

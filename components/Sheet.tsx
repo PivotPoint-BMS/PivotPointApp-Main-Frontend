@@ -64,7 +64,7 @@ function Sheet({ isOpen, handleClose, children, actions, title, className }: She
             className
           )}
         >
-          <div className='flex w-full items-center gap-4 border-b px-4 pb-4'>
+          <div className='flex w-full items-center gap-4 border-b px-4 pb-4 dark:border-gray-600'>
             <div className='flex w-full items-center gap-2'>
               <IconButton onClick={onClose}>
                 <Icon icon='ic:round-close' height={22} />

@@ -152,7 +152,7 @@ export default function ProductsList() {
     }),
     columnHelper.accessor('cost', {
       id: 'cost',
-      header: () => t('Cose'),
+      header: () => t('Cost'),
       cell: (price) => `${price.getValue()} ${t('Da')}`,
     }),
     columnHelper.accessor((row) => row, {

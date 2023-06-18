@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import * as Yup from 'yup'
 import clsx from 'clsx'
 import moment from 'moment'
+import { parseInt } from 'lodash'
 // next
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -46,7 +47,7 @@ function CreateEditW2CDeliveryForm() {
   const [to, setTo] = useState({ clientName: '', contactId: '' })
   const [expectedArrival, onArrivalDateChange] = useState<Date | Value>(new Date())
   const [deliveryItems, setDeliveryItems] = useState<DeliveryItem[]>([])
-
+  const [shipping, setShipping] = useState('')
   const [openCustomerDialog, setOpenCustomerDialog] = useState(false)
   const [openWarehouseDialog, setOpenWarehouseDialog] = useState(false)
   const [openProductDialog, setOpenProductDialog] = useState(false)
@@ -78,10 +79,6 @@ function CreateEditW2CDeliveryForm() {
   } = useGetProductsQuery({ SearchTerm: searchTerm, PageNumber, PageSize })
 
   const [createDelivery, { isLoading: isCreateLoading }] = useCreateDeliveryMutation()
-  //   const [
-  //     editDelivery,
-  //     { isLoading: isEditLoading, isError: isEditError, isSuccess: isEditSuccess },
-  //   ] = useEditDeliveryMutation()
 
   const DeliverySchema = Yup.object().shape({
     transportationTitle: Yup.string().required(t('This field is required')),
@@ -128,11 +125,12 @@ function CreateEditW2CDeliveryForm() {
   const {
     handleSubmit,
     setValue,
+    getValues,
     formState: { errors },
   } = methods
 
   const onSubmit = async (data: FieldValues) => {
-    const delivery: Omit<Delivery, 'id'> = {
+    const delivery: Partial<Delivery> = {
       transportationTitle: data.transportationTitle,
       startWarehouseId: data.startWarehouseId,
       startingAddress: data.startingAddress,
@@ -144,7 +142,7 @@ function CreateEditW2CDeliveryForm() {
       driverName: data.driverName,
       driverContact: data.driverContact,
       vehiculeID: data.vehiculeID,
-      deliveryCost: data.deliveryCost,
+      deliveryCost: parseInt(shipping),
       deliveryItems,
       type: 1,
       currentStatus: 0,
@@ -166,6 +164,8 @@ function CreateEditW2CDeliveryForm() {
         })
       })
   }
+
+  console.log(errors)
 
   return (
     <>
@@ -324,7 +324,7 @@ function CreateEditW2CDeliveryForm() {
                             type='number'
                             className='!p-1'
                             label={t('Price')}
-                            value={product.price}
+                            value={product.value}
                             endAdornment={t('Da')}
                             disabled
                           />
@@ -379,7 +379,7 @@ function CreateEditW2CDeliveryForm() {
                             type='number'
                             className='!p-1'
                             label={t('Quantity')}
-                            value={product.quantity * product.price}
+                            value={product.quantity * product.value}
                             endAdornment={t('Da')}
                             disabled
                           />
@@ -412,7 +412,7 @@ function CreateEditW2CDeliveryForm() {
                                   id: product.id,
                                   name: product.name,
                                   picture: product.picture,
-                                  price: product.price,
+                                  value: product.value,
                                   type: product.type,
                                   quantity: 1,
                                 },
@@ -447,6 +447,7 @@ function CreateEditW2CDeliveryForm() {
                     name='deliveryCost'
                     label={t('Shipping')}
                     endAdornment={t('Da')}
+                    // onChange={(e) => setShipping(e.target.value)}
                   />
                 </div>
               </div>
@@ -455,14 +456,15 @@ function CreateEditW2CDeliveryForm() {
                   {t('Subtotal')}:
                 </p>{' '}
                 <p className='w-48 font-bold ltr:text-right rtl:text-left'>
-                  {deliveryItems.reduce((acc, cur) => acc + cur.price * cur.quantity, 0) || 0}{' '}
+                  {deliveryItems.reduce((acc, cur) => acc + cur.value * cur.quantity, 0) || 0}{' '}
                   {t('Da')}
                 </p>
               </div>
               <div className='flex max-w-full items-center justify-between '>
                 <p className='font-bold'>{t('Total')}:</p>{' '}
                 <p className='w-48 font-bold ltr:text-right rtl:text-left'>
-                  {deliveryItems.reduce((acc, cur) => acc + cur.price * cur.quantity, 0) || 0}{' '}
+                  {deliveryItems.reduce((acc, cur) => acc + cur.value * cur.quantity, 0) +
+                    (parseInt(getValues('deliveryCost')) || 0)}{' '}
                   {t('Da')}
                 </p>
               </div>
@@ -705,7 +707,7 @@ function CreateEditW2CDeliveryForm() {
                                 id: product.id,
                                 name: product.name,
                                 picture: product.picture,
-                                price: product.price,
+                                value: product.price,
                                 type: product.type,
                                 quantity: 1,
                               },
