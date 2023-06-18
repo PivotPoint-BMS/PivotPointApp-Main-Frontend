@@ -314,7 +314,6 @@ function CreateEditW2CDeliveryForm() {
                               className='!p-1'
                               label={t('Name')}
                               value={product.name}
-                              disabled
                             />
                           </div>
                         </div>
@@ -326,7 +325,6 @@ function CreateEditW2CDeliveryForm() {
                             label={t('Price')}
                             value={product.value}
                             endAdornment={t('Da')}
-                            disabled
                           />
                         </div>
                         <div>
@@ -378,10 +376,9 @@ function CreateEditW2CDeliveryForm() {
                             min={1}
                             type='number'
                             className='!p-1'
-                            label={t('Quantity')}
-                            value={product.quantity * product.value}
+                            label={t('Total')}
+                            value={product.quantity * product.price}
                             endAdornment={t('Da')}
-                            disabled
                           />
                         </div>
                       </div>
@@ -441,7 +438,7 @@ function CreateEditW2CDeliveryForm() {
                 <div>
                   <RHFTextField name='clientPaymentMethod' label={t('Payment Method')} />
                 </div>
-                <div className='h-full'>
+                <div>
                   <RHFTextField
                     type='number'
                     name='deliveryCost'
