@@ -73,6 +73,7 @@ export default function CreateEditSectionForm({
       x: 1,
       y: 1,
       warehouseId,
+      sectionItems: currentSection?.sectionItems || [],
     }
     if (isEdit)
       editSection({

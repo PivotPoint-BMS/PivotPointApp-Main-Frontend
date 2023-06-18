@@ -124,7 +124,7 @@ function CreateEditW2WDeliveryForm() {
   } = methods
 
   const onSubmit = async (data: FieldValues) => {
-    const delivery: Omit<Delivery, 'id'> = {
+    const delivery: Partial<Delivery> = {
       transportationTitle: data.transportationTitle,
       startWarehouseId: data.startWarehouseId,
       startingAddress: data.startingAddress,
@@ -353,7 +353,7 @@ function CreateEditW2WDeliveryForm() {
                             type='number'
                             className='!p-1'
                             label={t('Price')}
-                            value={product.price}
+                            value={product.value}
                             endAdornment={t('Da')}
                             disabled
                           />
@@ -408,7 +408,7 @@ function CreateEditW2WDeliveryForm() {
                             type='number'
                             className='!p-1'
                             label={t('Quantity')}
-                            value={product.quantity * product.price}
+                            value={product.quantity * product.value}
                             endAdornment={t('Da')}
                             disabled
                           />
@@ -441,7 +441,7 @@ function CreateEditW2WDeliveryForm() {
                                   id: product.id,
                                   name: product.name,
                                   picture: product.picture,
-                                  price: product.price,
+                                  value: product.value,
                                   type: product.type,
                                   quantity: 1,
                                 },
@@ -479,14 +479,14 @@ function CreateEditW2WDeliveryForm() {
                   {t('Subtotal')}:
                 </p>{' '}
                 <p className='w-48 font-bold ltr:text-right rtl:text-left'>
-                  {deliveryItems.reduce((acc, cur) => acc + cur.price * cur.quantity, 0) || 0}{' '}
+                  {deliveryItems.reduce((acc, cur) => acc + cur.value * cur.quantity, 0) || 0}{' '}
                   {t('Da')}
                 </p>
               </div>
               <div className='flex max-w-full items-center justify-between '>
                 <p className='font-bold'>{t('Total')}:</p>{' '}
                 <p className='w-48 font-bold ltr:text-right rtl:text-left'>
-                  {deliveryItems.reduce((acc, cur) => acc + cur.price * cur.quantity, 0) || 0}{' '}
+                  {deliveryItems.reduce((acc, cur) => acc + cur.value * cur.quantity, 0) || 0}{' '}
                   {t('Da')}
                 </p>
               </div>
@@ -716,7 +716,7 @@ function CreateEditW2WDeliveryForm() {
                                 id: product.id,
                                 name: product.name,
                                 picture: product.picture,
-                                price: product.price,
+                                value: product.price,
                                 type: product.type,
                                 quantity: 1,
                               },

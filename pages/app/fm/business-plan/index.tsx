@@ -31,6 +31,8 @@ function Dashboard() {
     }
   }, [isError, isSuccess, isFetching, isLoading])
 
+  console.log(data)
+
   return (
     <>
       <Head>

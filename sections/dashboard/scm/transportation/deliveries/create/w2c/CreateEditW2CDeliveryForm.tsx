@@ -47,7 +47,6 @@ function CreateEditW2CDeliveryForm() {
   const [to, setTo] = useState({ clientName: '', contactId: '' })
   const [expectedArrival, onArrivalDateChange] = useState<Date | Value>(new Date())
   const [deliveryItems, setDeliveryItems] = useState<DeliveryItem[]>([])
-  const [shipping, setShipping] = useState('')
   const [openCustomerDialog, setOpenCustomerDialog] = useState(false)
   const [openWarehouseDialog, setOpenWarehouseDialog] = useState(false)
   const [openProductDialog, setOpenProductDialog] = useState(false)
@@ -142,7 +141,7 @@ function CreateEditW2CDeliveryForm() {
       driverName: data.driverName,
       driverContact: data.driverContact,
       vehiculeID: data.vehiculeID,
-      deliveryCost: parseInt(shipping),
+      deliveryCost: data.deliveryCost,
       deliveryItems,
       type: 1,
       currentStatus: 0,
@@ -164,8 +163,6 @@ function CreateEditW2CDeliveryForm() {
         })
       })
   }
-
-  console.log(errors)
 
   return (
     <>
@@ -310,11 +307,7 @@ function CreateEditW2CDeliveryForm() {
                             </div>
                           )}
                           <div className='flex-1'>
-                            <TextField
-                              className='!p-1'
-                              label={t('Name')}
-                              value={product.name}
-                            />
+                            <TextField className='!p-1' label={t('Name')} value={product.name} />
                           </div>
                         </div>
                         <div>
@@ -377,7 +370,7 @@ function CreateEditW2CDeliveryForm() {
                             type='number'
                             className='!p-1'
                             label={t('Total')}
-                            value={product.quantity * product.price}
+                            value={product.quantity * product.value}
                             endAdornment={t('Da')}
                           />
                         </div>
