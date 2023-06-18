@@ -3,7 +3,7 @@ import { HYDRATE } from 'next-redux-wrapper'
 // config
 import { PIVOTPOINT_API } from 'config'
 // types
-import { IGenericError, IGenericResponse } from 'types'
+import { BusinessPlan, IGenericError, IGenericResponse } from 'types'
 // store
 import { RootState } from 'store'
 
@@ -28,7 +28,7 @@ export const fmBusinessPlanApi = createApi({
     }
   },
   endpoints: (builder) => ({
-    getBusinnesPlan: builder.query<IGenericResponse<unknown>, void>({
+    getBusinnesPlan: builder.query<IGenericResponse<BusinessPlan>, void>({
       query: () => 'BusinessPlan',
       transformErrorResponse: (response: IGenericError) => response.data.message,
     }),
