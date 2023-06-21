@@ -70,7 +70,7 @@ export default function CreateEditColumnForm({
   useEffect(() => {
     if (isCreateError) {
       open({
-        message: t('A problem has occured.'),
+        message: t('A problem has occurred.'),
         autoHideDuration: 4000,
         type: 'error',
         variant: 'contained',

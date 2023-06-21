@@ -157,7 +157,7 @@ function CreateEditW2CDeliveryForm() {
       })
       .catch(() => {
         open({
-          message: t('A problem has occured.'),
+          message: t('A problem has occurred.'),
           type: 'error',
           variant: 'contained',
         })

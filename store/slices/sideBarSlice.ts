@@ -44,8 +44,8 @@ const initialState: SideBarConfig = {
           href: PATH_DASHBOARD.crm.dashboard,
           icon: 'solar:graph-bold',
           badge: {
-            label: 'Beta',
-            color: 'warning',
+            label: 'New',
+            color: 'success',
           },
         },
         {
@@ -53,8 +53,8 @@ const initialState: SideBarConfig = {
           href: PATH_DASHBOARD.crm['contacts-leads'].root,
           icon: 'material-symbols:contact-page',
           badge: {
-            label: 'Beta',
-            color: 'warning',
+            label: 'New',
+            color: 'success',
           },
         },
         {
@@ -62,8 +62,8 @@ const initialState: SideBarConfig = {
           href: PATH_DASHBOARD.crm['sales-pipeline'],
           icon: 'icon-park-solid:sales-report',
           badge: {
-            label: 'Beta',
-            color: 'warning',
+            label: 'New',
+            color: 'success',
           },
         },
         {

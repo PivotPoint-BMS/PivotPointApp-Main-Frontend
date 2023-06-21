@@ -20,7 +20,7 @@ export default function CardHeader({
       {...other}
     >
       <div className='flex max-w-full flex-col whitespace-pre-wrap'>
-        <div className='whitespace-pre-wrap font-semibold dark:text-white'>{title}</div>
+        <div className='whitespace-pre-wrap text-lg font-bold dark:text-white'>{title}</div>
         {subheader && <p className='text-sm text-gray-600 dark:text-gray-400'>{subheader}</p>}
       </div>
       <div>{actions}</div>

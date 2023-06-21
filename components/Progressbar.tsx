@@ -1,6 +1,7 @@
 import React from 'react'
 import * as ProgressPrimitive from '@radix-ui/react-progress'
 import { cva, VariantProps } from 'class-variance-authority'
+import clsx from 'clsx'
 
 const progressbar = cva('duration-300 ease-in-out rounded-full', {
   variants: {
@@ -24,13 +25,22 @@ export interface ProgressbarProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof progressbar> {
   progress?: number
+  rootClassName?: string
 }
 
-export default function Progressbar({ progress, intent, className }: ProgressbarProps) {
+export default function Progressbar({
+  progress,
+  intent,
+  className,
+  rootClassName,
+}: ProgressbarProps) {
   return (
     <ProgressPrimitive.Root
       value={progress}
-      className='h-fit w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-600'
+      className={clsx(
+        rootClassName,
+        'h-fit w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-600'
+      )}
     >
       <ProgressPrimitive.Indicator
         style={{ width: `${progress}%` }}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 // next
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -22,6 +22,12 @@ import RGL, { WidthProvider } from 'react-grid-layout'
 import { Icon } from '@iconify/react'
 import { Button, Dialog, HeaderBreadcrumbs, LoadingIndicator } from 'components'
 import Section from 'sections/dashboard/scm/warehousing/details/Section'
+import {
+  TransformWrapper,
+  TransformComponent,
+  ReactZoomPanPinchRef,
+  MiniMap,
+} from 'react-zoom-pan-pinch'
 // styles
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
@@ -33,6 +39,7 @@ const COLS = 16
 
 function index() {
   const { t } = useTranslate()
+  const transformComponentRef = useRef<ReactZoomPanPinchRef | null>(null)
   const [openAddEditSectionDialog, setOpenAddEditSectionDialog] = useState(false)
   const [sectionToEdit] = useState<WarehouseSection | null>(null)
   const { query } = useRouter()
@@ -62,6 +69,33 @@ function index() {
     })
   }
 
+  const element = (
+    <ReactGridLayout
+      className='layout grid-background'
+      style={{ width: 121 * COLS, height: 121 * COLS }}
+      layout={data?.data.map((section) => ({
+        x: section.x,
+        y: section.y,
+        w: section.w,
+        h: section.h,
+        i: section.id,
+        resizeHandles: ['se'],
+      }))}
+      cols={COLS}
+      rowHeight={100}
+      compactType={null}
+      preventCollision
+      margin={[20, 20]}
+      onLayoutChange={handleLayoutChange}
+    >
+      {data?.data.map((section) => (
+        <div key={section.id} className='h-full w-full select-none'>
+          <Section section={section} />
+        </div>
+      ))}
+    </ReactGridLayout>
+  )
+
   return (
     <>
       <Head>
@@ -70,12 +104,12 @@ function index() {
       <div className='flex max-w-full flex-col'>
         <div className='px-5'>
           <HeaderBreadcrumbs
-            heading={t('Warhouse')}
+            heading={t('Warehouse')}
             links={[
               { name: t('Dashboard'), href: PATH_DASHBOARD.root },
               { name: t('Supply Chain & Inventory'), href: PATH_DASHBOARD.scm.dashboard },
               { name: t('Warehousing'), href: PATH_DASHBOARD.scm.warehousing.list },
-              { name: t('Warhouse') },
+              { name: t('Warehouse') },
             ]}
             action={
               <Button
@@ -87,39 +121,51 @@ function index() {
             }
           />
         </div>
-        <div className='w-full flex-1 overflow-auto'>
-          {isLoading ? (
-            <div className='flex h-full w-full items-center justify-center '>
-              {' '}
-              <LoadingIndicator />
-            </div>
-          ) : (
-            <ReactGridLayout
-              className='layout grid-background overflow-auto'
-              style={{ width: 121 * COLS, height: 121 * COLS }}
-              layout={data?.data.map((section) => ({
-                x: section.x,
-                y: section.y,
-                w: section.w,
-                h: section.h,
-                i: section.id,
-                resizeHandles: ['se'],
-              }))}
-              cols={COLS}
-              rowHeight={100}
-              compactType={null}
-              preventCollision
-              margin={[20, 20]}
-              onLayoutChange={handleLayoutChange}
-            >
-              {data?.data.map((section) => (
-                <div key={section.id} className='h-full w-full select-none'>
-                  <Section section={section} />
+        {isLoading ? (
+          <div className='flex h-full w-full items-center justify-center '>
+            {' '}
+            <LoadingIndicator />
+          </div>
+        ) : (
+          <TransformWrapper
+            initialScale={1}
+            initialPositionX={1}
+            initialPositionY={1}
+            ref={transformComponentRef}
+            maxScale={1}
+            panning={{ activationKeys: ['Shift'] }}
+            limitToBounds
+            disablePadding
+          >
+            {() => (
+              <>
+                <div
+                  className='fixed bottom-12 z-10 overflow-hidden rounded-lg border border-dashed border-gray-600 ltr:right-12 rtl:left-12 dark:border-gray-200'
+                  style={{
+                    position: 'fixed',
+                    zIndex: 5,
+                    bottom: '50px',
+                    right: '50px',
+                    pointerEvents: 'none',
+                  }}
+                >
+                  <MiniMap width={200} borderColor='#0073BA'>
+                    {element}
+                  </MiniMap>
                 </div>
-              ))}
-            </ReactGridLayout>
-          )}
-        </div>
+                <TransformComponent
+                  wrapperStyle={{
+                    maxWidth: '100%',
+                    height: 'calc(100vh - 100px )',
+                    overflow: 'hidden',
+                  }}
+                >
+                  {element}
+                </TransformComponent>
+              </>
+            )}
+          </TransformWrapper>
+        )}
       </div>
       <Dialog open={openAddEditSectionDialog} title={t('Add Section')}>
         <CreateEditSectionForm

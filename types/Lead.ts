@@ -20,4 +20,5 @@ export default interface Lead {
   address: Address
   incomeK: number
   spendingScore: number
+  isContact: boolean
 }

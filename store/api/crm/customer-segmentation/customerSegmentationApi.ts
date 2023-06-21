@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { HYDRATE } from 'next-redux-wrapper'
+import { concat } from 'lodash'
 // config
 import { PIVOTPOINT_API } from 'config'
 // types
@@ -148,9 +149,20 @@ export const customerSegmentationApi = createApi({
             leadApi.util.updateQueryData(
               'getSegmentClients',
               { id: segmentId, PageNumber, PageSize },
-              (draftedList) => {
-                draftedList.data.push(client)
-              }
+              (draftedList) => ({
+                ...draftedList,
+                data: concat(draftedList.data, [
+                  {
+                    fullName: client.fullName,
+                    id: client.id,
+                    imageFile: client.imageFile,
+                    incomeK: client.incomeK,
+                    isContact: client.isContact,
+                    priority: client.priority,
+                    spendingScore: client.spendingScore,
+                  },
+                ]),
+              })
             )
           )
         } catch {

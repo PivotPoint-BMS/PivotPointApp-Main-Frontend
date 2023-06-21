@@ -169,24 +169,26 @@ export default function DeliveriesList() {
       header: () => <p className='w-full text-right'>{t('Actions')}</p>,
       cell: (delivery) => (
         <div className='flex items-center justify-end gap-2'>
+          <Tooltip title={t('View Details')} side='bottom'>
+            <IconButton
+              onClick={() =>
+                push(PATH_DASHBOARD.scm.transportation.deliveries.delivery(delivery.getValue().id))
+              }
+            >
+              <Iconify icon='mingcute:external-link-fill' height={18} />
+            </IconButton>
+          </Tooltip>
           <DropdownMenu
             trigger={
-              <IconButton>
-                <Tooltip title={t('More')} side='bottom' sideOffset={10}>
-                  <Iconify icon='material-symbols:more-vert' height={20} />
+              <div>
+                <Tooltip title={t('More')} side='bottom'>
+                  <IconButton>
+                    <Iconify icon='material-symbols:more-vert' height={20} />
+                  </IconButton>
                 </Tooltip>
-              </IconButton>
+              </div>
             }
             items={[
-              {
-                type: 'button',
-                label: t('View Details'),
-                icon: <Iconify icon='mingcute:external-link-fill' height={18} />,
-                onClick: () =>
-                  push(
-                    PATH_DASHBOARD.scm.transportation.deliveries.delivery(delivery.getValue().id)
-                  ),
-              },
               {
                 type: 'dropdown',
                 label: t('Change Status'),
@@ -275,7 +277,7 @@ export default function DeliveriesList() {
   useEffect(() => {
     if (isDeleteError) {
       open({
-        message: t('A problem has occured.'),
+        message: t('A problem has occurred.'),
         autoHideDuration: 4000,
         type: 'error',
         variant: 'contained',

@@ -7,7 +7,7 @@ import { previewSection } from 'store/slices/sectionPreviewSlice'
 import { WarehouseSection } from 'types'
 
 function Section({ section }: { section: WarehouseSection }) {
-  const width = `${50}%`
+  const width = `${(section.currentCapacity * 100) / section.maxCapacity}%`
   const dispatch = useAppDispatch()
 
   return (

@@ -32,7 +32,7 @@ export const PATH_PAGE = {
 
 export const PATH_ACCOUNT = {
   profile: path(ROOTS_USER, '/profile'),
-  settings: path(ROOTS_USER, '/settings'),
+  company: path(ROOTS_USER, '/company'),
 }
 
 export const PATH_DASHBOARD = {

@@ -12,6 +12,7 @@ export default interface WarehouseSection {
     name: string
     picture: string | null
     quantity: number
-    type: 1 | 3
+    type: 1 | 2 | 3
   }[]
+  currentCapacity: number
 }

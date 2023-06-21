@@ -68,7 +68,7 @@ export default function SettingsEmail() {
       )
       .catch(() =>
         open({
-          message: t('A problem has occured.'),
+          message: t('A problem has occurred.'),
           autoHideDuration: 6000,
           type: 'error',
           variant: 'contained',

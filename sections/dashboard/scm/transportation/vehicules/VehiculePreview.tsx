@@ -100,7 +100,7 @@ export default function VehiculePreview() {
             })
             .catch(() =>
               open({
-                message: t('Sorry, Vehicule not deleted, A problem has occured.'),
+                message: t('Sorry, Vehicule not deleted, A problem has occurred.'),
                 autoHideDuration: 4000,
                 type: 'error',
                 variant: 'contained',

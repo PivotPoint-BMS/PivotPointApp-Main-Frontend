@@ -17,6 +17,7 @@ import { fData } from 'utils/formatNumber'
 import { FormProvider, RHFTextField } from 'components/hook-form'
 import RHFUploadAvatar from 'components/hook-form/RHFUpload'
 import { Card, CardContent, Button, LoadingIndicator } from 'components'
+import { PIVOTPOINT_API } from 'config'
 
 export default function SettingsDetails() {
   const { t } = useTranslate()
@@ -27,7 +28,7 @@ export default function SettingsDetails() {
   // Mutation
   const [updateDetails, { isLoading: isUpdateLoading }] = useUpdateCompanyDetailsMutation()
   const CompanyDetailsSchema = Yup.object().shape({
-    logo: Yup.string(),
+    logo: Yup.mixed(),
     name: Yup.string().required(t('This field is required')),
     slogan: Yup.string(),
     website: Yup.string()
@@ -40,7 +41,9 @@ export default function SettingsDetails() {
 
   const defaultValues = useMemo(
     () => ({
-      logo: companyDetails?.data.logo || '',
+      logo: companyDetails?.data.logo
+        ? `${PIVOTPOINT_API.profilePicUrl}/${companyDetails?.data.logo}`
+        : null,
       name: companyDetails?.data.name || '',
       slogan: companyDetails?.data.slogan || '',
       website: companyDetails?.data.website || '',

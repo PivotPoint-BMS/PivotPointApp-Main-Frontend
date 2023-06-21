@@ -31,7 +31,9 @@ import {
   Button,
   Dialog,
   Backdrop,
+  Progressbar,
 } from 'components'
+import { Product } from 'types'
 
 export default function SectionPreview({ warehouseId }: { warehouseId: string }) {
   const { t } = useTranslate()
@@ -46,13 +48,8 @@ export default function SectionPreview({ warehouseId }: { warehouseId: string })
   const [idToDelete, setIdToDelete] = useState<string | null>(null)
   const [searchTerm, setSearchTerm] = useState<string | undefined>(undefined)
   const [searchValue, setSearchValue] = useState('')
-  const [selectedProduct, setSelectedProduct] = useState<{
-    id: string
-    name: string
-    type: number
-  } | null>(null)
-  const [cost, setCost] = useState('')
-  const [quantity, setQuantity] = useState('')
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
+  const [quantity, setQuantity] = useState(0)
   // Query
   const { data, isLoading, isSuccess } = useGetWarehouseSectionQuery(sectionId || skipToken)
   const {
@@ -81,7 +78,7 @@ export default function SectionPreview({ warehouseId }: { warehouseId: string })
       })
       .catch(() => {
         open({
-          message: t('Sorry, Section not deleted, A problem has occured.'),
+          message: t('Sorry, Section not deleted, A problem has occurred.'),
           autoHideDuration: 4000,
           type: 'error',
           variant: 'contained',
@@ -148,7 +145,7 @@ export default function SectionPreview({ warehouseId }: { warehouseId: string })
                         )
                         .catch(() =>
                           open({
-                            message: t('Sorry, Section not updated, A problem has occured.'),
+                            message: t('Sorry, Section not updated, A problem has occurred.'),
                             autoHideDuration: 4000,
                             type: 'error',
                             variant: 'contained',
@@ -189,15 +186,18 @@ export default function SectionPreview({ warehouseId }: { warehouseId: string })
                         )
                         .catch(() =>
                           open({
-                            message: t('Sorry, Section not updated, A problem has occured.'),
+                            message: t('Sorry, Section not updated, A problem has occurred.'),
                             autoHideDuration: 4000,
                             type: 'error',
                             variant: 'contained',
                           })
                         )
                     }}
+                    endAdornment={t('units')}
                   />
                 </div>
+                <p className='text-sm font-medium'>{t('Current Capacity')}</p>
+                <Progressbar progress={(data.data.currentCapacity * 100) / data.data.maxCapacity} />
                 <div className='flex items-center justify-between'>
                   <h6 className=''>{t('Items List')}</h6>
                   <Button
@@ -213,7 +213,7 @@ export default function SectionPreview({ warehouseId }: { warehouseId: string })
                   <div className='mb-2 flex items-center gap-5 px-2'>
                     <p className='flex-[0.9] text-gray-600 dark:text-gray-400'>{t('Name')}</p>
                     <p className='w-16 flex-[0.1] text-right text-gray-600 dark:text-gray-400'>
-                      {t('Stock')}
+                      {t('Units')}
                     </p>
                     <p className='w-16 text-right text-gray-600 dark:text-gray-400'>{t('Cost')}</p>
                     <p className='w-24 text-right text-gray-600 dark:text-gray-400'>
@@ -294,67 +294,74 @@ export default function SectionPreview({ warehouseId }: { warehouseId: string })
           {isProductsLoading ? (
             <LoadingIndicator />
           ) : (
-            isProductsSuccess &&
-            products.data
-              .filter((product) => product.type !== 2)
-              .map((product) => (
-                <div className='flex w-full items-center justify-between rounded-lg border p-4'>
-                  <div className='flex items-center gap-2'>
-                    {product.picture ? (
-                      <div className='h-12 w-12'>
-                        <Image
-                          alt={product.name}
-                          width={48}
-                          height={48}
-                          src={`${PIVOTPOINT_API.scmPicUrl}/${product.picture}`}
-                          className='aspect-square h-12 w-12 rounded-full object-cover'
-                        />
+            <>
+              {isProductsSuccess && products.data.length > 0 ? (
+                products.data
+                  .filter((product) => product.type !== 2)
+                  .map((product) => (
+                    <div className='flex w-full items-center justify-between rounded-lg border p-4'>
+                      <div className='flex items-center gap-2'>
+                        {product.picture ? (
+                          <div className='h-12 w-12'>
+                            <Image
+                              alt={product.name}
+                              width={48}
+                              height={48}
+                              src={`${PIVOTPOINT_API.scmPicUrl}/${product.picture}`}
+                              className='aspect-square h-12 w-12 rounded-full object-cover'
+                            />
+                          </div>
+                        ) : (
+                          <div className='flex h-12 w-12 items-center justify-center rounded-full bg-gray-200 dark:bg-paper-dark-contrast'>
+                            <Icon icon='ic:round-no-photography' height={20} />
+                          </div>
+                        )}
+                        <div>
+                          <p className='font-semibold'>
+                            <span className='text-sm font-normal'>{t('Name')}:</span> {product.name}
+                          </p>
+                          <p className='font-semibold'>
+                            <span className='text-sm font-normal'>{t('Cost')}:</span> {product.cost}{' '}
+                            {t('Da')}
+                          </p>
+                        </div>
                       </div>
-                    ) : (
-                      <div className='flex h-12 w-12 items-center justify-center rounded-full bg-gray-200 dark:bg-paper-dark-contrast'>
-                        <Icon icon='ic:round-no-photography' height={20} />
-                      </div>
-                    )}
-                    <div>
-                      <p className='font-semibold'>
-                        <span className='text-sm font-normal'>{t('Name')}:</span> {product.name}
-                      </p>
-                      <p className='font-semibold'>
-                        <span className='text-sm font-normal'>{t('Price')}:</span> {product.price}{' '}
-                        {t('Da')}
-                      </p>
-                    </div>
-                  </div>
-                  <Button
-                    intent={
-                      !data?.data.sectionItems.every((item) => item.id !== product.id)
-                        ? 'secondary'
-                        : 'primary'
-                    }
-                    startIcon={
-                      <Icon
-                        icon={
+                      <Button
+                        intent={
                           !data?.data.sectionItems.every((item) => item.id !== product.id)
-                            ? 'ic:round-check'
-                            : 'ic:round-add'
+                            ? 'secondary'
+                            : 'primary'
                         }
-                        height={24}
-                      />
-                    }
-                    variant='text'
-                    size='small'
-                    onClick={
-                      data?.data.sectionItems.every((item) => item.id !== product.id)
-                        ? () => setSelectedProduct({ ...product })
-                        : () => {}
-                    }
-                  >
-                    {!data?.data.sectionItems.every((item) => item.id !== product.id)
-                      ? t('Added')
-                      : t('Add')}
-                  </Button>
+                        startIcon={
+                          <Icon
+                            icon={
+                              !data?.data.sectionItems.every((item) => item.id !== product.id)
+                                ? 'ic:round-check'
+                                : 'ic:round-add'
+                            }
+                            height={24}
+                          />
+                        }
+                        variant='text'
+                        size='small'
+                        onClick={
+                          data?.data.sectionItems.every((item) => item.id !== product.id)
+                            ? () => setSelectedProduct({ ...product })
+                            : () => {}
+                        }
+                      >
+                        {!data?.data.sectionItems.every((item) => item.id !== product.id)
+                          ? t('Added')
+                          : t('Add')}
+                      </Button>
+                    </div>
+                  ))
+              ) : (
+                <div className='flex h-48 items-center justify-center text-lg font-semibold'>
+                  {t('No Product Found')}
                 </div>
-              ))
+              )}
+            </>
           )}
         </div>
       </Dialog>
@@ -366,27 +373,28 @@ export default function SectionPreview({ warehouseId }: { warehouseId: string })
         <div className='flex flex-col items-center justify-center gap-2'>
           <TextField
             type='number'
-            label={t('Cost')}
-            onChange={(e) => setCost(e.target.value)}
-            endAdornment={t('Da')}
+            label={t('Quantity')}
+            onChange={(e) => setQuantity(Number(e.target.value))}
           />
           <TextField
             type='number'
-            label={t('Quantity')}
-            onChange={(e) => setQuantity(e.target.value)}
+            label={t('Cost')}
+            value={Number(quantity) * (selectedProduct?.cost || 0)}
+            endAdornment={t('Da')}
+            disabled
           />
           <Button
             onClick={() => {
-              if (cost !== '')
-                addSectionItem({
-                  sectionId: sectionId || '',
-                  warehouseId,
-                  itemId: selectedProduct?.id || '',
-                  quantity: Number(quantity),
-                  cost: Number(cost),
-                }).then(() => {
-                  setSelectedProduct(null)
-                })
+              addSectionItem({
+                sectionId: sectionId || '',
+                warehouseId,
+                itemId: selectedProduct?.id || '',
+                quantity: Number(quantity),
+                cost: Number(quantity) * (selectedProduct?.cost || 0),
+                item: selectedProduct!,
+              }).then(() => {
+                setSelectedProduct(null)
+              })
             }}
             loading={isAddItemLoading}
           >

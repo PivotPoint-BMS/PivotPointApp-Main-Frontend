@@ -136,8 +136,8 @@ export default function SidebarMobile() {
                   },
                 },
                 {
-                  name: 'Settings',
-                  href: PATH_ACCOUNT.settings,
+                  name: 'Company',
+                  href: PATH_ACCOUNT.company,
                   icon: 'ion:settings',
                   onClick: () => {
                     handleClose()

@@ -47,7 +47,7 @@ export default function GeneralInfo({ lead }: { lead: Lead }) {
   useEffect(() => {
     if (isError) {
       open({
-        message: t('A problem has occured.'),
+        message: t('A problem has occurred.'),
         autoHideDuration: 4000,
         type: 'error',
         variant: 'contained',
@@ -70,18 +70,33 @@ export default function GeneralInfo({ lead }: { lead: Lead }) {
   return (
     <Card fullWidth variant='default' className='rounded-none !bg-transparent'>
       <CardContent className='p-0'>
-        <div className='mb-4 flex items-center gap-2 px-4'>
-          <Link href={`${PATH_DASHBOARD.crm['contacts-leads'].root}?tab=leads`}>
-            <IconButton>
-              <Iconify
-                icon='material-symbols:arrow-back-ios-new-rounded'
-                height={20}
-                className='rtl:rotate-180'
-              />
-            </IconButton>
-          </Link>
-          <h1 className='text-lg font-semibold'>{t('Back to Leads')}</h1>
-        </div>
+        {lead.isContact ? (
+          <div className='mb-4 flex items-center gap-2 px-4'>
+            <Link href={`${PATH_DASHBOARD.crm['contacts-leads'].root}?tab=contact`}>
+              <IconButton>
+                <Iconify
+                  icon='material-symbols:arrow-back-ios-new-rounded'
+                  height={20}
+                  className='rtl:rotate-180'
+                />
+              </IconButton>
+            </Link>
+            <h1 className='text-lg font-semibold'>{t('Back to Contacts')}</h1>
+          </div>
+        ) : (
+          <div className='mb-4 flex items-center gap-2 px-4'>
+            <Link href={`${PATH_DASHBOARD.crm['contacts-leads'].root}?tab=leads`}>
+              <IconButton>
+                <Iconify
+                  icon='material-symbols:arrow-back-ios-new-rounded'
+                  height={20}
+                  className='rtl:rotate-180'
+                />
+              </IconButton>
+            </Link>
+            <h1 className='text-lg font-semibold'>{t('Back to Leads')}</h1>
+          </div>
+        )}
         <div className='p- flex flex-col items-center gap-3 p-4'>
           <Image
             alt='avatar'
@@ -119,14 +134,16 @@ export default function GeneralInfo({ lead }: { lead: Lead }) {
               <span className='text-[13px] '>{t('More')}</span>
             </div>
           </div>
-          <Button
-            variant='outlined'
-            className='w-full'
-            onClick={handleConvertToContact}
-            loading={isLoading}
-          >
-            {t('Convert to Contact')}
-          </Button>
+          {!lead.isContact && (
+            <Button
+              variant='outlined'
+              className='w-full'
+              onClick={handleConvertToContact}
+              loading={isLoading}
+            >
+              {t('Convert to Contact')}
+            </Button>
+          )}
           <div className='flex items-start justify-center gap-1'>
             <div className='mt-1.5 h-1.5 w-1.5 rounded-full bg-green-500'></div>
             <p className='text-[13px]'>

@@ -32,7 +32,7 @@ export default function SupplierPreview() {
   const [deleteSupplier, { isError: isDeleteError, isSuccess: isDeleteSuccess }] =
     useDeleteSupplierMutation()
 
-  const { isOpen, supplier } = useAppSelector((state) => state.supplierPreview)
+  const { isOpen, supplier, isEdit } = useAppSelector((state) => state.supplierPreview)
   const { PageNumber, PageSize } = useAppSelector((state) => state.paggination)
   const [opened, setOpened] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
@@ -51,6 +51,10 @@ export default function SupplierPreview() {
   useEffect(() => {
     setOpened(isOpen)
   }, [isOpen])
+
+  useEffect(() => {
+    setIsEditing(isEdit)
+  }, [isEdit])
 
   const handleClose = () => {
     setOpened(false)
@@ -72,7 +76,7 @@ export default function SupplierPreview() {
   useEffect(() => {
     if (isEditError) {
       open({
-        message: t('Sorry, Supplier not updated, A problem has occured.'),
+        message: t('Sorry, Supplier not updated, A problem has occurred.'),
         autoHideDuration: 4000,
         type: 'error',
         variant: 'contained',
@@ -91,7 +95,7 @@ export default function SupplierPreview() {
   useEffect(() => {
     if (isDeleteError) {
       open({
-        message: t('A problem has occured.'),
+        message: t('A problem has occurred.'),
         autoHideDuration: 4000,
         type: 'error',
         variant: 'contained',

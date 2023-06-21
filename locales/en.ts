@@ -255,7 +255,7 @@ const en: { [key: string]: string } = {
   'Lead Name': 'Lead Name',
   'Lead status': 'Lead status',
   'Lead Source': 'Lead Source',
-  'A problem has occured.': 'A problem has occured.',
+  'A problem has occurred.': 'A problem has occurred.',
   'Lead Deleted Successfully.': 'Lead Deleted Successfully.',
   'Leads Deleted Successfully.': 'Leads Deleted Successfully.',
   'No Lead Found': 'No Lead Found',
@@ -350,8 +350,8 @@ const en: { [key: string]: string } = {
   'Add New Section': 'Add New Section',
   'This action cannot be undone. All section and deals will be permanently deleted.':
     'This action cannot be undone. All section and deals will be permanently deleted.',
-  'Sorry, Section not deleted, A problem has occured.':
-    'Sorry, Section not deleted, A problem has occured.',
+  'Sorry, Section not deleted, A problem has occurred.':
+    'Sorry, Section not deleted, A problem has occurred.',
   'Section Deleted Successfully.': 'Section Deleted Successfully.',
   Options: 'Options',
   'Add New Deal': 'Add New Deal',
@@ -377,8 +377,8 @@ const en: { [key: string]: string } = {
   'Step 3': 'Step 3',
   'Step 4': 'Step 4',
   'Section Updated Successfully.': 'Section Updated Successfully.',
-  'Sorry, Section not updated, A problem has occured.':
-    'Sorry, Section not updated, A problem has occured.',
+  'Sorry, Section not updated, A problem has occurred.':
+    'Sorry, Section not updated, A problem has occurred.',
   'Next Step': 'Next Step',
   'Financial Contributions': 'Financial Contributions',
   'Estimation Range': 'Estimation Range',

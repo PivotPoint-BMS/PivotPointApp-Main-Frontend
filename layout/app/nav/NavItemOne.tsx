@@ -92,7 +92,7 @@ function NavItemOne({
             />
           </div>
         </CollapsiblePrimitive.Trigger>
-        <CollapsiblePrimitive.Content className='mt-2 hidden flex-col space-y-4 group-hover:flex'>
+        <CollapsiblePrimitive.Content className='mt-2 hidden flex-col space-y-2 group-hover:flex'>
           {subItems?.map((item, i) =>
             item.href ? (
               <Link

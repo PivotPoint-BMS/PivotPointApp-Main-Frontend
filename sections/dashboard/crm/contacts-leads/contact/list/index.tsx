@@ -284,7 +284,7 @@ export default function LeadsList() {
   useEffect(() => {
     if (isDeleteError) {
       open({
-        message: t('A problem has occured.'),
+        message: t('A problem has occurred.'),
         autoHideDuration: 4000,
         type: 'error',
         variant: 'contained',

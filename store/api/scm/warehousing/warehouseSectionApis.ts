@@ -5,7 +5,7 @@ import { HYDRATE } from 'next-redux-wrapper'
 // config
 import { PIVOTPOINT_API } from 'config'
 // types
-import { ListGenericResponse, IGenericResponse, WarehouseSection } from 'types'
+import { ListGenericResponse, IGenericResponse, WarehouseSection, Product } from 'types'
 // store
 import { RootState } from 'store'
 
@@ -111,6 +111,7 @@ export const warehouseSectionApi = createApi({
         itemId: string
         cost: number
         quantity: number
+        item: Product
       }
     >({
       query: (data) => ({
@@ -120,27 +121,46 @@ export const warehouseSectionApi = createApi({
         responseHandler: 'content-type',
       }),
 
-      async onQueryStarted({ sectionId, warehouseId }, { dispatch, queryFulfilled }) {
+      async onQueryStarted(
+        { sectionId, warehouseId, item, quantity, cost },
+        { dispatch, queryFulfilled }
+      ) {
         try {
-          const {
-            data: { data },
-          } = await queryFulfilled
+          await queryFulfilled
 
           dispatch(
             warehouseSectionApi.util.updateQueryData(
               'getWarehouseSections',
               warehouseId,
               (draftedList) => {
-                Object.assign(draftedList.data.find((item) => item.id === sectionId)!, data)
+                Object.assign(draftedList.data.find((i) => i.id === sectionId)!, {
+                  id: item.id,
+                  name: item.name,
+                  picture: item.picture || null,
+                  type: item.type,
+                  quantity,
+                  cost,
+                })
                 return draftedList
               }
             )
           )
 
           dispatch(
-            warehouseSectionApi.util.updateQueryData('getWarehouseSection', sectionId, (draft) => {
-              Object.assign(draft.data, data)
-            })
+            warehouseSectionApi.util.updateQueryData(
+              'getWarehouseSection',
+              sectionId,
+              (drafted) => {
+                drafted.data.sectionItems.push({
+                  id: item.id,
+                  name: item.name,
+                  picture: item.picture || null,
+                  type: item.type,
+                  quantity,
+                  cost,
+                })
+              }
+            )
           )
         } catch {
           /* empty */
@@ -183,7 +203,7 @@ export const warehouseSectionApi = createApi({
       }
     >({
       query: (body) => ({
-        url: 'Warehousing/Item',
+        url: 'Warehousing/Delete/Item',
         method: 'POST',
         body,
         responseHandler: 'content-type',
@@ -196,23 +216,29 @@ export const warehouseSectionApi = createApi({
               'getWarehouseSections',
               warehouseId,
               (draftedList) => {
-                Object.assign(draftedList.data.find((item) => item.id === sectionId)!, {
-                  sectionItems: draftedList.data
-                    .find((item) => item.id === sectionId)
-                    ?.sectionItems.filter((item) => item.id !== itemId),
-                })
+                const section = draftedList.data.find((item) => item.id === sectionId)
+                if (section)
+                  section.sectionItems = section.sectionItems.filter((item) => item.id !== itemId)
+
                 return draftedList
               }
             )
           )
 
           dispatch(
-            warehouseSectionApi.util.updateQueryData('getWarehouseSection', sectionId, (draft) => {
-              Object.assign(draft.data, {
-                sectionItems: draft.data.sectionItems.filter((item) => item.id !== itemId),
+            warehouseSectionApi.util.updateQueryData(
+              'getWarehouseSection',
+              sectionId,
+              (drafted) => ({
+                ...drafted,
+                data: {
+                  ...drafted.data,
+                  sectionItems: drafted.data.sectionItems.filter(
+                    (product) => product.id !== itemId
+                  ),
+                },
               })
-              return draft
-            })
+            )
           )
         } catch {
           /* empty */

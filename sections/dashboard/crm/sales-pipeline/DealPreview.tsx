@@ -93,7 +93,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
   useEffect(() => {
     if (isEditError) {
       open({
-        message: t('Sorry, Deal not updated, A problem has occured.'),
+        message: t('Sorry, Deal not updated, A problem has occurred.'),
         autoHideDuration: 4000,
         type: 'error',
         variant: 'contained',
@@ -112,7 +112,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
   useEffect(() => {
     if (isDeleteError) {
       open({
-        message: t('Sorry, Deal not deleted, A problem has occured.'),
+        message: t('Sorry, Deal not deleted, A problem has occurred.'),
         autoHideDuration: 4000,
         type: 'error',
         variant: 'contained',

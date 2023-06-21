@@ -12,6 +12,9 @@ import useSnackbar from 'hooks/useSnackbar'
 import Layout from 'layout/Index'
 // components
 import { HeaderBreadcrumbs, LoadingIndicator } from 'components'
+import FinancementInvestment from 'sections/dashboard/fm/business-plan/FinancementInvestment'
+import ProfitabilityThresholds from 'sections/dashboard/fm/business-plan/ProfitabilityThresholds'
+import PrevisionalResultsAccounts from 'sections/dashboard/fm/business-plan/PrevisionalResultsAccounts'
 import BalanceSheetForecasts from 'sections/dashboard/fm/business-plan/BalanceSheetForecasts'
 
 function Dashboard() {
@@ -24,31 +27,51 @@ function Dashboard() {
   useEffect(() => {
     if (isError) {
       open({
-        message: t('A problem has occured while retrieving data.'),
+        message: t('A problem has occurred while retrieving data.'),
         type: 'error',
         variant: 'contained',
       })
     }
   }, [isError, isSuccess, isFetching, isLoading])
 
-  console.log(data)
+  if (isLoading)
+    return (
+      <div className='flex h-56 w-full items-center justify-center'>
+        <LoadingIndicator />
+      </div>
+    )
+
+  if (isSuccess)
+    return (
+      <>
+        <Head>
+          <title>{t('Financial Business Plan')} | Pivot Point BMS</title>
+        </Head>
+        <div className='space-y-4 px-5'>
+          <HeaderBreadcrumbs heading={t('Financial Business Plan')} />
+          <FinancementInvestment data={data.data.financialPlan} />
+          <ProfitabilityThresholds
+            data={data.data.profitabilityThresholds}
+            years={data.data.years}
+          />
+          <PrevisionalResultsAccounts
+            data={data.data.previsionalResultsAccounts}
+            years={data.data.years}
+          />
+          <BalanceSheetForecasts data={data.data.balanceSheetForecasts} years={data.data.years} />
+        </div>
+      </>
+    )
 
   return (
     <>
       <Head>
-        <title>{t('Financal Business Plan')} | Pivot Point BMS</title>
+        <title>{t('Financial Business Plan')} | Pivot Point BMS</title>
       </Head>
       <div className='px-5'>
-        {isLoading ? (
-          <div className='flex h-56 w-full items-center justify-center'>
-            <LoadingIndicator />
-          </div>
-        ) : (
-          <>
-            <HeaderBreadcrumbs heading={t('Financal Business Plan')} />
-            <BalanceSheetForecasts />
-          </>
-        )}
+        <div className='flex h-56 w-full items-center justify-center'>
+          <h1>No Financial Plan</h1>
+        </div>
       </div>
     </>
   )

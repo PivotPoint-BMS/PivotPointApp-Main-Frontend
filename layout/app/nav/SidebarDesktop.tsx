@@ -128,8 +128,8 @@ function SideBar() {
                 icon: <Iconify icon='ion:person-circle' height={22} width={22} />,
               },
               {
-                name: 'Settings',
-                href: PATH_ACCOUNT.settings,
+                name: 'Company',
+                href: PATH_ACCOUNT.company,
                 icon: <Iconify icon='ion:settings' height={22} width={22} />,
               },
               {

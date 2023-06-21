@@ -67,7 +67,7 @@ export default function SegmentDetails({ segment }: { segment: Segment | null })
   const [openAddLeadsDialog, setOpenAddLeadsDialog] = useState(false)
   const [openInitiateDialog, setOpenInitiateDialog] = useState(false)
   const [openDeleteClientDialog, setOpenDeleteClientDialog] = useState(false)
-  // Pogination
+  // Pagination
   const { PageSize, PageNumber } = useAppSelector((state) => state.paggination)
   // Filters
   const [searchValue, setSearchValue] = useState('')
@@ -153,7 +153,7 @@ export default function SegmentDetails({ segment }: { segment: Segment | null })
         if (priority.getValue() === 3)
           return <Badge variant='ghost' intent='error' size='small' label={t('High')} />
 
-        return <Badge variant='ghost' intent='info' size='small' label={t('Unassined')} />
+        return <Badge variant='ghost' intent='info' size='small' label={t('Unassigned')} />
       },
     }),
     columnHelper.accessor((row) => row, {
@@ -206,7 +206,7 @@ export default function SegmentDetails({ segment }: { segment: Segment | null })
   useEffect(() => {
     if (isDeleteError) {
       open({
-        message: t('A problem has occured.'),
+        message: t('A problem has occurred.'),
         type: 'error',
         variant: 'contained',
       })
@@ -223,7 +223,7 @@ export default function SegmentDetails({ segment }: { segment: Segment | null })
   useEffect(() => {
     if (isAddClientError) {
       open({
-        message: t('A problem has occured.'),
+        message: t('A problem has occurred.'),
         autoHideDuration: 4000,
         type: 'error',
         variant: 'contained',
@@ -241,14 +241,14 @@ export default function SegmentDetails({ segment }: { segment: Segment | null })
               <span className='text-gray-600 dark:text-gray-400'>{t('Current Segment')}</span> :{' '}
               {segment?.segmentName}
             </h1>
-            <div className='flex max-w-full items-center gap-2'>
+            <div className='grid w-fit max-w-full grid-cols-2 justify-center gap-2 sm:grid-cols-4'>
               <Button
                 variant='outlined'
                 intent='error'
                 startIcon={<Icon icon='ic:round-delete' height={18} />}
                 onClick={() => setOpenDeleteDialog(true)}
               >
-                {t('Delete')}
+                {t('Delete Segment')}
               </Button>
               <Button
                 variant='outlined'
@@ -256,7 +256,7 @@ export default function SegmentDetails({ segment }: { segment: Segment | null })
                 startIcon={<Icon icon='material-symbols:edit' height={18} />}
                 onClick={() => setOpenEditSegmentDialog(true)}
               >
-                {t('Edit')}
+                {t('Edit Segment')}
               </Button>
               <Button
                 variant='outlined'
@@ -307,7 +307,7 @@ export default function SegmentDetails({ segment }: { segment: Segment | null })
               </div>
             ) : (
               <>
-                {isSuccess && segmentLeads?.data.length > 0 ? (
+                {isSuccess && segmentLeads.data.length > 0 ? (
                   <>
                     <div className='w-full overflow-x-scroll'>
                       <div className='w-max min-w-full'>
@@ -646,14 +646,14 @@ export default function SegmentDetails({ segment }: { segment: Segment | null })
           initiateSegmentation()
             .then(() =>
               open({
-                message: t('Client Removed From Segmentation.'),
+                message: t('Client Segmentation Process Initiated.'),
                 type: 'success',
                 variant: 'contained',
               })
             )
             .catch(() =>
               open({
-                message: t('A problem has occured.'),
+                message: t('A problem has occurred.'),
                 type: 'error',
                 variant: 'contained',
               })
@@ -681,14 +681,14 @@ export default function SegmentDetails({ segment }: { segment: Segment | null })
           })
             .then(() =>
               open({
-                message: t('Client Segmentation Initiated.'),
+                message: t('Segment Client Deleted Successfully.'),
                 type: 'success',
                 variant: 'contained',
               })
             )
             .catch(() =>
               open({
-                message: t('A problem has occured.'),
+                message: t('A problem has occurred.'),
                 type: 'error',
                 variant: 'contained',
               })

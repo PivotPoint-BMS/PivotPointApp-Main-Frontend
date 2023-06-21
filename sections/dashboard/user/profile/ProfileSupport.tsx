@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useEffect, useMemo } from 'react'
 import * as Yup from 'yup'
 // next
 import Link from 'next/link'
+// apis
+import { useGetUserDetailsQuery } from 'store/api/settings/settingsAPIs'
 // redux
 import { useAppSelector } from 'store/hooks'
 // form
@@ -22,6 +24,7 @@ import RHFTextArea from 'components/hook-form/RHFTextArea'
 export default function ProfileSupport() {
   const { t } = useTranslate()
   const { user } = useAppSelector((state) => state.session)
+  const { data: userDetails, isLoading: isLoadingUserDetails } = useGetUserDetailsQuery()
 
   const UpdateUserSchema = Yup.object().shape({
     sender: Yup.string().required(t('This field is required')),
@@ -30,19 +33,22 @@ export default function ProfileSupport() {
     message: Yup.string().min(2, 'Too short!').required(t('This field is required')),
   })
 
-  const defaultValues = {
-    sender: `${user?.firstName} ${user?.lastName}` || '',
-    title: '',
-    email: /**  user?.email || */ '',
-    message: '',
-  }
+  const defaultValues = useMemo(
+    () => ({
+      sender: `${user?.firstName} ${user?.lastName} - Support` || '',
+      email: userDetails?.data.email || '',
+      title: '',
+      message: '',
+    }),
+    [isLoadingUserDetails]
+  )
 
   const methods = useForm<FieldValues>({
     resolver: yupResolver(UpdateUserSchema),
     defaultValues,
   })
 
-  const { handleSubmit } = methods
+  const { handleSubmit, reset } = methods
 
   const onSubmit = async () => {
     try {
@@ -52,12 +58,16 @@ export default function ProfileSupport() {
     }
   }
 
+  useEffect(() => {
+    if (userDetails) {
+      reset(defaultValues)
+    }
+  }, [userDetails, isLoadingUserDetails])
+
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Card className='col-span-2 !w-full'>
         <CardContent className='flex flex-col gap-5 p-5'>
-          <RHFTextField name='sender' label={t('Full name')} />
-          <RHFTextField name='email' label={t('Email')} />
           <RHFTextField name='title' label={t('Title')} />
           <RHFTextArea name='title' label={t('Message')} />
           <Button className='w-full self-center md:w-1/3' type='submit'>

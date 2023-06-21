@@ -63,10 +63,16 @@ export default function CreateEditProductForm({
     type: Yup.number().nullable().required(t('This field is required')),
     categoryId: Yup.string().nullable().required(t('This field is required')),
     name: Yup.string().nullable().min(3, t('Too short')).required(t('This field is required')),
-    price: Yup.number().nullable().required(t('This field is required')),
     productCode: Yup.string().nullable().required(t('This field is required')),
     cost: Yup.number().nullable().required(t('This field is required')),
     brand: Yup.string().nullable(),
+    price: Yup.number()
+      .nullable()
+      .when('type', {
+        is: 3,
+        then: (schema) => schema,
+        otherwise: (schema) => schema.required(t('This field is required')),
+      }),
     weight: Yup.string().when('type', {
       is: 1,
       then: (schema) => schema.required(t('This field is required')),
@@ -115,9 +121,9 @@ export default function CreateEditProductForm({
     formData.append('picture', data.picture)
     formData.append('brand', data.brand || '')
     formData.append('categoryId', data.categoryId || '')
-    formData.append('cost', data.cost || 0)
+    formData.append('cost', data.cost)
     formData.append('name', data.name || '')
-    formData.append('price', data.price || '')
+    formData.append('price', data.price !== '' ? data.price || 0 : 0)
     formData.append('productCode', data.productCode || '')
     formData.append('type', data.type || '')
     formData.append('weight', data.weight || 0)
@@ -157,7 +163,7 @@ export default function CreateEditProductForm({
   useEffect(() => {
     if (isCreateError || isEditError) {
       open({
-        message: t('A problem has occured.'),
+        message: t('A problem has occurred.'),
         autoHideDuration: 4000,
         type: 'error',
         variant: 'contained',
@@ -236,9 +242,15 @@ export default function CreateEditProductForm({
                   placeholder=''
                 />
               </RHFFieldContainer>
-              <RHFTextField type='number' name='price' label={t('Price')} endAdornment={t('Da')} />
               <RHFTextField name='productCode' label={t('Product Code')} />
               <RHFTextField type='number' name='cost' label={t('Cost')} endAdornment={t('Da')} />
+              <RHFTextField
+                type='number'
+                name='price'
+                label={t('Price')}
+                disabled={type === 3}
+                endAdornment={t('Da')}
+              />
               {type === 1 && (
                 <>
                   <div className='sm:col-span-2'>
@@ -258,10 +270,30 @@ export default function CreateEditProductForm({
                       />
                     </Tooltip>
                   </h6>
-                  <RHFTextField type='number' name='weight' label={t('Weight')} />
-                  <RHFTextField type='number' name='height' label={t('Height')} />
-                  <RHFTextField type='number' name='width' label={t('Width')} />
-                  <RHFTextField type='number' name='length' label={t('Length')} />
+                  <RHFTextField
+                    type='number'
+                    name='weight'
+                    label={t('Weight')}
+                    endAdornment={t('Kg')}
+                  />
+                  <RHFTextField
+                    type='number'
+                    name='height'
+                    label={t('Height')}
+                    endAdornment={t('m')}
+                  />
+                  <RHFTextField
+                    type='number'
+                    name='width'
+                    label={t('Width')}
+                    endAdornment={t('m')}
+                  />
+                  <RHFTextField
+                    type='number'
+                    name='length'
+                    label={t('Length')}
+                    endAdornment={t('m')}
+                  />
                 </>
               )}
             </div>

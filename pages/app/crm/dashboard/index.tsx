@@ -17,19 +17,18 @@ import {
 import Layout from 'layout/Index'
 // components
 import { HeaderBreadcrumbs, Card, CardHeader, CardContent, LoadingIndicator } from 'components'
-import { Icon } from '@iconify/react'
 
 function Dashboard() {
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const { data, isError, isLoading, isSuccess, isFetching } = useGetCrmStatsQuery(undefined, {
-    pollingInterval: 2 * 60 * 60 * 1000, // 2 hours
+    pollingInterval: 5 * 60 * 60 * 1000, // 5 hours
   })
 
   useEffect(() => {
     if (isError) {
       open({
-        message: t('A problem has occured while retrieving data.'),
+        message: t('A problem has occurred while retrieving data.'),
         type: 'error',
         variant: 'contained',
       })
@@ -53,16 +52,16 @@ function Dashboard() {
               <Card fullWidth className='h-full'>
                 <CardHeader
                   title={t('Total Contacts')}
-                  actions={
-                    <div className='flex items-start gap-1'>
-                      <Icon
-                        icon='solar:graph-down-bold-duotone'
-                        height={20}
-                        className='text-red-500'
-                      />
-                      <p className='text-sm font-medium'>-2.6%</p>
-                    </div>
-                  }
+                  // actions={
+                  //   <div className='flex items-start gap-1'>
+                  //     <Icon
+                  //       icon='solar:graph-down-bold-duotone'
+                  //       height={20}
+                  //       className='text-red-500'
+                  //     />
+                  //     <p className='text-sm font-medium'>-2.6%</p>
+                  //   </div>
+                  // }
                 />
                 <CardContent className='flex items-center justify-between'>
                   <h6 className='text-3xl font-semibold'>{data?.data.contactsTotal || 0}</h6>
@@ -70,21 +69,17 @@ function Dashboard() {
               </Card>
               <Card fullWidth className='h-full'>
                 <CardHeader
-                  title={
-                    <p>
-                      {t('Total Leads')} <span className='text-primary-600'>({t('New')})</span>
-                    </p>
-                  }
-                  actions={
-                    <div className='flex items-start gap-1'>
-                      <Icon
-                        icon='solar:graph-up-bold-duotone'
-                        height={20}
-                        className='text-green-500'
-                      />
-                      <p className='text-sm font-medium'>+30%</p>
-                    </div>
-                  }
+                  title={t('Total Leads')}
+                  // actions={
+                  //   <div className='flex items-start gap-1'>
+                  //     <Icon
+                  //       icon='solar:graph-up-bold-duotone'
+                  //       height={20}
+                  //       className='text-green-500'
+                  //     />
+                  //     <p className='text-sm font-medium'>+30%</p>
+                  //   </div>
+                  // }
                 />
                 <CardContent className='flex items-center justify-between'>
                   <h6 className='text-3xl font-semibold'>
@@ -96,16 +91,16 @@ function Dashboard() {
               <Card fullWidth className='h-full'>
                 <CardHeader
                   title={t('Successful Conversions')}
-                  actions={
-                    <div className='flex items-start gap-1'>
-                      <Icon
-                        icon='solar:graph-down-bold-duotone'
-                        height={20}
-                        className='text-red-500'
-                      />
-                      <p className='text-sm font-medium'>-5%</p>
-                    </div>
-                  }
+                  // actions={
+                  //   <div className='flex items-start gap-1'>
+                  //     <Icon
+                  //       icon='solar:graph-down-bold-duotone'
+                  //       height={20}
+                  //       className='text-red-500'
+                  //     />
+                  //     <p className='text-sm font-medium'>-5%</p>
+                  //   </div>
+                  // }
                 />
                 <CardContent className='flex items-center justify-between'>
                   <h6 className='text-3xl font-semibold'>{data?.data.convertedLeads || 0}</h6>
@@ -113,21 +108,18 @@ function Dashboard() {
               </Card>
               <Card fullWidth className='h-full'>
                 <CardHeader
-                  title={
-                    <p>
-                      {t('Total Deals')} <span className='text-primary-600'>({t('New')})</span>
-                    </p>
-                  }
-                  actions={
-                    <div className='flex items-start gap-1'>
-                      <Icon
-                        icon='solar:graph-up-bold-duotone'
-                        height={20}
-                        className='text-green-500'
-                      />
-                      <p className='text-sm font-medium'>+10%</p>
-                    </div>
-                  }
+                  title={t('Total Deals')}
+
+                  // actions={
+                  //   <div className='flex items-start gap-1'>
+                  //     <Icon
+                  //       icon='solar:graph-up-bold-duotone'
+                  //       height={20}
+                  //       className='text-green-500'
+                  //     />
+                  //     <p className='text-sm font-medium'>+10%</p>
+                  //   </div>
+                  // }
                 />
                 <CardContent className='flex items-center justify-between'>
                   <h6 className='text-3xl font-semibold'>

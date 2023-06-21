@@ -5,6 +5,7 @@ import { PIVOTPOINT_API } from 'config'
 // store
 import { RootState } from 'store'
 import {
+  APISettings,
   CompanyDetails,
   IGenericResponse,
   NotificationsSettings,
@@ -46,6 +47,9 @@ export const settingsApi = createApi({
     }),
     getSMTPSettings: builder.query<IGenericResponse<SMTPSettings>, void>({
       query: () => 'OrganisationSettings/SMTP',
+    }),
+    getApiKey: builder.query<IGenericResponse<APISettings>, void>({
+      query: () => 'OrganisationSettings/APIKey',
     }),
     updateImage: builder.mutation<IGenericResponse<boolean>, FormData>({
       query: (data) => ({
@@ -91,18 +95,27 @@ export const settingsApi = createApi({
         responseHandler: 'content-type',
       }),
     }),
+    generateKey: builder.mutation<IGenericResponse<APISettings>, void>({
+      query: () => ({
+        url: 'OrganisationSettings/APIKey',
+        method: 'POST',
+        responseHandler: 'content-type',
+      }),
+    }),
   }),
 })
 
 // Export hooks for usage in functional components
 export const {
   // Queries
+  useGetApiKeyQuery,
   useGetUserDetailsQuery,
   useGetSMTPSettingsQuery,
   useGetCompanyDetailsQuery,
   useGetNotifficationsSettingsQuery,
   // Mutations
   useUpdateImageMutation,
+  useGenerateKeyMutation,
   useUpdateUserDetailsMutation,
   useUpdateSMTPSettingsMutation,
   useUpdateCompanyDetailsMutation,

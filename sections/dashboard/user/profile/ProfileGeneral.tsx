@@ -119,7 +119,7 @@ export default function ProfileGeneral() {
   useEffect(() => {
     if (isError) {
       openSnackbar({
-        message: t('A problem has occured.'),
+        message: t('A problem has occurred.'),
         autoHideDuration: 4000,
         type: 'error',
         variant: 'contained',
@@ -138,7 +138,7 @@ export default function ProfileGeneral() {
   useEffect(() => {
     if (isErrorUserDetails) {
       openSnackbar({
-        message: t('A problem has occured.'),
+        message: t('A problem has occurred.'),
         autoHideDuration: 4000,
         type: 'error',
         variant: 'contained',

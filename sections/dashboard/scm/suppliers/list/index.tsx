@@ -13,7 +13,7 @@ import { PATH_DASHBOARD } from 'routes/paths'
 // redux
 import { wrapper } from 'store'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
-import { previewSupplier } from 'store/slices/supplierPreviewSlice'
+import { editSupplier, previewSupplier } from 'store/slices/supplierPreviewSlice'
 import {
   getRunningQueriesThunk,
   getSuppliers,
@@ -148,7 +148,7 @@ export default function SuppliersList({
                 type: 'button',
                 label: t('Edit'),
                 icon: <Iconify icon='material-symbols:edit' height={18} />,
-                // onClick: () => push(PATH_DASHBOARD.crm['suppliers-suppliers'].edit(supplier.getValue().id)),
+                onClick: () => dispatch(editSupplier(supplier.getValue())),
               },
               {
                 type: 'button',
@@ -167,7 +167,7 @@ export default function SuppliersList({
   useEffect(() => {
     if (isDeleteError) {
       open({
-        message: t('A problem has occured.'),
+        message: t('A problem has occurred.'),
         autoHideDuration: 4000,
         type: 'error',
         variant: 'contained',

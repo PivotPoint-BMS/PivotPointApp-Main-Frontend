@@ -73,6 +73,11 @@ function MyApp({
           });
         `}
       </Script>
+      <Script
+        strategy='lazyOnload'
+        src='https://unpkg.com/react@16.0.0/umd/react.production.min.js'
+      ></Script>
+      <Script src='https://unpkg.com/react-copy-to-clipboard/build/react-copy-to-clipboard.js'></Script>
       <Head>
         <meta charSet='utf-8' />
         <meta httpEquiv='X-UA-Compatible' content='IE=edge' />

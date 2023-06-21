@@ -36,7 +36,7 @@ import useSnackbar from 'hooks/useSnackbar'
 // components
 import Select from 'react-select'
 import CreatableSelect from 'react-select/creatable'
-import { Card, CardContent, Button, LoadingIndicator, RHFField } from 'components'
+import { Card, CardContent, Button, LoadingIndicator, RHFField, Slider } from 'components'
 import { FormProvider, RHFTextField, RHFFieldContainer } from 'components/hook-form'
 import RHFUploadAvatar from 'components/hook-form/RHFUpload'
 import { useAppSelector } from 'store/hooks'
@@ -74,6 +74,8 @@ export default function CreateEditLeadForm({
   const [country, setCountry] = useState<{ value: string; label: string } | null>(null)
   const [source, setSource] = useState<{ value: string; label: string } | null>(null)
   const [priority, setPriority] = useState(0)
+  const [incomeK, setIncomeK] = useState(50)
+  const [spendingScore, setSpendingScore] = useState(50)
 
   const LeadSchema = Yup.object().shape({
     picture: Yup.mixed(),
@@ -109,8 +111,8 @@ export default function CreateEditLeadForm({
       city: currentLead?.address.city || '',
       priority: currentLead?.priority || 0,
       country: currentLead?.address.country || '',
-      incomeK: currentLead?.incomeK,
-      spendingScore: currentLead?.spendingScore,
+      incomeK: currentLead?.incomeK || 50,
+      spendingScore: currentLead?.spendingScore || 50,
     }),
     [currentLead]
   )
@@ -124,6 +126,7 @@ export default function CreateEditLeadForm({
 
   const onSubmit = async (data: FieldValues) => {
     const formData = new FormData()
+
     if (typeof data.picture !== 'string') formData.append('picture', data.picture)
     formData.append('fullName', data.fullName)
     formData.append('email', data.email)
@@ -132,8 +135,8 @@ export default function CreateEditLeadForm({
     formData.append('LeadSourceId', data.LeadSourceId)
     formData.append('city', data.city)
     formData.append('country', data.country)
-    formData.append('incomeK', data.incomeK)
-    formData.append('spendingScore', String(data.spendingScore))
+    formData.append('incomeK', String(incomeK))
+    formData.append('spendingScore', String(spendingScore))
     formData.append('priority', String(priority))
     if (isEdit) editLead({ data: formData, id: currentLead?.id || '', PageNumber, PageSize })
     else createLead({ data: formData, PageNumber, PageSize })
@@ -167,6 +170,8 @@ export default function CreateEditLeadForm({
   useEffect(() => {
     if (isEdit && currentLead) {
       reset(defaultValues)
+      setIncomeK(currentLead.incomeK)
+      setSpendingScore(currentLead.spendingScore)
     }
     if (!isEdit) {
       reset(defaultValues)
@@ -199,7 +204,7 @@ export default function CreateEditLeadForm({
   useEffect(() => {
     if (isCreateError || isEditError) {
       open({
-        message: t('A problem has occured.'),
+        message: t('A problem has occurred.'),
         autoHideDuration: 6000,
         type: 'error',
         variant: 'contained',
@@ -334,20 +339,28 @@ export default function CreateEditLeadForm({
             </div>
             <h6 className='mb-5 text-lg font-semibold'>{t('Finance Informations')}</h6>
             <div className='mb-6 grid grid-cols-1 gap-6 sm:grid-cols-2'>
-              <RHFTextField
-                type='number'
-                name='incomeK'
-                label={t('Income Score')}
-                min={1}
-                max={100}
-              />
-              <RHFTextField
-                type='number'
-                name='spendingScore'
-                label={t('Spending Score')}
-                min={1}
-                max={100}
-              />
+              <RHFField name='incomeK' label={t('Income Score')}>
+                <Slider
+                  max={100}
+                  min={1}
+                  value={[incomeK]}
+                  onValueChange={(value) => {
+                    setIncomeK(value[0])
+                    setValue('incomeK', value[0])
+                  }}
+                />
+              </RHFField>
+              <RHFField name='spendingScore' label={t('Spending Score')}>
+                <Slider
+                  max={100}
+                  min={1}
+                  value={[spendingScore]}
+                  onValueChange={(value) => {
+                    setSpendingScore(value[0])
+                    setValue('spendingScore', value[0])
+                  }}
+                />
+              </RHFField>
             </div>
             <div className='mt-6 flex w-full items-center justify-center'>
               <Button size='large' type='submit' loading={isCreateLoading || isEditLoading}>

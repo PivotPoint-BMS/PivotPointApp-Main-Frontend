@@ -257,7 +257,7 @@ const fr: { [key: string]: string } = {
   'Lead Name': 'Nom du clients potentiel',
   'Lead status': 'Statut du clients potentiel',
   'Lead Source': 'Source du clients potentiel',
-  'A problem has occured.': 'Un problème est survenu.',
+  'A problem has occurred.': 'Un problème est survenu.',
   'Lead Deleted Successfully.': 'Client potentiel supprimé avec succès.',
   'LeadS Deleted Successfully.': 'Clients potentiel supprimé avec succès.',
   'No Lead Found': 'Aucun clients potentiel trouvé',
@@ -355,7 +355,7 @@ const fr: { [key: string]: string } = {
   'Add New Section': 'Ajouter une nouvelle section',
   'This action cannot be undone. All section and deals will be permanently deleted.':
     'Cette action ne peut pas être annulée. Toutes les sections et transactions seront supprimées de façon permanente.',
-  'Sorry, Section not deleted, A problem has occured.':
+  'Sorry, Section not deleted, A problem has occurred.':
     "Désolé, la section n'a pas été supprimée, un problème est survenu.",
   'Section Deleted Successfully.': 'Section supprimée avec succès.',
   Options: 'Options',
@@ -383,7 +383,7 @@ const fr: { [key: string]: string } = {
   'Step 4': 'Étape 4',
   Monitoring: 'Tableau de bord',
   'Section Updated Successfully.': 'Section mise à jour avec succès.',
-  'Sorry, Section not updated, A problem has occured.':
+  'Sorry, Section not updated, A problem has occurred.':
     "Désolé, la section n'est pas mise à jour, un problème est survenu.",
   'Next Step': 'Prochaine étape',
   'Financial Contributions': 'Contributions financières',

@@ -8,6 +8,7 @@ import Card from 'components/Card'
 import CardContent from 'components/CardContent'
 import CardHeader from 'components/CardHeader'
 import ReactApexChart, { BaseOptionChart } from 'components/chart'
+import Badge from 'components/Badge'
 
 export default function TopCustomerComplaints({
   labels,
@@ -52,7 +53,11 @@ export default function TopCustomerComplaints({
   })
   return (
     <Card fullWidth className='h-full sm:col-span-2 md:col-span-1'>
-      <CardHeader title={t('Top Customer Discussions')} />
+      <CardHeader
+        title={t('Top Customer Discussions')}
+        subheader={t('Based on reviews sent through external API')}
+        actions={<Badge label={t('In Dev')} intent='default' />}
+      />
       <CardContent>
         <ReactApexChart
           type='donut'

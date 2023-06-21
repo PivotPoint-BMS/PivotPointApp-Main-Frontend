@@ -51,6 +51,7 @@ function index() {
                   }))}
                   value={segmentId || ''}
                   onValueChange={(value) => setSegmentId(value)}
+                  buttonProps={{ size: 'large' }}
                 />
               )}
               <div className='flex items-center gap-2'>

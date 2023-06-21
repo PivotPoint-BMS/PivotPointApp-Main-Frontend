@@ -1,6 +1,6 @@
 export default interface Product {
   id: string
-  type: number
+  type: 1 | 2 | 3
   categoryId: string
   name: string
   picture?: string

@@ -74,6 +74,7 @@ export default function CreateEditSectionForm({
       y: 1,
       warehouseId,
       sectionItems: currentSection?.sectionItems || [],
+      currentCapacity: 0,
     }
     if (isEdit)
       editSection({
@@ -87,7 +88,7 @@ export default function CreateEditSectionForm({
   useEffect(() => {
     if (isCreateError) {
       open({
-        message: t('A problem has occured.'),
+        message: t('A problem has occurred.'),
         autoHideDuration: 4000,
         type: 'error',
         variant: 'contained',
@@ -109,7 +110,7 @@ export default function CreateEditSectionForm({
   useEffect(() => {
     if (isEditError) {
       open({
-        message: t('A problem has occured.'),
+        message: t('A problem has occurred.'),
         autoHideDuration: 4000,
         type: 'error',
         variant: 'contained',

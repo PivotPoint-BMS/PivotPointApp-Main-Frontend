@@ -93,7 +93,7 @@ export default function KanbanColumn({
   useEffect(() => {
     if (isError) {
       open({
-        message: t('Sorry, Section not deleted, A problem has occured.'),
+        message: t('Sorry, Section not deleted, A problem has occurred.'),
         autoHideDuration: 4000,
         type: 'error',
         variant: 'contained',
@@ -112,7 +112,7 @@ export default function KanbanColumn({
   useEffect(() => {
     if (isEditError) {
       open({
-        message: t('Sorry, Section not updated, A problem has occured.'),
+        message: t('Sorry, Section not updated, A problem has occurred.'),
         autoHideDuration: 4000,
         type: 'error',
         variant: 'contained',
@@ -196,7 +196,7 @@ export default function KanbanColumn({
                         )
                         .catch(() =>
                           open({
-                            message: t('Sorry, Section not updated, A problem has occured.'),
+                            message: t('Sorry, Section not updated, A problem has occurred.'),
                             autoHideDuration: 4000,
                             type: 'error',
                             variant: 'contained',
@@ -225,7 +225,7 @@ export default function KanbanColumn({
                         )
                         .catch(() =>
                           open({
-                            message: t('Sorry, Section not updated, A problem has occured.'),
+                            message: t('Sorry, Section not updated, A problem has occurred.'),
                             autoHideDuration: 4000,
                             type: 'error',
                             variant: 'contained',
@@ -254,7 +254,7 @@ export default function KanbanColumn({
                         )
                         .catch(() =>
                           open({
-                            message: t('Sorry, Section not updated, A problem has occured.'),
+                            message: t('Sorry, Section not updated, A problem has occurred.'),
                             autoHideDuration: 4000,
                             type: 'error',
                             variant: 'contained',

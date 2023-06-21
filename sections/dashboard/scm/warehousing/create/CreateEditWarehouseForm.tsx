@@ -79,7 +79,7 @@ export default function CreateEditWarehouseForm({
   useEffect(() => {
     if (isCreateError) {
       open({
-        message: t('A problem has occured.'),
+        message: t('A problem has occurred.'),
         autoHideDuration: 4000,
         type: 'error',
         variant: 'contained',
@@ -101,7 +101,7 @@ export default function CreateEditWarehouseForm({
   useEffect(() => {
     if (isEditError) {
       open({
-        message: t('A problem has occured.'),
+        message: t('A problem has occurred.'),
         autoHideDuration: 4000,
         type: 'error',
         variant: 'contained',

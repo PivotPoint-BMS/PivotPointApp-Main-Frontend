@@ -355,7 +355,7 @@ const DealsKanban = ({
   useEffect(() => {
     if (isError && boardId && boardId?.length > 0) {
       open({
-        message: t('A problem has occured.'),
+        message: t('A problem has occurred.'),
         type: 'error',
         variant: 'contained',
       })
@@ -372,7 +372,7 @@ const DealsKanban = ({
   useEffect(() => {
     if (isDeleteError) {
       open({
-        message: t('A problem has occured.'),
+        message: t('A problem has occurred.'),
         type: 'error',
         variant: 'contained',
       })
@@ -390,7 +390,7 @@ const DealsKanban = ({
   useEffect(() => {
     if (isPresistError || isDealEditError) {
       open({
-        message: t('A problem has occured.'),
+        message: t('A problem has occurred.'),
         type: 'error',
         variant: 'contained',
       })

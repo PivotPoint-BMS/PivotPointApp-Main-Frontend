@@ -2,7 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 
 interface FieldContainerProps extends React.HTMLAttributes<HTMLDivElement> {
-  name: string
+  name?: string
   label?: string
   startAdornment?: React.ReactNode
   endAdornment?: React.ReactNode

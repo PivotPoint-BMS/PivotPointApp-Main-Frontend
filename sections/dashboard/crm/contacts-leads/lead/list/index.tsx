@@ -28,8 +28,6 @@ import { changePageNumber, changePageSize, resetPaggination } from 'store/slices
 import { LEAD_PRIORITIES, PIVOTPOINT_API } from 'config'
 // types
 import { Lead } from 'types'
-// asset
-import avatarPlaceholder from 'public/avatar_placeholder.png'
 // components
 import {
   useReactTable,
@@ -147,11 +145,7 @@ export default function LeadsList() {
               alt='avatar'
               width={48}
               height={48}
-              src={
-                info.getValue().picture
-                  ? `${PIVOTPOINT_API.crmPicUrl}/${info.getValue().picture}`
-                  : avatarPlaceholder.src
-              }
+              src={`${PIVOTPOINT_API.crmPicUrl}/${info.getValue().picture}`}
               className='aspect-square h-12 w-12 rounded-full object-cover'
             />
           </div>
@@ -264,7 +258,7 @@ export default function LeadsList() {
   useEffect(() => {
     if (isDeleteError) {
       open({
-        message: t('A problem has occured.'),
+        message: t('A problem has occurred.'),
         autoHideDuration: 4000,
         type: 'error',
         variant: 'contained',
@@ -283,7 +277,7 @@ export default function LeadsList() {
   useEffect(() => {
     if (isConvertError) {
       open({
-        message: t('A problem has occured.'),
+        message: t('A problem has occurred.'),
         autoHideDuration: 4000,
         type: 'error',
         variant: 'contained',
