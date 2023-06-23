@@ -4,7 +4,7 @@ import { HYDRATE } from 'next-redux-wrapper'
 import { PIVOTPOINT_API } from 'config'
 // store
 import { RootState } from 'store'
-import { CrmStats, IGenericResponse } from 'types'
+import { CrmStats, IGenericResponse, ScmStats } from 'types'
 
 export const statsApi = createApi({
   reducerPath: 'statsApi',
@@ -32,12 +32,17 @@ export const statsApi = createApi({
       query: () => 'CRMStats',
       providesTags: ['CrmStats'],
     }),
+    getScmStats: builder.query<IGenericResponse<ScmStats>, void>({
+      query: () => 'SCMStats',
+      providesTags: ['CrmStats'],
+    }),
   }),
 })
 
 // Export hooks for usage in functional components
 export const {
   useGetCrmStatsQuery,
+  useGetScmStatsQuery,
   util: { getRunningQueriesThunk },
 } = statsApi
 
