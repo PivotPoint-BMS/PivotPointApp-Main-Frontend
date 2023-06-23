@@ -12,6 +12,7 @@ import GeneralInfo from 'sections/dashboard/crm/contacts-leads/contact/GeneralIn
 import Details from 'sections/dashboard/crm/contacts-leads/contact/Details'
 // layout
 import Layout from 'layout/Index'
+import RoleBasedGuard from 'guards/RoleBasedGuard'
 // components
 import { Image } from 'components'
 
@@ -50,7 +51,11 @@ function index() {
 }
 
 index.getLayout = function getLayout(page: JSX.Element) {
-  return <Layout variant='dashboard'>{page}</Layout>
+  return (
+    <Layout variant='dashboard'>
+      <RoleBasedGuard accessibleRoles={['Owner', 'CRM']}>{page}</RoleBasedGuard>
+    </Layout>
+  )
 }
 
 export default index

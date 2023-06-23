@@ -11,6 +11,7 @@ import Layout from 'layout/Index'
 import { Button, Card, HeaderBreadcrumbs } from 'components'
 import { Icon } from '@iconify/react'
 import WarehousesList from 'sections/dashboard/scm/warehousing/WarehousesList'
+import RoleBasedGuard from 'guards/RoleBasedGuard'
 // import 'react-grid-layout/css/styles.css'
 // import 'react-resizable/css/styles.css'
 
@@ -87,7 +88,11 @@ function index() {
 }
 
 index.getLayout = function getLayout(page: JSX.Element) {
-  return <Layout variant='dashboard'>{page}</Layout>
+  return (
+    <Layout variant='dashboard'>
+      <RoleBasedGuard accessibleRoles={['Owner', 'SCM']}>{page}</RoleBasedGuard>
+    </Layout>
+  )
 }
 
 export default index

@@ -19,6 +19,7 @@ import Layout from 'layout/Index'
 import { Icon as Iconify } from '@iconify/react'
 import { HeaderBreadcrumbs } from 'components'
 import { TabsContent, TabsList, TabsRoot, TabsTrigger } from 'components/Tabs'
+import RoleBasedGuard from 'guards/RoleBasedGuard'
 
 function Settings() {
   const { t, locale } = useTranslate()
@@ -84,7 +85,11 @@ function Settings() {
 }
 
 Settings.getLayout = function getLayout(page: JSX.Element) {
-  return <Layout variant='dashboard'>{page}</Layout>
+  return (
+    <Layout variant='dashboard'>
+      <RoleBasedGuard accessibleRoles={['Owner']}>{page}</RoleBasedGuard>
+    </Layout>
+  )
 }
 
 export default Settings

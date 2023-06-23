@@ -15,6 +15,7 @@ import Layout from 'layout/Index'
 // components
 import { HeaderBreadcrumbs, Button } from 'components'
 import { Icon } from '@iconify/react'
+import RoleBasedGuard from 'guards/RoleBasedGuard'
 
 const TABS = [
   { name: 'Unassined', value: 'unassined' },
@@ -69,7 +70,11 @@ function index() {
 }
 
 index.getLayout = function getLayout(page: JSX.Element) {
-  return <Layout variant='dashboard'>{page}</Layout>
+  return (
+    <Layout variant='dashboard'>
+      <RoleBasedGuard accessibleRoles={['Owner', 'CRM']}>{page}</RoleBasedGuard>
+    </Layout>
+  )
 }
 
 export default index

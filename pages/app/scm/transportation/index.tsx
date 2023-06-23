@@ -17,6 +17,7 @@ import DeliveriesList from 'sections/dashboard/scm/transportation/deliveries/lis
 import { Icon } from '@iconify/react'
 import { Button, Card, Dialog, DropdownMenu, HeaderBreadcrumbs } from 'components'
 import { TabsContent, TabsList, TabsRoot, TabsTrigger } from 'components/Tabs'
+import RoleBasedGuard from 'guards/RoleBasedGuard'
 
 const TABS = [
   { name: 'Deliveries', value: 'deliveries', icon: 'solar:delivery-bold' },
@@ -139,7 +140,11 @@ function index() {
 }
 
 index.getLayout = function getLayout(page: JSX.Element) {
-  return <Layout variant='dashboard'>{page}</Layout>
+  return (
+    <Layout variant='dashboard'>
+      <RoleBasedGuard accessibleRoles={['Owner', 'SCM']}>{page}</RoleBasedGuard>
+    </Layout>
+  )
 }
 
 export default index

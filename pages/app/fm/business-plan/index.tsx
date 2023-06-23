@@ -16,6 +16,7 @@ import FinancementInvestment from 'sections/dashboard/fm/business-plan/Financeme
 import ProfitabilityThresholds from 'sections/dashboard/fm/business-plan/ProfitabilityThresholds'
 import PrevisionalResultsAccounts from 'sections/dashboard/fm/business-plan/PrevisionalResultsAccounts'
 import BalanceSheetForecasts from 'sections/dashboard/fm/business-plan/BalanceSheetForecasts'
+import RoleBasedGuard from 'guards/RoleBasedGuard'
 
 function Dashboard() {
   const { t } = useTranslate()
@@ -78,7 +79,11 @@ function Dashboard() {
 }
 
 Dashboard.getLayout = function getLayout(page: JSX.Element) {
-  return <Layout variant='dashboard'>{page}</Layout>
+  return (
+    <Layout variant='dashboard'>
+      <RoleBasedGuard accessibleRoles={['Owner', 'FM']}>{page}</RoleBasedGuard>
+    </Layout>
+  )
 }
 
 export default Dashboard

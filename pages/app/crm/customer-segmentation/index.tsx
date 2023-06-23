@@ -15,6 +15,7 @@ import SegmentDetails from 'sections/dashboard/crm/customer-segmentation/Segment
 // components
 import { Icon as Iconify } from '@iconify/react'
 import { HeaderBreadcrumbs, Button, Select, Dialog } from 'components'
+import RoleBasedGuard from 'guards/RoleBasedGuard'
 
 function index() {
   const { t } = useTranslate()
@@ -85,7 +86,11 @@ function index() {
 }
 
 index.getLayout = function getLayout(page: JSX.Element) {
-  return <Layout variant='dashboard'>{page}</Layout>
+  return (
+    <Layout variant='dashboard'>
+      <RoleBasedGuard accessibleRoles={['Owner', 'CRM']}>{page}</RoleBasedGuard>
+    </Layout>
+  )
 }
 
 export default index

@@ -9,6 +9,7 @@ export interface NavItemConfig {
   href: string
   icon: string
   disabled?: boolean
+  roles: string[]
   badge?: {
     label: string
     color?: 'primary' | 'secondary' | 'info' | 'warning' | 'error' | 'success' | 'default'
@@ -38,6 +39,7 @@ const initialState: SideBarConfig = {
       root: PATH_DASHBOARD.crm.root,
       href: PATH_DASHBOARD.crm.dashboard,
       icon: 'fa6-solid:handshake',
+      roles: ['Owner', 'CRM'],
       subItems: [
         {
           name: 'Monitoring',
@@ -92,6 +94,7 @@ const initialState: SideBarConfig = {
       root: PATH_DASHBOARD.scm.root,
       href: PATH_DASHBOARD.scm.dashboard,
       icon: 'fa6-solid:truck-ramp-box',
+      roles: ['Owner', 'SCM'],
       subItems: [
         {
           name: 'Monitoring',
@@ -175,6 +178,7 @@ const initialState: SideBarConfig = {
       root: PATH_DASHBOARD.fm.root,
       href: PATH_DASHBOARD.fm.dashboard,
       icon: 'fa-solid:money-check-alt',
+      roles: ['Owner', 'FM'],
       subItems: [
         {
           name: 'Monitoring',
@@ -262,6 +266,7 @@ const initialState: SideBarConfig = {
       href: PATH_DASHBOARD.hrm.dashboard,
       icon: 'mdi:account-group',
       disabled: true,
+      roles: ['Owner', 'HRM'],
       badge: {
         label: 'In Dev',
       },
@@ -314,6 +319,7 @@ const initialState: SideBarConfig = {
       href: PATH_DASHBOARD.pm.dashboard,
       icon: 'bi:kanban-fill',
       disabled: true,
+      roles: ['Owner', 'PM'],
       badge: {
         label: 'In Dev',
         color: 'default',
@@ -367,6 +373,7 @@ const initialState: SideBarConfig = {
       href: PATH_DASHBOARD.workflow.root,
       icon: 'ph:tree-structure-fill',
       disabled: true,
+      roles: ['Owner', 'WF'],
       badge: {
         label: 'In Dev',
         color: 'default',

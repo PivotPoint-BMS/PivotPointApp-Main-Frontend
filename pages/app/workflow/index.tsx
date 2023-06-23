@@ -34,6 +34,7 @@ import WorkflowSidebar from 'sections/dashboard/workflow/WorkflowSidebar'
 import TriggerNode, { TriggerNodeData } from 'sections/dashboard/workflow/TriggerNode'
 import ActionNode, { ActionNodeData } from 'sections/dashboard/workflow/ActionNode'
 import 'reactflow/dist/style.css'
+import RoleBasedGuard from 'guards/RoleBasedGuard'
 
 const nodeTypes: NodeTypes = {
   trigger: TriggerNode,
@@ -178,7 +179,11 @@ const index = () => {
 }
 
 index.getLayout = function getLayout(page: JSX.Element) {
-  return <Layout variant='dashboard'>{page}</Layout>
+  return (
+    <Layout variant='dashboard'>
+      <RoleBasedGuard accessibleRoles={['Owner', 'WF']}>{page}</RoleBasedGuard>
+    </Layout>
+  )
 }
 
 export default index

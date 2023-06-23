@@ -13,6 +13,7 @@ import QuickSetup from 'sections/dashboard/fm/quick-setup'
 import Layout from 'layout/Index'
 // components
 import { AlertDialog, Backdrop } from 'components'
+import RoleBasedGuard from 'guards/RoleBasedGuard'
 
 function index() {
   const { t } = useTranslate()
@@ -72,7 +73,11 @@ function index() {
   )
 }
 index.getLayout = function getLayout(page: JSX.Element) {
-  return <Layout variant='dashboard'>{page}</Layout>
+  return (
+    <Layout variant='dashboard'>
+      <RoleBasedGuard accessibleRoles={['Owner', 'FM']}>{page}</RoleBasedGuard>
+    </Layout>
+  )
 }
 
 export default index

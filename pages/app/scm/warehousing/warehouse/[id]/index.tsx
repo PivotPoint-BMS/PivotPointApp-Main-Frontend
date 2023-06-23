@@ -32,6 +32,7 @@ import {
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 import SectionPreview from 'sections/dashboard/scm/warehousing/details/SectionPreview'
+import RoleBasedGuard from 'guards/RoleBasedGuard'
 
 const ReactGridLayout = WidthProvider(RGL)
 
@@ -186,7 +187,11 @@ function index() {
 }
 
 index.getLayout = function getLayout(page: JSX.Element) {
-  return <Layout variant='dashboard'>{page}</Layout>
+  return (
+    <Layout variant='dashboard'>
+      <RoleBasedGuard accessibleRoles={['Owner', 'SCM']}>{page}</RoleBasedGuard>
+    </Layout>
+  )
 }
 
 export default index

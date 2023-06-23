@@ -10,6 +10,7 @@ import CreateEditProductForm from 'sections/dashboard/scm/product-service/produc
 import Layout from 'layout/Index'
 // components
 import { HeaderBreadcrumbs } from 'components'
+import RoleBasedGuard from 'guards/RoleBasedGuard'
 
 function index() {
   const { t } = useTranslate()
@@ -35,7 +36,11 @@ function index() {
   )
 }
 index.getLayout = function getLayout(page: JSX.Element) {
-  return <Layout variant='dashboard'>{page}</Layout>
+  return (
+    <Layout variant='dashboard'>
+      <RoleBasedGuard accessibleRoles={['Owner', 'SCM']}>{page}</RoleBasedGuard>
+    </Layout>
+  )
 }
 
 export default index

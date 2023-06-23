@@ -18,6 +18,7 @@ import { Icon as Iconify } from '@iconify/react'
 import { HeaderBreadcrumbs, Button, Dialog } from 'components'
 import Select from 'components/Select'
 import { useRouter } from 'next/router'
+import RoleBasedGuard from 'guards/RoleBasedGuard'
 
 function index() {
   const { t } = useTranslate()
@@ -98,7 +99,11 @@ function index() {
 }
 
 index.getLayout = function getLayout(page: JSX.Element) {
-  return <Layout variant='dashboard'>{page}</Layout>
+  return (
+    <Layout variant='dashboard'>
+      <RoleBasedGuard accessibleRoles={['Owner', 'CRM']}>{page}</RoleBasedGuard>
+    </Layout>
+  )
 }
 
 export default index

@@ -7,12 +7,14 @@ import Link from 'next/link'
 import useTranslate from 'hooks/useTranslate'
 // routes
 import { PATH_DASHBOARD } from 'routes/paths'
+// guards
+import RoleBasedGuard from 'guards/RoleBasedGuard'
+// layout
+import Layout from 'layout/Index'
 // sections
 import ContactsList from 'sections/dashboard/crm/contacts-leads/contact/list'
 import LeadsList from 'sections/dashboard/crm/contacts-leads/lead/list'
 import LeadSourcesList from 'sections/dashboard/crm/contacts-leads/lead-sources/list'
-// layout
-import Layout from 'layout/Index'
 // components
 import { Icon as Iconify } from '@iconify/react'
 import { HeaderBreadcrumbs, Card, Button } from 'components'
@@ -96,7 +98,11 @@ function index() {
 }
 
 index.getLayout = function getLayout(page: JSX.Element) {
-  return <Layout variant='dashboard'>{page}</Layout>
+  return (
+    <Layout variant='dashboard'>
+      <RoleBasedGuard accessibleRoles={['Owner', 'CRM']}>{page}</RoleBasedGuard>
+    </Layout>
+  )
 }
 
 export default index

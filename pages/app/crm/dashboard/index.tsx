@@ -17,6 +17,7 @@ import {
 import Layout from 'layout/Index'
 // components
 import { HeaderBreadcrumbs, Card, CardHeader, CardContent, LoadingIndicator } from 'components'
+import RoleBasedGuard from 'guards/RoleBasedGuard'
 
 function Dashboard() {
   const { t } = useTranslate()
@@ -146,7 +147,11 @@ function Dashboard() {
 }
 
 Dashboard.getLayout = function getLayout(page: JSX.Element) {
-  return <Layout variant='dashboard'>{page}</Layout>
+  return (
+    <Layout variant='dashboard'>
+      <RoleBasedGuard accessibleRoles={['Owner', 'CRM']}>{page}</RoleBasedGuard>
+    </Layout>
+  )
 }
 
 export default Dashboard
