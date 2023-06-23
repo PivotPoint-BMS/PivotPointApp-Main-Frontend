@@ -12,6 +12,7 @@ import getActivePath from 'utils/getActivePath'
 import Badge from 'components/Badge'
 import { ReactNode, useEffect, useState } from 'react'
 import { Icon } from '@iconify/react'
+import { useAppSelector } from 'store/hooks'
 
 type Props =
   | {
@@ -21,6 +22,7 @@ type Props =
       asLink?: boolean
       collapsible?: boolean
       disabled?: boolean
+      roles?: string[]
       badge?: {
         label: string
         color?: 'primary' | 'secondary' | 'info' | 'warning' | 'error' | 'success' | 'default'
@@ -43,6 +45,7 @@ type Props =
       href?: never
       disabled?: never
       badge?: never
+      roles?: never
       subItems?: {
         name: string
         icon?: ReactNode | string
@@ -60,6 +63,7 @@ function NavItemOne({
   href = '',
   onClick,
   badge,
+  roles,
   disabled,
   subItems,
 }: Props) {
@@ -67,6 +71,8 @@ function NavItemOne({
   const { pathname, asPath } = useRouter()
   const active = getActivePath(href, pathname, asPath)
   const [isOpen, setIsOpen] = useState(false)
+
+  const { user } = useAppSelector((state) => state.session)
 
   useEffect(() => {
     setIsOpen(false)
@@ -152,7 +158,7 @@ function NavItemOne({
         active
           ? 'bg-secondary-500/10 hover:bg-secondary-500/25 dark:bg-gray-300/10 dark:hover:bg-gray-200/20'
           : 'hover:bg-secondary-500/10 dark:hover:bg-gray-300/10',
-        disabled &&
+        (disabled || user?.position.every((item) => !roles?.includes(item))) &&
           'pointer-events-none cursor-not-allowed opacity-40 hover:bg-secondary-500/10 dark:hover:bg-gray-300/10',
       ])}
     >

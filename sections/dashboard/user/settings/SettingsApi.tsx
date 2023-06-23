@@ -28,6 +28,7 @@ import FieldContainer from 'components/FieldContainer'
 export default function SettingsApi() {
   const { t } = useTranslate()
   const { open } = useSnackbar()
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars, @typescript-eslint/naming-convention
   const [_, copy] = useCopyToClipboard()
 
   // Queries
@@ -110,8 +111,7 @@ export default function SettingsApi() {
                 series={[
                   {
                     name: t('Requests'),
-                    // data:data.usesPastYear,
-                    data: [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 100],
+                    data: data?.data.usesPastYear || [],
                   },
                 ]}
                 options={chartOptions}

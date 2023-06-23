@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import * as CollapsiblePrimitive from '@radix-ui/react-collapsible'
 // hooks
 import useTranslate from 'hooks/useTranslate'
+import { useAppSelector } from 'store/hooks'
 // utils
 import getActivePath from 'utils/getActivePath'
 // utils
@@ -20,6 +21,7 @@ type Props =
       asLink?: boolean
       disabled?: boolean
       onClick?: () => void
+      roles?: string[]
       subItems?: {
         name: string
         href?: string
@@ -37,6 +39,7 @@ type Props =
       icon: React.ReactElement
       onClick?: () => void
       asLink?: never
+      roles?: string[]
       disabled?: boolean
       href?: never
       subItems?: never
@@ -51,16 +54,18 @@ function NavItemMobile({
   href = '',
   onClick,
   subItems,
+  roles,
 }: Props) {
   const { pathname, asPath } = useRouter()
   const { t } = useTranslate()
   const active = getActivePath(href, pathname, asPath)
+  const { user } = useAppSelector((state) => state.session)
   const [isOpen, setIsOpen] = useState(false)
 
   return asLink ? (
     <CollapsiblePrimitive.Root open={isOpen} onOpenChange={setIsOpen} className='w-full'>
       <CollapsiblePrimitive.Trigger
-        disabled={disabled}
+        disabled={disabled || (roles && user?.position.every((item) => !roles?.includes(item)))}
         className={clsx(
           'group flex w-full items-center gap-2 rounded-xl p-4 text-secondary-900 dark:text-white',
           active && 'bg-primary-500/10 dark:bg-gray-300/10'
@@ -70,7 +75,7 @@ function NavItemMobile({
           <div
             className={clsx(
               'flex flex-1 items-center whitespace-normal',
-              disabled &&
+              (disabled || (roles && user?.position.every((item) => !roles?.includes(item)))) &&
                 'pointer-events-none cursor-not-allowed opacity-40 hover:bg-secondary-500/10 dark:hover:bg-gray-300/10'
             )}
           >

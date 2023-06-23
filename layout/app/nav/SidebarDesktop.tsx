@@ -92,13 +92,14 @@ function SideBar() {
               asLink
               badge={item.badge}
               disabled={item.disabled}
+              roles={item.roles}
             />
           ))}
         </nav>
         <div className='flex w-full flex-col items-start justify-between gap-2'>
           <NavItemOne
             href='#'
-            name={t('Account')}
+            name={`${user?.firstName} ${user?.lastName}`}
             icon={
               <div className='relative h-[22px] w-[22px] '>
                 {user && user?.profilePicture && user?.profilePicture !== '' ? (

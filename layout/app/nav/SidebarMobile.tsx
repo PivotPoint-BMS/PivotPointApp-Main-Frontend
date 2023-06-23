@@ -97,6 +97,7 @@ export default function SidebarMobile() {
                   subItems={item.subItems}
                   onClick={handleClose}
                   disabled={item.disabled}
+                  roles={item.roles}
                 />
               ))}
             </nav>
@@ -104,7 +105,7 @@ export default function SidebarMobile() {
           <div className='flex w-full flex-col items-start justify-between gap-1'>
             <MobileNavItem
               href='#'
-              name={t('Account')}
+              name={`${user?.firstName} ${user?.lastName}`}
               icon={
                 <div className='relative h-[22px] w-[22px] '>
                   {user && user?.profilePicture && user?.profilePicture !== '' ? (
