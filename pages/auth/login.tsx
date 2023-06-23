@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Link from 'next/link'
 // routes
-import { PATH_AUTH } from 'routes/paths'
+import { PATH_AUTH, PATH_DASHBOARD } from 'routes/paths'
 // hooks
 import { useAppSelector } from 'store/hooks'
 import useResponsive from 'hooks/useResponsive'
@@ -28,6 +28,8 @@ function Login() {
       if (requestedLocation && pathname !== requestedLocation) {
         push(requestedLocation)
         setRequestedLocation(null)
+      } else {
+        push(PATH_DASHBOARD.crm.dashboard)
       }
   }, [push, refreshToken])
 

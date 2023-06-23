@@ -1,10 +1,10 @@
 /* eslint-disable quotes */
-import React from 'react'
+import React, { useEffect } from 'react'
 // next
 import Link from 'next/link'
 import Head from 'next/head'
 // routes
-import { PATH_AUTH, PATH_PAGE } from 'routes/paths'
+import { PATH_AUTH, PATH_DASHBOARD, PATH_PAGE } from 'routes/paths'
 // hooks
 import useResponsive from 'hooks/useResponsive'
 import useTranslate from 'hooks/useTranslate'
@@ -14,10 +14,18 @@ import RegisterForm from 'sections/auth/Register'
 import Layout from 'layout/Index'
 // components
 import { Logo } from 'components'
+import { useAppSelector } from 'store/hooks'
+import { useRouter } from 'next/router'
 
 function index() {
-  const isDesktop = useResponsive('lg', 'up')
   const { t } = useTranslate()
+  const { push, pathname } = useRouter()
+  const { refreshToken } = useAppSelector((state) => state.session)
+  const isDesktop = useResponsive('lg', 'up')
+
+  useEffect(() => {
+    if (refreshToken) push(PATH_DASHBOARD.crm.dashboard)
+  }, [push, refreshToken, pathname])
 
   return (
     <>
