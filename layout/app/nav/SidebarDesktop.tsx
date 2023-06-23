@@ -131,6 +131,7 @@ function SideBar() {
                 name: 'Company',
                 href: PATH_ACCOUNT.company,
                 icon: <Iconify icon='ion:settings' height={22} width={22} />,
+                disabled: !user?.isOwner,
               },
               {
                 name: 'Logout',

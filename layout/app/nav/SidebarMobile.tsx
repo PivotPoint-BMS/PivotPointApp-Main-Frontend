@@ -142,6 +142,7 @@ export default function SidebarMobile() {
                   onClick: () => {
                     handleClose()
                   },
+                  disabled: !user?.isOwner,
                 },
                 {
                   name: 'Logout',

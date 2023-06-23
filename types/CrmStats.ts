@@ -11,9 +11,10 @@ export default interface CrmStats {
     convertedLeads: number[]
   }
   sentimentAnalysisData: {
-    months: number[]
+    date: string[]
     positive: number[]
     negative: number[]
+    neutral: number[]
   }
   complaintsChartData: {
     complaint: string[]

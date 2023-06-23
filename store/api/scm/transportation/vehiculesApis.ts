@@ -5,7 +5,7 @@ import { HYDRATE } from 'next-redux-wrapper'
 // config
 import { PIVOTPOINT_API } from 'config'
 // types
-import { ListGenericResponse, Vehicule, RequestParams, IGenericResponse } from 'types'
+import { ListGenericResponse, Vehicle, RequestParams, IGenericResponse } from 'types'
 // store
 import { RootState } from 'store'
 import RequestSearchParams from 'types/RequestSearchParams'
@@ -32,18 +32,18 @@ export const vehiculesApi = createApi({
     }
   },
   endpoints: (builder) => ({
-    getVehicules: builder.query<ListGenericResponse<Vehicule[]>, RequestSearchParams>({
+    getVehicles: builder.query<ListGenericResponse<Vehicle[]>, RequestSearchParams>({
       query: (params) => ({
         url: '/Vehicules',
         params,
       }),
     }),
-    getVehicule: builder.query<IGenericResponse<Vehicule>, string>({
+    getVehicle: builder.query<IGenericResponse<Vehicle>, string>({
       query: (id) => `Vehicules/${id}`,
     }),
-    createVehicule: builder.mutation<
-      ListGenericResponse<Vehicule>,
-      Omit<Vehicule, 'id'> & RequestParams
+    createVehicle: builder.mutation<
+      ListGenericResponse<Vehicle>,
+      Omit<Vehicle, 'id'> & RequestParams
     >({
       query: (data) => ({
         url: 'Vehicules',
@@ -58,7 +58,7 @@ export const vehiculesApi = createApi({
           } = await queryFulfilled
           dispatch(
             vehiculesApi.util.updateQueryData(
-              'getVehicules',
+              'getVehicles',
               { PageNumber, PageSize },
               (draftedList) => {
                 draftedList.data.push(data)
@@ -70,9 +70,9 @@ export const vehiculesApi = createApi({
         }
       },
     }),
-    editVehicule: builder.mutation<
-      ListGenericResponse<Vehicule>,
-      { data: Omit<Vehicule, 'id'>; id: string } & RequestParams
+    editVehicle: builder.mutation<
+      ListGenericResponse<Vehicle>,
+      { data: Omit<Vehicle, 'id'>; id: string } & RequestParams
     >({
       query: ({ data, id }) => ({
         url: `Vehicules/${id}`,
@@ -89,7 +89,7 @@ export const vehiculesApi = createApi({
 
           dispatch(
             vehiculesApi.util.updateQueryData(
-              'getVehicules',
+              'getVehicles',
               { PageNumber, PageSize },
               (draftedList) => {
                 Object.assign(draftedList.data.find((item) => item.id === id)!, data)
@@ -99,7 +99,7 @@ export const vehiculesApi = createApi({
           )
 
           dispatch(
-            vehiculesApi.util.updateQueryData('getVehicule', id, (draft) => {
+            vehiculesApi.util.updateQueryData('getVehicle', id, (draft) => {
               Object.assign(draft.data, data)
             })
           )
@@ -108,46 +108,44 @@ export const vehiculesApi = createApi({
         }
       },
     }),
-    deleteVehicule: builder.mutation<ListGenericResponse<Vehicule>, { id: string } & RequestParams>(
-      {
-        query: ({ id }) => ({
-          url: `Vehicules/${id}`,
-          method: 'DELETE',
-          responseHandler: 'content-type',
-        }),
-        async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
-          try {
-            await queryFulfilled
-            dispatch(
-              vehiculesApi.util.updateQueryData(
-                'getVehicules',
-                { PageNumber, PageSize },
-                (draftedList) => ({
-                  ...draftedList,
-                  data: draftedList.data.filter((vehicules) => vehicules.id !== id),
-                })
-              )
+    deleteVehicle: builder.mutation<ListGenericResponse<Vehicle>, { id: string } & RequestParams>({
+      query: ({ id }) => ({
+        url: `Vehicules/${id}`,
+        method: 'DELETE',
+        responseHandler: 'content-type',
+      }),
+      async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled
+          dispatch(
+            vehiculesApi.util.updateQueryData(
+              'getVehicles',
+              { PageNumber, PageSize },
+              (draftedList) => ({
+                ...draftedList,
+                data: draftedList.data.filter((vehicules) => vehicules.id !== id),
+              })
             )
-          } catch {
-            /* empty */
-          }
-        },
-      }
-    ),
+          )
+        } catch {
+          /* empty */
+        }
+      },
+    }),
   }),
 })
 
 // Export hooks for usage in functional components
 export const {
   // Queries
-  useGetVehiculeQuery,
-  useGetVehiculesQuery,
+  useGetVehicleQuery,
+  useGetVehiclesQuery,
   // Mutations
-  useEditVehiculeMutation,
-  useCreateVehiculeMutation,
-  useDeleteVehiculeMutation,
+  useEditVehicleMutation,
+  useCreateVehicleMutation,
+  useDeleteVehicleMutation,
   util: { getRunningQueriesThunk, invalidateTags },
 } = vehiculesApi
 
 // export endpoints for use in SSR
-export const { getVehicule, getVehicules } = vehiculesApi.endpoints
+export const { getVehicle, getVehicles } = vehiculesApi.endpoints

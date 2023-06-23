@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 // redux
 import { useAppDispatch, useAppSelector } from 'store/hooks'
-import { closePreviewVehicule } from 'store/slices/vehiculePreviewSlice'
+import { closePreviewVehicle } from 'store/slices/vehiculePreviewSlice'
 // api
-import { useDeleteVehiculeMutation } from 'store/api/scm/transportation/vehiculesApis'
+import { useDeleteVehicleMutation } from 'store/api/scm/transportation/vehiculesApis'
 // utils
-import getVehiculesImage from 'utils/getVehiculeImage'
+import getVehiclesImage from 'utils/getVehiculeImage'
 import { fNumber } from 'utils/formatNumber'
 // hooks
 import useTranslate from 'hooks/useTranslate'
@@ -14,21 +14,21 @@ import useSnackbar from 'hooks/useSnackbar'
 import { AlertDialog, IconButton, Image, Sheet, Tooltip } from 'components'
 import { Icon } from '@iconify/react'
 
-export default function VehiculePreview() {
+export default function VehiclePreview() {
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const dispatch = useAppDispatch()
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
   const { isOpen, vehicule } = useAppSelector((state) => state.vehiculePreview)
   const { PageNumber, PageSize } = useAppSelector((state) => state.paggination)
-  const [deleteVehicule, { isLoading: isDeleteLoading }] = useDeleteVehiculeMutation()
+  const [deleteVehicle, { isLoading: isDeleteLoading }] = useDeleteVehicleMutation()
 
   return (
     <>
       <Sheet
-        title={t('Vehicule Preview')}
+        title={t('Vehicle Preview')}
         isOpen={isOpen}
-        handleClose={() => dispatch(closePreviewVehicule())}
+        handleClose={() => dispatch(closePreviewVehicle())}
         actions={
           <Tooltip title={t('Delete')}>
             <IconButton onClick={() => setOpenDeleteDialog(true)}>
@@ -40,10 +40,7 @@ export default function VehiculePreview() {
       >
         {vehicule && (
           <div className='space-y-4 overflow-y-auto px-4 py-2'>
-            <Image
-              src={getVehiculesImage(vehicule.type, vehicule.size).src}
-              className='px-6 py-2'
-            />
+            <Image src={getVehiclesImage(vehicule.type, vehicule.size).src} className='px-6 py-2' />
             <div className='grid grid-cols-2 gap-3 sm:grid-cols-6'>
               <div className='col-span-2 space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast sm:col-span-3'>
                 <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>{t('Model')}</p>
@@ -87,12 +84,12 @@ export default function VehiculePreview() {
         cancelText={t('Cancel')}
         confirmText={t('Yes, Delete')}
         onConfirm={() => {
-          deleteVehicule({ id: vehicule?.id || '', PageNumber, PageSize })
+          deleteVehicle({ id: vehicule?.id || '', PageNumber, PageSize })
             .then(() => {
               setOpenDeleteDialog(false)
-              dispatch(closePreviewVehicule())
+              dispatch(closePreviewVehicle())
               open({
-                message: t('Vehicule Deleted Successfully.'),
+                message: t('Vehicle Deleted Successfully.'),
                 autoHideDuration: 4000,
                 type: 'success',
                 variant: 'contained',
@@ -100,7 +97,7 @@ export default function VehiculePreview() {
             })
             .catch(() =>
               open({
-                message: t('Sorry, Vehicule not deleted, A problem has occurred.'),
+                message: t('Sorry, Vehicle not deleted, A problem has occurred.'),
                 autoHideDuration: 4000,
                 type: 'error',
                 variant: 'contained',

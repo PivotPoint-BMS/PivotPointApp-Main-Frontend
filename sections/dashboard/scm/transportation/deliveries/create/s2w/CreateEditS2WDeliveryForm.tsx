@@ -10,7 +10,7 @@ import { FieldValues, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 // apis
 import { useGetSuppliersQuery } from 'store/api/scm/products-service/suppliersApis'
-import { useGetVehiculesQuery } from 'store/api/scm/transportation/vehiculesApis'
+import { useGetVehiclesQuery } from 'store/api/scm/transportation/vehiculesApis'
 import { useGetAllProductsQuery } from 'store/api/scm/products-service/productsApi'
 import { useGetWarehousesQuery } from 'store/api/scm/warehousing/warehousingApis'
 import { useCreateDeliveryMutation } from 'store/api/scm/transportation/deliveriesApis'
@@ -59,7 +59,7 @@ function CreateEditS2WDeliveryForm() {
     isSuccess: isWarehousesSuccess,
     isLoading: isWarehousesLoading,
   } = useGetWarehousesQuery({ SearchTerm: searchTerm, PageNumber, PageSize })
-  const { data: vehicules, isLoading: isVehiculesLoading } = useGetVehiculesQuery({
+  const { data: vehicules, isLoading: isVehiclesLoading } = useGetVehiclesQuery({
     SearchTerm: searchTerm,
     PageNumber,
     PageSize,
@@ -245,10 +245,10 @@ function CreateEditS2WDeliveryForm() {
                 <RHFTextField name='driverName' label={t('Driver Name')} />
                 <RHFTextField name='driverContact' label={t('Driver Contact')} />
                 <div className='sm:col-span-2 md:col-span-1'>
-                  <RHFFieldContainer name='vehiculeID' label={t('Vehicule')}>
+                  <RHFFieldContainer name='vehiculeID' label={t('Vehicle')}>
                     <Select
                       options={vehicules?.data || []}
-                      isLoading={isVehiculesLoading}
+                      isLoading={isVehiclesLoading}
                       getOptionLabel={(option) => `${option.model} | ${option.code}`}
                       onInputChange={(value) => setSearchValue(value)}
                       onBlur={() => setSearchValue('')}

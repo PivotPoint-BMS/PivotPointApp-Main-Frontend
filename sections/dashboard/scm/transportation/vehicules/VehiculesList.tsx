@@ -5,20 +5,20 @@ import Image from 'next/image'
 // utils
 import { fNumber } from 'utils/formatNumber'
 // api
-import { useGetVehiculesQuery } from 'store/api/scm/transportation/vehiculesApis'
+import { useGetVehiclesQuery } from 'store/api/scm/transportation/vehiculesApis'
 // redux
-import { previewVehicule } from 'store/slices/vehiculePreviewSlice'
+import { previewVehicle } from 'store/slices/vehiculePreviewSlice'
 // utils
-import getVehiculesImage from 'utils/getVehiculeImage'
+import getVehiclesImage from 'utils/getVehiculeImage'
 // hooks
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import useTranslate from 'hooks/useTranslate'
 // components
 import { Icon } from '@iconify/react'
 import { Card, CardContent, CardHeader, IconButton, LoadingIndicator, TextField } from 'components'
-import VehiculePreview from './VehiculePreview'
+import VehiclePreview from './VehiculePreview'
 
-function VehiculesList() {
+function VehiclesList() {
   const { t } = useTranslate()
   const dispatch = useAppDispatch()
   const { isFallback } = useRouter()
@@ -30,7 +30,7 @@ function VehiculesList() {
   const [SearchTerm, setSearchTerm] = useState<string | undefined>(undefined)
 
   // Queries
-  const { data, isLoading, isSuccess, isFetching } = useGetVehiculesQuery(
+  const { data, isLoading, isSuccess, isFetching } = useGetVehiclesQuery(
     { SearchTerm, PageNumber, PageSize },
     { skip: isFallback, refetchOnMountOrArgChange: true }
   )
@@ -70,13 +70,13 @@ function VehiculesList() {
               key={`vehicule-${vehicule.id}`}
               fullWidth
               className='cursor-pointer divide-y !bg-gray-50/50 shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg dark:divide-gray-600 dark:!bg-paper-dark-contrast'
-              onClick={() => dispatch(previewVehicule(vehicule))}
+              onClick={() => dispatch(previewVehicle(vehicule))}
             >
               <CardHeader
                 title={
                   <div className='space-y-1'>
                     <p className='text-sm font-normal text-gray-600 dark:text-gray-400'>
-                      {t('Vehicule Code')}
+                      {t('Vehicle Code')}
                     </p>
                     <p className='text-lg'>{vehicule.code}</p>
                   </div>
@@ -84,7 +84,7 @@ function VehiculesList() {
                 actions={
                   <Image
                     alt='truck'
-                    src={getVehiculesImage(vehicule.type, vehicule.size)}
+                    src={getVehiclesImage(vehicule.type, vehicule.size)}
                     className='aspect-auto w-24'
                     width={96}
                   />
@@ -113,7 +113,7 @@ function VehiculesList() {
             </Card>
           ))}
         </div>
-        <VehiculePreview />
+        <VehiclePreview />
       </>
     )
   return (
@@ -136,10 +136,10 @@ function VehiculesList() {
         />
       </div>
       <div className='flex h-24 w-full items-center justify-center'>
-        <h1 className='text-xl font-bold'>{t('No Vehicule Found')}</h1>
+        <h1 className='text-xl font-bold'>{t('No Vehicle Found')}</h1>
       </div>
     </>
   )
 }
 
-export default VehiculesList
+export default VehiclesList

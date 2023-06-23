@@ -10,8 +10,8 @@ import { PATH_DASHBOARD } from 'routes/paths'
 // layout
 import Layout from 'layout/Index'
 // sections
-import VehiculesList from 'sections/dashboard/scm/transportation/vehicules/VehiculesList'
-import AddEditVehiculeForm from 'sections/dashboard/scm/transportation/vehicules/create/AddEditVehiculeForm'
+import VehiclesList from 'sections/dashboard/scm/transportation/vehicules/VehiculesList'
+import AddEditVehicleForm from 'sections/dashboard/scm/transportation/vehicules/create/AddEditVehiculeForm'
 import DeliveriesList from 'sections/dashboard/scm/transportation/deliveries/list'
 // components
 import { Icon } from '@iconify/react'
@@ -20,14 +20,14 @@ import { TabsContent, TabsList, TabsRoot, TabsTrigger } from 'components/Tabs'
 
 const TABS = [
   { name: 'Deliveries', value: 'deliveries', icon: 'solar:delivery-bold' },
-  { name: 'Vehicules', value: 'vehicules', icon: 'material-symbols:play-shapes-rounded' },
+  { name: 'Vehicles', value: 'vehicules', icon: 'material-symbols:play-shapes-rounded' },
 ]
 
 function index() {
   const { t } = useTranslate()
   const { push, pathname, query } = useRouter()
   const [tab, setTab] = useState(query?.tab ? (query?.tab as string) : 'deliveries')
-  const [openAddVehiculeDialog, setOpenAddVehiculeDialog] = useState(false)
+  const [openAddVehicleDialog, setOpenAddVehicleDialog] = useState(false)
 
   useEffect(() => {
     push(pathname, { query: { tab } })
@@ -98,9 +98,9 @@ function index() {
               {tab === 'vehicules' && (
                 <Button
                   startIcon={<Icon icon='ic:round-add' height={24} />}
-                  onClick={() => setOpenAddVehiculeDialog(true)}
+                  onClick={() => setOpenAddVehicleDialog(true)}
                 >
-                  {t('Add a Vehicule')}
+                  {t('Add a Vehicle')}
                 </Button>
               )}
             </>
@@ -123,15 +123,15 @@ function index() {
               <DeliveriesList />
             </TabsContent>
             <TabsContent value='vehicules' className='!bg-transparent'>
-              <VehiculesList />
+              <VehiclesList />
             </TabsContent>
           </TabsRoot>
         </Card>
       </div>
-      <Dialog open={openAddVehiculeDialog}>
-        <AddEditVehiculeForm
-          onSuccess={() => setOpenAddVehiculeDialog(false)}
-          onFailure={() => setOpenAddVehiculeDialog(false)}
+      <Dialog open={openAddVehicleDialog}>
+        <AddEditVehicleForm
+          onSuccess={() => setOpenAddVehicleDialog(false)}
+          onFailure={() => setOpenAddVehicleDialog(false)}
         />
       </Dialog>
     </>

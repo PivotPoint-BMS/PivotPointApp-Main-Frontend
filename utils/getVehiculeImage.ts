@@ -4,7 +4,7 @@ import small from 'public/vehicules/small.png'
 import medium from 'public/vehicules/medium.png'
 import large from 'public/vehicules/large.png'
 
-export default function getVehiculesImage(type: 0 | 1 | 2 | 3, size: 0 | 1 | 2 | 3) {
+export default function getVehiclesImage(type: 0 | 1 | 2 | 3, size: 0 | 1 | 2 | 3) {
   if (type === 0) {
     switch (size) {
       case 0:

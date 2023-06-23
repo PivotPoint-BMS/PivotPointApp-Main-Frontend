@@ -344,7 +344,7 @@ function index() {
                 </div>
                 <div className='flex items-center justify-start gap-2'>
                   <p className='text-sm font-medium text-gray-600 dark:text-gray-400'>
-                    {t('Vehicule')}:
+                    {t('Vehicle')}:
                   </p>
                   <p>
                     {data.data.vehicule.model} | {data.data.vehicule.code}

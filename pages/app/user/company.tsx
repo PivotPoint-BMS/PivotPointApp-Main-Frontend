@@ -4,7 +4,6 @@ import clsx from 'clsx'
 import Head from 'next/head'
 // hooks
 import useTranslate from 'hooks/useTranslate'
-import { useAppSelector } from 'store/hooks'
 // routes
 import { PATH_ACCOUNT, PATH_DASHBOARD } from 'routes/paths'
 // sections
@@ -23,13 +22,11 @@ import { TabsContent, TabsList, TabsRoot, TabsTrigger } from 'components/Tabs'
 
 function Settings() {
   const { t, locale } = useTranslate()
-  const { user } = useAppSelector((state) => state.session)
-
-  const hasApi = user?.tier === 1 || user?.tier === 2
 
   const TABS = [
     { name: 'Details', icon: 'fluent:card-ui-24-filled', value: 'details', disabled: false },
     { name: 'Email', icon: 'ion:mail', value: 'email', disabled: false },
+    { name: 'API', icon: 'ant-design:api-filled', value: 'api' },
     {
       name: 'Storage',
       icon: 'material-symbols:home-storage-rounded',
@@ -37,7 +34,6 @@ function Settings() {
       disabled: true,
     },
     { name: 'Integration', icon: 'mdi:link-box', value: 'integration', disabled: true },
-    { name: 'API', icon: 'ant-design:api-filled', value: 'api', disabled: !hasApi },
   ]
 
   return (
@@ -78,11 +74,9 @@ function Settings() {
           <TabsContent value='4' className={clsx('w-full py-6')}>
             <SettingsSecurity />
           </TabsContent>{' '}
-          {hasApi && (
-            <TabsContent value='api' className={clsx('w-full py-6')}>
-              <SettingsApi />
-            </TabsContent>
-          )}
+          <TabsContent value='api' className={clsx('w-full py-6')}>
+            <SettingsApi />
+          </TabsContent>
         </TabsRoot>
       </div>
     </>

@@ -1,4 +1,6 @@
 import React from 'react'
+// hooks
+import useTranslate from 'hooks/useTranslate'
 // react table
 import { useTable, useFlexLayout, useResizeColumns, useSortBy } from 'react-table'
 // components
@@ -15,6 +17,7 @@ const defaultColumn = {
 }
 
 export default function Table({ columns, data }) {
+  const { t } = useTranslate()
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
     {
       columns,

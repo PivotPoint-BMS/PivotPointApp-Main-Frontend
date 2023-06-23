@@ -20,6 +20,7 @@ export default function index({
       label: number | string
       accessor: string
       align: string
+      enableRowSpan?: boolean
     }[]
   >([])
   const [tableData, setTableData] = useState<{ [key: string]: number | string }[]>([])

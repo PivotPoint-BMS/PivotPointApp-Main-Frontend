@@ -1,5 +1,5 @@
 import Supplier from './Supplier'
-import Vehicule from './Vehicule'
+import Vehicle from './Vehicle'
 
 export interface DeliveryItem {
   id: string
@@ -32,7 +32,7 @@ export default interface Delivery {
   warehouseStart: string
   warehouseEnd: string
   supplier: Supplier | null
-  vehicule: Vehicule
+  vehicule: Vehicle
   checkingDate: string
   inTransit: string
   deliveryComplete: string

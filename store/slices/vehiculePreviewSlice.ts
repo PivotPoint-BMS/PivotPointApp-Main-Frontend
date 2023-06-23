@@ -1,14 +1,14 @@
 /* eslint-disable no-param-reassign */
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 // types
-import { Vehicule } from 'types'
+import { Vehicle } from 'types'
 
-interface VehiculePreview {
-  vehicule: Vehicule | null
+interface VehiclePreview {
+  vehicule: Vehicle | null
   isOpen: boolean
 }
 
-const initialState: VehiculePreview = {
+const initialState: VehiclePreview = {
   vehicule: null,
   isOpen: false,
 }
@@ -17,17 +17,17 @@ const vehiculePreviewSlice = createSlice({
   name: 'vehiculePreview',
   initialState,
   reducers: {
-    previewVehicule: (state, action: PayloadAction<Vehicule>) => {
+    previewVehicle: (state, action: PayloadAction<Vehicle>) => {
       state.isOpen = true
       state.vehicule = action.payload
     },
-    closePreviewVehicule: (state) => {
+    closePreviewVehicle: (state) => {
       state.isOpen = false
       state.vehicule = null
     },
   },
 })
 
-export const { closePreviewVehicule, previewVehicule } = vehiculePreviewSlice.actions
+export const { closePreviewVehicle, previewVehicle } = vehiculePreviewSlice.actions
 
 export default vehiculePreviewSlice

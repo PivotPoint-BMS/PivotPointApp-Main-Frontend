@@ -147,7 +147,7 @@ html[class*='dark'] {
 /* Rich Text Editor */
 
 .ProseMirror {
-  @apply max-h-96 overflow-scroll outline-none;
+  @apply max-h-96 overflow-auto outline-none;
 }
 
 .ProseMirror p.is-editor-empty:first-child::before {

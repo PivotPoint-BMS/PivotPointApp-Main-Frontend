@@ -16,7 +16,7 @@ import {
 export const settingsApi = createApi({
   reducerPath: 'settingsApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${PIVOTPOINT_API.baseUrl}/identity`,
+    baseUrl: `${PIVOTPOINT_API.baseUrl}`,
     prepareHeaders: (headers, { getState }) => {
       const { token } = (getState() as RootState).session
 
@@ -36,24 +36,24 @@ export const settingsApi = createApi({
   tagTypes: ['UserDetails'],
   endpoints: (builder) => ({
     getUserDetails: builder.query<IGenericResponse<UserDetails>, void>({
-      query: () => 'ProfileSettings/details',
+      query: () => 'identity/ProfileSettings/details',
       providesTags: ['UserDetails'],
     }),
     getNotifficationsSettings: builder.query<IGenericResponse<NotificationsSettings>, void>({
-      query: () => 'ProfileSettings/notifications',
+      query: () => 'identity/ProfileSettings/notifications',
     }),
     getCompanyDetails: builder.query<IGenericResponse<CompanyDetails>, void>({
-      query: () => 'OrganisationSettings/Details',
+      query: () => 'identity/OrganisationSettings/Details',
     }),
     getSMTPSettings: builder.query<IGenericResponse<SMTPSettings>, void>({
-      query: () => 'OrganisationSettings/SMTP',
+      query: () => 'identity/OrganisationSettings/SMTP',
     }),
     getApiKey: builder.query<IGenericResponse<APISettings>, void>({
-      query: () => 'OrganisationSettings/APIKey',
+      query: () => 'im/Statistics/API',
     }),
     updateImage: builder.mutation<IGenericResponse<boolean>, FormData>({
       query: (data) => ({
-        url: 'ProfileSettings/image',
+        url: 'identity/ProfileSettings/image',
         method: 'POST',
         body: data,
         responseHandler: 'content-type',
@@ -62,7 +62,7 @@ export const settingsApi = createApi({
     }),
     updateUserDetails: builder.mutation<IGenericResponse<boolean>, Omit<UserDetails, 'email'>>({
       query: (data) => ({
-        url: 'ProfileSettings/details',
+        url: 'identity/ProfileSettings/details',
         method: 'PUT',
         body: data,
         responseHandler: 'content-type',
@@ -72,7 +72,7 @@ export const settingsApi = createApi({
     updateNotificationsSettings: builder.mutation<IGenericResponse<boolean>, NotificationsSettings>(
       {
         query: (data) => ({
-          url: 'ProfileSettings/notifications',
+          url: 'identity/ProfileSettings/notifications',
           method: 'PUT',
           body: data,
           responseHandler: 'content-type',
@@ -81,7 +81,7 @@ export const settingsApi = createApi({
     ),
     updateCompanyDetails: builder.mutation<IGenericResponse<boolean>, FormData>({
       query: (data) => ({
-        url: 'OrganisationSettings/Details',
+        url: 'identity/OrganisationSettings/Details',
         method: 'POST',
         body: data,
         responseHandler: 'content-type',
@@ -89,7 +89,7 @@ export const settingsApi = createApi({
     }),
     updateSMTPSettings: builder.mutation<IGenericResponse<boolean>, SMTPSettings>({
       query: (data) => ({
-        url: 'OrganisationSettings/SMTP',
+        url: 'identity/OrganisationSettings/SMTP',
         method: 'POST',
         body: data,
         responseHandler: 'content-type',
@@ -97,7 +97,7 @@ export const settingsApi = createApi({
     }),
     generateKey: builder.mutation<IGenericResponse<APISettings>, void>({
       query: () => ({
-        url: 'OrganisationSettings/APIKey',
+        url: 'identity/OrganisationSettings/APIKey',
         method: 'POST',
         responseHandler: 'content-type',
       }),

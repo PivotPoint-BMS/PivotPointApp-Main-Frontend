@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 // next
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 // routes
 import { PATH_ACCOUNT, PATH_DASHBOARD } from 'routes/paths'
 // hooks
@@ -28,6 +29,12 @@ const TABS = [
 
 function Profile() {
   const { t, locale } = useTranslate()
+  const { push, pathname, query } = useRouter()
+  const [tab, setTab] = useState(query?.tab ? (query?.tab as string) : 'general')
+
+  useEffect(() => {
+    push(pathname, { query: { tab } })
+  }, [pathname, tab])
 
   return (
     <>
@@ -43,7 +50,12 @@ function Profile() {
             { name: t('Profile') },
           ]}
         />
-        <TabsRoot defaultValue='general' dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+        <TabsRoot
+          defaultValue='general'
+          dir={locale === 'ar' ? 'rtl' : 'ltr'}
+          value={tab}
+          onValueChange={(value) => setTab(value)}
+        >
           <TabsList className='rounded-lg border dark:border-gray-600'>
             {TABS.map((item, i) => (
               <TabsTrigger key={i} value={item.value}>

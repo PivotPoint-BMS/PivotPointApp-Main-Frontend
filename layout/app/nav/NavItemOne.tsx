@@ -26,7 +26,13 @@ type Props =
         color?: 'primary' | 'secondary' | 'info' | 'warning' | 'error' | 'success' | 'default'
       }
       onClick?: () => never
-      subItems?: { name: string; icon?: ReactNode | string; onClick?: () => void; href?: string }[]
+      subItems?: {
+        name: string
+        icon?: ReactNode | string
+        onClick?: () => void
+        href?: string
+        disabled?: boolean
+      }[]
     }
   | {
       name?: string
@@ -37,7 +43,13 @@ type Props =
       href?: never
       disabled?: never
       badge?: never
-      subItems?: { name: string; icon?: ReactNode | string; onClick: () => void; href?: string }[]
+      subItems?: {
+        name: string
+        icon?: ReactNode | string
+        onClick: () => void
+        href?: string
+        disabled?: boolean
+      }[]
     }
 
 function NavItemOne({
@@ -102,7 +114,9 @@ function NavItemOne({
                   'flex items-center gap-3 rounded-xl py-3 px-5 ltr:ml-3 rtl:mr-3',
                   getActivePath(item.href, pathname, asPath)
                     ? 'bg-secondary-700 text-gray-200 hover:bg-secondary-800 dark:text-white'
-                    : 'bg-gray-100 text-secondary-900 hover:bg-gray-100/60 dark:bg-secondary-100/20 dark:text-white dark:hover:bg-secondary-200/50'
+                    : 'bg-gray-100 text-secondary-900 hover:bg-gray-100/60 dark:bg-secondary-100/20 dark:text-white dark:hover:bg-secondary-200/50',
+                  item.disabled &&
+                    'pointer-events-none cursor-not-allowed opacity-40 hover:bg-secondary-500/10 dark:hover:bg-gray-300/10'
                 )}
               >
                 <div>{item.icon}</div>

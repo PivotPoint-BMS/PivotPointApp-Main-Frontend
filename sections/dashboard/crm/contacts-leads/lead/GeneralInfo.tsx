@@ -14,7 +14,10 @@ import { PATH_DASHBOARD } from 'routes/paths'
 // types
 import { Lead } from 'types'
 // api
-import { useConvertToContactMutation } from 'store/api/crm/contact-leads/leadApis'
+import {
+  useConvertToContactMutation,
+  useGetLeadActivitiesQuery,
+} from 'store/api/crm/contact-leads/leadApis'
 // config
 import { PIVOTPOINT_API } from 'config'
 // asset
@@ -27,6 +30,7 @@ import CardContent from 'components/CardContent'
 import IconButton from 'components/IconButton'
 import Image from 'components/Image'
 import useSnackbar from 'hooks/useSnackbar'
+import DropdownMenu from 'components/DropdownMenu'
 
 const TABS = [
   { name: 'Lead Info', value: 'info' },
@@ -38,6 +42,13 @@ export default function GeneralInfo({ lead }: { lead: Lead }) {
   const { open } = useSnackbar()
   const { push } = useRouter()
   const { PageNumber, PageSize } = useAppSelector((state) => state.paggination)
+
+  const { data } = useGetLeadActivitiesQuery({
+    id: lead.id,
+    PageNumber,
+    PageSize,
+  })
+
   const [convertToContact, { isLoading, isError, isSuccess }] = useConvertToContactMutation()
 
   const handleConvertToContact = () => {
@@ -128,9 +139,21 @@ export default function GeneralInfo({ lead }: { lead: Lead }) {
               <span className='text-[13px] '>{t('Call')}</span>
             </div>
             <div className='flex flex-col items-center justify-center gap-1'>
-              <IconButton className='border'>
-                <Iconify icon='material-symbols:more-horiz' height={22} />
-              </IconButton>
+              <DropdownMenu
+                trigger={
+                  <IconButton className='border'>
+                    <Iconify icon='material-symbols:more-horiz' height={22} />
+                  </IconButton>
+                }
+                items={[
+                  {
+                    type: 'button',
+                    icon: <Iconify icon='ic:round-edit' height={18} />,
+                    label: t('Edit'),
+                    onClick: () => push(PATH_DASHBOARD.crm['contacts-leads'].edit(lead.id)),
+                  },
+                ]}
+              />
               <span className='text-[13px] '>{t('More')}</span>
             </div>
           </div>
@@ -144,10 +167,10 @@ export default function GeneralInfo({ lead }: { lead: Lead }) {
               {t('Convert to Contact')}
             </Button>
           )}
-          <div className='flex items-start justify-center gap-1'>
-            <div className='mt-1.5 h-1.5 w-1.5 rounded-full bg-green-500'></div>
-            <p className='text-[13px]'>
-              {t('Last activity')}: {moment('2022-06-06').format('DD MMM yyyy, HH:mm a')}
+          <div className='flex items-center justify-center gap-1'>
+            <div className='h-1.5 w-1.5 rounded-full bg-green-500'></div>
+            <p className='text-[13px] leading-none'>
+              {t('Last activity')}: {moment(data?.data[0].created).format('LLLL')}
             </p>
           </div>
         </div>
@@ -176,21 +199,27 @@ export default function GeneralInfo({ lead }: { lead: Lead }) {
           </TabsPrimitive.List>
           <TabsPrimitive.Content value='info' className='w-full'>
             <div className='flex flex-col gap-3 p-4'>
-              <div className='flex flex-col gap-1 truncate'>
-                <h6 className='text-sm text-gray-600 dark:text-gray-400'>{t('Email')}</h6>
-                <p className='truncate text-[15px]'>{lead.email}</p>
+              <div className='space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast'>
+                <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>{t('Email')}</p>
+                <p className='truncate font-bold'>{lead.email}</p>
               </div>
-              <div className='flex flex-col gap-1 truncate'>
-                <h6 className='text-sm text-gray-600 dark:text-gray-400'>{t('Phone Number')}</h6>
-                <p className='truncate text-[15px]'>{lead.phoneNumber}</p>
+              <div className='space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast'>
+                <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
+                  {t('Phone Number')}
+                </p>
+                <p className='truncate font-bold'>{lead.phoneNumber}</p>
               </div>
-              <div className='flex flex-col gap-1 truncate'>
-                <h6 className='text-sm text-gray-600 dark:text-gray-400'>{t('Job Title')}</h6>
-                <p className='truncate text-[15px]'>{lead.jobTitle}</p>
+              <div className='space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast'>
+                <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
+                  {t('Job Title')}
+                </p>
+                <p className='truncate font-bold'>{lead.jobTitle}</p>
               </div>{' '}
-              <div className='flex flex-col gap-1 truncate'>
-                <h6 className='text-sm text-gray-600 dark:text-gray-400'>{t('Lead Source')}</h6>
-                <p className='truncate text-[15px]'>
+              <div className='space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast'>
+                <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
+                  {t('Lead Source')}
+                </p>
+                <p className='truncate font-bold'>
                   {lead.leadSource?.source} |{' '}
                   <Link
                     href={lead.leadSource?.sourceLink || ''}
@@ -205,13 +234,15 @@ export default function GeneralInfo({ lead }: { lead: Lead }) {
           </TabsPrimitive.Content>
           <TabsPrimitive.Content value='address' className='w-full'>
             <div className='flex flex-col gap-3 p-4'>
-              <div className='flex flex-col gap-1 truncate'>
-                <h6 className='text-sm text-gray-600 dark:text-gray-400'>{t('City')}</h6>
-                <p className='truncate text-[15px] capitalize'>{lead.address?.city}</p>
+              <div className='space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast'>
+                <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>{t('City')}</p>
+                <p className='truncate font-bold capitalize'>{lead.address?.city}</p>
               </div>
-              <div className='flex flex-col gap-1 truncate'>
-                <h6 className='text-sm text-gray-600 dark:text-gray-400'>{t('Country')}</h6>
-                <p className='truncate text-[15px] capitalize'>{lead.address?.country}</p>
+              <div className='space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast'>
+                <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
+                  {t('Country')}
+                </p>
+                <p className='truncate font-bold capitalize'>{lead.address?.country}</p>
               </div>
             </div>
           </TabsPrimitive.Content>

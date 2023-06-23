@@ -4,9 +4,9 @@ import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FieldValues, useForm } from 'react-hook-form'
 // api
-import { useCreateVehiculeMutation } from 'store/api/scm/transportation/vehiculesApis'
+import { useCreateVehicleMutation } from 'store/api/scm/transportation/vehiculesApis'
 // types
-import { Vehicule } from 'types'
+import { Vehicle } from 'types'
 // config
 import { VEHICULES_SIZES, VEHICULES_TYPES } from 'config'
 // hooks
@@ -18,26 +18,26 @@ import Select from 'react-select'
 import { RHFField, Button } from 'components'
 import { FormProvider, RHFTextField } from 'components/hook-form'
 
-export default function AddEditVehiculeForm({
+export default function AddEditVehicleForm({
   onSuccess,
   onFailure,
   isEdit,
-  currentVehicule,
+  currentVehicle,
 }: {
   onSuccess: () => void
   onFailure: () => void
   isEdit?: boolean
-  currentVehicule?: Vehicule
+  currentVehicle?: Vehicle
 }) {
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const { PageNumber, PageSize } = useAppSelector((state) => state.paggination)
   const [
-    createVehicule,
+    createVehicle,
     { isLoading: isCreateLoading, isSuccess: isCreateSuccess, isError: isCreateError },
-  ] = useCreateVehiculeMutation()
+  ] = useCreateVehicleMutation()
 
-  const VehiculeSchema = Yup.object().shape({
+  const VehicleSchema = Yup.object().shape({
     model: Yup.string().required(t('This field is required')),
     type: Yup.number().nullable().required(t('This field is required')),
     size: Yup.number().nullable().required(t('This field is required')),
@@ -47,23 +47,23 @@ export default function AddEditVehiculeForm({
   })
 
   const defaultValues = {
-    model: currentVehicule?.model || '',
-    type: currentVehicule?.type || null,
-    size: currentVehicule?.size || null,
-    weight: currentVehicule?.weight || null,
-    volumne: currentVehicule?.volumne || null,
-    maxCapacity: currentVehicule?.maxCapacity || null,
+    model: currentVehicle?.model || '',
+    type: currentVehicle?.type || null,
+    size: currentVehicle?.size || null,
+    weight: currentVehicle?.weight || null,
+    volumne: currentVehicle?.volumne || null,
+    maxCapacity: currentVehicle?.maxCapacity || null,
   }
 
   const methods = useForm<FieldValues>({
-    resolver: yupResolver(VehiculeSchema),
+    resolver: yupResolver(VehicleSchema),
     defaultValues,
   })
 
   const { handleSubmit, reset, setValue } = methods
 
   const onSubmit = async (data: FieldValues) => {
-    const vehicule: Omit<Vehicule, 'id'> = {
+    const vehicule: Omit<Vehicle, 'id'> = {
       code: data.code,
       model: data.model,
       type: data.type,
@@ -72,7 +72,7 @@ export default function AddEditVehiculeForm({
       volumne: data.volumne,
       maxCapacity: data.maxCapacity,
     }
-    createVehicule({ ...vehicule, PageNumber, PageSize })
+    createVehicle({ ...vehicule, PageNumber, PageSize })
   }
 
   useEffect(() => {
@@ -88,7 +88,7 @@ export default function AddEditVehiculeForm({
     if (isCreateSuccess) {
       reset()
       open({
-        message: t('Vehicule Added Successfully.'),
+        message: t('Vehicle Added Successfully.'),
         autoHideDuration: 4000,
         type: 'success',
         variant: 'contained',
@@ -110,7 +110,7 @@ export default function AddEditVehiculeForm({
             onChange={(newValue) => {
               setValue('type', newValue?.value)
             }}
-            defaultValue={VEHICULES_TYPES.find((item) => item.value === currentVehicule?.type)}
+            defaultValue={VEHICULES_TYPES.find((item) => item.value === currentVehicle?.type)}
             className='react-select-container'
             classNamePrefix='react-select'
             placeholder=''
@@ -125,7 +125,7 @@ export default function AddEditVehiculeForm({
             onChange={(newValue) => {
               setValue('size', newValue?.value)
             }}
-            defaultValue={VEHICULES_SIZES.find((item) => item.value === currentVehicule?.size)}
+            defaultValue={VEHICULES_SIZES.find((item) => item.value === currentVehicle?.size)}
             className='react-select-container'
             classNamePrefix='react-select'
             placeholder=''
@@ -157,7 +157,7 @@ export default function AddEditVehiculeForm({
           {t('Cancel')}
         </Button>
         <Button size='large' type='submit' loading={isCreateLoading}>
-          {isEdit ? t('Edit Vehicule') : t('Add Vehicule')}
+          {isEdit ? t('Edit Vehicle') : t('Add Vehicle')}
         </Button>
       </div>
     </FormProvider>

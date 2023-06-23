@@ -42,7 +42,7 @@ export default function Table({ columns, data, isFinancement }) {
   return (
     <>
       <div className='flex w-full justify-center'>
-        <div className='container w-full border dark:border-gray-600'>
+        <div className='container w-full border  dark:border-gray-600'>
           <table {...getTableProps()} className='w-full'>
             <thead>
               {headerGroups.map((headerGroup, i) => (

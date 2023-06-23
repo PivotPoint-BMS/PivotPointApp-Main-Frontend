@@ -82,10 +82,7 @@ function Dashboard() {
                   // }
                 />
                 <CardContent className='flex items-center justify-between'>
-                  <h6 className='text-3xl font-semibold'>
-                    {data?.data.leadsTotal || 0}{' '}
-                    <span className='text-primary-600'>({data?.data.newLeads || 0})</span>
-                  </h6>
+                  <h6 className='text-3xl font-semibold'>{data?.data.leadsTotal || 0} </h6>
                 </CardContent>
               </Card>
               <Card fullWidth className='h-full'>
@@ -122,16 +119,14 @@ function Dashboard() {
                   // }
                 />
                 <CardContent className='flex items-center justify-between'>
-                  <h6 className='text-3xl font-semibold'>
-                    {data?.data.dealsTotal}{' '}
-                    <span className='text-primary-600'>({data?.data.newLeads || 0})</span>
-                  </h6>
+                  <h6 className='text-3xl font-semibold'>{data?.data.dealsTotal} </h6>
                 </CardContent>
               </Card>
               <CustomerSatisfaction
                 dataNegative={data?.data.sentimentAnalysisData.negative || []}
                 dataPositive={data?.data.sentimentAnalysisData.positive || []}
-                months={data?.data.sentimentAnalysisData.months || []}
+                dataNeutral={data?.data.sentimentAnalysisData.neutral || []}
+                days={data?.data.sentimentAnalysisData.date || []}
               />
               <TopCustomerComplaints
                 data={data?.data.complaintsChartData.complaintsNumber || []}
