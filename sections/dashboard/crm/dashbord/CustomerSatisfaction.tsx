@@ -26,7 +26,7 @@ export default function CustomerSatisfaction({
     legend: { position: 'top', horizontalAlign: 'right' },
     colors: ['#1FAA69', '#FF0800', '#0070BB'],
     xaxis: {
-      categories: days.map((day) => moment(day).format('MMM d')),
+      categories: days.map((day) => moment(day).format('DD MMM')),
     },
   })
   return (
@@ -38,7 +38,7 @@ export default function CustomerSatisfaction({
       />
       <CardContent>
         <ReactApexChart
-          type='area'
+          type='bar'
           series={[
             { name: t('Positive'), data: dataPositive },
             { name: t('Negative'), data: dataNegative },
