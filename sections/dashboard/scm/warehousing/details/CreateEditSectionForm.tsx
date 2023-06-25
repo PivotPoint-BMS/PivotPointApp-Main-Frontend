@@ -67,7 +67,7 @@ export default function CreateEditSectionForm({
   const onSubmit = async (data: FieldValues) => {
     const section: Omit<WarehouseSection, 'id'> & { warehouseId: string } = {
       name: data.name,
-      maxCapacity: data.location,
+      maxCapacity: data.maxCapacity,
       h: 1,
       w: 1,
       x: 1,

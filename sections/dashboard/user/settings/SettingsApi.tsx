@@ -92,11 +92,9 @@ export default function SettingsApi() {
                 </IconButton>
               </Tooltip>
             </div>
-            {data?.data.key === '' && (
-              <Button onClick={() => generateKey()} loading={isGenerating}>
-                {t('Generate Key')}
-              </Button>
-            )}
+            <Button onClick={() => generateKey()} loading={isGenerating}>
+              {t('Generate Key')}
+            </Button>
             {/* <div className='flex flex-col gap-1'>
               <div className='flex items-center justify-between'>
                 <label className='text-sm font-medium dark:text-white'>{t('API Usage')}</label>
