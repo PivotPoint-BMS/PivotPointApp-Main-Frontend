@@ -12,8 +12,9 @@ import QuickSetup from 'sections/dashboard/fm/quick-setup'
 // layout
 import Layout from 'layout/Index'
 // components
-import { AlertDialog, Backdrop } from 'components'
+import { AlertDialog, Backdrop, Button, HeaderBreadcrumbs } from 'components'
 import RoleBasedGuard from 'guards/RoleBasedGuard'
+import { Icon } from '@iconify/react'
 
 function index() {
   const { t } = useTranslate()
@@ -36,9 +37,21 @@ function index() {
       <Head>
         <title>Finance Management | Pivot Point BMS</title>
       </Head>
-
-      <div className='flex h-full items-center justify-center'>
-        <h1 className='text-2xl font-medium'>{t('Finance Management')}</h1>
+      <div className='flex max-w-full flex-col overflow-hidden px-5'>
+        <HeaderBreadcrumbs
+          heading={t('Finance Management')}
+          action={
+            <Button
+              startIcon={<Icon icon='grommet-icons:power-reset' height={24} />}
+              onClick={() => {
+                setOpenQuickSetup(true)
+                setStartStep('1')
+              }}
+            >
+              {t('Reconfigure')}
+            </Button>
+          }
+        />
       </div>
       <AlertDialog
         open={openQuickSetupAlert}
@@ -57,7 +70,7 @@ function index() {
         }}
         onClose={() => setOpenQuickSetupAlert(false)}
       />
-      {!isYearsLoading && !isLoading && isError && openQuickSetup && (
+      {(openQuickSetup || (!isYearsLoading && !isLoading && isError && openQuickSetup)) && (
         <QuickSetup
           open={openQuickSetup}
           startStep={startStep}

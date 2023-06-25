@@ -4,7 +4,6 @@ import { HYDRATE } from 'next-redux-wrapper'
 import { PIVOTPOINT_API } from 'config'
 // store
 import { RootState } from 'store'
-import { IGenericResponse } from 'types'
 
 export interface Root {
   negative: Negative[]
