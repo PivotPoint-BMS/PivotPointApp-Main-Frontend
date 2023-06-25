@@ -33,6 +33,8 @@ import { warehousingApi } from './api/scm/warehousing/warehousingApis'
 import { warehouseSectionApi } from './api/scm/warehousing/warehouseSectionApis'
 import { deliveriesApi } from './api/scm/transportation/deliveriesApis'
 import { fmBusinessPlanApi } from './api/fm/fmBusinessPlanApis'
+import { feedbackApi } from './api/feedback/feedbackAPIs'
+import { reviewsApi } from './api/external-api/reviewsAPIs'
 
 export const makeStore = () =>
   configureStore({
@@ -69,6 +71,9 @@ export const makeStore = () =>
       [vehiculePreviewSlice.name]: vehiculePreviewSlice.reducer,
       [sectionPreviewSlice.name]: sectionPreviewSlice.reducer,
       [warehouseSectionApi.reducerPath]: warehouseSectionApi.reducer,
+
+      [feedbackApi.reducerPath]: feedbackApi.reducer,
+      [reviewsApi.reducerPath]: reviewsApi.reducer,
     },
     devTools: process.env.NODE_ENV === 'development',
     middleware: (gDM) =>
@@ -94,7 +99,9 @@ export const makeStore = () =>
         fmBusinessPlanApi.middleware,
         financeDashboardApi.middleware,
         warehouseSectionApi.middleware,
-        customerSegmentationApi.middleware
+        customerSegmentationApi.middleware,
+        feedbackApi.middleware,
+        reviewsApi.middleware
       ),
   })
 

@@ -13,6 +13,7 @@ import CardContent from 'components/CardContent'
 import ReactApexChart, { BaseOptionChart } from 'components/chart'
 import Layout from 'layout/Index'
 import RoleBasedGuard from 'guards/RoleBasedGuard'
+import CommentsList from 'sections/dashboard/crm/sentiment-analysis/CommentsList'
 
 function index() {
   const { t } = useTranslate()
@@ -59,6 +60,7 @@ function index() {
                   width='100%'
                 />
               </CardContent>
+              <CommentsList />
             </Card>
           </>
         )}

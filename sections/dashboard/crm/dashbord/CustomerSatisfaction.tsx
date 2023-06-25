@@ -4,6 +4,8 @@ import moment from 'moment'
 import Link from 'next/link'
 // hooks
 import useTranslate from 'hooks/useTranslate'
+import useSnackbar from 'hooks/useSnackbar'
+import { useCopyToClipboard } from 'usehooks-ts'
 // components
 import ReactApexChart, { BaseOptionChart } from 'components/chart'
 import Card from 'components/Card'
@@ -12,6 +14,7 @@ import CardHeader from 'components/CardHeader'
 import Button from 'components/Button'
 import { Icon } from '@iconify/react'
 import { PATH_DASHBOARD } from 'routes/paths'
+import { useGetCompanyDetailsQuery } from 'store/api/settings/settingsAPIs'
 
 export default function CustomerSatisfaction({
   dataNegative,
@@ -25,6 +28,11 @@ export default function CustomerSatisfaction({
   days: string[]
 }) {
   const { t } = useTranslate()
+  const { open } = useSnackbar()
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars, @typescript-eslint/naming-convention
+  const [_, copy] = useCopyToClipboard()
+  const { data, isLoading, isSuccess } = useGetCompanyDetailsQuery()
+
   const chartOptions = merge(BaseOptionChart(), {
     legend: { position: 'top', horizontalAlign: 'right' },
     colors: ['#1FAA69', '#FF0800', '#0070BB'],
@@ -38,16 +46,31 @@ export default function CustomerSatisfaction({
         title={t('Customer Satisfaction (last 30 days)')}
         subheader={t('Customer feedback analysis based on reviews sent through external API')}
         actions={
-          <Link href={PATH_DASHBOARD.crm['sentiment-analysis']}>
+          <div className='flex items-center'>
+            <Link href={PATH_DASHBOARD.crm['sentiment-analysis']}>
+              <Button
+                variant='text'
+                intent='secondary'
+                endIcon={<Icon icon='mingcute:external-link-fill' />}
+              >
+                {t('More Info')}
+              </Button>
+            </Link>
             <Button
               variant='text'
-              intent='secondary'
-              endIcon={<Icon icon='mingcute:external-link-fill' />}
+              intent='primary'
+              endIcon={<Icon icon='majesticons:link-line' height={18} />}
+              loading={isLoading}
+              onClick={() => {
+                if (isSuccess)
+                  copy(`https://app.pivotpointbms.com/feedback?companyId=${data.data.id}`).then(
+                    () => open({ message: t('Feedback link copied to clipboard.') })
+                  )
+              }}
             >
-              {t('More Info')}
+              {t('Generate Feedback Link')}
             </Button>
-          </Link>
-          /* <Badge label={t('Beta')} intent='warning' /> */
+          </div>
         }
       />
       <CardContent>

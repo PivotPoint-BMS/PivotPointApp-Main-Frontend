@@ -11,6 +11,7 @@ import useTranslate from 'hooks/useTranslate'
 // components
 import { Icon } from '@iconify/react'
 import Button from 'components/Button'
+import IconButton from 'components/IconButton'
 // sections
 import StepOne from './step-one'
 import StepTwo from './step-two'
@@ -18,7 +19,6 @@ import StepThree from './step-three'
 import StepFour from './step-four'
 import StepFive from './step-five'
 import StepSix from './step-six'
-import IconButton from 'components/IconButton'
 
 const Tabs = [
   { name: 'Step 1', value: '1' },
