@@ -1,14 +1,17 @@
 import React from 'react'
 import { merge } from 'lodash'
+import moment from 'moment'
+import Link from 'next/link'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // components
+import ReactApexChart, { BaseOptionChart } from 'components/chart'
 import Card from 'components/Card'
 import CardContent from 'components/CardContent'
 import CardHeader from 'components/CardHeader'
-import ReactApexChart, { BaseOptionChart } from 'components/chart'
-import Badge from 'components/Badge'
-import moment from 'moment'
+import Button from 'components/Button'
+import { Icon } from '@iconify/react'
+import { PATH_DASHBOARD } from 'routes/paths'
 
 export default function CustomerSatisfaction({
   dataNegative,
@@ -34,7 +37,18 @@ export default function CustomerSatisfaction({
       <CardHeader
         title={t('Customer Satisfaction (last 30 days)')}
         subheader={t('Customer feedback analysis based on reviews sent through external API')}
-        actions={<Badge label={t('Beta')} intent='warning' />}
+        actions={
+          <Link href={PATH_DASHBOARD.crm['sentiment-analysis']}>
+            <Button
+              variant='text'
+              intent='secondary'
+              endIcon={<Icon icon='mingcute:external-link-fill' />}
+            >
+              {t('More Info')}
+            </Button>
+          </Link>
+          /* <Badge label={t('Beta')} intent='warning' /> */
+        }
       />
       <CardContent>
         <ReactApexChart

@@ -11,7 +11,7 @@ import Activities from './activities'
 const TABS = [
   { name: 'Activity', value: 'activity', icon: 'fluent:clipboard-task-24-filled' },
   { name: 'Notes', value: 'notes', icon: 'material-symbols:note' },
-  { name: 'Tasks', value: 'notes', icon: 'fluent:clipboard-task-24-filled' },
+  { name: 'Tasks', value: 'tasks', icon: 'fluent:clipboard-task-24-filled' },
   { name: 'Emails', value: 'emails', icon: 'material-symbols:mail' },
   { name: 'Calls', value: 'calls', icon: 'material-symbols:call' },
   { name: 'Meetings', value: 'meetings', icon: 'material-symbols:groups' },

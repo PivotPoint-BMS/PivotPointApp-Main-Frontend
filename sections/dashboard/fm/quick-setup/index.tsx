@@ -18,6 +18,7 @@ import StepThree from './step-three'
 import StepFour from './step-four'
 import StepFive from './step-five'
 import StepSix from './step-six'
+import IconButton from 'components/IconButton'
 
 const Tabs = [
   { name: 'Step 1', value: '1' },
@@ -149,6 +150,11 @@ export default function QuickSetup({
               )}
             </TabsPrimitive.Trigger>
           ))}
+          <div className='mx-2 flex h-16 items-center justify-center border-b'>
+            <IconButton onClick={handleClose}>
+              <Icon icon='ic:round-close' height={24} />
+            </IconButton>
+          </div>
         </TabsPrimitive.List>
 
         <TabsPrimitive.Content

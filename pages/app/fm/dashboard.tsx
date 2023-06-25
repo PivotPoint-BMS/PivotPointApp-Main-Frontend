@@ -57,7 +57,7 @@ function index() {
         }}
         onClose={() => setOpenQuickSetupAlert(false)}
       />
-      {!isYearsLoading && !isLoading && isError && (
+      {!isYearsLoading && !isLoading && isError && openQuickSetup && (
         <QuickSetup
           open={openQuickSetup}
           startStep={startStep}

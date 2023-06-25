@@ -57,6 +57,7 @@ export const PATH_DASHBOARD = {
     'sales-pipeline': path(ROOTS_APP, '/crm/sales-pipeline'),
     'customer-segmentation': path(ROOTS_APP, '/crm/customer-segmentation'),
     'customer-service': path(ROOTS_APP, '/crm/customer-service'),
+    'sentiment-analysis': path(ROOTS_APP, '/crm/sentiment-analysis'),
     workflow: path(ROOTS_APP, '/crm/workflow'),
   },
   fm: {

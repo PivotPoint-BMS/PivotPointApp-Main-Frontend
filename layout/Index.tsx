@@ -54,13 +54,15 @@ function Layout({
           className='flex-1 overflow-x-hidden'
           style={{ marginTop: !isDesktop ? HEADER.MAIN_DESKTOP_HEIGHT : 0 }}
         >
-          <Alert intent='warning' variant='ghost' className='m-1 mr-5 !p-1'>
-            {t(
-              'This version of the app is for testing purposes, Please do not use real data as all the databases will be reset'
-            )}{' '}
-            {moment('06/23/2023').add(90, 'days').fromNow()}{' '}
-            {t('when the production version is released')}
-          </Alert>
+          <div className='px-2 py-1'>
+            <Alert intent='warning' variant='ghost' className='!p-1'>
+              {t(
+                'This version of the app is for testing purposes, Please do not use real data as all the databases will be reset'
+              )}{' '}
+              {moment('06/23/2023').add(90, 'days').fromNow()}{' '}
+              {t('when the production version is released')}
+            </Alert>
+          </div>
           <div>{children}</div>
         </main>
       </div>
