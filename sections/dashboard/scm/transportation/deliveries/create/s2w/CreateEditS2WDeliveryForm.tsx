@@ -50,7 +50,7 @@ function CreateEditS2WDeliveryForm() {
   const [openProductDialog, setOpenProductDialog] = useState(false)
 
   // Filters
-  const { PageNumber, PageSize } = useAppSelector((state) => state.paggination)
+  const { PageNumber, PageSize } = useAppSelector((state) => state.pagination)
   const [searchTerm, setSearchTerm] = useState<string | undefined>(undefined)
   const [searchValue, setSearchValue] = useState('')
   // Queries

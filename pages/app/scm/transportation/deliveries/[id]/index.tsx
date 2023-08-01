@@ -48,8 +48,8 @@ function index() {
     query: { id },
   } = useRouter()
   const [status, setStatus] = useState(0)
-  // Pogination
-  const { PageSize, PageNumber } = useAppSelector((state) => state.paggination)
+  // Pagination
+  const { PageSize, PageNumber } = useAppSelector((state) => state.pagination)
   // Query
   const { data, isLoading, isSuccess } = useGetDeliveryQuery(
     id?.toString() ? id?.toString() : skipToken

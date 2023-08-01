@@ -47,7 +47,7 @@ export default function CreateEditProductForm({
 
   const [type, setType] = useState<number | null>(null)
 
-  const { PageNumber, PageSize } = useAppSelector((state) => state.paggination)
+  const { PageNumber, PageSize } = useAppSelector((state) => state.pagination)
 
   const { data: categories, isLoading, isSuccess } = useGetCategoriesQuery()
   const [

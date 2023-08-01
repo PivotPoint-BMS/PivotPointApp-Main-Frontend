@@ -1,18 +1,18 @@
 /* eslint-disable no-param-reassign */
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
-interface PagginationProps {
+interface paginationProps {
   PageSize: number
   PageNumber: number
 }
 
-const initialState: PagginationProps = {
+const initialState: paginationProps = {
   PageNumber: 1,
   PageSize: 10,
 }
 
-const pagginationSlice = createSlice({
-  name: 'paggination',
+const paginationSlice = createSlice({
+  name: 'pagination',
   initialState,
   reducers: {
     changePageSize: (state, action: PayloadAction<number>) => {
@@ -21,12 +21,12 @@ const pagginationSlice = createSlice({
     changePageNumber: (state, action: PayloadAction<number>) => {
       state.PageNumber = action.payload
     },
-    resetPaggination: (state) => {
+    resetpagination: (state) => {
       state.PageNumber = 1
     },
   },
 })
 
-export const { changePageNumber, changePageSize, resetPaggination } = pagginationSlice.actions
+export const { changePageNumber, changePageSize, resetpagination } = paginationSlice.actions
 
-export default pagginationSlice
+export default paginationSlice

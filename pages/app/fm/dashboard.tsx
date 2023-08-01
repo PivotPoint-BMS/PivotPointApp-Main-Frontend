@@ -21,13 +21,11 @@ function index() {
   const [startStep, setStartStep] = useState('1')
   const [openQuickSetupAlert, setOpenQuickSetupAlert] = useState(false)
   const [openQuickSetup, setOpenQuickSetup] = useState(false)
-  const { isLoading, isError, isSuccess, error } = useGetFmDashboardStatsQuery()
+  const { isLoading, isSuccess, isError, error } = useGetFmDashboardStatsQuery()
   const { data, isLoading: isYearsLoading } = useGetStepOneQuery()
 
   useEffect(() => {
-    if (isSuccess) setOpenQuickSetupAlert(false)
-    else if (isError && error) {
-      setOpenQuickSetupAlert(true)
+    if (isError && error) {
       setStartStep(String(error) || '1')
     }
   }, [isLoading, isYearsLoading])
@@ -41,15 +39,28 @@ function index() {
         <HeaderBreadcrumbs
           heading={t('Finance Management')}
           action={
-            <Button
-              startIcon={<Icon icon='grommet-icons:power-reset' height={24} />}
-              onClick={() => {
-                setOpenQuickSetup(true)
-                setStartStep('1')
-              }}
-            >
-              {t('Reconfigure')}
-            </Button>
+            <div className='flex items-center gap-2'>
+              {isSuccess && (
+                <Button
+                  startIcon={<Icon icon='carbon:view-filled' height={24} />}
+                  onClick={() => {
+                    setOpenQuickSetup(true)
+                  }}
+                >
+                  {t('View Financal Plan')}
+                </Button>
+              )}
+              <Button
+                startIcon={
+                  <Icon icon={isSuccess ? 'pepicons-pop:arrow-spin' : 'ic:settings'} height={24} />
+                }
+                onClick={() => {
+                  setOpenQuickSetup(true)
+                }}
+              >
+                {isSuccess ? t('Reconfigure Finance') : t('Configure Finance')}
+              </Button>
+            </div>
           }
         />
       </div>

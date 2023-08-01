@@ -2,6 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 // routes
 import { PATH_DASHBOARD } from 'routes/paths'
+import { getItem, setItem } from 'utils/localStorage'
 
 export interface NavItemConfig {
   name: string
@@ -77,16 +78,6 @@ const initialState: SideBarConfig = {
             color: 'warning',
           },
         },
-        {
-          name: 'Customer Service',
-          href: PATH_DASHBOARD.crm['customer-service'],
-          icon: 'ri:customer-service-2-fill',
-          disabled: true,
-          badge: {
-            label: 'In Dev',
-            color: 'default',
-          },
-        },
       ],
     },
     {
@@ -141,13 +132,22 @@ const initialState: SideBarConfig = {
             color: 'success',
           },
         },
+        {
+          name: 'Invoices',
+          href: PATH_DASHBOARD.scm.invoices.root,
+          icon: 'basil:invoice-solid',
+          badge: {
+            label: 'New',
+            color: 'success',
+          },
+        },
         // {
         //   name: 'Demand Forecasting',
         //   href: PATH_DASHBOARD.scm['demand-forecasting'],
         //   icon: 'material-symbols:batch-prediction',
         //   disabled: true,
         //   badge: {
-        //     label: 'In Dev',
+        //     label: 'Soon',
         //     color: 'default',
         //   },
         // },
@@ -157,7 +157,7 @@ const initialState: SideBarConfig = {
         //   icon: 'fa6-solid:file-invoice',
         //   disabled: true,
         //   badge: {
-        //     label: 'In Dev',
+        //     label: 'Soon',
         //     color: 'default',
         //   },
         // },
@@ -167,7 +167,7 @@ const initialState: SideBarConfig = {
         //   icon: 'material-symbols:monitor-heart-rounded',
         //   disabled: true,
         //   badge: {
-        //     label: 'In Dev',
+        //     label: 'Soon',
         //     color: 'default',
         //   },
         // },
@@ -190,74 +190,83 @@ const initialState: SideBarConfig = {
           },
         },
         {
-          name: 'Business Plan',
-          href: PATH_DASHBOARD.fm['business-plan'],
-          icon: 'ion:cash',
+          name: 'Bank Accounts',
+          href: PATH_DASHBOARD.fm['bank-accounts'],
+          icon: 'mingcute:bank-card-fill',
           badge: {
-            label: 'In Dev',
-            color: 'default',
+            label: 'Beta',
+            color: 'warning',
           },
         },
-        {
-          name: 'Cash',
-          href: PATH_DASHBOARD.fm.cash,
-          icon: 'ion:cash',
-          disabled: true,
-          badge: {
-            label: 'In Dev',
-            color: 'default',
-          },
-        },
-        {
-          name: 'Expenses & Incomes',
-          href: PATH_DASHBOARD.fm['expences-incomes'],
-          icon: 'fa6-solid:money-bill-transfer',
-          disabled: true,
-          badge: {
-            label: 'In Dev',
-            color: 'default',
-          },
-        },
-        {
-          name: 'Funding',
-          href: PATH_DASHBOARD.fm.funding,
-          icon: 'icon-park-outline:funds',
-          disabled: true,
-          badge: {
-            label: 'In Dev',
-            color: 'default',
-          },
-        },
-        {
-          name: 'Asset',
-          href: PATH_DASHBOARD.fm.assets,
-          icon: 'material-symbols:real-estate-agent-rounded',
-          disabled: true,
-          badge: {
-            label: 'In Dev',
-            color: 'default',
-          },
-        },
-        {
-          name: 'Risk',
-          href: PATH_DASHBOARD.fm.risk,
-          icon: 'jam:triangle-danger-f',
-          disabled: true,
-          badge: {
-            label: 'In Dev',
-            color: 'default',
-          },
-        },
-        {
-          name: 'Tax',
-          href: PATH_DASHBOARD.fm.tax,
-          icon: 'majesticons:money-hand',
-          disabled: true,
-          badge: {
-            label: 'In Dev',
-            color: 'default',
-          },
-        },
+        // {
+        //   name: 'Business Plan',
+        //   href: PATH_DASHBOARD.fm['business-plan'],
+        //   icon: 'ion:cash',
+        //   badge: {
+        //     label: 'Soon',
+        //     color: 'default',
+        //   },
+        // },
+        // {
+        //   name: 'Cash',
+        //   href: PATH_DASHBOARD.fm.cash,
+        //   icon: 'ion:cash',
+        //   disabled: true,
+        //   badge: {
+        //     label: 'Soon',
+        //     color: 'default',
+        //   },
+        // },
+        // {
+        //   name: 'Expenses & Incomes',
+        //   href: PATH_DASHBOARD.fm['expences-incomes'],
+        //   icon: 'fa6-solid:money-bill-transfer',
+        //   disabled: true,
+        //   badge: {
+        //     label: 'Soon',
+        //     color: 'default',
+        //   },
+        // },
+        // {
+        //   name: 'Funding',
+        //   href: PATH_DASHBOARD.fm.funding,
+        //   icon: 'icon-park-outline:funds',
+        //   disabled: true,
+        //   badge: {
+        //     label: 'Soon',
+        //     color: 'default',
+        //   },
+        // },
+        // {
+        //   name: 'Asset',
+        //   href: PATH_DASHBOARD.fm.assets,
+        //   icon: 'material-symbols:real-estate-agent-rounded',
+        //   disabled: true,
+        //   badge: {
+        //     label: 'Soon',
+        //     color: 'default',
+        //   },
+        // },
+        // {
+        //   name: 'Risk',
+        //   href: PATH_DASHBOARD.fm.risk,
+        //   icon: 'jam:triangle-danger-f',
+        //   disabled: true,
+        //   badge: {
+        //     label: 'Soon',
+        //     color: 'default',
+        //   },
+        // },
+        // {
+        //   name: 'Tax',
+        //   href: PATH_DASHBOARD.fm.tax,
+        //   icon: 'majesticons:money-hand',
+        //   disabled: true,
+        //   badge: {
+        //     label: 'Soon',
+        //     color: 'default',
+        //   },
+        // },
       ],
     },
     {
@@ -268,7 +277,7 @@ const initialState: SideBarConfig = {
       disabled: true,
       roles: ['Owner', 'HRM'],
       badge: {
-        label: 'In Dev',
+        label: 'Soon',
       },
       subItems: [
         {
@@ -277,7 +286,7 @@ const initialState: SideBarConfig = {
           icon: 'solar:graph-bold',
           disabled: true,
           badge: {
-            label: 'In Dev',
+            label: 'Soon',
             color: 'default',
           },
         },
@@ -287,7 +296,7 @@ const initialState: SideBarConfig = {
           icon: 'material-symbols:manage-accounts',
           disabled: true,
           badge: {
-            label: 'In Dev',
+            label: 'Soon',
             color: 'default',
           },
         },
@@ -297,7 +306,7 @@ const initialState: SideBarConfig = {
           icon: 'fa6-solid:users-gear',
           disabled: true,
           badge: {
-            label: 'In Dev',
+            label: 'Soon',
             color: 'default',
           },
         },
@@ -307,7 +316,7 @@ const initialState: SideBarConfig = {
           icon: 'material-symbols:payments-outline-rounded',
           disabled: true,
           badge: {
-            label: 'In Dev',
+            label: 'Soon',
             color: 'default',
           },
         },
@@ -321,7 +330,7 @@ const initialState: SideBarConfig = {
       disabled: true,
       roles: ['Owner', 'PM'],
       badge: {
-        label: 'In Dev',
+        label: 'Soon',
         color: 'default',
       },
       subItems: [
@@ -331,7 +340,7 @@ const initialState: SideBarConfig = {
           icon: 'solar:graph-bold',
           disabled: true,
           badge: {
-            label: 'In Dev',
+            label: 'Soon',
             color: 'default',
           },
         },
@@ -341,7 +350,7 @@ const initialState: SideBarConfig = {
           icon: 'icon-park-solid:schedule',
           disabled: true,
           badge: {
-            label: 'In Dev',
+            label: 'Soon',
             color: 'default',
           },
         },
@@ -351,7 +360,7 @@ const initialState: SideBarConfig = {
           icon: 'material-symbols:timer-rounded',
           disabled: true,
           badge: {
-            label: 'In Dev',
+            label: 'Soon',
             color: 'default',
           },
         },
@@ -361,7 +370,7 @@ const initialState: SideBarConfig = {
           icon: 'material-symbols:account-tree-rounded',
           disabled: true,
           badge: {
-            label: 'In Dev',
+            label: 'Soon',
             color: 'default',
           },
         },
@@ -375,13 +384,13 @@ const initialState: SideBarConfig = {
       disabled: true,
       roles: ['Owner', 'WF'],
       badge: {
-        label: 'In Dev',
+        label: 'Soon',
         color: 'default',
       },
     },
   ],
   isOpen: false,
-  isCollapsed: false,
+  isCollapsed: getItem('isCollapsed') as boolean,
 }
 
 const sideBarSlice = createSlice({
@@ -395,9 +404,11 @@ const sideBarSlice = createSlice({
       state.isOpen = false
     },
     collapse: (state) => {
+      setItem('isCollapsed', true)
       state.isCollapsed = true
     },
     extend: (state) => {
+      setItem('isCollapsed', false)
       state.isCollapsed = false
     },
   },

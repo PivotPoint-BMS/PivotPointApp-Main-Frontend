@@ -31,7 +31,7 @@ export default function AddEditVehicleForm({
 }) {
   const { t } = useTranslate()
   const { open } = useSnackbar()
-  const { PageNumber, PageSize } = useAppSelector((state) => state.paggination)
+  const { PageNumber, PageSize } = useAppSelector((state) => state.pagination)
   const [
     createVehicle,
     { isLoading: isCreateLoading, isSuccess: isCreateSuccess, isError: isCreateError },

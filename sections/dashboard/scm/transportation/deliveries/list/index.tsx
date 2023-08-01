@@ -19,7 +19,7 @@ import {
   useArrivedDeliveryMutation,
   useCompletedDeliveryMutation,
 } from 'store/api/scm/transportation/deliveriesApis'
-import { changePageNumber, changePageSize } from 'store/slices/pagginationSlice'
+import { changePageNumber, changePageSize } from 'store/slices/paginationSlice'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { PATH_DASHBOARD } from 'routes/paths'
 // types
@@ -59,8 +59,8 @@ export default function DeliveriesList() {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [idToDelete, setIdToDelete] = useState<string | null>(null)
-  // Pogination
-  const { PageSize, PageNumber } = useAppSelector((state) => state.paggination)
+  // Pagination
+  const { PageSize, PageNumber } = useAppSelector((state) => state.pagination)
   // Filters
   const [searchValue, setSearchValue] = useState('')
 
@@ -256,7 +256,7 @@ export default function DeliveriesList() {
               {
                 type: 'button',
                 label: t('Edit'),
-                icon: <Iconify icon='material-symbols:edit' height={18} />,
+                icon: <Iconify icon='ic:round-edit' height={18} />,
                 // onClick: () => push(PATH_DASHBOARD.crm['contacts-products'].edit(delivery.getValue().id)),
               },
               {

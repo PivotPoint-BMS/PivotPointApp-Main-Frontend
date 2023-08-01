@@ -29,7 +29,7 @@ export default function LeadTableToolbar({
 }: LeadTableToolbarProps) {
   const { t } = useTranslate()
   const { open } = useSnackbar()
-  const { PageNumber, PageSize } = useAppSelector((state) => state.paggination)
+  const { PageNumber, PageSize } = useAppSelector((state) => state.pagination)
   const [openBulkDeleteDialog, setOpenBulkDeleteDialog] = useState(false)
   const [bulkDeleteLead, { isLoading, isSuccess, isError }] = useBulkDeleteLeadMutation()
   const [convertToContact] = useConvertToContactMutation()

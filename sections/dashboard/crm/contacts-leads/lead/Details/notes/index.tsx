@@ -32,7 +32,7 @@ export default function Notes({ leadId }: { leadId: string }) {
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const inputRef = useRef<HTMLInputElement>(null)
-  const { PageNumber, PageSize } = useAppSelector((state) => state.paggination)
+  const { PageNumber, PageSize } = useAppSelector((state) => state.pagination)
 
   const [noteTitle, setNoteTitle] = useState('')
   const [noteToEdit, setNoteToEdit] = useState<Note | null>(null)

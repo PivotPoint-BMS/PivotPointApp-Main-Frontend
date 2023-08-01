@@ -5,13 +5,14 @@ import { createWrapper } from 'next-redux-wrapper'
 import {
   dealPreviewSlice,
   leadPreviewSlice,
-  pagginationSlice,
+  paginationSlice,
   sessionSlice,
   sideBarSlice,
   snackbarSlice,
   vehiculePreviewSlice,
   supplierPreviewSlice,
   sectionPreviewSlice,
+  settingsSlice,
 } from './slices'
 // apis
 import { authApi, companyApi, paymentApi } from './api/auth'
@@ -35,15 +36,18 @@ import { deliveriesApi } from './api/scm/transportation/deliveriesApis'
 import { fmBusinessPlanApi } from './api/fm/fmBusinessPlanApis'
 import { feedbackApi } from './api/feedback/feedbackAPIs'
 import { reviewsApi } from './api/external-api/reviewsAPIs'
+import { invoicesApi } from './api/scm/invoices/invoicesApis'
+import { bankAccountsApi } from './api/fm/bankAccountsApis'
 
 export const makeStore = () =>
   configureStore({
     reducer: {
       [statsApi.reducerPath]: statsApi.reducer,
       [sessionSlice.name]: sessionSlice.reducer,
+      [settingsSlice.name]: settingsSlice.reducer,
       [sideBarSlice.name]: sideBarSlice.reducer,
       [snackbarSlice.name]: snackbarSlice.reducer,
-      [pagginationSlice.name]: pagginationSlice.reducer,
+      [paginationSlice.name]: paginationSlice.reducer,
       // Auth
       [authApi.reducerPath]: authApi.reducer,
       [companyApi.reducerPath]: companyApi.reducer,
@@ -59,21 +63,22 @@ export const makeStore = () =>
       [customerSegmentationApi.reducerPath]: customerSegmentationApi.reducer,
       // FM
       [financeSetupApi.reducerPath]: financeSetupApi.reducer,
+      [bankAccountsApi.reducerPath]: bankAccountsApi.reducer,
       [fmBusinessPlanApi.reducerPath]: fmBusinessPlanApi.reducer,
       [financeDashboardApi.reducerPath]: financeDashboardApi.reducer,
       // SCM
+      [reviewsApi.reducerPath]: reviewsApi.reducer,
+      [invoicesApi.reducerPath]: invoicesApi.reducer,
+      [feedbackApi.reducerPath]: feedbackApi.reducer,
       [supplierApi.reducerPath]: supplierApi.reducer,
       [productsApi.reducerPath]: productsApi.reducer,
       [vehiculesApi.reducerPath]: vehiculesApi.reducer,
       [deliveriesApi.reducerPath]: deliveriesApi.reducer,
       [warehousingApi.reducerPath]: warehousingApi.reducer,
+      [sectionPreviewSlice.name]: sectionPreviewSlice.reducer,
       [supplierPreviewSlice.name]: supplierPreviewSlice.reducer,
       [vehiculePreviewSlice.name]: vehiculePreviewSlice.reducer,
-      [sectionPreviewSlice.name]: sectionPreviewSlice.reducer,
       [warehouseSectionApi.reducerPath]: warehouseSectionApi.reducer,
-
-      [feedbackApi.reducerPath]: feedbackApi.reducer,
-      [reviewsApi.reducerPath]: reviewsApi.reducer,
     },
     devTools: process.env.NODE_ENV === 'development',
     middleware: (gDM) =>
@@ -84,24 +89,26 @@ export const makeStore = () =>
         authApi.middleware,
         leadApi.middleware,
         statsApi.middleware,
+        reviewsApi.middleware,
         addressApi.middleware,
         companyApi.middleware,
         paymentApi.middleware,
+        feedbackApi.middleware,
         settingsApi.middleware,
         supplierApi.middleware,
         productsApi.middleware,
+        invoicesApi.middleware,
         vehiculesApi.middleware,
         leadSourceApi.middleware,
         deliveriesApi.middleware,
         warehousingApi.middleware,
         dealsBoardsApi.middleware,
         financeSetupApi.middleware,
+        bankAccountsApi.middleware,
         fmBusinessPlanApi.middleware,
         financeDashboardApi.middleware,
         warehouseSectionApi.middleware,
-        customerSegmentationApi.middleware,
-        feedbackApi.middleware,
-        reviewsApi.middleware
+        customerSegmentationApi.middleware
       ),
   })
 

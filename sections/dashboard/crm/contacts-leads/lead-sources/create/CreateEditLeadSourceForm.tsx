@@ -32,7 +32,7 @@ export default function CreateEditLeadSourceForm({
   const { t } = useTranslate()
   const { open } = useSnackbar()
 
-  const { PageNumber, PageSize } = useAppSelector((state) => state.paggination)
+  const { PageNumber, PageSize } = useAppSelector((state) => state.pagination)
 
   const [
     createLeadSource,

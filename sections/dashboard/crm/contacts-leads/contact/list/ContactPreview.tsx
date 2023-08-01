@@ -75,7 +75,7 @@ export default function ContactPreview() {
             <Tooltip title={t('Edit')}>
               <Link href={PATH_DASHBOARD.crm['contacts-leads'].edit(lead?.id)}>
                 <IconButton>
-                  <Iconify icon='material-symbols:edit' height={18} />
+                  <Iconify icon='ic:round-edit' height={18} />
                 </IconButton>
               </Link>
             </Tooltip>

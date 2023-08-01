@@ -20,7 +20,7 @@ import {
   useDeleteSupplierMutation,
   useGetSuppliersQuery,
 } from 'store/api/scm/products-service/suppliersApis'
-import { changePageNumber, changePageSize } from 'store/slices/pagginationSlice'
+import { changePageNumber, changePageSize } from 'store/slices/paginationSlice'
 // types
 import { Supplier } from 'types'
 // components
@@ -64,8 +64,8 @@ export default function SuppliersList({
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [idToDelete, setIdToDelete] = useState<string | null>(null)
-  // Pogination
-  const { PageSize, PageNumber } = useAppSelector((state) => state.paggination)
+  // Pagination
+  const { PageSize, PageNumber } = useAppSelector((state) => state.pagination)
   // Filters
   const [searchValue, setSearchValue] = useState('')
   // Query Params
@@ -147,7 +147,7 @@ export default function SuppliersList({
               {
                 type: 'button',
                 label: t('Edit'),
-                icon: <Iconify icon='material-symbols:edit' height={18} />,
+                icon: <Iconify icon='ic:round-edit' height={18} />,
                 onClick: () => dispatch(editSupplier(supplier.getValue())),
               },
               {

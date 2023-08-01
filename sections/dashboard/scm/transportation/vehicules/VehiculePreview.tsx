@@ -20,7 +20,7 @@ export default function VehiclePreview() {
   const dispatch = useAppDispatch()
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
   const { isOpen, vehicule } = useAppSelector((state) => state.vehiculePreview)
-  const { PageNumber, PageSize } = useAppSelector((state) => state.paggination)
+  const { PageNumber, PageSize } = useAppSelector((state) => state.pagination)
   const [deleteVehicle, { isLoading: isDeleteLoading }] = useDeleteVehicleMutation()
 
   return (

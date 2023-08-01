@@ -38,7 +38,7 @@ export default function ActionNode({ data }: NodeProps<ActionNodeData>) {
                   </IconButton>
                 }
                 items={[
-                  { label: 'Edit', icon: <Icon icon='material-symbols:edit' />, type: 'button' },
+                  { label: 'Edit', icon: <Icon icon='ic:round-edit' />, type: 'button' },
                   {
                     label: 'Delete',
                     icon: <Icon icon='ic:round-delete' />,
@@ -72,7 +72,7 @@ export default function ActionNode({ data }: NodeProps<ActionNodeData>) {
               variant='text'
               intent='default'
               className='w-full !justify-start !text-xs font-normal'
-              startIcon={<Icon icon='material-symbols:edit' />}
+              startIcon={<Icon icon='ic:round-edit' />}
             >
               Edit
             </Button>

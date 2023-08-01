@@ -418,7 +418,7 @@ const DealsKanban = ({
               <Button
                 variant='outlined'
                 intent='default'
-                startIcon={<Iconify icon='material-symbols:edit' height={18} />}
+                startIcon={<Iconify icon='ic:round-edit' height={18} />}
                 onClick={() => setOpenEditBoardDialog(true)}
               >
                 {t('Edit')}

@@ -19,7 +19,7 @@ import {
   useDeleteWarehouseMutation,
   useGetWarehousesQuery,
 } from 'store/api/scm/warehousing/warehousingApis'
-import { changePageNumber, changePageSize } from 'store/slices/pagginationSlice'
+import { changePageNumber, changePageSize } from 'store/slices/paginationSlice'
 // types
 import { Warehouse } from 'types'
 // components
@@ -61,8 +61,8 @@ export default function WarehousesList({
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [idToDelete, setIdToDelete] = useState<string | null>(null)
   const [warehouseToEdit, setWarehouseToEdit] = useState<Warehouse | null>(null)
-  // Pogination
-  const { PageSize, PageNumber } = useAppSelector((state) => state.paggination)
+  // Pagination
+  const { PageSize, PageNumber } = useAppSelector((state) => state.pagination)
   // Filters
   const [searchValue, setSearchValue] = useState('')
   // Query Params
@@ -124,7 +124,7 @@ export default function WarehousesList({
               {
                 type: 'button',
                 label: t('Edit'),
-                icon: <Iconify icon='material-symbols:edit' height={18} />,
+                icon: <Iconify icon='ic:round-edit' height={18} />,
                 onClick: () => {
                   setWarehouseToEdit(warehouse.getValue())
                   setOpenAddEditDialog(true)

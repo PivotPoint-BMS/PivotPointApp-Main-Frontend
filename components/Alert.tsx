@@ -2,7 +2,7 @@ import React from 'react'
 import { cva, VariantProps } from 'class-variance-authority'
 import { Icon as Iconify } from '@iconify/react'
 
-export const alertContained = cva('flex w-full items-center rounded-lg px-4 py-3 gap-3', {
+export const alertContained = cva('flex w-full items-start rounded-lg px-4 py-3 gap-3', {
   variants: {
     intent: {
       success: 'bg-green-600 !text-white dark:!text-black/90 dark:bg-green-300',
@@ -17,7 +17,7 @@ export const alertContained = cva('flex w-full items-center rounded-lg px-4 py-3
   },
 })
 
-export const alertGhost = cva('flex w-full items-center rounded-lg px-4 py-3 gap-3', {
+export const alertGhost = cva('flex w-full items-start rounded-lg px-4 py-3 gap-3', {
   variants: {
     intent: {
       success: 'bg-green-200/60 !text-green-800 dark:!text-green-100 dark:bg-green-700/30',
@@ -31,7 +31,7 @@ export const alertGhost = cva('flex w-full items-center rounded-lg px-4 py-3 gap
   },
 })
 
-export const alertOutlined = cva('flex w-full items-center rounded-lg px-4 py-3 gap-3', {
+export const alertOutlined = cva('flex w-full items-start rounded-lg px-4 py-3 gap-3', {
   variants: {
     intent: {
       success: 'border-2 border-green-400 !text-green-600 dark:!text-green-100',

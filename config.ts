@@ -20,9 +20,11 @@ export const HEADER = {
 
 export const NAVBAR = {
   MAIN_NAVBAR_WIDTH: 88,
+  VERTICAL_NAVBAR_WIDTH: 280,
   SECONDARY_NAVBAR_WIDTH: 280,
   MAIN_NAVBAR_WIDTH_MOBILE: 300,
   SECONDARY_NAVBAR_COLLAPSE_WIDTH: 88,
+  VERTICAL_NAVBAR_COLLAPSE_WIDTH: 80,
 }
 
 export const PREVIEW = {
@@ -75,4 +77,11 @@ export const DELIVERY_STATUS = [
   { value: 1, label: 'In Transit' },
   { value: 2, label: 'Arrived At Destination' },
   { value: 3, label: 'Delivery Complete' },
+]
+
+export const BANK_ACCOUNT_TYPES = [
+  { value: 0, label: 'Bank' },
+  { value: 1, label: 'Card' },
+  { value: 2, label: 'Wallet' },
+  { value: 3, label: 'Cash' },
 ]

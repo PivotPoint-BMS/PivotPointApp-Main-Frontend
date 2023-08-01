@@ -13,7 +13,7 @@ import {
   useDeleteLeadSourceMutation,
   useGetLeadSourcesQuery,
 } from 'store/api/crm/contact-leads/leadSourceApi'
-import { changePageNumber, changePageSize, resetPaggination } from 'store/slices/pagginationSlice'
+import { changePageNumber, changePageSize, resetpagination } from 'store/slices/paginationSlice'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 // types
 import { LeadSource } from 'types/Lead'
@@ -60,8 +60,8 @@ export default function LeadSourcesList({
   const [openEditDialog, setOpenEditDialog] = useState(false)
   const [leadSourceToEdit, setLeadSourceToEdit] = useState<LeadSource | null>(null)
   const [idToDelete, setIdToDelete] = useState<string | null>(null)
-  // Pogination
-  const { PageSize, PageNumber } = useAppSelector((state) => state.paggination)
+  // Pagination
+  const { PageSize, PageNumber } = useAppSelector((state) => state.pagination)
   // Filters
   const [searchValue, setSearchValue] = useState('')
   // Query Params
@@ -130,7 +130,7 @@ export default function LeadSourcesList({
                 setOpenEditDialog(true)
               }}
             >
-              <Icon icon='material-symbols:edit' height={20} />
+              <Icon icon='ic:round-edit' height={20} />
             </IconButton>
           </Tooltip>
         </div>
@@ -187,7 +187,7 @@ export default function LeadSourcesList({
     if (isSuccess) dispatch(changePageSize(data.pageSize))
   }, [isLoading, isFetching])
   useEffect(() => {
-    dispatch(resetPaggination())
+    dispatch(resetpagination())
   }, [])
   return (
     <>

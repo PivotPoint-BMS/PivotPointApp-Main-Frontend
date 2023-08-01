@@ -16,7 +16,7 @@ import {
   useDeleteProductMutation,
   useGetProductsQuery,
 } from 'store/api/scm/products-service/productsApi'
-import { changePageNumber, changePageSize } from 'store/slices/pagginationSlice'
+import { changePageNumber, changePageSize } from 'store/slices/paginationSlice'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 // conig
 import { PIVOTPOINT_API } from 'config'
@@ -57,8 +57,8 @@ export default function ProductsList() {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [idToDelete, setIdToDelete] = useState<string | null>(null)
-  // Pogination
-  const { PageSize, PageNumber } = useAppSelector((state) => state.paggination)
+  // Pagination
+  const { PageSize, PageNumber } = useAppSelector((state) => state.pagination)
   // Filters
   const [searchValue, setSearchValue] = useState('')
 
@@ -184,7 +184,7 @@ export default function ProductsList() {
               {
                 type: 'button',
                 label: t('Edit'),
-                icon: <Iconify icon='material-symbols:edit' height={18} />,
+                icon: <Iconify icon='ic:round-edit' height={18} />,
                 // onClick: () => push(PATH_DASHBOARD.crm['contacts-products'].edit(product.getValue().id)),
               },
               {

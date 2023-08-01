@@ -84,7 +84,7 @@ function NavItemOne({
         <CollapsiblePrimitive.Trigger
           disabled={disabled}
           className={clsx(
-            'group flex w-full items-center gap-2 rounded-xl p-4 text-secondary-900 hover:bg-secondary-500/10 dark:text-white dark:hover:bg-gray-300/10',
+            'group flex w-full items-center gap-2 rounded-lg p-4 text-secondary-900 hover:bg-secondary-500/10 dark:text-white dark:hover:bg-gray-300/10',
             active && 'bg-primary-500/10 dark:bg-gray-300/10'
           )}
         >
@@ -117,7 +117,7 @@ function NavItemOne({
                 key={i}
                 href={item.href}
                 className={clsx(
-                  'flex items-center gap-3 rounded-xl py-3 px-5 ltr:ml-3 rtl:mr-3',
+                  'flex items-center gap-3 rounded-lg py-3 px-5 ltr:ml-3 rtl:mr-3',
                   getActivePath(item.href, pathname, asPath)
                     ? 'bg-secondary-700 text-gray-200 hover:bg-secondary-800 dark:text-white'
                     : 'bg-gray-100 text-secondary-900 hover:bg-gray-100/60 dark:bg-secondary-100/20 dark:text-white dark:hover:bg-secondary-200/50',
@@ -134,7 +134,7 @@ function NavItemOne({
               <button
                 key={i}
                 className={clsx(
-                  'flex items-center gap-3 rounded-xl py-3 px-5 ltr:ml-3 rtl:mr-3',
+                  'flex items-center gap-3 rounded-lg py-3 px-5 ltr:ml-3 rtl:mr-3',
                   'bg-gray-100 text-secondary-900 hover:bg-gray-100/60 dark:bg-secondary-100/20 dark:text-white dark:hover:bg-secondary-200/50'
                 )}
                 onClick={item.onClick}
@@ -154,7 +154,7 @@ function NavItemOne({
     <Link
       href={href}
       className={clsx([
-        'relative flex w-fit items-center rounded-xl p-4 text-secondary-900 transition-all group-hover:w-full dark:text-white',
+        'relative flex w-fit items-center rounded-lg p-4 text-secondary-900 transition-all group-hover:w-full dark:text-white',
         active
           ? 'bg-secondary-500/10 hover:bg-secondary-500/25 dark:bg-gray-300/10 dark:hover:bg-gray-200/20'
           : 'hover:bg-secondary-500/10 dark:hover:bg-gray-300/10',
@@ -177,7 +177,7 @@ function NavItemOne({
   ) : (
     <button
       className={clsx([
-        'relative flex w-fit items-center rounded-xl p-4 text-secondary-900 transition-all group-hover:w-full dark:text-white',
+        'relative flex w-fit items-center rounded-lg p-4 text-secondary-900 transition-all group-hover:w-full dark:text-white',
         'hover:bg-secondary-500/10 dark:hover:bg-gray-300/10',
         disabled &&
           'pointer-events-none cursor-not-allowed opacity-40 hover:bg-secondary-500/10 dark:hover:bg-gray-300/10',

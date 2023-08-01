@@ -31,23 +31,21 @@ export default function SubNavItemTwo({ name, href, icon, badge, disabled, isCol
     <Link
       href={disabled ? '' : href}
       className={clsx(
-        'flex  w-full items-center rounded-xl p-4  text-white transition-all',
-        active
-          ? 'bg-secondary-800 hover:bg-secondary-900 dark:bg-secondary-800 dark:hover:bg-secondary-700'
-          : 'bg-secondary-400/50 hover:bg-secondary-500/80 dark:bg-secondary-300/10 dark:hover:bg-secondary-300/20',
+        'group flex w-full items-center gap-2 rounded-lg p-4 hover:bg-gray-500/10 dark:text-white',
+        active && 'bg-primary-600/20 text-primary-900 hover:!bg-primary-500/25',
         disabled &&
           'pointer-events-none cursor-not-allowed opacity-40 hover:bg-gray-100/40 dark:hover:bg-secondary-100/60'
       )}
     >
-      <div className='h-[20px] w-[20px]'>
-        <Iconify icon={icon} height={20} width={20} />
+      <div className='ltr:mr-2 rtl:ml-2'>
+        <Iconify icon={icon} height={24} width={24} />
       </div>
       <label
         className={clsx(
-          'flex-1 cursor-pointer font-medium capitalize ',
+          'flex-1 cursor-pointer font-medium capitalize',
           isCollapsed
-            ? 'whitespace-pre-wrap text-[0px] opacity-0 transition-all duration-300 group-hover:text-xs group-hover:opacity-100 ltr:group-hover:ml-3 rtl:group-hover:mr-3'
-            : 'text-xs ltr:ml-2 rtl:mr-2',
+            ? 'whitespace-pre-wrap text-[0px] opacity-0 transition-all duration-300 group-hover:text-xs group-hover:opacity-100'
+            : 'text-xs',
           disabled && 'cursor-not-allowed'
         )}
       >
@@ -57,7 +55,7 @@ export default function SubNavItemTwo({ name, href, icon, badge, disabled, isCol
         <Badge
           label={t(badge?.label)}
           intent={badge?.color}
-          className={clsx('truncate text-[10px]', isCollapsed && 'hidden group-hover:block')}
+          className={clsx('truncate text-[10px]', isCollapsed && 'scale-0 group-hover:scale-100')}
         />
       )}
     </Link>

@@ -112,7 +112,7 @@ export default function CategoriesList({
                 setOpenEditDialog(true)
               }}
             >
-              <Icon icon='material-symbols:edit' height={20} />
+              <Icon icon='ic:round-edit' height={20} />
             </IconButton>
           </Tooltip>
         </div>

@@ -29,7 +29,7 @@ export default function NoteCard({
   setNoteToEdit: (note: Note) => void
 }) {
   const { t } = useTranslate()
-  const { PageNumber, PageSize } = useAppSelector((state) => state.paggination)
+  const { PageNumber, PageSize } = useAppSelector((state) => state.pagination)
   const [isOpen, setIsOpen] = useState(true)
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
 

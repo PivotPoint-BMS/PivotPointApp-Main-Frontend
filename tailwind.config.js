@@ -146,11 +146,11 @@ module.exports = {
         'rich-black': '#161c24',
         paper: {
           light: '#FFFFFF',
-          dark: '#002034',
-          'dark-contrast': '#052d46',
-          'hover-dark': '#00263d',
+          dark: '#2E3034',
+          'dark-contrast': '#3D3F45',
+          'hover-dark': '#1D1E21',
         },
-        dark: '#001928',
+        dark: '#202124',
         primary: {
           100: '#59E1A1',
           200: '#48DD98',

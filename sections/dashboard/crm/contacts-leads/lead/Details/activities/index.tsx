@@ -10,7 +10,7 @@ import ActivityCard from './ActivityCard'
 
 export default function Activities({ leadId }: { leadId: string }) {
   const { t } = useTranslate()
-  const { PageNumber, PageSize } = useAppSelector((state) => state.paggination)
+  const { PageNumber, PageSize } = useAppSelector((state) => state.pagination)
   const { data, isLoading, isSuccess } = useGetLeadActivitiesQuery({
     id: leadId,
     PageNumber,

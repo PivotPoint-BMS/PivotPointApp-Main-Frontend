@@ -52,7 +52,7 @@ export default function CreateEditLeadForm({
   const { open } = useSnackbar()
   const { push } = useRouter()
 
-  const { PageNumber, PageSize } = useAppSelector((state) => state.paggination)
+  const { PageNumber, PageSize } = useAppSelector((state) => state.pagination)
 
   const { data: sources, isLoading, isSuccess } = useGetAllLeadSourcesQuery()
   const {

@@ -22,8 +22,8 @@ function VehiclesList() {
   const { t } = useTranslate()
   const dispatch = useAppDispatch()
   const { isFallback } = useRouter()
-  // Pogination
-  const { PageSize, PageNumber } = useAppSelector((state) => state.paggination)
+  // Pagination
+  const { PageSize, PageNumber } = useAppSelector((state) => state.pagination)
   // Filters
   const [searchValue, setSearchValue] = useState('')
   // Query Params

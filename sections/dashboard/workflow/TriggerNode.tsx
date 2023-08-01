@@ -41,7 +41,7 @@ export default function TriggerNode({ data }: NodeProps<TriggerNodeData>) {
                   </IconButton>
                 }
                 items={[
-                  { label: 'Edit', icon: <Icon icon='material-symbols:edit' />, type: 'button' },
+                  { label: 'Edit', icon: <Icon icon='ic:round-edit' />, type: 'button' },
                   {
                     label: 'Delete',
                     icon: <Icon icon='ic:round-delete' />,
@@ -74,7 +74,7 @@ export default function TriggerNode({ data }: NodeProps<TriggerNodeData>) {
               variant='text'
               intent='default'
               className='w-full !justify-start !text-xs font-normal'
-              startIcon={<Icon icon='material-symbols:edit' />}
+              startIcon={<Icon icon='ic:round-edit' />}
             >
               Edit
             </Button>

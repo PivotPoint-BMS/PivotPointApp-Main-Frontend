@@ -4,21 +4,24 @@ import { v4 as uuid } from 'uuid'
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import { Icon as Iconify } from '@iconify/react'
 
-export interface MenuItem {
-  type: 'button' | 'dropdown' | 'checkbox' | 'separator' | 'text'
+export interface MenuItemProps {
+  type: 'button' | 'dropdown' | 'checkbox' | 'separator' | 'text' | 'link'
   label?: string
   icon?: ReactNode
   onClick?: () => void
   checked?: boolean
   onCheckedChange?: (checked: boolean) => void
-  subItems?: MenuItem[]
+  subItems?: MenuItemProps[]
   className?: string
   loading?: boolean
+  disabled?: boolean
 }
 
 interface DropdownMenuProps {
   trigger: ReactNode
-  items: MenuItem[]
+  items: MenuItemProps[]
+  className?: string
+  contentProps?: DropdownMenuPrimitive.DropdownMenuContentProps
 }
 
 const RenderItems = ({
@@ -31,7 +34,8 @@ const RenderItems = ({
   subItems,
   className,
   loading,
-}: MenuItem) => {
+  disabled,
+}: MenuItemProps) => {
   if (type === 'checkbox')
     return (
       <DropdownMenuPrimitive.CheckboxItem
@@ -40,7 +44,8 @@ const RenderItems = ({
         onCheckedChange={onCheckedChange}
         className={clsx(
           'flex w-full cursor-pointer select-none items-center rounded-md px-2 py-2 text-xs font-medium outline-none',
-          ' focus:bg-gray-200 dark:focus:bg-paper-hover-dark'
+          ' focus:bg-gray-200 dark:focus:bg-paper-hover-dark',
+          disabled && 'cursor-not-allowed opacity-50'
         )}
       >
         <div>{icon}</div>
@@ -55,22 +60,28 @@ const RenderItems = ({
       <DropdownMenuPrimitive.Sub key={`dropdown-${uuid()}`}>
         <DropdownMenuPrimitive.SubTrigger
           className={clsx(
-            'flex w-full cursor-pointer select-none items-center gap-2 rounded-md px-2 py-2 text-xs font-medium outline-none',
+            'flex w-full cursor-pointer select-none items-center gap-2 rounded-md px-2 py-2 text-xs font-medium outline-none  rtl:flex-row-reverse',
             ' focus:bg-gray-200 dark:focus:bg-paper-hover-dark',
+            disabled && 'cursor-not-allowed opacity-50',
             className
           )}
         >
           <div>{icon}</div>
           <span className='flex-grow rtl:text-right'>{label}</span>
-          <Iconify icon='material-symbols:arrow-forward-ios-rounded' height={12} />
+          <Iconify
+            icon='material-symbols:arrow-forward-ios-rounded'
+            className='rtl:rotate-180'
+            height={12}
+          />
         </DropdownMenuPrimitive.SubTrigger>
         <DropdownMenuPrimitive.Portal>
           <DropdownMenuPrimitive.SubContent
             className={clsx(
               'origin-top-right data-[side=left]:animate-scale-in',
               'w-48 rounded-md px-1 py-1 text-xs font-medium shadow-md',
-              'bg-white dark:bg-paper-hover-dark',
+              'border bg-white dark:border-gray-600 dark:bg-paper-dark',
               loading && 'cursor-not-allowed bg-gray-400 hover:bg-gray-400 active:bg-gray-400',
+              disabled && 'cursor-not-allowed opacity-50',
               className
             )}
           >
@@ -121,12 +132,14 @@ const RenderItems = ({
         {label}
       </DropdownMenuPrimitive.Label>
     )
+
   return (
     <DropdownMenuPrimitive.Item
       key={`button-${uuid()}`}
       className={clsx(
         'flex cursor-pointer select-none items-center gap-2 rounded-md px-2 py-2 text-xs font-medium outline-none rtl:flex-row-reverse',
         ' focus:bg-gray-200 dark:focus:bg-paper-hover-dark',
+        disabled && 'cursor-not-allowed opacity-50',
         className
       )}
       onClick={onClick}
@@ -160,9 +173,15 @@ const RenderItems = ({
   )
 }
 
-export default function DropdownMenu({ trigger, items, ...props }: DropdownMenuProps) {
+export default function DropdownMenu({
+  trigger,
+  items,
+  className,
+  contentProps,
+  ...props
+}: DropdownMenuProps) {
   return (
-    <div className='relative inline-block text-left'>
+    <div className={clsx('relative inline-block text-left', className)}>
       <DropdownMenuPrimitive.Root {...props}>
         <DropdownMenuPrimitive.Trigger asChild>{trigger}</DropdownMenuPrimitive.Trigger>
 
@@ -170,9 +189,10 @@ export default function DropdownMenu({ trigger, items, ...props }: DropdownMenuP
           <DropdownMenuPrimitive.Content
             align='end'
             sideOffset={5}
+            {...contentProps}
             className={clsx(
               'data-[side=top]:animate-slide-up data-[side=bottom]:animate-slide-down',
-              'w-fit min-w-[150px] rounded-lg border px-1.5 py-1 drop-shadow-lg',
+              'w-fit min-w-[150px] rounded-lg border px-1.5 py-1 drop-shadow-lg dark:border-gray-600',
               'bg-white dark:bg-paper-dark',
               'flex flex-col gap-1'
             )}
@@ -186,8 +206,9 @@ export default function DropdownMenu({ trigger, items, ...props }: DropdownMenuP
                 icon,
                 checked,
                 onCheckedChange,
-                className,
+                className: _className,
                 loading,
+                disabled,
               }) =>
                 RenderItems({
                   type,
@@ -197,8 +218,9 @@ export default function DropdownMenu({ trigger, items, ...props }: DropdownMenuP
                   icon,
                   checked,
                   onCheckedChange,
-                  className,
+                  className: _className,
                   loading,
+                  disabled,
                 })
             )}
           </DropdownMenuPrimitive.Content>

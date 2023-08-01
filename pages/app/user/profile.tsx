@@ -18,12 +18,14 @@ import Layout from 'layout/Index'
 import { Icon as Iconify } from '@iconify/react'
 import { HeaderBreadcrumbs } from 'components'
 import { TabsContent, TabsList, TabsRoot, TabsTrigger } from 'components/Tabs'
+import ProfileLayout from 'sections/dashboard/user/profile/ProfileLayout'
 
 const TABS = [
   { name: 'General', icon: 'mdi:user-circle', value: 'general' },
   { name: 'Password', icon: 'mdi:password', value: 'password' },
   { name: 'Billing', icon: 'basil:invoice-solid', value: 'billing' },
   { name: 'Notification', icon: 'ic:round-notifications', value: 'notification' },
+  { name: 'Layout', icon: 'mingcute:layout-4-fill', value: 'layout' },
   { name: 'Support', icon: 'material-symbols:contact-support-rounded', value: 'support' },
 ]
 
@@ -77,6 +79,9 @@ function Profile() {
           </TabsContent>
           <TabsContent value='notification' className=' py-6'>
             <ProfileNotification />
+          </TabsContent>{' '}
+          <TabsContent value='layout' className=' py-6'>
+            <ProfileLayout />
           </TabsContent>
           <TabsContent value='support' className='w-full py-6'>
             <ProfileSupport />

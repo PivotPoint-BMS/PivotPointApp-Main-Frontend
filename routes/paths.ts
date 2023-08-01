@@ -63,6 +63,7 @@ export const PATH_DASHBOARD = {
   fm: {
     root: path(ROOTS_APP, '/fm'),
     dashboard: path(ROOTS_APP, '/fm/dashboard'),
+    'bank-accounts': path(ROOTS_APP, '/fm/bank-accounts'),
     'business-plan': path(ROOTS_APP, '/fm/business-plan'),
     assets: path(ROOTS_APP, '/fm/assets'),
     cash: path(ROOTS_APP, '/fm/cash'),
@@ -117,7 +118,12 @@ export const PATH_DASHBOARD = {
       warehouse: (id: string) => path(ROOTS_APP, `/scm/warehousing/warehouse/${id}`),
     },
     'demand-forecasting': path(ROOTS_APP, '/scm/demand-forecasting'),
-    invoice: path(ROOTS_APP, '/scm/invoice'),
+    invoices: {
+      root: path(ROOTS_APP, '/scm/invoices'),
+      create: path(ROOTS_APP, '/scm/invoices/create'),
+      invoice: (id: string) => path(ROOTS_APP, `/scm/invoices/${id}`),
+      edit: (id: string) => path(ROOTS_APP, `/scm/invoices/edit/${id}`),
+    },
   },
   workflow: {
     root: path(ROOTS_APP, '/workflow'),

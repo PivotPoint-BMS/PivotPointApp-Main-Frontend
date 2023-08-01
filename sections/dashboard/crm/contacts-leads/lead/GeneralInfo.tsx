@@ -41,7 +41,7 @@ export default function GeneralInfo({ lead }: { lead: Lead }) {
   const { t, locale } = useTranslate()
   const { open } = useSnackbar()
   const { push } = useRouter()
-  const { PageNumber, PageSize } = useAppSelector((state) => state.paggination)
+  const { PageNumber, PageSize } = useAppSelector((state) => state.pagination)
 
   const { data } = useGetLeadActivitiesQuery({
     id: lead.id,

@@ -26,7 +26,7 @@ export default function ContactTableToolbar({
 }: ContactTableToolbarProps) {
   const { t } = useTranslate()
   const { open } = useSnackbar()
-  const { PageNumber, PageSize } = useAppSelector((state) => state.paggination)
+  const { PageNumber, PageSize } = useAppSelector((state) => state.pagination)
   const [openBulkDeleteDialog, setOpenBulkDeleteDialog] = useState(false)
   const [bulkDeleteLead, { isLoading, isSuccess, isError }] = useBulkDeleteLeadMutation()
   const variants: { [key: string]: Variant } = {

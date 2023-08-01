@@ -11,7 +11,7 @@ import useTranslate from 'hooks/useTranslate'
 import useSnackbar from 'hooks/useSnackbar'
 import { useAppDispatch, useAppSelector } from 'store/hooks'
 // redux
-import { changePageNumber, changePageSize } from 'store/slices/pagginationSlice'
+import { changePageNumber, changePageSize } from 'store/slices/paginationSlice'
 // api
 import {
   useAddClientToSegmentMutation,
@@ -68,7 +68,7 @@ export default function SegmentDetails({ segment }: { segment: Segment | null })
   const [openInitiateDialog, setOpenInitiateDialog] = useState(false)
   const [openDeleteClientDialog, setOpenDeleteClientDialog] = useState(false)
   // Pagination
-  const { PageSize, PageNumber } = useAppSelector((state) => state.paggination)
+  const { PageSize, PageNumber } = useAppSelector((state) => state.pagination)
   // Filters
   const [searchValue, setSearchValue] = useState('')
   // Query Params
@@ -253,7 +253,7 @@ export default function SegmentDetails({ segment }: { segment: Segment | null })
               <Button
                 variant='outlined'
                 intent='default'
-                startIcon={<Icon icon='material-symbols:edit' height={18} />}
+                startIcon={<Icon icon='ic:round-edit' height={18} />}
                 onClick={() => setOpenEditSegmentDialog(true)}
               >
                 {t('Edit Segment')}

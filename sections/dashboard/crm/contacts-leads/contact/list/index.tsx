@@ -22,7 +22,7 @@ import {
   useGetContactsQuery,
 } from 'store/api/crm/contact-leads/leadApis'
 import { useGetAllLeadSourcesQuery } from 'store/api/crm/contact-leads/leadSourceApi'
-import { changePageNumber, changePageSize, resetPaggination } from 'store/slices/pagginationSlice'
+import { changePageNumber, changePageSize, resetpagination } from 'store/slices/paginationSlice'
 // config
 import { LEAD_PRIORITIES, PIVOTPOINT_API } from 'config'
 // types
@@ -101,8 +101,8 @@ export default function LeadsList() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [idToDelete, setIdToDelete] = useState<string | null>(null)
   const [sourcesList, setSourcesList] = useState<{ value: string; label: string }[]>([])
-  // Pogination
-  const { PageSize, PageNumber } = useAppSelector((state) => state.paggination)
+  // Pagination
+  const { PageSize, PageNumber } = useAppSelector((state) => state.pagination)
   // Filters
   const [searchValue, setSearchValue] = useState('')
   const [source, setSource] = useState<{ value: string; label: string } | null>(null)
@@ -264,7 +264,7 @@ export default function LeadsList() {
               {
                 type: 'button',
                 label: t('Edit'),
-                icon: <Iconify icon='material-symbols:edit' height={18} />,
+                icon: <Iconify icon='ic:round-edit' height={18} />,
                 onClick: () => push(PATH_DASHBOARD.crm['contacts-leads'].edit(lead.getValue().id)),
               },
               {
@@ -315,7 +315,7 @@ export default function LeadsList() {
   }, [isLoading, isFetching])
 
   useEffect(() => {
-    dispatch(resetPaggination())
+    dispatch(resetpagination())
   }, [])
 
   const table = useReactTable({
