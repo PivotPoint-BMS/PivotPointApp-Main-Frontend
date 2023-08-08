@@ -47,7 +47,6 @@ function CreateEditInvoiceForm({
   const [to, setTo] = useState({ clientName: '', contactId: '' })
   const [created, onCreatedDateChange] = useState<Date | Value>(new Date())
   const [due, onDueDateChange] = useState<Date | Value>(new Date())
-  const [shipping, setShipping] = useState<string>('')
   const [invoiceItems, setInvoiceItems] = useState<InvoiceItem[]>([])
   const [openCustomerDialog, setOpenCustomerDialog] = useState(false)
   const [openProductDialog, setOpenProductDialog] = useState(false)
@@ -71,8 +70,6 @@ function CreateEditInvoiceForm({
 
   const [createInvoice, { isLoading: isCreateLoading }] = useCreateInvoiceMutation()
 
-  console.log('currentInvoice', currentInvoice)
-
   const InvoiceSchema = Yup.object().shape({
     invoiceTitle: Yup.string().required(t('This field is required')),
     contactId: Yup.string().required(t('Please choose a customer')),
@@ -94,7 +91,7 @@ function CreateEditInvoiceForm({
       contactId: currentInvoice?.contactId || '',
       clientName: currentInvoice?.clientName || '',
       paymentMethod: currentInvoice?.paymentMethod || '',
-      due: currentInvoice?.due || '',
+      due: currentInvoice?.due || new Date(),
       invoiceItems: currentInvoice?.invoiceItems || [],
     }),
     [currentInvoice]
@@ -144,6 +141,8 @@ function CreateEditInvoiceForm({
 
   useEffect(() => {
     if (isEdit && currentInvoice) {
+      setInvoiceItems(currentInvoice.invoiceItems)
+      // setShipping(currentInvoice.shipping)
       reset(defaultValues)
       onCreatedDateChange(moment(currentInvoice.created).toDate())
       onDueDateChange(moment(currentInvoice.due).toDate())
@@ -198,7 +197,7 @@ function CreateEditInvoiceForm({
               <div className='grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4'>
                 <RHFTextField name='invoiceTitle' label={t('Title')} />
                 <RHFTextField name='clientAddress' label={t('Customer Address')} />
-                <RHFFieldContainer name='due' label={t('Created date')}>
+                <RHFFieldContainer name='created' label={t('Created date')}>
                   <DatePicker
                     value={created}
                     onChange={(value) => {
@@ -238,7 +237,7 @@ function CreateEditInvoiceForm({
                   </div>
                 )}
                 {invoiceItems.map((product) => (
-                  <div className='flex flex-col items-end pb-2'>
+                  <div key={product.id} className='flex flex-col items-end pb-2'>
                     <div className='flex w-full items-center justify-between py-4'>
                       <div className='grid w-full grid-cols-1 items-center gap-2 sm:grid-cols-2 md:grid-cols-4'>
                         <div className='flex items-center gap-2 sm:col-span-2 md:col-span-1'>
@@ -378,19 +377,8 @@ function CreateEditInvoiceForm({
               </div>
             </div>
             <div className='flex w-full flex-col items-end gap-4 p-4'>
-              <div className='grid grid-cols-1 items-center gap-4 sm:grid-cols-2'>
-                <div>
-                  <RHFTextField name='paymentMethod' label={t('Payment Method')} />
-                </div>
-                <div>
-                  <RHFTextField
-                    type='number'
-                    name='total'
-                    label={t('Shipping')}
-                    endAdornment={t('Da')}
-                    onChange={(e) => setShipping(e.target.value)}
-                  />
-                </div>
+              <div>
+                <RHFTextField name='paymentMethod' label={t('Payment Method')} />
               </div>
               <div className='flex max-w-full items-center justify-between '>
                 <p className='text-sm font-medium  text-gray-600 dark:text-gray-400'>
@@ -404,15 +392,14 @@ function CreateEditInvoiceForm({
               <div className='flex max-w-full items-center justify-between '>
                 <p className='font-bold'>{t('Total')}:</p>{' '}
                 <p className='w-48 font-bold ltr:text-right rtl:text-left'>
-                  {invoiceItems.reduce((acc, cur) => acc + cur.value * cur.quantity, 0) +
-                    parseInt(shipping) || 0}{' '}
+                  {invoiceItems.reduce((acc, cur) => acc + cur.value * cur.quantity, 0) || 0}{' '}
                   {t('Da')}
                 </p>
               </div>
             </div>
           </Card>
           <Button size='large' className='text-xl' type='submit' loading={isCreateLoading}>
-            {t('Create Invoice')}
+            {isEdit ? t('Edit Invoice') : t('Create Invoice')}
           </Button>
         </div>
       </FormProvider>
@@ -446,6 +433,7 @@ function CreateEditInvoiceForm({
           ) : isCustomersSuccess && customers.data.length > 0 ? (
             customers.data.map((customer) => (
               <button
+                key={customer.id}
                 className={clsx(
                   'flex w-full flex-col items-start space-y-1 rounded-lg border p-4 dark:border-gray-600',
                   'hover:bg-gray-100 active:bg-gray-200',
@@ -535,7 +523,10 @@ function CreateEditInvoiceForm({
             products.data
               .filter((product) => product.type !== 2)
               .map((product) => (
-                <div className='flex w-full items-center justify-between rounded-lg border p-4'>
+                <div
+                  key={product.id}
+                  className='flex w-full items-center justify-between rounded-lg border p-4'
+                >
                   <div className='flex items-center gap-2'>
                     {product.picture ? (
                       <div className='h-12 w-12'>

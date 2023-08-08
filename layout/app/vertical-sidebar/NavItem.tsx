@@ -63,7 +63,7 @@ function NavItem({
   const { t } = useTranslate()
   const active = getActivePath(root, pathname, asPath)
   const { user } = useAppSelector((state) => state.session)
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(active)
 
   return asLink ? (
     <CollapsiblePrimitive.Root open={isOpen} onOpenChange={setIsOpen} className='w-full'>
@@ -121,7 +121,7 @@ function NavItem({
               key={i}
               href={item.disabled ? '' : item.href}
               className={clsx(
-                'flex items-center gap-2 rounded-lg py-3 px-2 hover:bg-gray-500/10 ltr:ml-2 rtl:mr-2 dark:hover:bg-secondary-200/50',
+                'flex items-center gap-2 rounded-lg py-3 px-2 hover:bg-gray-500/10 ltr:ml-2 rtl:mr-2 dark:hover:bg-gray-500/30',
                 !getActivePath(item.href, pathname, asPath) && 'text-gray-500 dark:text-gray-400',
                 item.disabled &&
                   'pointer-events-none cursor-not-allowed opacity-40 hover:bg-secondary-500/10 dark:hover:bg-gray-300/10'

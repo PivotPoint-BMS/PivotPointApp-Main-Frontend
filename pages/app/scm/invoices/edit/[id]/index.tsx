@@ -4,14 +4,8 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 // hooks
 import useTranslate from 'hooks/useTranslate'
-// redux
-import { wrapper } from 'store'
 // apis
-import {
-  getInvoice,
-  getRunningQueriesThunk,
-  useGetInvoiceQuery,
-} from 'store/api/scm/invoices/invoicesApis'
+import { useGetInvoiceQuery } from 'store/api/scm/invoices/invoicesApis'
 // routes
 import { PATH_DASHBOARD } from 'routes/paths'
 // layout
@@ -64,19 +58,6 @@ function index() {
     </>
   )
 }
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) =>
-    async ({ query: { id } }) => {
-      store.dispatch(getInvoice.initiate(id?.toString() ? id?.toString() : ''))
-
-      await Promise.all(store.dispatch(getRunningQueriesThunk()))
-
-      return {
-        props: {},
-      }
-    }
-)
 
 index.getLayout = function getLayout(page: JSX.Element) {
   return (

@@ -9,5 +9,6 @@ export default interface SessionUser {
   token: string
   refreshToken: string
   tier: number
+  currentStep: number
   position: string[]
 }

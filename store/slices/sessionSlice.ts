@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 // types
-import { SessionUser } from 'types'
-import { getItem, removeFromLocalStorage, setItem } from 'utils/localStorage'
+import { SessionUser } from "types"
+import { getItem, removeFromLocalStorage, setItem } from "utils/localStorage"
 
 interface Session {
   user: SessionUser | null
@@ -17,13 +17,13 @@ const initialState: Session = {
   user: null,
   isAuthenticated: false,
   token: null,
-  refreshToken: getItem('refreshToken') as string,
+  refreshToken: getItem("refreshToken") as string,
   isLoading: true,
   error: null,
 }
 
 const sessionSlice = createSlice({
-  name: 'session',
+  name: "session",
   initialState,
   reducers: {
     startLoading: (state) => {
@@ -33,7 +33,7 @@ const sessionSlice = createSlice({
       state.isLoading = false
     },
     setUser: (state, action: PayloadAction<SessionUser>) => {
-      setItem('refreshToken', action.payload.refreshToken)
+      setItem("refreshToken", action.payload.refreshToken)
       state.isLoading = false
       state.user = action.payload
       state.token = action.payload.token
@@ -42,13 +42,13 @@ const sessionSlice = createSlice({
       state.error = null
     },
     setError: (state, action: PayloadAction<string>) => {
-      removeFromLocalStorage('refreshToken')
+      removeFromLocalStorage("refreshToken")
       state.error = action.payload
       state.isLoading = false
       state.user = null
     },
     logout: (state) => {
-      removeFromLocalStorage('refreshToken')
+      removeFromLocalStorage("refreshToken")
       state.error = null
       state.isAuthenticated = false
       state.isLoading = false

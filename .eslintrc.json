@@ -16,7 +16,7 @@
     "react/react-in-jsx-scope": "off",
     "camelcase": "error",
     "spaced-comment": "error",
-    "quotes": ["warn", "single"],
+    "quotes": ["warn", "double"],
     "no-duplicate-imports": "error",
     "import/extensions": 0,
     "arrow-body-style": 1,

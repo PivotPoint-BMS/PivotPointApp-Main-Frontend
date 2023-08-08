@@ -15,17 +15,20 @@ interface TextAreaProps extends InputHTMLAttributes<HTMLTextAreaElement> {
 }
 
 const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  ({
-    label,
-    name,
-    rows = 4,
-    startAdornment,
-    endAdornment,
-    error,
-    disabled,
-    inputClassName,
-    ...other
-  }) => (
+  (
+    {
+      label,
+      name,
+      rows = 4,
+      startAdornment,
+      endAdornment,
+      error,
+      disabled,
+      inputClassName,
+      ...other
+    },
+    ref
+  ) => (
     <div className='group flex w-full flex-col gap-1'>
       <label
         htmlFor={name}
@@ -46,6 +49,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       >
         {startAdornment && <span className='mx-2'>{startAdornment}</span>}
         <textarea
+          ref={ref}
           {...other}
           rows={rows}
           id={name}

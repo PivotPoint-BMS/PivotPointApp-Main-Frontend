@@ -76,7 +76,7 @@ function NavItemMobile({
             className={clsx(
               'flex flex-1 items-center whitespace-normal',
               (disabled || (roles && user?.position.every((item) => !roles?.includes(item)))) &&
-                'pointer-events-none cursor-not-allowed opacity-40 hover:bg-secondary-500/10 dark:hover:bg-gray-300/10'
+                'pointer-events-none cursor-not-allowed opacity-40'
             )}
           >
             {icon}
@@ -91,8 +91,7 @@ function NavItemMobile({
             href={href}
             className={clsx(
               'flex flex-1 items-center whitespace-normal',
-              disabled &&
-                'pointer-events-none cursor-not-allowed opacity-40 hover:bg-secondary-500/10 dark:hover:bg-gray-300/10'
+              disabled && 'pointer-events-none cursor-not-allowed opacity-40'
             )}
             onClick={onClick}
           >
@@ -104,12 +103,12 @@ function NavItemMobile({
             </div>
           </Link>
         )}
-        {subItems && (
+        {subItems && !disabled && (
           <div>
             <Iconify
-              icon='material-symbols:arrow-drop-down-rounded'
-              height={20}
-              width={20}
+              icon='mdi:chevron-down'
+              height={18}
+              width={18}
               className='transform duration-300 ease-in-out group-data-[state=open]:rotate-180'
             />
           </div>
@@ -122,17 +121,27 @@ function NavItemMobile({
               key={i}
               href={item.disabled ? '' : item.href}
               className={clsx(
-                'flex items-center gap-3 rounded-xl py-3 px-5 ltr:ml-6 rtl:mr-6',
-                getActivePath(item.href, pathname, asPath)
-                  ? 'bg-secondary-700 text-gray-200 hover:bg-secondary-800 dark:text-white'
-                  : 'bg-gray-100 text-secondary-900 hover:bg-gray-100/60 dark:bg-secondary-100/20 dark:text-white dark:hover:bg-secondary-200/50',
-                item.disabled &&
-                  'pointer-events-none cursor-not-allowed opacity-40 hover:bg-secondary-500/10 dark:hover:bg-gray-300/10'
+                'flex items-center gap-2 rounded-lg py-2 px-2 ltr:ml-2 rtl:mr-2',
+                !getActivePath(item.href, pathname, asPath) && 'text-gray-500 dark:text-gray-400',
+                item.disabled && 'pointer-events-none cursor-not-allowed opacity-40'
               )}
               onClick={onClick}
             >
-              <Iconify icon={item.icon || ''} height={20} width={20} />
-              <label className='flex-1 cursor-pointer text-[10px] font-medium capitalize'>
+              <Iconify
+                icon='mdi:circle-small'
+                height={20}
+                width={20}
+                className={clsx(
+                  getActivePath(item.href, pathname, asPath) && 'scale-[2.5] text-primary-600',
+                  'transition-all'
+                )}
+              />
+              <label
+                className={clsx(
+                  'flex-1 cursor-pointer text-xs',
+                  getActivePath(item.href, pathname, asPath) ? 'font-semibold' : 'font-medium'
+                )}
+              >
                 {t(item.name)}
               </label>
               {item.badge && (
@@ -147,14 +156,16 @@ function NavItemMobile({
             <button
               key={i}
               className={clsx(
-                'flex items-center gap-3 rounded-xl py-3 px-5 ltr:ml-6 rtl:mr-6',
-                'bg-gray-100 text-secondary-900 hover:bg-gray-100/60 dark:bg-secondary-100/20 dark:text-white dark:hover:bg-secondary-200/50',
-                item.disabled &&
-                  'pointer-events-none cursor-not-allowed opacity-40 hover:bg-secondary-500/10 dark:hover:bg-gray-300/10'
+                'flex items-center gap-2 rounded-lg py-2 px-2 ltr:ml-2 rtl:mr-2',
+                item.disabled && 'pointer-events-none cursor-not-allowed opacity-40'
               )}
               onClick={item.onClick}
             >
-              {item.icon && <Iconify icon={item.icon} height={20} width={20} />}
+              {item.icon ? (
+                <Iconify icon={item.icon} height={20} width={20} />
+              ) : (
+                <Iconify icon='mdi:circle-small' height={20} width={20} />
+              )}
               <label className='cursor-pointer text-[10px] font-medium capitalize'>
                 {t(item.name)}
               </label>

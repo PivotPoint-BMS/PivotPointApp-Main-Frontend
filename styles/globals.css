@@ -23,7 +23,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type='number'] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 
@@ -71,7 +71,7 @@ input[type='number'] {
   display: none; /* Chrome, Safari, and Opera */
 }
 
-html[class*='dark'] {
+html[class*="dark"] {
   @apply bg-dark;
   scrollbar-color: #ffffffb3 transparent;
   scrollbar-width: auto;
@@ -183,7 +183,7 @@ html[class*='dark'] {
 .ProseMirror pre {
   background: #0d0d0d;
   color: #fff;
-  font-family: 'JetBrainsMono', monospace;
+  font-family: "JetBrainsMono", monospace;
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
 }
@@ -394,4 +394,106 @@ button.react-calendar__tile.react-calendar__tile--hasActive.react-calendar__year
 
 button.react-calendar__tile.react-calendar__tile--now.react-calendar__month-view__days__day {
   @apply bg-primary-100/40 dark:bg-primary-600/60;
+}
+
+/* CSV Importer */
+.CSVImporter_Importer {
+  @apply w-full;
+}
+.CSVImporter_FileSelector {
+  @apply w-full !border !bg-white !p-4 !text-rich-black dark:border-gray-600 dark:!bg-paper-dark dark:!text-white;
+}
+
+.CSVImporter_ImporterFrame {
+  @apply w-full dark:bg-paper-dark dark:!text-white;
+}
+.CSVImporter_ImporterFrame__headerTitle {
+  @apply text-lg dark:text-white;
+}
+
+.CSVImporter_FormatRawPreview__scroll {
+  @apply dark:bg-paper-dark-contrast;
+}
+
+.CSVImporter_FileStep__header {
+  @apply dark:text-white;
+}
+
+.CSVImporter_FileStep__headerToggle > input[type="checkbox"] {
+  @apply mr-2;
+}
+
+.CSVImporter_FileStep__headerToggle {
+  @apply dark:text-white;
+}
+
+.CSVImporter_TextButton {
+  @apply flex select-none items-center justify-center gap-2 rounded-lg !border-none !bg-primary-600 font-semibold capitalize !text-white outline-none ring-primary-600 transition-all hover:bg-primary-700 focus-visible:bg-primary-500 focus-visible:ring active:bg-primary-500 dark:bg-primary-700 dark:ring-primary-500 dark:hover:bg-primary-500  dark:focus-visible:bg-primary-600 dark:active:bg-primary-600;
+}
+
+.CSVImporter_ImporterFrame__headerSubtitle {
+  @apply text-sm dark:!text-white;
+}
+
+.CSVImporter_ColumnDragCard {
+  @apply dark:bg-paper-dark-contrast;
+}
+.CSVImporter_ColumnDragCard__cardHeader > b {
+  @apply dark:!bg-paper-dark-contrast dark:text-white;
+}
+
+.CSVImporter_ColumnDragCard[data-dummy="true"] {
+  @apply dark:bg-paper-dark-contrast;
+}
+
+.CSVImporter_ColumnDragTargetArea__boxLabel {
+  @apply dark:text-white;
+}
+
+.CSVImporter_ColumnDragTargetArea__boxValue {
+  @apply overflow-hidden rounded-lg;
+}
+
+.CSVImporter_ColumnDragSourceArea__page {
+  @apply !pt-4;
+}
+
+.CSVImporter_ColumnDragCard[data-shadow="true"] {
+  @apply dark:bg-paper-dark-contrast dark:text-white;
+}
+
+.CSVImporter_ColumnDragCard__cardHeader {
+  @apply dark:text-white;
+}
+
+.CSVImporter_ProgressDisplay__status {
+  @apply dark:text-white;
+}
+
+.CSVImporter_ProgressDisplay__count {
+  @apply dark:text-white;
+}
+
+.CSVImporter_ProgressDisplay__progressBar {
+  @apply overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-400;
+}
+.CSVImporter_ProgressDisplay__progressBarIndicator {
+  @apply bg-primary-600 dark:bg-primary-700;
+}
+
+.CSVImporter_ColumnDragCard__cardValue {
+  @apply dark:text-white;
+}
+
+.CSVImporter_ColumnDragCard[data-shadow="true"]
+  > .CSVImporter_ColumnDragCard__cardValue[data-header="true"] {
+  @apply dark:text-gray-300;
+}
+
+.CSVImporter_ColumnDragTargetArea__boxLabel > b {
+  @apply text-red-600 dark:text-red-400;
+}
+
+.CSVImporter_ImporterFrame__footerError {
+  @apply text-red-600 dark:text-red-400;
 }

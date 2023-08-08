@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react"
 // next
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router"
 // hooks
-import { useAppDispatch, useAppSelector } from 'store/hooks'
-import { useGetUserMutation } from 'store/api/auth/authApi'
+import { useAppDispatch, useAppSelector } from "store/hooks"
+import { useGetUserMutation } from "store/api/auth/authApi"
 // store
-import { stopLoading } from 'store/slices/sessionSlice'
+import { stopLoading } from "store/slices/sessionSlice"
 // pages
-import Login from 'pages/auth/login'
-import CompanySetup from 'pages/auth/company-setup'
-import Payment from 'pages/auth/payment'
+import Login from "pages/auth/login"
+import CompanySetup from "pages/auth/company-setup"
+import Payment from "pages/auth/payment"
 // components
-import { LoadingScreen } from 'components'
+import { LoadingScreen } from "components"
 
 export default function AuthGuard({ children }: { children: React.ReactNode | React.ReactNode[] }) {
   const { pathname } = useRouter()
@@ -36,7 +36,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode | Re
     return <Login />
   }
 
-  if (user && !user.hasSetupCompany) {
+  if (user && (!user.hasSetupCompany || user.currentStep > 0)) {
     return <CompanySetup />
   }
 

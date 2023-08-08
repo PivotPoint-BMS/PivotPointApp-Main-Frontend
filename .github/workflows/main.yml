@@ -1,0 +1,29 @@
+name: Deploy on push to master
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+  PORT: 22
+  USER: ${{ secrets.USER_NAME }}
+  HOST: ${{ secrets.IP_ADDRESS }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v0.1.7
+      with:
+        host: ${{ env.HOST }}
+        username: ${{ env.USER }}
+        password: ${{ env.SSH_PRIVATE_KEY }}
+        port: ${{ env.PORT }}
+        script: bash /home/zairi/.deploy.sh
