@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from 'react'
-import * as Yup from 'yup'
+import React, { useEffect, useState } from "react"
+import * as Yup from "yup"
 // next
-import { useRouter } from 'next/router'
-import Link from 'next/link'
+import { useRouter } from "next/router"
+import Link from "next/link"
 // form
-import { useForm, FieldValues } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { useForm, FieldValues } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
 // hooks
-import useTranslate from 'hooks/useTranslate'
-import { useAppSelector } from 'store/hooks'
+import useTranslate from "hooks/useTranslate"
+import { useAppSelector } from "store/hooks"
 // api
-import { useLoginMutation } from 'store/api/auth/authApi'
+import { useLoginMutation } from "store/api/auth/authApi"
 // types
-import { LoginInput } from 'types'
+import { LoginInput } from "types"
 // routes
-import { PATH_AUTH, PATH_DASHBOARD } from 'routes/paths'
+import { PATH_AUTH, PATH_DASHBOARD } from "routes/paths"
 // components
-import { Icon as Iconify } from '@iconify/react'
-import Button from 'components/Button'
-import { Checkbox, FormProvider, RHFTextField } from 'components/hook-form'
-import Alert from 'components/Alert'
-import IconButton from 'components/IconButton'
+import { Icon as Iconify } from "@iconify/react"
+import Button from "components/Button"
+import { Checkbox, FormProvider, RHFTextField } from "components/hook-form"
+import Alert from "components/Alert"
+import IconButton from "components/IconButton"
 
 export default function LoginForm() {
   const { push } = useRouter()
@@ -31,15 +31,15 @@ export default function LoginForm() {
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string()
-      .email(t('Email must be a valid email address'))
-      .required(t('Email is required')),
-    password: Yup.string().required(t('Password is required')),
+      .email(t("Email must be a valid email address"))
+      .required(t("Email is required")),
+    password: Yup.string().required(t("Password is required")),
     rememberMe: Yup.boolean(),
   })
 
   const defaultValues = {
-    email: '',
-    password: '',
+    email: "",
+    password: "",
     rememberMe: true,
   }
 
@@ -64,8 +64,8 @@ export default function LoginForm() {
   }
 
   useEffect(() => {
-    if (isError && 'data' in error! && error.data !== '') {
-      setError('afterSubmit', { ...error, message: error.data as string })
+    if (isError && "data" in error! && error.data !== "") {
+      setError("afterSubmit", { ...error, message: error.data as string })
     }
     if (isSuccess) {
       push(PATH_DASHBOARD.crm.dashboard)
@@ -83,31 +83,31 @@ export default function LoginForm() {
           <RHFTextField
             name='email'
             type='email'
-            label={t('Email')}
-            placeholder={t('Enter your email')}
+            label={t("Email")}
+            placeholder={t("Enter your email")}
           />
           <RHFTextField
             name='password'
-            label={t('Password')}
-            placeholder={t('Enter your password')}
-            type={showPassword ? 'text' : 'password'}
+            label={t("Password")}
+            placeholder={t("Enter your password")}
+            type={showPassword ? "text" : "password"}
             endAdornment={
               <IconButton onClick={() => setShowPassword((prevState) => !prevState)}>
-                <Iconify icon={showPassword ? 'ion:eye' : 'ion:eye-off'} height={20} width={20} />
+                <Iconify icon={showPassword ? "ion:eye" : "ion:eye-off"} height={20} width={20} />
               </IconButton>
             }
           />
           <div className='flex w-full items-center justify-between'>
-            <Checkbox name='rememberMe' label={t('Remember me')} />
+            <Checkbox name='rememberMe' label={t("Remember me")} />
             <Link
               href={PATH_AUTH.resetPassword}
               className='text-sm font-medium text-primary-600 hover:underline focus:underline focus:outline-none dark:text-primary-200'
             >
-              {t('Forgot password?')}
+              {t("Forgot password?")}
             </Link>
           </div>
           <Button type='submit' className='w-full' loading={isLoading}>
-            {t('Login')}
+            {t("Login")}
           </Button>
         </div>
       </FormProvider>
