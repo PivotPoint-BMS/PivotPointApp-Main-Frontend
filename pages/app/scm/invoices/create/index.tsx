@@ -1,17 +1,17 @@
 import React from 'react'
 // next
-// next
 import Head from 'next/head'
 // hooks
 import useTranslate from 'hooks/useTranslate'
 // routes
+import { PATH_DASHBOARD } from 'routes/paths'
 // layout
 import Layout from 'layout/Index'
-import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs'
-import { PATH_DASHBOARD } from 'routes/paths'
+import RoleBasedGuard from 'guards/RoleBasedGuard'
 // sections
 import CreateEditInvoiceForm from 'sections/dashboard/scm/invoices/CreateEditInvoiceForm'
 // components
+import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs'
 
 function index() {
   const { t } = useTranslate()
@@ -38,7 +38,11 @@ function index() {
 }
 
 index.getLayout = function getLayout(page: JSX.Element) {
-  return <Layout variant='dashboard'>{page}</Layout>
+  return (
+    <Layout variant='dashboard'>
+      <RoleBasedGuard accessibleRoles={['Owner', 'SCM']}>{page}</RoleBasedGuard>
+    </Layout>
+  )
 }
 
 export default index

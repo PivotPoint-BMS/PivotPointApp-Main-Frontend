@@ -78,7 +78,7 @@ function index() {
                     },
                     {
                       type: 'button',
-                      label: 'Supplier To Customer',
+                      label: 'Supplier To Warehouse',
                       onClick: () => push(PATH_DASHBOARD.scm.transportation.deliveries.create.s2w),
                       icon: (
                         <Icon

@@ -1,158 +1,94 @@
 /* eslint-disable no-nested-ternary */
-import React, { useEffect, useState } from 'react'
-import * as Yup from 'yup'
-import clsx from 'clsx'
+import React, { useEffect, useState } from "react"
+import clsx from "clsx"
 // form
-import { FieldValues, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
 // radix
-import * as TabsPrimitive from '@radix-ui/react-tabs'
+import * as TabsPrimitive from "@radix-ui/react-tabs"
 // next
-import Head from 'next/head'
-import { useRouter } from 'next/router'
+import Head from "next/head"
+import { useRouter } from "next/router"
 // routes
-import { PATH_DASHBOARD } from 'routes/paths'
-// api
-import { useGetUserMutation } from 'store/api/auth/authApi'
-import { useCreateRequestMutation } from 'store/api/auth/companyApi'
+import { PATH_DASHBOARD } from "routes/paths"
 // hooks
-import useTranslate from 'hooks/useTranslate'
-import useResponsive from 'hooks/useResponsive'
-import { useAppSelector } from 'store/hooks'
+import useTranslate from "hooks/useTranslate"
+import useResponsive from "hooks/useResponsive"
+import { useAppSelector } from "store/hooks"
 // sections
-import Company from 'sections/auth/company-setup/Company'
-import Workers from 'sections/auth/company-setup/workers'
-import Subscription from 'sections/auth/company-setup/Subscription'
+import Company from "sections/auth/company-setup/Company"
+import Contact from "sections/auth/company-setup/Contact"
+import Subscription from "sections/auth/company-setup/Subscription"
+import Workers from "sections/auth/company-setup/workers"
+import DataImport from "sections/auth/company-setup/DataImport"
+import Feedback from "sections/auth/company-setup/Feedback"
 // layout
-import Layout from 'layout/Index'
+import Layout from "layout/Index"
 // components
-import { Icon as Iconify } from '@iconify/react'
-import { FormProvider } from 'components/hook-form'
+import { Icon as Iconify } from "@iconify/react"
 // pages
-import Login from './login'
+import Login from "./login"
 
 const Tabs = [
-  { name: 'Setup Company', value: '1' },
-  { name: 'Setup Personnels', value: '2' },
-  { name: 'Choose Subscription', value: '3' },
-  { name: 'Complete Payment', value: '4' },
+  { name: "Setup Company", value: "1" },
+  { name: "Contact Info", value: "2" },
+  { name: "Choose Subscription", value: "3" },
+  { name: "Setup personnel", value: "4" },
+  { name: "Import Data", value: "5" },
+  { name: "Feedback", value: "6" },
 ]
 
 function index() {
   const { push } = useRouter()
-  const isDesktop = useResponsive('md', 'up')
-  const [createRequest, { isLoading, isSuccess }] = useCreateRequestMutation()
-  const [getUser] = useGetUserMutation()
-  const { user, refreshToken } = useAppSelector((state) => state.session)
-  const [step, setStep] = useState('1')
   const { t, locale } = useTranslate()
-
-  const CompanySetupSchema = Yup.object().shape({
-    companyName: Yup.string().min(3, t('Too short')).required(t('This field is required')),
-    companySlogan: Yup.string().min(3, t('Too short')).required(t('This field is required')),
-    companyWebsite: Yup.string()
-      .min(3, t('Too short'))
-      .matches(
-        /^(https?:\/\/)?([a-z0-9-]+\.)+[a-z]{2,}(\/\S*)?$/,
-        t('Please enter a valid website')
-      )
-      .required(t('This field is required')),
-    yourPosition: Yup.string().min(3, t('Too short')).required(t('This field is required')),
-    companyWorkers: Yup.array().of(
-      Yup.object({
-        firstName: Yup.string().required(t('This field is required')),
-        lastName: Yup.string().required(t('This field is required')),
-        email: Yup.string().email().required(t('This field is required')),
-        position: Yup.string().required(t('This field is required')),
-      })
-    ),
-  })
-
-  const defaultValues = {
-    yourPosition: 'Owner',
-    companyName: '',
-    companySlogan: '',
-    companyWebsite: '',
-    companyWorkers: [],
-    subscription: 0,
-  }
-
-  const methods = useForm<FieldValues>({
-    resolver: yupResolver(CompanySetupSchema),
-    defaultValues,
-  })
-
-  const {
-    trigger,
-    formState: { isDirty, errors },
-    setValue: setFormValue,
-    getValues,
-  } = methods
+  const isDesktop = useResponsive("md", "up")
+  const { user } = useAppSelector((state) => state.session)
+  const [step, setStep] = useState(user?.currentStep ? user?.currentStep.toString() : "1")
+  const [tier, setTier] = useState(0)
 
   useEffect(() => {
     if (user && user.hasSetupCompany) push(PATH_DASHBOARD.crm.dashboard)
   }, [user])
 
   const ToSecondStep = () => {
-    trigger(['companyName', 'companySlogan', 'companyWebsite']).then(() => {
-      if (isDirty && !errors.companyName && !errors.companySlogan && !errors.companyWebsite) {
-        setStep('2')
-      }
-    })
+    setStep("2")
   }
 
   const ToThirdStep = () => {
-    trigger(['companyWorkers']).then(() => {
-      if (isDirty && !errors.companyWorkers) {
-        setStep('3')
-      }
-    })
+    setStep("3")
   }
-
   const ToFourthStep = (plan: number) => {
-    setFormValue('subscription', plan)
-
-    const formData = new FormData()
-
-    formData.append('companyName', getValues('companyName'))
-    formData.append('companySlogan', getValues('companySlogan'))
-    formData.append('companyWebsite', getValues('companyWebsite'))
-    formData.append('subscription', getValues('subscription'))
-    formData.append('yourPosition', getValues('yourPosition'))
-    formData.append('companyWorkers', JSON.stringify(getValues('companyWorkers')))
-
-    createRequest(formData)
+    setTier(plan)
+    setStep("4")
   }
 
-  useEffect(() => {
-    if (!isLoading && isSuccess) {
-      if (refreshToken) getUser(refreshToken).then(() => push(PATH_DASHBOARD.crm.dashboard))
-      else push(PATH_DASHBOARD.crm.dashboard)
-    }
-  }, [isLoading, isSuccess])
+  const ToFifthStep = () => {
+    setStep("5")
+  }
+  const ToSixthStep = () => {
+    setStep("6")
+  }
 
-  useEffect(() => {
-    if (!user && refreshToken) push(PATH_DASHBOARD.root)
-  }, [push, refreshToken])
+  // useEffect(() => {
+  //   if (!user && refreshToken) push(PATH_DASHBOARD.root)
+  // }, [push, refreshToken])
 
   if (!user) return <Login />
 
   return (
     <>
       <Head>
-        <title>Pivot Point BMS | {t('Company Setup')}</title>
+        <title>Pivot Point BMS | {t("Company Setup")}</title>
       </Head>
       <main className='flex h-screen flex-col items-center'>
         <TabsPrimitive.Root
           defaultValue='tab1'
           className='h-full w-full'
           value={step}
-          dir={locale === 'ar' ? 'rtl' : 'ltr'}
+          dir={locale === "ar" ? "rtl" : "ltr"}
         >
           <TabsPrimitive.List
             className={clsx(
-              'fixed top-0 right-0 z-20 flex w-full items-center justify-between overflow-y-hidden bg-white  sm:overflow-hidden',
-              'dark:bg-dark'
+              "fixed top-0 right-0 z-20 flex w-full items-center justify-between overflow-y-hidden bg-white  sm:overflow-hidden",
+              "dark:bg-dark"
             )}
           >
             {Tabs.map((item, i) => (
@@ -160,13 +96,13 @@ function index() {
                 key={i}
                 value={item.value}
                 className={clsx(
-                  'flex h-16 min-w-fit flex-1 items-center justify-start gap-3 border-b-2 border-r p-3 dark:border-gray-300',
+                  "flex h-16 min-w-fit flex-1 items-center justify-start gap-3 border-b-2 border-r p-3 dark:border-gray-300",
                   step === item.value
-                    ? 'border-b-primary-500 dark:border-b-primary-300'
-                    : 'opacity-50'
+                    ? "border-b-primary-500 dark:border-b-primary-300"
+                    : "opacity-50"
                 )}
               >
-                <div className='flex h-12 w-full items-center justify-center rounded-full bg-gray-100 p-4 dark:bg-secondary-800 md:w-12'>
+                <div className='flex h-12 w-full items-center justify-center rounded-full bg-gray-100 p-4 dark:bg-paper-dark md:w-12'>
                   <span className='text-xl font-medium'>
                     {Number(step) > Number(item.value) ? (
                       <Iconify
@@ -184,18 +120,18 @@ function index() {
                   <div className=' flex flex-col items-start'>
                     <p
                       className={clsx(
-                        'text-xs font-medium',
-                        step === item.value && 'text-secondary-600 dark:text-secondary-300'
+                        "text-xs font-medium",
+                        step === item.value && "text-secondary-600 dark:text-secondary-300"
                       )}
                     >
                       {step === item.value ? (
                         <span className='text-secondary-600 dark:text-secondary-300'>
-                          {t('Current')}
+                          {t("Current")}
                         </span>
                       ) : Number(step) > Number(item.value) ? (
-                        <span className='text-green-600'>{t('Completed')}</span>
+                        <span className='text-green-600'>{t("Completed")}</span>
                       ) : (
-                        t('Pending')
+                        t("Pending")
                       )}
                     </p>
                     <h6 className='font-medium'>{t(item.name)}</h6>
@@ -204,37 +140,42 @@ function index() {
               </TabsPrimitive.Trigger>
             ))}
           </TabsPrimitive.List>
-          <FormProvider methods={methods}>
-            <TabsPrimitive.Content
-              value='1'
-              className={clsx('mt-12 h-full  bg-gray-100/50 py-6 dark:bg-dark')}
-            >
-              <Company handleNext={ToSecondStep} />
-            </TabsPrimitive.Content>
-            <TabsPrimitive.Content
-              value='2'
-              className={clsx('mt-12 h-full bg-gray-100/50 py-6 dark:bg-dark')}
-            >
-              <Workers
-                handleBack={() => setStep('1')}
-                handleNext={ToThirdStep}
-                formWorkers={getValues('companyWorkers')}
-                setFormWorkers={(workers) => {
-                  setFormValue('companyWorkers', workers)
-                }}
-              />
-            </TabsPrimitive.Content>
-            <TabsPrimitive.Content
-              value='3'
-              className={clsx('mt-12 h-full bg-gray-100/50 py-6 dark:bg-dark')}
-            >
-              <Subscription
-                handleBack={() => setStep('2')}
-                handleNext={(plan) => ToFourthStep(plan)}
-                isLoading={isLoading}
-              />
-            </TabsPrimitive.Content>
-          </FormProvider>
+          <TabsPrimitive.Content
+            value='1'
+            className={clsx("mt-12 h-full  bg-gray-100/50 py-6 dark:bg-dark")}
+          >
+            <Company handleNext={ToSecondStep} />
+          </TabsPrimitive.Content>
+          <TabsPrimitive.Content
+            value='2'
+            className={clsx("mt-12 h-full  bg-gray-100/50 py-6 dark:bg-dark")}
+          >
+            <Contact handleNext={ToThirdStep} />
+          </TabsPrimitive.Content>
+          <TabsPrimitive.Content
+            value='3'
+            className={clsx("mt-12 h-full bg-gray-100/50 py-6 dark:bg-dark")}
+          >
+            <Subscription handleNext={(plan) => ToFourthStep(plan)} />
+          </TabsPrimitive.Content>
+          <TabsPrimitive.Content
+            value='4'
+            className={clsx("mt-12 h-full bg-gray-100/50 py-6 dark:bg-dark")}
+          >
+            <Workers handleNext={ToFifthStep} plan={tier} />
+          </TabsPrimitive.Content>
+          <TabsPrimitive.Content
+            value='5'
+            className={clsx("mt-12 h-full bg-gray-100/50 py-6 dark:bg-dark")}
+          >
+            <DataImport handleNext={ToSixthStep} />
+          </TabsPrimitive.Content>
+          <TabsPrimitive.Content
+            value='6'
+            className={clsx("mt-12 h-full bg-gray-100/50 py-6 dark:bg-dark")}
+          >
+            <Feedback />
+          </TabsPrimitive.Content>
         </TabsPrimitive.Root>
       </main>
     </>

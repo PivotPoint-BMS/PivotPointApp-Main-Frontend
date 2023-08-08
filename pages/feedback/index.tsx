@@ -1,21 +1,21 @@
 /* eslint-disable quotes */
-import React from 'react'
-import * as Yup from 'yup'
+import React from "react"
+import * as Yup from "yup"
 // next
-import Head from 'next/head'
+import Head from "next/head"
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 // components
-import Layout from 'layout/Index'
-import { useRouter } from 'next/router'
-import { FormProvider } from 'components/hook-form'
-import RHFTextArea from 'components/hook-form/RHFTextArea'
-import { FieldValues, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import Button from 'components/Button'
-import { useGetCompanyDetailsQuery, useSendFeedbackMutation } from 'store/api/feedback/feedbackAPIs'
-import Link from 'next/link'
-import useSnackbar from 'hooks/useSnackbar'
+import Layout from "layout/Index"
+import { useRouter } from "next/router"
+import { FormProvider } from "components/hook-form"
+import RHFTextArea from "components/hook-form/RHFTextArea"
+import { FieldValues, useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import Button from "components/Button"
+import { useGetCompanyDetailsQuery, useSendFeedbackMutation } from "store/api/feedback/feedbackAPIs"
+import Link from "next/link"
+import useSnackbar from "hooks/useSnackbar"
 
 function index() {
   const { t } = useTranslate()
@@ -25,7 +25,7 @@ function index() {
     isFallback,
   } = useRouter()
   const { data, isSuccess } = useGetCompanyDetailsQuery(
-    companyId?.toString() ? companyId?.toString() : '',
+    companyId?.toString() ? companyId?.toString() : "",
     {
       skip: isFallback,
       refetchOnFocus: true,
@@ -35,11 +35,11 @@ function index() {
   const [sendFeedback, { isLoading }] = useSendFeedbackMutation()
 
   const FeedbackSchema = Yup.object().shape({
-    review: Yup.string().required(t('Feedback is required')),
+    review: Yup.string().required(t("Feedback is required")),
   })
 
   const defaultValues = {
-    review: '',
+    review: "",
   }
 
   const methods = useForm<FieldValues>({
@@ -51,20 +51,20 @@ function index() {
 
   const onSubmit = async (formData: FieldValues) => {
     sendFeedback({
-      id: companyId?.toString() ? companyId?.toString() : '',
+      id: companyId?.toString() ? companyId?.toString() : "",
       review: formData.review,
-    }).then(() => open({ message: 'Review Sent, Thank you for your feedback', type: 'success' }))
+    }).then(() => open({ message: "Review Sent, Thank you for your feedback", type: "success" }))
   }
 
   return (
     <>
       <Head>
-        <title>Pivot Point BMS | {t('Feedback')}</title>
+        <title>Pivot Point BMS | {t("Feedback")}</title>
       </Head>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <main className='flex h-screen flex-col items-center justify-center'>
           <div className='container mx-auto flex flex-col items-center justify-center gap-5 px-10 sm:px-16 md:px-32 lg:w-1/2'>
-            <h1 className='text-5xl font-semibold'>{t('Customer Feedback')}</h1>
+            <h1 className='text-5xl font-semibold'>{t("Customer Feedback")}</h1>
             {isSuccess && (
               <>
                 <h6 className='text-lg'>{data?.data.name}</h6>
@@ -75,17 +75,16 @@ function index() {
             )}
             <p className='text-center text-gray-600 dark:text-gray-400'>
               {t(
-                'We highly value your opinion and would greatly appreciate your feedback on your recent experience with our enterprise.'
-              )}{' '}
+                "We highly value your opinion and would greatly appreciate your feedback on your recent experience with our enterprise."
+              )}{" "}
             </p>
-            <RHFTextArea name='review' label={t('Review')} placeholder={t('Your feedback')} />
+            <RHFTextArea name='review' label={t("Review")} placeholder={t("Your feedback")} />
             <Button type='submit' loading={isLoading}>
-              {t('Send')}
+              {t("Send")}
             </Button>
           </div>
         </main>
       </FormProvider>
-      s
     </>
   )
 }
