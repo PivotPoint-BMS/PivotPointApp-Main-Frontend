@@ -1,23 +1,23 @@
-import { useState } from 'react'
-import moment from 'moment'
-import { clsx } from 'clsx'
-import ReactHtmlParser from 'react-html-parser'
+import { useState } from "react"
+import moment from "moment"
+import { clsx } from "clsx"
+import ReactHtmlParser from "react-html-parser"
 // radix
-import * as CollapsiblePrimitive from '@radix-ui/react-collapsible'
+import * as CollapsiblePrimitive from "@radix-ui/react-collapsible"
 // apis
-import { useDeleteNoteMutation } from 'store/api/crm/contact-leads/leadApis'
+import { useDeleteNoteMutation } from "store/api/crm/contact-leads/leadApis"
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 // types
-import { Note } from 'types'
+import { Note } from "types"
 // components
-import { Icon as Iconify } from '@iconify/react'
-import Card from 'components/Card'
-import IconButton from 'components/IconButton'
-import DropdownMenu from 'components/DropdownMenu'
-import AlertDialog from 'components/AlertDialog'
-import { useAppSelector } from 'store/hooks'
-import Backdrop from 'components/Backdrop'
+import { Icon as Iconify } from "@iconify/react"
+import Card from "components/Card"
+import IconButton from "components/IconButton"
+import DropdownMenu from "components/DropdownMenu"
+import AlertDialog from "components/AlertDialog"
+import { useAppSelector } from "store/hooks"
+import Backdrop from "components/Backdrop"
 
 export default function NoteCard({
   leadId,
@@ -42,8 +42,8 @@ export default function NoteCard({
           <div className='flex select-none items-center gap-2 rounded-md px-4 py-2 text-left text-sm font-medium'>
             <CollapsiblePrimitive.Trigger
               className={clsx(
-                'group flex select-none items-center rounded-full text-left text-sm font-medium',
-                'focus:outline-none focus-visible:ring focus-visible:ring-gray-900 focus-visible:ring-opacity-75'
+                "group flex select-none items-center rounded-full text-left text-sm font-medium",
+                "focus:outline-none focus-visible:ring focus-visible:ring-gray-900 focus-visible:ring-opacity-75"
               )}
             >
               <IconButton>
@@ -57,11 +57,11 @@ export default function NoteCard({
             <div className='flex-1 space-y-1'>
               <p className='text-lg font-medium'>{note.noteTitle}</p>
               <p className='text-gray-500'>
-                {t('By:')} {note.lastEditor}
+                {t("By:")} {note.lastEditor}
               </p>
-            </div>{' '}
+            </div>{" "}
             <Iconify icon='material-symbols:calendar-today' height={20} className='text-gray-600' />
-            <p>{moment(note.created).format('LLL')}</p>
+            <p>{moment(note.created).format("LLL")}</p>
             <DropdownMenu
               trigger={
                 <IconButton className='border'>
@@ -70,14 +70,14 @@ export default function NoteCard({
               }
               items={[
                 {
-                  type: 'button',
-                  label: t('Edit'),
+                  type: "button",
+                  label: t("Edit"),
                   icon: <Iconify icon='ic:round-edit' height={18} />,
                   onClick: () => setNoteToEdit(note),
                 },
                 {
-                  type: 'button',
-                  label: t('Delete'),
+                  type: "button",
+                  label: t("Delete"),
                   icon: (
                     <Iconify
                       icon='ic:round-delete'
@@ -97,21 +97,21 @@ export default function NoteCard({
       </Card>
       <Backdrop open={isLoading} loading={isLoading} />
       <AlertDialog
-        title={t('Confirm Delete')}
+        title={t("Confirm Delete")}
         description={
           <p className='text-red-600 dark:text-red-400'>
-            {t('This action cannot be undone. This will permanently delete this note.')}
+            {t("This action cannot be undone. This will permanently delete this note.")}
           </p>
         }
-        cancelText={t('Cancel')}
-        confirmText={t('Yes, Delete')}
+        cancelText={t("Cancel")}
+        confirmText={t("Yes, Delete")}
         onConfirm={() => {
           deleteNote({ id: note.id, PageNumber, PageSize, leadId })
           setOpenDeleteDialog(false)
         }}
         open={openDeleteDialog}
         onClose={() => setOpenDeleteDialog(false)}
-        buttonProps={{ intent: 'error' }}
+        buttonProps={{ intent: "error" }}
       />
     </>
   )

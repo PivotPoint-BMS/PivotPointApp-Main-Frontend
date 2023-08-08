@@ -1,19 +1,19 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from "react"
 // next
-import { useRouter } from 'next/router'
-import Link from 'next/link'
+import { useRouter } from "next/router"
+import Link from "next/link"
 // hooks
-import useTranslate from 'hooks/useTranslate'
-import { useAppSelector } from 'store/hooks'
+import useTranslate from "hooks/useTranslate"
+import { useAppSelector } from "store/hooks"
 // api
-import { useCheckPaymentQuery } from 'store/api/auth/paymentApi'
-import { useGetUserMutation } from 'store/api/auth/authApi'
+import { useCheckPaymentQuery } from "store/api/auth/paymentApi"
+import { useGetUserMutation } from "store/api/auth/authApi"
 // routes
-import { PATH_DASHBOARD } from 'routes/paths'
+import { PATH_DASHBOARD } from "routes/paths"
 // components
-import { Icon as Iconify } from '@iconify/react'
-import { Button } from 'components'
-import MotionContainer from 'components/animate/MotionContainer'
+import { Icon as Iconify } from "@iconify/react"
+import { Button } from "components"
+import MotionContainer from "components/animate/MotionContainer"
 
 export default function CompletePayment() {
   const { t } = useTranslate()
@@ -38,21 +38,21 @@ export default function CompletePayment() {
           <div className='flex h-full w-full flex-col items-center gap-6'>
             {!isSuccess ? (
               <>
-                {' '}
+                {" "}
                 <h1 className='text-3xl font-semibold text-secondary-900 dark:text-white'>
-                  {t('Complete your payment')}
+                  {t("Complete your payment")}
                 </h1>
                 <p className='text-center text-gray-600 dark:text-gray-300'>
-                  {t('Click the button below to complete the payments')}
+                  {t("Click the button below to complete the payments")}
                 </p>
                 {user?.tier === 1 && (
                   <Button data-sellix-product='63e407b2bb477' type='submit'>
-                    {t('Proceed to payment')}
+                    {t("Proceed to payment")}
                   </Button>
                 )}
                 {user?.tier === 2 && (
                   <Button data-sellix-product='63e515a654cb4' type='submit'>
-                    {t('Proceed to payment')}
+                    {t("Proceed to payment")}
                   </Button>
                 )}
               </>
@@ -64,14 +64,14 @@ export default function CompletePayment() {
                     icon='material-symbols:check-small-rounded'
                     height={48}
                     width={48}
-                  />{' '}
+                  />{" "}
                 </div>
                 <h1 className='text-center text-xl font-semibold'>
-                  {t('Your subscription payment has been successfully processed')}
+                  {t("Your subscription payment has been successfully processed")}
                 </h1>
-                <p className='text-center text-sm leading-7'>{t('PAYMENT_MESSAGE')}</p>
+                <p className='text-center text-sm leading-7'>{t("PAYMENT_MESSAGE")}</p>
                 <Link href={PATH_DASHBOARD.root}>
-                  <Button>{t('Go to Dashboard')}</Button>
+                  <Button>{t("Go to Dashboard")}</Button>
                 </Link>
               </div>
             )}

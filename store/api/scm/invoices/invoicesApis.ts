@@ -1,25 +1,25 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { HYDRATE } from 'next-redux-wrapper'
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { HYDRATE } from "next-redux-wrapper"
 // config
-import { PIVOTPOINT_API } from 'config'
+import { PIVOTPOINT_API } from "config"
 // types
-import { ListGenericResponse, Invoice, RequestParams, IGenericResponse } from 'types'
+import { ListGenericResponse, Invoice, RequestParams, IGenericResponse } from "types"
 // store
-import { RootState } from 'store'
-import RequestSearchParams from 'types/RequestSearchParams'
+import { RootState } from "store"
+import RequestSearchParams from "types/RequestSearchParams"
 // import { assign } from 'lodash'
 
 export const invoicesApi = createApi({
-  reducerPath: 'invoicesApi',
+  reducerPath: "invoicesApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${PIVOTPOINT_API.baseUrl}/scm`,
     prepareHeaders: (headers, { getState }) => {
       const { token } = (getState() as RootState).session
 
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
+        headers.set("Authorization", `Bearer ${token}`)
       }
 
       return headers
@@ -34,7 +34,7 @@ export const invoicesApi = createApi({
   endpoints: (builder) => ({
     getInvoices: builder.query<ListGenericResponse<Invoice[]>, RequestSearchParams>({
       query: (params) => ({
-        url: 'Invoices',
+        url: "Invoices",
         params,
       }),
     }),
@@ -44,10 +44,10 @@ export const invoicesApi = createApi({
     createInvoice: builder.mutation<ListGenericResponse<Invoice>, Partial<Invoice> & RequestParams>(
       {
         query: (data) => ({
-          url: 'Invoices',
-          method: 'POST',
+          url: "Invoices",
+          method: "POST",
           body: data,
-          responseHandler: 'content-type',
+          responseHandler: "content-type",
         }),
         async onQueryStarted({ PageNumber, PageSize }, { dispatch, queryFulfilled }) {
           try {
@@ -56,7 +56,7 @@ export const invoicesApi = createApi({
             } = await queryFulfilled
             dispatch(
               invoicesApi.util.updateQueryData(
-                'getInvoices',
+                "getInvoices",
                 { PageNumber, PageSize },
                 (draftedList) => {
                   draftedList.data.push(data)
@@ -71,13 +71,13 @@ export const invoicesApi = createApi({
     ),
     editInvoice: builder.mutation<
       ListGenericResponse<Invoice>,
-      { data: Omit<Invoice, 'id'>; id: string } & RequestParams
+      { data: Omit<Invoice, "id">; id: string } & RequestParams
     >({
       query: ({ data, id }) => ({
         url: `Invoices/${id}`,
-        method: 'PUT',
+        method: "PUT",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
 
       async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
@@ -88,7 +88,7 @@ export const invoicesApi = createApi({
 
           dispatch(
             invoicesApi.util.updateQueryData(
-              'getInvoices',
+              "getInvoices",
               { PageNumber, PageSize },
               (draftedList) => {
                 Object.assign(draftedList.data.find((item) => item.id === id)!, data)
@@ -98,7 +98,7 @@ export const invoicesApi = createApi({
           )
 
           dispatch(
-            invoicesApi.util.updateQueryData('getInvoices', { PageNumber, PageSize }, (draft) => {
+            invoicesApi.util.updateQueryData("getInvoices", { PageNumber, PageSize }, (draft) => {
               Object.assign(draft.data, data)
             })
           )
@@ -110,8 +110,8 @@ export const invoicesApi = createApi({
     pendingInvoice: builder.mutation<ListGenericResponse<Invoice>, { id: string } & RequestParams>({
       query: ({ id }) => ({
         url: `Invoices/IsPending/${id}`,
-        method: 'PUT',
-        responseHandler: 'content-type',
+        method: "PUT",
+        responseHandler: "content-type",
       }),
 
       async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
@@ -120,7 +120,7 @@ export const invoicesApi = createApi({
 
           dispatch(
             invoicesApi.util.updateQueryData(
-              'getInvoices',
+              "getInvoices",
               { PageNumber, PageSize },
               (draftedList) => {
                 Object.assign(draftedList.data.find((item) => item.id === id)!, {
@@ -133,7 +133,7 @@ export const invoicesApi = createApi({
           )
 
           dispatch(
-            invoicesApi.util.updateQueryData('getInvoices', { PageNumber, PageSize }, (draft) => {
+            invoicesApi.util.updateQueryData("getInvoices", { PageNumber, PageSize }, (draft) => {
               Object.assign(draft.data, {
                 ...draft.data,
                 status: 1,
@@ -148,8 +148,8 @@ export const invoicesApi = createApi({
     paidInvoice: builder.mutation<ListGenericResponse<Invoice>, { id: string } & RequestParams>({
       query: ({ id }) => ({
         url: `Invoices/IsPaid/${id}`,
-        method: 'PUT',
-        responseHandler: 'content-type',
+        method: "PUT",
+        responseHandler: "content-type",
       }),
 
       async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
@@ -158,7 +158,7 @@ export const invoicesApi = createApi({
 
           dispatch(
             invoicesApi.util.updateQueryData(
-              'getInvoices',
+              "getInvoices",
               { PageNumber, PageSize },
               (draftedList) => {
                 Object.assign(draftedList.data.find((item) => item.id === id)!, {
@@ -171,7 +171,7 @@ export const invoicesApi = createApi({
           )
 
           dispatch(
-            invoicesApi.util.updateQueryData('getInvoices', { PageNumber, PageSize }, (draft) => {
+            invoicesApi.util.updateQueryData("getInvoices", { PageNumber, PageSize }, (draft) => {
               Object.assign(draft.data, {
                 ...draft.data,
                 status: 2,
@@ -189,8 +189,8 @@ export const invoicesApi = createApi({
     >({
       query: ({ id }) => ({
         url: `Invoices/IsCompleted/${id}`,
-        method: 'PUT',
-        responseHandler: 'content-type',
+        method: "PUT",
+        responseHandler: "content-type",
       }),
 
       async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
@@ -199,7 +199,7 @@ export const invoicesApi = createApi({
 
           dispatch(
             invoicesApi.util.updateQueryData(
-              'getInvoices',
+              "getInvoices",
               { PageNumber, PageSize },
               (draftedList) => {
                 Object.assign(draftedList.data.find((item) => item.id === id)!, {
@@ -212,7 +212,7 @@ export const invoicesApi = createApi({
           )
 
           dispatch(
-            invoicesApi.util.updateQueryData('getInvoices', { PageNumber, PageSize }, (draft) => {
+            invoicesApi.util.updateQueryData("getInvoices", { PageNumber, PageSize }, (draft) => {
               Object.assign(draft.data, {
                 ...draft.data,
                 status: 3,
@@ -227,8 +227,8 @@ export const invoicesApi = createApi({
     archiveInvoice: builder.mutation<ListGenericResponse<Invoice>, { id: string } & RequestParams>({
       query: ({ id }) => ({
         url: `Invoices/Archive/${id}`,
-        method: 'PUT',
-        responseHandler: 'content-type',
+        method: "PUT",
+        responseHandler: "content-type",
       }),
 
       async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
@@ -237,7 +237,7 @@ export const invoicesApi = createApi({
 
           dispatch(
             invoicesApi.util.updateQueryData(
-              'getInvoices',
+              "getInvoices",
               { PageNumber, PageSize },
               (draftedList) => {
                 Object.assign(draftedList.data.find((item) => item.id === id)!, {
@@ -250,7 +250,7 @@ export const invoicesApi = createApi({
           )
 
           dispatch(
-            invoicesApi.util.updateQueryData('getInvoices', { PageNumber, PageSize }, (draft) => {
+            invoicesApi.util.updateQueryData("getInvoices", { PageNumber, PageSize }, (draft) => {
               Object.assign(draft.data, {
                 ...draft.data,
                 archived: true,
@@ -268,8 +268,8 @@ export const invoicesApi = createApi({
     >({
       query: ({ id }) => ({
         url: `Invoices/UnArchive/${id}`,
-        method: 'PUT',
-        responseHandler: 'content-type',
+        method: "PUT",
+        responseHandler: "content-type",
       }),
 
       async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
@@ -278,7 +278,7 @@ export const invoicesApi = createApi({
 
           dispatch(
             invoicesApi.util.updateQueryData(
-              'getInvoices',
+              "getInvoices",
               { PageNumber, PageSize },
               (draftedList) => {
                 Object.assign(draftedList.data.find((item) => item.id === id)!, {
@@ -291,7 +291,7 @@ export const invoicesApi = createApi({
           )
 
           dispatch(
-            invoicesApi.util.updateQueryData('getInvoices', { PageNumber, PageSize }, (draft) => {
+            invoicesApi.util.updateQueryData("getInvoices", { PageNumber, PageSize }, (draft) => {
               Object.assign(draft.data, {
                 ...draft.data,
                 archived: false,
@@ -306,15 +306,15 @@ export const invoicesApi = createApi({
     deleteInvoice: builder.mutation<ListGenericResponse<Invoice>, { id: string } & RequestParams>({
       query: ({ id }) => ({
         url: `Invoices/${id}`,
-        method: 'DELETE',
-        responseHandler: 'content-type',
+        method: "DELETE",
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
           dispatch(
             invoicesApi.util.updateQueryData(
-              'getInvoices',
+              "getInvoices",
               { PageNumber, PageSize },
               (draftedList) => ({
                 ...draftedList,

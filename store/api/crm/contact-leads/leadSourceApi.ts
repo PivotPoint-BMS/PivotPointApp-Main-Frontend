@@ -1,23 +1,23 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { HYDRATE } from 'next-redux-wrapper'
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { HYDRATE } from "next-redux-wrapper"
 // config
-import { PIVOTPOINT_API } from 'config'
+import { PIVOTPOINT_API } from "config"
 // types
-import { IGenericResponse, ListGenericResponse, RequestParams } from 'types'
+import { IGenericResponse, ListGenericResponse, RequestParams } from "types"
 // store
-import { RootState } from 'store'
-import { LeadSource } from 'types/Lead'
-import RequestSearchParams from 'types/RequestSearchParams'
+import { RootState } from "store"
+import { LeadSource } from "types/Lead"
+import RequestSearchParams from "types/RequestSearchParams"
 
 export const leadSourceApi = createApi({
-  reducerPath: 'leadSourceApi',
+  reducerPath: "leadSourceApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${PIVOTPOINT_API.baseUrl}/crm`,
     prepareHeaders: (headers, { getState }) => {
       const { token } = (getState() as RootState).session
 
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
+        headers.set("Authorization", `Bearer ${token}`)
       }
 
       return headers
@@ -29,26 +29,26 @@ export const leadSourceApi = createApi({
       return action.payload[reducerPath]
     }
   },
-  tagTypes: ['LeadSources', 'AllLeadSources'],
+  tagTypes: ["LeadSources", "AllLeadSources"],
   endpoints: (builder) => ({
     getLeadSources: builder.query<ListGenericResponse<LeadSource[]>, RequestSearchParams>({
       query: (params) => ({
-        url: 'LeadSources',
+        url: "LeadSources",
         params,
       }),
     }),
     getAllLeadSources: builder.query<ListGenericResponse<LeadSource[]>, void>({
-      query: () => 'LeadSources/All',
+      query: () => "LeadSources/All",
     }),
     createLeadSource: builder.mutation<
       IGenericResponse<LeadSource>,
       { data: LeadSource } & RequestParams
     >({
       query: ({ data }) => ({
-        url: 'LeadSources',
-        method: 'POST',
+        url: "LeadSources",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ PageNumber, PageSize }, { dispatch, queryFulfilled }) {
         try {
@@ -57,7 +57,7 @@ export const leadSourceApi = createApi({
           } = await queryFulfilled
           dispatch(
             leadSourceApi.util.updateQueryData(
-              'getLeadSources',
+              "getLeadSources",
               { PageNumber, PageSize },
               (draftedList) => {
                 draftedList.data.push(data)
@@ -65,7 +65,7 @@ export const leadSourceApi = createApi({
             )
           )
           dispatch(
-            leadSourceApi.util.updateQueryData('getAllLeadSources', undefined, (draftedList) => {
+            leadSourceApi.util.updateQueryData("getAllLeadSources", undefined, (draftedList) => {
               draftedList.data.push(data)
             })
           )
@@ -77,9 +77,9 @@ export const leadSourceApi = createApi({
     editLeadSource: builder.mutation<string[], { data: LeadSource; id: string } & RequestParams>({
       query: ({ data, id }) => ({
         url: `LeadSources/${id}`,
-        method: 'PUT',
+        method: "PUT",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ id, PageNumber, PageSize, data }, { dispatch, queryFulfilled }) {
         try {
@@ -87,7 +87,7 @@ export const leadSourceApi = createApi({
 
           dispatch(
             leadSourceApi.util.updateQueryData(
-              'getLeadSources',
+              "getLeadSources",
               { PageNumber, PageSize },
               (draftedList) => {
                 Object.assign(draftedList.data.find((item) => item.id === id)!, data)
@@ -96,7 +96,7 @@ export const leadSourceApi = createApi({
             )
           )
           dispatch(
-            leadSourceApi.util.updateQueryData('getAllLeadSources', undefined, (draftedList) => {
+            leadSourceApi.util.updateQueryData("getAllLeadSources", undefined, (draftedList) => {
               Object.assign(draftedList.data.find((item) => item.id === id)!, data)
               return draftedList
             })
@@ -109,15 +109,15 @@ export const leadSourceApi = createApi({
     deleteLeadSource: builder.mutation<string[], { id: string } & RequestParams>({
       query: ({ id }) => ({
         url: `LeadSources/${id}`,
-        method: 'DELETE',
-        responseHandler: 'content-type',
+        method: "DELETE",
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
           dispatch(
             leadSourceApi.util.updateQueryData(
-              'getLeadSources',
+              "getLeadSources",
               { PageNumber, PageSize },
               (draftedList) => ({
                 ...draftedList,
@@ -126,7 +126,7 @@ export const leadSourceApi = createApi({
             )
           )
           dispatch(
-            leadSourceApi.util.updateQueryData('getAllLeadSources', undefined, (draftedList) => ({
+            leadSourceApi.util.updateQueryData("getAllLeadSources", undefined, (draftedList) => ({
               ...draftedList,
               data: draftedList.data.filter((source) => source.id !== id),
             }))
@@ -141,17 +141,17 @@ export const leadSourceApi = createApi({
       { toDelete: string[] } & RequestParams
     >({
       query: ({ toDelete }) => ({
-        url: 'Lead/bulk',
+        url: "Lead/bulk",
         body: { toDelete },
-        method: 'DELETE',
-        responseHandler: 'content-type',
+        method: "DELETE",
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ toDelete, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
           dispatch(
             leadSourceApi.util.updateQueryData(
-              'getLeadSources',
+              "getLeadSources",
               { PageNumber, PageSize },
               (draftedList) => ({
                 ...draftedList,
@@ -162,7 +162,7 @@ export const leadSourceApi = createApi({
             )
           )
           dispatch(
-            leadSourceApi.util.updateQueryData('getAllLeadSources', undefined, (draftedList) => ({
+            leadSourceApi.util.updateQueryData("getAllLeadSources", undefined, (draftedList) => ({
               ...draftedList,
               data: draftedList.data.filter((source) => source.id && !toDelete.includes(source.id)),
             }))

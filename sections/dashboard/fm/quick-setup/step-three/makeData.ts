@@ -7,11 +7,11 @@ export default function makeData(range: number) {
   }[] = []
   // eslint-disable-next-line no-plusplus
   let row = {
-    inventory: '',
-    isRawMaterials: 'true',
+    inventory: "",
+    isRawMaterials: "true",
   }
   for (let i = 1; i <= range; i++) {
-    row = { ...row, [i]: '' }
+    row = { ...row, [i]: "" }
   }
 
   const columns: {
@@ -27,12 +27,12 @@ export default function makeData(range: number) {
     }[]
   }[] = [
     {
-      id: 'inventory',
-      label: 'Inventory',
-      accessor: 'inventory',
-      dataType: 'text',
-      placeholder: 'Enter Inventory',
-      align: 'left',
+      id: "inventory",
+      label: "Inventory",
+      accessor: "inventory",
+      dataType: "text",
+      placeholder: "Enter Inventory",
+      align: "left",
     },
   ]
 
@@ -41,29 +41,29 @@ export default function makeData(range: number) {
       id: i.toString(),
       label: `Year ${i.toString()}`,
       accessor: i.toString(),
-      dataType: 'number',
-      placeholder: 'Enter the amount',
-      align: 'right',
+      dataType: "number",
+      placeholder: "Enter the amount",
+      align: "right",
     }
 
     columns.push(column)
   }
 
   columns.push({
-    id: 'isRawMaterials',
-    label: 'Is Raw Material?',
-    accessor: 'isRawMaterials',
-    dataType: 'select',
-    placeholder: '',
-    align: 'left',
+    id: "isRawMaterials",
+    label: "Is Raw Material?",
+    accessor: "isRawMaterials",
+    dataType: "select",
+    placeholder: "",
+    align: "left",
     options: [
       {
-        label: 'Yes',
-        value: 'true',
+        label: "Yes",
+        value: "true",
       },
       {
-        label: 'No',
-        value: 'false',
+        label: "No",
+        value: "false",
       },
     ],
   })

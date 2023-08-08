@@ -1,33 +1,33 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react"
 // next
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router"
 // next
-import Head from 'next/head'
+import Head from "next/head"
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 // routes
-import { PATH_DASHBOARD } from 'routes/paths'
+import { PATH_DASHBOARD } from "routes/paths"
 // layout
-import Layout from 'layout/Index'
+import Layout from "layout/Index"
 // sections
-import VehiclesList from 'sections/dashboard/scm/transportation/vehicules/VehiculesList'
-import AddEditVehicleForm from 'sections/dashboard/scm/transportation/vehicules/create/AddEditVehiculeForm'
-import DeliveriesList from 'sections/dashboard/scm/transportation/deliveries/list'
+import VehiclesList from "sections/dashboard/scm/transportation/vehicules/VehiculesList"
+import AddEditVehicleForm from "sections/dashboard/scm/transportation/vehicules/create/AddEditVehiculeForm"
+import DeliveriesList from "sections/dashboard/scm/transportation/deliveries/list"
 // components
-import { Icon } from '@iconify/react'
-import { Button, Card, Dialog, DropdownMenu, HeaderBreadcrumbs } from 'components'
-import { TabsContent, TabsList, TabsRoot, TabsTrigger } from 'components/Tabs'
-import RoleBasedGuard from 'guards/RoleBasedGuard'
+import { Icon } from "@iconify/react"
+import { Button, Card, Dialog, DropdownMenu, HeaderBreadcrumbs } from "components"
+import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "components/Tabs"
+import RoleBasedGuard from "guards/RoleBasedGuard"
 
 const TABS = [
-  { name: 'Deliveries', value: 'deliveries', icon: 'solar:delivery-bold' },
-  { name: 'Vehicles', value: 'vehicules', icon: 'material-symbols:play-shapes-rounded' },
+  { name: "Deliveries", value: "deliveries", icon: "solar:delivery-bold" },
+  { name: "Vehicles", value: "vehicules", icon: "material-symbols:play-shapes-rounded" },
 ]
 
 function index() {
   const { t } = useTranslate()
   const { push, pathname, query } = useRouter()
-  const [tab, setTab] = useState(query?.tab ? (query?.tab as string) : 'deliveries')
+  const [tab, setTab] = useState(query?.tab ? (query?.tab as string) : "deliveries")
   const [openAddVehicleDialog, setOpenAddVehicleDialog] = useState(false)
 
   useEffect(() => {
@@ -37,24 +37,24 @@ function index() {
   return (
     <>
       <Head>
-        <title>{t('Transportation')} | Pivot Point BMS</title>
+        <title>{t("Transportation")} | Pivot Point BMS</title>
       </Head>
       <div className='flex max-w-full flex-col px-5'>
         <HeaderBreadcrumbs
-          heading={t('Transportation')}
+          heading={t("Transportation")}
           links={[
-            { name: t('Dashboard'), href: PATH_DASHBOARD.root },
-            { name: t('Supply Chain & Inventory'), href: PATH_DASHBOARD.scm.dashboard },
-            { name: t('Transportation') },
+            { name: t("Dashboard"), href: PATH_DASHBOARD.root },
+            { name: t("Supply Chain & Inventory"), href: PATH_DASHBOARD.scm.dashboard },
+            { name: t("Transportation") },
           ]}
           action={
             <>
-              {tab === 'deliveries' && (
+              {tab === "deliveries" && (
                 <DropdownMenu
                   items={[
                     {
-                      type: 'button',
-                      label: 'Warehouse To Customer',
+                      type: "button",
+                      label: "Warehouse To Customer",
                       onClick: () => push(PATH_DASHBOARD.scm.transportation.deliveries.create.w2c),
                       icon: (
                         <Icon
@@ -65,8 +65,8 @@ function index() {
                       ),
                     },
                     {
-                      type: 'button',
-                      label: 'Warehouse To Warehouse',
+                      type: "button",
+                      label: "Warehouse To Warehouse",
                       onClick: () => push(PATH_DASHBOARD.scm.transportation.deliveries.create.w2w),
                       icon: (
                         <Icon
@@ -77,8 +77,8 @@ function index() {
                       ),
                     },
                     {
-                      type: 'button',
-                      label: 'Supplier To Warehouse',
+                      type: "button",
+                      label: "Supplier To Warehouse",
                       onClick: () => push(PATH_DASHBOARD.scm.transportation.deliveries.create.s2w),
                       icon: (
                         <Icon
@@ -91,17 +91,17 @@ function index() {
                   ]}
                   trigger={
                     <Button startIcon={<Icon icon='ic:round-add' height={24} />}>
-                      {t('New Order')}
+                      {t("New Order")}
                     </Button>
                   }
                 />
               )}
-              {tab === 'vehicules' && (
+              {tab === "vehicules" && (
                 <Button
                   startIcon={<Icon icon='ic:round-add' height={24} />}
                   onClick={() => setOpenAddVehicleDialog(true)}
                 >
-                  {t('Add a Vehicle')}
+                  {t("Add a Vehicle")}
                 </Button>
               )}
             </>
@@ -142,7 +142,7 @@ function index() {
 index.getLayout = function getLayout(page: JSX.Element) {
   return (
     <Layout variant='dashboard'>
-      <RoleBasedGuard accessibleRoles={['Owner', 'SCM']}>{page}</RoleBasedGuard>
+      <RoleBasedGuard accessibleRoles={["Owner", "SCM"]}>{page}</RoleBasedGuard>
     </Layout>
   )
 }

@@ -1,20 +1,20 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { HYDRATE } from 'next-redux-wrapper'
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { HYDRATE } from "next-redux-wrapper"
 // config
-import { PIVOTPOINT_API } from 'config'
+import { PIVOTPOINT_API } from "config"
 // store
-import { RootState } from 'store'
-import { CompanyDetails, IGenericResponse } from 'types'
+import { RootState } from "store"
+import { CompanyDetails, IGenericResponse } from "types"
 
 export const feedbackApi = createApi({
-  reducerPath: 'feedbackApi',
+  reducerPath: "feedbackApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${PIVOTPOINT_API.baseUrl}`,
     prepareHeaders: (headers, { getState }) => {
       const { token } = (getState() as RootState).session
 
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
+        headers.set("Authorization", `Bearer ${token}`)
       }
 
       return headers
@@ -34,9 +34,9 @@ export const feedbackApi = createApi({
     sendFeedback: builder.mutation<IGenericResponse<boolean>, { id: string; review: string }>({
       query: ({ id, review }) => ({
         url: `/im/Analysis/Review/${id}`,
-        method: 'POST',
+        method: "POST",
         body: { review },
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
     }),
   }),

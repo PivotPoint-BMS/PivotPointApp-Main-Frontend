@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 // types
 
-import { Supplier } from 'types'
+import { Supplier } from "types"
 
 interface SupplierPreview {
   supplier: Supplier | null
@@ -17,7 +17,7 @@ const initialState: SupplierPreview = {
 }
 
 const supplierPreviewSlice = createSlice({
-  name: 'supplierPreview',
+  name: "supplierPreview",
   initialState,
   reducers: {
     previewSupplier: (state, action: PayloadAction<Supplier>) => {

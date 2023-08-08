@@ -1,11 +1,11 @@
-import React, { ReactNode } from 'react'
-import { clsx } from 'clsx'
-import { v4 as uuid } from 'uuid'
-import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
-import { Icon as Iconify } from '@iconify/react'
+import React, { ReactNode } from "react"
+import { clsx } from "clsx"
+import { v4 as uuid } from "uuid"
+import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
+import { Icon as Iconify } from "@iconify/react"
 
 export interface MenuItemProps {
-  type: 'button' | 'dropdown' | 'checkbox' | 'separator' | 'text' | 'link'
+  type: "button" | "dropdown" | "checkbox" | "separator" | "text" | "link"
   label?: string
   icon?: ReactNode
   onClick?: () => void
@@ -36,16 +36,16 @@ const RenderItems = ({
   loading,
   disabled,
 }: MenuItemProps) => {
-  if (type === 'checkbox')
+  if (type === "checkbox")
     return (
       <DropdownMenuPrimitive.CheckboxItem
         key={`checkbox-${uuid()}`}
         checked={checked}
         onCheckedChange={onCheckedChange}
         className={clsx(
-          'flex w-full cursor-pointer select-none items-center rounded-md px-2 py-2 text-xs font-medium outline-none',
-          ' focus:bg-gray-200 dark:focus:bg-paper-hover-dark',
-          disabled && 'cursor-not-allowed opacity-50'
+          "flex w-full cursor-pointer select-none items-center rounded-md px-2 py-2 text-xs font-medium outline-none",
+          " focus:bg-gray-200 dark:focus:bg-paper-hover-dark",
+          disabled && "cursor-not-allowed opacity-50"
         )}
       >
         <div>{icon}</div>
@@ -55,14 +55,14 @@ const RenderItems = ({
         </DropdownMenuPrimitive.ItemIndicator>
       </DropdownMenuPrimitive.CheckboxItem>
     )
-  if (type === 'dropdown')
+  if (type === "dropdown")
     return (
       <DropdownMenuPrimitive.Sub key={`dropdown-${uuid()}`}>
         <DropdownMenuPrimitive.SubTrigger
           className={clsx(
-            'flex w-full cursor-pointer select-none items-center gap-2 rounded-md px-2 py-2 text-xs font-medium outline-none  rtl:flex-row-reverse',
-            ' focus:bg-gray-200 dark:focus:bg-paper-hover-dark',
-            disabled && 'cursor-not-allowed opacity-50',
+            "flex w-full cursor-pointer select-none items-center gap-2 rounded-md px-2 py-2 text-xs font-medium outline-none  rtl:flex-row-reverse",
+            " focus:bg-gray-200 dark:focus:bg-paper-hover-dark",
+            disabled && "cursor-not-allowed opacity-50",
             className
           )}
         >
@@ -77,11 +77,11 @@ const RenderItems = ({
         <DropdownMenuPrimitive.Portal>
           <DropdownMenuPrimitive.SubContent
             className={clsx(
-              'origin-top-right data-[side=left]:animate-scale-in',
-              'w-48 rounded-md px-1 py-1 text-xs font-medium shadow-md',
-              'border bg-white dark:border-gray-600 dark:bg-paper-dark',
-              loading && 'cursor-not-allowed bg-gray-400 hover:bg-gray-400 active:bg-gray-400',
-              disabled && 'cursor-not-allowed opacity-50',
+              "origin-top-right data-[side=left]:animate-scale-in",
+              "w-48 rounded-md px-1 py-1 text-xs font-medium shadow-md",
+              "border bg-white dark:border-gray-600 dark:bg-paper-dark",
+              loading && "cursor-not-allowed bg-gray-400 hover:bg-gray-400 active:bg-gray-400",
+              disabled && "cursor-not-allowed opacity-50",
               className
             )}
           >
@@ -113,18 +113,18 @@ const RenderItems = ({
         </DropdownMenuPrimitive.Portal>
       </DropdownMenuPrimitive.Sub>
     )
-  if (type === 'separator')
+  if (type === "separator")
     return (
       <DropdownMenuPrimitive.Separator
-        className={clsx('my-1 h-px bg-gray-200 dark:bg-gray-700', className)}
+        className={clsx("my-1 h-px bg-gray-200 dark:bg-gray-700", className)}
         key={`separator-${uuid()}`}
       />
     )
-  if (type === 'text')
+  if (type === "text")
     return (
       <DropdownMenuPrimitive.Label
         className={clsx(
-          'select-none px-2 py-2 text-xs font-medium text-gray-700 dark:text-gray-200',
+          "select-none px-2 py-2 text-xs font-medium text-gray-700 dark:text-gray-200",
           className
         )}
         key={`text-${uuid()}`}
@@ -137,9 +137,9 @@ const RenderItems = ({
     <DropdownMenuPrimitive.Item
       key={`button-${uuid()}`}
       className={clsx(
-        'flex cursor-pointer select-none items-center gap-2 rounded-md px-2 py-2 text-xs font-medium outline-none rtl:flex-row-reverse',
-        ' focus:bg-gray-200 dark:focus:bg-paper-hover-dark',
-        disabled && 'cursor-not-allowed opacity-50',
+        "flex cursor-pointer select-none items-center gap-2 rounded-md px-2 py-2 text-xs font-medium outline-none rtl:flex-row-reverse",
+        " focus:bg-gray-200 dark:focus:bg-paper-hover-dark",
+        disabled && "cursor-not-allowed opacity-50",
         className
       )}
       onClick={onClick}
@@ -181,7 +181,7 @@ export default function DropdownMenu({
   ...props
 }: DropdownMenuProps) {
   return (
-    <div className={clsx('relative inline-block text-left', className)}>
+    <div className={clsx("relative inline-block text-left", className)}>
       <DropdownMenuPrimitive.Root {...props}>
         <DropdownMenuPrimitive.Trigger asChild>{trigger}</DropdownMenuPrimitive.Trigger>
 
@@ -191,10 +191,10 @@ export default function DropdownMenu({
             sideOffset={5}
             {...contentProps}
             className={clsx(
-              'data-[side=top]:animate-slide-up data-[side=bottom]:animate-slide-down',
-              'w-fit min-w-[150px] rounded-lg border px-1.5 py-1 drop-shadow-lg dark:border-gray-600',
-              'bg-white dark:bg-paper-dark',
-              'flex flex-col gap-1'
+              "data-[side=top]:animate-slide-up data-[side=bottom]:animate-slide-down",
+              "w-fit min-w-[150px] rounded-lg border px-1.5 py-1 drop-shadow-lg dark:border-gray-600",
+              "bg-white dark:bg-paper-dark",
+              "flex flex-col gap-1"
             )}
           >
             {items.map(

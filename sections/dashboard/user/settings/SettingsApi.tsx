@@ -1,19 +1,19 @@
 /* eslint-disable quotes */
-import { merge } from 'lodash'
-import React from 'react'
-import { useCopyToClipboard } from 'usehooks-ts'
+import { merge } from "lodash"
+import React from "react"
+import { useCopyToClipboard } from "usehooks-ts"
 // next
-import Link from 'next/link'
+import Link from "next/link"
 // apis
-import { useGenerateKeyMutation, useGetApiKeyQuery } from 'store/api/settings/settingsAPIs'
+import { useGenerateKeyMutation, useGetApiKeyQuery } from "store/api/settings/settingsAPIs"
 // hooks
-import useTranslate from 'hooks/useTranslate'
-import useSnackbar from 'hooks/useSnackbar'
+import useTranslate from "hooks/useTranslate"
+import useSnackbar from "hooks/useSnackbar"
 // routes
-import { PATH_PAGE } from 'routes/paths'
+import { PATH_PAGE } from "routes/paths"
 // components
-import ReactApexChart, { BaseOptionChart } from 'components/chart'
-import { Icon as Iconify } from '@iconify/react'
+import ReactApexChart, { BaseOptionChart } from "components/chart"
+import { Icon as Iconify } from "@iconify/react"
 import {
   Card,
   CardContent,
@@ -22,8 +22,8 @@ import {
   LoadingIndicator,
   Button,
   CardHeader,
-} from 'components'
-import FieldContainer from 'components/FieldContainer'
+} from "components"
+import FieldContainer from "components/FieldContainer"
 
 export default function SettingsApi() {
   const { t } = useTranslate()
@@ -37,23 +37,23 @@ export default function SettingsApi() {
   // Mutation
   const [generateKey, { isLoading: isGenerating }] = useGenerateKeyMutation()
   const chartOptions = merge(BaseOptionChart(), {
-    legend: { position: 'top', horizontalAlign: 'right' },
-    colors: ['#1FAA69', '#FF0800', '#0070BB'],
+    legend: { position: "top", horizontalAlign: "right" },
+    colors: ["#1FAA69", "#FF0800", "#0070BB"],
     xaxis: {
       categories: [
-        t('January'),
-        t('February'),
-        t('days'),
-        t('March'),
-        t('April'),
-        t('May'),
-        t('June'),
-        t('July'),
-        t('August'),
-        t('September'),
-        t('October'),
-        t('November'),
-        t('December'),
+        t("January"),
+        t("February"),
+        t("days"),
+        t("March"),
+        t("April"),
+        t("May"),
+        t("June"),
+        t("July"),
+        t("August"),
+        t("September"),
+        t("October"),
+        t("November"),
+        t("December"),
       ],
     },
   })
@@ -67,12 +67,12 @@ export default function SettingsApi() {
         ) : (
           <div className='flex flex-col gap-5'>
             <div className='flex items-end gap-2'>
-              <FieldContainer label={t('API KEY')} className='flex-1'>
+              <FieldContainer label={t("API KEY")} className='flex-1'>
                 <p
                   className='w-full rounded-lg border p-2 dark:border-gray-600'
                   onClick={() =>
-                    copy(data?.data.key || '').then(() =>
-                      open({ message: t('API Key Copied to clipboard.') })
+                    copy(data?.data.key || "").then(() =>
+                      open({ message: t("API Key Copied to clipboard.") })
                     )
                   }
                 >
@@ -80,11 +80,11 @@ export default function SettingsApi() {
                 </p>
               </FieldContainer>
 
-              <Tooltip title={t('Copy to clipboard')} side='bottom'>
+              <Tooltip title={t("Copy to clipboard")} side='bottom'>
                 <IconButton
                   onClick={() =>
-                    copy(data?.data.key || '').then(() =>
-                      open({ message: t('API Key Copied to clipboard.') })
+                    copy(data?.data.key || "").then(() =>
+                      open({ message: t("API Key Copied to clipboard.") })
                     )
                   }
                 >
@@ -93,7 +93,7 @@ export default function SettingsApi() {
               </Tooltip>
             </div>
             <Button onClick={() => generateKey()} loading={isGenerating}>
-              {t('Generate Key')}
+              {t("Generate Key")}
             </Button>
             {/* <div className='flex flex-col gap-1'>
               <div className='flex items-center justify-between'>
@@ -108,7 +108,7 @@ export default function SettingsApi() {
                 type='area'
                 series={[
                   {
-                    name: t('Requests'),
+                    name: t("Requests"),
                     data: data?.data.usesPastYear || [],
                   },
                 ]}
@@ -121,7 +121,7 @@ export default function SettingsApi() {
               href={PATH_PAGE.apiDocs}
               className='flex items-center gap-1 font-medium text-primary-600 hover:underline dark:text-primary-400'
             >
-              <span>{t('API Docs')}</span>
+              <span>{t("API Docs")}</span>
               <Iconify icon='tabler:external-link' height={16} />
             </Link>
           </div>

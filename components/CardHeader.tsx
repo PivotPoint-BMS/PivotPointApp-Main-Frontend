@@ -1,7 +1,7 @@
-import React from 'react'
-import clsx from 'clsx'
+import React from "react"
+import clsx from "clsx"
 
-export interface CardHeaderProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
+export interface CardHeaderProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
   title: React.ReactNode | string
   subheader?: React.ReactNode | string
   actions?: React.ReactNode
@@ -16,7 +16,7 @@ export default function CardHeader({
 }: CardHeaderProps) {
   return (
     <div
-      className={clsx('flex w-full items-start justify-between truncate p-4 pb-0', className)}
+      className={clsx("flex w-full items-start justify-between truncate p-4 pb-0", className)}
       {...other}
     >
       <div className='flex max-w-full flex-col whitespace-pre-wrap'>

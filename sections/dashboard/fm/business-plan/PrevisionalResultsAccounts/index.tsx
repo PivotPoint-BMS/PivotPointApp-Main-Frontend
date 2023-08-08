@@ -1,15 +1,15 @@
 /* eslint-disable no-plusplus */
-import React, { useEffect, useState } from 'react'
-import { BusinessPlan } from 'types'
-import useTranslate from 'hooks/useTranslate'
-import { Card, CardContent, CardHeader } from 'components'
-import Table from './Table'
+import React, { useEffect, useState } from "react"
+import { BusinessPlan } from "types"
+import useTranslate from "hooks/useTranslate"
+import { Card, CardContent, CardHeader } from "components"
+import Table from "./Table"
 
 export default function index({
   data,
   years,
 }: {
-  data: BusinessPlan['previsionalResultsAccounts']
+  data: BusinessPlan["previsionalResultsAccounts"]
   years: number[]
 }) {
   const { t } = useTranslate()
@@ -26,10 +26,10 @@ export default function index({
   useEffect(() => {
     setColumns([
       {
-        id: 'label',
-        label: '',
-        accessor: 'label',
-        align: 'left',
+        id: "label",
+        label: "",
+        accessor: "label",
+        align: "left",
       },
     ])
 
@@ -38,7 +38,7 @@ export default function index({
         id: i.toString(),
         label: years[i],
         accessor: i.toString(),
-        align: 'right',
+        align: "right",
       }
 
       setColumns((prev) => [...prev, { ...column }])
@@ -61,7 +61,7 @@ export default function index({
   return (
     <Card fullWidth className='overflow-hidden'>
       <CardHeader
-        title={t('Provisional Results Accounts')}
+        title={t("Provisional Results Accounts")}
         className='!pb-2'
         subheader={t(
           "A provisional results accounts table provides a summary of financial performance, including revenues, expenses, and net profit, allowing for a preliminary assessment of the company's financial health."

@@ -1,11 +1,11 @@
-import React from 'react'
+import React from "react"
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 // react table
-import { useTable, useFlexLayout, useResizeColumns, useSortBy } from 'react-table'
+import { useTable, useFlexLayout, useResizeColumns, useSortBy } from "react-table"
 // components
-import Cell from './Cell'
-import Header from './Header'
+import Cell from "./Cell"
+import Header from "./Header"
 
 const defaultColumn = {
   minWidth: 50,
@@ -13,7 +13,7 @@ const defaultColumn = {
   maxWidth: 400,
   Cell,
   Header,
-  sortType: 'alphanumericFalsyLast',
+  sortType: "alphanumericFalsyLast",
 }
 
 export default function Table({ columns, data }) {
@@ -50,7 +50,7 @@ export default function Table({ columns, data }) {
                       className='border-b bg-gray-100 dark:border-gray-600 dark:bg-paper-dark'
                       key={`table-header-cell-${index}`}
                     >
-                      {column.render('Header')}
+                      {column.render("Header")}
                     </th>
                   ))}
                 </tr>
@@ -67,7 +67,7 @@ export default function Table({ columns, data }) {
                   >
                     {row.cells.map((cell, i) => (
                       <td {...cell.getCellProps()} key={`table-cell-${i}`}>
-                        {cell.render('Cell')}
+                        {cell.render("Cell")}
                       </td>
                     ))}
                   </tr>
@@ -83,7 +83,7 @@ export default function Table({ columns, data }) {
                   >
                     {row.cells.map((cell, i) => (
                       <td {...cell.getCellProps()} key={`table-cell-${i}`}>
-                        {cell.render('Cell')}
+                        {cell.render("Cell")}
                       </td>
                     ))}
                   </tr>
@@ -99,7 +99,7 @@ export default function Table({ columns, data }) {
                   >
                     {row.cells.map((cell, i) => (
                       <td {...cell.getCellProps()} key={`table-cell-${i}`}>
-                        {cell.render('Cell')}
+                        {cell.render("Cell")}
                       </td>
                     ))}
                   </tr>
@@ -115,7 +115,7 @@ export default function Table({ columns, data }) {
                   >
                     {row.cells.map((cell, i) => (
                       <td {...cell.getCellProps()} key={`table-cell-${i}`}>
-                        {cell.render('Cell')}
+                        {cell.render("Cell")}
                       </td>
                     ))}
                   </tr>

@@ -1,4 +1,4 @@
-import RequestParams from './RequestParams'
+import RequestParams from "./RequestParams"
 
 export default interface LeadRequestParams extends RequestParams {
   SearchTerm?: string

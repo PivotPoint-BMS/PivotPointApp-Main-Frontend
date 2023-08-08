@@ -1,17 +1,17 @@
 /* eslint-disable no-plusplus */
-import { useEffect, useReducer } from 'react'
-import clsx from 'clsx'
+import { useEffect, useReducer } from "react"
+import clsx from "clsx"
 // hooks
-import useTranslate from 'hooks/useTranslate'
-import useSnackbar from 'hooks/useSnackbar'
+import useTranslate from "hooks/useTranslate"
+import useSnackbar from "hooks/useSnackbar"
 // api
-import { useGetStepFourQuery, useSetStepFourMutation } from 'store/api/fm/financeSetupApi'
+import { useGetStepFourQuery, useSetStepFourMutation } from "store/api/fm/financeSetupApi"
 // components
-import { Icon } from '@iconify/react'
-import { Button, IconButton, LoadingIndicator } from 'components'
+import { Icon } from "@iconify/react"
+import { Button, IconButton, LoadingIndicator } from "components"
 // sections
-import makeData from './makeData'
-import Table from './Table'
+import makeData from "./makeData"
+import Table from "./Table"
 
 function reducer(
   state: {
@@ -39,13 +39,13 @@ function reducer(
   }
 ) {
   switch (action.type) {
-    case 'set_data':
+    case "set_data":
       return {
         ...state,
         data: action.data,
       }
 
-    case 'update_cell':
+    case "update_cell":
       return {
         ...state,
         data: state.data.map((row, index) => {
@@ -87,8 +87,8 @@ function StepFour({
     if (isSuccess) handleNextStep()
     else if (isError)
       open({
-        message: t('A probles was accured.'),
-        type: 'error',
+        message: t("A probles was accured."),
+        type: "error",
         autoHideDuration: 6000,
       })
   }, [isLoading])
@@ -100,11 +100,11 @@ function StepFour({
         years = { ...years, [(i + 1).toString()]: value.toString() }
       })
       dispatch({
-        type: 'set_data',
+        type: "set_data",
         data: [{ ...years }],
         rowIndex: 0,
-        columnId: '',
-        value: '',
+        columnId: "",
+        value: "",
         total: 0,
       })
     }
@@ -112,32 +112,32 @@ function StepFour({
 
   return (
     <div className='relative mx-auto flex h-full w-full min-w-fit flex-col items-center justify-start gap-5 py-10 px-4'>
-      {' '}
+      {" "}
       {isGetLoading ? (
         <LoadingIndicator />
       ) : (
         <>
           <IconButton
             onClick={handleBack}
-            className={clsx('absolute top-5', locale === 'ar' ? 'right-5' : 'left-5')}
+            className={clsx("absolute top-5", locale === "ar" ? "right-5" : "left-5")}
           >
             <Icon
               icon={
-                locale === 'ar'
-                  ? 'material-symbols:arrow-forward-rounded'
-                  : 'material-symbols:arrow-back-rounded'
+                locale === "ar"
+                  ? "material-symbols:arrow-forward-rounded"
+                  : "material-symbols:arrow-back-rounded"
               }
               height={20}
               width={20}
             />
           </IconButton>
-          <h1 className='text-center text-2xl font-semibold'>{t('Expected Personnel Costs')}</h1>
+          <h1 className='text-center text-2xl font-semibold'>{t("Expected Personnel Costs")}</h1>
           <Table columns={state.columns} data={state.data} dispatch={dispatch} />
           <Button
             onClick={() => {
               if (
                 state.data.length > 0 &&
-                state.data.every((cell) => Object.keys(cell).every((key) => cell[key] !== ''))
+                state.data.every((cell) => Object.keys(cell).every((key) => cell[key] !== ""))
               ) {
                 const peronnelCosts = state.data.reduce((acc: number[], curr) => {
                   for (let j = 0; j < estimationRange; j++) {
@@ -150,15 +150,15 @@ function StepFour({
               } else
                 open({
                   autoHideDuration: 10000,
-                  message: t('Please fill all fields.'),
-                  type: 'warning',
+                  message: t("Please fill all fields."),
+                  type: "warning",
                   closeButton: true,
                 })
             }}
             size='large'
             loading={isLoading}
           >
-            {t('Next Step')}
+            {t("Next Step")}
           </Button>
         </>
       )}

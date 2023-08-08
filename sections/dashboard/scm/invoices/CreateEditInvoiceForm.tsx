@@ -1,38 +1,38 @@
 /* eslint-disable no-nested-ternary */
-import React, { useEffect, useMemo, useState } from 'react'
-import * as Yup from 'yup'
-import clsx from 'clsx'
-import moment from 'moment'
-import { parseInt } from 'lodash'
+import React, { useEffect, useMemo, useState } from "react"
+import * as Yup from "yup"
+import clsx from "clsx"
+import moment from "moment"
+import { parseInt } from "lodash"
 // next
-import Image from 'next/image'
-import { useRouter } from 'next/router'
+import Image from "next/image"
+import { useRouter } from "next/router"
 // form
-import { FieldValues, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { FieldValues, useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
 // apis
-import { useGetAllQuery } from 'store/api/crm/contact-leads/leadApis'
-import { useGetProductsQuery } from 'store/api/scm/products-service/productsApi'
-import { useCreateInvoiceMutation } from 'store/api/scm/invoices/invoicesApis'
+import { useGetAllQuery } from "store/api/crm/contact-leads/leadApis"
+import { useGetProductsQuery } from "store/api/scm/products-service/productsApi"
+import { useCreateInvoiceMutation } from "store/api/scm/invoices/invoicesApis"
 // routes
-import { PATH_DASHBOARD } from 'routes/paths'
+import { PATH_DASHBOARD } from "routes/paths"
 // hooks
-import { useAppSelector } from 'store/hooks'
-import useTranslate from 'hooks/useTranslate'
-import useSnackbar from 'hooks/useSnackbar'
+import { useAppSelector } from "store/hooks"
+import useTranslate from "hooks/useTranslate"
+import useSnackbar from "hooks/useSnackbar"
 // config
-import { PIVOTPOINT_API } from 'config'
+import { PIVOTPOINT_API } from "config"
 // types
-import Invoice, { InvoiceItem } from 'types/Invoice'
-import { Value } from 'react-date-picker/dist/cjs/shared/types'
+import Invoice, { InvoiceItem } from "types/Invoice"
+import { Value } from "react-date-picker/dist/cjs/shared/types"
 // components
-import { Icon } from '@iconify/react'
-import { Badge, Card, Dialog, IconButton, LoadingIndicator, TextField, Button } from 'components'
-import { FormProvider, RHFTextField, RHFFieldContainer } from 'components/hook-form'
-import { DatePicker } from 'components/date-pickers'
+import { Icon } from "@iconify/react"
+import { Badge, Card, Dialog, IconButton, LoadingIndicator, TextField, Button } from "components"
+import { FormProvider, RHFTextField, RHFFieldContainer } from "components/hook-form"
+import { DatePicker } from "components/date-pickers"
 // asset
-import avatarPlaceholder from 'public/avatar_placeholder.png'
-import { useGetCompanyDetailsQuery } from 'store/api/settings/settingsAPIs'
+import avatarPlaceholder from "public/avatar_placeholder.png"
+import { useGetCompanyDetailsQuery } from "store/api/settings/settingsAPIs"
 
 function CreateEditInvoiceForm({
   isEdit,
@@ -44,7 +44,7 @@ function CreateEditInvoiceForm({
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const { push } = useRouter()
-  const [to, setTo] = useState({ clientName: '', contactId: '' })
+  const [to, setTo] = useState({ clientName: "", contactId: "" })
   const [created, onCreatedDateChange] = useState<Date | Value>(new Date())
   const [due, onDueDateChange] = useState<Date | Value>(new Date())
   const [invoiceItems, setInvoiceItems] = useState<InvoiceItem[]>([])
@@ -54,7 +54,7 @@ function CreateEditInvoiceForm({
   // Filters
   const { PageNumber, PageSize } = useAppSelector((state) => state.pagination)
   const [searchTerm, setSearchTerm] = useState<string | undefined>(undefined)
-  const [searchValue, setSearchValue] = useState('')
+  const [searchValue, setSearchValue] = useState("")
   // Queries
   const { data: companyDetails } = useGetCompanyDetailsQuery()
   const {
@@ -71,26 +71,26 @@ function CreateEditInvoiceForm({
   const [createInvoice, { isLoading: isCreateLoading }] = useCreateInvoiceMutation()
 
   const InvoiceSchema = Yup.object().shape({
-    invoiceTitle: Yup.string().required(t('This field is required')),
-    contactId: Yup.string().required(t('Please choose a customer')),
-    clientName: Yup.string().required(t('This field is required')),
-    paymentMethod: Yup.string().required(t('This field is required')),
-    clientAddress: Yup.string().required(t('This field is required')),
-    due: Yup.string().required(t('This field is required')),
+    invoiceTitle: Yup.string().required(t("This field is required")),
+    contactId: Yup.string().required(t("Please choose a customer")),
+    clientName: Yup.string().required(t("This field is required")),
+    paymentMethod: Yup.string().required(t("This field is required")),
+    clientAddress: Yup.string().required(t("This field is required")),
+    due: Yup.string().required(t("This field is required")),
     invoiceItems: Yup.array()
       .test({
-        message: t('Please add items'),
+        message: t("Please add items"),
         test: (arr) => arr?.length === 0,
       })
-      .required(t('Please add items')),
+      .required(t("Please add items")),
   })
 
   const defaultValues = useMemo(
     () => ({
-      invoiceTitle: currentInvoice?.invoiceTitle || '',
-      contactId: currentInvoice?.contactId || '',
-      clientName: currentInvoice?.clientName || '',
-      paymentMethod: currentInvoice?.paymentMethod || '',
+      invoiceTitle: currentInvoice?.invoiceTitle || "",
+      contactId: currentInvoice?.contactId || "",
+      clientName: currentInvoice?.clientName || "",
+      paymentMethod: currentInvoice?.paymentMethod || "",
       due: currentInvoice?.due || new Date(),
       invoiceItems: currentInvoice?.invoiceItems || [],
     }),
@@ -124,17 +124,17 @@ function CreateEditInvoiceForm({
     createInvoice({ PageNumber, PageSize, ...invoice })
       .then(() => {
         open({
-          message: t('Invoice Created Successfully.'),
-          type: 'success',
-          variant: 'contained',
+          message: t("Invoice Created Successfully."),
+          type: "success",
+          variant: "contained",
         })
         push(PATH_DASHBOARD.scm.invoices.root)
       })
       .catch(() => {
         open({
-          message: t('A problem has occurred.'),
-          type: 'error',
-          variant: 'contained',
+          message: t("A problem has occurred."),
+          type: "error",
+          variant: "contained",
         })
       })
   }
@@ -161,7 +161,7 @@ function CreateEditInvoiceForm({
             <div className='grid w-full grid-cols-1 space-y-1 divide-x-0 divide-y p-4 rtl:divide-x-reverse dark:divide-gray-600 sm:grid-cols-2 sm:space-y-0 sm:divide-y-0 sm:divide-x'>
               <div className='ltr:sm:pr-4 rtl:sm:pl-4'>
                 <div className='mb-2 flex items-center justify-between'>
-                  <h6 className='text-lg font-bold'>{t('From')}:</h6>
+                  <h6 className='text-lg font-bold'>{t("From")}:</h6>
                 </div>
                 <div className='space-y-2'>
                   <p className='font-medium capitalize'>{companyDetails?.data.name}</p>
@@ -174,10 +174,10 @@ function CreateEditInvoiceForm({
               </div>
               <div className='ltr:sm:pl-4 rtl:sm:pr-4'>
                 <div className='flex items-center justify-between'>
-                  <h6 className='text-lg font-bold'>{t('To')}:</h6>
+                  <h6 className='text-lg font-bold'>{t("To")}:</h6>
                   <IconButton onClick={() => setOpenCustomerDialog(true)}>
                     <Icon
-                      icon={to.contactId === '' ? 'ic:round-add' : 'ic:round-edit'}
+                      icon={to.contactId === "" ? "ic:round-add" : "ic:round-edit"}
                       height={22}
                     />
                   </IconButton>
@@ -193,25 +193,25 @@ function CreateEditInvoiceForm({
               </div>
             </div>
             <div className='w-full space-y-2 p-4'>
-              <h6 className='text-lg font-bold'>{t('Invoice Details')}:</h6>
+              <h6 className='text-lg font-bold'>{t("Invoice Details")}:</h6>
               <div className='grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4'>
-                <RHFTextField name='invoiceTitle' label={t('Title')} />
-                <RHFTextField name='clientAddress' label={t('Customer Address')} />
-                <RHFFieldContainer name='created' label={t('Created date')}>
+                <RHFTextField name='invoiceTitle' label={t("Title")} />
+                <RHFTextField name='clientAddress' label={t("Customer Address")} />
+                <RHFFieldContainer name='created' label={t("Created date")}>
                   <DatePicker
                     value={created}
                     onChange={(value) => {
                       onCreatedDateChange(value)
-                      setValue('created', value?.toString())
+                      setValue("created", value?.toString())
                     }}
                   />
                 </RHFFieldContainer>
-                <RHFFieldContainer name='due' label={t('Due date')}>
+                <RHFFieldContainer name='due' label={t("Due date")}>
                   <DatePicker
                     value={due}
                     onChange={(value) => {
                       onDueDateChange(value)
-                      setValue('due', value?.toString())
+                      setValue("due", value?.toString())
                     }}
                   />
                 </RHFFieldContainer>
@@ -219,21 +219,21 @@ function CreateEditInvoiceForm({
             </div>
             <div className='w-full space-y-2 p-4'>
               <div className='flex w-full items-center justify-between'>
-                <h6 className='text-lg font-bold'>{t('Items Details')}:</h6>
+                <h6 className='text-lg font-bold'>{t("Items Details")}:</h6>
                 <Button
                   variant='text'
                   intent='default'
                   startIcon={<Icon icon='ic:round-add' height={20} />}
                   onClick={() => setOpenProductDialog(true)}
                 >
-                  {t('Add Item')}
+                  {t("Add Item")}
                 </Button>
               </div>
 
               <div className='divide-y dark:divide-gray-600'>
                 {invoiceItems.length === 0 && (
                   <div className='flex w-full items-center justify-center '>
-                    <h6 className='text-lg font-semibold'>{t('No Item Added')}</h6>
+                    <h6 className='text-lg font-semibold'>{t("No Item Added")}</h6>
                   </div>
                 )}
                 {invoiceItems.map((product) => (
@@ -257,7 +257,7 @@ function CreateEditInvoiceForm({
                             </div>
                           )}
                           <div className='flex-1'>
-                            <TextField className='!p-1' label={t('Name')} value={product.name} />
+                            <TextField className='!p-1' label={t("Name")} value={product.name} />
                           </div>
                         </div>
                         <div>
@@ -265,9 +265,9 @@ function CreateEditInvoiceForm({
                             min={1}
                             type='number'
                             className='!p-1'
-                            label={t('Price')}
+                            label={t("Price")}
                             value={product.value}
-                            endAdornment={t('Da')}
+                            endAdornment={t("Da")}
                           />
                         </div>
                         <div>
@@ -275,7 +275,7 @@ function CreateEditInvoiceForm({
                             min={1}
                             type='number'
                             className='!p-1'
-                            label={t('Quantity')}
+                            label={t("Quantity")}
                             value={product.quantity}
                             onChange={(e) => {
                               setInvoiceItems((prev) => {
@@ -319,23 +319,23 @@ function CreateEditInvoiceForm({
                             min={1}
                             type='number'
                             className='!p-1'
-                            label={t('Total')}
+                            label={t("Total")}
                             value={product.quantity * product.value}
-                            endAdornment={t('Da')}
+                            endAdornment={t("Da")}
                           />
                         </div>
                       </div>
                     </div>
                     <Button
                       intent={
-                        !invoiceItems.every((item) => item.id !== product.id) ? 'error' : 'primary'
+                        !invoiceItems.every((item) => item.id !== product.id) ? "error" : "primary"
                       }
                       startIcon={
                         <Icon
                           icon={
                             !invoiceItems.every((item) => item.id !== product.id)
-                              ? 'ic:round-delete'
-                              : 'ic:round-add'
+                              ? "ic:round-delete"
+                              : "ic:round-add"
                           }
                           height={22}
                         />
@@ -364,8 +364,8 @@ function CreateEditInvoiceForm({
                       }
                     >
                       {!invoiceItems.every((item) => item.id !== product.id)
-                        ? t('Remove')
-                        : t('Add')}
+                        ? t("Remove")
+                        : t("Add")}
                     </Button>
                   </div>
                 ))}
@@ -378,51 +378,51 @@ function CreateEditInvoiceForm({
             </div>
             <div className='flex w-full flex-col items-end gap-4 p-4'>
               <div>
-                <RHFTextField name='paymentMethod' label={t('Payment Method')} />
+                <RHFTextField name='paymentMethod' label={t("Payment Method")} />
               </div>
               <div className='flex max-w-full items-center justify-between '>
                 <p className='text-sm font-medium  text-gray-600 dark:text-gray-400'>
-                  {t('Subtotal')}:
-                </p>{' '}
+                  {t("Subtotal")}:
+                </p>{" "}
                 <p className='w-48 font-bold ltr:text-right rtl:text-left'>
-                  {invoiceItems.reduce((acc, cur) => acc + cur.value * cur.quantity, 0) || 0}{' '}
-                  {t('Da')}
+                  {invoiceItems.reduce((acc, cur) => acc + cur.value * cur.quantity, 0) || 0}{" "}
+                  {t("Da")}
                 </p>
               </div>
               <div className='flex max-w-full items-center justify-between '>
-                <p className='font-bold'>{t('Total')}:</p>{' '}
+                <p className='font-bold'>{t("Total")}:</p>{" "}
                 <p className='w-48 font-bold ltr:text-right rtl:text-left'>
-                  {invoiceItems.reduce((acc, cur) => acc + cur.value * cur.quantity, 0) || 0}{' '}
-                  {t('Da')}
+                  {invoiceItems.reduce((acc, cur) => acc + cur.value * cur.quantity, 0) || 0}{" "}
+                  {t("Da")}
                 </p>
               </div>
             </div>
           </Card>
           <Button size='large' className='text-xl' type='submit' loading={isCreateLoading}>
-            {isEdit ? t('Edit Invoice') : t('Create Invoice')}
+            {isEdit ? t("Edit Invoice") : t("Create Invoice")}
           </Button>
         </div>
       </FormProvider>
       <Dialog
         open={openCustomerDialog}
-        title={t('Customer')}
+        title={t("Customer")}
         handleClose={() => {
           setOpenCustomerDialog(false)
-          setSearchValue('')
+          setSearchValue("")
         }}
       >
         <div className='flex flex-col items-center  justify-center gap-2 py-2'>
           <TextField
-            placeholder={t('Search...')}
+            placeholder={t("Search...")}
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter')
-                setSearchTerm(e.currentTarget.value === '' ? undefined : e.currentTarget.value)
+              if (e.key === "Enter")
+                setSearchTerm(e.currentTarget.value === "" ? undefined : e.currentTarget.value)
             }}
             endAdornment={
               <IconButton
-                onClick={() => setSearchTerm(searchValue === '' ? undefined : searchValue)}
+                onClick={() => setSearchTerm(searchValue === "" ? undefined : searchValue)}
               >
                 <Icon icon='ion:search-outline' height={18} className='text-gray-500' />
               </IconButton>
@@ -435,11 +435,11 @@ function CreateEditInvoiceForm({
               <button
                 key={customer.id}
                 className={clsx(
-                  'flex w-full flex-col items-start space-y-1 rounded-lg border p-4 dark:border-gray-600',
-                  'hover:bg-gray-100 active:bg-gray-200',
-                  'dark:hover:bg-paper-hover-dark dark:active:bg-paper-dark-contrast',
+                  "flex w-full flex-col items-start space-y-1 rounded-lg border p-4 dark:border-gray-600",
+                  "hover:bg-gray-100 active:bg-gray-200",
+                  "dark:hover:bg-paper-hover-dark dark:active:bg-paper-dark-contrast",
                   to.contactId === customer.id &&
-                    ' bg-gray-200 hover:bg-gray-100 dark:bg-paper-dark-contrast dark:hover:bg-paper-dark-contrast'
+                    " bg-gray-200 hover:bg-gray-100 dark:bg-paper-dark-contrast dark:hover:bg-paper-dark-contrast"
                 )}
                 onClick={() => {
                   setTo((prev) => ({
@@ -447,8 +447,8 @@ function CreateEditInvoiceForm({
                     clientName: customer.fullName,
                     contactId: customer.id,
                   }))
-                  setValue('clientName', customer.fullName)
-                  setValue('contactId', customer.id)
+                  setValue("clientName", customer.fullName)
+                  setValue("contactId", customer.id)
                   setOpenCustomerDialog(false)
                 }}
               >
@@ -471,13 +471,13 @@ function CreateEditInvoiceForm({
                       <p className='font-semibold'>{customer.fullName}</p>
                       {customer.isContact ? (
                         <Badge
-                          label={t('Contact')}
+                          label={t("Contact")}
                           intent='success'
                           size='small'
                           className='!text-xs'
                         />
                       ) : (
-                        <Badge label={t('Lead')} intent='info' size='small' className='!text-xs' />
+                        <Badge label={t("Lead")} intent='info' size='small' className='!text-xs' />
                       )}
                     </div>
                   </div>
@@ -486,31 +486,31 @@ function CreateEditInvoiceForm({
             ))
           ) : (
             <div className='flex h-48  w-full items-center justify-center'>
-              <h1 className='text-xl font-semibold'>{t('No Customer Found')}</h1>
+              <h1 className='text-xl font-semibold'>{t("No Customer Found")}</h1>
             </div>
           )}
         </div>
       </Dialog>
       <Dialog
         open={openProductDialog}
-        title={t('Product')}
+        title={t("Product")}
         handleClose={() => {
           setOpenProductDialog(false)
-          setSearchValue('')
+          setSearchValue("")
         }}
       >
         <div className='flex flex-col items-center  justify-center gap-2 py-2'>
           <TextField
-            placeholder={t('Search...')}
+            placeholder={t("Search...")}
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter')
-                setSearchTerm(e.currentTarget.value === '' ? undefined : e.currentTarget.value)
+              if (e.key === "Enter")
+                setSearchTerm(e.currentTarget.value === "" ? undefined : e.currentTarget.value)
             }}
             endAdornment={
               <IconButton
-                onClick={() => setSearchTerm(searchValue === '' ? undefined : searchValue)}
+                onClick={() => setSearchTerm(searchValue === "" ? undefined : searchValue)}
               >
                 <Icon icon='ion:search-outline' height={18} className='text-gray-500' />
               </IconButton>
@@ -545,24 +545,24 @@ function CreateEditInvoiceForm({
                     )}
                     <div>
                       <p className='font-semibold'>
-                        <span className='text-sm font-normal'>{t('Name')}:</span> {product.name}
+                        <span className='text-sm font-normal'>{t("Name")}:</span> {product.name}
                       </p>
                       <p className='font-semibold'>
-                        <span className='text-sm font-normal'>{t('Price')}:</span> {product.price}{' '}
-                        {t('Da')}
+                        <span className='text-sm font-normal'>{t("Price")}:</span> {product.price}{" "}
+                        {t("Da")}
                       </p>
                     </div>
                   </div>
                   <Button
                     intent={
-                      !invoiceItems.every((item) => item.id !== product.id) ? 'error' : 'primary'
+                      !invoiceItems.every((item) => item.id !== product.id) ? "error" : "primary"
                     }
                     startIcon={
                       <Icon
                         icon={
                           !invoiceItems.every((item) => item.id !== product.id)
-                            ? 'ic:round-delete'
-                            : 'ic:round-add'
+                            ? "ic:round-delete"
+                            : "ic:round-add"
                         }
                         height={22}
                       />
@@ -588,13 +588,13 @@ function CreateEditInvoiceForm({
                             setInvoiceItems((prev) => prev.filter((item) => item.id !== product.id))
                     }
                   >
-                    {!invoiceItems.every((item) => item.id !== product.id) ? t('Remove') : t('Add')}
+                    {!invoiceItems.every((item) => item.id !== product.id) ? t("Remove") : t("Add")}
                   </Button>
                 </div>
               ))
           ) : (
             <div className='flex h-48  w-full items-center justify-center'>
-              <h1 className='text-xl font-semibold'>{t('No Product Found')}</h1>
+              <h1 className='text-xl font-semibold'>{t("No Product Found")}</h1>
             </div>
           )}
         </div>

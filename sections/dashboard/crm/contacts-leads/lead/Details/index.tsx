@@ -1,20 +1,20 @@
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 // components
-import { Icon as Iconify } from '@iconify/react'
-import Card from 'components/Card'
-import { TabsContent, TabsList, TabsRoot, TabsTrigger } from 'components/Tabs'
+import { Icon as Iconify } from "@iconify/react"
+import Card from "components/Card"
+import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "components/Tabs"
 // sections
-import Notes from './notes'
-import Activities from './activities'
+import Notes from "./notes"
+import Activities from "./activities"
 
 const TABS = [
-  { name: 'Activity', value: 'activity', icon: 'fluent:clipboard-task-24-filled' },
-  { name: 'Notes', value: 'notes', icon: 'material-symbols:note' },
-  { name: 'Tasks', value: 'tasks', icon: 'fluent:clipboard-task-24-filled' },
-  { name: 'Emails', value: 'emails', icon: 'material-symbols:mail' },
-  { name: 'Calls', value: 'calls', icon: 'material-symbols:call' },
-  { name: 'Meetings', value: 'meetings', icon: 'material-symbols:groups' },
+  { name: "Activity", value: "activity", icon: "fluent:clipboard-task-24-filled" },
+  { name: "Notes", value: "notes", icon: "material-symbols:note" },
+  { name: "Tasks", value: "tasks", icon: "fluent:clipboard-task-24-filled" },
+  { name: "Emails", value: "emails", icon: "material-symbols:mail" },
+  { name: "Calls", value: "calls", icon: "material-symbols:call" },
+  { name: "Meetings", value: "meetings", icon: "material-symbols:groups" },
 ]
 
 export default function Details({ leadId }: { leadId: string }) {

@@ -1,7 +1,7 @@
-import React from 'react'
-import clsx from 'clsx'
+import React from "react"
+import clsx from "clsx"
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 
 export default function Cell({
   value: initialValue,
@@ -17,7 +17,7 @@ export default function Cell({
   }
 
   const onBlur = () => {
-    dataDispatch({ type: 'update_cell', columnId: id, rowIndex: index, value })
+    dataDispatch({ type: "update_cell", columnId: id, rowIndex: index, value })
   }
 
   React.useEffect(() => {
@@ -34,8 +34,8 @@ export default function Cell({
       type={dataType}
       placeholder={t(placeholder)}
       className={clsx(
-        'box-border w-full flex-auto resize-none whitespace-nowrap border-0 bg-transparent p-2 px-5',
-        dataType === 'number' && 'ltr:text-right rtl:text-left'
+        "box-border w-full flex-auto resize-none whitespace-nowrap border-0 bg-transparent p-2 px-5",
+        dataType === "number" && "ltr:text-right rtl:text-left"
       )}
     />
   )

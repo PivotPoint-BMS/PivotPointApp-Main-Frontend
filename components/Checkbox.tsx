@@ -1,7 +1,7 @@
-import React, { DetailedHTMLProps, InputHTMLAttributes, forwardRef } from 'react'
+import React, { DetailedHTMLProps, InputHTMLAttributes, forwardRef } from "react"
 // components
-import { Icon as Iconify } from '@iconify/react'
-import clsx from 'clsx'
+import { Icon as Iconify } from "@iconify/react"
+import clsx from "clsx"
 
 const Checkbox = forwardRef<
   HTMLInputElement,
@@ -17,7 +17,7 @@ const Checkbox = forwardRef<
       />
       <span
         className={clsx(
-          'checkbox-checkmark ring-primary-400 ring-offset-1 group-focus-within:ring-2 dark:ring-primary-500',
+          "checkbox-checkmark ring-primary-400 ring-offset-1 group-focus-within:ring-2 dark:ring-primary-500",
           className
         )}
       >

@@ -1,14 +1,14 @@
-import React from 'react'
-import { Meta, Story } from '@storybook/react'
-import Alert, { AlertProps } from '../components/Alert'
+import React from "react"
+import { Meta, Story } from "@storybook/react"
+import Alert, { AlertProps } from "../components/Alert"
 
 const meta: Meta = {
-  title: 'INPUT/Alert',
+  title: "INPUT/Alert",
   component: Alert,
   argTypes: {
     children: {
       control: {
-        type: 'Alert',
+        type: "Alert",
       },
     },
   },
@@ -27,8 +27,8 @@ export const Contained = Template.bind({})
 export const Outlined = Template.bind({})
 
 Contained.args = {
-  variant: 'contained',
+  variant: "contained",
 }
 Outlined.args = {
-  variant: 'outlined',
+  variant: "outlined",
 }

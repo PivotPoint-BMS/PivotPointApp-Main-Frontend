@@ -2,21 +2,21 @@
 export default function makeData(range: number) {
   const data: { source: string; [key: string]: string }[] = []
   // eslint-disable-next-line no-plusplus
-  let row = { source: '' }
+  let row = { source: "" }
   for (let i = 1; i <= range; i++) {
-    row = { ...row, [i]: '' }
+    row = { ...row, [i]: "" }
   }
 
   data.push(row)
 
   const columns = [
     {
-      id: 'source',
-      label: 'Source',
-      accessor: 'source',
-      dataType: 'text',
-      placeholder: 'Enter the source',
-      align: 'left',
+      id: "source",
+      label: "Source",
+      accessor: "source",
+      dataType: "text",
+      placeholder: "Enter the source",
+      align: "left",
     },
   ]
   for (let i = 1; i <= range; i++) {
@@ -24,9 +24,9 @@ export default function makeData(range: number) {
       id: i.toString(),
       label: `Year ${i.toString()}`,
       accessor: i.toString(),
-      dataType: 'number',
-      placeholder: 'Enter the amount',
-      align: 'right',
+      dataType: "number",
+      placeholder: "Enter the amount",
+      align: "right",
     }
 
     columns.push(column)

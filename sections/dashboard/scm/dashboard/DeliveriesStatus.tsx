@@ -1,20 +1,20 @@
 // utils
-import { merge } from 'lodash'
-import { fNumber } from 'utils/formatNumber'
+import { merge } from "lodash"
+import { fNumber } from "utils/formatNumber"
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 // components
-import Card from 'components/Card'
-import CardContent from 'components/CardContent'
-import CardHeader from 'components/CardHeader'
-import ReactApexChart, { BaseOptionChart } from 'components/chart'
+import Card from "components/Card"
+import CardContent from "components/CardContent"
+import CardHeader from "components/CardHeader"
+import ReactApexChart, { BaseOptionChart } from "components/chart"
 
 export default function DeliveriesStatus({ labels, data }: { labels: string[]; data: number[] }) {
   const { t } = useTranslate()
   const chartOptions = merge(BaseOptionChart(), {
     labels: labels.slice(0, 6),
-    stroke: { colors: ['#ffffff00'] },
-    legend: { horizontalAlign: 'center' },
+    stroke: { colors: ["#ffffff00"] },
+    legend: { horizontalAlign: "center" },
     tooltip: {
       fillSeriesColor: false,
       y: {
@@ -27,7 +27,7 @@ export default function DeliveriesStatus({ labels, data }: { labels: string[]; d
     plotOptions: {
       pie: {
         donut: {
-          size: '90%',
+          size: "90%",
           labels: {
             value: {
               formatter: (val: number) => fNumber(val),
@@ -46,7 +46,7 @@ export default function DeliveriesStatus({ labels, data }: { labels: string[]; d
   })
   return (
     <Card fullWidth className='h-full sm:col-span-2 md:col-span-1'>
-      <CardHeader title={t('Deliveries Status')} />
+      <CardHeader title={t("Deliveries Status")} />
       <CardContent>
         <ReactApexChart
           type='donut'

@@ -1,11 +1,11 @@
-import moment from 'moment'
+import moment from "moment"
 // types
-import { Activity } from 'types'
+import { Activity } from "types"
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 // components
-import { Icon as Iconify } from '@iconify/react'
-import Card from 'components/Card'
+import { Icon as Iconify } from "@iconify/react"
+import Card from "components/Card"
 
 export default function ActivityCard({ activity }: { activity: Activity }) {
   const { t } = useTranslate()
@@ -16,12 +16,12 @@ export default function ActivityCard({ activity }: { activity: Activity }) {
         <div className='flex flex-1 flex-col  gap-3'>
           <p className='text-lg font-medium'>{activity.description}</p>
           <p>
-            <span className='text-gray-600 dark:text-gray-400'>{t('By:')} </span>{' '}
+            <span className='text-gray-600 dark:text-gray-400'>{t("By:")} </span>{" "}
             {activity.createdBy}
           </p>
-        </div>{' '}
+        </div>{" "}
         <Iconify icon='material-symbols:calendar-today' height={20} className='text-gray-600' />
-        <p className='text-gray-600 dark:text-gray-400'>{moment(activity.created).format('LLL')}</p>
+        <p className='text-gray-600 dark:text-gray-400'>{moment(activity.created).format("LLL")}</p>
         {/* <IconButton className='border'>
             <Iconify icon='material-symbols:more-horiz' height={20} />
           </IconButton> */}

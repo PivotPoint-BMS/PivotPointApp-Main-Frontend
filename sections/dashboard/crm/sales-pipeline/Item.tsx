@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect } from 'react'
-import clsx from 'clsx'
+import React, { useEffect } from "react"
+import clsx from "clsx"
 // dnd-kit
-import type { DraggableSyntheticListeners } from '@dnd-kit/core'
-import { CSS, Transform } from '@dnd-kit/utilities'
+import type { DraggableSyntheticListeners } from "@dnd-kit/core"
+import { CSS, Transform } from "@dnd-kit/utilities"
 // type
-import { Deal } from 'types'
+import { Deal } from "types"
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 // redux
-import { useAppDispatch } from 'store/hooks'
-import { previewDeal } from 'store/slices/dealPreviewSlice'
+import { useAppDispatch } from "store/hooks"
+import { previewDeal } from "store/slices/dealPreviewSlice"
 // components
-import { Card, CardContent, IconButton } from 'components'
+import { Card, CardContent, IconButton } from "components"
 
 export interface Props {
   dragOverlay?: boolean
@@ -54,11 +54,11 @@ export const Item = React.memo(
           return
         }
 
-        document.body.style.cursor = 'grabbing'
+        document.body.style.cursor = "grabbing"
 
         // eslint-disable-next-line consistent-return
         return () => {
-          document.body.style.cursor = ''
+          document.body.style.cursor = ""
         }
       }, [dragOverlay])
 
@@ -68,22 +68,22 @@ export const Item = React.memo(
           data-cypress='draggable-item'
           {...props}
           style={{
-            height: '100%',
-            transition: transition || '',
+            height: "100%",
+            transition: transition || "",
             transform: CSS.Transform.toString(transform || null),
           }}
-          className={clsx(fadeIn && 'animate-fade-in duration-500', disabled && 'opacity-30')}
+          className={clsx(fadeIn && "animate-fade-in duration-500", disabled && "opacity-30")}
           onClick={(e) => {
             e.stopPropagation()
-            dispatch(previewDeal(deal.id.toString() || ''))
+            dispatch(previewDeal(deal.id.toString() || ""))
           }}
         >
           <Card
             fullWidth
             className={clsx(
-              'h-full select-none transition-shadow hover:shadow-lg dark:shadow-black/25',
-              dragOverlay && 'scale-105 shadow-lg transition-all',
-              dragging && !dragOverlay && 'opacity-40'
+              "h-full select-none transition-shadow hover:shadow-lg dark:shadow-black/25",
+              dragOverlay && "scale-105 shadow-lg transition-all",
+              dragging && !dragOverlay && "opacity-40"
             )}
           >
             <CardContent className='flex items-center justify-between'>
@@ -91,13 +91,13 @@ export const Item = React.memo(
                 <p className='text-lg font-semibold'>{deal.title}</p>
                 <p className='text-sm font-semibold'>
                   <span className='text-gray-600 dark:text-gray-400'>
-                    {t('Potential Deal Value')} :{' '}
+                    {t("Potential Deal Value")} :{" "}
                   </span>
                   {deal.potentialDealValue}
                 </p>
                 <p className='text-sm font-semibold'>
                   <span className='text-gray-600 dark:text-gray-400'>
-                    {t('Success Probability')} :{' '}
+                    {t("Success Probability")} :{" "}
                   </span>
                   {deal.successProbability}%
                 </p>

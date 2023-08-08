@@ -8,12 +8,12 @@ export default function makeData(range: number) {
   }[] = []
   // eslint-disable-next-line no-plusplus
   let row = {
-    expense: '',
-    isFixedCharge: 'true',
+    expense: "",
+    isFixedCharge: "true",
     isDeletable: true,
   }
   for (let i = 1; i <= range; i++) {
-    row = { ...row, [i]: '' }
+    row = { ...row, [i]: "" }
   }
 
   const columns: {
@@ -29,12 +29,12 @@ export default function makeData(range: number) {
     }[]
   }[] = [
     {
-      id: 'expense',
-      label: 'Expense',
-      accessor: 'expense',
-      dataType: 'text',
-      placeholder: 'Enter Expense',
-      align: 'left',
+      id: "expense",
+      label: "Expense",
+      accessor: "expense",
+      dataType: "text",
+      placeholder: "Enter Expense",
+      align: "left",
     },
   ]
 
@@ -43,29 +43,29 @@ export default function makeData(range: number) {
       id: i.toString(),
       label: `Year ${i.toString()}`,
       accessor: i.toString(),
-      dataType: 'number',
-      placeholder: 'Enter the amount',
-      align: 'right',
+      dataType: "number",
+      placeholder: "Enter the amount",
+      align: "right",
     }
 
     columns.push(column)
   }
 
   columns.push({
-    id: 'isFixedCharge',
-    label: 'Is Fixed Charge?',
-    accessor: 'isFixedCharge',
-    dataType: 'select',
-    placeholder: '',
-    align: 'left',
+    id: "isFixedCharge",
+    label: "Is Fixed Charge?",
+    accessor: "isFixedCharge",
+    dataType: "select",
+    placeholder: "",
+    align: "left",
     options: [
       {
-        label: 'Yes',
-        value: 'true',
+        label: "Yes",
+        value: "true",
       },
       {
-        label: 'No',
-        value: 'false',
+        label: "No",
+        value: "false",
       },
     ],
   })

@@ -1,32 +1,32 @@
 /* eslint-disable no-param-reassign */
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { v4 as uuidv4 } from 'uuid'
+import { PayloadAction, createSlice } from "@reduxjs/toolkit"
+import { v4 as uuidv4 } from "uuid"
 // types
-import { SnackbarOptions } from 'types'
+import { SnackbarOptions } from "types"
 
 interface SnackbarState {
   snackbars: SnackbarOptions[]
   side?:
-    | 'top'
-    | 'bottom'
-    | 'right'
-    | 'left'
-    | 'top-left'
-    | 'bottom-left'
-    | 'top-right'
-    | 'bottom-right'
+    | "top"
+    | "bottom"
+    | "right"
+    | "left"
+    | "top-left"
+    | "bottom-left"
+    | "top-right"
+    | "bottom-right"
 }
 
 const initialState: SnackbarState = {
   snackbars: [],
-  side: 'bottom-left',
+  side: "bottom-left",
 }
 
 const snackbarSlice = createSlice({
-  name: 'snackbar',
+  name: "snackbar",
   initialState,
   reducers: {
-    openSnackbar: (state, action: PayloadAction<Omit<SnackbarOptions, 'id'>>) => {
+    openSnackbar: (state, action: PayloadAction<Omit<SnackbarOptions, "id">>) => {
       state.snackbars.push({
         id: uuidv4(),
         message: action.payload.message,

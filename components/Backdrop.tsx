@@ -1,5 +1,5 @@
-import React from 'react'
-import { motion } from 'framer-motion'
+import React from "react"
+import { motion } from "framer-motion"
 
 interface BackdropProps extends React.HTMLAttributes<HTMLDivElement> {
   open?: boolean
@@ -12,7 +12,7 @@ export default function Backdrop({ open, loading, children }: BackdropProps) {
       <motion.div
         initial={{ opacity: 0 }}
         variants={{ open: { opacity: 1 }, close: { opacity: 0 } }}
-        animate={open ? 'open' : 'close'}
+        animate={open ? "open" : "close"}
         transition={{ duration: 0.1 }}
         className='pointer-events-auto fixed top-0 left-0 z-[99999] flex h-screen w-screen items-center justify-center bg-gray-800/80 backdrop-blur-sm'
       >

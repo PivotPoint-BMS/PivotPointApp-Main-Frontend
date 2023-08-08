@@ -1,34 +1,34 @@
 /* eslint-disable no-constant-condition */
-import { useEffect, useState, useMemo } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { useTheme } from 'next-themes'
-import { motion } from 'framer-motion'
-import clsx from 'clsx'
+import { useEffect, useState, useMemo } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import { useTheme } from "next-themes"
+import { motion } from "framer-motion"
+import clsx from "clsx"
 // config
-import { LANGS, NAVBAR, PIVOTPOINT_API } from 'config'
+import { LANGS, NAVBAR, PIVOTPOINT_API } from "config"
 // icons
-import { Icon as Iconify } from '@iconify/react'
+import { Icon as Iconify } from "@iconify/react"
 // assets
-import logo from 'public/logo.svg'
+import logo from "public/logo.svg"
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 // redux
-import { useAppDispatch, useAppSelector } from 'store/hooks'
-import { collapse, extend, NavItemConfig } from 'store/slices/sideBarSlice'
-import { logout } from 'store/slices/sessionSlice'
+import { useAppDispatch, useAppSelector } from "store/hooks"
+import { collapse, extend, NavItemConfig } from "store/slices/sideBarSlice"
+import { logout } from "store/slices/sessionSlice"
 // routes
-import { PATH_ACCOUNT, PATH_AUTH, PATH_DASHBOARD } from 'routes/paths'
+import { PATH_ACCOUNT, PATH_AUTH, PATH_DASHBOARD } from "routes/paths"
 // Components
-import { Scrollbar } from 'components'
-import NavItemOne from './NavItem'
-import SubNavItemTwo from './SubNavItem'
+import { Scrollbar } from "components"
+import NavItemOne from "./NavItem"
+import SubNavItemTwo from "./SubNavItem"
 // import LanguageDropdown from '../header/LanguageDropdown'
 // import AccountDropdown from '../header/AccountDropdown'
 
 const getSubItems = (items: NavItemConfig[], path: string) => {
-  const activePath = path.split('/')[2]
+  const activePath = path.split("/")[2]
 
   const activeItem = items.filter((item) => item.root === `${PATH_DASHBOARD.root}/${activePath}`)
 
@@ -103,7 +103,7 @@ function SideBar() {
               name={`${user?.firstName} ${user?.lastName}`}
               icon={
                 <div className='relative h-[22px] w-[22px] '>
-                  {user && user?.profilePicture && user?.profilePicture !== '' ? (
+                  {user && user?.profilePicture && user?.profilePicture !== "" ? (
                     <Image
                       alt='avatar'
                       width={22}
@@ -125,18 +125,18 @@ function SideBar() {
               collapsible
               subItems={[
                 {
-                  name: 'Profile',
+                  name: "Profile",
                   href: PATH_ACCOUNT.profile,
                   icon: <Iconify icon='ion:person-circle' height={22} width={22} />,
                 },
                 {
-                  name: 'Company',
+                  name: "Company",
                   href: PATH_ACCOUNT.company,
                   icon: <Iconify icon='ion:settings' height={22} width={22} />,
                   disabled: !user?.isOwner,
                 },
                 {
-                  name: 'Logout',
+                  name: "Logout",
                   onClick: () => {
                     dispatch(logout())
                     push(PATH_AUTH.login)
@@ -147,7 +147,7 @@ function SideBar() {
             />
             <NavItemOne
               href='#'
-              name={t('Language')}
+              name={t("Language")}
               icon={<Iconify icon='fluent:globe-16-filled' height={22} width={22} />}
               asLink
               collapsible
@@ -160,13 +160,13 @@ function SideBar() {
               <NavItemOne
                 icon={
                   <Iconify
-                    icon={theme === 'dark' ? 'tabler:sun-filled' : 'ph:moon-fill'}
+                    icon={theme === "dark" ? "tabler:sun-filled" : "ph:moon-fill"}
                     height={22}
                     width={22}
                   />
                 }
-                onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                name={theme === 'dark' ? t('Light Mode') : t('Dark Mode')}
+                onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+                name={theme === "dark" ? t("Light Mode") : t("Dark Mode")}
               />
             )}
           </div>
@@ -183,8 +183,8 @@ function SideBar() {
             transition={{ duration: 0.2 }}
             className='group fixed top-0 flex h-screen flex-col bg-gray-200 ltr:left-0 ltr:border-r rtl:right-0 dark:border-gray-500 dark:bg-paper-dark'
             style={{
-              marginLeft: locale === 'ar' ? 0 : NAVBAR.MAIN_NAVBAR_WIDTH,
-              marginRight: locale === 'ar' ? NAVBAR.MAIN_NAVBAR_WIDTH : 0,
+              marginLeft: locale === "ar" ? 0 : NAVBAR.MAIN_NAVBAR_WIDTH,
+              marginRight: locale === "ar" ? NAVBAR.MAIN_NAVBAR_WIDTH : 0,
             }}
           >
             <motion.div
@@ -194,8 +194,8 @@ function SideBar() {
             >
               <div
                 className={clsx(
-                  'mb-16  mt-5 flex w-full px-5',
-                  isCollapsed ? 'justify-center group-hover:justify-end' : 'justify-end'
+                  "mb-16  mt-5 flex w-full px-5",
+                  isCollapsed ? "justify-center group-hover:justify-end" : "justify-end"
                 )}
               >
                 <button
@@ -205,15 +205,15 @@ function SideBar() {
                   <Iconify
                     icon='system-uicons:window-collapse-left'
                     className={clsx(
-                      'transition-all group-hover/collapse:scale-110 rtl:rotate-180 motion-reduce:transition-none',
-                      isCollapsed && 'ltr:rotate-180 rtl:rotate-0'
+                      "transition-all group-hover/collapse:scale-110 rtl:rotate-180 motion-reduce:transition-none",
+                      isCollapsed && "ltr:rotate-180 rtl:rotate-0"
                     )}
                     height={18}
                     width={18}
                   />
                 </button>
               </div>
-              <Scrollbar tabIndex={-1} className='h-full px-4 pb-10' style={{ maxHeight: '100vh' }}>
+              <Scrollbar tabIndex={-1} className='h-full px-4 pb-10' style={{ maxHeight: "100vh" }}>
                 <div className='flex flex-col gap-4'>
                   {subItems &&
                     subItems.map(({ name, href, icon, badge, disabled }, i) => (

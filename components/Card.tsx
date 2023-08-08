@@ -1,24 +1,24 @@
-import React, { forwardRef } from 'react'
-import { cva, VariantProps } from 'class-variance-authority'
+import React, { forwardRef } from "react"
+import { cva, VariantProps } from "class-variance-authority"
 
-const card = cva('rounded-lg divide-gray-300 bg-paper-light dark:bg-paper-dark', {
+const card = cva("rounded-lg divide-gray-300 bg-paper-light dark:bg-paper-dark", {
   variants: {
     variant: {
-      elevated: 'drop-shadow-lg',
-      outlined: 'border  dark:border-gray-500',
-      'outlined-dashed': 'border border-dashed  dark:border-gray-500',
-      default: 'border-none',
+      elevated: "drop-shadow-lg",
+      outlined: "border  dark:border-gray-500",
+      "outlined-dashed": "border border-dashed  dark:border-gray-500",
+      default: "border-none",
     },
     fullWidth: {
-      true: 'w-full',
-      false: 'w-fit',
+      true: "w-full",
+      false: "w-fit",
     },
     divided: {
-      true: 'divide-y dark:divide-gray-500',
+      true: "divide-y dark:divide-gray-500",
     },
   },
   defaultVariants: {
-    variant: 'outlined',
+    variant: "outlined",
     fullWidth: false,
     divided: false,
   },

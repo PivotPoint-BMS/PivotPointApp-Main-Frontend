@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { HYDRATE } from 'next-redux-wrapper'
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { HYDRATE } from "next-redux-wrapper"
 // config
-import { PIVOTPOINT_API } from 'config'
+import { PIVOTPOINT_API } from "config"
 // types
 import {
   ListGenericResponse,
@@ -13,20 +13,20 @@ import {
   Activity,
   Note,
   IGenericResponse,
-} from 'types'
+} from "types"
 // store
-import { RootState } from 'store'
-import RequestSearchParams from 'types/RequestSearchParams'
+import { RootState } from "store"
+import RequestSearchParams from "types/RequestSearchParams"
 
 export const leadApi = createApi({
-  reducerPath: 'leadApi',
+  reducerPath: "leadApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${PIVOTPOINT_API.baseUrl}/crm`,
     prepareHeaders: (headers, { getState }) => {
       const { token } = (getState() as RootState).session
 
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
+        headers.set("Authorization", `Bearer ${token}`)
       }
 
       return headers
@@ -38,11 +38,11 @@ export const leadApi = createApi({
       return action.payload[reducerPath]
     }
   },
-  tagTypes: ['Leads', 'Lead'],
+  tagTypes: ["Leads", "Lead"],
   endpoints: (builder) => ({
     getLeads: builder.query<ListGenericResponse<Lead[]>, LeadRequestParams>({
       query: (params) => ({
-        url: 'Lead',
+        url: "Lead",
         params: {
           ...params,
           IsContact: false,
@@ -52,7 +52,7 @@ export const leadApi = createApi({
     }),
     getAll: builder.query<ListGenericResponse<SegmentClient[]>, { searchTerm?: string }>({
       query: (params) => ({
-        url: 'Lead/Summary/All',
+        url: "Lead/Summary/All",
         params,
       }),
     }),
@@ -67,7 +67,7 @@ export const leadApi = createApi({
     }),
     getContacts: builder.query<ListGenericResponse<Lead[]>, LeadRequestParams>({
       query: (params) => ({
-        url: 'Lead',
+        url: "Lead",
         params: {
           ...params,
           IsContact: true,
@@ -77,7 +77,7 @@ export const leadApi = createApi({
     }),
     getContactsSummary: builder.query<ListGenericResponse<Lead[]>, { searchTerm?: string }>({
       query: (params) => ({
-        url: 'Lead/Summary/Contacts',
+        url: "Lead/Summary/Contacts",
         params: { ...params },
       }),
     }),
@@ -86,10 +86,10 @@ export const leadApi = createApi({
     }),
     createLead: builder.mutation<ListGenericResponse<Lead>, { data: FormData } & RequestParams>({
       query: ({ data }) => ({
-        url: 'Lead',
-        method: 'POST',
+        url: "Lead",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ PageNumber, PageSize }, { dispatch, queryFulfilled }) {
         try {
@@ -97,7 +97,7 @@ export const leadApi = createApi({
             data: { data },
           } = await queryFulfilled
           dispatch(
-            leadApi.util.updateQueryData('getLeads', { PageNumber, PageSize }, (draftedList) => {
+            leadApi.util.updateQueryData("getLeads", { PageNumber, PageSize }, (draftedList) => {
               draftedList.data.push(data)
             })
           )
@@ -112,9 +112,9 @@ export const leadApi = createApi({
     >({
       query: ({ data, id }) => ({
         url: `Lead/${id}`,
-        method: 'PUT',
+        method: "PUT",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
 
       async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
@@ -124,13 +124,13 @@ export const leadApi = createApi({
           } = await queryFulfilled
 
           dispatch(
-            leadApi.util.updateQueryData('getLeads', { PageNumber, PageSize }, (draftedList) => {
+            leadApi.util.updateQueryData("getLeads", { PageNumber, PageSize }, (draftedList) => {
               Object.assign(draftedList.data.find((item) => item.id === id)!, data)
               return draftedList
             })
           )
           dispatch(
-            leadApi.util.updateQueryData('getLead', id, (draft) => {
+            leadApi.util.updateQueryData("getLead", id, (draft) => {
               Object.assign(draft.data, data)
             })
           )
@@ -142,21 +142,21 @@ export const leadApi = createApi({
     deleteLead: builder.mutation<ListGenericResponse<Lead>, { id: string } & RequestParams>({
       query: ({ id }) => ({
         url: `Lead/${id}`,
-        method: 'DELETE',
-        responseHandler: 'content-type',
+        method: "DELETE",
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
           dispatch(
-            leadApi.util.updateQueryData('getLeads', { PageNumber, PageSize }, (draftedList) => ({
+            leadApi.util.updateQueryData("getLeads", { PageNumber, PageSize }, (draftedList) => ({
               ...draftedList,
               data: draftedList.data.filter((lead) => lead.id !== id),
             }))
           )
           dispatch(
             leadApi.util.updateQueryData(
-              'getContacts',
+              "getContacts",
               { PageNumber, PageSize },
               (draftedList) => ({
                 ...draftedList,
@@ -174,23 +174,23 @@ export const leadApi = createApi({
       { toDelete: string[] } & RequestParams
     >({
       query: ({ toDelete }) => ({
-        url: 'Lead/bulk',
+        url: "Lead/bulk",
         body: { toDelete },
-        method: 'DELETE',
-        responseHandler: 'content-type',
+        method: "DELETE",
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ toDelete, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
           dispatch(
-            leadApi.util.updateQueryData('getLeads', { PageNumber, PageSize }, (draftedList) => ({
+            leadApi.util.updateQueryData("getLeads", { PageNumber, PageSize }, (draftedList) => ({
               ...draftedList,
               data: draftedList.data.filter((lead) => !toDelete.includes(lead.id)),
             }))
           )
           dispatch(
             leadApi.util.updateQueryData(
-              'getContacts',
+              "getContacts",
               { PageNumber, PageSize },
               (draftedList) => ({
                 ...draftedList,
@@ -206,8 +206,8 @@ export const leadApi = createApi({
     convertToContact: builder.mutation<ListGenericResponse<Lead>, { id: string } & RequestParams>({
       query: ({ id }) => ({
         url: `Lead/toContact/${id}`,
-        method: 'PUT',
-        responseHandler: 'content-type',
+        method: "PUT",
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
         try {
@@ -215,14 +215,14 @@ export const leadApi = createApi({
             data: { data },
           } = await queryFulfilled
           dispatch(
-            leadApi.util.updateQueryData('getLeads', { PageNumber, PageSize }, (draftedList) => ({
+            leadApi.util.updateQueryData("getLeads", { PageNumber, PageSize }, (draftedList) => ({
               ...draftedList,
               data: draftedList.data.filter((lead) => lead.id !== id),
             }))
           )
           dispatch(
             leadApi.util.updateQueryData(
-              'getContacts',
+              "getContacts",
               { PageNumber: 1, PageSize: 10 },
               (draftedList) => {
                 draftedList.data.push(data)
@@ -249,9 +249,9 @@ export const leadApi = createApi({
     >({
       query: ({ id, data }) => ({
         url: `Notes/${id}`,
-        method: 'POST',
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ PageNumber, PageSize, id }, { dispatch, queryFulfilled }) {
         try {
@@ -260,7 +260,7 @@ export const leadApi = createApi({
           } = await queryFulfilled
           dispatch(
             leadApi.util.updateQueryData(
-              'getLeadNotes',
+              "getLeadNotes",
               { PageNumber, PageSize, id },
               (draftedList) => {
                 draftedList.data.push(data)
@@ -278,9 +278,9 @@ export const leadApi = createApi({
     >({
       query: ({ id, data }) => ({
         url: `Notes/${id}`,
-        method: 'PUT',
+        method: "PUT",
         body: { note: data.note, noteTitle: data.noteTitle },
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted(
         { PageNumber, PageSize, id, leadId, data },
@@ -292,7 +292,7 @@ export const leadApi = createApi({
 
           dispatch(
             leadApi.util.updateQueryData(
-              'getLeadNotes',
+              "getLeadNotes",
               { PageNumber, PageSize, id: leadId },
               (draftedList) => {
                 Object.assign(draftedList.data.find((item) => item.id === id)!, data)
@@ -311,15 +311,15 @@ export const leadApi = createApi({
     >({
       query: ({ id }) => ({
         url: `Notes/${id}`,
-        method: 'DELETE',
-        responseHandler: 'content-type',
+        method: "DELETE",
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ PageNumber, PageSize, id, leadId }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
           dispatch(
             leadApi.util.updateQueryData(
-              'getLeadNotes',
+              "getLeadNotes",
               { PageNumber, PageSize, id: leadId },
               (draftedList) => ({
                 ...draftedList,

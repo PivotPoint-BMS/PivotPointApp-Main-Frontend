@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from 'react'
-import { min } from 'lodash'
-import clsx from 'clsx'
+import React, { useEffect, useState } from "react"
+import { min } from "lodash"
+import clsx from "clsx"
 // hooks
-import useTranslate from 'hooks/useTranslate'
-import useSnackbar from 'hooks/useSnackbar'
+import useTranslate from "hooks/useTranslate"
+import useSnackbar from "hooks/useSnackbar"
 // redux
-import { wrapper } from 'store'
+import { wrapper } from "store"
 import {
   getLeadSources,
   getRunningQueriesThunk,
   invalidateTags,
   useDeleteLeadSourceMutation,
   useGetLeadSourcesQuery,
-} from 'store/api/crm/contact-leads/leadSourceApi'
-import { changePageNumber, changePageSize, resetpagination } from 'store/slices/paginationSlice'
-import { useAppDispatch, useAppSelector } from 'store/hooks'
+} from "store/api/crm/contact-leads/leadSourceApi"
+import { changePageNumber, changePageSize, resetpagination } from "store/slices/paginationSlice"
+import { useAppDispatch, useAppSelector } from "store/hooks"
 // types
-import { LeadSource } from 'types/Lead'
+import { LeadSource } from "types/Lead"
 // components
 import {
   useReactTable,
@@ -26,8 +26,8 @@ import {
   RowSelectionState,
   SortingState,
   getSortedRowModel,
-} from '@tanstack/react-table'
-import { Icon } from '@iconify/react'
+} from "@tanstack/react-table"
+import { Icon } from "@iconify/react"
 import {
   LoadingIndicator,
   TextField,
@@ -38,10 +38,10 @@ import {
   AlertDialog,
   IndeterminateCheckbox,
   Select as MySelect,
-} from 'components'
+} from "components"
 // sections
-import LeadSourceTableToolbar from './LeadSourceTableToolbar'
-import CreateEditLeadSourceForm from '../create/CreateEditLeadSourceForm'
+import LeadSourceTableToolbar from "./LeadSourceTableToolbar"
+import CreateEditLeadSourceForm from "../create/CreateEditLeadSourceForm"
 
 export default function LeadSourcesList({
   openAddDialog,
@@ -63,7 +63,7 @@ export default function LeadSourcesList({
   // Pagination
   const { PageSize, PageNumber } = useAppSelector((state) => state.pagination)
   // Filters
-  const [searchValue, setSearchValue] = useState('')
+  const [searchValue, setSearchValue] = useState("")
   // Query Params
   const [SearchTerm, setSearchTerm] = useState<string | undefined>(undefined)
   const { data, isLoading, isFetching, isSuccess } = useGetLeadSourcesQuery(
@@ -76,8 +76,8 @@ export default function LeadSourcesList({
 
   const columnHelper = createColumnHelper<LeadSource>()
   const columns = [
-    columnHelper.accessor('id', {
-      id: 'select',
+    columnHelper.accessor("id", {
+      id: "select",
       enableSorting: false,
       size: 24,
       header: ({ table }) => (
@@ -100,30 +100,30 @@ export default function LeadSourcesList({
         />
       ),
     }),
-    columnHelper.accessor('source', {
-      id: 'source',
-      header: () => t('Source'),
+    columnHelper.accessor("source", {
+      id: "source",
+      header: () => t("Source"),
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor('sourceLink', {
-      id: 'sourceLink',
-      header: () => t('Source Link'),
+    columnHelper.accessor("sourceLink", {
+      id: "sourceLink",
+      header: () => t("Source Link"),
       cell: (info) => info.getValue(),
     }),
     columnHelper.accessor((row) => row, {
-      id: 'actions ',
+      id: "actions ",
       enableSorting: false,
       size: 50,
-      header: () => <p className='w-full text-right'>{t('Actions')}</p>,
+      header: () => <p className='w-full text-right'>{t("Actions")}</p>,
       cell: (leadSource) => (
         <div className='flex items-center justify-end gap-2'>
-          <Tooltip title={t('Delete')} side='bottom'>
-            <IconButton onClick={() => setIdToDelete(leadSource.getValue().id || '')}>
+          <Tooltip title={t("Delete")} side='bottom'>
+            <IconButton onClick={() => setIdToDelete(leadSource.getValue().id || "")}>
               <Icon className='text-red-600 dark:text-red-400' icon='ic:round-delete' height={20} />
             </IconButton>
           </Tooltip>
 
-          <Tooltip title={t('Edit')} side='bottom'>
+          <Tooltip title={t("Edit")} side='bottom'>
             <IconButton
               onClick={() => {
                 setLeadSourceToEdit(leadSource.row.original)
@@ -141,18 +141,18 @@ export default function LeadSourcesList({
   useEffect(() => {
     if (isError) {
       open({
-        message: t('A problem has occurred.'),
+        message: t("A problem has occurred."),
         autoHideDuration: 4000,
-        type: 'error',
-        variant: 'contained',
+        type: "error",
+        variant: "contained",
       })
     }
     if (isDeleteSuccess) {
       open({
-        message: t('Lead Source Deleted Successfully.'),
+        message: t("Lead Source Deleted Successfully."),
         autoHideDuration: 4000,
-        type: 'success',
-        variant: 'contained',
+        type: "success",
+        variant: "contained",
       })
     }
   }, [isError, isDeleteSuccess])
@@ -179,7 +179,7 @@ export default function LeadSourcesList({
     setSelectedIds(
       data?.data
         .filter((item) => item.id && Object.keys(rowSelection).includes(item.id))
-        .map((item) => item.id || '') || []
+        .map((item) => item.id || "") || []
     )
   }, [rowSelection])
 
@@ -193,9 +193,9 @@ export default function LeadSourcesList({
     <>
       <div className='p-3 '>
         <TextField
-          placeholder={t('Search...')}
+          placeholder={t("Search...")}
           endAdornment={
-            <IconButton onClick={() => setSearchTerm(searchValue === '' ? undefined : searchValue)}>
+            <IconButton onClick={() => setSearchTerm(searchValue === "" ? undefined : searchValue)}>
               <Icon icon='ion:search-outline' height={18} className='text-gray-500' />
             </IconButton>
           }
@@ -203,8 +203,8 @@ export default function LeadSourcesList({
           onChange={(e) => setSearchValue(e.target.value)}
           className='flex h-full'
           onKeyDown={(e) => {
-            if (e.key === 'Enter')
-              setSearchTerm(e.currentTarget.value === '' ? undefined : e.currentTarget.value)
+            if (e.key === "Enter")
+              setSearchTerm(e.currentTarget.value === "" ? undefined : e.currentTarget.value)
           }}
         />
       </div>
@@ -235,8 +235,8 @@ export default function LeadSourcesList({
                                 <div
                                   {...{
                                     className: header.column.getCanSort()
-                                      ? 'cursor-pointer select-none flex items-center gap-2'
-                                      : '',
+                                      ? "cursor-pointer select-none flex items-center gap-2"
+                                      : "",
                                     onClick: header.column.getToggleSortingHandler(),
                                   }}
                                 >
@@ -267,8 +267,8 @@ export default function LeadSourcesList({
                         <tr
                           key={row.id}
                           className={clsx(
-                            'cursor-pointer border-b last-of-type:border-b-0 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-paper-hover-dark',
-                            row.getIsSelected() && 'bg-gray-50 dark:bg-paper-hover-dark/80'
+                            "cursor-pointer border-b last-of-type:border-b-0 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-paper-hover-dark",
+                            row.getIsSelected() && "bg-gray-50 dark:bg-paper-hover-dark/80"
                           )}
                         >
                           {row.getVisibleCells().map((cell) => (
@@ -289,25 +289,25 @@ export default function LeadSourcesList({
                   </table>
                   <div className='flex w-max min-w-full items-center justify-end divide-x border-t p-4 rtl:divide-x-reverse dark:divide-gray-600 dark:border-gray-600'>
                     <div className='flex items-center justify-center gap-2 px-2'>
-                      <p className='text-sm'>{t('Row per page : ')}</p>
+                      <p className='text-sm'>{t("Row per page : ")}</p>
                       <MySelect
-                        items={['10', '25', '50'].map((item) => ({ label: item, value: item }))}
+                        items={["10", "25", "50"].map((item) => ({ label: item, value: item }))}
                         onValueChange={(page) => dispatch(changePageSize(Number(page)))}
                         value={String(PageSize)}
-                        buttonProps={{ intent: 'default' }}
+                        buttonProps={{ intent: "default" }}
                       />
                     </div>
                     <div className='flex h-full items-center justify-center gap-2 p-2 '>
                       <p className='text-sm'>
                         {(data.pageNumber - 1) * (data.pageSize + 1) === 0
                           ? 1
-                          : (data.pageNumber - 1) * (data.pageSize + 1)}{' '}
-                        - {min([data.pageNumber * data.pageSize, data.totalRecords])} {t('of')}{' '}
+                          : (data.pageNumber - 1) * (data.pageSize + 1)}{" "}
+                        - {min([data.pageNumber * data.pageSize, data.totalRecords])} {t("of")}{" "}
                         {data.totalRecords}
                       </p>
                     </div>
                     <div className='flex items-center justify-center gap-2 px-2'>
-                      <Tooltip side='bottom' title={t('First page')}>
+                      <Tooltip side='bottom' title={t("First page")}>
                         <IconButton
                           className='border dark:border-gray-600'
                           onClick={() => dispatch(changePageNumber(1))}
@@ -319,7 +319,7 @@ export default function LeadSourcesList({
                           />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip side='bottom' title={t('Previous page')}>
+                      <Tooltip side='bottom' title={t("Previous page")}>
                         <IconButton
                           className='border dark:border-gray-600'
                           onClick={() =>
@@ -331,9 +331,9 @@ export default function LeadSourcesList({
                         </IconButton>
                       </Tooltip>
                       <p className='text-sm'>
-                        {t('Page')} {PageNumber} {t('of')} {data.totalPages}
+                        {t("Page")} {PageNumber} {t("of")} {data.totalPages}
                       </p>
-                      <Tooltip side='bottom' title={t('Next page')}>
+                      <Tooltip side='bottom' title={t("Next page")}>
                         <IconButton
                           className='border dark:border-gray-600'
                           onClick={() =>
@@ -348,7 +348,7 @@ export default function LeadSourcesList({
                           <Icon icon='fluent:chevron-right-20-filled' className='rtl:rotate-180' />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip side='bottom' title={t('Last page')}>
+                      <Tooltip side='bottom' title={t("Last page")}>
                         <IconButton
                           className='border dark:border-gray-600'
                           onClick={() => dispatch(changePageNumber(data.totalPages))}
@@ -367,7 +367,7 @@ export default function LeadSourcesList({
             </>
           ) : (
             <div className='flex h-56 flex-col items-center justify-center gap-2 px-4 py-2'>
-              <h1 className='text-xl font-semibold'>{t('No Lead Sources Found')}</h1>
+              <h1 className='text-xl font-semibold'>{t("No Lead Sources Found")}</h1>
             </div>
           )}
         </>
@@ -380,7 +380,7 @@ export default function LeadSourcesList({
       <Backdrop loading={isDeleteLeading} />
       <Dialog
         open={openEditDialog || openAddDialog}
-        title={openEditDialog ? t('Edit Lead Source') : t('Add Lead Source')}
+        title={openEditDialog ? t("Edit Lead Source") : t("Add Lead Source")}
       >
         <CreateEditLeadSourceForm
           isEdit={openEditDialog}
@@ -396,20 +396,20 @@ export default function LeadSourcesList({
         />
       </Dialog>
       <AlertDialog
-        title={t('Confirm Delete')}
+        title={t("Confirm Delete")}
         description={t(
-          'This action cannot be undone. This will permanently delete this lead source.'
+          "This action cannot be undone. This will permanently delete this lead source."
         )}
-        cancelText={t('Cancel')}
-        confirmText={t('Yes, Delete')}
+        cancelText={t("Cancel")}
+        confirmText={t("Yes, Delete")}
         onConfirm={() => {
-          deleteLeadSource({ id: idToDelete || '', PageNumber, PageSize })
-          invalidateTags(['LeadSources'])
+          deleteLeadSource({ id: idToDelete || "", PageNumber, PageSize })
+          invalidateTags(["LeadSources"])
           setIdToDelete(null)
         }}
         open={idToDelete !== null}
         onClose={() => setIdToDelete(null)}
-        buttonProps={{ intent: 'error' }}
+        buttonProps={{ intent: "error" }}
       />
     </>
   )

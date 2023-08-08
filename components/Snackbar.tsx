@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react"
 // motion
-import { Variants, motion } from 'framer-motion'
+import { Variants, motion } from "framer-motion"
 // hooks
-import useSnackbar from 'hooks/useSnackbar'
+import useSnackbar from "hooks/useSnackbar"
 // types
-import { SnackbarOptions } from 'types'
+import { SnackbarOptions } from "types"
 // components
-import { Icon } from '@iconify/react'
-import Alert from './Alert'
-import IconButton from './IconButton'
+import { Icon } from "@iconify/react"
+import Alert from "./Alert"
+import IconButton from "./IconButton"
 
 export interface SnackbarProps extends SnackbarOptions, React.HTMLAttributes<HTMLDivElement> {
   id: string
@@ -26,7 +26,7 @@ export default function Snackbar({
   const [opened, setOpened] = useState(true)
 
   const variants: Variants = {
-    closed: { x: '-200%' },
+    closed: { x: "-200%" },
     opened: { x: 0 },
   }
 
@@ -44,7 +44,7 @@ export default function Snackbar({
   return (
     <motion.div
       initial='closed'
-      animate={opened ? 'opened' : 'closed'}
+      animate={opened ? "opened" : "closed"}
       variants={variants}
       transition={{ duration: 0.5 }}
     >

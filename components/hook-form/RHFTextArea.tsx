@@ -1,8 +1,8 @@
-import clsx from 'clsx'
-import React, { InputHTMLAttributes } from 'react'
+import clsx from "clsx"
+import React, { InputHTMLAttributes } from "react"
 // hooks
 // form
-import { Controller, useFormContext } from 'react-hook-form'
+import { Controller, useFormContext } from "react-hook-form"
 
 interface RHFTextAreaProps extends InputHTMLAttributes<HTMLTextAreaElement> {
   name: string
@@ -31,19 +31,19 @@ export default function RHFTextArea({
         <div className='group flex w-full flex-col gap-1'>
           <label
             htmlFor={name}
-            className={clsx('text-sm font-medium dark:text-white', error && 'text-red-500')}
+            className={clsx("text-sm font-medium dark:text-white", error && "text-red-500")}
           >
             {label}
           </label>
           <div
             className={clsx(
-              'flex w-full items-center justify-center rounded-lg bg-transparent',
-              'border border-gray-400 outline-none ring-black transition-all focus-within:ring-1 hover:border-black',
-              'dark:border-gray-600 dark:ring-white dark:hover:border-white',
+              "flex w-full items-center justify-center rounded-lg bg-transparent",
+              "border border-gray-400 outline-none ring-black transition-all focus-within:ring-1 hover:border-black",
+              "dark:border-gray-600 dark:ring-white dark:hover:border-white",
               error &&
-                '!border-red-500 !ring-red-500 focus-within:!border-red-500 hover:!border-red-500 dark:border-red-500 dark:focus-within:!border-red-500',
+                "!border-red-500 !ring-red-500 focus-within:!border-red-500 hover:!border-red-500 dark:border-red-500 dark:focus-within:!border-red-500",
               disabled &&
-                '!border-none !bg-gray-200 !text-gray-500 dark:!bg-gray-600 dark:!text-gray-400 dark:hover:bg-gray-600'
+                "!border-none !bg-gray-200 !text-gray-500 dark:!bg-gray-600 dark:!text-gray-400 dark:hover:bg-gray-600"
             )}
           >
             {startAdornment && <span className='mx-2'>{startAdornment}</span>}

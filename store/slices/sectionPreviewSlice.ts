@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 // types
 
 interface SectionPreview {
@@ -13,7 +13,7 @@ const initialState: SectionPreview = {
 }
 
 const sectionPreviewSlice = createSlice({
-  name: 'sectionPreview',
+  name: "sectionPreview",
   initialState,
   reducers: {
     previewSection: (state, action: PayloadAction<string>) => {

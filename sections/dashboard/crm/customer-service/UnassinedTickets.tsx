@@ -1,8 +1,8 @@
-import React from 'react'
-import Card from 'components/Card'
-import CardContent from 'components/CardContent'
-import CardHeader from 'components/CardHeader'
-import Badge from 'components/Badge'
+import React from "react"
+import Card from "components/Card"
+import CardContent from "components/CardContent"
+import CardHeader from "components/CardHeader"
+import Badge from "components/Badge"
 
 export default function UnassinedTickets() {
   return (

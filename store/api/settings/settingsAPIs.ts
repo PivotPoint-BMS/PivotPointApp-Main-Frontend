@@ -1,9 +1,9 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { HYDRATE } from 'next-redux-wrapper'
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { HYDRATE } from "next-redux-wrapper"
 // config
-import { PIVOTPOINT_API } from 'config'
+import { PIVOTPOINT_API } from "config"
 // store
-import { RootState } from 'store'
+import { RootState } from "store"
 import {
   APISettings,
   CompanyDetails,
@@ -11,17 +11,17 @@ import {
   NotificationsSettings,
   SMTPSettings,
   UserDetails,
-} from 'types'
+} from "types"
 
 export const settingsApi = createApi({
-  reducerPath: 'settingsApi',
+  reducerPath: "settingsApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${PIVOTPOINT_API.baseUrl}`,
     prepareHeaders: (headers, { getState }) => {
       const { token } = (getState() as RootState).session
 
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
+        headers.set("Authorization", `Bearer ${token}`)
       }
 
       return headers
@@ -33,73 +33,73 @@ export const settingsApi = createApi({
       return action.payload[reducerPath]
     }
   },
-  tagTypes: ['UserDetails'],
+  tagTypes: ["UserDetails"],
   endpoints: (builder) => ({
     getUserDetails: builder.query<IGenericResponse<UserDetails>, void>({
-      query: () => 'identity/ProfileSettings/details',
-      providesTags: ['UserDetails'],
+      query: () => "identity/ProfileSettings/details",
+      providesTags: ["UserDetails"],
     }),
     getNotifficationsSettings: builder.query<IGenericResponse<NotificationsSettings>, void>({
-      query: () => 'identity/ProfileSettings/notifications',
+      query: () => "identity/ProfileSettings/notifications",
     }),
     getCompanyDetails: builder.query<IGenericResponse<CompanyDetails>, void>({
-      query: () => 'identity/OrganisationSettings/Details',
+      query: () => "identity/OrganisationSettings/Details",
     }),
     getSMTPSettings: builder.query<IGenericResponse<SMTPSettings>, void>({
-      query: () => 'identity/OrganisationSettings/SMTP',
+      query: () => "identity/OrganisationSettings/SMTP",
     }),
     getApiKey: builder.query<IGenericResponse<APISettings>, void>({
-      query: () => 'im/Statistics/API',
+      query: () => "im/Statistics/API",
     }),
     updateImage: builder.mutation<IGenericResponse<boolean>, FormData>({
       query: (data) => ({
-        url: 'identity/ProfileSettings/image',
-        method: 'POST',
+        url: "identity/ProfileSettings/image",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
-      invalidatesTags: ['UserDetails'],
+      invalidatesTags: ["UserDetails"],
     }),
-    updateUserDetails: builder.mutation<IGenericResponse<boolean>, Omit<UserDetails, 'email'>>({
+    updateUserDetails: builder.mutation<IGenericResponse<boolean>, Omit<UserDetails, "email">>({
       query: (data) => ({
-        url: 'identity/ProfileSettings/details',
-        method: 'PUT',
+        url: "identity/ProfileSettings/details",
+        method: "PUT",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
-      invalidatesTags: ['UserDetails'],
+      invalidatesTags: ["UserDetails"],
     }),
     updateNotificationsSettings: builder.mutation<IGenericResponse<boolean>, NotificationsSettings>(
       {
         query: (data) => ({
-          url: 'identity/ProfileSettings/notifications',
-          method: 'PUT',
+          url: "identity/ProfileSettings/notifications",
+          method: "PUT",
           body: data,
-          responseHandler: 'content-type',
+          responseHandler: "content-type",
         }),
       }
     ),
     updateCompanyDetails: builder.mutation<IGenericResponse<boolean>, FormData>({
       query: (data) => ({
-        url: 'identity/OrganisationSettings/Details',
-        method: 'POST',
+        url: "identity/OrganisationSettings/Details",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
     }),
     updateSMTPSettings: builder.mutation<IGenericResponse<boolean>, SMTPSettings>({
       query: (data) => ({
-        url: 'identity/OrganisationSettings/SMTP',
-        method: 'POST',
+        url: "identity/OrganisationSettings/SMTP",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
     }),
     generateKey: builder.mutation<IGenericResponse<APISettings>, void>({
       query: () => ({
-        url: 'identity/OrganisationSettings/APIKey',
-        method: 'POST',
-        responseHandler: 'content-type',
+        url: "identity/OrganisationSettings/APIKey",
+        method: "POST",
+        responseHandler: "content-type",
       }),
     }),
   }),

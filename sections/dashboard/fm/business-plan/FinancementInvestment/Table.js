@@ -1,13 +1,13 @@
-import React, { useMemo } from 'react'
+import React, { useMemo } from "react"
 // react table
-import { useTable, useFlexLayout, useResizeColumns, useSortBy } from 'react-table'
+import { useTable, useFlexLayout, useResizeColumns, useSortBy } from "react-table"
 // utils
-import { fCurrency } from 'utils/formatNumber'
+import { fCurrency } from "utils/formatNumber"
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 // components
-import Cell from './Cell'
-import Header from './Header'
+import Cell from "./Cell"
+import Header from "./Header"
 
 const defaultColumn = {
   minWidth: 50,
@@ -15,7 +15,7 @@ const defaultColumn = {
   maxWidth: 400,
   Cell,
   Header,
-  sortType: 'alphanumericFalsyLast',
+  sortType: "alphanumericFalsyLast",
 }
 
 export default function Table({ columns, data, isFinancement }) {
@@ -57,7 +57,7 @@ export default function Table({ columns, data, isFinancement }) {
                       className='border-b bg-gray-100 dark:border-gray-600 dark:bg-paper-dark'
                       key={`table-header-cell-${index}`}
                     >
-                      {column.render('Header')}
+                      {column.render("Header")}
                     </th>
                   ))}
                 </tr>
@@ -74,7 +74,7 @@ export default function Table({ columns, data, isFinancement }) {
                   >
                     {row.cells.map((cell, i) => (
                       <td {...cell.getCellProps()} key={`table-cell-${i}`}>
-                        {cell.render('Cell')}
+                        {cell.render("Cell")}
                       </td>
                     ))}
                   </tr>
@@ -82,11 +82,11 @@ export default function Table({ columns, data, isFinancement }) {
               })}
               <tr className='flex divide-x border-b bg-primary-100/40  last-of-type:border-b-0 rtl:divide-x-reverse dark:divide-gray-600 dark:bg-primary-900 '>
                 <td className='flex-1 p-2 px-5 font-medium ltr:text-left rtl:text-right'>
-                  {isFinancement ? t('Total Passive') : t('Total Active')}
+                  {isFinancement ? t("Total Passive") : t("Total Active")}
                 </td>
                 {
                   <td className='flex-1 p-2 px-5 font-medium ltr:text-right rtl:text-left'>
-                    {fCurrency(total)} {t('Da')}
+                    {fCurrency(total)} {t("Da")}
                   </td>
                 }
               </tr>

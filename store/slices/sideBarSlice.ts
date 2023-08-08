@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit"
 // routes
-import { PATH_DASHBOARD } from 'routes/paths'
-import { getItem, setItem } from 'utils/localStorage'
+import { PATH_DASHBOARD } from "routes/paths"
+import { getItem, setItem } from "utils/localStorage"
 
 export interface NavItemConfig {
   name: string
@@ -13,7 +13,7 @@ export interface NavItemConfig {
   roles: string[]
   badge?: {
     label: string
-    color?: 'primary' | 'secondary' | 'info' | 'warning' | 'error' | 'success' | 'default'
+    color?: "primary" | "secondary" | "info" | "warning" | "error" | "success" | "default"
   }
   subItems?: {
     name: string
@@ -22,7 +22,7 @@ export interface NavItemConfig {
     disabled?: boolean
     badge?: {
       label: string
-      color?: 'primary' | 'secondary' | 'info' | 'warning' | 'error' | 'success' | 'default'
+      color?: "primary" | "secondary" | "info" | "warning" | "error" | "success" | "default"
     }
   }[]
 }
@@ -36,109 +36,109 @@ interface SideBarConfig {
 const initialState: SideBarConfig = {
   items: [
     {
-      name: 'Customer Relationship',
+      name: "Customer Relationship",
       root: PATH_DASHBOARD.crm.root,
       href: PATH_DASHBOARD.crm.dashboard,
-      icon: 'fa6-solid:handshake',
-      roles: ['Owner', 'CRM'],
+      icon: "fa6-solid:handshake",
+      roles: ["Owner", "CRM"],
       subItems: [
         {
-          name: 'Monitoring',
+          name: "Monitoring",
           href: PATH_DASHBOARD.crm.dashboard,
-          icon: 'solar:graph-bold',
+          icon: "solar:graph-bold",
           badge: {
-            label: 'New',
-            color: 'success',
+            label: "New",
+            color: "success",
           },
         },
         {
-          name: 'Contacts & Leads',
-          href: PATH_DASHBOARD.crm['contacts-leads'].root,
-          icon: 'material-symbols:contact-page',
+          name: "Contacts & Leads",
+          href: PATH_DASHBOARD.crm["contacts-leads"].root,
+          icon: "material-symbols:contact-page",
           badge: {
-            label: 'New',
-            color: 'success',
+            label: "New",
+            color: "success",
           },
         },
         {
-          name: 'Sales Pipeline',
-          href: PATH_DASHBOARD.crm['sales-pipeline'],
-          icon: 'icon-park-solid:sales-report',
+          name: "Sales Pipeline",
+          href: PATH_DASHBOARD.crm["sales-pipeline"],
+          icon: "icon-park-solid:sales-report",
           badge: {
-            label: 'New',
-            color: 'success',
+            label: "New",
+            color: "success",
           },
         },
         {
-          name: 'Customer Segmentation',
-          href: PATH_DASHBOARD.crm['customer-segmentation'],
-          icon: 'fa6-solid:users-viewfinder',
+          name: "Customer Segmentation",
+          href: PATH_DASHBOARD.crm["customer-segmentation"],
+          icon: "fa6-solid:users-viewfinder",
           badge: {
-            label: 'Beta',
-            color: 'warning',
+            label: "Beta",
+            color: "warning",
           },
         },
       ],
     },
     {
-      name: 'Supply Chain & Inventory',
+      name: "Supply Chain & Inventory",
       root: PATH_DASHBOARD.scm.root,
       href: PATH_DASHBOARD.scm.dashboard,
-      icon: 'fa6-solid:truck-ramp-box',
-      roles: ['Owner', 'SCM'],
+      icon: "fa6-solid:truck-ramp-box",
+      roles: ["Owner", "SCM"],
       subItems: [
         {
-          name: 'Monitoring',
+          name: "Monitoring",
           href: PATH_DASHBOARD.scm.dashboard,
-          icon: 'solar:graph-bold',
+          icon: "solar:graph-bold",
           badge: {
-            label: 'New',
-            color: 'success',
+            label: "New",
+            color: "success",
           },
         },
         {
-          name: 'Suppliers',
+          name: "Suppliers",
           href: PATH_DASHBOARD.scm.suppliers,
-          icon: 'fa6-solid:boxes-packing',
+          icon: "fa6-solid:boxes-packing",
           badge: {
-            label: 'New',
-            color: 'success',
+            label: "New",
+            color: "success",
           },
         },
         {
-          name: 'Product/Service',
-          href: PATH_DASHBOARD.scm['product-service'].list,
-          icon: 'fa6-solid:boxes-stacked',
+          name: "Product/Service",
+          href: PATH_DASHBOARD.scm["product-service"].list,
+          icon: "fa6-solid:boxes-stacked",
           badge: {
-            label: 'New',
-            color: 'success',
+            label: "New",
+            color: "success",
           },
         },
         {
-          name: 'Warehousing',
+          name: "Warehousing",
           href: PATH_DASHBOARD.scm.warehousing.list,
-          icon: 'fa6-solid:warehouse',
+          icon: "fa6-solid:warehouse",
           badge: {
-            label: 'New',
-            color: 'success',
+            label: "New",
+            color: "success",
           },
         },
         {
-          name: 'Transportation',
+          name: "Transportation",
           href: PATH_DASHBOARD.scm.transportation.root,
-          icon: 'fluent:vehicle-truck-profile-20-filled',
+          icon: "fluent:vehicle-truck-profile-20-filled",
           badge: {
-            label: 'New',
-            color: 'success',
+            label: "New",
+            color: "success",
           },
         },
         {
-          name: 'Invoices',
+          name: "Invoices",
           href: PATH_DASHBOARD.scm.invoices.root,
-          icon: 'basil:invoice-solid',
+          icon: "basil:invoice-solid",
           badge: {
-            label: 'New',
-            color: 'success',
+            label: "New",
+            color: "success",
           },
         },
         // {
@@ -174,28 +174,28 @@ const initialState: SideBarConfig = {
       ],
     },
     {
-      name: 'Finance',
+      name: "Finance",
       root: PATH_DASHBOARD.fm.root,
       href: PATH_DASHBOARD.fm.dashboard,
-      icon: 'fa-solid:money-check-alt',
-      roles: ['Owner', 'FM'],
+      icon: "fa-solid:money-check-alt",
+      roles: ["Owner", "FM"],
       subItems: [
         {
-          name: 'Monitoring',
+          name: "Monitoring",
           href: PATH_DASHBOARD.fm.dashboard,
-          icon: 'solar:graph-bold',
+          icon: "solar:graph-bold",
           badge: {
-            label: 'Beta',
-            color: 'warning',
+            label: "Beta",
+            color: "warning",
           },
         },
         {
-          name: 'Bank Accounts',
-          href: PATH_DASHBOARD.fm['bank-accounts'],
-          icon: 'mingcute:bank-card-fill',
+          name: "Bank Accounts",
+          href: PATH_DASHBOARD.fm["bank-accounts"],
+          icon: "mingcute:bank-card-fill",
           badge: {
-            label: 'Beta',
-            color: 'warning',
+            label: "Beta",
+            color: "warning",
           },
         },
         // {
@@ -270,131 +270,131 @@ const initialState: SideBarConfig = {
       ],
     },
     {
-      name: 'Human Resource',
+      name: "Human Resource",
       root: PATH_DASHBOARD.hrm.root,
       href: PATH_DASHBOARD.hrm.dashboard,
-      icon: 'mdi:account-group',
+      icon: "mdi:account-group",
       disabled: true,
-      roles: ['Owner', 'HRM'],
+      roles: ["Owner", "HRM"],
       badge: {
-        label: 'Soon',
+        label: "Soon",
       },
       subItems: [
         {
-          name: 'Monitoring',
+          name: "Monitoring",
           href: PATH_DASHBOARD.hrm.dashboard,
-          icon: 'solar:graph-bold',
+          icon: "solar:graph-bold",
           disabled: true,
           badge: {
-            label: 'Soon',
-            color: 'default',
+            label: "Soon",
+            color: "default",
           },
         },
         {
-          name: 'Accounts',
+          name: "Accounts",
           href: PATH_DASHBOARD.hrm.accounts,
-          icon: 'material-symbols:manage-accounts',
+          icon: "material-symbols:manage-accounts",
           disabled: true,
           badge: {
-            label: 'Soon',
-            color: 'default',
+            label: "Soon",
+            color: "default",
           },
         },
         {
-          name: 'Recruitment',
+          name: "Recruitment",
           href: PATH_DASHBOARD.hrm.recruitment,
-          icon: 'fa6-solid:users-gear',
+          icon: "fa6-solid:users-gear",
           disabled: true,
           badge: {
-            label: 'Soon',
-            color: 'default',
+            label: "Soon",
+            color: "default",
           },
         },
         {
-          name: 'Payroll',
+          name: "Payroll",
           href: PATH_DASHBOARD.hrm.payroll,
-          icon: 'material-symbols:payments-outline-rounded',
+          icon: "material-symbols:payments-outline-rounded",
           disabled: true,
           badge: {
-            label: 'Soon',
-            color: 'default',
+            label: "Soon",
+            color: "default",
           },
         },
       ],
     },
     {
-      name: 'Projects',
+      name: "Projects",
       root: PATH_DASHBOARD.pm.root,
       href: PATH_DASHBOARD.pm.dashboard,
-      icon: 'bi:kanban-fill',
+      icon: "bi:kanban-fill",
       disabled: true,
-      roles: ['Owner', 'PM'],
+      roles: ["Owner", "PM"],
       badge: {
-        label: 'Soon',
-        color: 'default',
+        label: "Soon",
+        color: "default",
       },
       subItems: [
         {
-          name: 'Monitoring',
+          name: "Monitoring",
           href: PATH_DASHBOARD.pm.dashboard,
-          icon: 'solar:graph-bold',
+          icon: "solar:graph-bold",
           disabled: true,
           badge: {
-            label: 'Soon',
-            color: 'default',
+            label: "Soon",
+            color: "default",
           },
         },
         {
-          name: 'Project Planning',
+          name: "Project Planning",
           href: PATH_DASHBOARD.pm.planning,
-          icon: 'icon-park-solid:schedule',
+          icon: "icon-park-solid:schedule",
           disabled: true,
           badge: {
-            label: 'Soon',
-            color: 'default',
+            label: "Soon",
+            color: "default",
           },
         },
         {
-          name: 'Tracking',
+          name: "Tracking",
           href: PATH_DASHBOARD.pm.tracking,
-          icon: 'material-symbols:timer-rounded',
+          icon: "material-symbols:timer-rounded",
           disabled: true,
           badge: {
-            label: 'Soon',
-            color: 'default',
+            label: "Soon",
+            color: "default",
           },
         },
         {
-          name: 'Product Building Pipelines',
+          name: "Product Building Pipelines",
           href: PATH_DASHBOARD.pm.pipelines,
-          icon: 'material-symbols:account-tree-rounded',
+          icon: "material-symbols:account-tree-rounded",
           disabled: true,
           badge: {
-            label: 'Soon',
-            color: 'default',
+            label: "Soon",
+            color: "default",
           },
         },
       ],
     },
     {
-      name: 'Workflow',
+      name: "Workflow",
       root: PATH_DASHBOARD.workflow.root,
       href: PATH_DASHBOARD.workflow.root,
-      icon: 'ph:tree-structure-fill',
+      icon: "ph:tree-structure-fill",
       disabled: true,
-      roles: ['Owner', 'WF'],
+      roles: ["Owner", "WF"],
       badge: {
-        label: 'Soon',
-        color: 'default',
+        label: "Soon",
+        color: "default",
       },
     },
   ],
   isOpen: false,
-  isCollapsed: getItem('isCollapsed') as boolean,
+  isCollapsed: getItem("isCollapsed") as boolean,
 }
 
 const sideBarSlice = createSlice({
-  name: 'sideBar',
+  name: "sideBar",
   initialState,
   reducers: {
     open: (state) => {
@@ -404,11 +404,11 @@ const sideBarSlice = createSlice({
       state.isOpen = false
     },
     collapse: (state) => {
-      setItem('isCollapsed', true)
+      setItem("isCollapsed", true)
       state.isCollapsed = true
     },
     extend: (state) => {
-      setItem('isCollapsed', false)
+      setItem("isCollapsed", false)
       state.isCollapsed = false
     },
   },

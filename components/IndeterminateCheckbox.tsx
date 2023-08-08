@@ -1,5 +1,5 @@
-import { Icon } from '@iconify/react'
-import { HTMLProps, useEffect, useRef } from 'react'
+import { Icon } from "@iconify/react"
+import { HTMLProps, useEffect, useRef } from "react"
 
 export default function IndeterminateCheckbox({
   indeterminate,
@@ -8,7 +8,7 @@ export default function IndeterminateCheckbox({
   const ref = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    if (typeof indeterminate === 'boolean' && ref.current) {
+    if (typeof indeterminate === "boolean" && ref.current) {
       ref.current.indeterminate = !rest.checked && indeterminate
     }
   }, [ref, indeterminate])

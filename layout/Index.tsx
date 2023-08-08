@@ -1,30 +1,30 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react"
 // next
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router"
 // guards
-import AuthGuard from 'guards/AuthGuard'
+import AuthGuard from "guards/AuthGuard"
 // hooks
-import useResponsive from 'hooks/useResponsive'
-import useTranslate from 'hooks/useTranslate'
-import { useAppSelector } from 'store/hooks'
+import useResponsive from "hooks/useResponsive"
+import useTranslate from "hooks/useTranslate"
+import { useAppSelector } from "store/hooks"
 // routes
-import { PATH_ACCOUNT } from 'routes/paths'
+import { PATH_ACCOUNT } from "routes/paths"
 // config
-import { HEADER } from 'config'
+import { HEADER } from "config"
 // components
-import { AlertDialog } from 'components'
-import Header from './app/header/Header'
-import SidebarDesktop from './app/double-sidebar'
-import SidebarMobile from './app/mobile-sidebar'
-import LogoOnlyLayout from './LogoOnlyLayout'
-import SidebarVertical from './app/vertical-sidebar'
+import { AlertDialog } from "components"
+import Header from "./app/header/Header"
+import SidebarDesktop from "./app/double-sidebar"
+import SidebarMobile from "./app/mobile-sidebar"
+import LogoOnlyLayout from "./LogoOnlyLayout"
+import SidebarVertical from "./app/vertical-sidebar"
 
 function Layout({
   children,
-  variant = 'dashboard',
+  variant = "dashboard",
 }: {
   children: React.ReactNode | React.ReactNode[]
-  variant: 'dashboard' | 'logoOnly' | 'main'
+  variant: "dashboard" | "logoOnly" | "main"
 }) {
   const { t } = useTranslate()
   const { push } = useRouter()
@@ -36,17 +36,17 @@ function Layout({
     if (user) setOpenDialog(user.hasToChangePassword)
   }, [user])
 
-  const isDesktop = useResponsive('lg', 'up')
+  const isDesktop = useResponsive("lg", "up")
 
-  if (variant === 'main') {
+  if (variant === "main") {
     return <> {children} </>
   }
 
-  if (variant === 'logoOnly') {
+  if (variant === "logoOnly") {
     return <LogoOnlyLayout> {children} </LogoOnlyLayout>
   }
 
-  if (themeLayout === 'vertical')
+  if (themeLayout === "vertical")
     return (
       <AuthGuard>
         {/* <Alert intent='warning' variant='ghost' className='mb-1 rounded-none'>
@@ -68,17 +68,17 @@ function Layout({
         </div>
         <AlertDialog
           open={openDialog}
-          title={t('Temporary Password')}
+          title={t("Temporary Password")}
           description={
             <p className='py-2 text-sm'>
-              {t('You have a temporary password. For your security, please change your password ')}
+              {t("You have a temporary password. For your security, please change your password ")}
             </p>
           }
-          confirmText={t('Proceed to password change')}
+          confirmText={t("Proceed to password change")}
           onConfirm={() => {
             push({
               pathname: PATH_ACCOUNT.profile,
-              query: { tab: 'password' },
+              query: { tab: "password" },
             })
             setOpenDialog(false)
           }}
@@ -110,17 +110,17 @@ function Layout({
       </div>
       <AlertDialog
         open={openDialog}
-        title={t('Temporary Password')}
+        title={t("Temporary Password")}
         description={
           <p className='py-2 text-sm'>
-            {t('You have a temporary password. For your security, please change your password ')}
+            {t("You have a temporary password. For your security, please change your password ")}
           </p>
         }
-        confirmText={t('Proceed to password change')}
+        confirmText={t("Proceed to password change")}
         onConfirm={() => {
           push({
             pathname: PATH_ACCOUNT.profile,
-            query: { tab: 'password' },
+            query: { tab: "password" },
           })
           setOpenDialog(false)
         }}

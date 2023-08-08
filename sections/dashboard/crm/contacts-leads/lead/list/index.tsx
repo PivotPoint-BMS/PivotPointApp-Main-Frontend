@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { useEffect, useState } from 'react'
-import { min } from 'lodash'
-import clsx from 'clsx'
+import React, { useEffect, useState } from "react"
+import { min } from "lodash"
+import clsx from "clsx"
 // next
-import { useRouter } from 'next/router'
-import Image from 'next/image'
+import { useRouter } from "next/router"
+import Image from "next/image"
 // hooks
-import useTranslate from 'hooks/useTranslate'
-import useSnackbar from 'hooks/useSnackbar'
+import useTranslate from "hooks/useTranslate"
+import useSnackbar from "hooks/useSnackbar"
 // routes
-import { PATH_DASHBOARD } from 'routes/paths'
+import { PATH_DASHBOARD } from "routes/paths"
 // redux
-import { wrapper } from 'store'
-import { useAppDispatch, useAppSelector } from 'store/hooks'
-import { previewLead } from 'store/slices/leadPreviewSlice'
+import { wrapper } from "store"
+import { useAppDispatch, useAppSelector } from "store/hooks"
+import { previewLead } from "store/slices/leadPreviewSlice"
 import {
   getLeads,
   getRunningQueriesThunk,
@@ -21,13 +21,13 @@ import {
   useConvertToContactMutation,
   useDeleteLeadMutation,
   useGetLeadsQuery,
-} from 'store/api/crm/contact-leads/leadApis'
-import { useGetAllLeadSourcesQuery } from 'store/api/crm/contact-leads/leadSourceApi'
-import { changePageNumber, changePageSize, resetpagination } from 'store/slices/paginationSlice'
+} from "store/api/crm/contact-leads/leadApis"
+import { useGetAllLeadSourcesQuery } from "store/api/crm/contact-leads/leadSourceApi"
+import { changePageNumber, changePageSize, resetpagination } from "store/slices/paginationSlice"
 // config
-import { LEAD_PRIORITIES, PIVOTPOINT_API } from 'config'
+import { LEAD_PRIORITIES, PIVOTPOINT_API } from "config"
 // types
-import { Lead } from 'types'
+import { Lead } from "types"
 // components
 import {
   useReactTable,
@@ -37,8 +37,8 @@ import {
   RowSelectionState,
   SortingState,
   getSortedRowModel,
-} from '@tanstack/react-table'
-import Select from 'react-select'
+} from "@tanstack/react-table"
+import Select from "react-select"
 import {
   AlertDialog,
   Backdrop,
@@ -52,10 +52,10 @@ import {
   Tooltip,
   Select as MySelect,
   IndeterminateCheckbox,
-} from 'components'
-import { Icon, Icon as Iconify } from '@iconify/react'
-import LeadTableToolbar from './LeadTableToolbar'
-import LeadPreview from './LeadPreview'
+} from "components"
+import { Icon, Icon as Iconify } from "@iconify/react"
+import LeadTableToolbar from "./LeadTableToolbar"
+import LeadPreview from "./LeadPreview"
 
 export default function LeadsList() {
   const { t } = useTranslate()
@@ -70,7 +70,7 @@ export default function LeadsList() {
   // Pagination
   const { PageSize, PageNumber } = useAppSelector((state) => state.pagination)
   // Filters
-  const [searchValue, setSearchValue] = useState('')
+  const [searchValue, setSearchValue] = useState("")
   const [source, setSource] = useState<{ value: string; label: string } | null>(null)
   const [selectedPriority, setSelectedPriority] = useState<{ value: string; label: string } | null>(
     null
@@ -112,7 +112,7 @@ export default function LeadsList() {
 
   const columns = [
     columnHelper.accessor((row) => ({ fullName: row.fullName, picture: row.picture }), {
-      id: 'select',
+      id: "select",
       size: 24,
       enableSorting: false,
       header: ({ table }) => (
@@ -136,8 +136,8 @@ export default function LeadsList() {
       ),
     }),
     columnHelper.accessor((row) => ({ fullName: row.fullName, picture: row.picture }), {
-      id: 'fullName',
-      header: () => t('Full Name'),
+      id: "fullName",
+      header: () => t("Full Name"),
       cell: (info) => (
         <div className='flex items-center gap-2'>
           <div className='h-12 w-12'>
@@ -154,38 +154,38 @@ export default function LeadsList() {
       ),
     }),
     columnHelper.accessor((row) => ({ email: row.email, phoneNumber: row.phoneNumber }), {
-      id: 'contact',
-      header: () => t('Contact'),
+      id: "contact",
+      header: () => t("Contact"),
       cell: (info) => (
         <div className='flex flex-col gap-2'>
           <p className='hyphens  flex items-center gap-1 truncate text-sm'>
-            <Iconify icon='material-symbols:mail-rounded' height={18} className='text-gray-500' />{' '}
-            {info.getValue().email}{' '}
+            <Iconify icon='material-symbols:mail-rounded' height={18} className='text-gray-500' />{" "}
+            {info.getValue().email}{" "}
           </p>
           <p className='flex items-center gap-1 truncate text-sm'>
-            <Iconify icon='material-symbols:call' height={18} className='text-gray-500' />{' '}
-            {info.getValue().phoneNumber}{' '}
+            <Iconify icon='material-symbols:call' height={18} className='text-gray-500' />{" "}
+            {info.getValue().phoneNumber}{" "}
           </p>
         </div>
       ),
     }),
-    columnHelper.accessor('priority', {
-      id: 'priority ',
-      header: () => t('Priority'),
+    columnHelper.accessor("priority", {
+      id: "priority ",
+      header: () => t("Priority"),
       cell: (priority) => {
         if (priority.getValue() === 1)
-          return <Badge variant='ghost' intent='success' size='small' label={t('Low')} />
+          return <Badge variant='ghost' intent='success' size='small' label={t("Low")} />
         if (priority.getValue() === 2)
-          return <Badge variant='ghost' intent='warning' size='small' label={t('Medium')} />
+          return <Badge variant='ghost' intent='warning' size='small' label={t("Medium")} />
         if (priority.getValue() === 3)
-          return <Badge variant='ghost' intent='error' size='small' label={t('High')} />
+          return <Badge variant='ghost' intent='error' size='small' label={t("High")} />
 
-        return <Badge variant='ghost' intent='info' size='small' label={t('Unassined')} />
+        return <Badge variant='ghost' intent='info' size='small' label={t("Unassined")} />
       },
     }),
-    columnHelper.accessor('leadSource', {
-      id: 'leadSource ',
-      header: () => t('Source'),
+    columnHelper.accessor("leadSource", {
+      id: "leadSource ",
+      header: () => t("Source"),
       cell: (leadSource) =>
         leadSource.getValue().source ? (
           <Badge
@@ -196,24 +196,24 @@ export default function LeadsList() {
             className='capitalize'
           />
         ) : (
-          <Badge variant='ghost' intent='error' size='small' label={t('None')} />
+          <Badge variant='ghost' intent='error' size='small' label={t("None")} />
         ),
     }),
     columnHelper.accessor((row) => row, {
-      id: 'actions ',
+      id: "actions ",
       size: 1,
       enableSorting: false,
-      header: () => <p className='w-full text-right'>{t('Actions')}</p>,
+      header: () => <p className='w-full text-right'>{t("Actions")}</p>,
       cell: (lead) => (
         <div className='flex items-center justify-end gap-2'>
-          <Tooltip title={t('View Details')} side='bottom'>
+          <Tooltip title={t("View Details")} side='bottom'>
             <IconButton
-              onClick={() => push(PATH_DASHBOARD.crm['contacts-leads'].lead(lead.getValue().id))}
+              onClick={() => push(PATH_DASHBOARD.crm["contacts-leads"].lead(lead.getValue().id))}
             >
               <Iconify icon='mingcute:external-link-fill' height={18} />
             </IconButton>
           </Tooltip>
-          <Tooltip title={t('Preview')} side='bottom'>
+          <Tooltip title={t("Preview")} side='bottom'>
             <IconButton onClick={() => dispatch(previewLead(lead.getValue()))}>
               <Iconify icon='material-symbols:preview' height={18} />
             </IconButton>
@@ -221,30 +221,30 @@ export default function LeadsList() {
           <DropdownMenu
             trigger={
               <IconButton>
-                <Tooltip title={t('More')} side='bottom' sideOffset={10}>
+                <Tooltip title={t("More")} side='bottom' sideOffset={10}>
                   <Iconify icon='material-symbols:more-vert' height={20} />
                 </Tooltip>
               </IconButton>
             }
             items={[
               {
-                type: 'button',
-                label: t('Edit'),
+                type: "button",
+                label: t("Edit"),
                 icon: <Iconify icon='ic:round-edit' height={18} />,
-                onClick: () => push(PATH_DASHBOARD.crm['contacts-leads'].edit(lead.getValue().id)),
+                onClick: () => push(PATH_DASHBOARD.crm["contacts-leads"].edit(lead.getValue().id)),
               },
               {
-                type: 'button',
-                label: t('Convert to Contact'),
+                type: "button",
+                label: t("Convert to Contact"),
                 icon: <Iconify icon='material-symbols:person-add-rounded' height={18} />,
                 loading: isConvertLoading,
                 onClick: () => convertToContact({ id: lead.getValue().id, PageNumber, PageSize }),
               },
               {
-                type: 'button',
-                label: t('Delete'),
+                type: "button",
+                label: t("Delete"),
                 icon: <Iconify icon='ic:round-delete' height={18} />,
-                className: 'text-red-600 dark:text-red-400',
+                className: "text-red-600 dark:text-red-400",
                 loading: isDeleteLeading,
                 onClick: () => setIdToDelete(lead.getValue().id),
               },
@@ -258,18 +258,18 @@ export default function LeadsList() {
   useEffect(() => {
     if (isDeleteError) {
       open({
-        message: t('A problem has occurred.'),
+        message: t("A problem has occurred."),
         autoHideDuration: 4000,
-        type: 'error',
-        variant: 'contained',
+        type: "error",
+        variant: "contained",
       })
     }
     if (isDeleteSuccess) {
       open({
-        message: t('Lead Deleted Successfully.'),
+        message: t("Lead Deleted Successfully."),
         autoHideDuration: 4000,
-        type: 'success',
-        variant: 'contained',
+        type: "success",
+        variant: "contained",
       })
     }
   }, [isDeleteError, isDeleteSuccess])
@@ -277,22 +277,22 @@ export default function LeadsList() {
   useEffect(() => {
     if (isConvertError) {
       open({
-        message: t('A problem has occurred.'),
+        message: t("A problem has occurred."),
         autoHideDuration: 4000,
-        type: 'error',
-        variant: 'contained',
+        type: "error",
+        variant: "contained",
       })
     }
     if (isConvertSuccess) {
       open({
-        message: t('Lead Added Successfully.'),
+        message: t("Lead Added Successfully."),
         autoHideDuration: 4000,
-        type: 'success',
-        variant: 'contained',
+        type: "success",
+        variant: "contained",
       })
       push({
-        pathname: PATH_DASHBOARD.crm['contacts-leads'].root,
-        query: { tab: 'contacts' },
+        pathname: PATH_DASHBOARD.crm["contacts-leads"].root,
+        query: { tab: "contacts" },
       })
     }
   }, [isConvertError, isConvertSuccess])
@@ -336,8 +336,8 @@ export default function LeadsList() {
   useEffect(() => {
     setSelectedIds(
       data?.data
-        .map((lead, i) => (Object.keys(rowSelection).includes(i.toString()) ? lead.id : ''))
-        .filter((item) => item !== '') || []
+        .map((lead, i) => (Object.keys(rowSelection).includes(i.toString()) ? lead.id : ""))
+        .filter((item) => item !== "") || []
     )
   }, [rowSelection])
 
@@ -352,9 +352,9 @@ export default function LeadsList() {
     <>
       <div className='flex items-center justify-center gap-6 p-3 '>
         <TextField
-          placeholder={t('Search...')}
+          placeholder={t("Search...")}
           endAdornment={
-            <IconButton onClick={() => setSearchTerm(searchValue === '' ? undefined : searchValue)}>
+            <IconButton onClick={() => setSearchTerm(searchValue === "" ? undefined : searchValue)}>
               <Iconify icon='ion:search-outline' height={18} className='text-gray-500' />
             </IconButton>
           }
@@ -362,29 +362,29 @@ export default function LeadsList() {
           onChange={(e) => setSearchValue(e.target.value)}
           className='flex h-full'
           onKeyDown={(e) => {
-            if (e.key === 'Enter')
-              setSearchTerm(e.currentTarget.value === '' ? undefined : e.currentTarget.value)
+            if (e.key === "Enter")
+              setSearchTerm(e.currentTarget.value === "" ? undefined : e.currentTarget.value)
           }}
         />
         <Popover
           trigger={
             <Button
               variant='outlined'
-              intent={filters.LeadPriority || filters.LeadSourceId ? 'secondary' : 'default'}
+              intent={filters.LeadPriority || filters.LeadSourceId ? "secondary" : "default"}
               size='large'
               className='h-full'
               startIcon={<Iconify icon='material-symbols:filter-list-rounded' height={20} />}
             >
-              {t('Filters')}
+              {t("Filters")}
             </Button>
           }
           align='start'
         >
           <div className='flex flex-col items-start px-2'>
-            <h1 className='mb-4 font-semibold'>{t('Filters')}</h1>
+            <h1 className='mb-4 font-semibold'>{t("Filters")}</h1>
             <div className='flex flex-col gap-4'>
               <div className='flex w-full flex-col items-start gap-1'>
-                <label className='text-sm font-medium dark:text-white'>{t('Lead Source')}</label>
+                <label className='text-sm font-medium dark:text-white'>{t("Lead Source")}</label>
                 <Select
                   options={sourcesList}
                   isLoading={isSourcesLoading}
@@ -395,11 +395,11 @@ export default function LeadsList() {
                   className='react-select-container'
                   classNamePrefix='react-select'
                   isClearable
-                  placeholder={t('Select Source')}
+                  placeholder={t("Select Source")}
                 />
               </div>
               <div className='flex w-full flex-col items-start gap-1'>
-                <label className='text-sm font-medium dark:text-white'>{t('Priority')}</label>
+                <label className='text-sm font-medium dark:text-white'>{t("Priority")}</label>
                 <Select
                   options={LEAD_PRIORITIES.map((item) => ({
                     value: item.value.toString(),
@@ -413,11 +413,11 @@ export default function LeadsList() {
                   className='react-select-container'
                   classNamePrefix='react-select'
                   isClearable
-                  placeholder={t('Select Priority')}
+                  placeholder={t("Select Priority")}
                 />
               </div>
               <Button variant='outlined' intent='secondary' onClick={handleFilter}>
-                {t('Filter')}
+                {t("Filter")}
               </Button>
             </div>
           </div>
@@ -449,8 +449,8 @@ export default function LeadsList() {
                                 <div
                                   {...{
                                     className: header.column.getCanSort()
-                                      ? 'cursor-pointer select-none flex items-center gap-2'
-                                      : '',
+                                      ? "cursor-pointer select-none flex items-center gap-2"
+                                      : "",
                                     onClick: header.column.getToggleSortingHandler(),
                                   }}
                                 >
@@ -481,8 +481,8 @@ export default function LeadsList() {
                         <tr
                           key={row.id}
                           className={clsx(
-                            'cursor-pointer border-b last-of-type:border-b-0 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-paper-hover-dark',
-                            row.getIsSelected() && 'bg-gray-50 dark:bg-paper-hover-dark/80'
+                            "cursor-pointer border-b last-of-type:border-b-0 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-paper-hover-dark",
+                            row.getIsSelected() && "bg-gray-50 dark:bg-paper-hover-dark/80"
                           )}
                           onDoubleClick={() => dispatch(previewLead(row.original))}
                         >
@@ -504,25 +504,25 @@ export default function LeadsList() {
                   </table>
                   <div className='flex w-max min-w-full items-center justify-end divide-x border-t p-4 rtl:divide-x-reverse dark:divide-gray-600 dark:border-gray-600'>
                     <div className='flex items-center justify-center gap-2 px-2'>
-                      <p className='text-sm'>{t('Row per page : ')}</p>
+                      <p className='text-sm'>{t("Row per page : ")}</p>
                       <MySelect
-                        items={['10', '25', '50'].map((item) => ({ label: item, value: item }))}
+                        items={["10", "25", "50"].map((item) => ({ label: item, value: item }))}
                         onValueChange={(page) => dispatch(changePageSize(Number(page)))}
                         value={String(PageSize)}
-                        buttonProps={{ intent: 'default' }}
+                        buttonProps={{ intent: "default" }}
                       />
                     </div>
                     <div className='flex h-full items-center justify-center gap-2 p-2 '>
                       <p className='text-sm'>
                         {(data.pageNumber - 1) * (data.pageSize + 1) === 0
                           ? 1
-                          : (data.pageNumber - 1) * (data.pageSize + 1)}{' '}
-                        - {min([data.pageNumber * data.pageSize, data.totalRecords])} {t('of')}{' '}
+                          : (data.pageNumber - 1) * (data.pageSize + 1)}{" "}
+                        - {min([data.pageNumber * data.pageSize, data.totalRecords])} {t("of")}{" "}
                         {data.totalRecords}
                       </p>
                     </div>
                     <div className='flex items-center justify-center gap-2 px-2'>
-                      <Tooltip side='bottom' title={t('First page')}>
+                      <Tooltip side='bottom' title={t("First page")}>
                         <IconButton
                           className='border dark:border-gray-600'
                           onClick={() => dispatch(changePageNumber(1))}
@@ -534,7 +534,7 @@ export default function LeadsList() {
                           />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip side='bottom' title={t('Previous page')}>
+                      <Tooltip side='bottom' title={t("Previous page")}>
                         <IconButton
                           className='border dark:border-gray-600'
                           onClick={() =>
@@ -546,9 +546,9 @@ export default function LeadsList() {
                         </IconButton>
                       </Tooltip>
                       <p className='text-sm'>
-                        {t('Page')} {PageNumber} {t('of')} {data.totalPages}
+                        {t("Page")} {PageNumber} {t("of")} {data.totalPages}
                       </p>
-                      <Tooltip side='bottom' title={t('Next page')}>
+                      <Tooltip side='bottom' title={t("Next page")}>
                         <IconButton
                           className='border dark:border-gray-600'
                           onClick={() =>
@@ -563,7 +563,7 @@ export default function LeadsList() {
                           <Icon icon='fluent:chevron-right-20-filled' className='rtl:rotate-180' />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip side='bottom' title={t('Last page')}>
+                      <Tooltip side='bottom' title={t("Last page")}>
                         <IconButton
                           className='border dark:border-gray-600'
                           onClick={() => dispatch(changePageNumber(data.totalPages))}
@@ -588,25 +588,25 @@ export default function LeadsList() {
             </>
           ) : (
             <div className='flex h-56 flex-col items-center justify-center gap-2 px-4 py-2'>
-              <h1 className='text-xl font-semibold'>{t('No Lead Found')}</h1>
+              <h1 className='text-xl font-semibold'>{t("No Lead Found")}</h1>
             </div>
           )}
         </>
       )}
       <Backdrop loading={isDeleteLeading} />
       <AlertDialog
-        title={t('Confirm Delete')}
-        description={t('This action cannot be undone. This will permanently delete this lead.')}
-        cancelText={t('Cancel')}
-        confirmText={t('Yes, Delete')}
+        title={t("Confirm Delete")}
+        description={t("This action cannot be undone. This will permanently delete this lead.")}
+        cancelText={t("Cancel")}
+        confirmText={t("Yes, Delete")}
         onConfirm={() => {
-          deleteLead({ id: idToDelete || '', PageNumber, PageSize })
-          invalidateTags(['Leads'])
+          deleteLead({ id: idToDelete || "", PageNumber, PageSize })
+          invalidateTags(["Leads"])
           setIdToDelete(null)
         }}
         open={idToDelete !== null}
         onClose={() => setIdToDelete(null)}
-        buttonProps={{ intent: 'error' }}
+        buttonProps={{ intent: "error" }}
       />
     </>
   )

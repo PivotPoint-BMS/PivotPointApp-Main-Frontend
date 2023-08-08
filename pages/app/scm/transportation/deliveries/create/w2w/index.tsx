@@ -1,16 +1,16 @@
-import React from 'react'
+import React from "react"
 // next
 // next
-import Head from 'next/head'
+import Head from "next/head"
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 // routes
 // layout
-import Layout from 'layout/Index'
-import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs'
-import { PATH_DASHBOARD } from 'routes/paths'
+import Layout from "layout/Index"
+import HeaderBreadcrumbs from "components/HeaderBreadcrumbs"
+import { PATH_DASHBOARD } from "routes/paths"
 // sections
-import CreateEditW2WDeliveryForm from 'sections/dashboard/scm/transportation/deliveries/create/w2w/CreateEditW2WDeliveryForm'
+import CreateEditW2WDeliveryForm from "sections/dashboard/scm/transportation/deliveries/create/w2w/CreateEditW2WDeliveryForm"
 
 // components
 
@@ -20,16 +20,16 @@ function index() {
   return (
     <>
       <Head>
-        <title>{t('New Delivery')} | Pivot Point BMS</title>
+        <title>{t("New Delivery")} | Pivot Point BMS</title>
       </Head>
       <div className='flex max-w-full flex-col px-5'>
         <HeaderBreadcrumbs
-          heading={t('New Delivery')}
+          heading={t("New Delivery")}
           links={[
-            { name: t('Dashboard'), href: PATH_DASHBOARD.root },
-            { name: t('Supply Chain & Inventory'), href: PATH_DASHBOARD.scm.dashboard },
-            { name: t('Transportation'), href: PATH_DASHBOARD.scm.transportation.root },
-            { name: t('New Delivery') },
+            { name: t("Dashboard"), href: PATH_DASHBOARD.root },
+            { name: t("Supply Chain & Inventory"), href: PATH_DASHBOARD.scm.dashboard },
+            { name: t("Transportation"), href: PATH_DASHBOARD.scm.transportation.root },
+            { name: t("New Delivery") },
           ]}
         />
         <CreateEditW2WDeliveryForm />

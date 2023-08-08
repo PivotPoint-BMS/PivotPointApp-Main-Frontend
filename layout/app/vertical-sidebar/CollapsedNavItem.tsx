@@ -1,16 +1,16 @@
-import clsx from 'clsx'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
+import clsx from "clsx"
+import Link from "next/link"
+import { useRouter } from "next/router"
 // radix
 // hooks
-import useTranslate from 'hooks/useTranslate'
-import { useAppSelector } from 'store/hooks'
+import useTranslate from "hooks/useTranslate"
+import { useAppSelector } from "store/hooks"
 // utils
-import getActivePath from 'utils/getActivePath'
+import getActivePath from "utils/getActivePath"
 // utils
-import { Icon } from '@iconify/react'
-import DropdownMenu, { MenuItemProps } from 'components/DropdownMenu'
-import { concat } from 'lodash'
+import { Icon } from "@iconify/react"
+import DropdownMenu, { MenuItemProps } from "components/DropdownMenu"
+import { concat } from "lodash"
 
 export type CollapsedNavItemProps =
   | {
@@ -28,7 +28,7 @@ export type CollapsedNavItemProps =
         icon?: string
         disabled?: boolean
         badge?: {
-          color?: 'primary' | 'secondary' | 'info' | 'warning' | 'error' | 'success' | 'default'
+          color?: "primary" | "secondary" | "info" | "warning" | "error" | "success" | "default"
           label: string
         }
         onClick?: () => void
@@ -52,7 +52,7 @@ function CollapsedNavItem({
   icon,
   asLink = false,
   disabled,
-  href = '',
+  href = "",
   root,
   onClick,
   subItems,
@@ -66,23 +66,23 @@ function CollapsedNavItem({
   return asLink ? (
     <DropdownMenu
       className='w-full'
-      contentProps={{ align: 'center', side: 'right' }}
+      contentProps={{ align: "center", side: "right" }}
       trigger={
         <div
           className={clsx(
-            'flex aspect-square w-full cursor-pointer items-center justify-center rounded-lg p-3 hover:bg-gray-500/10',
+            "flex aspect-square w-full cursor-pointer items-center justify-center rounded-lg p-3 hover:bg-gray-500/10",
             active &&
-              'bg-primary-600/20 text-primary-900 hover:!bg-primary-500/25 dark:bg-primary-800/25 dark:text-primary-100',
+              "bg-primary-600/20 text-primary-900 hover:!bg-primary-500/25 dark:bg-primary-800/25 dark:text-primary-100",
             disabled ||
-              (roles && user?.position.every((item) => !roles?.includes(item)) && 'opacity-40')
+              (roles && user?.position.every((item) => !roles?.includes(item)) && "opacity-40")
           )}
         >
           {subItems ? (
             <div
               className={clsx(
-                'flex flex-1 items-center justify-center whitespace-normal',
+                "flex flex-1 items-center justify-center whitespace-normal",
                 (disabled || (roles && user?.position.every((item) => !roles?.includes(item)))) &&
-                  'pointer-events-none cursor-not-allowed opacity-40 hover:bg-secondary-500/10 dark:hover:bg-gray-300/10'
+                  "pointer-events-none cursor-not-allowed opacity-40 hover:bg-secondary-500/10 dark:hover:bg-gray-300/10"
               )}
             >
               {icon}
@@ -91,9 +91,9 @@ function CollapsedNavItem({
             <Link
               href={href}
               className={clsx(
-                'flex flex-1 items-center justify-center whitespace-normal',
+                "flex flex-1 items-center justify-center whitespace-normal",
                 (disabled || (roles && user?.position.every((item) => !roles?.includes(item)))) &&
-                  'pointer-events-none cursor-not-allowed opacity-40 hover:bg-secondary-500/10 dark:hover:bg-gray-300/10'
+                  "pointer-events-none cursor-not-allowed opacity-40 hover:bg-secondary-500/10 dark:hover:bg-gray-300/10"
               )}
               onClick={onClick}
             >
@@ -103,15 +103,15 @@ function CollapsedNavItem({
         </div>
       }
       items={concat<MenuItemProps>(
-        [{ type: 'text', label: t(name), className: 'font-bold text-sm' }],
+        [{ type: "text", label: t(name), className: "font-bold text-sm" }],
         subItems?.map((item) => ({
-          type: 'button',
-          icon: <Icon icon={item.icon || ''} height={18} width={18} />,
+          type: "button",
+          icon: <Icon icon={item.icon || ""} height={18} width={18} />,
           label: t(item.name),
-          onClick: () => push(item.href || ''),
+          onClick: () => push(item.href || ""),
           disabled: item.disabled,
           badge: item.badge,
-          className: 'font-normal',
+          className: "font-normal",
         })) || []
       )}
     />

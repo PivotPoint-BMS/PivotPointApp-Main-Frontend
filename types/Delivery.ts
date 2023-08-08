@@ -1,5 +1,5 @@
-import Supplier from './Supplier'
-import Vehicle from './Vehicle'
+import Supplier from "./Supplier"
+import Vehicle from "./Vehicle"
 
 export interface DeliveryItem {
   id: string

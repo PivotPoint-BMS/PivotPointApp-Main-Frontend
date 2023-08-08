@@ -1,23 +1,23 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { HYDRATE } from 'next-redux-wrapper'
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { HYDRATE } from "next-redux-wrapper"
 // config
-import { PIVOTPOINT_API } from 'config'
+import { PIVOTPOINT_API } from "config"
 // types
-import { Category, IGenericResponse, ListGenericResponse, Product, RequestParams } from 'types'
+import { Category, IGenericResponse, ListGenericResponse, Product, RequestParams } from "types"
 // store
-import { RootState } from 'store'
-import RequestSearchParams from 'types/RequestSearchParams'
+import { RootState } from "store"
+import RequestSearchParams from "types/RequestSearchParams"
 // import { assign } from 'lodash'
 
 export const productsApi = createApi({
-  reducerPath: 'productsApi',
+  reducerPath: "productsApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${PIVOTPOINT_API.baseUrl}/scm`,
     prepareHeaders: (headers, { getState }) => {
       const { token } = (getState() as RootState).session
 
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
+        headers.set("Authorization", `Bearer ${token}`)
       }
 
       return headers
@@ -32,28 +32,28 @@ export const productsApi = createApi({
   endpoints: (builder) => ({
     getProducts: builder.query<ListGenericResponse<Product[]>, RequestSearchParams>({
       query: (params) => ({
-        url: 'Products',
+        url: "Products",
         params,
       }),
     }),
     getAllProducts: builder.query<ListGenericResponse<Product[]>, { searchTerm?: string }>({
       query: (params) => ({
-        url: 'Products/Summary',
+        url: "Products/Summary",
         params,
       }),
     }),
     getCategories: builder.query<ListGenericResponse<Category[]>, void>({
-      query: () => 'Categories',
+      query: () => "Categories",
     }),
     getProduct: builder.query<IGenericResponse<Product>, string>({
       query: (id) => `Products/${id}`,
     }),
     createProduct: builder.mutation<IGenericResponse<Product>, { data: FormData } & RequestParams>({
       query: ({ data }) => ({
-        url: 'Products',
-        method: 'POST',
+        url: "Products",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ PageNumber, PageSize }, { dispatch, queryFulfilled }) {
         try {
@@ -62,7 +62,7 @@ export const productsApi = createApi({
           } = await queryFulfilled
           dispatch(
             productsApi.util.updateQueryData(
-              'getProducts',
+              "getProducts",
               { PageNumber, PageSize },
               (draftedList) => {
                 draftedList.data.push(data)
@@ -71,7 +71,7 @@ export const productsApi = createApi({
           )
           dispatch(
             productsApi.util.updateQueryData(
-              'getAllProducts',
+              "getAllProducts",
               { searchTerm: undefined },
               (draftedList) => {
                 draftedList.data.push(data)
@@ -83,12 +83,12 @@ export const productsApi = createApi({
         }
       },
     }),
-    createCategory: builder.mutation<IGenericResponse<Category>, Omit<Category, 'id'>>({
+    createCategory: builder.mutation<IGenericResponse<Category>, Omit<Category, "id">>({
       query: (data) => ({
-        url: 'Categories',
-        method: 'POST',
+        url: "Categories",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
@@ -96,7 +96,7 @@ export const productsApi = createApi({
             data: { data },
           } = await queryFulfilled
           dispatch(
-            productsApi.util.updateQueryData('getCategories', undefined, (draftedList) => {
+            productsApi.util.updateQueryData("getCategories", undefined, (draftedList) => {
               draftedList.data.push(data)
             })
           )
@@ -111,9 +111,9 @@ export const productsApi = createApi({
     >({
       query: ({ id, data }) => ({
         url: `Products/${id}`,
-        method: 'PUT',
+        method: "PUT",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
 
       async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
@@ -124,7 +124,7 @@ export const productsApi = createApi({
 
           dispatch(
             productsApi.util.updateQueryData(
-              'getProducts',
+              "getProducts",
               { PageNumber, PageSize },
               (draftedList) => {
                 draftedList.data.map((product) => {
@@ -136,7 +136,7 @@ export const productsApi = createApi({
           )
           dispatch(
             productsApi.util.updateQueryData(
-              'getAllProducts',
+              "getAllProducts",
               { searchTerm: undefined },
               (draftedList) => {
                 draftedList.data.map((product) => {
@@ -147,7 +147,7 @@ export const productsApi = createApi({
             )
           )
           dispatch(
-            productsApi.util.updateQueryData('getProduct', id, (draft) => {
+            productsApi.util.updateQueryData("getProduct", id, (draft) => {
               Object.assign(draft.data, data)
             })
           )
@@ -159,9 +159,9 @@ export const productsApi = createApi({
     editCategory: builder.mutation<IGenericResponse<Category>, Category>({
       query: ({ id, ...data }) => ({
         url: `Categories/${id}`,
-        method: 'PUT',
+        method: "PUT",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
 
       async onQueryStarted({ id }, { dispatch, queryFulfilled }) {
@@ -171,7 +171,7 @@ export const productsApi = createApi({
           } = await queryFulfilled
 
           dispatch(
-            productsApi.util.updateQueryData('getCategories', undefined, (draftedList) => {
+            productsApi.util.updateQueryData("getCategories", undefined, (draftedList) => {
               draftedList.data.map((product) => {
                 if (product.id === id) return data
                 return product
@@ -179,7 +179,7 @@ export const productsApi = createApi({
             })
           )
           dispatch(
-            productsApi.util.updateQueryData('getProduct', id, (draft) => {
+            productsApi.util.updateQueryData("getProduct", id, (draft) => {
               Object.assign(draft.data, data)
             })
           )
@@ -191,15 +191,15 @@ export const productsApi = createApi({
     deleteProduct: builder.mutation<IGenericResponse<Product>, { id: string } & RequestParams>({
       query: ({ id }) => ({
         url: `Products/${id}`,
-        method: 'DELETE',
-        responseHandler: 'content-type',
+        method: "DELETE",
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
           dispatch(
             productsApi.util.updateQueryData(
-              'getProducts',
+              "getProducts",
               { PageNumber, PageSize },
               (draftedList) => ({
                 ...draftedList,
@@ -209,7 +209,7 @@ export const productsApi = createApi({
           )
           dispatch(
             productsApi.util.updateQueryData(
-              'getAllProducts',
+              "getAllProducts",
               { searchTerm: undefined },
               (draftedList) => ({
                 ...draftedList,
@@ -225,14 +225,14 @@ export const productsApi = createApi({
     deleteCategory: builder.mutation<IGenericResponse<Category>, string>({
       query: (id) => ({
         url: `Categories/${id}`,
-        method: 'DELETE',
-        responseHandler: 'content-type',
+        method: "DELETE",
+        responseHandler: "content-type",
       }),
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
           dispatch(
-            productsApi.util.updateQueryData('getCategories', undefined, (draftedList) => ({
+            productsApi.util.updateQueryData("getCategories", undefined, (draftedList) => ({
               ...draftedList,
               data: draftedList.data.filter((category) => category.id !== id),
             }))

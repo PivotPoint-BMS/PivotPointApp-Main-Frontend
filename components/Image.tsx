@@ -1,4 +1,4 @@
-import { Effect, LazyLoadImage, LazyLoadImageProps } from 'react-lazy-load-image-component'
+import { Effect, LazyLoadImage, LazyLoadImageProps } from "react-lazy-load-image-component"
 
 // ----------------------------------------------------------------------
 
@@ -10,7 +10,7 @@ interface ImageProps extends LazyLoadImageProps {
 
 export default function Image({
   disabledEffect = false,
-  effect = 'blur',
+  effect = "blur",
   className,
   ...other
 }: ImageProps) {

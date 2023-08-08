@@ -1,28 +1,28 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { useEffect, useState } from 'react'
-import { min } from 'lodash'
-import clsx from 'clsx'
+import React, { useEffect, useState } from "react"
+import { min } from "lodash"
+import clsx from "clsx"
 // next
-import { useRouter } from 'next/router'
-import Link from 'next/link'
+import { useRouter } from "next/router"
+import Link from "next/link"
 // hooks
-import useTranslate from 'hooks/useTranslate'
-import useSnackbar from 'hooks/useSnackbar'
+import useTranslate from "hooks/useTranslate"
+import useSnackbar from "hooks/useSnackbar"
 // config
-import { PATH_DASHBOARD } from 'routes/paths'
+import { PATH_DASHBOARD } from "routes/paths"
 // redux
-import { wrapper } from 'store'
-import { useAppDispatch, useAppSelector } from 'store/hooks'
-import { editSupplier, previewSupplier } from 'store/slices/supplierPreviewSlice'
+import { wrapper } from "store"
+import { useAppDispatch, useAppSelector } from "store/hooks"
+import { editSupplier, previewSupplier } from "store/slices/supplierPreviewSlice"
 import {
   getRunningQueriesThunk,
   getSuppliers,
   useDeleteSupplierMutation,
   useGetSuppliersQuery,
-} from 'store/api/scm/products-service/suppliersApis'
-import { changePageNumber, changePageSize } from 'store/slices/paginationSlice'
+} from "store/api/scm/products-service/suppliersApis"
+import { changePageNumber, changePageSize } from "store/slices/paginationSlice"
 // types
-import { Supplier } from 'types'
+import { Supplier } from "types"
 // components
 import {
   useReactTable,
@@ -32,7 +32,7 @@ import {
   RowSelectionState,
   getSortedRowModel,
   SortingState,
-} from '@tanstack/react-table'
+} from "@tanstack/react-table"
 import {
   AlertDialog,
   Backdrop,
@@ -43,11 +43,11 @@ import {
   Tooltip,
   Select as MySelect,
   Dialog,
-} from 'components'
-import { Icon, Icon as Iconify } from '@iconify/react'
-import SupplierTableToolbar from './SuppliersTableToolbar'
-import SupplierPreview from './SupplierPreview'
-import CreateSupplierForm from '../create/CreateSupplierForm'
+} from "components"
+import { Icon, Icon as Iconify } from "@iconify/react"
+import SupplierTableToolbar from "./SuppliersTableToolbar"
+import SupplierPreview from "./SupplierPreview"
+import CreateSupplierForm from "../create/CreateSupplierForm"
 
 export default function SuppliersList({
   openAddDialog,
@@ -67,7 +67,7 @@ export default function SuppliersList({
   // Pagination
   const { PageSize, PageNumber } = useAppSelector((state) => state.pagination)
   // Filters
-  const [searchValue, setSearchValue] = useState('')
+  const [searchValue, setSearchValue] = useState("")
   // Query Params
   const [SearchTerm, setSearchTerm] = useState<string | undefined>(undefined)
 
@@ -86,51 +86,51 @@ export default function SuppliersList({
   const columnHelper = createColumnHelper<Supplier>()
 
   const columns = [
-    columnHelper.accessor('name', {
-      id: 'name',
-      header: () => t('Full Name'),
+    columnHelper.accessor("name", {
+      id: "name",
+      header: () => t("Full Name"),
       cell: (info) => <p>{info.getValue()}</p>,
     }),
     columnHelper.accessor((row) => ({ email: row.email, phoneNumber: row.phoneNumber }), {
-      id: 'contact',
-      header: () => t('Contact'),
+      id: "contact",
+      header: () => t("Contact"),
       cell: (info) => (
         <div className='flex flex-col gap-2'>
           <p className='hyphens  flex items-center gap-1 truncate text-sm'>
-            <Iconify icon='material-symbols:mail-rounded' height={18} className='text-gray-500' />{' '}
-            {info.getValue().email}{' '}
+            <Iconify icon='material-symbols:mail-rounded' height={18} className='text-gray-500' />{" "}
+            {info.getValue().email}{" "}
           </p>
           <p className='flex items-center gap-1 truncate text-sm'>
-            <Iconify icon='material-symbols:call' height={18} className='text-gray-500' />{' '}
-            {info.getValue().phoneNumber}{' '}
+            <Iconify icon='material-symbols:call' height={18} className='text-gray-500' />{" "}
+            {info.getValue().phoneNumber}{" "}
           </p>
         </div>
       ),
     }),
-    columnHelper.accessor('address', {
-      id: 'address',
-      header: () => t('Address'),
+    columnHelper.accessor("address", {
+      id: "address",
+      header: () => t("Address"),
       cell: (info) => (
         <p className='hyphens  flex items-center gap-1 truncate text-sm'>
-          <Iconify icon='mdi:location' height={18} className='text-gray-500' /> {info.getValue()}{' '}
+          <Iconify icon='mdi:location' height={18} className='text-gray-500' /> {info.getValue()}{" "}
         </p>
       ),
     }),
     columnHelper.accessor((row) => row, {
-      id: 'actions ',
+      id: "actions ",
       size: 50,
       enableSorting: false,
-      header: () => <p className='w-full text-right'>{t('Actions')}</p>,
+      header: () => <p className='w-full text-right'>{t("Actions")}</p>,
       cell: (supplier) => (
         <div className='flex items-center justify-end gap-2'>
-          <Tooltip title={t('View Full Details')}>
-            <Link href={PATH_DASHBOARD.scm.supplier(supplier.getValue().id || '')}>
+          <Tooltip title={t("View Full Details")}>
+            <Link href={PATH_DASHBOARD.scm.supplier(supplier.getValue().id || "")}>
               <IconButton>
                 <Iconify icon='mingcute:external-link-fill' height={18} />
               </IconButton>
             </Link>
           </Tooltip>
-          <Tooltip title={t('Preview')} side='bottom'>
+          <Tooltip title={t("Preview")} side='bottom'>
             <IconButton onClick={() => dispatch(previewSupplier(supplier.getValue()))}>
               <Iconify icon='material-symbols:preview' height={18} />
             </IconButton>
@@ -138,23 +138,23 @@ export default function SuppliersList({
           <DropdownMenu
             trigger={
               <IconButton>
-                <Tooltip title={t('More')} side='bottom' sideOffset={10}>
+                <Tooltip title={t("More")} side='bottom' sideOffset={10}>
                   <Iconify icon='material-symbols:more-vert' height={20} />
                 </Tooltip>
               </IconButton>
             }
             items={[
               {
-                type: 'button',
-                label: t('Edit'),
+                type: "button",
+                label: t("Edit"),
                 icon: <Iconify icon='ic:round-edit' height={18} />,
                 onClick: () => dispatch(editSupplier(supplier.getValue())),
               },
               {
-                type: 'button',
-                label: t('Delete'),
+                type: "button",
+                label: t("Delete"),
                 icon: <Iconify icon='ic:round-delete' height={18} />,
-                className: 'text-red-600 dark:text-red-400 rtl:flex-row-reverse',
+                className: "text-red-600 dark:text-red-400 rtl:flex-row-reverse",
                 onClick: () => setIdToDelete(supplier.getValue().id),
               },
             ]}
@@ -167,18 +167,18 @@ export default function SuppliersList({
   useEffect(() => {
     if (isDeleteError) {
       open({
-        message: t('A problem has occurred.'),
+        message: t("A problem has occurred."),
         autoHideDuration: 4000,
-        type: 'error',
-        variant: 'contained',
+        type: "error",
+        variant: "contained",
       })
     }
     if (isDeleteSuccess) {
       open({
-        message: t('Supplier Deleted Successfully.'),
+        message: t("Supplier Deleted Successfully."),
         autoHideDuration: 4000,
-        type: 'success',
-        variant: 'contained',
+        type: "success",
+        variant: "contained",
       })
     }
   }, [isDeleteError, isDeleteSuccess])
@@ -208,19 +208,19 @@ export default function SuppliersList({
   useEffect(() => {
     setSelectedIds(
       data?.data
-        .map((supplier, i) => (Object.keys(rowSelection).includes(i.toString()) ? supplier.id : ''))
-        .filter((item) => item !== '') || []
+        .map((supplier, i) => (Object.keys(rowSelection).includes(i.toString()) ? supplier.id : ""))
+        .filter((item) => item !== "") || []
     )
   }, [rowSelection])
 
   return (
     <>
-      {' '}
+      {" "}
       <div className='p-3 '>
         <TextField
-          placeholder={t('Search...')}
+          placeholder={t("Search...")}
           endAdornment={
-            <IconButton onClick={() => setSearchTerm(searchValue === '' ? undefined : searchValue)}>
+            <IconButton onClick={() => setSearchTerm(searchValue === "" ? undefined : searchValue)}>
               <Iconify icon='ion:search-outline' height={18} className='text-gray-500' />
             </IconButton>
           }
@@ -228,8 +228,8 @@ export default function SuppliersList({
           onChange={(e) => setSearchValue(e.target.value)}
           className='flex h-full'
           onKeyDown={(e) => {
-            if (e.key === 'Enter')
-              setSearchTerm(e.currentTarget.value === '' ? undefined : e.currentTarget.value)
+            if (e.key === "Enter")
+              setSearchTerm(e.currentTarget.value === "" ? undefined : e.currentTarget.value)
           }}
         />
       </div>
@@ -259,8 +259,8 @@ export default function SuppliersList({
                                 <div
                                   {...{
                                     className: header.column.getCanSort()
-                                      ? 'cursor-pointer select-none flex items-center gap-2'
-                                      : '',
+                                      ? "cursor-pointer select-none flex items-center gap-2"
+                                      : "",
                                     onClick: header.column.getToggleSortingHandler(),
                                   }}
                                 >
@@ -291,8 +291,8 @@ export default function SuppliersList({
                         <tr
                           key={row.id}
                           className={clsx(
-                            'cursor-pointer border-b last-of-type:border-b-0 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-paper-hover-dark',
-                            row.getIsSelected() && 'bg-gray-50 dark:bg-paper-hover-dark/80'
+                            "cursor-pointer border-b last-of-type:border-b-0 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-paper-hover-dark",
+                            row.getIsSelected() && "bg-gray-50 dark:bg-paper-hover-dark/80"
                           )}
                           onDoubleClick={() => dispatch(previewSupplier(row.original))}
                         >
@@ -314,25 +314,25 @@ export default function SuppliersList({
                   </table>
                   <div className='flex w-full items-center justify-end divide-x border-t p-4 rtl:divide-x-reverse dark:divide-gray-600 dark:border-gray-600'>
                     <div className='flex items-center justify-center gap-2 px-2'>
-                      <p className='text-sm'>{t('Row per page : ')}</p>
+                      <p className='text-sm'>{t("Row per page : ")}</p>
                       <MySelect
-                        items={['10', '25', '50'].map((item) => ({ label: item, value: item }))}
+                        items={["10", "25", "50"].map((item) => ({ label: item, value: item }))}
                         onValueChange={(page) => dispatch(changePageSize(Number(page)))}
                         value={String(PageSize)}
-                        buttonProps={{ intent: 'default' }}
+                        buttonProps={{ intent: "default" }}
                       />
                     </div>
                     <div className='flex h-full items-center justify-center gap-2 p-2 '>
                       <p className='text-sm'>
                         {(data.pageNumber - 1) * (data.pageSize + 1) === 0
                           ? 1
-                          : (data.pageNumber - 1) * (data.pageSize + 1)}{' '}
-                        - {min([data.pageNumber * data.pageSize, data.totalRecords])} {t('of')}{' '}
+                          : (data.pageNumber - 1) * (data.pageSize + 1)}{" "}
+                        - {min([data.pageNumber * data.pageSize, data.totalRecords])} {t("of")}{" "}
                         {data.totalRecords}
                       </p>
                     </div>
                     <div className='flex items-center justify-center gap-2 px-2'>
-                      <Tooltip side='bottom' title={t('First page')}>
+                      <Tooltip side='bottom' title={t("First page")}>
                         <IconButton
                           className='border dark:border-gray-600'
                           onClick={() => dispatch(changePageNumber(1))}
@@ -344,7 +344,7 @@ export default function SuppliersList({
                           />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip side='bottom' title={t('Previous page')}>
+                      <Tooltip side='bottom' title={t("Previous page")}>
                         <IconButton
                           className='border dark:border-gray-600'
                           onClick={() =>
@@ -356,9 +356,9 @@ export default function SuppliersList({
                         </IconButton>
                       </Tooltip>
                       <p className='text-sm'>
-                        {t('Page')} {PageNumber} {t('of')} {data.totalPages}
+                        {t("Page")} {PageNumber} {t("of")} {data.totalPages}
                       </p>
-                      <Tooltip side='bottom' title={t('Next page')}>
+                      <Tooltip side='bottom' title={t("Next page")}>
                         <IconButton
                           className='border dark:border-gray-600'
                           onClick={() =>
@@ -373,7 +373,7 @@ export default function SuppliersList({
                           <Icon icon='fluent:chevron-right-20-filled' className='rtl:rotate-180' />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip side='bottom' title={t('Last page')}>
+                      <Tooltip side='bottom' title={t("Last page")}>
                         <IconButton
                           className='border dark:border-gray-600'
                           onClick={() => dispatch(changePageNumber(data.totalPages))}
@@ -398,13 +398,13 @@ export default function SuppliersList({
             </>
           ) : (
             <div className='flex h-56 flex-col items-center justify-center gap-2 px-4 py-2'>
-              <h1 className='text-xl font-semibold'>{t('No Supplier Found')}</h1>
+              <h1 className='text-xl font-semibold'>{t("No Supplier Found")}</h1>
             </div>
           )}
         </>
       )}
       <Backdrop loading={isDeleteSupplier} />
-      <Dialog open={openAddDialog} title={t('Add Supplier')}>
+      <Dialog open={openAddDialog} title={t("Add Supplier")}>
         <CreateSupplierForm
           onSuccess={() => {
             setOpenAddDialog(false)
@@ -415,17 +415,17 @@ export default function SuppliersList({
         />
       </Dialog>
       <AlertDialog
-        title={t('Confirm Delete')}
-        description={t('This action cannot be undone. This will permanently delete this supplier.')}
-        cancelText={t('Cancel')}
-        confirmText={t('Yes, Delete')}
+        title={t("Confirm Delete")}
+        description={t("This action cannot be undone. This will permanently delete this supplier.")}
+        cancelText={t("Cancel")}
+        confirmText={t("Yes, Delete")}
         onConfirm={() => {
-          deleteSupplier({ id: idToDelete || '', PageNumber, PageSize })
+          deleteSupplier({ id: idToDelete || "", PageNumber, PageSize })
           setIdToDelete(null)
         }}
         open={idToDelete !== null}
         onClose={() => setIdToDelete(null)}
-        buttonProps={{ intent: 'error' }}
+        buttonProps={{ intent: "error" }}
       />
     </>
   )

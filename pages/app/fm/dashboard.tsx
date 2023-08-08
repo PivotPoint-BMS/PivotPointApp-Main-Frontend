@@ -1,24 +1,24 @@
 /* eslint-disable quotes */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react"
 // next
-import Head from 'next/head'
+import Head from "next/head"
 // apis
-import { useGetFmDashboardStatsQuery } from 'store/api/fm/fmDashboardApi'
-import { useGetStepOneQuery } from 'store/api/fm/financeSetupApi'
+import { useGetFmDashboardStatsQuery } from "store/api/fm/fmDashboardApi"
+import { useGetStepOneQuery } from "store/api/fm/financeSetupApi"
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 // sections
-import QuickSetup from 'sections/dashboard/fm/quick-setup'
+import QuickSetup from "sections/dashboard/fm/quick-setup"
 // layout
-import Layout from 'layout/Index'
+import Layout from "layout/Index"
 // components
-import { AlertDialog, Backdrop, Button, HeaderBreadcrumbs } from 'components'
-import RoleBasedGuard from 'guards/RoleBasedGuard'
-import { Icon } from '@iconify/react'
+import { AlertDialog, Backdrop, Button, HeaderBreadcrumbs } from "components"
+import RoleBasedGuard from "guards/RoleBasedGuard"
+import { Icon } from "@iconify/react"
 
 function index() {
   const { t } = useTranslate()
-  const [startStep, setStartStep] = useState('1')
+  const [startStep, setStartStep] = useState("1")
   const [openQuickSetupAlert, setOpenQuickSetupAlert] = useState(false)
   const [openQuickSetup, setOpenQuickSetup] = useState(false)
   const { isLoading, isSuccess, isError, error } = useGetFmDashboardStatsQuery()
@@ -26,7 +26,7 @@ function index() {
 
   useEffect(() => {
     if (isError && error) {
-      setStartStep(String(error) || '1')
+      setStartStep(String(error) || "1")
     }
   }, [isLoading, isYearsLoading])
 
@@ -37,7 +37,7 @@ function index() {
       </Head>
       <div className='flex max-w-full flex-col overflow-hidden px-5'>
         <HeaderBreadcrumbs
-          heading={t('Finance Management')}
+          heading={t("Finance Management")}
           action={
             <div className='flex items-center gap-2'>
               {isSuccess && (
@@ -47,18 +47,18 @@ function index() {
                     setOpenQuickSetup(true)
                   }}
                 >
-                  {t('View Financal Plan')}
+                  {t("View Financal Plan")}
                 </Button>
               )}
               <Button
                 startIcon={
-                  <Icon icon={isSuccess ? 'pepicons-pop:arrow-spin' : 'ic:settings'} height={24} />
+                  <Icon icon={isSuccess ? "pepicons-pop:arrow-spin" : "ic:settings"} height={24} />
                 }
                 onClick={() => {
                   setOpenQuickSetup(true)
                 }}
               >
-                {isSuccess ? t('Reconfigure Finance') : t('Configure Finance')}
+                {isSuccess ? t("Reconfigure Finance") : t("Configure Finance")}
               </Button>
             </div>
           }
@@ -66,7 +66,7 @@ function index() {
       </div>
       <AlertDialog
         open={openQuickSetupAlert}
-        title={t('Proceeding  To Finance Setup')}
+        title={t("Proceeding  To Finance Setup")}
         description={
           <p className='py-2 text-sm'>
             {t(
@@ -74,7 +74,7 @@ function index() {
             )}
           </p>
         }
-        confirmText={t('Go to setup')}
+        confirmText={t("Go to setup")}
         onConfirm={() => {
           setOpenQuickSetup(true)
           setOpenQuickSetupAlert(false)
@@ -99,7 +99,7 @@ function index() {
 index.getLayout = function getLayout(page: JSX.Element) {
   return (
     <Layout variant='dashboard'>
-      <RoleBasedGuard accessibleRoles={['Owner', 'FM']}>{page}</RoleBasedGuard>
+      <RoleBasedGuard accessibleRoles={["Owner", "FM"]}>{page}</RoleBasedGuard>
     </Layout>
   )
 }

@@ -1,25 +1,25 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { HYDRATE } from 'next-redux-wrapper'
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { HYDRATE } from "next-redux-wrapper"
 // config
-import { PIVOTPOINT_API } from 'config'
+import { PIVOTPOINT_API } from "config"
 // types
-import { ListGenericResponse, BankAccount, RequestParams, IGenericResponse } from 'types'
+import { ListGenericResponse, BankAccount, RequestParams, IGenericResponse } from "types"
 // store
-import { RootState } from 'store'
-import RequestSearchParams from 'types/RequestSearchParams'
+import { RootState } from "store"
+import RequestSearchParams from "types/RequestSearchParams"
 // import { assign } from 'lodash'
 
 export const bankAccountsApi = createApi({
-  reducerPath: 'bankAccountsApi',
+  reducerPath: "bankAccountsApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${PIVOTPOINT_API.baseUrl}/fm`,
     prepareHeaders: (headers, { getState }) => {
       const { token } = (getState() as RootState).session
 
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
+        headers.set("Authorization", `Bearer ${token}`)
       }
 
       return headers
@@ -34,7 +34,7 @@ export const bankAccountsApi = createApi({
   endpoints: (builder) => ({
     getBankAccounts: builder.query<ListGenericResponse<BankAccount[]>, RequestSearchParams>({
       query: (params) => ({
-        url: 'Accounts',
+        url: "Accounts",
         params,
       }),
     }),
@@ -43,13 +43,13 @@ export const bankAccountsApi = createApi({
     }),
     createBankAccount: builder.mutation<
       ListGenericResponse<BankAccount>,
-      Omit<BankAccount, 'id'> & RequestParams
+      Omit<BankAccount, "id"> & RequestParams
     >({
       query: (data) => ({
-        url: 'Accounts',
-        method: 'POST',
+        url: "Accounts",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ PageNumber, PageSize }, { dispatch, queryFulfilled }) {
         try {
@@ -58,7 +58,7 @@ export const bankAccountsApi = createApi({
           } = await queryFulfilled
           dispatch(
             bankAccountsApi.util.updateQueryData(
-              'getBankAccounts',
+              "getBankAccounts",
               { PageNumber, PageSize },
               (draftedList) => {
                 draftedList.data.push(data)
@@ -72,13 +72,13 @@ export const bankAccountsApi = createApi({
     }),
     editBankAccount: builder.mutation<
       ListGenericResponse<BankAccount>,
-      { data: Omit<BankAccount, 'id'>; id: string } & RequestParams
+      { data: Omit<BankAccount, "id">; id: string } & RequestParams
     >({
       query: ({ data, id }) => ({
         url: `Accounts/${id}`,
-        method: 'PUT',
+        method: "PUT",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
 
       async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
@@ -89,7 +89,7 @@ export const bankAccountsApi = createApi({
 
           dispatch(
             bankAccountsApi.util.updateQueryData(
-              'getBankAccounts',
+              "getBankAccounts",
               { PageNumber, PageSize },
               (draftedList) => {
                 Object.assign(draftedList.data.find((item) => item.id === id)!, data)
@@ -99,7 +99,7 @@ export const bankAccountsApi = createApi({
           )
 
           dispatch(
-            bankAccountsApi.util.updateQueryData('getBankAccount', id, (draft) => {
+            bankAccountsApi.util.updateQueryData("getBankAccount", id, (draft) => {
               Object.assign(draft.data, data)
             })
           )
@@ -114,15 +114,15 @@ export const bankAccountsApi = createApi({
     >({
       query: ({ id }) => ({
         url: `Accounts/${id}`,
-        method: 'DELETE',
-        responseHandler: 'content-type',
+        method: "DELETE",
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
           dispatch(
             bankAccountsApi.util.updateQueryData(
-              'getBankAccounts',
+              "getBankAccounts",
               { PageNumber, PageSize },
               (draftedList) => ({
                 ...draftedList,

@@ -1,23 +1,23 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { HYDRATE } from 'next-redux-wrapper'
-import { concat } from 'lodash'
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { HYDRATE } from "next-redux-wrapper"
+import { concat } from "lodash"
 // config
-import { PIVOTPOINT_API } from 'config'
+import { PIVOTPOINT_API } from "config"
 // types
-import { IGenericResponse, Segment, SegmentClient } from 'types'
+import { IGenericResponse, Segment, SegmentClient } from "types"
 // store
-import { RootState } from 'store'
-import { leadApi } from '../contact-leads/leadApis'
+import { RootState } from "store"
+import { leadApi } from "../contact-leads/leadApis"
 
 export const customerSegmentationApi = createApi({
-  reducerPath: 'customerSegmentationApi',
+  reducerPath: "customerSegmentationApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${PIVOTPOINT_API.baseUrl}/crm`,
     prepareHeaders: (headers, { getState }) => {
       const { token } = (getState() as RootState).session
 
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
+        headers.set("Authorization", `Bearer ${token}`)
       }
 
       return headers
@@ -31,7 +31,7 @@ export const customerSegmentationApi = createApi({
   },
   endpoints: (builder) => ({
     getSegmentations: builder.query<IGenericResponse<Segment[]>, void>({
-      query: () => 'ClientSegmentation',
+      query: () => "ClientSegmentation",
     }),
     createSegment: builder.mutation<
       IGenericResponse<Segment>,
@@ -41,10 +41,10 @@ export const customerSegmentationApi = createApi({
       }
     >({
       query: (data) => ({
-        url: 'ClientSegmentation',
-        method: 'POST',
+        url: "ClientSegmentation",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
@@ -53,7 +53,7 @@ export const customerSegmentationApi = createApi({
           } = await queryFulfilled
           dispatch(
             customerSegmentationApi.util.updateQueryData(
-              'getSegmentations',
+              "getSegmentations",
               undefined,
               (draftedList) => {
                 draftedList.data.push(data)
@@ -75,16 +75,16 @@ export const customerSegmentationApi = createApi({
     >({
       query: ({ id, ...patch }) => ({
         url: `ClientSegmentation/${id}`,
-        method: 'PUT',
+        method: "PUT",
         body: patch,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ id, ...patch }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
           dispatch(
             customerSegmentationApi.util.updateQueryData(
-              'getSegmentations',
+              "getSegmentations",
               undefined,
               (draftedList) => {
                 const segment = draftedList.data.find((item) => item.id === id)
@@ -100,15 +100,15 @@ export const customerSegmentationApi = createApi({
     deleteSegment: builder.mutation<IGenericResponse<Segment>, string>({
       query: (id) => ({
         url: `ClientSegmentation/${id}`,
-        method: 'DELETE',
-        responseHandler: 'content-type',
+        method: "DELETE",
+        responseHandler: "content-type",
       }),
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
           dispatch(
             customerSegmentationApi.util.updateQueryData(
-              'getSegmentations',
+              "getSegmentations",
               undefined,
               (draftedList) => ({
                 ...draftedList,
@@ -131,13 +131,13 @@ export const customerSegmentationApi = createApi({
       }
     >({
       query: ({ segmentId, client: { id } }) => ({
-        url: 'ClientSegmentation/Client',
-        method: 'POST',
+        url: "ClientSegmentation/Client",
+        method: "POST",
         body: {
           segmentId,
           clientId: id,
         },
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted(
         { segmentId, client, PageNumber, PageSize },
@@ -147,7 +147,7 @@ export const customerSegmentationApi = createApi({
           await queryFulfilled
           dispatch(
             leadApi.util.updateQueryData(
-              'getSegmentClients',
+              "getSegmentClients",
               { id: segmentId, PageNumber, PageSize },
               (draftedList) => ({
                 ...draftedList,
@@ -180,10 +180,10 @@ export const customerSegmentationApi = createApi({
       }
     >({
       query: (data) => ({
-        url: 'ClientSegmentation/Client/Delete',
-        method: 'POST',
+        url: "ClientSegmentation/Client/Delete",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted(
         { clientId, segmentId, PageNumber, PageSize },
@@ -193,7 +193,7 @@ export const customerSegmentationApi = createApi({
           await queryFulfilled
           dispatch(
             leadApi.util.updateQueryData(
-              'getSegmentClients',
+              "getSegmentClients",
               { id: segmentId, PageNumber, PageSize },
               (draftedList) => ({
                 ...draftedList,
@@ -208,9 +208,9 @@ export const customerSegmentationApi = createApi({
     }),
     initiateSegmentation: builder.mutation<IGenericResponse<boolean>, void>({
       query: () => ({
-        url: 'ClientSegmentation/Initiate',
-        method: 'POST',
-        responseHandler: 'content-type',
+        url: "ClientSegmentation/Initiate",
+        method: "POST",
+        responseHandler: "content-type",
       }),
     }),
   }),

@@ -1,7 +1,7 @@
-import Image from 'components/Image'
-import { ReactNode } from 'react'
-import { useAppSelector } from 'store/hooks'
-import forbidden from 'public/403.png'
+import Image from "components/Image"
+import { ReactNode } from "react"
+import { useAppSelector } from "store/hooks"
+import forbidden from "public/403.png"
 // ----------------------------------------------------------------------
 
 interface RoleBasedGuardProp {

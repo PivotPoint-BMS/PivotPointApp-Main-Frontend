@@ -1,21 +1,21 @@
-import { useEffect, useMemo } from 'react'
-import * as Yup from 'yup'
+import { useEffect, useMemo } from "react"
+import * as Yup from "yup"
 // form
-import { yupResolver } from '@hookform/resolvers/yup'
-import { FieldValues, useForm } from 'react-hook-form'
+import { yupResolver } from "@hookform/resolvers/yup"
+import { FieldValues, useForm } from "react-hook-form"
 // api
 import {
   useCreateCategoryMutation,
   useEditCategoryMutation,
-} from 'store/api/scm/products-service/productsApi'
+} from "store/api/scm/products-service/productsApi"
 // types
-import { Category } from 'types'
+import { Category } from "types"
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 // components
-import { Button } from 'components'
-import { FormProvider, RHFTextField } from 'components/hook-form'
-import useSnackbar from 'hooks/useSnackbar'
+import { Button } from "components"
+import { FormProvider, RHFTextField } from "components/hook-form"
+import useSnackbar from "hooks/useSnackbar"
 
 export default function CreateEditCategoryForm({
   currentCategory,
@@ -41,12 +41,12 @@ export default function CreateEditCategoryForm({
   ] = useEditCategoryMutation()
 
   const LeadSchema = Yup.object().shape({
-    name: Yup.string().min(3, t('Too short')).required(t('This field is required')),
+    name: Yup.string().min(3, t("Too short")).required(t("This field is required")),
   })
 
   const defaultValues = useMemo(
     () => ({
-      name: currentCategory?.name || '',
+      name: currentCategory?.name || "",
     }),
     [currentCategory]
   )
@@ -59,18 +59,18 @@ export default function CreateEditCategoryForm({
   const { handleSubmit, reset } = methods
 
   const onSubmit = async (data: FieldValues) => {
-    const category: Omit<Category, 'id'> = { name: data.name }
-    if (isEdit) editCategory({ name: data.name, id: currentCategory?.id || '' })
+    const category: Omit<Category, "id"> = { name: data.name }
+    if (isEdit) editCategory({ name: data.name, id: currentCategory?.id || "" })
     else createCategory(category)
   }
 
   useEffect(() => {
     if (isCreateError || isEditError) {
       open({
-        message: t('A problem has occurred.'),
+        message: t("A problem has occurred."),
         autoHideDuration: 4000,
-        type: 'error',
-        variant: 'contained',
+        type: "error",
+        variant: "contained",
       })
       onFailure()
     }
@@ -78,11 +78,11 @@ export default function CreateEditCategoryForm({
       reset()
       open({
         message: isEditSuccess
-          ? t('Category Updated Successfully.')
-          : t('Category Added Successfully.'),
+          ? t("Category Updated Successfully.")
+          : t("Category Added Successfully."),
         autoHideDuration: 4000,
-        type: 'success',
-        variant: 'contained',
+        type: "success",
+        variant: "contained",
       })
       onSuccess()
     }
@@ -91,15 +91,15 @@ export default function CreateEditCategoryForm({
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <div className='mt-2 flex flex-col gap-4'>
-        <RHFTextField name='name' label={t('Name')} />
+        <RHFTextField name='name' label={t("Name")} />
       </div>
 
       <div className='mt-6 flex w-full items-center justify-end gap-3'>
         <Button size='large' variant='outlined' intent='default' onClick={onFailure}>
-          {t('Cancel')}
+          {t("Cancel")}
         </Button>
         <Button size='large' type='submit' loading={isEditLoading || isCreateLoading}>
-          {isEdit ? t('Edit Category') : t('Add Category')}
+          {isEdit ? t("Edit Category") : t("Add Category")}
         </Button>
       </div>
     </FormProvider>

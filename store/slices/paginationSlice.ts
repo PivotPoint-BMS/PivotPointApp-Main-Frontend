@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 
 interface paginationProps {
   PageSize: number
@@ -12,7 +12,7 @@ const initialState: paginationProps = {
 }
 
 const paginationSlice = createSlice({
-  name: 'pagination',
+  name: "pagination",
   initialState,
   reducers: {
     changePageSize: (state, action: PayloadAction<number>) => {

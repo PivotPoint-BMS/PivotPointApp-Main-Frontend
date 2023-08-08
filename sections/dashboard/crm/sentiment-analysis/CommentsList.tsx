@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { useState } from 'react'
-import clsx from 'clsx'
+import React, { useState } from "react"
+import clsx from "clsx"
 // next
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 //
 // components
 import {
@@ -14,10 +14,10 @@ import {
   RowSelectionState,
   SortingState,
   getSortedRowModel,
-} from '@tanstack/react-table'
-import { LoadingIndicator, Badge } from 'components'
-import { Icon } from '@iconify/react'
-import { useGetReviewsQuery } from 'store/api/external-api/reviewsAPIs'
+} from "@tanstack/react-table"
+import { LoadingIndicator, Badge } from "components"
+import { Icon } from "@iconify/react"
+import { useGetReviewsQuery } from "store/api/external-api/reviewsAPIs"
 
 export default function CommentsList() {
   const { t } = useTranslate()
@@ -30,22 +30,22 @@ export default function CommentsList() {
   const columnHelper = createColumnHelper<{ review: string; sentiment: string }>()
 
   const columns = [
-    columnHelper.accessor('review', {
-      id: 'review',
-      header: () => t('Review'),
+    columnHelper.accessor("review", {
+      id: "review",
+      header: () => t("Review"),
       cell: (info) => <p className='truncate'>{info.getValue()}</p>,
     }),
 
-    columnHelper.accessor('sentiment', {
-      id: 'sentiment ',
-      header: () => t('Sentiment'),
+    columnHelper.accessor("sentiment", {
+      id: "sentiment ",
+      header: () => t("Sentiment"),
       cell: (sentiment) => {
-        if (sentiment.getValue() === 'positive')
-          return <Badge variant='ghost' intent='success' size='small' label={t('Positive')} />
-        if (sentiment.getValue() === 'negative')
-          return <Badge variant='ghost' intent='error' size='small' label={t('Negative')} />
+        if (sentiment.getValue() === "positive")
+          return <Badge variant='ghost' intent='success' size='small' label={t("Positive")} />
+        if (sentiment.getValue() === "negative")
+          return <Badge variant='ghost' intent='error' size='small' label={t("Negative")} />
 
-        return <Badge variant='ghost' intent='success' size='small' label={t('Positive')} />
+        return <Badge variant='ghost' intent='success' size='small' label={t("Positive")} />
       },
     }),
   ]
@@ -96,8 +96,8 @@ export default function CommentsList() {
                                 <div
                                   {...{
                                     className: header.column.getCanSort()
-                                      ? 'cursor-pointer select-none flex items-center gap-2'
-                                      : '',
+                                      ? "cursor-pointer select-none flex items-center gap-2"
+                                      : "",
                                     onClick: header.column.getToggleSortingHandler(),
                                   }}
                                 >
@@ -128,8 +128,8 @@ export default function CommentsList() {
                         <tr
                           key={row.id}
                           className={clsx(
-                            'cursor-pointer border-b last-of-type:border-b-0 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-paper-hover-dark',
-                            row.getIsSelected() && 'bg-gray-50 dark:bg-paper-hover-dark/80'
+                            "cursor-pointer border-b last-of-type:border-b-0 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-paper-hover-dark",
+                            row.getIsSelected() && "bg-gray-50 dark:bg-paper-hover-dark/80"
                           )}
                         >
                           {row.getVisibleCells().map((cell) => (
@@ -153,7 +153,7 @@ export default function CommentsList() {
             </>
           ) : (
             <div className='flex h-56 flex-col items-center justify-center gap-2 px-4 py-2'>
-              <h1 className='text-xl font-semibold'>{t('No Comment Found')}</h1>
+              <h1 className='text-xl font-semibold'>{t("No Comment Found")}</h1>
             </div>
           )}
         </>

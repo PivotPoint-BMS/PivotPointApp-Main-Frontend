@@ -1,24 +1,24 @@
 /* eslint-disable no-constant-condition */
-import clsx from 'clsx'
+import clsx from "clsx"
 // next
-import { useRouter } from 'next/router'
-import { useTheme } from 'next-themes'
-import Image from 'next/image'
+import { useRouter } from "next/router"
+import { useTheme } from "next-themes"
+import Image from "next/image"
 // config
-import { NAVBAR, PIVOTPOINT_API } from 'config'
+import { NAVBAR, PIVOTPOINT_API } from "config"
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 // redux
-import { useAppDispatch, useAppSelector } from 'store/hooks'
-import { collapse, extend } from 'store/slices/sideBarSlice'
-import { logout } from 'store/slices/sessionSlice'
+import { useAppDispatch, useAppSelector } from "store/hooks"
+import { collapse, extend } from "store/slices/sideBarSlice"
+import { logout } from "store/slices/sessionSlice"
 // routes
-import { PATH_ACCOUNT, PATH_AUTH } from 'routes/paths'
+import { PATH_ACCOUNT, PATH_AUTH } from "routes/paths"
 // components
-import { Icon } from '@iconify/react'
-import { Button, DropdownMenu, IconButton, Scrollbar } from 'components'
-import NavItem from './NavItem'
-import CollapsedNavItem from './CollapsedNavItem'
+import { Icon } from "@iconify/react"
+import { Button, DropdownMenu, IconButton, Scrollbar } from "components"
+import NavItem from "./NavItem"
+import CollapsedNavItem from "./CollapsedNavItem"
 
 function SidebarVertical() {
   const { setTheme } = useTheme()
@@ -59,8 +59,8 @@ function SidebarVertical() {
           <Icon
             icon='system-uicons:window-collapse-left'
             className={clsx(
-              'transition-all group-hover/collapse:scale-110 rtl:rotate-180 motion-reduce:transition-none',
-              isCollapsed && 'ltr:rotate-180 rtl:rotate-0'
+              "transition-all group-hover/collapse:scale-110 rtl:rotate-180 motion-reduce:transition-none",
+              isCollapsed && "ltr:rotate-180 rtl:rotate-0"
             )}
             height={16}
             width={16}
@@ -68,8 +68,8 @@ function SidebarVertical() {
         </IconButton>
         <Scrollbar
           className={clsx(
-            'h-screen w-full border-dashed  ltr:border-r rtl:border-l dark:border-gray-600',
-            isCollapsed ? 'px-2' : 'px-4'
+            "h-screen w-full border-dashed  ltr:border-r rtl:border-l dark:border-gray-600",
+            isCollapsed ? "px-2" : "px-4"
           )}
         >
           <DropdownMenu
@@ -77,11 +77,11 @@ function SidebarVertical() {
             contentProps={
               isCollapsed
                 ? {
-                    align: 'center',
-                    side: locale === 'ar' ? 'left' : 'right',
+                    align: "center",
+                    side: locale === "ar" ? "left" : "right",
                   }
                 : {
-                    align: locale === 'ar' ? 'end' : 'start',
+                    align: locale === "ar" ? "end" : "start",
                   }
             }
             trigger={
@@ -89,13 +89,13 @@ function SidebarVertical() {
                 variant='outlined'
                 intent='default'
                 className={clsx(
-                  'my-3 w-full !justify-start rounded-lg border border-dashed transition-all dark:border-gray-600',
-                  isCollapsed && 'aspect-square border-none'
+                  "my-3 w-full !justify-start rounded-lg border border-dashed transition-all dark:border-gray-600",
+                  isCollapsed && "aspect-square border-none"
                 )}
               >
                 {isCollapsed ? (
                   <div className='relative'>
-                    {user && user?.profilePicture && user?.profilePicture !== '' ? (
+                    {user && user?.profilePicture && user?.profilePicture !== "" ? (
                       <Image
                         alt='profilePicture'
                         width={50}
@@ -115,7 +115,7 @@ function SidebarVertical() {
                 ) : (
                   <div className='flex w-full items-center justify-start gap-4'>
                     <div className='relative'>
-                      {user && user?.profilePicture && user?.profilePicture !== '' ? (
+                      {user && user?.profilePicture && user?.profilePicture !== "" ? (
                         <Image
                           alt='profilePicture'
                           width={50}
@@ -147,8 +147,8 @@ function SidebarVertical() {
             }
             items={[
               {
-                type: 'button',
-                label: t('Profile'),
+                type: "button",
+                label: t("Profile"),
                 icon: <Icon icon='ion:person-circle' height={22} width={22} />,
                 onClick: () => {
                   push(PATH_ACCOUNT.profile)
@@ -157,47 +157,47 @@ function SidebarVertical() {
               {
                 ...(user?.isOwner
                   ? {
-                      type: 'button',
-                      label: t('Company'),
+                      type: "button",
+                      label: t("Company"),
                       icon: <Icon icon='ion:settings' height={22} width={22} />,
                       onClick: () => {
                         push(PATH_ACCOUNT.company)
                       },
                     }
-                  : { type: 'text', className: 'hidden' }),
+                  : { type: "text", className: "hidden" }),
               },
-              { type: 'separator' },
+              { type: "separator" },
               {
-                type: 'dropdown',
-                label: t('Language'),
+                type: "dropdown",
+                label: t("Language"),
                 icon: <Icon icon='mdi:translate-variant' height={22} width={22} />,
                 subItems: [
-                  { type: 'button', label: 'English', onClick: () => changeLocale('en') },
-                  { type: 'button', label: 'العربية', onClick: () => changeLocale('ar') },
-                  { type: 'button', label: 'Français', onClick: () => changeLocale('fr') },
+                  { type: "button", label: "English", onClick: () => changeLocale("en") },
+                  { type: "button", label: "العربية", onClick: () => changeLocale("ar") },
+                  { type: "button", label: "Français", onClick: () => changeLocale("fr") },
                 ],
               },
               {
-                type: 'dropdown',
-                label: t('Theme'),
+                type: "dropdown",
+                label: t("Theme"),
                 icon: <Icon icon='mdi:theme-light-dark' height={22} width={22} />,
                 subItems: [
                   {
-                    type: 'button',
-                    label: t('Light'),
-                    onClick: () => setTheme('light'),
+                    type: "button",
+                    label: t("Light"),
+                    onClick: () => setTheme("light"),
                   },
                   {
-                    type: 'button',
-                    label: t('Dark'),
-                    onClick: () => setTheme('dark'),
+                    type: "button",
+                    label: t("Dark"),
+                    onClick: () => setTheme("dark"),
                   },
                 ],
               },
-              { type: 'separator' },
+              { type: "separator" },
               {
-                type: 'button',
-                label: t('Logout'),
+                type: "button",
+                label: t("Logout"),
                 onClick: () => {
                   dispatch(logout())
                   push(PATH_AUTH.login)

@@ -1,21 +1,21 @@
-import React from 'react'
+import React from "react"
 // next
-import Head from 'next/head'
-import { useRouter } from 'next/router'
+import Head from "next/head"
+import { useRouter } from "next/router"
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 // apis
-import { useGetInvoiceQuery } from 'store/api/scm/invoices/invoicesApis'
+import { useGetInvoiceQuery } from "store/api/scm/invoices/invoicesApis"
 // routes
-import { PATH_DASHBOARD } from 'routes/paths'
+import { PATH_DASHBOARD } from "routes/paths"
 // layout
-import Layout from 'layout/Index'
+import Layout from "layout/Index"
 // guards
-import RoleBasedGuard from 'guards/RoleBasedGuard'
+import RoleBasedGuard from "guards/RoleBasedGuard"
 // sections
-import CreateEditInvoiceForm from 'sections/dashboard/scm/invoices/CreateEditInvoiceForm'
+import CreateEditInvoiceForm from "sections/dashboard/scm/invoices/CreateEditInvoiceForm"
 // components
-import { HeaderBreadcrumbs, LoadingIndicator } from 'components'
+import { HeaderBreadcrumbs, LoadingIndicator } from "components"
 
 function index() {
   const { t } = useTranslate()
@@ -25,7 +25,7 @@ function index() {
   } = useRouter()
 
   const { data: currentInvoice, isLoading } = useGetInvoiceQuery(
-    id?.toString() ? id?.toString() : '',
+    id?.toString() ? id?.toString() : "",
     {
       skip: isFallback,
       refetchOnFocus: true,
@@ -35,16 +35,16 @@ function index() {
   return (
     <>
       <Head>
-        <title>{t('Edit Invoice')} | Pivot Point BMS</title>
+        <title>{t("Edit Invoice")} | Pivot Point BMS</title>
       </Head>
       <div className='flex max-w-full flex-col px-5'>
         <HeaderBreadcrumbs
-          heading={t('Edit Invoice')}
+          heading={t("Edit Invoice")}
           links={[
-            { name: t('Dashboard'), href: PATH_DASHBOARD.root },
-            { name: t('Supply Chain & Inventory'), href: PATH_DASHBOARD.scm.dashboard },
-            { name: t('Invoices'), href: PATH_DASHBOARD.scm.invoices.root },
-            { name: t('Edit Invoice') },
+            { name: t("Dashboard"), href: PATH_DASHBOARD.root },
+            { name: t("Supply Chain & Inventory"), href: PATH_DASHBOARD.scm.dashboard },
+            { name: t("Invoices"), href: PATH_DASHBOARD.scm.invoices.root },
+            { name: t("Edit Invoice") },
           ]}
         />
         {isLoading ? (
@@ -62,7 +62,7 @@ function index() {
 index.getLayout = function getLayout(page: JSX.Element) {
   return (
     <Layout variant='dashboard'>
-      <RoleBasedGuard accessibleRoles={['Owner', 'SCM']}>{page}</RoleBasedGuard>
+      <RoleBasedGuard accessibleRoles={["Owner", "SCM"]}>{page}</RoleBasedGuard>
     </Layout>
   )
 }

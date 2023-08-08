@@ -1,19 +1,19 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-case-declarations */
-import { useEffect, useReducer, useState } from 'react'
-import clsx from 'clsx'
+import { useEffect, useReducer, useState } from "react"
+import clsx from "clsx"
 // hooks
-import useTranslate from 'hooks/useTranslate'
-import useSnackbar from 'hooks/useSnackbar'
+import useTranslate from "hooks/useTranslate"
+import useSnackbar from "hooks/useSnackbar"
 // api
-import { useGetStepTwoQuery, useSetStepTwoMutation } from 'store/api/fm/financeSetupApi'
+import { useGetStepTwoQuery, useSetStepTwoMutation } from "store/api/fm/financeSetupApi"
 // components
-import { Icon } from '@iconify/react'
-import { Button, Checkbox, IconButton, LoadingIndicator } from 'components'
+import { Icon } from "@iconify/react"
+import { Button, Checkbox, IconButton, LoadingIndicator } from "components"
 // sections
-import Table from './Table'
-import makeData from './makeData'
-import SaaSTurnoverCalculator from './saas-turnover-calculator'
+import Table from "./Table"
+import makeData from "./makeData"
+import SaaSTurnoverCalculator from "./saas-turnover-calculator"
 
 function reducer(
   state: {
@@ -43,27 +43,27 @@ function reducer(
   }
 ) {
   switch (action.type) {
-    case 'set_data':
+    case "set_data":
       return {
         ...state,
         data: action.data,
       }
-    case 'add_row':
+    case "add_row":
       if (
         state.data.every(
           (cell) =>
-            Object.keys(cell).length > 0 && Object.keys(cell).every((key) => cell[key] !== '')
+            Object.keys(cell).length > 0 && Object.keys(cell).every((key) => cell[key] !== "")
         )
       )
         return {
           ...state,
-          data: [...state.data, { source: '' }],
+          data: [...state.data, { source: "" }],
         }
 
       return {
         ...state,
       }
-    case 'update_cell':
+    case "update_cell":
       return {
         ...state,
         data: state.data.map((row, index) => {
@@ -76,11 +76,11 @@ function reducer(
           return row
         }),
       }
-    case 'update_income':
+    case "update_income":
       const newData: {
         source: string
         [key: string]: string
-      }[] = [{ source: 'Subscriptions' }]
+      }[] = [{ source: "Subscriptions" }]
       action.newIncome.forEach((income, i) => {
         newData[0][(i + 1).toString()] = income.toString()
       })
@@ -88,13 +88,13 @@ function reducer(
         ...state,
         data: newData,
       }
-    case 'delete_row':
+    case "delete_row":
       return {
         ...state,
         data: state.data.filter((_, i) => i !== action.rowIndex),
         rowIndex: action.rowIndex,
       }
-    case 'delete_last_cell':
+    case "delete_last_cell":
       return {
         ...state,
         data: state.data.slice(0, -1),
@@ -128,8 +128,8 @@ function StepTwo({
     if (isSuccess) handleNextStep()
     else if (isError)
       open({
-        message: t('A probles was accured.'),
-        type: 'error',
+        message: t("A probles was accured."),
+        type: "error",
         autoHideDuration: 6000,
       })
   }, [isLoading])
@@ -151,11 +151,11 @@ function StepTwo({
         })
       })
       dispatch({
-        type: 'set_data',
+        type: "set_data",
         data,
         rowIndex: 0,
-        columnId: '',
-        value: '',
+        columnId: "",
+        value: "",
         newIncome: [],
       })
     }
@@ -163,28 +163,28 @@ function StepTwo({
 
   return (
     <div className='relative mx-auto flex h-full w-full min-w-fit flex-col items-center justify-start gap-5 overflow-y-scroll py-10 px-4'>
-      {' '}
+      {" "}
       {isGetLoading ? (
         <LoadingIndicator />
       ) : (
         <>
           <IconButton
             onClick={handleBack}
-            className={clsx('absolute top-5', locale === 'ar' ? 'right-5' : 'left-5')}
+            className={clsx("absolute top-5", locale === "ar" ? "right-5" : "left-5")}
           >
             <Icon
               icon={
-                locale === 'ar'
-                  ? 'material-symbols:arrow-forward-rounded'
-                  : 'material-symbols:arrow-back-rounded'
+                locale === "ar"
+                  ? "material-symbols:arrow-forward-rounded"
+                  : "material-symbols:arrow-back-rounded"
               }
               height={20}
               width={20}
             />
           </IconButton>
-          <h1 className='text-center text-2xl font-semibold'>{t('Business Turnover')}</h1>
+          <h1 className='text-center text-2xl font-semibold'>{t("Business Turnover")}</h1>
           <Checkbox
-            label={t('I have a SaaS solution')}
+            label={t("I have a SaaS solution")}
             checked={isSaaS}
             onChange={(e) => setIsSaaS(e.target.checked)}
           />
@@ -193,11 +193,11 @@ function StepTwo({
               estimationRange={estimationRange}
               handleIncomeChange={(newIncome) =>
                 dispatch({
-                  type: 'update_income',
+                  type: "update_income",
                   newIncome,
                   rowIndex: 0,
-                  columnId: '',
-                  value: '',
+                  columnId: "",
+                  value: "",
                   data: [],
                 })
               }
@@ -208,7 +208,7 @@ function StepTwo({
             onClick={() => {
               if (
                 state.data.length > 0 &&
-                state.data.every((cell) => Object.keys(cell).every((key) => cell[key] !== ''))
+                state.data.every((cell) => Object.keys(cell).every((key) => cell[key] !== ""))
               ) {
                 const turnOverSources = state.data.reduce(
                   (
@@ -237,15 +237,15 @@ function StepTwo({
               } else
                 open({
                   autoHideDuration: 10000,
-                  message: t('Please fill all fields.'),
-                  type: 'warning',
+                  message: t("Please fill all fields."),
+                  type: "warning",
                   closeButton: true,
                 })
             }}
             size='large'
             loading={isLoading}
           >
-            {t('Next Step')}
+            {t("Next Step")}
           </Button>
         </>
       )}

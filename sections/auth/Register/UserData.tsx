@@ -1,9 +1,9 @@
-import React from 'react'
+import React from "react"
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 // components
-import { RHFTextField } from 'components/hook-form'
-import Button from 'components/Button'
+import { RHFTextField } from "components/hook-form"
+import Button from "components/Button"
 
 export default function UserData({
   setStep,
@@ -17,22 +17,22 @@ export default function UserData({
     <div className='flex flex-1 flex-col items-center gap-3'>
       <RHFTextField
         name='firstName'
-        label={t('First name')}
-        placeholder={t('Enter your first name')}
+        label={t("First name")}
+        placeholder={t("Enter your first name")}
       />
       <RHFTextField
         name='lastName'
-        label={t('Last name')}
-        placeholder={t('Enter your last name')}
+        label={t("Last name")}
+        placeholder={t("Enter your last name")}
       />
       <RHFTextField
         name='phoneNumber'
-        label={t('Phone number')}
-        placeholder={t('Enter your phone number')}
+        label={t("Phone number")}
+        placeholder={t("Enter your phone number")}
       />
       <div className='flex w-full items-center justify-between'>
         <Button className='w-1/3' onClick={() => setStep(0)}>
-          {t('Back')}
+          {t("Back")}
         </Button>
         <Button
           className='w-1/3 min-w-fit'
@@ -40,7 +40,7 @@ export default function UserData({
           type='submit'
           loading={isLoading}
         >
-          {t('Sign up')}
+          {t("Sign up")}
         </Button>
       </div>
     </div>

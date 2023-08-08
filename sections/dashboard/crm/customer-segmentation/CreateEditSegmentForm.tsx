@@ -1,21 +1,21 @@
-import { useEffect, useMemo } from 'react'
-import * as Yup from 'yup'
+import { useEffect, useMemo } from "react"
+import * as Yup from "yup"
 // form
-import { yupResolver } from '@hookform/resolvers/yup'
-import { FieldValues, useForm } from 'react-hook-form'
+import { yupResolver } from "@hookform/resolvers/yup"
+import { FieldValues, useForm } from "react-hook-form"
 // api
 import {
   useCreateSegmentMutation,
   useEditSegmentMutation,
-} from 'store/api/crm/customer-segmentation/customerSegmentationApi'
+} from "store/api/crm/customer-segmentation/customerSegmentationApi"
 // types
-import { Segment } from 'types'
+import { Segment } from "types"
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 // components
-import { Button } from 'components'
-import { FormProvider, RHFTextField } from 'components/hook-form'
-import useSnackbar from 'hooks/useSnackbar'
+import { Button } from "components"
+import { FormProvider, RHFTextField } from "components/hook-form"
+import useSnackbar from "hooks/useSnackbar"
 
 export default function CreateEditSegmentForm({
   currentSegment,
@@ -41,8 +41,8 @@ export default function CreateEditSegmentForm({
   ] = useEditSegmentMutation()
 
   const SegmentSchema = Yup.object().shape({
-    segmentName: Yup.string().min(3, t('Too short')).required(t('This field is required')),
-    segmentDescription: Yup.string().min(3, t('Too short')),
+    segmentName: Yup.string().min(3, t("Too short")).required(t("This field is required")),
+    segmentDescription: Yup.string().min(3, t("Too short")),
   })
 
   const defaultValues = useMemo(
@@ -70,7 +70,7 @@ export default function CreateEditSegmentForm({
     }
     if (isEdit)
       editSegmentTitle({
-        id: currentSegment?.id || '',
+        id: currentSegment?.id || "",
         segmentName: segment.segmentName,
         segmentDescription: segment.segmentDescription,
       })
@@ -80,10 +80,10 @@ export default function CreateEditSegmentForm({
   useEffect(() => {
     if (isCreateError || isEditError) {
       open({
-        message: t('A problem has occurred.'),
+        message: t("A problem has occurred."),
         autoHideDuration: 4000,
-        type: 'error',
-        variant: 'contained',
+        type: "error",
+        variant: "contained",
       })
       onFailure()
     }
@@ -91,11 +91,11 @@ export default function CreateEditSegmentForm({
       reset()
       open({
         message: isEditSuccess
-          ? t('Segment Updated Successfully.')
-          : t('Segment Added Successfully.'),
+          ? t("Segment Updated Successfully.")
+          : t("Segment Added Successfully."),
         autoHideDuration: 4000,
-        type: 'success',
-        variant: 'contained',
+        type: "success",
+        variant: "contained",
       })
       onSuccess()
     }
@@ -104,16 +104,16 @@ export default function CreateEditSegmentForm({
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <div className='mt-2 flex flex-col gap-4'>
-        <RHFTextField name='segmentName' label={t('Name')} />{' '}
-        <RHFTextField name='segmentDescription' label={t('Description')} />
+        <RHFTextField name='segmentName' label={t("Name")} />{" "}
+        <RHFTextField name='segmentDescription' label={t("Description")} />
       </div>
 
       <div className='mt-6 flex w-full items-center justify-end gap-3'>
         <Button size='large' variant='outlined' intent='default' onClick={onFailure}>
-          {t('Cancel')}
+          {t("Cancel")}
         </Button>
         <Button size='large' type='submit' loading={isCreateLoading || isEditLoading}>
-          {isEdit ? t('Edit Segment') : t('Add Segment')}
+          {isEdit ? t("Edit Segment") : t("Add Segment")}
         </Button>
       </div>
     </FormProvider>

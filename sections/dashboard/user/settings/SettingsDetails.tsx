@@ -1,23 +1,23 @@
-import React, { useCallback, useEffect, useMemo } from 'react'
-import * as Yup from 'yup'
+import React, { useCallback, useEffect, useMemo } from "react"
+import * as Yup from "yup"
 // form
-import { useForm, FieldValues } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { useForm, FieldValues } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
 // api
 import {
   useGetCompanyDetailsQuery,
   useUpdateCompanyDetailsMutation,
-} from 'store/api/settings/settingsAPIs'
+} from "store/api/settings/settingsAPIs"
 // hooks
-import useTranslate from 'hooks/useTranslate'
-import useSnackbar from 'hooks/useSnackbar'
+import useTranslate from "hooks/useTranslate"
+import useSnackbar from "hooks/useSnackbar"
 // utils
-import { fData } from 'utils/formatNumber'
+import { fData } from "utils/formatNumber"
 // components
-import { FormProvider, RHFTextField } from 'components/hook-form'
-import RHFUploadAvatar from 'components/hook-form/RHFUpload'
-import { Card, CardContent, Button, LoadingIndicator } from 'components'
-import { PIVOTPOINT_API } from 'config'
+import { FormProvider, RHFTextField } from "components/hook-form"
+import RHFUploadAvatar from "components/hook-form/RHFUpload"
+import { Card, CardContent, Button, LoadingIndicator } from "components"
+import { PIVOTPOINT_API } from "config"
 
 export default function SettingsDetails() {
   const { t } = useTranslate()
@@ -29,13 +29,13 @@ export default function SettingsDetails() {
   const [updateDetails, { isLoading: isUpdateLoading }] = useUpdateCompanyDetailsMutation()
   const CompanyDetailsSchema = Yup.object().shape({
     logo: Yup.mixed(),
-    name: Yup.string().required(t('This field is required')),
+    name: Yup.string().required(t("This field is required")),
     slogan: Yup.string(),
     website: Yup.string()
-      .min(3, t('Too short'))
+      .min(3, t("Too short"))
       .matches(
         /^(https?:\/\/)?([a-z0-9-]+\.)+[a-z]{2,}(\/\S*)?$/,
-        t('Please enter a valid website')
+        t("Please enter a valid website")
       ),
   })
 
@@ -44,9 +44,9 @@ export default function SettingsDetails() {
       logo: companyDetails?.data.logo
         ? `${PIVOTPOINT_API.profilePicUrl}/${companyDetails?.data.logo}`
         : null,
-      name: companyDetails?.data.name || '',
-      slogan: companyDetails?.data.slogan || '',
-      website: companyDetails?.data.website || '',
+      name: companyDetails?.data.name || "",
+      slogan: companyDetails?.data.slogan || "",
+      website: companyDetails?.data.website || "",
     }),
     [isLoading]
   )
@@ -60,25 +60,25 @@ export default function SettingsDetails() {
 
   const onSubmit = async (data: FieldValues) => {
     const formData = new FormData()
-    formData.append('logo', data.logo)
-    formData.append('name', data.name)
-    formData.append('slogan', data.slogan)
-    formData.append('website', data.website)
+    formData.append("logo", data.logo)
+    formData.append("name", data.name)
+    formData.append("slogan", data.slogan)
+    formData.append("website", data.website)
     updateDetails(formData)
       .then(() =>
         open({
-          message: t('Company Details Updated Successfully.'),
+          message: t("Company Details Updated Successfully."),
           autoHideDuration: 6000,
-          type: 'success',
-          variant: 'contained',
+          type: "success",
+          variant: "contained",
         })
       )
       .catch(() =>
         open({
-          message: t('A problem has occured.'),
+          message: t("A problem has occured."),
           autoHideDuration: 6000,
-          type: 'error',
-          variant: 'contained',
+          type: "error",
+          variant: "contained",
         })
       )
   }
@@ -96,7 +96,7 @@ export default function SettingsDetails() {
 
       if (file) {
         setValue(
-          'logo',
+          "logo",
           Object.assign(file, {
             preview: URL.createObjectURL(file),
           })
@@ -122,20 +122,20 @@ export default function SettingsDetails() {
                 onDrop={handleDrop}
                 helperText={
                   <p className='mx-auto block text-center text-xs text-gray-600 dark:text-gray-400'>
-                    {t('Allowed *.jpeg, *.jpg, *.png, *.gif')}
-                    <br /> {t('max size of')} {fData(3145728)}
+                    {t("Allowed *.jpeg, *.jpg, *.png, *.gif")}
+                    <br /> {t("max size of")} {fData(3145728)}
                   </p>
                 }
               />
-              <RHFTextField name='name' label={t('Company Name')} />
-              <RHFTextField name='slogan' label={t('Company Slogan')} />
-              <RHFTextField name='website' label={t('Company Website')} />
+              <RHFTextField name='name' label={t("Company Name")} />
+              <RHFTextField name='slogan' label={t("Company Slogan")} />
+              <RHFTextField name='website' label={t("Company Website")} />
               <Button
                 className='w-full self-center md:w-1/3'
                 type='submit'
                 loading={isUpdateLoading}
               >
-                {t('Save Changes')}
+                {t("Save Changes")}
               </Button>
             </>
           )}

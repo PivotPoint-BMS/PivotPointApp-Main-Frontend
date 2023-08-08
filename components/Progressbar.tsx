@@ -1,23 +1,23 @@
-import React from 'react'
-import * as ProgressPrimitive from '@radix-ui/react-progress'
-import { cva, VariantProps } from 'class-variance-authority'
-import clsx from 'clsx'
+import React from "react"
+import * as ProgressPrimitive from "@radix-ui/react-progress"
+import { cva, VariantProps } from "class-variance-authority"
+import clsx from "clsx"
 
-const progressbar = cva('duration-300 ease-in-out rounded-full', {
+const progressbar = cva("duration-300 ease-in-out rounded-full", {
   variants: {
     intent: {
-      primary: ['bg-primary-500', 'dark:bg-primary-400'],
-      secondary: ['bg-secondary-500', 'dark:bg-secondary-300'],
+      primary: ["bg-primary-500", "dark:bg-primary-400"],
+      secondary: ["bg-secondary-500", "dark:bg-secondary-300"],
     },
     size: {
-      small: 'h-2',
-      medium: 'h-3',
-      large: 'h-4',
+      small: "h-2",
+      medium: "h-3",
+      large: "h-4",
     },
   },
   defaultVariants: {
-    intent: 'primary',
-    size: 'medium',
+    intent: "primary",
+    size: "medium",
   },
 })
 
@@ -39,7 +39,7 @@ export default function Progressbar({
       value={progress}
       className={clsx(
         rootClassName,
-        'h-fit w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-600'
+        "h-fit w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-600"
       )}
     >
       <ProgressPrimitive.Indicator

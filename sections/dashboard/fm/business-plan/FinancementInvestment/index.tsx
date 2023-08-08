@@ -1,46 +1,46 @@
-import { useMemo } from 'react'
+import { useMemo } from "react"
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 // utils
-import { fCurrency } from 'utils/formatNumber'
+import { fCurrency } from "utils/formatNumber"
 // types
-import { BusinessPlan } from 'types'
+import { BusinessPlan } from "types"
 // components
-import { Card, CardContent, CardHeader } from 'components'
+import { Card, CardContent, CardHeader } from "components"
 // sections
-import Table from './Table'
+import Table from "./Table"
 
 const financementsColumns = [
   {
-    id: 'source',
-    label: 'Source',
-    accessor: 'source',
-    align: 'left',
+    id: "source",
+    label: "Source",
+    accessor: "source",
+    align: "left",
   },
   {
-    id: 'amount',
-    label: 'Amount',
-    accessor: 'amount',
-    align: 'right',
+    id: "amount",
+    label: "Amount",
+    accessor: "amount",
+    align: "right",
   },
 ]
 
 const investementsColumns = [
   {
-    id: 'investement',
-    label: 'Investment',
-    accessor: 'investement',
-    align: 'left',
+    id: "investement",
+    label: "Investment",
+    accessor: "investement",
+    align: "left",
   },
   {
-    id: 'amount',
-    label: 'Amount',
-    accessor: 'amount',
-    align: 'right',
+    id: "amount",
+    label: "Amount",
+    accessor: "amount",
+    align: "right",
   },
 ]
 
-export default function index({ data }: { data: BusinessPlan['financialPlan'] }) {
+export default function index({ data }: { data: BusinessPlan["financialPlan"] }) {
   const { t } = useTranslate()
   const totalFinancements = useMemo(
     () => data.financements.reduce((partialSum, a) => partialSum + a.amount, 0),
@@ -53,10 +53,10 @@ export default function index({ data }: { data: BusinessPlan['financialPlan'] })
   return (
     <Card fullWidth className='overflow-hidden'>
       <CardHeader
-        title={t('Financial Plan')}
+        title={t("Financial Plan")}
         className='!pb-2'
         subheader={t(
-          'A financial plan table that shows investments and financing provides a structured overview of the allocated resources and funding sources for various investments'
+          "A financial plan table that shows investments and financing provides a structured overview of the allocated resources and funding sources for various investments"
         )}
       />
 
@@ -65,7 +65,7 @@ export default function index({ data }: { data: BusinessPlan['financialPlan'] })
           <Table isFinancement={false} columns={investementsColumns} data={data.investements} />
           <Table isFinancement columns={financementsColumns} data={data.financements} />
           <p className='flex-1 p-2 px-5 font-medium ltr:text-left rtl:text-right'>
-            {t('Funding surplus')}: {fCurrency(totalFinancements - totalInvestements)} {t('Da')}
+            {t("Funding surplus")}: {fCurrency(totalFinancements - totalInvestements)} {t("Da")}
           </p>
         </div>
       </CardContent>

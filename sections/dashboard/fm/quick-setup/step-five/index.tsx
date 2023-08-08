@@ -1,17 +1,17 @@
 /* eslint-disable no-plusplus */
-import { useEffect, useMemo, useReducer } from 'react'
-import clsx from 'clsx'
+import { useEffect, useMemo, useReducer } from "react"
+import clsx from "clsx"
 // hooks
-import useTranslate from 'hooks/useTranslate'
-import useSnackbar from 'hooks/useSnackbar'
+import useTranslate from "hooks/useTranslate"
+import useSnackbar from "hooks/useSnackbar"
 // api
-import { useGetStepFiveQuery, useSetStepFiveMutation } from 'store/api/fm/financeSetupApi'
+import { useGetStepFiveQuery, useSetStepFiveMutation } from "store/api/fm/financeSetupApi"
 // components
-import { Icon } from '@iconify/react'
-import { Button, IconButton, LoadingIndicator } from 'components'
+import { Icon } from "@iconify/react"
+import { Button, IconButton, LoadingIndicator } from "components"
 // sections
-import Table from './Table'
-import makeData from './makeData'
+import Table from "./Table"
+import makeData from "./makeData"
 
 function reducer(
   state: {
@@ -49,26 +49,26 @@ function reducer(
   }
 ) {
   switch (action.type) {
-    case 'set_data':
+    case "set_data":
       return {
         ...state,
         data: action.data,
       }
-    case 'add_row':
+    case "add_row":
       if (
         state.data.every(
-          (cell) => cell.amount !== '' && cell.investement !== '' && cell.yearsOfUse !== ''
+          (cell) => cell.amount !== "" && cell.investement !== "" && cell.yearsOfUse !== ""
         )
       )
         return {
           ...state,
-          data: [...state.data, { investement: '', amount: '', yearsOfUse: '', physical: 'false' }],
+          data: [...state.data, { investement: "", amount: "", yearsOfUse: "", physical: "false" }],
         }
 
       return {
         ...state,
       }
-    case 'update_cell':
+    case "update_cell":
       return {
         ...state,
         data: state.data.map((row, index) => {
@@ -81,13 +81,13 @@ function reducer(
           return row
         }),
       }
-    case 'delete_row':
+    case "delete_row":
       return {
         ...state,
         data: state.data.filter((_, i) => i !== action.rowIndex),
         rowIndex: action.rowIndex,
       }
-    case 'delete_last_cell':
+    case "delete_last_cell":
       return {
         ...state,
         data: state.data.slice(0, -1),
@@ -124,8 +124,8 @@ function StepFive({
     if (isSuccess) handleNextStep()
     else if (isError)
       open({
-        message: t('A probles was accured.'),
-        type: 'error',
+        message: t("A probles was accured."),
+        type: "error",
         autoHideDuration: 6000,
       })
   }, [isLoading])
@@ -143,15 +143,15 @@ function StepFive({
           investement: investement.investement,
           amount: investement.amount,
           yearsOfUse: investement.yearsOfUse,
-          physical: investement.physical ? 'true' : 'false',
+          physical: investement.physical ? "true" : "false",
         })
       )
       dispatch({
-        type: 'set_data',
+        type: "set_data",
         data,
         rowIndex: 0,
-        columnId: '',
-        value: '',
+        columnId: "",
+        value: "",
         total: 0,
       })
     }
@@ -162,33 +162,33 @@ function StepFive({
       open({
         autoHideDuration: 10000,
         closeButton: true,
-        type: 'warning',
-        message: t('Total must be smaller or equal to invetement total'),
+        type: "warning",
+        message: t("Total must be smaller or equal to invetement total"),
       })
   }, [total])
 
   return (
     <div className='relative mx-auto flex h-full w-full min-w-fit flex-col items-center justify-start gap-5 py-10 px-4'>
-      {' '}
+      {" "}
       {isGetLoading ? (
         <LoadingIndicator />
       ) : (
         <>
           <IconButton
             onClick={handleBack}
-            className={clsx('absolute top-5', locale === 'ar' ? 'right-5' : 'left-5')}
+            className={clsx("absolute top-5", locale === "ar" ? "right-5" : "left-5")}
           >
             <Icon
               icon={
-                locale === 'ar'
-                  ? 'material-symbols:arrow-forward-rounded'
-                  : 'material-symbols:arrow-back-rounded'
+                locale === "ar"
+                  ? "material-symbols:arrow-forward-rounded"
+                  : "material-symbols:arrow-back-rounded"
               }
               height={20}
               width={20}
             />
           </IconButton>
-          <h1 className='text-center text-2xl font-semibold'>{t('Investement Sources')}</h1>
+          <h1 className='text-center text-2xl font-semibold'>{t("Investement Sources")}</h1>
           <Table columns={state.columns} data={state.data} dispatch={dispatch} total={total} />
           <Button
             onClick={() => {
@@ -196,15 +196,15 @@ function StepFive({
                 open({
                   autoHideDuration: 10000,
                   closeButton: true,
-                  type: 'warning',
-                  message: t('Total must be smaller or equal to invetement total'),
+                  type: "warning",
+                  message: t("Total must be smaller or equal to invetement total"),
                 })
                 return
               }
               if (
                 state.data.length > 0 &&
                 state.data.every(
-                  (cell) => cell.amount !== '' && cell.investement !== '' && cell.yearsOfUse !== ''
+                  (cell) => cell.amount !== "" && cell.investement !== "" && cell.yearsOfUse !== ""
                 )
               ) {
                 const investements = state.data.map((d) => ({
@@ -217,15 +217,15 @@ function StepFive({
               } else
                 open({
                   autoHideDuration: 10000,
-                  message: t('Please fill all fields.'),
-                  type: 'warning',
+                  message: t("Please fill all fields."),
+                  type: "warning",
                   closeButton: true,
                 })
             }}
             size='large'
             loading={isLoading}
           >
-            {t('Next Step')}
+            {t("Next Step")}
           </Button>
         </>
       )}

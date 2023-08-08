@@ -1,9 +1,9 @@
-import React from 'react'
-import moment from 'moment'
-import { Page, View, Text, Image, Document } from '@react-pdf/renderer'
-import { fCurrency } from 'utils/formatNumber'
-import { CompanyDetails, Delivery } from 'types'
-import styles from './InvoiceStyle'
+import React from "react"
+import moment from "moment"
+import { Page, View, Text, Image, Document } from "@react-pdf/renderer"
+import { fCurrency } from "utils/formatNumber"
+import { CompanyDetails, Delivery } from "types"
+import styles from "./InvoiceStyle"
 
 export default function DelivetyToPrint({
   delivery,
@@ -17,12 +17,12 @@ export default function DelivetyToPrint({
       <Page size='A4' style={styles.page}>
         <View style={[styles.gridContainer, styles.mb40]}>
           <Image source='/logo/logo_full.jpg' style={{ height: 32 }} />
-          <View style={{ alignItems: 'flex-end', flexDirection: 'column' }}>
+          <View style={{ alignItems: "flex-end", flexDirection: "column" }}>
             <Text style={styles.h3}>
-              {delivery.currentStatus === 0 && 'Initiated'}
-              {delivery.currentStatus === 1 && 'In Transmit'}
-              {delivery.currentStatus === 2 && 'Arrived to Destination'}
-              {delivery.currentStatus === 3 && 'Completed'}
+              {delivery.currentStatus === 0 && "Initiated"}
+              {delivery.currentStatus === 1 && "In Transmit"}
+              {delivery.currentStatus === 2 && "Arrived to Destination"}
+              {delivery.currentStatus === 3 && "Completed"}
             </Text>
             <Text> {delivery.id} </Text>
           </View>
@@ -45,11 +45,11 @@ export default function DelivetyToPrint({
         <View style={[styles.gridContainer, styles.mb40]}>
           <View style={styles.col6}>
             <Text style={[styles.overline, styles.mb8]}>Date create</Text>
-            <Text style={styles.body1}>{moment(delivery.checkingDate).format('LLL')}</Text>
+            <Text style={styles.body1}>{moment(delivery.checkingDate).format("LLL")}</Text>
           </View>
           <View style={styles.col6}>
             <Text style={[styles.overline, styles.mb8]}>Due date</Text>
-            <Text style={styles.body1}>{moment(delivery.deliveryComplete).format('LLL')}</Text>
+            <Text style={styles.body1}>{moment(delivery.deliveryComplete).format("LLL")}</Text>
           </View>
         </View>
 

@@ -1,8 +1,8 @@
 /* eslint-disable no-nested-ternary */
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { createPortal } from 'react-dom'
+import React, { useCallback, useEffect, useRef, useState } from "react"
+import { createPortal } from "react-dom"
 // next
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router"
 // dnd
 import {
   useSensors,
@@ -23,14 +23,14 @@ import {
   DragStartEvent,
   DragOverEvent,
   DragEndEvent,
-} from '@dnd-kit/core'
+} from "@dnd-kit/core"
 import {
   sortableKeyboardCoordinates,
   arrayMove,
   SortableContext,
   horizontalListSortingStrategy,
   verticalListSortingStrategy,
-} from '@dnd-kit/sortable'
+} from "@dnd-kit/sortable"
 // api
 import {
   getDealBoard,
@@ -39,24 +39,24 @@ import {
   useDeleteDealBoardMutation,
   useGetDealBoardQuery,
   usePresistColumnOrderMutation,
-} from 'store/api/crm/sales-pipeline/dealsBoardsApi'
-import { skipToken } from '@reduxjs/toolkit/dist/query'
-import { wrapper } from 'store'
+} from "store/api/crm/sales-pipeline/dealsBoardsApi"
+import { skipToken } from "@reduxjs/toolkit/dist/query"
+import { wrapper } from "store"
 // hooks
-import useSnackbar from 'hooks/useSnackbar'
-import useTranslate from 'hooks/useTranslate'
-import DealBoardColumnProps from 'types/DealBoardColumnProps'
+import useSnackbar from "hooks/useSnackbar"
+import useTranslate from "hooks/useTranslate"
+import DealBoardColumnProps from "types/DealBoardColumnProps"
 // types
-import DealBoardProps from 'types/DealBoardProps'
+import DealBoardProps from "types/DealBoardProps"
 // components
-import { Icon as Iconify } from '@iconify/react'
-import { AlertDialog, Button, Dialog } from 'components'
-import { Item } from './Item'
-import KanbanColumn from './KanbanColumn'
-import SortableItem from './SortableItem'
-import CreateEditColumnForm from './CreateEditColumnForm'
-import CreateEditBoardForm from './CreateEditBoardForm'
-import DealPreview from './DealPreview'
+import { Icon as Iconify } from "@iconify/react"
+import { AlertDialog, Button, Dialog } from "components"
+import { Item } from "./Item"
+import KanbanColumn from "./KanbanColumn"
+import SortableItem from "./SortableItem"
+import CreateEditColumnForm from "./CreateEditColumnForm"
+import CreateEditBoardForm from "./CreateEditBoardForm"
+import DealPreview from "./DealPreview"
 
 export const EMPTY_BOARD: DealBoardProps = {
   columns: {},
@@ -69,7 +69,7 @@ const dropAnimation: DropAnimation = {
   sideEffects: defaultDropAnimationSideEffects({
     styles: {
       active: {
-        opacity: '0.5',
+        opacity: "0.5",
       },
     },
   }),
@@ -135,7 +135,7 @@ const DealsKanban = ({
       const pointerIntersections = pointerWithin(args)
       const intersections =
         pointerIntersections.length > 0 ? pointerIntersections : rectIntersection(args)
-      let overId = getFirstCollision(intersections, 'id')
+      let overId = getFirstCollision(intersections, "id")
 
       if (overId != null) {
         if (overId in board.columns) {
@@ -193,7 +193,7 @@ const DealsKanban = ({
     return (
       <KanbanColumn
         name={board.columns[columnId].columnTitle}
-        id={''}
+        id={""}
         boardId=''
         items={[]}
         type={board.columns[columnId].columnType}
@@ -284,7 +284,7 @@ const DealsKanban = ({
         const overIndex = columnsOrder.indexOf(over.id)
 
         presistColumnOrder({
-          boardId: boardId?.toLowerCase() || '',
+          boardId: boardId?.toLowerCase() || "",
           id: active.id.toString(),
           order: overIndex,
         })
@@ -329,7 +329,7 @@ const DealsKanban = ({
         }
       }
       changeDealColumn({
-        boardId: boardId || '',
+        boardId: boardId || "",
         id: active.id.toString(),
         columnId: activeContainer.toString(),
       })
@@ -355,9 +355,9 @@ const DealsKanban = ({
   useEffect(() => {
     if (isError && boardId && boardId?.length > 0) {
       open({
-        message: t('A problem has occurred.'),
-        type: 'error',
-        variant: 'contained',
+        message: t("A problem has occurred."),
+        type: "error",
+        variant: "contained",
       })
       setBoardId(null)
     }
@@ -372,16 +372,16 @@ const DealsKanban = ({
   useEffect(() => {
     if (isDeleteError) {
       open({
-        message: t('A problem has occurred.'),
-        type: 'error',
-        variant: 'contained',
+        message: t("A problem has occurred."),
+        type: "error",
+        variant: "contained",
       })
     }
     if (isDeleteSuccess) {
       open({
-        message: t('Pipeline Deleted Successfully.'),
-        type: 'success',
-        variant: 'contained',
+        message: t("Pipeline Deleted Successfully."),
+        type: "success",
+        variant: "contained",
       })
       setBoardId(null)
     }
@@ -390,9 +390,9 @@ const DealsKanban = ({
   useEffect(() => {
     if (isPresistError || isDealEditError) {
       open({
-        message: t('A problem has occurred.'),
-        type: 'error',
-        variant: 'contained',
+        message: t("A problem has occurred."),
+        type: "error",
+        variant: "contained",
       })
     }
   }, [isPresistError, isDealEditError])
@@ -403,7 +403,7 @@ const DealsKanban = ({
         <>
           <div className='mb-4 flex max-w-full items-center justify-between'>
             <h1 className='text-xl font-medium capitalize'>
-              <span className='text-gray-600 dark:text-gray-400'>{t('Current Pipeline :')}</span>{' '}
+              <span className='text-gray-600 dark:text-gray-400'>{t("Current Pipeline :")}</span>{" "}
               {board.dealBoards[boardId]?.title}
             </h1>
             <div className='flex max-w-full items-center gap-2'>
@@ -413,7 +413,7 @@ const DealsKanban = ({
                 startIcon={<Iconify icon='ic:round-delete' height={18} />}
                 onClick={() => setOpenDeleteDialog(true)}
               >
-                {t('Delete')}
+                {t("Delete")}
               </Button>
               <Button
                 variant='outlined'
@@ -421,7 +421,7 @@ const DealsKanban = ({
                 startIcon={<Iconify icon='ic:round-edit' height={18} />}
                 onClick={() => setOpenEditBoardDialog(true)}
               >
-                {t('Edit')}
+                {t("Edit")}
               </Button>
             </div>
           </div>
@@ -487,20 +487,20 @@ const DealsKanban = ({
                 startIcon={<Iconify icon='ic:round-plus' height={24} />}
                 onClick={() => setOpenDialog(true)}
               >
-                {t('Add Section')}
+                {t("Add Section")}
               </Button>
             </div>
           </DndContext>
         </>
       ) : (
         <div className='flex items-center justify-center'>
-          <h1>{t('No Pipeline')}</h1>
+          <h1>{t("No Pipeline")}</h1>
         </div>
       )}
-      <Dialog open={openDialog} title={t('Add New Section')}>
+      <Dialog open={openDialog} title={t("Add New Section")}>
         <CreateEditColumnForm
           // TODO: Edit Deal
-          boardId={boardId || ''}
+          boardId={boardId || ""}
           currentColumn={null}
           isEdit={false}
           onSuccess={() => {
@@ -512,14 +512,14 @@ const DealsKanban = ({
         />
       </Dialog>
       <AlertDialog
-        title={t('Confirm Delete')}
+        title={t("Confirm Delete")}
         description={
           <p className='mb-4 text-sm text-red-600 dark:text-red-400'>
-            {t('This action cannot be undone. All section and deals will be permanently deleted.')}
+            {t("This action cannot be undone. All section and deals will be permanently deleted.")}
           </p>
         }
-        cancelText={t('Cancel')}
-        confirmText={t('Yes, Delete')}
+        cancelText={t("Cancel")}
+        confirmText={t("Yes, Delete")}
         onConfirm={() => {
           if (boardId) {
             deleteBoard(boardId)
@@ -528,9 +528,9 @@ const DealsKanban = ({
         }}
         open={openDeleteDialog}
         onClose={() => setOpenDeleteDialog(false)}
-        buttonProps={{ intent: 'error' }}
+        buttonProps={{ intent: "error" }}
       />
-      <Dialog open={openEditBoardDialog} title={t('Edit Pipeline')}>
+      <Dialog open={openEditBoardDialog} title={t("Edit Pipeline")}>
         <CreateEditBoardForm
           currentBoard={boardId ? board.dealBoards[boardId] : null}
           isEdit={true}
@@ -542,7 +542,7 @@ const DealsKanban = ({
           }}
         />
       </Dialog>
-      <DealPreview boardId={boardId || ''} />
+      <DealPreview boardId={boardId || ""} />
     </div>
   )
 }
@@ -551,7 +551,7 @@ export default DealsKanban
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
   const boardId = context.query?.boardId
-  if (typeof boardId === 'string' && boardId.length > 0) {
+  if (typeof boardId === "string" && boardId.length > 0) {
     store.dispatch(getDealBoard.initiate(boardId))
   }
 

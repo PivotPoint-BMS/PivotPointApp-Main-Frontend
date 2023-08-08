@@ -1,21 +1,21 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { HYDRATE } from 'next-redux-wrapper'
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { HYDRATE } from "next-redux-wrapper"
 // config
-import { PIVOTPOINT_API } from 'config'
+import { PIVOTPOINT_API } from "config"
 // types
-import { IGenericError, IGenericResponse } from 'types'
+import { IGenericError, IGenericResponse } from "types"
 // store
-import { RootState } from 'store'
+import { RootState } from "store"
 
 export const financeDashboardApi = createApi({
-  reducerPath: 'financeDashboardApi',
+  reducerPath: "financeDashboardApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${PIVOTPOINT_API.baseUrl}/fm`,
     prepareHeaders: (headers, { getState }) => {
       const { token } = (getState() as RootState).session
 
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
+        headers.set("Authorization", `Bearer ${token}`)
       }
 
       return headers
@@ -29,7 +29,7 @@ export const financeDashboardApi = createApi({
   },
   endpoints: (builder) => ({
     getFmDashboardStats: builder.query<IGenericResponse<unknown>, void>({
-      query: () => 'Dashboard',
+      query: () => "Dashboard",
       transformErrorResponse: (response: IGenericError) => response.data.message,
     }),
   }),

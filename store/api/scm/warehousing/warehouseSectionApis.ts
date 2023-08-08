@@ -1,23 +1,23 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { HYDRATE } from 'next-redux-wrapper'
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { HYDRATE } from "next-redux-wrapper"
 // config
-import { PIVOTPOINT_API } from 'config'
+import { PIVOTPOINT_API } from "config"
 // types
-import { ListGenericResponse, IGenericResponse, WarehouseSection, Product } from 'types'
+import { ListGenericResponse, IGenericResponse, WarehouseSection, Product } from "types"
 // store
-import { RootState } from 'store'
+import { RootState } from "store"
 
 export const warehouseSectionApi = createApi({
-  reducerPath: 'warehouseSectionApi',
+  reducerPath: "warehouseSectionApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${PIVOTPOINT_API.baseUrl}/scm`,
     prepareHeaders: (headers, { getState }) => {
       const { token } = (getState() as RootState).session
 
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
+        headers.set("Authorization", `Bearer ${token}`)
       }
 
       return headers
@@ -38,13 +38,13 @@ export const warehouseSectionApi = createApi({
     }),
     createWarehouseSection: builder.mutation<
       IGenericResponse<WarehouseSection>,
-      Omit<WarehouseSection, 'id'> & { warehouseId: string }
+      Omit<WarehouseSection, "id"> & { warehouseId: string }
     >({
       query: ({ warehouseId, ...data }) => ({
         url: `WarehouseSection/${warehouseId}`,
-        method: 'POST',
-        body: { ...data, dimensions: 'ded' },
-        responseHandler: 'content-type',
+        method: "POST",
+        body: { ...data, dimensions: "ded" },
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ warehouseId }, { dispatch, queryFulfilled }) {
         try {
@@ -53,7 +53,7 @@ export const warehouseSectionApi = createApi({
           } = await queryFulfilled
           dispatch(
             warehouseSectionApi.util.updateQueryData(
-              'getWarehouseSections',
+              "getWarehouseSections",
               warehouseId,
               (draftedList) => {
                 draftedList.data.push(data)
@@ -67,13 +67,13 @@ export const warehouseSectionApi = createApi({
     }),
     editWarehouseSection: builder.mutation<
       ListGenericResponse<WarehouseSection>,
-      { data: Omit<WarehouseSection, 'id'>; id: string; warehouseId: string }
+      { data: Omit<WarehouseSection, "id">; id: string; warehouseId: string }
     >({
       query: ({ data, id }) => ({
         url: `WarehouseSection/${id}`,
-        method: 'PUT',
+        method: "PUT",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
 
       async onQueryStarted({ id, warehouseId }, { dispatch, queryFulfilled }) {
@@ -84,7 +84,7 @@ export const warehouseSectionApi = createApi({
 
           dispatch(
             warehouseSectionApi.util.updateQueryData(
-              'getWarehouseSections',
+              "getWarehouseSections",
               warehouseId,
               (draftedList) => {
                 Object.assign(draftedList.data.find((item) => item.id === id)!, data)
@@ -94,7 +94,7 @@ export const warehouseSectionApi = createApi({
           )
 
           dispatch(
-            warehouseSectionApi.util.updateQueryData('getWarehouseSection', id, (draft) => {
+            warehouseSectionApi.util.updateQueryData("getWarehouseSection", id, (draft) => {
               Object.assign(draft.data, data)
             })
           )
@@ -115,10 +115,10 @@ export const warehouseSectionApi = createApi({
       }
     >({
       query: (data) => ({
-        url: 'Warehousing/Item',
-        method: 'POST',
+        url: "Warehousing/Item",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
 
       async onQueryStarted(
@@ -130,7 +130,7 @@ export const warehouseSectionApi = createApi({
 
           dispatch(
             warehouseSectionApi.util.updateQueryData(
-              'getWarehouseSections',
+              "getWarehouseSections",
               warehouseId,
               (draftedList) => {
                 Object.assign(draftedList.data.find((i) => i.id === sectionId)!, {
@@ -148,7 +148,7 @@ export const warehouseSectionApi = createApi({
 
           dispatch(
             warehouseSectionApi.util.updateQueryData(
-              'getWarehouseSection',
+              "getWarehouseSection",
               sectionId,
               (drafted) => {
                 drafted.data.sectionItems.push({
@@ -173,15 +173,15 @@ export const warehouseSectionApi = createApi({
     >({
       query: ({ id }) => ({
         url: `WarehouseSection/${id}`,
-        method: 'DELETE',
-        responseHandler: 'content-type',
+        method: "DELETE",
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ id, warehouseId }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
           dispatch(
             warehouseSectionApi.util.updateQueryData(
-              'getWarehouseSections',
+              "getWarehouseSections",
               warehouseId,
               (draftedList) => ({
                 ...draftedList,
@@ -203,17 +203,17 @@ export const warehouseSectionApi = createApi({
       }
     >({
       query: (body) => ({
-        url: 'Warehousing/Delete/Item',
-        method: 'POST',
+        url: "Warehousing/Delete/Item",
+        method: "POST",
         body,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ sectionId, warehouseId, itemId }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
           dispatch(
             warehouseSectionApi.util.updateQueryData(
-              'getWarehouseSections',
+              "getWarehouseSections",
               warehouseId,
               (draftedList) => {
                 const section = draftedList.data.find((item) => item.id === sectionId)
@@ -227,7 +227,7 @@ export const warehouseSectionApi = createApi({
 
           dispatch(
             warehouseSectionApi.util.updateQueryData(
-              'getWarehouseSection',
+              "getWarehouseSection",
               sectionId,
               (drafted) => ({
                 ...drafted,

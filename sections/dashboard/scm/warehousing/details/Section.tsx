@@ -1,10 +1,10 @@
-import React from 'react'
-import clsx from 'clsx'
+import React from "react"
+import clsx from "clsx"
 // redux
-import { useAppDispatch } from 'store/hooks'
-import { previewSection } from 'store/slices/sectionPreviewSlice'
+import { useAppDispatch } from "store/hooks"
+import { previewSection } from "store/slices/sectionPreviewSlice"
 // types
-import { WarehouseSection } from 'types'
+import { WarehouseSection } from "types"
 
 function Section({ section }: { section: WarehouseSection }) {
   const width = `${(section.currentCapacity * 100) / section.maxCapacity}%`
@@ -20,7 +20,7 @@ function Section({ section }: { section: WarehouseSection }) {
       </button>
 
       <div
-        className={clsx('h-full  rounded-md bg-gray-500 dark:bg-gray-600')}
+        className={clsx("h-full  rounded-md bg-gray-500 dark:bg-gray-600")}
         style={{ width }}
       ></div>
     </div>

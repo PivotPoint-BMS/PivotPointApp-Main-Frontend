@@ -1,6 +1,6 @@
-import React from 'react'
-import clsx from 'clsx'
-import Select from 'react-select'
+import React from "react"
+import clsx from "clsx"
+import Select from "react-select"
 
 export default function Cell({
   value: initialValue,
@@ -15,7 +15,7 @@ export default function Cell({
   }
 
   const onBlur = () => {
-    dataDispatch({ type: 'update_cell', columnId: id, rowIndex: index, value })
+    dataDispatch({ type: "update_cell", columnId: id, rowIndex: index, value })
   }
 
   React.useEffect(() => {
@@ -23,7 +23,7 @@ export default function Cell({
   }, [initialValue])
 
   switch (dataType) {
-    case 'email':
+    case "email":
       return (
         <input
           value={value}
@@ -32,12 +32,12 @@ export default function Cell({
           type={dataType}
           placeholder={placeholder}
           className={clsx(
-            'box-border h-full w-full flex-auto resize-none truncate whitespace-nowrap border-0 bg-transparent p-2',
-            dataType === 'number' && 'text-right'
+            "box-border h-full w-full flex-auto resize-none truncate whitespace-nowrap border-0 bg-transparent p-2",
+            dataType === "number" && "text-right"
           )}
         />
       )
-    case 'text':
+    case "text":
       return (
         <input
           value={value}
@@ -46,33 +46,33 @@ export default function Cell({
           type={dataType}
           placeholder={placeholder}
           className={clsx(
-            'box-border h-full w-full flex-auto resize-none whitespace-nowrap border-0 bg-transparent p-2',
-            dataType === 'number' && 'text-right'
+            "box-border h-full w-full flex-auto resize-none whitespace-nowrap border-0 bg-transparent p-2",
+            dataType === "number" && "text-right"
           )}
         />
       )
-    case 'select':
+    case "select":
       return (
         <Select
           options={options}
           isMulti
           className='react-select-container'
           classNamePrefix='react-select'
-          defaultValue={options.filter((v) => initialValue.split(',').includes(v.value))}
+          defaultValue={options.filter((v) => initialValue.split(",").includes(v.value))}
           onChange={(val) => {
-            if (val.map((v) => v.value).includes('Owner'))
+            if (val.map((v) => v.value).includes("Owner"))
               dataDispatch({
-                type: 'update_cell',
+                type: "update_cell",
                 columnId: id,
                 rowIndex: index,
-                value: 'Owner',
+                value: "Owner",
               })
             else
               dataDispatch({
-                type: 'update_cell',
+                type: "update_cell",
                 columnId: id,
                 rowIndex: index,
-                value: val.map((v) => v.value).join(','),
+                value: val.map((v) => v.value).join(","),
               })
           }}
         />

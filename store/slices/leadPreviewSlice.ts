@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 // types
 
-import { Lead } from 'types'
+import { Lead } from "types"
 
 interface LeadPreview {
   lead: Lead | null
@@ -15,7 +15,7 @@ const initialState: LeadPreview = {
 }
 
 const leadPreviewSlice = createSlice({
-  name: 'leadPreview',
+  name: "leadPreview",
   initialState,
   reducers: {
     previewLead: (state, action: PayloadAction<Lead>) => {

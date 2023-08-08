@@ -1,14 +1,14 @@
-import React from 'react'
-import { Meta, Story } from '@storybook/react'
-import Card, { CardProps } from '../components/Card'
+import React from "react"
+import { Meta, Story } from "@storybook/react"
+import Card, { CardProps } from "../components/Card"
 
 const meta: Meta = {
-  title: 'INPUT/Card',
+  title: "INPUT/Card",
   component: Card,
   argTypes: {
     children: {
       control: {
-        type: 'Card',
+        type: "Card",
       },
     },
   },

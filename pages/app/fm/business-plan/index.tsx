@@ -1,22 +1,22 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from "react"
 
 // next
-import Head from 'next/head'
+import Head from "next/head"
 // api
-import { useGetBusinnesPlanQuery } from 'store/api/fm/fmBusinessPlanApis'
+import { useGetBusinnesPlanQuery } from "store/api/fm/fmBusinessPlanApis"
 // hooks
-import useTranslate from 'hooks/useTranslate'
-import useSnackbar from 'hooks/useSnackbar'
+import useTranslate from "hooks/useTranslate"
+import useSnackbar from "hooks/useSnackbar"
 // sections
 // layout
-import Layout from 'layout/Index'
+import Layout from "layout/Index"
 // components
-import { HeaderBreadcrumbs, LoadingIndicator } from 'components'
-import FinancementInvestment from 'sections/dashboard/fm/business-plan/FinancementInvestment'
-import ProfitabilityThresholds from 'sections/dashboard/fm/business-plan/ProfitabilityThresholds'
-import PrevisionalResultsAccounts from 'sections/dashboard/fm/business-plan/PrevisionalResultsAccounts'
-import BalanceSheetForecasts from 'sections/dashboard/fm/business-plan/BalanceSheetForecasts'
-import RoleBasedGuard from 'guards/RoleBasedGuard'
+import { HeaderBreadcrumbs, LoadingIndicator } from "components"
+import FinancementInvestment from "sections/dashboard/fm/business-plan/FinancementInvestment"
+import ProfitabilityThresholds from "sections/dashboard/fm/business-plan/ProfitabilityThresholds"
+import PrevisionalResultsAccounts from "sections/dashboard/fm/business-plan/PrevisionalResultsAccounts"
+import BalanceSheetForecasts from "sections/dashboard/fm/business-plan/BalanceSheetForecasts"
+import RoleBasedGuard from "guards/RoleBasedGuard"
 
 function Dashboard() {
   const { t } = useTranslate()
@@ -28,9 +28,9 @@ function Dashboard() {
   useEffect(() => {
     if (isError) {
       open({
-        message: t('A problem has occurred while retrieving data.'),
-        type: 'error',
-        variant: 'contained',
+        message: t("A problem has occurred while retrieving data."),
+        type: "error",
+        variant: "contained",
       })
     }
   }, [isError, isSuccess, isFetching, isLoading])
@@ -46,10 +46,10 @@ function Dashboard() {
     return (
       <>
         <Head>
-          <title>{t('Financial Business Plan')} | Pivot Point BMS</title>
+          <title>{t("Financial Business Plan")} | Pivot Point BMS</title>
         </Head>
         <div className='space-y-4 px-5'>
-          <HeaderBreadcrumbs heading={t('Financial Business Plan')} />
+          <HeaderBreadcrumbs heading={t("Financial Business Plan")} />
           <FinancementInvestment data={data.data.financialPlan} />
           <ProfitabilityThresholds
             data={data.data.profitabilityThresholds}
@@ -67,7 +67,7 @@ function Dashboard() {
   return (
     <>
       <Head>
-        <title>{t('Financial Business Plan')} | Pivot Point BMS</title>
+        <title>{t("Financial Business Plan")} | Pivot Point BMS</title>
       </Head>
       <div className='px-5'>
         <div className='flex h-56 w-full items-center justify-center'>
@@ -81,7 +81,7 @@ function Dashboard() {
 Dashboard.getLayout = function getLayout(page: JSX.Element) {
   return (
     <Layout variant='dashboard'>
-      <RoleBasedGuard accessibleRoles={['Owner', 'FM']}>{page}</RoleBasedGuard>
+      <RoleBasedGuard accessibleRoles={["Owner", "FM"]}>{page}</RoleBasedGuard>
     </Layout>
   )
 }

@@ -1,4 +1,4 @@
-declare module 'react-simple-snackbar' {
+declare module "react-simple-snackbar" {
   export type SnackbarProviderProps = {
     children?: React.ReactChild | React.ReactChildren | JSX.Element | JSX.Element[]
   }
@@ -17,12 +17,12 @@ declare module 'react-simple-snackbar' {
   type CloseSnackbar = () => void
 
   export type SnackbarPosition =
-    | 'top-left'
-    | 'top-center'
-    | 'top-right'
-    | 'bottom-left'
-    | 'bottom-center'
-    | 'bottom-right'
+    | "top-left"
+    | "top-center"
+    | "top-right"
+    | "bottom-left"
+    | "bottom-center"
+    | "bottom-right"
 
   export interface SnackbarOptions {
     /**

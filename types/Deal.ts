@@ -1,4 +1,4 @@
-import { UniqueIdentifier } from '@dnd-kit/core'
+import { UniqueIdentifier } from "@dnd-kit/core"
 
 export default interface Deal {
   id: string | UniqueIdentifier

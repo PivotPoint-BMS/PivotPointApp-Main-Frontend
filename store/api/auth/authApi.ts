@@ -1,7 +1,7 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { HYDRATE } from 'next-redux-wrapper'
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { HYDRATE } from "next-redux-wrapper"
 // actions
-import { setError, setUser, startLoading } from 'store/slices/sessionSlice'
+import { setError, setUser, startLoading } from "store/slices/sessionSlice"
 // types
 import {
   IGenericError,
@@ -10,20 +10,20 @@ import {
   RegisterInput,
   ResetPasswordInput,
   SessionUser,
-} from 'types'
+} from "types"
 // config
-import { PIVOTPOINT_API } from 'config'
-import { RootState } from 'store'
+import { PIVOTPOINT_API } from "config"
+import { RootState } from "store"
 
 export const authApi = createApi({
-  reducerPath: 'auth',
+  reducerPath: "auth",
   baseQuery: fetchBaseQuery({
     baseUrl: `${PIVOTPOINT_API.baseUrl}/identity/Authentication/`,
     prepareHeaders: (headers, { getState }) => {
       const { token } = (getState() as RootState).session
 
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
+        headers.set("Authorization", `Bearer ${token}`)
       }
 
       return headers
@@ -39,10 +39,10 @@ export const authApi = createApi({
   endpoints: (builder) => ({
     login: builder.mutation<SessionUser, LoginInput>({
       query: (data) => ({
-        url: 'Login',
-        method: 'POST',
+        url: "Login",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
         dispatch(startLoading())
@@ -50,16 +50,16 @@ export const authApi = createApi({
           const { data } = await queryFulfilled
           dispatch(setUser(data))
         } catch (err) {
-          dispatch(setError('Error fetching user!'))
+          dispatch(setError("Error fetching user!"))
         }
       },
     }),
     register: builder.mutation<string[], RegisterInput>({
       query: (data) => ({
-        url: 'Register',
-        method: 'POST',
+        url: "Register",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
     }),
     getUser: builder.mutation<SessionUser, string>({
@@ -67,9 +67,9 @@ export const authApi = createApi({
         headers: {
           Authorization: `Bearer ${refreshToken}`,
         },
-        url: 'RefreshToken',
-        method: 'GET',
-        responseHandler: 'content-type',
+        url: "RefreshToken",
+        method: "GET",
+        responseHandler: "content-type",
       }),
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
         dispatch(startLoading())
@@ -77,24 +77,24 @@ export const authApi = createApi({
           const { data } = await queryFulfilled
           dispatch(setUser(data))
         } catch (err) {
-          dispatch(setError('Error fetching user!'))
+          dispatch(setError("Error fetching user!"))
         }
       },
     }),
     resetPassword: builder.mutation<IGenericResponse<unknown>, ResetPasswordInput>({
       query: (data) => ({
-        url: 'ResetPassword',
-        method: 'POST',
+        url: "ResetPassword",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
     }),
     changePassword: builder.mutation<IGenericResponse<unknown>, ResetPasswordInput>({
       query: (data) => ({
-        url: 'ChangePassword',
-        method: 'PUT',
+        url: "ChangePassword",
+        method: "PUT",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       transformErrorResponse: (response: IGenericError) => ({ error: response }),
     }),

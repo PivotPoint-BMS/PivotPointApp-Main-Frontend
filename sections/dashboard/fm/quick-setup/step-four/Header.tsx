@@ -1,7 +1,7 @@
-import React from 'react'
-import clsx from 'clsx'
+import React from "react"
+import clsx from "clsx"
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 
 export default function Header({
   column: { label, getHeaderProps, align },
@@ -13,10 +13,10 @@ export default function Header({
     <div
       {...getHeaderProps()}
       className={clsx(
-        '!w-full truncate py-2 px-5 font-medium',
-        align === 'center' && 'text-center',
-        align === 'right' && 'ltr:text-right rtl:text-left',
-        align === 'left' && 'ltr:text-left rtl:text-right'
+        "!w-full truncate py-2 px-5 font-medium",
+        align === "center" && "text-center",
+        align === "right" && "ltr:text-right rtl:text-left",
+        align === "left" && "ltr:text-left rtl:text-right"
       )}
     >
       {t(label)}

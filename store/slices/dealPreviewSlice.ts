@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 // types
 
 interface DealPreview {
@@ -13,7 +13,7 @@ const initialState: DealPreview = {
 }
 
 const dealPreviewSlice = createSlice({
-  name: 'dealPreview',
+  name: "dealPreview",
   initialState,
   reducers: {
     previewDeal: (state, action: PayloadAction<string>) => {

@@ -1,23 +1,23 @@
-import { useEffect, useState } from 'react'
-import * as Yup from 'yup'
+import { useEffect, useState } from "react"
+import * as Yup from "yup"
 // form
-import { yupResolver } from '@hookform/resolvers/yup'
-import { FieldValues, useForm } from 'react-hook-form'
+import { yupResolver } from "@hookform/resolvers/yup"
+import { FieldValues, useForm } from "react-hook-form"
 // api
-import { useCreateDealMutation } from 'store/api/crm/sales-pipeline/dealsBoardsApi'
+import { useCreateDealMutation } from "store/api/crm/sales-pipeline/dealsBoardsApi"
 // config
-import { DEALTYPES } from 'config'
+import { DEALTYPES } from "config"
 // types
-import { Deal } from 'types'
+import { Deal } from "types"
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 // components
-import Select from 'react-select'
-import { RHFField, Button } from 'components'
-import { FormProvider, RHFTextField } from 'components/hook-form'
-import useSnackbar from 'hooks/useSnackbar'
-import RHFTextArea from 'components/hook-form/RHFTextArea'
-import { useGetContactsQuery, useGetLeadsQuery } from 'store/api/crm/contact-leads/leadApis'
+import Select from "react-select"
+import { RHFField, Button } from "components"
+import { FormProvider, RHFTextField } from "components/hook-form"
+import useSnackbar from "hooks/useSnackbar"
+import RHFTextArea from "components/hook-form/RHFTextArea"
+import { useGetContactsQuery, useGetLeadsQuery } from "store/api/crm/contact-leads/leadApis"
 
 export default function CreateDealForm({
   columnId,
@@ -73,21 +73,21 @@ export default function CreateDealForm({
   }, [isContactsLoading])
 
   const Schema = Yup.object().shape({
-    title: Yup.string().min(3, t('Too short')).required(t('This field is required')),
-    type: Yup.number().required(t('This field is required')),
-    tags: Yup.string().min(3, t('Too short')).required(t('This field is required')),
+    title: Yup.string().min(3, t("Too short")).required(t("This field is required")),
+    type: Yup.number().required(t("This field is required")),
+    tags: Yup.string().min(3, t("Too short")).required(t("This field is required")),
     leads: Yup.array(),
   })
 
   const defaultValues = {
-    title: '',
-    type: '',
-    tags: '',
+    title: "",
+    type: "",
+    tags: "",
     leadIds: [],
     leads: [],
     columnId,
-    potentialDealValue: '',
-    successProbability: '',
+    potentialDealValue: "",
+    successProbability: "",
   }
 
   const methods = useForm<FieldValues>({
@@ -103,8 +103,8 @@ export default function CreateDealForm({
       columnId,
       boardId,
       leadIds: data.leads.map((item: { value: string; label: string }) => item.value),
-      potentialDealValue: data.potentialDealValue !== '' ? data.potentialDealValue : 0,
-      successProbability: data.successProbability !== '' ? data.successProbability : 0,
+      potentialDealValue: data.potentialDealValue !== "" ? data.potentialDealValue : 0,
+      successProbability: data.successProbability !== "" ? data.successProbability : 0,
       tags: data.tags,
       title: data.title,
       type: data.type,
@@ -115,20 +115,20 @@ export default function CreateDealForm({
   useEffect(() => {
     if (isCreateError) {
       open({
-        message: t('A problem has occurred.'),
+        message: t("A problem has occurred."),
         autoHideDuration: 4000,
-        type: 'error',
-        variant: 'contained',
+        type: "error",
+        variant: "contained",
       })
       onFailure()
     }
     if (isCreateSuccess) {
       reset()
       open({
-        message: t('Deal Added Successfully.'),
+        message: t("Deal Added Successfully."),
         autoHideDuration: 4000,
-        type: 'success',
-        variant: 'contained',
+        type: "success",
+        variant: "contained",
       })
       onSuccess()
     }
@@ -137,14 +137,14 @@ export default function CreateDealForm({
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <div className='mt-2 grid grid-cols-1 gap-4 md:grid-cols-2'>
-        <RHFTextField name='title' label={t('Title')} />
-        <RHFField name='type' label={t('Type')}>
+        <RHFTextField name='title' label={t("Title")} />
+        <RHFField name='type' label={t("Type")}>
           <Select
             options={DEALTYPES.map((item) => ({ value: item.value, label: t(item.label) }))}
             getOptionLabel={(option) => t(option.label)}
             isLoading={isLoading}
             onChange={(newValue) => {
-              setValue('type', newValue?.value)
+              setValue("type", newValue?.value)
               setType(newValue)
             }}
             value={type}
@@ -157,31 +157,31 @@ export default function CreateDealForm({
         <RHFTextField
           type='number'
           name='potentialDealValue'
-          label={t('Potential Deal Value')}
-          endAdornment={t('Da')}
+          label={t("Potential Deal Value")}
+          endAdornment={t("Da")}
         />
         <RHFTextField
           type='number'
           name='successProbability'
-          label={t('Success Probability')}
-          endAdornment={t('%')}
+          label={t("Success Probability")}
+          endAdornment={t("%")}
         />
         <div className='md:col-span-2'>
-          <RHFTextField name='tags' label={t('Tags (Comma Separated)')} />{' '}
+          <RHFTextField name='tags' label={t("Tags (Comma Separated)")} />{" "}
         </div>
         <div className='md:col-span-2'>
-          <RHFTextArea name='description' label={t('Description')} />
+          <RHFTextArea name='description' label={t("Description")} />
         </div>
         <div className='md:col-span-2'>
           {type && type.value === 1 && (
-            <RHFField name='leads' label={t('Leads')}>
+            <RHFField name='leads' label={t("Leads")}>
               <Select
                 options={leads}
                 isMulti
                 isLoading={isLoading}
                 onChange={(newValue) => {
                   setValue(
-                    'leads',
+                    "leads",
                     newValue?.map((id) => id)
                   )
                 }}
@@ -192,14 +192,14 @@ export default function CreateDealForm({
             </RHFField>
           )}
           {type && type.value === 2 && (
-            <RHFField name='leadIds' label={t('Contacts')}>
+            <RHFField name='leadIds' label={t("Contacts")}>
               <Select
                 options={contacts}
                 isMulti
                 isLoading={isLoading}
                 onChange={(newValue) => {
                   setValue(
-                    'leadIds',
+                    "leadIds",
                     newValue?.map((id) => id)
                   )
                 }}
@@ -209,15 +209,15 @@ export default function CreateDealForm({
               />
             </RHFField>
           )}
-        </div>{' '}
+        </div>{" "}
       </div>
 
       <div className='mt-6 flex w-full items-center justify-end gap-3'>
         <Button size='large' variant='outlined' intent='default' onClick={onFailure}>
-          {t('Cancel')}
+          {t("Cancel")}
         </Button>
         <Button size='large' type='submit' loading={isCreateLoading}>
-          {isEdit ? t('Edit Deal') : t('Add Deal')}
+          {isEdit ? t("Edit Deal") : t("Add Deal")}
         </Button>
       </div>
     </FormProvider>

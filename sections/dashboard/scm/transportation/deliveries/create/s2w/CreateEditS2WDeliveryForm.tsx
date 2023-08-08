@@ -1,47 +1,47 @@
-import React, { useState } from 'react'
-import * as Yup from 'yup'
-import clsx from 'clsx'
-import moment from 'moment'
+import React, { useState } from "react"
+import * as Yup from "yup"
+import clsx from "clsx"
+import moment from "moment"
 // next
-import Image from 'next/image'
-import { useRouter } from 'next/router'
+import Image from "next/image"
+import { useRouter } from "next/router"
 // form
-import { FieldValues, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { FieldValues, useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
 // apis
-import { useGetSuppliersQuery } from 'store/api/scm/products-service/suppliersApis'
-import { useGetVehiclesQuery } from 'store/api/scm/transportation/vehiculesApis'
-import { useGetAllProductsQuery } from 'store/api/scm/products-service/productsApi'
-import { useGetWarehousesQuery } from 'store/api/scm/warehousing/warehousingApis'
-import { useCreateDeliveryMutation } from 'store/api/scm/transportation/deliveriesApis'
+import { useGetSuppliersQuery } from "store/api/scm/products-service/suppliersApis"
+import { useGetVehiclesQuery } from "store/api/scm/transportation/vehiculesApis"
+import { useGetAllProductsQuery } from "store/api/scm/products-service/productsApi"
+import { useGetWarehousesQuery } from "store/api/scm/warehousing/warehousingApis"
+import { useCreateDeliveryMutation } from "store/api/scm/transportation/deliveriesApis"
 // routes
-import { PATH_DASHBOARD } from 'routes/paths'
+import { PATH_DASHBOARD } from "routes/paths"
 // hooks
-import { useAppSelector } from 'store/hooks'
-import useTranslate from 'hooks/useTranslate'
-import useSnackbar from 'hooks/useSnackbar'
+import { useAppSelector } from "store/hooks"
+import useTranslate from "hooks/useTranslate"
+import useSnackbar from "hooks/useSnackbar"
 // config
-import { PIVOTPOINT_API } from 'config'
+import { PIVOTPOINT_API } from "config"
 // types
-import Delivery, { DeliveryItem } from 'types/Delivery'
-import { Value } from 'react-date-picker/dist/cjs/shared/types'
+import Delivery, { DeliveryItem } from "types/Delivery"
+import { Value } from "react-date-picker/dist/cjs/shared/types"
 // components
-import Select from 'react-select'
-import { Icon } from '@iconify/react'
-import { Card, Dialog, IconButton, LoadingIndicator, TextField, Button } from 'components'
-import { FormProvider, RHFTextField, RHFFieldContainer } from 'components/hook-form'
-import { DatePicker } from 'components/date-pickers'
+import Select from "react-select"
+import { Icon } from "@iconify/react"
+import { Card, Dialog, IconButton, LoadingIndicator, TextField, Button } from "components"
+import { FormProvider, RHFTextField, RHFFieldContainer } from "components/hook-form"
+import { DatePicker } from "components/date-pickers"
 
 function CreateEditS2WDeliveryForm() {
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const { push } = useRouter()
   const [to, setTo] = useState({
-    arrivalWarehouseId: '',
-    stoppingAddress: '',
-    arrivalWarehouseName: '',
+    arrivalWarehouseId: "",
+    stoppingAddress: "",
+    arrivalWarehouseName: "",
   })
-  const [from, setFrom] = useState({ supplierId: '', startingAddress: '', supplierName: '' })
+  const [from, setFrom] = useState({ supplierId: "", startingAddress: "", supplierName: "" })
   const [expectedArrival, onArrivalDateChange] = useState<Date | Value>(new Date())
   const [deliveryItems, setDeliveryItems] = useState<DeliveryItem[]>([])
 
@@ -52,7 +52,7 @@ function CreateEditS2WDeliveryForm() {
   // Filters
   const { PageNumber, PageSize } = useAppSelector((state) => state.pagination)
   const [searchTerm, setSearchTerm] = useState<string | undefined>(undefined)
-  const [searchValue, setSearchValue] = useState('')
+  const [searchValue, setSearchValue] = useState("")
   // Queries
   const {
     data: warehouses,
@@ -78,34 +78,34 @@ function CreateEditS2WDeliveryForm() {
   const [createDelivery, { isLoading: isCreateLoading }] = useCreateDeliveryMutation()
 
   const DeliverySchema = Yup.object().shape({
-    transportationTitle: Yup.string().required(t('This field is required')),
-    startingAddress: Yup.string().required(t('This field is required')),
-    arrivalWarehouseId: Yup.string().required(t('This field is required')),
-    supplierId: Yup.string().required(t('This field is required')),
-    stoppingAddress: Yup.string().required(t('This field is required')),
-    expectedArrival: Yup.string().required(t('This field is required')),
-    driverName: Yup.string().required(t('This field is required')),
-    driverContact: Yup.string().required(t('This field is required')),
-    vehiculeID: Yup.string().required(t('This field is required')),
-    deliveryCost: Yup.number().nullable().required(t('This field is required')),
+    transportationTitle: Yup.string().required(t("This field is required")),
+    startingAddress: Yup.string().required(t("This field is required")),
+    arrivalWarehouseId: Yup.string().required(t("This field is required")),
+    supplierId: Yup.string().required(t("This field is required")),
+    stoppingAddress: Yup.string().required(t("This field is required")),
+    expectedArrival: Yup.string().required(t("This field is required")),
+    driverName: Yup.string().required(t("This field is required")),
+    driverContact: Yup.string().required(t("This field is required")),
+    vehiculeID: Yup.string().required(t("This field is required")),
+    deliveryCost: Yup.number().nullable().required(t("This field is required")),
     deliveryItems: Yup.array()
       .test({
-        message: t('Please add items'),
+        message: t("Please add items"),
         test: (arr) => arr?.length === 0,
       })
-      .required(t('Please add items')),
+      .required(t("Please add items")),
   })
 
   const defaultValues = {
-    transportationTitle: '',
-    startingAddress: '',
-    stoppingAddress: '',
-    supplierId: '',
-    expectedArrival: '',
-    arrivalWarehouseId: '',
-    driverName: '',
-    driverContact: '',
-    vehiculeID: '',
+    transportationTitle: "",
+    startingAddress: "",
+    stoppingAddress: "",
+    supplierId: "",
+    expectedArrival: "",
+    arrivalWarehouseId: "",
+    driverName: "",
+    driverContact: "",
+    vehiculeID: "",
     deliveryCost: null,
     deliveryItems: [],
   }
@@ -140,17 +140,17 @@ function CreateEditS2WDeliveryForm() {
     createDelivery({ PageNumber, PageSize, ...delivery })
       .then(() => {
         open({
-          message: t('Order Created Successfully.'),
-          type: 'success',
-          variant: 'contained',
+          message: t("Order Created Successfully."),
+          type: "success",
+          variant: "contained",
         })
         push(PATH_DASHBOARD.scm.transportation.root)
       })
       .catch(() => {
         open({
-          message: t('A problem has occurred.'),
-          type: 'error',
-          variant: 'contained',
+          message: t("A problem has occurred."),
+          type: "error",
+          variant: "contained",
         })
       })
   }
@@ -163,10 +163,10 @@ function CreateEditS2WDeliveryForm() {
             <div className='grid w-full grid-cols-1 space-y-1 divide-x-0 divide-y p-4 rtl:divide-x-reverse sm:grid-cols-2 sm:space-y-0 sm:divide-y-0 sm:divide-x'>
               <div className='ltr:sm:pr-4 rtl:sm:pl-4'>
                 <div className='mb-2 flex items-center justify-between'>
-                  <h6 className='text-lg font-bold'>{t('From')}:</h6>
+                  <h6 className='text-lg font-bold'>{t("From")}:</h6>
                   <IconButton onClick={() => setOpenSupplierDialog(true)}>
                     <Icon
-                      icon={from.supplierId === '' ? 'ic:round-add' : 'ic:round-edit'}
+                      icon={from.supplierId === "" ? "ic:round-add" : "ic:round-edit"}
                       height={22}
                     />
                   </IconButton>
@@ -174,14 +174,14 @@ function CreateEditS2WDeliveryForm() {
                 <div className='space-y-2'>
                   <p className='font-bold capitalize'>
                     <span className='text-sm font-medium text-gray-600 dark:text-gray-400'>
-                      {t('Supplier')}:
-                    </span>{' '}
+                      {t("Supplier")}:
+                    </span>{" "}
                     {from.supplierName}
                   </p>
                   <p className='font-bold capitalize'>
                     <span className='text-sm font-medium text-gray-600 dark:text-gray-400'>
-                      {t('Address')}:
-                    </span>{' '}
+                      {t("Address")}:
+                    </span>{" "}
                     {from.startingAddress}
                   </p>
                 </div>
@@ -193,10 +193,10 @@ function CreateEditS2WDeliveryForm() {
               </div>
               <div className='ltr:sm:pl-4 rtl:sm:pr-4'>
                 <div className='flex items-center justify-between'>
-                  <h6 className='text-lg font-bold'>{t('To')}:</h6>
+                  <h6 className='text-lg font-bold'>{t("To")}:</h6>
                   <IconButton onClick={() => setOpenWarehouseDialog(true)}>
                     <Icon
-                      icon={to.arrivalWarehouseId === '' ? 'ic:round-add' : 'ic:round-edit'}
+                      icon={to.arrivalWarehouseId === "" ? "ic:round-add" : "ic:round-edit"}
                       height={22}
                     />
                   </IconButton>
@@ -204,14 +204,14 @@ function CreateEditS2WDeliveryForm() {
                 <div className='space-y-2'>
                   <p className='font-bold capitalize'>
                     <span className='text-sm font-medium text-gray-600 dark:text-gray-400'>
-                      {t('Warehouse')}:
-                    </span>{' '}
+                      {t("Warehouse")}:
+                    </span>{" "}
                     {to.arrivalWarehouseName}
                   </p>
                   <p className='font-bold capitalize'>
                     <span className='text-sm font-medium text-gray-600 dark:text-gray-400'>
-                      {t('Address')}:
-                    </span>{' '}
+                      {t("Address")}:
+                    </span>{" "}
                     {to.stoppingAddress}
                   </p>
                 </div>
@@ -223,16 +223,16 @@ function CreateEditS2WDeliveryForm() {
               </div>
             </div>
             <div className='w-full space-y-2 p-4'>
-              <h6 className='text-lg font-bold'>{t('Delivery Details')}:</h6>
+              <h6 className='text-lg font-bold'>{t("Delivery Details")}:</h6>
               <div className='grid w-full grid-cols-1 gap-2 sm:grid-cols-2'>
-                <RHFTextField name='transportationTitle' label={t('Title')} />
+                <RHFTextField name='transportationTitle' label={t("Title")} />
                 <div className='col-span-1 sm:col-span-2 md:col-span-1'>
-                  <RHFFieldContainer name='expectedArrival' label={t('Expected Arrival Date')}>
+                  <RHFFieldContainer name='expectedArrival' label={t("Expected Arrival Date")}>
                     <DatePicker
                       value={expectedArrival}
                       onChange={(value) => {
                         onArrivalDateChange(value)
-                        setValue('expectedArrival', value?.toString())
+                        setValue("expectedArrival", value?.toString())
                       }}
                     />
                   </RHFFieldContainer>
@@ -240,20 +240,20 @@ function CreateEditS2WDeliveryForm() {
               </div>
             </div>
             <div className='w-full space-y-2 p-4'>
-              <h6 className='text-lg font-bold'>{t('Driver Details')}:</h6>
+              <h6 className='text-lg font-bold'>{t("Driver Details")}:</h6>
               <div className='grid w-full grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3'>
-                <RHFTextField name='driverName' label={t('Driver Name')} />
-                <RHFTextField name='driverContact' label={t('Driver Contact')} />
+                <RHFTextField name='driverName' label={t("Driver Name")} />
+                <RHFTextField name='driverContact' label={t("Driver Contact")} />
                 <div className='sm:col-span-2 md:col-span-1'>
-                  <RHFFieldContainer name='vehiculeID' label={t('Vehicle')}>
+                  <RHFFieldContainer name='vehiculeID' label={t("Vehicle")}>
                     <Select
                       options={vehicules?.data || []}
                       isLoading={isVehiclesLoading}
                       getOptionLabel={(option) => `${option.model} | ${option.code}`}
                       onInputChange={(value) => setSearchValue(value)}
-                      onBlur={() => setSearchValue('')}
+                      onBlur={() => setSearchValue("")}
                       onChange={(newValue) => {
-                        setValue('vehiculeID', newValue?.id)
+                        setValue("vehiculeID", newValue?.id)
                       }}
                       placeholder=''
                       className='react-select-container'
@@ -265,21 +265,21 @@ function CreateEditS2WDeliveryForm() {
             </div>
             <div className='w-full space-y-2 p-4'>
               <div className='flex w-full items-center justify-between'>
-                <h6 className='text-lg font-bold'>{t('Items Details')}:</h6>
+                <h6 className='text-lg font-bold'>{t("Items Details")}:</h6>
                 <Button
                   variant='text'
                   intent='default'
                   startIcon={<Icon icon='ic:round-add' height={20} />}
                   onClick={() => setOpenProductDialog(true)}
                 >
-                  {t('Add Item')}
+                  {t("Add Item")}
                 </Button>
               </div>
 
               <div className='divide-y dark:divide-gray-600'>
                 {deliveryItems.length === 0 && (
                   <div className='flex w-full items-center justify-center '>
-                    <h6 className='text-lg font-semibold'>{t('No Item Added')}</h6>
+                    <h6 className='text-lg font-semibold'>{t("No Item Added")}</h6>
                   </div>
                 )}
                 {deliveryItems.map((product) => (
@@ -305,7 +305,7 @@ function CreateEditS2WDeliveryForm() {
                           <div className='flex-1'>
                             <TextField
                               className='!p-1'
-                              label={t('Name')}
+                              label={t("Name")}
                               value={product.name}
                               disabled
                             />
@@ -316,9 +316,9 @@ function CreateEditS2WDeliveryForm() {
                             min={1}
                             type='number'
                             className='!p-1'
-                            label={t('Price')}
+                            label={t("Price")}
                             value={product.value}
-                            endAdornment={t('Da')}
+                            endAdornment={t("Da")}
                             disabled
                           />
                         </div>
@@ -327,7 +327,7 @@ function CreateEditS2WDeliveryForm() {
                             min={1}
                             type='number'
                             className='!p-1'
-                            label={t('Quantity')}
+                            label={t("Quantity")}
                             value={product.quantity}
                             onChange={(e) => {
                               setDeliveryItems((prev) => {
@@ -371,9 +371,9 @@ function CreateEditS2WDeliveryForm() {
                             min={1}
                             type='number'
                             className='!p-1'
-                            label={t('Quantity')}
+                            label={t("Quantity")}
                             value={product.quantity * product.value}
-                            endAdornment={t('Da')}
+                            endAdornment={t("Da")}
                             disabled
                           />
                         </div>
@@ -381,14 +381,14 @@ function CreateEditS2WDeliveryForm() {
                     </div>
                     <Button
                       intent={
-                        !deliveryItems.every((item) => item.id !== product.id) ? 'error' : 'primary'
+                        !deliveryItems.every((item) => item.id !== product.id) ? "error" : "primary"
                       }
                       startIcon={
                         <Icon
                           icon={
                             !deliveryItems.every((item) => item.id !== product.id)
-                              ? 'ic:round-delete'
-                              : 'ic:round-add'
+                              ? "ic:round-delete"
+                              : "ic:round-add"
                           }
                           height={22}
                         />
@@ -417,8 +417,8 @@ function CreateEditS2WDeliveryForm() {
                       }
                     >
                       {!deliveryItems.every((item) => item.id !== product.id)
-                        ? t('Remove')
-                        : t('Add')}
+                        ? t("Remove")
+                        : t("Add")}
                     </Button>
                   </div>
                 ))}
@@ -434,54 +434,54 @@ function CreateEditS2WDeliveryForm() {
                 <RHFTextField
                   type='number'
                   name='deliveryCost'
-                  label={t('Shipping')}
-                  endAdornment={t('Da')}
+                  label={t("Shipping")}
+                  endAdornment={t("Da")}
                 />
               </div>
               <div className='flex max-w-full items-center justify-between '>
                 <p className='text-sm font-medium  text-gray-600 dark:text-gray-400'>
-                  {t('Subtotal')}:
-                </p>{' '}
+                  {t("Subtotal")}:
+                </p>{" "}
                 <p className='w-48 font-bold ltr:text-right rtl:text-left'>
-                  {deliveryItems.reduce((acc, cur) => acc + cur.value * cur.quantity, 0) || 0}{' '}
-                  {t('Da')}
+                  {deliveryItems.reduce((acc, cur) => acc + cur.value * cur.quantity, 0) || 0}{" "}
+                  {t("Da")}
                 </p>
               </div>
               <div className='flex max-w-full items-center justify-between '>
-                <p className='font-bold'>{t('Total')}:</p>{' '}
+                <p className='font-bold'>{t("Total")}:</p>{" "}
                 <p className='w-48 font-bold ltr:text-right rtl:text-left'>
-                  {deliveryItems.reduce((acc, cur) => acc + cur.value * cur.quantity, 0) || 0}{' '}
-                  {t('Da')}
+                  {deliveryItems.reduce((acc, cur) => acc + cur.value * cur.quantity, 0) || 0}{" "}
+                  {t("Da")}
                 </p>
               </div>
             </div>
           </Card>
           <Button size='large' className='text-xl' type='submit' loading={isCreateLoading}>
-            {t('Create Order')}
+            {t("Create Order")}
           </Button>
         </div>
       </FormProvider>
 
       <Dialog
         open={openSupplierDialog}
-        title={t('Supplier')}
+        title={t("Supplier")}
         handleClose={() => {
           setOpenSupplierDialog(false)
-          setSearchValue('')
+          setSearchValue("")
         }}
       >
         <div className='flex flex-col items-center  justify-center gap-2 py-2'>
           <TextField
-            placeholder={t('Search...')}
+            placeholder={t("Search...")}
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter')
-                setSearchTerm(e.currentTarget.value === '' ? undefined : e.currentTarget.value)
+              if (e.key === "Enter")
+                setSearchTerm(e.currentTarget.value === "" ? undefined : e.currentTarget.value)
             }}
             endAdornment={
               <IconButton
-                onClick={() => setSearchTerm(searchValue === '' ? undefined : searchValue)}
+                onClick={() => setSearchTerm(searchValue === "" ? undefined : searchValue)}
               >
                 <Icon icon='ion:search-outline' height={18} className='text-gray-500' />
               </IconButton>
@@ -494,11 +494,11 @@ function CreateEditS2WDeliveryForm() {
             suppliers.data.map((supplier) => (
               <button
                 className={clsx(
-                  'flex w-full flex-col items-start space-y-1 rounded-lg border p-4 dark:border-gray-600',
-                  'hover:bg-gray-100 active:bg-gray-200',
-                  'dark:hover:bg-paper-hover-dark dark:active:bg-paper-dark-contrast',
+                  "flex w-full flex-col items-start space-y-1 rounded-lg border p-4 dark:border-gray-600",
+                  "hover:bg-gray-100 active:bg-gray-200",
+                  "dark:hover:bg-paper-hover-dark dark:active:bg-paper-dark-contrast",
                   from.supplierId === supplier.id &&
-                    ' bg-gray-200 hover:bg-gray-100 dark:bg-paper-dark-contrast dark:hover:bg-paper-dark-contrast'
+                    " bg-gray-200 hover:bg-gray-100 dark:bg-paper-dark-contrast dark:hover:bg-paper-dark-contrast"
                 )}
                 onClick={() => {
                   setFrom({
@@ -506,10 +506,10 @@ function CreateEditS2WDeliveryForm() {
                     supplierName: supplier.name,
                     supplierId: supplier.id,
                   })
-                  setValue('startingAddress', supplier.address)
-                  setValue('supplierId', supplier.id)
+                  setValue("startingAddress", supplier.address)
+                  setValue("supplierId", supplier.id)
                   setOpenSupplierDialog(false)
-                  setSearchTerm('')
+                  setSearchTerm("")
                 }}
               >
                 <div className='flex flex-col items-start gap-1'>
@@ -524,24 +524,24 @@ function CreateEditS2WDeliveryForm() {
       </Dialog>
       <Dialog
         open={openWarehouseDialog}
-        title={t('Warehouse')}
+        title={t("Warehouse")}
         handleClose={() => {
           setOpenWarehouseDialog(false)
-          setSearchValue('')
+          setSearchValue("")
         }}
       >
         <div className='flex flex-col items-center  justify-center gap-2 py-2'>
           <TextField
-            placeholder={t('Search...')}
+            placeholder={t("Search...")}
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter')
-                setSearchTerm(e.currentTarget.value === '' ? undefined : e.currentTarget.value)
+              if (e.key === "Enter")
+                setSearchTerm(e.currentTarget.value === "" ? undefined : e.currentTarget.value)
             }}
             endAdornment={
               <IconButton
-                onClick={() => setSearchTerm(searchValue === '' ? undefined : searchValue)}
+                onClick={() => setSearchTerm(searchValue === "" ? undefined : searchValue)}
               >
                 <Icon icon='ion:search-outline' height={18} className='text-gray-500' />
               </IconButton>
@@ -555,11 +555,11 @@ function CreateEditS2WDeliveryForm() {
                 warehouses.data.map((warehouse) => (
                   <button
                     className={clsx(
-                      'flex w-full flex-col items-start space-y-1 rounded-lg border p-4 dark:border-gray-600',
-                      'hover:bg-gray-100 active:bg-gray-200',
-                      'dark:hover:bg-paper-hover-dark dark:active:bg-paper-dark-contrast',
+                      "flex w-full flex-col items-start space-y-1 rounded-lg border p-4 dark:border-gray-600",
+                      "hover:bg-gray-100 active:bg-gray-200",
+                      "dark:hover:bg-paper-hover-dark dark:active:bg-paper-dark-contrast",
                       to.arrivalWarehouseId === warehouse.id &&
-                        ' bg-gray-200 hover:bg-gray-100 dark:bg-paper-dark-contrast dark:hover:bg-paper-dark-contrast'
+                        " bg-gray-200 hover:bg-gray-100 dark:bg-paper-dark-contrast dark:hover:bg-paper-dark-contrast"
                     )}
                     onClick={() => {
                       setTo({
@@ -567,9 +567,9 @@ function CreateEditS2WDeliveryForm() {
                         arrivalWarehouseName: warehouse.name,
                         stoppingAddress: warehouse.location,
                       })
-                      setValue('arrivalWarehouseId', warehouse.id)
-                      setValue('stoppingAddress', warehouse.location)
-                      setSearchTerm('')
+                      setValue("arrivalWarehouseId", warehouse.id)
+                      setValue("stoppingAddress", warehouse.location)
+                      setSearchTerm("")
                       setOpenWarehouseDialog(false)
                     }}
                   >
@@ -579,7 +579,7 @@ function CreateEditS2WDeliveryForm() {
                 ))
               ) : (
                 <div className='flex h-48  w-full items-center justify-center'>
-                  <h1 className='text-xl font-semibold'>{t('No Warehouse Found')}</h1>
+                  <h1 className='text-xl font-semibold'>{t("No Warehouse Found")}</h1>
                 </div>
               )}
             </>
@@ -588,24 +588,24 @@ function CreateEditS2WDeliveryForm() {
       </Dialog>
       <Dialog
         open={openProductDialog}
-        title={t('Product')}
+        title={t("Product")}
         handleClose={() => {
           setOpenProductDialog(false)
-          setSearchValue('')
+          setSearchValue("")
         }}
       >
         <div className='flex flex-col items-center  justify-center gap-2 py-2'>
           <TextField
-            placeholder={t('Search...')}
+            placeholder={t("Search...")}
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter')
-                setSearchTerm(e.currentTarget.value === '' ? undefined : e.currentTarget.value)
+              if (e.key === "Enter")
+                setSearchTerm(e.currentTarget.value === "" ? undefined : e.currentTarget.value)
             }}
             endAdornment={
               <IconButton
-                onClick={() => setSearchTerm(searchValue === '' ? undefined : searchValue)}
+                onClick={() => setSearchTerm(searchValue === "" ? undefined : searchValue)}
               >
                 <Icon icon='ion:search-outline' height={18} className='text-gray-500' />
               </IconButton>
@@ -637,24 +637,24 @@ function CreateEditS2WDeliveryForm() {
                     )}
                     <div>
                       <p className='font-semibold'>
-                        <span className='text-sm font-normal'>{t('Name')}:</span> {product.name}
+                        <span className='text-sm font-normal'>{t("Name")}:</span> {product.name}
                       </p>
                       <p className='font-semibold'>
-                        <span className='text-sm font-normal'>{t('Price')}:</span> {product.price}{' '}
-                        {t('Da')}
+                        <span className='text-sm font-normal'>{t("Price")}:</span> {product.price}{" "}
+                        {t("Da")}
                       </p>
                     </div>
                   </div>
                   <Button
                     intent={
-                      !deliveryItems.every((item) => item.id !== product.id) ? 'error' : 'primary'
+                      !deliveryItems.every((item) => item.id !== product.id) ? "error" : "primary"
                     }
                     startIcon={
                       <Icon
                         icon={
                           !deliveryItems.every((item) => item.id !== product.id)
-                            ? 'ic:round-delete'
-                            : 'ic:round-add'
+                            ? "ic:round-delete"
+                            : "ic:round-add"
                         }
                         height={22}
                       />
@@ -683,8 +683,8 @@ function CreateEditS2WDeliveryForm() {
                     }
                   >
                     {!deliveryItems.every((item) => item.id !== product.id)
-                      ? t('Remove')
-                      : t('Add')}
+                      ? t("Remove")
+                      : t("Add")}
                   </Button>
                 </div>
               ))

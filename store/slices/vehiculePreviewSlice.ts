@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 // types
-import { Vehicle } from 'types'
+import { Vehicle } from "types"
 
 interface VehiclePreview {
   vehicule: Vehicle | null
@@ -14,7 +14,7 @@ const initialState: VehiclePreview = {
 }
 
 const vehiculePreviewSlice = createSlice({
-  name: 'vehiculePreview',
+  name: "vehiculePreview",
   initialState,
   reducers: {
     previewVehicle: (state, action: PayloadAction<Vehicle>) => {

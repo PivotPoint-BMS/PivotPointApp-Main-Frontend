@@ -1,9 +1,9 @@
-import React from 'react'
-import isString from 'lodash/isString'
+import React from "react"
+import isString from "lodash/isString"
 // next
-import Link from 'next/link'
+import Link from "next/link"
 // components
-import Breadcrumbs from './Breadcrumbs'
+import Breadcrumbs from "./Breadcrumbs"
 
 // ----------------------------------------------------------------------
 
@@ -22,7 +22,7 @@ export default function HeaderBreadcrumbs({
   links,
   action,
   heading,
-  moreLink = '' || [],
+  moreLink = "" || [],
   ...other
 }: HeaderBreadcrumbsProps) {
   return (

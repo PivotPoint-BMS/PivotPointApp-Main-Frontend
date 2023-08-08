@@ -1,20 +1,20 @@
-import { useEffect, useMemo } from 'react'
-import * as Yup from 'yup'
+import { useEffect, useMemo } from "react"
+import * as Yup from "yup"
 // form
-import { yupResolver } from '@hookform/resolvers/yup'
-import { FieldValues, useForm } from 'react-hook-form'
+import { yupResolver } from "@hookform/resolvers/yup"
+import { FieldValues, useForm } from "react-hook-form"
 // api
 import {
   invalidateTags,
   useCreateDealBoardColumnMutation,
-} from 'store/api/crm/sales-pipeline/dealsBoardsApi'
+} from "store/api/crm/sales-pipeline/dealsBoardsApi"
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 // components
-import { Button } from 'components'
-import { FormProvider, RHFTextField } from 'components/hook-form'
-import useSnackbar from 'hooks/useSnackbar'
-import DealBoardColumnProps from 'types/DealBoardColumnProps'
+import { Button } from "components"
+import { FormProvider, RHFTextField } from "components/hook-form"
+import useSnackbar from "hooks/useSnackbar"
+import DealBoardColumnProps from "types/DealBoardColumnProps"
 
 export default function CreateEditColumnForm({
   boardId,
@@ -40,12 +40,12 @@ export default function CreateEditColumnForm({
   //     useEditColumnMutation()
 
   const ColumnSchema = Yup.object().shape({
-    columnTitle: Yup.string().min(3, t('Too short')).required(t('This field is required')),
+    columnTitle: Yup.string().min(3, t("Too short")).required(t("This field is required")),
   })
 
   const defaultValues = useMemo(
     () => ({
-      columnTitle: currentColumn?.columnTitle || '',
+      columnTitle: currentColumn?.columnTitle || "",
     }),
     [currentColumn]
   )
@@ -64,16 +64,16 @@ export default function CreateEditColumnForm({
     } = { columnTitle: data.columnTitle, boardId }
     // if (isEdit) editColumn({ data: board, id: currentColumn?.id || '' })
     createColumn(column)
-    invalidateTags(['DealsBoards'])
+    invalidateTags(["DealsBoards"])
   }
 
   useEffect(() => {
     if (isCreateError) {
       open({
-        message: t('A problem has occurred.'),
+        message: t("A problem has occurred."),
         autoHideDuration: 4000,
-        type: 'error',
-        variant: 'contained',
+        type: "error",
+        variant: "contained",
       })
       onFailure()
     }
@@ -84,10 +84,10 @@ export default function CreateEditColumnForm({
           // isEditSuccess
           // ? t('Section Updated Successfully.')
           //   :
-          t('Section Added Successfully.'),
+          t("Section Added Successfully."),
         autoHideDuration: 4000,
-        type: 'success',
-        variant: 'contained',
+        type: "success",
+        variant: "contained",
       })
       onSuccess()
     }
@@ -96,15 +96,15 @@ export default function CreateEditColumnForm({
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <div className='mt-2 flex flex-col gap-4'>
-        <RHFTextField name='columnTitle' label={t('Section Title')} />{' '}
+        <RHFTextField name='columnTitle' label={t("Section Title")} />{" "}
       </div>
 
       <div className='mt-6 flex w-full items-center justify-end gap-3'>
         <Button size='large' variant='outlined' intent='default' onClick={onFailure}>
-          {t('Cancel')}
+          {t("Cancel")}
         </Button>
         <Button size='large' type='submit' loading={isCreateLoading}>
-          {isEdit ? t('Edit Section') : t('Add Section')}
+          {isEdit ? t("Edit Section") : t("Add Section")}
         </Button>
       </div>
     </FormProvider>

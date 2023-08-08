@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
-import clsx from 'clsx'
+import { useEffect, useRef, useState } from "react"
+import clsx from "clsx"
 // dnd
-import type { DraggableSyntheticListeners, UniqueIdentifier } from '@dnd-kit/core'
-import { CSS } from '@dnd-kit/utilities'
+import type { DraggableSyntheticListeners, UniqueIdentifier } from "@dnd-kit/core"
+import { CSS } from "@dnd-kit/utilities"
 // hooks
-import useTranslate from 'hooks/useTranslate'
-import useSnackbar from 'hooks/useSnackbar'
+import useTranslate from "hooks/useTranslate"
+import useSnackbar from "hooks/useSnackbar"
 // api
 import {
   useDeleteDealBoardColumnMutation,
@@ -13,7 +13,7 @@ import {
   useMakeFailureColumnMutation,
   useMakeNormalColumnMutation,
   useMakeSuccessColumnMutation,
-} from 'store/api/crm/sales-pipeline/dealsBoardsApi'
+} from "store/api/crm/sales-pipeline/dealsBoardsApi"
 // components
 import {
   AlertDialog,
@@ -25,12 +25,12 @@ import {
   Dialog,
   DropdownMenu,
   IconButton,
-} from 'components'
-import { Icon } from '@iconify/react'
-import { AnimateLayoutChanges, defaultAnimateLayoutChanges, useSortable } from '@dnd-kit/sortable'
-import CreateDealForm from './CreateDealForm'
+} from "components"
+import { Icon } from "@iconify/react"
+import { AnimateLayoutChanges, defaultAnimateLayoutChanges, useSortable } from "@dnd-kit/sortable"
+import CreateDealForm from "./CreateDealForm"
 
-interface KanbanColumnProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'id'> {
+interface KanbanColumnProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "id"> {
   id: UniqueIdentifier
   boardId: string
   name?: string
@@ -80,31 +80,31 @@ export default function KanbanColumn({
   } = useSortable({
     id,
     data: {
-      type: 'container',
+      type: "container",
       children: items,
     },
     animateLayoutChanges,
   })
 
   const isOverContainer = over
-    ? (id === over.id && active?.data.current?.type !== 'container') || items.includes(over.id)
+    ? (id === over.id && active?.data.current?.type !== "container") || items.includes(over.id)
     : false
 
   useEffect(() => {
     if (isError) {
       open({
-        message: t('Sorry, Section not deleted, A problem has occurred.'),
+        message: t("Sorry, Section not deleted, A problem has occurred."),
         autoHideDuration: 4000,
-        type: 'error',
-        variant: 'contained',
+        type: "error",
+        variant: "contained",
       })
     }
     if (isSuccess) {
       open({
-        message: t('Section Deleted Successfully.'),
+        message: t("Section Deleted Successfully."),
         autoHideDuration: 4000,
-        type: 'success',
-        variant: 'contained',
+        type: "success",
+        variant: "contained",
       })
     }
   }, [isError, isSuccess])
@@ -112,18 +112,18 @@ export default function KanbanColumn({
   useEffect(() => {
     if (isEditError) {
       open({
-        message: t('Sorry, Section not updated, A problem has occurred.'),
+        message: t("Sorry, Section not updated, A problem has occurred."),
         autoHideDuration: 4000,
-        type: 'error',
-        variant: 'contained',
+        type: "error",
+        variant: "contained",
       })
     }
     if (isEditSuccess) {
       open({
-        message: t('Section Updated Successfully.'),
+        message: t("Section Updated Successfully."),
         autoHideDuration: 4000,
-        type: 'success',
-        variant: 'contained',
+        type: "success",
+        variant: "contained",
       })
     }
   }, [isEditError, isEditSuccess])
@@ -146,11 +146,11 @@ export default function KanbanColumn({
       <Card
         variant='outlined-dashed'
         className={clsx(
-          'w-80 cursor-default transition-all',
-          isOverContainer && 'bg-gray-100',
-          isDraggingOverlay && 'scale-105 shadow-lg',
-          type === 1 && '!bg-green-200 dark:!bg-green-900/80',
-          type === 2 && '!bg-red-200 dark:!bg-red-900/80'
+          "w-80 cursor-default transition-all",
+          isOverContainer && "bg-gray-100",
+          isDraggingOverlay && "scale-105 shadow-lg",
+          type === 1 && "!bg-green-200 dark:!bg-green-900/80",
+          type === 2 && "!bg-red-200 dark:!bg-red-900/80"
         )}
       >
         <CardHeader
@@ -159,7 +159,7 @@ export default function KanbanColumn({
               type='text'
               defaultValue={name}
               onBlur={(e) => {
-                if (e.target.value === '' || e.target.value === name) {
+                if (e.target.value === "" || e.target.value === name) {
                   setIsEditing(false)
                   return
                 }
@@ -175,7 +175,7 @@ export default function KanbanColumn({
               <DropdownMenu
                 items={[
                   {
-                    type: 'button',
+                    type: "button",
                     icon: (
                       <Icon
                         icon='material-symbols:circle'
@@ -183,28 +183,28 @@ export default function KanbanColumn({
                         height={14}
                       />
                     ),
-                    label: t('Make Succes Column'),
+                    label: t("Make Succes Column"),
                     onClick: () =>
                       makeSuccess({ boardId, id: id.toString() })
                         .then(() =>
                           open({
-                            message: t('Section Updated Successfully.'),
+                            message: t("Section Updated Successfully."),
                             autoHideDuration: 4000,
-                            type: 'success',
-                            variant: 'contained',
+                            type: "success",
+                            variant: "contained",
                           })
                         )
                         .catch(() =>
                           open({
-                            message: t('Sorry, Section not updated, A problem has occurred.'),
+                            message: t("Sorry, Section not updated, A problem has occurred."),
                             autoHideDuration: 4000,
-                            type: 'error',
-                            variant: 'contained',
+                            type: "error",
+                            variant: "contained",
                           })
                         ),
                   },
                   {
-                    type: 'button',
+                    type: "button",
                     icon: (
                       <Icon
                         icon='material-symbols:circle'
@@ -212,28 +212,28 @@ export default function KanbanColumn({
                         height={14}
                       />
                     ),
-                    label: t('Make Failure Column'),
+                    label: t("Make Failure Column"),
                     onClick: () =>
                       makeFailure({ boardId, id: id.toString() })
                         .then(() =>
                           open({
-                            message: t('Section Updated Successfully.'),
+                            message: t("Section Updated Successfully."),
                             autoHideDuration: 4000,
-                            type: 'success',
-                            variant: 'contained',
+                            type: "success",
+                            variant: "contained",
                           })
                         )
                         .catch(() =>
                           open({
-                            message: t('Sorry, Section not updated, A problem has occurred.'),
+                            message: t("Sorry, Section not updated, A problem has occurred."),
                             autoHideDuration: 4000,
-                            type: 'error',
-                            variant: 'contained',
+                            type: "error",
+                            variant: "contained",
                           })
                         ),
                   },
                   {
-                    type: 'button',
+                    type: "button",
                     icon: (
                       <Icon
                         icon='material-symbols:circle'
@@ -241,28 +241,28 @@ export default function KanbanColumn({
                         height={14}
                       />
                     ),
-                    label: t('Make Normal Column'),
+                    label: t("Make Normal Column"),
                     onClick: () =>
                       makeNormal({ boardId, id: id.toString() })
                         .then(() =>
                           open({
-                            message: t('Section Updated Successfully.'),
+                            message: t("Section Updated Successfully."),
                             autoHideDuration: 4000,
-                            type: 'success',
-                            variant: 'contained',
+                            type: "success",
+                            variant: "contained",
                           })
                         )
                         .catch(() =>
                           open({
-                            message: t('Sorry, Section not updated, A problem has occurred.'),
+                            message: t("Sorry, Section not updated, A problem has occurred."),
                             autoHideDuration: 4000,
-                            type: 'error',
-                            variant: 'contained',
+                            type: "error",
+                            variant: "contained",
                           })
                         ),
                   },
                   {
-                    type: 'button',
+                    type: "button",
                     icon: (
                       <Icon
                         icon='ic:round-delete'
@@ -270,7 +270,7 @@ export default function KanbanColumn({
                         height={18}
                       />
                     ),
-                    label: t('Delete'),
+                    label: t("Delete"),
                     onClick: () => setOpenDeleteDialog(true),
                   },
                 ]}
@@ -284,8 +284,8 @@ export default function KanbanColumn({
                 ref={setActivatorNodeRef}
                 tabIndex={0}
                 className={clsx(
-                  'cursor-grab fill-gray-600 dark:fill-gray-300',
-                  isDragging && 'cursor-grabbing'
+                  "cursor-grab fill-gray-600 dark:fill-gray-300",
+                  isDragging && "cursor-grabbing"
                 )}
                 {...listeners}
               >
@@ -304,11 +304,11 @@ export default function KanbanColumn({
             startIcon={<Icon icon='ic:round-plus' height={24} />}
             onClick={() => setOpenDialog(true)}
           >
-            {t('Add Deal')}
+            {t("Add Deal")}
           </Button>
         </CardContent>
       </Card>
-      <Dialog open={openDialog} title={t('Add New Deal')}>
+      <Dialog open={openDialog} title={t("Add New Deal")}>
         <CreateDealForm
           columnId={id.toString()}
           boardId={boardId}
@@ -326,21 +326,21 @@ export default function KanbanColumn({
         loading={isLoading || isFailureLoading || isNormalLoading || isSuccessLoading}
       />
       <AlertDialog
-        title={t('Confirm Delete')}
+        title={t("Confirm Delete")}
         description={
           <p className='mb-4 text-sm text-red-600 dark:text-red-400'>
-            {t('This action cannot be undone. this section will be permanently deleted.')}
+            {t("This action cannot be undone. this section will be permanently deleted.")}
           </p>
         }
-        cancelText={t('Cancel')}
-        confirmText={t('Yes, Delete')}
+        cancelText={t("Cancel")}
+        confirmText={t("Yes, Delete")}
         onConfirm={() => {
           deleteColumn({ id: id.toString(), boardId })
           setOpenDeleteDialog(false)
         }}
         open={openDeleteDialog}
         onClose={() => setOpenDeleteDialog(false)}
-        buttonProps={{ intent: 'error' }}
+        buttonProps={{ intent: "error" }}
       />
     </div>
   )

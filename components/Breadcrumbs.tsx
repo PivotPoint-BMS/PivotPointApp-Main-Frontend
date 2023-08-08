@@ -1,9 +1,9 @@
-import React from 'react'
+import React from "react"
 // next
-import NextLink from 'next/link'
+import NextLink from "next/link"
 
 function LinkItem({ link }: LinkItemProps) {
-  const { href = '', name, icon } = link
+  const { href = "", name, icon } = link
   return (
     <div className='flex items-center gap-3'>
       <NextLink href={href} passHref className='hover:underline'>

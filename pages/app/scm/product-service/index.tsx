@@ -1,32 +1,32 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react"
 // next
-import Head from 'next/head'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
+import Head from "next/head"
+import { useRouter } from "next/router"
+import Link from "next/link"
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 // routes
-import { PATH_DASHBOARD } from 'routes/paths'
+import { PATH_DASHBOARD } from "routes/paths"
 // sections
-import CategoriesList from 'sections/dashboard/scm/product-service/categories/list'
-import ProductsList from 'sections/dashboard/scm/product-service/products/list'
+import CategoriesList from "sections/dashboard/scm/product-service/categories/list"
+import ProductsList from "sections/dashboard/scm/product-service/products/list"
 // layout
-import Layout from 'layout/Index'
+import Layout from "layout/Index"
 // components
-import { Icon as Iconify } from '@iconify/react'
-import { HeaderBreadcrumbs, Card, Button } from 'components'
-import { TabsContent, TabsList, TabsRoot, TabsTrigger } from 'components/Tabs'
-import RoleBasedGuard from 'guards/RoleBasedGuard'
+import { Icon as Iconify } from "@iconify/react"
+import { HeaderBreadcrumbs, Card, Button } from "components"
+import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "components/Tabs"
+import RoleBasedGuard from "guards/RoleBasedGuard"
 
 const TABS = [
-  { name: 'Products', value: 'products', icon: 'ic:baseline-inventory' },
-  { name: 'Categories', value: 'categories', icon: 'material-symbols:play-shapes-rounded' },
+  { name: "Products", value: "products", icon: "ic:baseline-inventory" },
+  { name: "Categories", value: "categories", icon: "material-symbols:play-shapes-rounded" },
 ]
 
 function index() {
   const { t, locale } = useTranslate()
   const { push, pathname, query } = useRouter()
-  const [tab, setTab] = useState(query?.tab ? (query?.tab as string) : 'products')
+  const [tab, setTab] = useState(query?.tab ? (query?.tab as string) : "products")
   const [openAddCategoryDialog, setOpenAddCategoryDialog] = useState(false)
 
   useEffect(() => {
@@ -36,30 +36,30 @@ function index() {
   return (
     <>
       <Head>
-        <title>{t('Products & Services')} | Pivot Point BMS</title>
+        <title>{t("Products & Services")} | Pivot Point BMS</title>
       </Head>
       <div className='flex max-w-full flex-col overflow-hidden px-5'>
         <HeaderBreadcrumbs
-          heading={t('Products & Services')}
+          heading={t("Products & Services")}
           links={[
-            { name: t('Dashboard'), href: PATH_DASHBOARD.root },
-            { name: t('Supply Chain & Inventory'), href: PATH_DASHBOARD.scm.dashboard },
-            { name: t('Product/Service') },
+            { name: t("Dashboard"), href: PATH_DASHBOARD.root },
+            { name: t("Supply Chain & Inventory"), href: PATH_DASHBOARD.scm.dashboard },
+            { name: t("Product/Service") },
           ]}
           action={
             <>
-              {tab === 'categories' && (
+              {tab === "categories" && (
                 <Button
                   startIcon={<Iconify icon='ic:round-add' height={24} />}
                   onClick={() => setOpenAddCategoryDialog(true)}
                 >
-                  {t('Create a Category')}
+                  {t("Create a Category")}
                 </Button>
               )}
-              {tab === 'products' && (
-                <Link href={PATH_DASHBOARD.scm['product-service'].products.create}>
+              {tab === "products" && (
+                <Link href={PATH_DASHBOARD.scm["product-service"].products.create}>
                   <Button startIcon={<Iconify icon='ic:round-add' height={24} />}>
-                    {t('Create a Product')}
+                    {t("Create a Product")}
                   </Button>
                 </Link>
               )}
@@ -69,7 +69,7 @@ function index() {
         <Card fullWidth className='mb-10 overflow-hidden'>
           <TabsRoot
             defaultValue='products'
-            dir={locale === 'ar' ? 'rtl' : 'ltr'}
+            dir={locale === "ar" ? "rtl" : "ltr"}
             value={tab}
             onValueChange={(value) => setTab(value)}
           >
@@ -101,7 +101,7 @@ function index() {
 index.getLayout = function getLayout(page: JSX.Element) {
   return (
     <Layout variant='dashboard'>
-      <RoleBasedGuard accessibleRoles={['Owner', 'SCM']}>{page}</RoleBasedGuard>
+      <RoleBasedGuard accessibleRoles={["Owner", "SCM"]}>{page}</RoleBasedGuard>
     </Layout>
   )
 }

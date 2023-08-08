@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react'
-import * as Yup from 'yup'
+import React, { useEffect, useState } from "react"
+import * as Yup from "yup"
 // form
-import { useForm, FieldValues } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { useForm, FieldValues } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
 // api
-import { useResetPasswordMutation } from 'store/api/auth/authApi'
+import { useResetPasswordMutation } from "store/api/auth/authApi"
 // types
-import { ResetPasswordInput } from 'types'
+import { ResetPasswordInput } from "types"
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 // components
-import { Icon as Iconify } from '@iconify/react'
-import Button from 'components/Button'
-import { FormProvider, RHFTextField } from 'components/hook-form'
-import Alert from 'components/Alert'
-import IconButton from 'components/IconButton'
+import { Icon as Iconify } from "@iconify/react"
+import Button from "components/Button"
+import { FormProvider, RHFTextField } from "components/hook-form"
+import Alert from "components/Alert"
+import IconButton from "components/IconButton"
 
 export default function NewPasswordForm() {
   const { t } = useTranslate()
@@ -24,25 +24,25 @@ export default function NewPasswordForm() {
 
   const RecoverPasswordSchema = Yup.object().shape({
     code: Yup.string()
-      .required(t('Code is required'))
-      .matches(/^[0-9]{6}$/, t('Code Invalid')),
+      .required(t("Code is required"))
+      .matches(/^[0-9]{6}$/, t("Code Invalid")),
     newPassword: Yup.string()
-      .required(t('Password is required'))
+      .required(t("Password is required"))
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.-_])[A-Za-z\d@$!%*?&.-_]{8,}$/,
         t(
-          'Password must be at least 8 characters and include at least 1 upper, 1 lower, 1 digit, and 1 special character'
+          "Password must be at least 8 characters and include at least 1 upper, 1 lower, 1 digit, and 1 special character"
         )
       ),
     confirmPassword: Yup.string()
-      .required(t('Confirm your password'))
-      .oneOf([Yup.ref('newPassword'), null], t('Passwords does not match')),
+      .required(t("Confirm your password"))
+      .oneOf([Yup.ref("newPassword"), null], t("Passwords does not match")),
   })
 
   const defaultValues = {
-    code: '',
-    newPassword: '',
-    confirmPassword: '',
+    code: "",
+    newPassword: "",
+    confirmPassword: "",
   }
 
   const methods = useForm<FieldValues>({
@@ -66,8 +66,8 @@ export default function NewPasswordForm() {
   }
 
   useEffect(() => {
-    if (isError && 'data' in error!) {
-      setError('afterSubmit', { ...error, message: error.data as string })
+    if (isError && "data" in error!) {
+      setError("afterSubmit", { ...error, message: error.data as string })
     }
     if (isSuccess) reset()
   }, [isLoading])
@@ -91,40 +91,40 @@ export default function NewPasswordForm() {
           <RHFTextField
             type='number'
             name='code'
-            label={t('Code')}
-            placeholder={t('Enter your code')}
+            label={t("Code")}
+            placeholder={t("Enter your code")}
           />
           <RHFTextField
             name='newPassword'
-            label={t('New Password')}
-            placeholder={t('Enter your new password')}
-            type={showPassword ? 'text' : 'password'}
+            label={t("New Password")}
+            placeholder={t("Enter your new password")}
+            type={showPassword ? "text" : "password"}
             endAdornment={
               <IconButton onClick={() => setShowPassword((prevState) => !prevState)}>
-                <Iconify icon={showPassword ? 'ion:eye' : 'ion:eye-off'} height={20} width={20} />
+                <Iconify icon={showPassword ? "ion:eye" : "ion:eye-off"} height={20} width={20} />
               </IconButton>
             }
           />
           <RHFTextField
             name='confirmPassword'
-            label={t('Confirm password')}
-            placeholder={t('Confirm your password')}
-            type={showPassword ? 'text' : 'password'}
+            label={t("Confirm password")}
+            placeholder={t("Confirm your password")}
+            type={showPassword ? "text" : "password"}
             endAdornment={
               <IconButton onClick={() => setShowPassword((prevState) => !prevState)}>
-                <Iconify icon={showPassword ? 'ion:eye' : 'ion:eye-off'} height={20} width={20} />
+                <Iconify icon={showPassword ? "ion:eye" : "ion:eye-off"} height={20} width={20} />
               </IconButton>
             }
           />
           <Button type='submit' className='w-full font-medium' loading={isLoading}>
-            {t('Reset Password')}
+            {t("Reset Password")}
           </Button>
         </div>
       </FormProvider>
       <p className='mt-5 text-center'>
-        {t('Don’t have a code?')}{' '}
+        {t("Don’t have a code?")}{" "}
         <span className='cursor-pointer font-medium text-primary-600 hover:underline focus:underline focus:outline-none dark:text-primary-200'>
-          {t('Resend code')}
+          {t("Resend code")}
         </span>
       </p>
     </div>

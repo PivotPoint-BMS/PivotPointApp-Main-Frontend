@@ -1,17 +1,17 @@
-import React from 'react'
+import React from "react"
 // next
-import Head from 'next/head'
+import Head from "next/head"
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 // routes
-import { PATH_DASHBOARD } from 'routes/paths'
+import { PATH_DASHBOARD } from "routes/paths"
 // layout
-import Layout from 'layout/Index'
-import RoleBasedGuard from 'guards/RoleBasedGuard'
+import Layout from "layout/Index"
+import RoleBasedGuard from "guards/RoleBasedGuard"
 // sections
-import CreateEditInvoiceForm from 'sections/dashboard/scm/invoices/CreateEditInvoiceForm'
+import CreateEditInvoiceForm from "sections/dashboard/scm/invoices/CreateEditInvoiceForm"
 // components
-import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs'
+import HeaderBreadcrumbs from "components/HeaderBreadcrumbs"
 
 function index() {
   const { t } = useTranslate()
@@ -19,16 +19,16 @@ function index() {
   return (
     <>
       <Head>
-        <title>{t('New Invoice')} | Pivot Point BMS</title>
+        <title>{t("New Invoice")} | Pivot Point BMS</title>
       </Head>
       <div className='flex max-w-full flex-col px-5'>
         <HeaderBreadcrumbs
-          heading={t('New Invoice')}
+          heading={t("New Invoice")}
           links={[
-            { name: t('Dashboard'), href: PATH_DASHBOARD.root },
-            { name: t('Supply Chain & Inventory'), href: PATH_DASHBOARD.scm.dashboard },
-            { name: t('Invoices'), href: PATH_DASHBOARD.scm.invoices.root },
-            { name: t('New Invoice') },
+            { name: t("Dashboard"), href: PATH_DASHBOARD.root },
+            { name: t("Supply Chain & Inventory"), href: PATH_DASHBOARD.scm.dashboard },
+            { name: t("Invoices"), href: PATH_DASHBOARD.scm.invoices.root },
+            { name: t("New Invoice") },
           ]}
         />
         <CreateEditInvoiceForm />
@@ -40,7 +40,7 @@ function index() {
 index.getLayout = function getLayout(page: JSX.Element) {
   return (
     <Layout variant='dashboard'>
-      <RoleBasedGuard accessibleRoles={['Owner', 'SCM']}>{page}</RoleBasedGuard>
+      <RoleBasedGuard accessibleRoles={["Owner", "SCM"]}>{page}</RoleBasedGuard>
     </Layout>
   )
 }

@@ -1,8 +1,8 @@
 // form
-import { useFormContext, Controller } from 'react-hook-form'
+import { useFormContext, Controller } from "react-hook-form"
 //
-import { UploadAvatar } from '../upload'
-import { UploadAvatarProps } from '../upload/UploadAvatar'
+import { UploadAvatar } from "../upload"
+import { UploadAvatarProps } from "../upload/UploadAvatar"
 
 // ----------------------------------------------------------------------
 

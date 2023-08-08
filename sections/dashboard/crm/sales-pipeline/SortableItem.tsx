@@ -1,11 +1,11 @@
 // dnd
-import type { UniqueIdentifier } from '@dnd-kit/core'
-import { useSortable } from '@dnd-kit/sortable'
+import type { UniqueIdentifier } from "@dnd-kit/core"
+import { useSortable } from "@dnd-kit/sortable"
 // types
-import { Deal } from 'types'
+import { Deal } from "types"
 // hooks
-import useMountStatus from 'hooks/useMountStatus'
-import { Item } from './Item'
+import useMountStatus from "hooks/useMountStatus"
+import { Item } from "./Item"
 
 interface SortableItemProps {
   containerId: UniqueIdentifier
@@ -21,7 +21,7 @@ export default function SortableItem({ disabled, id, deal, index }: SortableItem
     useSortable({
       id,
       data: {
-        type: 'card',
+        type: "card",
       },
     })
   const mounted = useMountStatus()

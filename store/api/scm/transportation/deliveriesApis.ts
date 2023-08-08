@@ -1,25 +1,25 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { HYDRATE } from 'next-redux-wrapper'
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { HYDRATE } from "next-redux-wrapper"
 // config
-import { PIVOTPOINT_API } from 'config'
+import { PIVOTPOINT_API } from "config"
 // types
-import { ListGenericResponse, Delivery, RequestParams, IGenericResponse } from 'types'
+import { ListGenericResponse, Delivery, RequestParams, IGenericResponse } from "types"
 // store
-import { RootState } from 'store'
-import RequestSearchParams from 'types/RequestSearchParams'
+import { RootState } from "store"
+import RequestSearchParams from "types/RequestSearchParams"
 // import { assign } from 'lodash'
 
 export const deliveriesApi = createApi({
-  reducerPath: 'deliveriesApi',
+  reducerPath: "deliveriesApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${PIVOTPOINT_API.baseUrl}/scm`,
     prepareHeaders: (headers, { getState }) => {
       const { token } = (getState() as RootState).session
 
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
+        headers.set("Authorization", `Bearer ${token}`)
       }
 
       return headers
@@ -34,7 +34,7 @@ export const deliveriesApi = createApi({
   endpoints: (builder) => ({
     getDeliveries: builder.query<ListGenericResponse<Delivery[]>, RequestSearchParams>({
       query: (params) => ({
-        url: 'Delivery',
+        url: "Delivery",
         params,
       }),
     }),
@@ -46,10 +46,10 @@ export const deliveriesApi = createApi({
       Partial<Delivery> & RequestParams
     >({
       query: (data) => ({
-        url: 'Delivery',
-        method: 'POST',
+        url: "Delivery",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ PageNumber, PageSize }, { dispatch, queryFulfilled }) {
         try {
@@ -58,7 +58,7 @@ export const deliveriesApi = createApi({
           } = await queryFulfilled
           dispatch(
             deliveriesApi.util.updateQueryData(
-              'getDeliveries',
+              "getDeliveries",
               { PageNumber, PageSize },
               (draftedList) => {
                 draftedList.data.push(data)
@@ -72,13 +72,13 @@ export const deliveriesApi = createApi({
     }),
     editDelivery: builder.mutation<
       ListGenericResponse<Delivery>,
-      { data: Omit<Delivery, 'id'>; id: string } & RequestParams
+      { data: Omit<Delivery, "id">; id: string } & RequestParams
     >({
       query: ({ data, id }) => ({
         url: `Delivery/${id}`,
-        method: 'PUT',
+        method: "PUT",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
 
       async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
@@ -89,7 +89,7 @@ export const deliveriesApi = createApi({
 
           dispatch(
             deliveriesApi.util.updateQueryData(
-              'getDeliveries',
+              "getDeliveries",
               { PageNumber, PageSize },
               (draftedList) => {
                 Object.assign(draftedList.data.find((item) => item.id === id)!, data)
@@ -100,7 +100,7 @@ export const deliveriesApi = createApi({
 
           dispatch(
             deliveriesApi.util.updateQueryData(
-              'getDeliveries',
+              "getDeliveries",
               { PageNumber, PageSize },
               (draft) => {
                 Object.assign(draft.data, data)
@@ -118,8 +118,8 @@ export const deliveriesApi = createApi({
     >({
       query: ({ id }) => ({
         url: `Delivery/InTransit/${id}`,
-        method: 'PUT',
-        responseHandler: 'content-type',
+        method: "PUT",
+        responseHandler: "content-type",
       }),
 
       async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
@@ -128,7 +128,7 @@ export const deliveriesApi = createApi({
 
           dispatch(
             deliveriesApi.util.updateQueryData(
-              'getDeliveries',
+              "getDeliveries",
               { PageNumber, PageSize },
               (draftedList) => {
                 Object.assign(draftedList.data.find((item) => item.id === id)!, {
@@ -142,7 +142,7 @@ export const deliveriesApi = createApi({
 
           dispatch(
             deliveriesApi.util.updateQueryData(
-              'getDeliveries',
+              "getDeliveries",
               { PageNumber, PageSize },
               (draft) => {
                 Object.assign(draft.data, {
@@ -163,8 +163,8 @@ export const deliveriesApi = createApi({
     >({
       query: ({ id }) => ({
         url: `Delivery/Arrived/${id}`,
-        method: 'PUT',
-        responseHandler: 'content-type',
+        method: "PUT",
+        responseHandler: "content-type",
       }),
 
       async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
@@ -173,7 +173,7 @@ export const deliveriesApi = createApi({
 
           dispatch(
             deliveriesApi.util.updateQueryData(
-              'getDeliveries',
+              "getDeliveries",
               { PageNumber, PageSize },
               (draftedList) => {
                 Object.assign(draftedList.data.find((item) => item.id === id)!, {
@@ -187,7 +187,7 @@ export const deliveriesApi = createApi({
 
           dispatch(
             deliveriesApi.util.updateQueryData(
-              'getDeliveries',
+              "getDeliveries",
               { PageNumber, PageSize },
               (draft) => {
                 Object.assign(draft.data, {
@@ -208,8 +208,8 @@ export const deliveriesApi = createApi({
     >({
       query: ({ id }) => ({
         url: `Delivery/Completed/${id}`,
-        method: 'PUT',
-        responseHandler: 'content-type',
+        method: "PUT",
+        responseHandler: "content-type",
       }),
 
       async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
@@ -218,7 +218,7 @@ export const deliveriesApi = createApi({
 
           dispatch(
             deliveriesApi.util.updateQueryData(
-              'getDeliveries',
+              "getDeliveries",
               { PageNumber, PageSize },
               (draftedList) => {
                 Object.assign(draftedList.data.find((item) => item.id === id)!, {
@@ -232,7 +232,7 @@ export const deliveriesApi = createApi({
 
           dispatch(
             deliveriesApi.util.updateQueryData(
-              'getDeliveries',
+              "getDeliveries",
               { PageNumber, PageSize },
               (draft) => {
                 Object.assign(draft.data, {
@@ -251,15 +251,15 @@ export const deliveriesApi = createApi({
       {
         query: ({ id }) => ({
           url: `Delivery/${id}`,
-          method: 'DELETE',
-          responseHandler: 'content-type',
+          method: "DELETE",
+          responseHandler: "content-type",
         }),
         async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
           try {
             await queryFulfilled
             dispatch(
               deliveriesApi.util.updateQueryData(
-                'getDeliveries',
+                "getDeliveries",
                 { PageNumber, PageSize },
                 (draftedList) => ({
                   ...draftedList,

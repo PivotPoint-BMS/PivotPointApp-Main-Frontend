@@ -1,14 +1,14 @@
-import React from 'react'
-import { Meta, Story } from '@storybook/react'
-import Button, { ButtonProps } from '../components/Button'
+import React from "react"
+import { Meta, Story } from "@storybook/react"
+import Button, { ButtonProps } from "../components/Button"
 
 const meta: Meta = {
-  title: 'INPUT/Button',
+  title: "INPUT/Button",
   component: Button,
   argTypes: {
     children: {
       control: {
-        type: 'Button',
+        type: "Button",
       },
     },
   },
@@ -25,8 +25,8 @@ export const Contained = Template.bind({})
 export const Outlined = Template.bind({})
 
 Contained.args = {
-  variant: 'contained',
+  variant: "contained",
 }
 Outlined.args = {
-  variant: 'outlined',
+  variant: "outlined",
 }

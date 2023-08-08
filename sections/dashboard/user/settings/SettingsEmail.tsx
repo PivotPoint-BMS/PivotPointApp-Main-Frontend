@@ -1,21 +1,21 @@
-import React, { useEffect, useMemo } from 'react'
-import * as Yup from 'yup'
+import React, { useEffect, useMemo } from "react"
+import * as Yup from "yup"
 // form
-import { useForm, FieldValues } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { useForm, FieldValues } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
 // apis
 import {
   useGetSMTPSettingsQuery,
   useUpdateSMTPSettingsMutation,
-} from 'store/api/settings/settingsAPIs'
+} from "store/api/settings/settingsAPIs"
 // types
-import { SMTPSettings } from 'types'
+import { SMTPSettings } from "types"
 // hooks
-import useTranslate from 'hooks/useTranslate'
-import useSnackbar from 'hooks/useSnackbar'
+import useTranslate from "hooks/useTranslate"
+import useSnackbar from "hooks/useSnackbar"
 // components
-import { FormProvider, RHFTextField, RHFCheckbox } from 'components/hook-form'
-import { Card, CardContent, Button, LoadingIndicator } from 'components'
+import { FormProvider, RHFTextField, RHFCheckbox } from "components/hook-form"
+import { Card, CardContent, Button, LoadingIndicator } from "components"
 
 export default function SettingsEmail() {
   const { t } = useTranslate()
@@ -27,17 +27,17 @@ export default function SettingsEmail() {
   const [updateSettings, { isLoading: isUpdateLoading }] = useUpdateSMTPSettingsMutation()
 
   const SMTPSchema = Yup.object().shape({
-    mailServer: Yup.string().required(t('This field is required')),
-    userName: Yup.string().required(t('This field is required')),
-    password: Yup.string().required(t('Password is required')),
+    mailServer: Yup.string().required(t("This field is required")),
+    userName: Yup.string().required(t("This field is required")),
+    password: Yup.string().required(t("Password is required")),
     secureSSLSocket: Yup.boolean(),
   })
 
   const defaultValues = useMemo(
     () => ({
-      mailServer: smtpData?.data.mailServer || '',
-      userName: smtpData?.data.userName || '',
-      password: smtpData?.data.password || '',
+      mailServer: smtpData?.data.mailServer || "",
+      userName: smtpData?.data.userName || "",
+      password: smtpData?.data.password || "",
       secureSSLSocket: smtpData?.data.secureSSLSocket || false,
     }),
     [isLoading]
@@ -60,18 +60,18 @@ export default function SettingsEmail() {
     updateSettings(smtpSettings)
       .then(() =>
         open({
-          message: t('SMTP Settings Updated Successfully.'),
+          message: t("SMTP Settings Updated Successfully."),
           autoHideDuration: 6000,
-          type: 'success',
-          variant: 'contained',
+          type: "success",
+          variant: "contained",
         })
       )
       .catch(() =>
         open({
-          message: t('A problem has occurred.'),
+          message: t("A problem has occurred."),
           autoHideDuration: 6000,
-          type: 'error',
-          variant: 'contained',
+          type: "error",
+          variant: "contained",
         })
       )
   }
@@ -93,18 +93,18 @@ export default function SettingsEmail() {
           ) : (
             <>
               <p className='font-medium text-gray-600 dark:text-gray-400'>
-                {t('SMTP Configuration')}
+                {t("SMTP Configuration")}
               </p>
-              <RHFTextField name='mailServer' label={t('Mail Server')} />
-              <RHFTextField name='userName' label={t('Username')} />
-              <RHFTextField name='password' type='password' label={t('Password')} />
-              <RHFCheckbox name='secureSSLSocket' label={t('Secure Sockets Layer (SSL)')} />{' '}
+              <RHFTextField name='mailServer' label={t("Mail Server")} />
+              <RHFTextField name='userName' label={t("Username")} />
+              <RHFTextField name='password' type='password' label={t("Password")} />
+              <RHFCheckbox name='secureSSLSocket' label={t("Secure Sockets Layer (SSL)")} />{" "}
               <Button
                 className='w-full self-center md:w-1/3'
                 type='submit'
                 loading={isUpdateLoading}
               >
-                {t('Save Changes')}
+                {t("Save Changes")}
               </Button>
             </>
           )}

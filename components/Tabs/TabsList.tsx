@@ -1,6 +1,6 @@
-import React, { forwardRef } from 'react'
-import { List, TabsListProps } from '@radix-ui/react-tabs'
-import clsx from 'clsx'
+import React, { forwardRef } from "react"
+import { List, TabsListProps } from "@radix-ui/react-tabs"
+import clsx from "clsx"
 
 const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
   ({ children, className, ...props }, ref) => (
@@ -8,9 +8,9 @@ const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
       ref={ref}
       {...props}
       className={clsx(
-        'w-full overflow-x-auto py-1',
-        'flex items-center gap-4',
-        'bg-gray-100 px-1 dark:bg-paper-dark ',
+        "w-full overflow-x-auto py-1",
+        "flex items-center gap-4",
+        "bg-gray-100 px-1 dark:bg-paper-dark ",
         className
       )}
     >

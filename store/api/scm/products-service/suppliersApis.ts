@@ -1,25 +1,25 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { HYDRATE } from 'next-redux-wrapper'
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { HYDRATE } from "next-redux-wrapper"
 // config
-import { PIVOTPOINT_API } from 'config'
+import { PIVOTPOINT_API } from "config"
 // types
-import { ListGenericResponse, Supplier, RequestParams, IGenericResponse } from 'types'
+import { ListGenericResponse, Supplier, RequestParams, IGenericResponse } from "types"
 // store
-import { RootState } from 'store'
-import RequestSearchParams from 'types/RequestSearchParams'
+import { RootState } from "store"
+import RequestSearchParams from "types/RequestSearchParams"
 // import { assign } from 'lodash'
 
 export const supplierApi = createApi({
-  reducerPath: 'supplierApi',
+  reducerPath: "supplierApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${PIVOTPOINT_API.baseUrl}/scm`,
     prepareHeaders: (headers, { getState }) => {
       const { token } = (getState() as RootState).session
 
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
+        headers.set("Authorization", `Bearer ${token}`)
       }
 
       return headers
@@ -34,7 +34,7 @@ export const supplierApi = createApi({
   endpoints: (builder) => ({
     getSuppliers: builder.query<ListGenericResponse<Supplier[]>, RequestSearchParams>({
       query: (params) => ({
-        url: 'Suppliers',
+        url: "Suppliers",
         params,
       }),
     }),
@@ -43,13 +43,13 @@ export const supplierApi = createApi({
     }),
     createSupplier: builder.mutation<
       ListGenericResponse<Supplier>,
-      Omit<Supplier, 'id'> & RequestParams
+      Omit<Supplier, "id"> & RequestParams
     >({
       query: (data) => ({
-        url: 'Suppliers',
-        method: 'POST',
+        url: "Suppliers",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ PageNumber, PageSize }, { dispatch, queryFulfilled }) {
         try {
@@ -58,7 +58,7 @@ export const supplierApi = createApi({
           } = await queryFulfilled
           dispatch(
             supplierApi.util.updateQueryData(
-              'getSuppliers',
+              "getSuppliers",
               { PageNumber, PageSize },
               (draftedList) => {
                 draftedList.data.push(data)
@@ -72,13 +72,13 @@ export const supplierApi = createApi({
     }),
     editSupplier: builder.mutation<
       ListGenericResponse<Supplier>,
-      { data: Omit<Omit<Supplier, 'id'>, 'supplierItems'>; id: string } & RequestParams
+      { data: Omit<Omit<Supplier, "id">, "supplierItems">; id: string } & RequestParams
     >({
       query: ({ data, id }) => ({
         url: `Suppliers/${id}`,
-        method: 'PUT',
+        method: "PUT",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
 
       async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
@@ -89,7 +89,7 @@ export const supplierApi = createApi({
 
           dispatch(
             supplierApi.util.updateQueryData(
-              'getSuppliers',
+              "getSuppliers",
               { PageNumber, PageSize },
               (draftedList) => {
                 Object.assign(draftedList.data.find((item) => item.id === id)!, data)
@@ -99,7 +99,7 @@ export const supplierApi = createApi({
           )
 
           dispatch(
-            supplierApi.util.updateQueryData('getSupplier', id, (draft) => {
+            supplierApi.util.updateQueryData("getSupplier", id, (draft) => {
               Object.assign(draft.data, data)
             })
           )
@@ -112,15 +112,15 @@ export const supplierApi = createApi({
       {
         query: ({ id }) => ({
           url: `Suppliers/${id}`,
-          method: 'DELETE',
-          responseHandler: 'content-type',
+          method: "DELETE",
+          responseHandler: "content-type",
         }),
         async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
           try {
             await queryFulfilled
             dispatch(
               supplierApi.util.updateQueryData(
-                'getSuppliers',
+                "getSuppliers",
                 { PageNumber, PageSize },
                 (draftedList) => ({
                   ...draftedList,
@@ -145,16 +145,16 @@ export const supplierApi = createApi({
       }
     >({
       query: (data) => ({
-        url: 'Suppliers/AddProduct',
-        method: 'POST',
+        url: "Suppliers/AddProduct",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ supplierId, cost, itemId, name, type }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
           dispatch(
-            supplierApi.util.updateQueryData('getSupplier', supplierId, (drafted) => {
+            supplierApi.util.updateQueryData("getSupplier", supplierId, (drafted) => {
               drafted.data.supplierItems.push({ cost, id: itemId, name, type })
             })
           )
@@ -171,16 +171,16 @@ export const supplierApi = createApi({
       }
     >({
       query: (data) => ({
-        url: 'Suppliers/DeleteProduct',
-        method: 'POST',
+        url: "Suppliers/DeleteProduct",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ supplierId, itemId }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
           dispatch(
-            supplierApi.util.updateQueryData('getSupplier', supplierId, (drafted) => ({
+            supplierApi.util.updateQueryData("getSupplier", supplierId, (drafted) => ({
               ...drafted,
               data: {
                 ...drafted.data,

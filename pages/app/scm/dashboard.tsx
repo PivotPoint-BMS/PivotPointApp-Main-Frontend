@@ -1,20 +1,20 @@
-import React from 'react'
+import React from "react"
 // next
-import Head from 'next/head'
+import Head from "next/head"
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 // api
-import { useGetScmStatsQuery } from 'store/api/stats/statsApi'
+import { useGetScmStatsQuery } from "store/api/stats/statsApi"
 // layout
-import Layout from 'layout/Index'
-import RoleBasedGuard from 'guards/RoleBasedGuard'
+import Layout from "layout/Index"
+import RoleBasedGuard from "guards/RoleBasedGuard"
 // sections
-import DeliveriesGraph from 'sections/dashboard/scm/dashboard/DeliveriesGraph'
-import DeliveriesStatus from 'sections/dashboard/scm/dashboard/DeliveriesStatus'
-import InvoicesGraph from 'sections/dashboard/scm/dashboard/InvoicesGraph'
-import InvoicesStatus from 'sections/dashboard/scm/dashboard/InvoicesStatus'
+import DeliveriesGraph from "sections/dashboard/scm/dashboard/DeliveriesGraph"
+import DeliveriesStatus from "sections/dashboard/scm/dashboard/DeliveriesStatus"
+import InvoicesGraph from "sections/dashboard/scm/dashboard/InvoicesGraph"
+import InvoicesStatus from "sections/dashboard/scm/dashboard/InvoicesStatus"
 // components
-import { Card, CardContent, CardHeader, HeaderBreadcrumbs, LoadingIndicator } from 'components'
+import { Card, CardContent, CardHeader, HeaderBreadcrumbs, LoadingIndicator } from "components"
 
 function index() {
   const { t } = useTranslate()
@@ -23,7 +23,7 @@ function index() {
   return (
     <>
       <Head>
-        <title>{t('Supply Chain & Inventory')} | Pivot Point BMS</title>
+        <title>{t("Supply Chain & Inventory")} | Pivot Point BMS</title>
       </Head>
       <div className='px-5'>
         {isLoading ? (
@@ -32,11 +32,11 @@ function index() {
           </div>
         ) : (
           <>
-            <HeaderBreadcrumbs heading={t('Supply Chain & Inventory')} />
+            <HeaderBreadcrumbs heading={t("Supply Chain & Inventory")} />
             <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4'>
               <Card fullWidth className='h-full'>
                 <CardHeader
-                  title={t('Deliveries')}
+                  title={t("Deliveries")}
                   // actions={
                   //   <div className='flex items-start gap-1'>
                   //     <Icon
@@ -54,7 +54,7 @@ function index() {
               </Card>
               <Card fullWidth className='h-full'>
                 <CardHeader
-                  title={t('New Invoices')}
+                  title={t("New Invoices")}
                   // actions={
                   //   <div className='flex items-start gap-1'>
                   //     <Icon
@@ -72,7 +72,7 @@ function index() {
               </Card>
               <Card fullWidth className='h-full'>
                 <CardHeader
-                  title={t('Fulfilled Invoices')}
+                  title={t("Fulfilled Invoices")}
                   // actions={
                   //   <div className='flex items-start gap-1'>
                   //     <Icon
@@ -90,7 +90,7 @@ function index() {
               </Card>
               <Card fullWidth className='h-full'>
                 <CardHeader
-                  title={t('Invoices To Pay')}
+                  title={t("Invoices To Pay")}
 
                   // actions={
                   //   <div className='flex items-start gap-1'>
@@ -105,7 +105,7 @@ function index() {
                 />
                 <CardContent className='flex items-center justify-between'>
                   <h6 className='text-3xl font-semibold'>
-                    {data?.data.invoicesSummart.pending || 0}{' '}
+                    {data?.data.invoicesSummart.pending || 0}{" "}
                   </h6>
                 </CardContent>
               </Card>
@@ -122,7 +122,7 @@ function index() {
                   data?.data.invoicesSummart.paid || 0,
                   data?.data.invoicesSummart.completed || 0,
                 ]}
-                labels={[t('New'), t('Pending'), t('Paid'), t('Completed')]}
+                labels={[t("New"), t("Pending"), t("Paid"), t("Completed")]}
               />
               <DeliveriesStatus
                 data={[
@@ -132,10 +132,10 @@ function index() {
                   data?.data.deliveriesSummary.deliveryComplete || 0,
                 ]}
                 labels={[
-                  t('Initiated'),
-                  t('In Transit'),
-                  t('Arrived At Destination'),
-                  t('Completed'),
+                  t("Initiated"),
+                  t("In Transit"),
+                  t("Arrived At Destination"),
+                  t("Completed"),
                 ]}
               />
               <DeliveriesGraph
@@ -154,7 +154,7 @@ function index() {
 index.getLayout = function getLayout(page: JSX.Element) {
   return (
     <Layout variant='dashboard'>
-      <RoleBasedGuard accessibleRoles={['Owner', 'SCM']}>{page}</RoleBasedGuard>
+      <RoleBasedGuard accessibleRoles={["Owner", "SCM"]}>{page}</RoleBasedGuard>
     </Layout>
   )
 }

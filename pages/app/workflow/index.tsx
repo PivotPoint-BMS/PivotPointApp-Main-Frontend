@@ -1,9 +1,9 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-unsafe-optional-chaining */
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from "react"
 // next
-import Head from 'next/head'
+import Head from "next/head"
 // reactflow
 import ReactFlow, {
   addEdge,
@@ -20,21 +20,21 @@ import ReactFlow, {
   getOutgoers,
   getConnectedEdges,
   Node,
-} from 'reactflow'
+} from "reactflow"
 // routes
 // hooks
-import useResponsive from 'hooks/useResponsive'
-import useTranslate from 'hooks/useTranslate'
+import useResponsive from "hooks/useResponsive"
+import useTranslate from "hooks/useTranslate"
 // layout
-import Layout from 'layout/Index'
+import Layout from "layout/Index"
 // components
-import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs'
+import HeaderBreadcrumbs from "components/HeaderBreadcrumbs"
 // sections
-import WorkflowSidebar from 'sections/dashboard/workflow/WorkflowSidebar'
-import TriggerNode, { TriggerNodeData } from 'sections/dashboard/workflow/TriggerNode'
-import ActionNode, { ActionNodeData } from 'sections/dashboard/workflow/ActionNode'
-import 'reactflow/dist/style.css'
-import RoleBasedGuard from 'guards/RoleBasedGuard'
+import WorkflowSidebar from "sections/dashboard/workflow/WorkflowSidebar"
+import TriggerNode, { TriggerNodeData } from "sections/dashboard/workflow/TriggerNode"
+import ActionNode, { ActionNodeData } from "sections/dashboard/workflow/ActionNode"
+import "reactflow/dist/style.css"
+import RoleBasedGuard from "guards/RoleBasedGuard"
 
 const nodeTypes: NodeTypes = {
   trigger: TriggerNode,
@@ -46,7 +46,7 @@ let id = 3
 const getId = () => `dndnode_${id++}`
 
 const index = () => {
-  const isDesktop = useResponsive('md', 'up')
+  const isDesktop = useResponsive("md", "up")
   const { t } = useTranslate()
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
   const [nodes, setNodes, onNodesChange] = useNodesState<ActionNodeData | TriggerNodeData>([])
@@ -59,7 +59,7 @@ const index = () => {
   const onConnect = useCallback(
     (params: Edge | Connection) =>
       setEdges((eds) =>
-        addEdge({ ...params, markerEnd: MarkerType.ArrowClosed, type: 'smoothstep' }, eds)
+        addEdge({ ...params, markerEnd: MarkerType.ArrowClosed, type: "smoothstep" }, eds)
       ),
     [setEdges]
   )
@@ -67,7 +67,7 @@ const index = () => {
   const onDragOver = useCallback(
     (event: { preventDefault: () => void; dataTransfer: { dropEffect: string } }) => {
       event.preventDefault()
-      event.dataTransfer.dropEffect = 'move'
+      event.dataTransfer.dropEffect = "move"
     },
     []
   )
@@ -82,13 +82,13 @@ const index = () => {
       event.preventDefault()
 
       const reactFlowBounds = reactFlowWrapper?.current?.getBoundingClientRect()
-      const nodeType = event.dataTransfer.getData('reactflow/nodeType')
-      const name = event.dataTransfer.getData('reactflow/name')
-      const type = event.dataTransfer.getData('reactflow/type')
-      const icon = event.dataTransfer.getData('reactflow/icon')
+      const nodeType = event.dataTransfer.getData("reactflow/nodeType")
+      const name = event.dataTransfer.getData("reactflow/name")
+      const type = event.dataTransfer.getData("reactflow/type")
+      const icon = event.dataTransfer.getData("reactflow/icon")
 
       // check if the dropped element is valid
-      if (typeof nodeType === 'undefined' || !nodeType) {
+      if (typeof nodeType === "undefined" || !nodeType) {
         return
       }
       if (reactFlowBounds && reactFlowInstance) {
@@ -133,12 +133,12 @@ const index = () => {
   return (
     <>
       <Head>
-        <title>{t('Workflow')} | Pivot Point BMS</title>
+        <title>{t("Workflow")} | Pivot Point BMS</title>
       </Head>
       {isDesktop ? (
         <div className='flex h-full w-full flex-col'>
           <div className='px-5'>
-            <HeaderBreadcrumbs heading={t('Workflow')} />
+            <HeaderBreadcrumbs heading={t("Workflow")} />
           </div>
           <div className='flex flex-1'>
             <ReactFlowProvider>
@@ -170,7 +170,7 @@ const index = () => {
       ) : (
         <div className='flex w-full items-center justify-center'>
           <h1 className='text-center text-xl font-semibold text-red-500'>
-            {t('Sorry, Workflow only works on desktop')}
+            {t("Sorry, Workflow only works on desktop")}
           </h1>
         </div>
       )}
@@ -181,7 +181,7 @@ const index = () => {
 index.getLayout = function getLayout(page: JSX.Element) {
   return (
     <Layout variant='dashboard'>
-      <RoleBasedGuard accessibleRoles={['Owner', 'WF']}>{page}</RoleBasedGuard>
+      <RoleBasedGuard accessibleRoles={["Owner", "WF"]}>{page}</RoleBasedGuard>
     </Layout>
   )
 }

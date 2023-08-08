@@ -1,12 +1,12 @@
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 // redux
-import { useAppSelector } from 'store/hooks'
+import { useAppSelector } from "store/hooks"
 // apis
-import { useGetLeadActivitiesQuery } from 'store/api/crm/contact-leads/leadApis'
+import { useGetLeadActivitiesQuery } from "store/api/crm/contact-leads/leadApis"
 // components
-import { CardContent, LoadingIndicator } from 'components'
-import ActivityCard from './ActivityCard'
+import { CardContent, LoadingIndicator } from "components"
+import ActivityCard from "./ActivityCard"
 
 export default function Activities({ leadId }: { leadId: string }) {
   const { t } = useTranslate()
@@ -20,7 +20,7 @@ export default function Activities({ leadId }: { leadId: string }) {
   if (isLoading)
     return (
       <CardContent className='h-full'>
-        <h1 className='mb-4 text-lg font-medium'>{t('Upcoming Activities')}</h1>
+        <h1 className='mb-4 text-lg font-medium'>{t("Upcoming Activities")}</h1>
         <div className='flex h-56 w-full items-center justify-center'>
           <LoadingIndicator />
         </div>
@@ -41,7 +41,7 @@ export default function Activities({ leadId }: { leadId: string }) {
   return (
     <CardContent className='h-full'>
       <div className='flex h-56 w-full items-center justify-center'>
-        <h6>{t('No Activities')}</h6>
+        <h6>{t("No Activities")}</h6>
       </div>
     </CardContent>
   )

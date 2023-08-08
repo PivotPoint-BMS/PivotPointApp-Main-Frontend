@@ -1,5 +1,5 @@
-import { useTheme } from 'next-themes'
-import useTranslate from 'hooks/useTranslate'
+import { useTheme } from "next-themes"
+import useTranslate from "hooks/useTranslate"
 
 export default function BaseOptionChart(): ApexCharts.ApexOptions {
   const theme = useTheme()
@@ -7,45 +7,45 @@ export default function BaseOptionChart(): ApexCharts.ApexOptions {
 
   const LABEL_TOTAL = {
     show: true,
-    label: t('Total'),
-    color: theme.theme === 'light' ? '#161c24' : '#ffffff',
-    fontSize: '12px',
+    label: t("Total"),
+    color: theme.theme === "light" ? "#161c24" : "#ffffff",
+    fontSize: "12px",
     fontWeight: 600,
     lineHeight: 18,
   }
 
   const LABEL_VALUE = {
     offsetY: 8,
-    color: theme.theme === 'light' ? '#161c24' : '#ffffff',
-    fontSize: '16px',
+    color: theme.theme === "light" ? "#161c24" : "#ffffff",
+    fontSize: "16px",
     fontWeight: 600,
     lineHeight: 18,
   }
 
   return {
     // Colors
-    colors: ['#1FAA69', '#FFBF00', '#0070BB', '#8A2BE2', '#568203', '#FF0800'],
+    colors: ["#1FAA69", "#FFBF00", "#0070BB", "#8A2BE2", "#568203", "#FF0800"],
 
     // Chart
     chart: {
       toolbar: { show: false },
       zoom: { enabled: false },
       // animations: { enabled: false },
-      foreColor: '#4B5563',
-      fontFamily: 'Poppins, Noto Sans Arabic, sans-serif',
+      foreColor: "#4B5563",
+      fontFamily: "Poppins, Noto Sans Arabic, sans-serif",
     },
 
     // States
     states: {
       hover: {
         filter: {
-          type: 'lighten',
+          type: "lighten",
           value: 0.04,
         },
       },
       active: {
         filter: {
-          type: 'darken',
+          type: "darken",
           value: 0.88,
         },
       },
@@ -55,7 +55,7 @@ export default function BaseOptionChart(): ApexCharts.ApexOptions {
     fill: {
       opacity: 1,
       gradient: {
-        type: 'vertical',
+        type: "vertical",
         shadeIntensity: 0,
         opacityFrom: 0.4,
         opacityTo: 0,
@@ -69,14 +69,14 @@ export default function BaseOptionChart(): ApexCharts.ApexOptions {
     // Stroke
     stroke: {
       width: 3,
-      curve: 'smooth',
-      lineCap: 'round',
+      curve: "smooth",
+      lineCap: "round",
     },
 
     // Grid
     grid: {
       strokeDashArray: 3,
-      borderColor: '#9ca3af',
+      borderColor: "#9ca3af",
     },
 
     // Xaxis
@@ -84,7 +84,7 @@ export default function BaseOptionChart(): ApexCharts.ApexOptions {
       axisBorder: { show: false },
       axisTicks: { show: false },
       labels: {
-        rotate: locale === 'ar' ? 45 : -45,
+        rotate: locale === "ar" ? 45 : -45,
         rotateAlways: false,
       },
     },
@@ -92,7 +92,7 @@ export default function BaseOptionChart(): ApexCharts.ApexOptions {
     // Markers
     markers: {
       size: 0,
-      strokeColors: '#FFFFFF',
+      strokeColors: "#FFFFFF",
     },
 
     // Tooltip
@@ -106,15 +106,15 @@ export default function BaseOptionChart(): ApexCharts.ApexOptions {
     legend: {
       show: true,
       fontSize: String(13),
-      position: 'bottom',
-      horizontalAlign: 'right',
+      position: "bottom",
+      horizontalAlign: "right",
       markers: {
         radius: 12,
       },
       fontWeight: 500,
       itemMargin: { horizontal: 12, vertical: 5 },
       labels: {
-        colors: '#161c24',
+        colors: "#161c24",
       },
     },
 
@@ -122,7 +122,7 @@ export default function BaseOptionChart(): ApexCharts.ApexOptions {
     plotOptions: {
       // Bar
       bar: {
-        columnWidth: '28%',
+        columnWidth: "28%",
         borderRadius: 4,
       },
       // Pie + Donut
@@ -138,8 +138,8 @@ export default function BaseOptionChart(): ApexCharts.ApexOptions {
       // Radialbar
       radialBar: {
         track: {
-          strokeWidth: '100%',
-          background: '#6b728029',
+          strokeWidth: "100%",
+          background: "#6b728029",
         },
         dataLabels: {
           value: LABEL_VALUE,
@@ -149,18 +149,18 @@ export default function BaseOptionChart(): ApexCharts.ApexOptions {
       // Radar
       radar: {
         polygons: {
-          fill: { colors: ['transparent'] },
-          strokeColors: '#9ca3af',
-          connectorColors: '#9ca3af',
+          fill: { colors: ["transparent"] },
+          strokeColors: "#9ca3af",
+          connectorColors: "#9ca3af",
         },
       },
       // polarArea
       polarArea: {
         rings: {
-          strokeColor: '#9ca3af',
+          strokeColor: "#9ca3af",
         },
         spokes: {
-          connectorColors: '#9ca3af',
+          connectorColors: "#9ca3af",
         },
       },
     },
@@ -171,14 +171,14 @@ export default function BaseOptionChart(): ApexCharts.ApexOptions {
         // sm
         breakpoint: 639,
         options: {
-          plotOptions: { bar: { columnWidth: '40%' } },
+          plotOptions: { bar: { columnWidth: "40%" } },
         },
       },
       {
         // md
         breakpoint: 767,
         options: {
-          plotOptions: { bar: { columnWidth: '32%' } },
+          plotOptions: { bar: { columnWidth: "32%" } },
         },
       },
     ],

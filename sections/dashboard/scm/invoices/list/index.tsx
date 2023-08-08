@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { useEffect, useState } from 'react'
-import { min } from 'lodash'
-import clsx from 'clsx'
-import moment from 'moment'
+import React, { useEffect, useState } from "react"
+import { min } from "lodash"
+import clsx from "clsx"
+import moment from "moment"
 // next
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router"
 // hooks
-import useTranslate from 'hooks/useTranslate'
-import useSnackbar from 'hooks/useSnackbar'
+import useTranslate from "hooks/useTranslate"
+import useSnackbar from "hooks/useSnackbar"
 // redux
-import { wrapper } from 'store'
-import { changePageNumber, changePageSize } from 'store/slices/paginationSlice'
-import { useAppDispatch, useAppSelector } from 'store/hooks'
-import { PATH_DASHBOARD } from 'routes/paths'
+import { wrapper } from "store"
+import { changePageNumber, changePageSize } from "store/slices/paginationSlice"
+import { useAppDispatch, useAppSelector } from "store/hooks"
+import { PATH_DASHBOARD } from "routes/paths"
 // api
 import {
   getInvoices,
@@ -22,9 +22,9 @@ import {
   useGetInvoicesQuery,
   usePaidInvoiceMutation,
   usePendingInvoiceMutation,
-} from 'store/api/scm/invoices/invoicesApis'
+} from "store/api/scm/invoices/invoicesApis"
 // types
-import { Invoice } from 'types'
+import { Invoice } from "types"
 // components
 import {
   useReactTable,
@@ -34,7 +34,7 @@ import {
   RowSelectionState,
   SortingState,
   getSortedRowModel,
-} from '@tanstack/react-table'
+} from "@tanstack/react-table"
 import {
   AlertDialog,
   Backdrop,
@@ -46,10 +46,10 @@ import {
   Select as MySelect,
   IndeterminateCheckbox,
   Badge,
-} from 'components'
-import { Icon, Icon as Iconify } from '@iconify/react'
-import InvoiceTableToolbar from './InvoicesTableToolbar'
-import InvoicePreview from './InvoicesPreview'
+} from "components"
+import { Icon, Icon as Iconify } from "@iconify/react"
+import InvoiceTableToolbar from "./InvoicesTableToolbar"
+import InvoicePreview from "./InvoicesPreview"
 
 export default function InvoicesList() {
   const { t } = useTranslate()
@@ -63,7 +63,7 @@ export default function InvoicesList() {
   // Pagination
   const { PageSize, PageNumber } = useAppSelector((state) => state.pagination)
   // Filters
-  const [searchValue, setSearchValue] = useState('')
+  const [searchValue, setSearchValue] = useState("")
 
   // Query Params
   const [SearchTerm, setSearchTerm] = useState<string | undefined>(undefined)
@@ -90,8 +90,8 @@ export default function InvoicesList() {
   const columnHelper = createColumnHelper<Invoice>()
 
   const columns = [
-    columnHelper.accessor('id', {
-      id: 'select',
+    columnHelper.accessor("id", {
+      id: "select",
       size: 24,
       enableSorting: false,
       header: ({ table }) => (
@@ -114,50 +114,50 @@ export default function InvoicesList() {
         />
       ),
     }),
-    columnHelper.accessor('invoiceTitle', {
-      id: 'invoiceTitle',
-      header: () => t('Title'),
+    columnHelper.accessor("invoiceTitle", {
+      id: "invoiceTitle",
+      header: () => t("Title"),
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor('created', {
-      id: 'created',
-      header: () => t('Created'),
-      cell: (created) => moment(created.getValue()).format('LL'),
+    columnHelper.accessor("created", {
+      id: "created",
+      header: () => t("Created"),
+      cell: (created) => moment(created.getValue()).format("LL"),
     }),
-    columnHelper.accessor('due', {
-      id: 'due',
-      header: () => t('Start Address'),
+    columnHelper.accessor("due", {
+      id: "due",
+      header: () => t("Start Address"),
       cell: (due) => due.getValue(),
     }),
-    columnHelper.accessor('total', {
-      id: 'total',
-      header: () => t('Amount'),
-      cell: (total) => `${total.getValue()} ${t('Da')}`,
+    columnHelper.accessor("total", {
+      id: "total",
+      header: () => t("Amount"),
+      cell: (total) => `${total.getValue()} ${t("Da")}`,
     }),
 
-    columnHelper.accessor('status', {
-      id: 'status',
-      header: () => t('Status'),
+    columnHelper.accessor("status", {
+      id: "status",
+      header: () => t("Status"),
       cell: (status) => {
         if (status.getValue() === 1)
-          return <Badge variant='ghost' intent='warning' size='small' label={t('Pending')} />
+          return <Badge variant='ghost' intent='warning' size='small' label={t("Pending")} />
         if (status.getValue() === 2)
-          return <Badge variant='ghost' intent='success' size='small' label={t('Paid')} />
+          return <Badge variant='ghost' intent='success' size='small' label={t("Paid")} />
         if (status.getValue() === 3)
-          return <Badge variant='ghost' intent='success' size='small' label={t('Completed')} />
+          return <Badge variant='ghost' intent='success' size='small' label={t("Completed")} />
         if (status.getValue() === 4)
-          return <Badge variant='ghost' intent='info' size='small' label={t('Overdue')} />
-        return <Badge variant='ghost' intent='info' size='small' label={t('Created')} />
+          return <Badge variant='ghost' intent='info' size='small' label={t("Overdue")} />
+        return <Badge variant='ghost' intent='info' size='small' label={t("Created")} />
       },
     }),
     columnHelper.accessor((row) => row, {
-      id: 'actions',
+      id: "actions",
       size: 1,
       enableSorting: false,
-      header: () => <p className='w-full text-right'>{t('Actions')}</p>,
+      header: () => <p className='w-full text-right'>{t("Actions")}</p>,
       cell: (invoice) => (
         <div className='flex items-center justify-end gap-2'>
-          <Tooltip title={t('View Details')} side='bottom'>
+          <Tooltip title={t("View Details")} side='bottom'>
             <IconButton
               onClick={() => push(PATH_DASHBOARD.scm.invoices.invoice(invoice.getValue().id))}
             >
@@ -167,7 +167,7 @@ export default function InvoicesList() {
           <DropdownMenu
             trigger={
               <div>
-                <Tooltip title={t('More')} side='bottom'>
+                <Tooltip title={t("More")} side='bottom'>
                   <IconButton>
                     <Iconify icon='material-symbols:more-vert' height={20} />
                   </IconButton>
@@ -176,17 +176,17 @@ export default function InvoicesList() {
             }
             items={[
               {
-                type: 'dropdown',
-                label: t('Change Status'),
+                type: "dropdown",
+                label: t("Change Status"),
                 icon: <Iconify icon='ic:round-change-circle' height={18} />,
                 subItems: [
                   {
-                    type: 'button',
-                    label: t('Pending'),
+                    type: "button",
+                    label: t("Pending"),
                     icon: (
                       <Icon
                         icon={
-                          invoice.getValue().status !== 1 ? 'tabler:point-filled' : 'ic:round-check'
+                          invoice.getValue().status !== 1 ? "tabler:point-filled" : "ic:round-check"
                         }
                         className='text-orange-400'
                         height={18}
@@ -198,12 +198,12 @@ export default function InvoicesList() {
                     },
                   },
                   {
-                    type: 'button',
-                    label: t('Paid'),
+                    type: "button",
+                    label: t("Paid"),
                     icon: (
                       <Icon
                         icon={
-                          invoice.getValue().status !== 2 ? 'tabler:point-filled' : 'ic:round-check'
+                          invoice.getValue().status !== 2 ? "tabler:point-filled" : "ic:round-check"
                         }
                         className='text-primary-400'
                         height={18}
@@ -215,12 +215,12 @@ export default function InvoicesList() {
                     },
                   },
                   {
-                    type: 'button',
-                    label: t('Completed'),
+                    type: "button",
+                    label: t("Completed"),
                     icon: (
                       <Icon
                         icon={
-                          invoice.getValue().status !== 3 ? 'tabler:point-filled' : 'ic:round-check'
+                          invoice.getValue().status !== 3 ? "tabler:point-filled" : "ic:round-check"
                         }
                         className='text-green-400'
                         height={18}
@@ -234,16 +234,16 @@ export default function InvoicesList() {
                 ],
               },
               {
-                type: 'button',
-                label: t('Edit'),
+                type: "button",
+                label: t("Edit"),
                 icon: <Iconify icon='ic:round-edit' height={18} />,
                 onClick: () => push(PATH_DASHBOARD.scm.invoices.edit(invoice.getValue().id)),
               },
               {
-                type: 'button',
-                label: t('Archive'),
+                type: "button",
+                label: t("Archive"),
                 icon: <Iconify icon='ic:round-archive' height={18} />,
-                className: 'text-red-600 dark:text-red-400',
+                className: "text-red-600 dark:text-red-400",
                 loading: isArchiveInvoiceLoading,
                 onClick: () => setIdToArchive(invoice.getValue().id),
               },
@@ -257,18 +257,18 @@ export default function InvoicesList() {
   useEffect(() => {
     if (isArchiveError) {
       open({
-        message: t('A problem has occurred.'),
+        message: t("A problem has occurred."),
         autoHideDuration: 4000,
-        type: 'error',
-        variant: 'contained',
+        type: "error",
+        variant: "contained",
       })
     }
     if (isArchiveSuccess) {
       open({
-        message: t('Invoice Archived Successfully.'),
+        message: t("Invoice Archived Successfully."),
         autoHideDuration: 4000,
-        type: 'success',
-        variant: 'contained',
+        type: "success",
+        variant: "contained",
       })
     }
   }, [isArchiveError, isArchiveSuccess])
@@ -298,8 +298,8 @@ export default function InvoicesList() {
   useEffect(() => {
     setSelectedIds(
       data?.data
-        .map((invoice, i) => (Object.keys(rowSelection).includes(i.toString()) ? invoice.id : ''))
-        .filter((item) => item !== '') || []
+        .map((invoice, i) => (Object.keys(rowSelection).includes(i.toString()) ? invoice.id : ""))
+        .filter((item) => item !== "") || []
     )
   }, [rowSelection])
 
@@ -307,9 +307,9 @@ export default function InvoicesList() {
     <>
       <div className='flex items-center justify-center gap-6 p-3 '>
         <TextField
-          placeholder={t('Search...')}
+          placeholder={t("Search...")}
           endAdornment={
-            <IconButton onClick={() => setSearchTerm(searchValue === '' ? undefined : searchValue)}>
+            <IconButton onClick={() => setSearchTerm(searchValue === "" ? undefined : searchValue)}>
               <Iconify icon='ion:search-outline' height={18} className='text-gray-500' />
             </IconButton>
           }
@@ -317,8 +317,8 @@ export default function InvoicesList() {
           onChange={(e) => setSearchValue(e.target.value)}
           className='flex h-full'
           onKeyDown={(e) => {
-            if (e.key === 'Enter')
-              setSearchTerm(e.currentTarget.value === '' ? undefined : e.currentTarget.value)
+            if (e.key === "Enter")
+              setSearchTerm(e.currentTarget.value === "" ? undefined : e.currentTarget.value)
           }}
         />
       </div>
@@ -348,8 +348,8 @@ export default function InvoicesList() {
                                 <div
                                   {...{
                                     className: header.column.getCanSort()
-                                      ? 'cursor-pointer select-none flex items-center gap-2'
-                                      : '',
+                                      ? "cursor-pointer select-none flex items-center gap-2"
+                                      : "",
                                     onClick: header.column.getToggleSortingHandler(),
                                   }}
                                 >
@@ -380,8 +380,8 @@ export default function InvoicesList() {
                         <tr
                           key={row.id}
                           className={clsx(
-                            'cursor-pointer border-b last-of-type:border-b-0 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-paper-hover-dark',
-                            row.getIsSelected() && 'bg-gray-50 dark:bg-paper-hover-dark/80'
+                            "cursor-pointer border-b last-of-type:border-b-0 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-paper-hover-dark",
+                            row.getIsSelected() && "bg-gray-50 dark:bg-paper-hover-dark/80"
                           )}
                           // onDoubleClick={() => dispatch(previewInvoice(row.original))}
                         >
@@ -403,25 +403,25 @@ export default function InvoicesList() {
                   </table>
                   <div className='flex w-max min-w-full items-center justify-end divide-x border-t p-4 rtl:divide-x-reverse dark:divide-gray-600 dark:border-gray-600'>
                     <div className='flex items-center justify-center gap-2 px-2'>
-                      <p className='text-sm'>{t('Row per page : ')}</p>
+                      <p className='text-sm'>{t("Row per page : ")}</p>
                       <MySelect
-                        items={['10', '25', '50'].map((item) => ({ label: item, value: item }))}
+                        items={["10", "25", "50"].map((item) => ({ label: item, value: item }))}
                         onValueChange={(page) => dispatch(changePageSize(Number(page)))}
                         value={String(PageSize)}
-                        buttonProps={{ intent: 'default' }}
+                        buttonProps={{ intent: "default" }}
                       />
                     </div>
                     <div className='flex h-full items-center justify-center gap-2 p-2 '>
                       <p className='text-sm'>
                         {(data.pageNumber - 1) * (data.pageSize + 1) === 0
                           ? 1
-                          : (data.pageNumber - 1) * (data.pageSize + 1)}{' '}
-                        - {min([data.pageNumber * data.pageSize, data.totalRecords])} {t('of')}{' '}
+                          : (data.pageNumber - 1) * (data.pageSize + 1)}{" "}
+                        - {min([data.pageNumber * data.pageSize, data.totalRecords])} {t("of")}{" "}
                         {data.totalRecords}
                       </p>
                     </div>
                     <div className='flex items-center justify-center gap-2 px-2'>
-                      <Tooltip side='bottom' title={t('First page')}>
+                      <Tooltip side='bottom' title={t("First page")}>
                         <IconButton
                           className='border dark:border-gray-600'
                           onClick={() => dispatch(changePageNumber(1))}
@@ -433,7 +433,7 @@ export default function InvoicesList() {
                           />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip side='bottom' title={t('Previous page')}>
+                      <Tooltip side='bottom' title={t("Previous page")}>
                         <IconButton
                           className='border dark:border-gray-600'
                           onClick={() =>
@@ -445,9 +445,9 @@ export default function InvoicesList() {
                         </IconButton>
                       </Tooltip>
                       <p className='text-sm'>
-                        {t('Page')} {PageNumber} {t('of')} {data.totalPages}
+                        {t("Page")} {PageNumber} {t("of")} {data.totalPages}
                       </p>
-                      <Tooltip side='bottom' title={t('Next page')}>
+                      <Tooltip side='bottom' title={t("Next page")}>
                         <IconButton
                           className='border dark:border-gray-600'
                           onClick={() =>
@@ -462,7 +462,7 @@ export default function InvoicesList() {
                           <Icon icon='fluent:chevron-right-20-filled' className='rtl:rotate-180' />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip side='bottom' title={t('Last page')}>
+                      <Tooltip side='bottom' title={t("Last page")}>
                         <IconButton
                           className='border dark:border-gray-600'
                           onClick={() => dispatch(changePageNumber(data.totalPages))}
@@ -487,7 +487,7 @@ export default function InvoicesList() {
             </>
           ) : (
             <div className='flex h-56 flex-col items-center justify-center gap-2 px-4 py-2'>
-              <h1 className='text-xl font-semibold'>{t('No Invoice Found')}</h1>
+              <h1 className='text-xl font-semibold'>{t("No Invoice Found")}</h1>
             </div>
           )}
         </>
@@ -507,21 +507,21 @@ export default function InvoicesList() {
         }
       />
       <AlertDialog
-        title={t('Confirm Archive')}
+        title={t("Confirm Archive")}
         description={
           <p className='my-2 text-red-500 dark:text-red-400'>
-            {t('Are you sure you want to archive this invoice?')}
+            {t("Are you sure you want to archive this invoice?")}
           </p>
         }
-        cancelText={t('Cancel')}
-        confirmText={t('Yes, Archive')}
+        cancelText={t("Cancel")}
+        confirmText={t("Yes, Archive")}
         onConfirm={() => {
-          deleteInvoice({ id: idToArchive || '', PageNumber, PageSize })
+          deleteInvoice({ id: idToArchive || "", PageNumber, PageSize })
           setIdToArchive(null)
         }}
         open={idToArchive !== null}
         onClose={() => setIdToArchive(null)}
-        buttonProps={{ intent: 'error' }}
+        buttonProps={{ intent: "error" }}
       />
     </>
   )

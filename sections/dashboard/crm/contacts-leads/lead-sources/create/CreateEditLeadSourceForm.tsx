@@ -1,22 +1,22 @@
-import { useEffect, useMemo } from 'react'
-import * as Yup from 'yup'
+import { useEffect, useMemo } from "react"
+import * as Yup from "yup"
 // form
-import { yupResolver } from '@hookform/resolvers/yup'
-import { FieldValues, useForm } from 'react-hook-form'
+import { yupResolver } from "@hookform/resolvers/yup"
+import { FieldValues, useForm } from "react-hook-form"
 // api
 import {
   useCreateLeadSourceMutation,
   useEditLeadSourceMutation,
-} from 'store/api/crm/contact-leads/leadSourceApi'
+} from "store/api/crm/contact-leads/leadSourceApi"
 // types
-import { LeadSource } from 'types/Lead'
+import { LeadSource } from "types/Lead"
 // hooks
-import { useAppSelector } from 'store/hooks'
-import useTranslate from 'hooks/useTranslate'
+import { useAppSelector } from "store/hooks"
+import useTranslate from "hooks/useTranslate"
 // components
-import { Button } from 'components'
-import { FormProvider, RHFTextField } from 'components/hook-form'
-import useSnackbar from 'hooks/useSnackbar'
+import { Button } from "components"
+import { FormProvider, RHFTextField } from "components/hook-form"
+import useSnackbar from "hooks/useSnackbar"
 
 export default function CreateEditLeadSourceForm({
   currentLeadSource,
@@ -44,14 +44,14 @@ export default function CreateEditLeadSourceForm({
   ] = useEditLeadSourceMutation()
 
   const LeadSchema = Yup.object().shape({
-    source: Yup.string().min(3, t('Too short')).required(t('This field is required')),
-    sourceLink: Yup.string().min(3, t('Too short')).required(t('This field is required')),
+    source: Yup.string().min(3, t("Too short")).required(t("This field is required")),
+    sourceLink: Yup.string().min(3, t("Too short")).required(t("This field is required")),
   })
 
   const defaultValues = useMemo(
     () => ({
-      source: currentLeadSource?.source || '',
-      sourceLink: currentLeadSource?.sourceLink || '',
+      source: currentLeadSource?.source || "",
+      sourceLink: currentLeadSource?.sourceLink || "",
     }),
     [currentLeadSource]
   )
@@ -66,17 +66,17 @@ export default function CreateEditLeadSourceForm({
   const onSubmit = async (data: FieldValues) => {
     const leadSource: LeadSource = { source: data.source, sourceLink: data.sourceLink }
     if (isEdit)
-      editLeadSource({ data: leadSource, id: currentLeadSource?.id || '', PageNumber, PageSize })
+      editLeadSource({ data: leadSource, id: currentLeadSource?.id || "", PageNumber, PageSize })
     else createLeadSource({ data: leadSource, PageNumber, PageSize })
   }
 
   useEffect(() => {
     if (isCreateError || isEditError) {
       open({
-        message: t('A problem has occurred.'),
+        message: t("A problem has occurred."),
         autoHideDuration: 4000,
-        type: 'error',
-        variant: 'contained',
+        type: "error",
+        variant: "contained",
       })
       reset()
       onFailure()
@@ -85,11 +85,11 @@ export default function CreateEditLeadSourceForm({
       reset()
       open({
         message: isEditSuccess
-          ? t('Lead Source Updated Successfully.')
-          : t('Lead Source Added Successfully.'),
+          ? t("Lead Source Updated Successfully.")
+          : t("Lead Source Added Successfully."),
         autoHideDuration: 4000,
-        type: 'success',
-        variant: 'contained',
+        type: "success",
+        variant: "contained",
       })
       onSuccess()
     }
@@ -98,8 +98,8 @@ export default function CreateEditLeadSourceForm({
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <div className='mt-2 flex flex-col gap-4'>
-        <RHFTextField name='source' label={t('Source')} />
-        <RHFTextField name='sourceLink' label={t('Source Link')} />
+        <RHFTextField name='source' label={t("Source")} />
+        <RHFTextField name='sourceLink' label={t("Source Link")} />
       </div>
 
       <div className='mt-6 flex w-full items-center justify-end gap-3'>
@@ -112,10 +112,10 @@ export default function CreateEditLeadSourceForm({
             reset()
           }}
         >
-          {t('Cancel')}
+          {t("Cancel")}
         </Button>
         <Button size='large' type='submit' loading={isEditLoading || isCreateLoading}>
-          {isEdit ? t('Edit Lead Source') : t('Add Lead Source')}
+          {isEdit ? t("Edit Lead Source") : t("Add Lead Source")}
         </Button>
       </div>
     </FormProvider>

@@ -1,5 +1,5 @@
-import React from 'react'
-import SimpleBarReact, { Props } from 'simplebar-react'
+import React from "react"
+import SimpleBarReact, { Props } from "simplebar-react"
 
 type ScrollbarProps = Props & {
   children: React.ReactNode | React.ReactNode[]

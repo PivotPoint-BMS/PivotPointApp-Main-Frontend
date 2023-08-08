@@ -1,21 +1,21 @@
-import { useEffect, useMemo } from 'react'
-import * as Yup from 'yup'
+import { useEffect, useMemo } from "react"
+import * as Yup from "yup"
 // form
-import { yupResolver } from '@hookform/resolvers/yup'
-import { FieldValues, useForm } from 'react-hook-form'
+import { yupResolver } from "@hookform/resolvers/yup"
+import { FieldValues, useForm } from "react-hook-form"
 // api
 import {
   useCreateWarehouseSectionMutation,
   useEditWarehouseSectionMutation,
-} from 'store/api/scm/warehousing/warehouseSectionApis'
+} from "store/api/scm/warehousing/warehouseSectionApis"
 // types
-import { WarehouseSection } from 'types'
+import { WarehouseSection } from "types"
 // hooks
-import useTranslate from 'hooks/useTranslate'
-import useSnackbar from 'hooks/useSnackbar'
+import useTranslate from "hooks/useTranslate"
+import useSnackbar from "hooks/useSnackbar"
 // components
-import { Button } from 'components'
-import { FormProvider, RHFTextField } from 'components/hook-form'
+import { Button } from "components"
+import { FormProvider, RHFTextField } from "components/hook-form"
 
 export default function CreateEditSectionForm({
   onSuccess,
@@ -43,16 +43,16 @@ export default function CreateEditSectionForm({
 
   const LeadSchema = Yup.object().shape({
     name: Yup.string()
-      .max(2, t('Too long'))
-      .min(2, t('Too short'))
-      .required(t('This field is required')),
-    maxCapacity: Yup.number().required(t('This field is required')),
+      .max(2, t("Too long"))
+      .min(2, t("Too short"))
+      .required(t("This field is required")),
+    maxCapacity: Yup.number().required(t("This field is required")),
   })
 
   const defaultValues = useMemo(
     () => ({
-      name: currentSection?.name || '',
-      maxCapacity: currentSection?.maxCapacity || '',
+      name: currentSection?.name || "",
+      maxCapacity: currentSection?.maxCapacity || "",
     }),
     [currentSection]
   )
@@ -65,7 +65,7 @@ export default function CreateEditSectionForm({
   const { handleSubmit, reset } = methods
 
   const onSubmit = async (data: FieldValues) => {
-    const section: Omit<WarehouseSection, 'id'> & { warehouseId: string } = {
+    const section: Omit<WarehouseSection, "id"> & { warehouseId: string } = {
       name: data.name,
       maxCapacity: data.maxCapacity,
       h: 1,
@@ -78,7 +78,7 @@ export default function CreateEditSectionForm({
     }
     if (isEdit)
       editSection({
-        id: currentSection?.id || '',
+        id: currentSection?.id || "",
         data: section,
         warehouseId,
       })
@@ -88,20 +88,20 @@ export default function CreateEditSectionForm({
   useEffect(() => {
     if (isCreateError) {
       open({
-        message: t('A problem has occurred.'),
+        message: t("A problem has occurred."),
         autoHideDuration: 4000,
-        type: 'error',
-        variant: 'contained',
+        type: "error",
+        variant: "contained",
       })
       onFailure()
     }
     if (isCreateSuccess) {
       reset()
       open({
-        message: t('Section Added Successfully.'),
+        message: t("Section Added Successfully."),
         autoHideDuration: 4000,
-        type: 'success',
-        variant: 'contained',
+        type: "success",
+        variant: "contained",
       })
       onSuccess()
     }
@@ -110,20 +110,20 @@ export default function CreateEditSectionForm({
   useEffect(() => {
     if (isEditError) {
       open({
-        message: t('A problem has occurred.'),
+        message: t("A problem has occurred."),
         autoHideDuration: 4000,
-        type: 'error',
-        variant: 'contained',
+        type: "error",
+        variant: "contained",
       })
       onFailure()
     }
     if (isEditSuccess) {
       reset()
       open({
-        message: t('Section Updated Successfully.'),
+        message: t("Section Updated Successfully."),
         autoHideDuration: 4000,
-        type: 'success',
-        variant: 'contained',
+        type: "success",
+        variant: "contained",
       })
       onSuccess()
     }
@@ -132,16 +132,16 @@ export default function CreateEditSectionForm({
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <div className='mt-2 flex flex-col gap-4'>
-        <RHFTextField name='name' label={t('Code')} />
-        <RHFTextField type='number' name='maxCapacity' label={t('Maximum Capacity')} />
+        <RHFTextField name='name' label={t("Code")} />
+        <RHFTextField type='number' name='maxCapacity' label={t("Maximum Capacity")} />
       </div>
 
       <div className='mt-6 flex w-full items-center justify-end gap-3'>
         <Button size='large' variant='outlined' intent='default' onClick={onFailure}>
-          {t('Cancel')}
+          {t("Cancel")}
         </Button>
         <Button size='large' type='submit' loading={isCreateLoading || isEditLoading}>
-          {t('Add Section')}
+          {t("Add Section")}
         </Button>
       </div>
     </FormProvider>

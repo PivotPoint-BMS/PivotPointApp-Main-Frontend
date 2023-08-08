@@ -1,7 +1,7 @@
-import { FileRejection } from 'react-dropzone'
+import { FileRejection } from "react-dropzone"
 // utils
-import { fData } from '../../utils/formatNumber'
-import Card from '../Card'
+import { fData } from "../../utils/formatNumber"
+import Card from "../Card"
 // ----------------------------------------------------------------------
 
 interface RejectionFilesProps {

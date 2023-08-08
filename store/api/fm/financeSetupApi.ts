@@ -1,11 +1,11 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { HYDRATE } from 'next-redux-wrapper'
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { HYDRATE } from "next-redux-wrapper"
 // config
-import { PIVOTPOINT_API } from 'config'
+import { PIVOTPOINT_API } from "config"
 // types
-import { IGenericResponse } from 'types'
+import { IGenericResponse } from "types"
 // store
-import { RootState } from 'store'
+import { RootState } from "store"
 
 export interface StepOneState {
   financements: {
@@ -54,14 +54,14 @@ export interface StepSixState {
 }
 
 export const financeSetupApi = createApi({
-  reducerPath: 'financeSetupApi',
+  reducerPath: "financeSetupApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${PIVOTPOINT_API.baseUrl}/fm`,
     prepareHeaders: (headers, { getState }) => {
       const { token } = (getState() as RootState).session
 
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
+        headers.set("Authorization", `Bearer ${token}`)
       }
 
       return headers
@@ -73,85 +73,85 @@ export const financeSetupApi = createApi({
       return action.payload[reducerPath]
     }
   },
-  tagTypes: ['StepOne', 'StepTwo', 'StepThree', 'StepFour', 'StepFive', 'StepSix', 'StepSeven'],
+  tagTypes: ["StepOne", "StepTwo", "StepThree", "StepFour", "StepFive", "StepSix", "StepSeven"],
   endpoints: (builder) => ({
     getStepOne: builder.query<IGenericResponse<StepOneState>, void>({
-      query: () => 'QuickSetup/Step1',
-      providesTags: ['StepOne'],
+      query: () => "QuickSetup/Step1",
+      providesTags: ["StepOne"],
     }),
     setStepOne: builder.mutation<IGenericResponse<unknown>, StepOneState>({
       query: (data) => ({
-        url: 'QuickSetup/Step1',
-        method: 'POST',
+        url: "QuickSetup/Step1",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
-      invalidatesTags: ['StepOne'],
+      invalidatesTags: ["StepOne"],
     }),
     getStepTwo: builder.query<IGenericResponse<StepTwoState>, void>({
-      query: () => 'QuickSetup/Step2',
-      providesTags: ['StepTwo'],
+      query: () => "QuickSetup/Step2",
+      providesTags: ["StepTwo"],
     }),
     setStepTwo: builder.mutation<IGenericResponse<unknown>, StepTwoState>({
       query: (data) => ({
-        url: 'QuickSetup/Step2',
-        method: 'POST',
+        url: "QuickSetup/Step2",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
-      invalidatesTags: ['StepTwo'],
+      invalidatesTags: ["StepTwo"],
     }),
     getStepThree: builder.query<IGenericResponse<StepThreeState>, void>({
-      query: () => 'QuickSetup/Step3',
-      providesTags: ['StepThree'],
+      query: () => "QuickSetup/Step3",
+      providesTags: ["StepThree"],
     }),
     setStepThree: builder.mutation<IGenericResponse<unknown>, StepThreeState>({
       query: (data) => ({
-        url: 'QuickSetup/Step3',
-        method: 'POST',
+        url: "QuickSetup/Step3",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
-      invalidatesTags: ['StepThree'],
+      invalidatesTags: ["StepThree"],
     }),
     getStepFour: builder.query<IGenericResponse<StepFourState>, void>({
-      query: () => 'QuickSetup/Step4',
-      providesTags: ['StepFour'],
+      query: () => "QuickSetup/Step4",
+      providesTags: ["StepFour"],
     }),
     setStepFour: builder.mutation<IGenericResponse<unknown>, StepFourState>({
       query: (data) => ({
-        url: 'QuickSetup/Step4',
-        method: 'POST',
+        url: "QuickSetup/Step4",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
-      invalidatesTags: ['StepFour'],
+      invalidatesTags: ["StepFour"],
     }),
     getStepFive: builder.query<IGenericResponse<StepFiveState>, void>({
-      query: () => 'QuickSetup/Step5',
-      providesTags: ['StepFive'],
+      query: () => "QuickSetup/Step5",
+      providesTags: ["StepFive"],
     }),
     setStepFive: builder.mutation<IGenericResponse<unknown>, StepFiveState>({
       query: (data) => ({
-        url: 'QuickSetup/Step5',
-        method: 'POST',
+        url: "QuickSetup/Step5",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
-      invalidatesTags: ['StepFive'],
+      invalidatesTags: ["StepFive"],
     }),
     getStepSix: builder.query<IGenericResponse<StepSixState>, void>({
-      query: () => 'QuickSetup/Step6',
-      providesTags: ['StepSix'],
+      query: () => "QuickSetup/Step6",
+      providesTags: ["StepSix"],
     }),
     setStepSix: builder.mutation<IGenericResponse<unknown>, StepSixState>({
       query: (data) => ({
-        url: 'QuickSetup/Step6',
-        method: 'POST',
+        url: "QuickSetup/Step6",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
-      invalidatesTags: ['StepSix'],
+      invalidatesTags: ["StepSix"],
     }),
   }),
 })

@@ -1,24 +1,24 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { useEffect, useState } from 'react'
-import { min } from 'lodash'
-import clsx from 'clsx'
+import React, { useEffect, useState } from "react"
+import { min } from "lodash"
+import clsx from "clsx"
 // next
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router"
 // hooks
-import useTranslate from 'hooks/useTranslate'
-import useSnackbar from 'hooks/useSnackbar'
+import useTranslate from "hooks/useTranslate"
+import useSnackbar from "hooks/useSnackbar"
 // redux
-import { wrapper } from 'store'
-import { useAppDispatch, useAppSelector } from 'store/hooks'
+import { wrapper } from "store"
+import { useAppDispatch, useAppSelector } from "store/hooks"
 import {
   getRunningQueriesThunk,
   getBankAccounts,
   useDeleteBankAccountMutation,
   useGetBankAccountsQuery,
-} from 'store/api/fm/bankAccountsApis'
-import { changePageNumber, changePageSize } from 'store/slices/paginationSlice'
+} from "store/api/fm/bankAccountsApis"
+import { changePageNumber, changePageSize } from "store/slices/paginationSlice"
 // types
-import { BankAccount } from 'types'
+import { BankAccount } from "types"
 // components
 import {
   useReactTable,
@@ -28,7 +28,7 @@ import {
   RowSelectionState,
   getSortedRowModel,
   SortingState,
-} from '@tanstack/react-table'
+} from "@tanstack/react-table"
 import {
   AlertDialog,
   Backdrop,
@@ -40,11 +40,11 @@ import {
   Select as MySelect,
   Dialog,
   Badge,
-} from 'components'
-import { Icon, Icon as Iconify } from '@iconify/react'
-import BankAccountTableToolbar from './BankAccountsTableToolbar'
-import BankAccountPreview from './BankAccountPreview'
-import CreateBankAccountForm from '../create/CreateBankAccountForm'
+} from "components"
+import { Icon, Icon as Iconify } from "@iconify/react"
+import BankAccountTableToolbar from "./BankAccountsTableToolbar"
+import BankAccountPreview from "./BankAccountPreview"
+import CreateBankAccountForm from "../create/CreateBankAccountForm"
 
 export default function BankAccountsList({
   openAddDialog,
@@ -64,7 +64,7 @@ export default function BankAccountsList({
   // Pagination
   const { PageSize, PageNumber } = useAppSelector((state) => state.pagination)
   // Filters
-  const [searchValue, setSearchValue] = useState('')
+  const [searchValue, setSearchValue] = useState("")
   // Query Params
   const [SearchTerm, setSearchTerm] = useState<string | undefined>(undefined)
 
@@ -83,38 +83,38 @@ export default function BankAccountsList({
   const columnHelper = createColumnHelper<BankAccount>()
 
   const columns = [
-    columnHelper.accessor('title', {
-      id: 'title',
-      header: () => t('Title'),
+    columnHelper.accessor("title", {
+      id: "title",
+      header: () => t("Title"),
       cell: (info) => <p>{info.getValue()}</p>,
     }),
-    columnHelper.accessor('type', {
-      id: 'type',
-      header: () => t('Type'),
+    columnHelper.accessor("type", {
+      id: "type",
+      header: () => t("Type"),
       cell: (type) => {
         if (type.getValue() === 1)
-          return <Badge variant='ghost' intent='success' size='small' label={t('Card')} />
+          return <Badge variant='ghost' intent='success' size='small' label={t("Card")} />
         if (type.getValue() === 2)
-          return <Badge variant='ghost' intent='warning' size='small' label={t('Wallet')} />
+          return <Badge variant='ghost' intent='warning' size='small' label={t("Wallet")} />
         if (type.getValue() === 3)
-          return <Badge variant='ghost' intent='info' size='small' label={t('Cash')} />
-        return <Badge variant='ghost' intent='default' size='small' label={t('Bank')} />
+          return <Badge variant='ghost' intent='info' size='small' label={t("Cash")} />
+        return <Badge variant='ghost' intent='default' size='small' label={t("Bank")} />
       },
     }),
-    columnHelper.accessor('total', {
-      id: 'total',
-      header: () => t('Total'),
+    columnHelper.accessor("total", {
+      id: "total",
+      header: () => t("Total"),
       cell: (info) => (
         <p>
-          {info.getValue()} {t('Da')}{' '}
+          {info.getValue()} {t("Da")}{" "}
         </p>
       ),
     }),
     columnHelper.accessor((row) => row, {
-      id: 'actions ',
+      id: "actions ",
       size: 50,
       enableSorting: false,
-      header: () => <p className='w-full text-right'>{t('Actions')}</p>,
+      header: () => <p className='w-full text-right'>{t("Actions")}</p>,
       cell: (bankAccount) => (
         <div className='flex items-center justify-end gap-2'>
           {/* <Tooltip title={t('View Full Details')}>
@@ -124,7 +124,7 @@ export default function BankAccountsList({
               </IconButton>
             </Link>
           </Tooltip> */}
-          <Tooltip title={t('Preview')} side='bottom'>
+          <Tooltip title={t("Preview")} side='bottom'>
             <IconButton
               onClick={() => /* dispatch(previewBankAccount(bankAccount.getValue())) */ {}}
             >
@@ -134,23 +134,23 @@ export default function BankAccountsList({
           <DropdownMenu
             trigger={
               <IconButton>
-                <Tooltip title={t('More')} side='bottom' sideOffset={10}>
+                <Tooltip title={t("More")} side='bottom' sideOffset={10}>
                   <Iconify icon='material-symbols:more-vert' height={20} />
                 </Tooltip>
               </IconButton>
             }
             items={[
               {
-                type: 'button',
-                label: t('Edit'),
+                type: "button",
+                label: t("Edit"),
                 icon: <Iconify icon='ic:round-edit' height={18} />,
                 onClick: () => /* dispatch(editBankAccount(bankAccount.getValue())) */ {},
               },
               {
-                type: 'button',
-                label: t('Delete'),
+                type: "button",
+                label: t("Delete"),
                 icon: <Iconify icon='ic:round-delete' height={18} />,
-                className: 'text-red-600 dark:text-red-400 rtl:flex-row-reverse',
+                className: "text-red-600 dark:text-red-400 rtl:flex-row-reverse",
                 onClick: () => setIdToDelete(bankAccount.getValue().id),
               },
             ]}
@@ -163,18 +163,18 @@ export default function BankAccountsList({
   useEffect(() => {
     if (isDeleteError) {
       open({
-        message: t('A problem has occurred.'),
+        message: t("A problem has occurred."),
         autoHideDuration: 4000,
-        type: 'error',
-        variant: 'contained',
+        type: "error",
+        variant: "contained",
       })
     }
     if (isDeleteSuccess) {
       open({
-        message: t('Bank Account Deleted Successfully.'),
+        message: t("Bank Account Deleted Successfully."),
         autoHideDuration: 4000,
-        type: 'success',
-        variant: 'contained',
+        type: "success",
+        variant: "contained",
       })
     }
   }, [isDeleteError, isDeleteSuccess])
@@ -205,20 +205,20 @@ export default function BankAccountsList({
     setSelectedIds(
       data?.data
         .map((bankAccount, i) =>
-          Object.keys(rowSelection).includes(i.toString()) ? bankAccount.id : ''
+          Object.keys(rowSelection).includes(i.toString()) ? bankAccount.id : ""
         )
-        .filter((item) => item !== '') || []
+        .filter((item) => item !== "") || []
     )
   }, [rowSelection])
 
   return (
     <>
-      {' '}
+      {" "}
       <div className='p-3 '>
         <TextField
-          placeholder={t('Search...')}
+          placeholder={t("Search...")}
           endAdornment={
-            <IconButton onClick={() => setSearchTerm(searchValue === '' ? undefined : searchValue)}>
+            <IconButton onClick={() => setSearchTerm(searchValue === "" ? undefined : searchValue)}>
               <Iconify icon='ion:search-outline' height={18} className='text-gray-500' />
             </IconButton>
           }
@@ -226,8 +226,8 @@ export default function BankAccountsList({
           onChange={(e) => setSearchValue(e.target.value)}
           className='flex h-full'
           onKeyDown={(e) => {
-            if (e.key === 'Enter')
-              setSearchTerm(e.currentTarget.value === '' ? undefined : e.currentTarget.value)
+            if (e.key === "Enter")
+              setSearchTerm(e.currentTarget.value === "" ? undefined : e.currentTarget.value)
           }}
         />
       </div>
@@ -257,8 +257,8 @@ export default function BankAccountsList({
                                 <div
                                   {...{
                                     className: header.column.getCanSort()
-                                      ? 'cursor-pointer select-none flex items-center gap-2'
-                                      : '',
+                                      ? "cursor-pointer select-none flex items-center gap-2"
+                                      : "",
                                     onClick: header.column.getToggleSortingHandler(),
                                   }}
                                 >
@@ -289,8 +289,8 @@ export default function BankAccountsList({
                         <tr
                           key={row.id}
                           className={clsx(
-                            'cursor-pointer border-b last-of-type:border-b-0 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-paper-hover-dark',
-                            row.getIsSelected() && 'bg-gray-50 dark:bg-paper-hover-dark/80'
+                            "cursor-pointer border-b last-of-type:border-b-0 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-paper-hover-dark",
+                            row.getIsSelected() && "bg-gray-50 dark:bg-paper-hover-dark/80"
                           )}
                           onDoubleClick={() => /* dispatch(previewBankAccount(row.original))} */ {}}
                         >
@@ -312,25 +312,25 @@ export default function BankAccountsList({
                   </table>
                   <div className='flex w-full items-center justify-end divide-x border-t p-4 rtl:divide-x-reverse dark:divide-gray-600 dark:border-gray-600'>
                     <div className='flex items-center justify-center gap-2 px-2'>
-                      <p className='text-sm'>{t('Row per page : ')}</p>
+                      <p className='text-sm'>{t("Row per page : ")}</p>
                       <MySelect
-                        items={['10', '25', '50'].map((item) => ({ label: item, value: item }))}
+                        items={["10", "25", "50"].map((item) => ({ label: item, value: item }))}
                         onValueChange={(page) => dispatch(changePageSize(Number(page)))}
                         value={String(PageSize)}
-                        buttonProps={{ intent: 'default' }}
+                        buttonProps={{ intent: "default" }}
                       />
                     </div>
                     <div className='flex h-full items-center justify-center gap-2 p-2 '>
                       <p className='text-sm'>
                         {(data.pageNumber - 1) * (data.pageSize + 1) === 0
                           ? 1
-                          : (data.pageNumber - 1) * (data.pageSize + 1)}{' '}
-                        - {min([data.pageNumber * data.pageSize, data.totalRecords])} {t('of')}{' '}
+                          : (data.pageNumber - 1) * (data.pageSize + 1)}{" "}
+                        - {min([data.pageNumber * data.pageSize, data.totalRecords])} {t("of")}{" "}
                         {data.totalRecords}
                       </p>
                     </div>
                     <div className='flex items-center justify-center gap-2 px-2'>
-                      <Tooltip side='bottom' title={t('First page')}>
+                      <Tooltip side='bottom' title={t("First page")}>
                         <IconButton
                           className='border dark:border-gray-600'
                           onClick={() => dispatch(changePageNumber(1))}
@@ -342,7 +342,7 @@ export default function BankAccountsList({
                           />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip side='bottom' title={t('Previous page')}>
+                      <Tooltip side='bottom' title={t("Previous page")}>
                         <IconButton
                           className='border dark:border-gray-600'
                           onClick={() =>
@@ -354,9 +354,9 @@ export default function BankAccountsList({
                         </IconButton>
                       </Tooltip>
                       <p className='text-sm'>
-                        {t('Page')} {PageNumber} {t('of')} {data.totalPages}
+                        {t("Page")} {PageNumber} {t("of")} {data.totalPages}
                       </p>
-                      <Tooltip side='bottom' title={t('Next page')}>
+                      <Tooltip side='bottom' title={t("Next page")}>
                         <IconButton
                           className='border dark:border-gray-600'
                           onClick={() =>
@@ -371,7 +371,7 @@ export default function BankAccountsList({
                           <Icon icon='fluent:chevron-right-20-filled' className='rtl:rotate-180' />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip side='bottom' title={t('Last page')}>
+                      <Tooltip side='bottom' title={t("Last page")}>
                         <IconButton
                           className='border dark:border-gray-600'
                           onClick={() => dispatch(changePageNumber(data.totalPages))}
@@ -396,13 +396,13 @@ export default function BankAccountsList({
             </>
           ) : (
             <div className='flex h-56 flex-col items-center justify-center gap-2 px-4 py-2'>
-              <h1 className='text-xl font-semibold'>{t('No Bank Account Found')}</h1>
+              <h1 className='text-xl font-semibold'>{t("No Bank Account Found")}</h1>
             </div>
           )}
         </>
       )}
       <Backdrop loading={isDeleteBankAccount} />
-      <Dialog open={openAddDialog} title={t('Add Bank Account')}>
+      <Dialog open={openAddDialog} title={t("Add Bank Account")}>
         <CreateBankAccountForm
           onSuccess={() => {
             setOpenAddDialog(false)
@@ -413,19 +413,19 @@ export default function BankAccountsList({
         />
       </Dialog>
       <AlertDialog
-        title={t('Confirm Delete')}
+        title={t("Confirm Delete")}
         description={t(
-          'This action cannot be undone. This will permanently delete this bankAccount.'
+          "This action cannot be undone. This will permanently delete this bankAccount."
         )}
-        cancelText={t('Cancel')}
-        confirmText={t('Yes, Delete')}
+        cancelText={t("Cancel")}
+        confirmText={t("Yes, Delete")}
         onConfirm={() => {
-          deleteBankAccount({ id: idToDelete || '', PageNumber, PageSize })
+          deleteBankAccount({ id: idToDelete || "", PageNumber, PageSize })
           setIdToDelete(null)
         }}
         open={idToDelete !== null}
         onClose={() => setIdToDelete(null)}
-        buttonProps={{ intent: 'error' }}
+        buttonProps={{ intent: "error" }}
       />
     </>
   )

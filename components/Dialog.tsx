@@ -1,11 +1,11 @@
-import { ReactNode } from 'react'
-import clsx from 'clsx'
+import { ReactNode } from "react"
+import clsx from "clsx"
 // motion
-import { motion } from 'framer-motion'
+import { motion } from "framer-motion"
 // Components
-import { Icon } from '@iconify/react'
-import IconButton from './IconButton'
-import Backdrop from './Backdrop'
+import { Icon } from "@iconify/react"
+import IconButton from "./IconButton"
+import Backdrop from "./Backdrop"
 
 interface DialogProps {
   open: boolean
@@ -22,14 +22,14 @@ export default function Dialog({ open, description, title, children, handleClose
         <motion.div
           initial={{ opacity: 0 }}
           variants={{ open: { opacity: 1 }, close: { opacity: 0 } }}
-          animate={open ? 'open' : 'close'}
+          animate={open ? "open" : "close"}
           transition={{ duration: 0.3 }}
           className={clsx(
-            'fixed z-[10000]',
-            'max-h-screen w-[95vw] max-w-lg overflow-y-scroll  rounded-lg md:w-full',
-            'top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%]',
-            'bg-white shadow-2xl shadow-white/40 dark:bg-gray-800 dark:shadow-black/40',
-            'focus:outline-none focus-visible:ring focus-visible:ring-primary-500 focus-visible:ring-opacity-75'
+            "fixed z-[10000]",
+            "max-h-screen w-[95vw] max-w-lg overflow-y-scroll  rounded-lg md:w-full",
+            "top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%]",
+            "bg-white shadow-2xl shadow-white/40 dark:bg-gray-800 dark:shadow-black/40",
+            "focus:outline-none focus-visible:ring focus-visible:ring-primary-500 focus-visible:ring-opacity-75"
           )}
         >
           <div className='relative w-full p-4'>

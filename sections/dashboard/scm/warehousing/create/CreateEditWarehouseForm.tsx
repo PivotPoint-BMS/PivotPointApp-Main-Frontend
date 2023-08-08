@@ -1,22 +1,22 @@
-import { useEffect, useMemo } from 'react'
-import * as Yup from 'yup'
+import { useEffect, useMemo } from "react"
+import * as Yup from "yup"
 // form
-import { yupResolver } from '@hookform/resolvers/yup'
-import { FieldValues, useForm } from 'react-hook-form'
+import { yupResolver } from "@hookform/resolvers/yup"
+import { FieldValues, useForm } from "react-hook-form"
 // api
 import {
   useCreateWarehouseMutation,
   useEditWarehouseMutation,
-} from 'store/api/scm/warehousing/warehousingApis'
+} from "store/api/scm/warehousing/warehousingApis"
 // types
-import { Warehouse } from 'types'
+import { Warehouse } from "types"
 // hooks
-import { useAppSelector } from 'store/hooks'
-import useTranslate from 'hooks/useTranslate'
+import { useAppSelector } from "store/hooks"
+import useTranslate from "hooks/useTranslate"
 // components
-import { Button } from 'components'
-import { FormProvider, RHFTextField } from 'components/hook-form'
-import useSnackbar from 'hooks/useSnackbar'
+import { Button } from "components"
+import { FormProvider, RHFTextField } from "components/hook-form"
+import useSnackbar from "hooks/useSnackbar"
 
 export default function CreateEditWarehouseForm({
   onSuccess,
@@ -42,14 +42,14 @@ export default function CreateEditWarehouseForm({
   ] = useEditWarehouseMutation()
 
   const LeadSchema = Yup.object().shape({
-    name: Yup.string().min(3, t('Too short')).required(t('This field is required')),
-    location: Yup.string().min(3, t('Too short')).required(t('This field is required')),
+    name: Yup.string().min(3, t("Too short")).required(t("This field is required")),
+    location: Yup.string().min(3, t("Too short")).required(t("This field is required")),
   })
 
   const defaultValues = useMemo(
     () => ({
-      name: currentWarehouse?.name || '',
-      location: currentWarehouse?.location || '',
+      name: currentWarehouse?.name || "",
+      location: currentWarehouse?.location || "",
     }),
     [currentWarehouse]
   )
@@ -62,13 +62,13 @@ export default function CreateEditWarehouseForm({
   const { handleSubmit, reset } = methods
 
   const onSubmit = async (data: FieldValues) => {
-    const warehouse: Omit<Warehouse, 'id'> = {
+    const warehouse: Omit<Warehouse, "id"> = {
       name: data.name,
       location: data.location,
     }
     if (isEdit)
       editWarehouse({
-        id: currentWarehouse?.id || '',
+        id: currentWarehouse?.id || "",
         data: warehouse,
         PageNumber,
         PageSize,
@@ -79,20 +79,20 @@ export default function CreateEditWarehouseForm({
   useEffect(() => {
     if (isCreateError) {
       open({
-        message: t('A problem has occurred.'),
+        message: t("A problem has occurred."),
         autoHideDuration: 4000,
-        type: 'error',
-        variant: 'contained',
+        type: "error",
+        variant: "contained",
       })
       onFailure()
     }
     if (isCreateSuccess) {
       reset()
       open({
-        message: t('Warehouse Added Successfully.'),
+        message: t("Warehouse Added Successfully."),
         autoHideDuration: 4000,
-        type: 'success',
-        variant: 'contained',
+        type: "success",
+        variant: "contained",
       })
       onSuccess()
     }
@@ -101,20 +101,20 @@ export default function CreateEditWarehouseForm({
   useEffect(() => {
     if (isEditError) {
       open({
-        message: t('A problem has occurred.'),
+        message: t("A problem has occurred."),
         autoHideDuration: 4000,
-        type: 'error',
-        variant: 'contained',
+        type: "error",
+        variant: "contained",
       })
       onFailure()
     }
     if (isEditSuccess) {
       reset()
       open({
-        message: t('Warehouse Updated Successfully.'),
+        message: t("Warehouse Updated Successfully."),
         autoHideDuration: 4000,
-        type: 'success',
-        variant: 'contained',
+        type: "success",
+        variant: "contained",
       })
       onSuccess()
     }
@@ -123,16 +123,16 @@ export default function CreateEditWarehouseForm({
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <div className='mt-2 flex flex-col gap-4'>
-        <RHFTextField name='name' label={t('Name')} />
-        <RHFTextField name='location' label={t('Location')} />
+        <RHFTextField name='name' label={t("Name")} />
+        <RHFTextField name='location' label={t("Location")} />
       </div>
 
       <div className='mt-6 flex w-full items-center justify-end gap-3'>
         <Button size='large' variant='outlined' intent='default' onClick={onFailure}>
-          {t('Cancel')}
+          {t("Cancel")}
         </Button>
         <Button size='large' type='submit' loading={isCreateLoading || isEditLoading}>
-          {t('Add Warehouse')}
+          {t("Add Warehouse")}
         </Button>
       </div>
     </FormProvider>

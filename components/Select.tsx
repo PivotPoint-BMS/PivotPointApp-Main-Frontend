@@ -1,11 +1,11 @@
-import { Icon as Iconify } from '@iconify/react'
-import * as SelectPrimitive from '@radix-ui/react-select'
-import { clsx } from 'clsx'
-import React from 'react'
-import Button, { ButtonProps } from './Button'
+import { Icon as Iconify } from "@iconify/react"
+import * as SelectPrimitive from "@radix-ui/react-select"
+import { clsx } from "clsx"
+import React from "react"
+import Button, { ButtonProps } from "./Button"
 
 interface SelectProps extends SelectPrimitive.SelectProps {
-  items?: { label: string; value: string ; disabled?: boolean }[]
+  items?: { label: string; value: string; disabled?: boolean }[]
   buttonProps?: ButtonProps
 }
 
@@ -31,11 +31,11 @@ const Select = ({ buttonProps, items, ...props }: SelectProps) => (
               key={`${label}-${i}`}
               value={value}
               className={clsx(
-                'relative flex items-center rounded-md px-8 py-2 text-sm font-medium outline-none',
-                'data-[disabled=true]:opacity-50',
-                'select-none focus:outline-none',
-                'hover:bg-gray-600/10  active:bg-gray-600/40',
-                'dark:hover:bg-gray-500/25 dark:active:bg-gray-500/50'
+                "relative flex items-center rounded-md px-8 py-2 text-sm font-medium outline-none",
+                "data-[disabled=true]:opacity-50",
+                "select-none focus:outline-none",
+                "hover:bg-gray-600/10  active:bg-gray-600/40",
+                "dark:hover:bg-gray-500/25 dark:active:bg-gray-500/50"
               )}
             >
               <SelectPrimitive.ItemText>{label}</SelectPrimitive.ItemText>

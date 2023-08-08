@@ -1,22 +1,22 @@
-import { useEffect } from 'react'
-import * as Yup from 'yup'
+import { useEffect } from "react"
+import * as Yup from "yup"
 // form
-import { yupResolver } from '@hookform/resolvers/yup'
-import { FieldValues, useForm } from 'react-hook-form'
+import { yupResolver } from "@hookform/resolvers/yup"
+import { FieldValues, useForm } from "react-hook-form"
 // api
-import { useCreateVehicleMutation } from 'store/api/scm/transportation/vehiculesApis'
+import { useCreateVehicleMutation } from "store/api/scm/transportation/vehiculesApis"
 // types
-import { Vehicle } from 'types'
+import { Vehicle } from "types"
 // config
-import { VEHICULES_SIZES, VEHICULES_TYPES } from 'config'
+import { VEHICULES_SIZES, VEHICULES_TYPES } from "config"
 // hooks
-import { useAppSelector } from 'store/hooks'
-import useTranslate from 'hooks/useTranslate'
-import useSnackbar from 'hooks/useSnackbar'
+import { useAppSelector } from "store/hooks"
+import useTranslate from "hooks/useTranslate"
+import useSnackbar from "hooks/useSnackbar"
 // components
-import Select from 'react-select'
-import { RHFField, Button } from 'components'
-import { FormProvider, RHFTextField } from 'components/hook-form'
+import Select from "react-select"
+import { RHFField, Button } from "components"
+import { FormProvider, RHFTextField } from "components/hook-form"
 
 export default function AddEditVehicleForm({
   onSuccess,
@@ -38,16 +38,16 @@ export default function AddEditVehicleForm({
   ] = useCreateVehicleMutation()
 
   const VehicleSchema = Yup.object().shape({
-    model: Yup.string().required(t('This field is required')),
-    type: Yup.number().nullable().required(t('This field is required')),
-    size: Yup.number().nullable().required(t('This field is required')),
-    weight: Yup.number().nullable().required(t('This field is required')),
-    volumne: Yup.number().nullable().required(t('This field is required')),
-    maxCapacity: Yup.number().nullable().required(t('This field is required')),
+    model: Yup.string().required(t("This field is required")),
+    type: Yup.number().nullable().required(t("This field is required")),
+    size: Yup.number().nullable().required(t("This field is required")),
+    weight: Yup.number().nullable().required(t("This field is required")),
+    volumne: Yup.number().nullable().required(t("This field is required")),
+    maxCapacity: Yup.number().nullable().required(t("This field is required")),
   })
 
   const defaultValues = {
-    model: currentVehicle?.model || '',
+    model: currentVehicle?.model || "",
     type: currentVehicle?.type || null,
     size: currentVehicle?.size || null,
     weight: currentVehicle?.weight || null,
@@ -63,7 +63,7 @@ export default function AddEditVehicleForm({
   const { handleSubmit, reset, setValue } = methods
 
   const onSubmit = async (data: FieldValues) => {
-    const vehicule: Omit<Vehicle, 'id'> = {
+    const vehicule: Omit<Vehicle, "id"> = {
       code: data.code,
       model: data.model,
       type: data.type,
@@ -78,20 +78,20 @@ export default function AddEditVehicleForm({
   useEffect(() => {
     if (isCreateError) {
       open({
-        message: t('A problem has occurred.'),
+        message: t("A problem has occurred."),
         autoHideDuration: 4000,
-        type: 'error',
-        variant: 'contained',
+        type: "error",
+        variant: "contained",
       })
       onFailure()
     }
     if (isCreateSuccess) {
       reset()
       open({
-        message: t('Vehicle Added Successfully.'),
+        message: t("Vehicle Added Successfully."),
         autoHideDuration: 4000,
-        type: 'success',
-        variant: 'contained',
+        type: "success",
+        variant: "contained",
       })
       onSuccess()
     }
@@ -100,15 +100,15 @@ export default function AddEditVehicleForm({
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <div className='mt-2 grid grid-cols-1 gap-4 md:grid-cols-2'>
-        <RHFTextField name='model' label={t('Model')} />
-        <RHFTextField name='code' label={t('Code')} />
-        <RHFField name='type' label={t('Type')}>
+        <RHFTextField name='model' label={t("Model")} />
+        <RHFTextField name='code' label={t("Code")} />
+        <RHFField name='type' label={t("Type")}>
           <Select
             options={VEHICULES_TYPES}
             getOptionLabel={(option) => t(option.label)}
             isSearchable={false}
             onChange={(newValue) => {
-              setValue('type', newValue?.value)
+              setValue("type", newValue?.value)
             }}
             defaultValue={VEHICULES_TYPES.find((item) => item.value === currentVehicle?.type)}
             className='react-select-container'
@@ -117,13 +117,13 @@ export default function AddEditVehicleForm({
           />
         </RHFField>
 
-        <RHFField name='size' label={t('Size')}>
+        <RHFField name='size' label={t("Size")}>
           <Select
             options={VEHICULES_SIZES}
             getOptionLabel={(option) => t(option.label)}
             isSearchable={false}
             onChange={(newValue) => {
-              setValue('size', newValue?.value)
+              setValue("size", newValue?.value)
             }}
             defaultValue={VEHICULES_SIZES.find((item) => item.value === currentVehicle?.size)}
             className='react-select-container'
@@ -132,32 +132,32 @@ export default function AddEditVehicleForm({
           />
         </RHFField>
         <div className='col-span-1 sm:col-span-2'>
-          <RHFTextField type='number' name='weight' label={t('Weight')} endAdornment={t('Kg')} />
+          <RHFTextField type='number' name='weight' label={t("Weight")} endAdornment={t("Kg")} />
         </div>
         <div className='col-span-1 sm:col-span-2'>
           <RHFTextField
             type='number'
             name='volumne'
-            label={t('Volume')}
-            endAdornment={<span>{t('m')}²</span>}
+            label={t("Volume")}
+            endAdornment={<span>{t("m")}²</span>}
           />
         </div>
         <div className='col-span-1 sm:col-span-2'>
           <RHFTextField
             type='number'
             name='maxCapacity'
-            label={t('Max Capacity')}
-            endAdornment={t('Kg')}
+            label={t("Max Capacity")}
+            endAdornment={t("Kg")}
           />
         </div>
       </div>
 
       <div className='mt-6 flex w-full items-center justify-end gap-3'>
         <Button size='large' variant='outlined' intent='default' onClick={onFailure}>
-          {t('Cancel')}
+          {t("Cancel")}
         </Button>
         <Button size='large' type='submit' loading={isCreateLoading}>
-          {isEdit ? t('Edit Vehicle') : t('Add Vehicle')}
+          {isEdit ? t("Edit Vehicle") : t("Add Vehicle")}
         </Button>
       </div>
     </FormProvider>

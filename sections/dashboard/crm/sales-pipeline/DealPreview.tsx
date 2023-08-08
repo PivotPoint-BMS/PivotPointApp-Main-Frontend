@@ -1,47 +1,47 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react"
 // motion
 // redux
-import { useAppDispatch, useAppSelector } from 'store/hooks'
-import { closePreviewDeal } from 'store/slices/dealPreviewSlice'
+import { useAppDispatch, useAppSelector } from "store/hooks"
+import { closePreviewDeal } from "store/slices/dealPreviewSlice"
 import {
   useDeleteDealMutation,
   useEditDealMutation,
   useGetDealQuery,
-} from 'store/api/crm/sales-pipeline/dealsBoardsApi'
-import { useGetContactsQuery, useGetLeadsQuery } from 'store/api/crm/contact-leads/leadApis'
-import { skipToken } from '@reduxjs/toolkit/dist/query'
+} from "store/api/crm/sales-pipeline/dealsBoardsApi"
+import { useGetContactsQuery, useGetLeadsQuery } from "store/api/crm/contact-leads/leadApis"
+import { skipToken } from "@reduxjs/toolkit/dist/query"
 // config
-import { DEALTYPES, PIVOTPOINT_API } from 'config'
+import { DEALTYPES, PIVOTPOINT_API } from "config"
 // hooks
-import useTranslate from 'hooks/useTranslate'
-import useSnackbar from 'hooks/useSnackbar'
+import useTranslate from "hooks/useTranslate"
+import useSnackbar from "hooks/useSnackbar"
 // components
-import Select from 'react-select'
-import { Icon } from '@iconify/react'
-import IconButton from 'components/IconButton'
-import LoadingIndicator from 'components/LoadingIndicator'
-import TextArea from 'components/TextArea'
-import Image from 'components/Image'
-import Button from 'components/Button'
-import AutoComplete from 'components/FieldContainer'
-import Tooltip from 'components/Tooltip'
-import AlertDialog from 'components/AlertDialog'
-import { Deal, Lead } from 'types'
-import moment from 'moment'
-import TextField from 'components/TextField'
-import Sheet from 'components/Sheet'
+import Select from "react-select"
+import { Icon } from "@iconify/react"
+import IconButton from "components/IconButton"
+import LoadingIndicator from "components/LoadingIndicator"
+import TextArea from "components/TextArea"
+import Image from "components/Image"
+import Button from "components/Button"
+import AutoComplete from "components/FieldContainer"
+import Tooltip from "components/Tooltip"
+import AlertDialog from "components/AlertDialog"
+import { Deal, Lead } from "types"
+import moment from "moment"
+import TextField from "components/TextField"
+import Sheet from "components/Sheet"
 
 export default function DealPreview({ boardId }: { boardId: string }) {
   const { t } = useTranslate()
   const { open } = useSnackbar()
   const dispatch = useAppDispatch()
 
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
+  const [title, setTitle] = useState("")
+  const [description, setDescription] = useState("")
   const [type, setType] = useState(0)
-  const [potentialDealValue, setPotentialDealValue] = useState<string | number>('')
-  const [successProbability, setSuccessProbability] = useState<string | number>('')
-  const [dealLeads, setDealLeads] = useState<Deal['leads']>([])
+  const [potentialDealValue, setPotentialDealValue] = useState<string | number>("")
+  const [successProbability, setSuccessProbability] = useState<string | number>("")
+  const [dealLeads, setDealLeads] = useState<Deal["leads"]>([])
   const { isOpen, dealId } = useAppSelector((state) => state.dealPreview)
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
   const { user } = useAppSelector((state) => state.session)
@@ -68,7 +68,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
   const [contacts, setContacts] = useState<Lead[]>(isContactsSuccess ? contactsResponse?.data : [])
 
   const handleDelete = () => {
-    deleteDeal({ dealId: dealId || '', boardId })
+    deleteDeal({ dealId: dealId || "", boardId })
   }
 
   useEffect(() => {
@@ -93,18 +93,18 @@ export default function DealPreview({ boardId }: { boardId: string }) {
   useEffect(() => {
     if (isEditError) {
       open({
-        message: t('Sorry, Deal not updated, A problem has occurred.'),
+        message: t("Sorry, Deal not updated, A problem has occurred."),
         autoHideDuration: 4000,
-        type: 'error',
-        variant: 'contained',
+        type: "error",
+        variant: "contained",
       })
     }
     if (isEditSuccess) {
       open({
-        message: t('Deal Updated Successfully.'),
+        message: t("Deal Updated Successfully."),
         autoHideDuration: 4000,
-        type: 'success',
-        variant: 'contained',
+        type: "success",
+        variant: "contained",
       })
     }
   }, [isEditError, isEditSuccess])
@@ -112,18 +112,18 @@ export default function DealPreview({ boardId }: { boardId: string }) {
   useEffect(() => {
     if (isDeleteError) {
       open({
-        message: t('Sorry, Deal not deleted, A problem has occurred.'),
+        message: t("Sorry, Deal not deleted, A problem has occurred."),
         autoHideDuration: 4000,
-        type: 'error',
-        variant: 'contained',
+        type: "error",
+        variant: "contained",
       })
     }
     if (isDeleteSuccess) {
       open({
-        message: t('Deal Deleted Successfully.'),
+        message: t("Deal Deleted Successfully."),
         autoHideDuration: 4000,
-        type: 'success',
-        variant: 'contained',
+        type: "success",
+        variant: "contained",
       })
       dispatch(closePreviewDeal())
       setOpenDeleteDialog(false)
@@ -133,11 +133,11 @@ export default function DealPreview({ boardId }: { boardId: string }) {
   return (
     <>
       <Sheet
-        title={t('Deal Preview')}
+        title={t("Deal Preview")}
         isOpen={isOpen}
         handleClose={() => dispatch(closePreviewDeal())}
         actions={
-          <Tooltip title={t('Delete')}>
+          <Tooltip title={t("Delete")}>
             <IconButton onClick={() => setOpenDeleteDialog(true)}>
               <Icon icon='ic:round-delete' height={20} className='text-red-600 dark:text-red-400' />
             </IconButton>
@@ -155,7 +155,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
               <>
                 <div className='space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast '>
                   <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
-                    {t('Title')}
+                    {t("Title")}
                   </p>
                   <TextField
                     type='text'
@@ -163,7 +163,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     onBlur={(e) => {
-                      if (e.target.value === '' || e.target.value === data.data.title) {
+                      if (e.target.value === "" || e.target.value === data.data.title) {
                         setTitle(data.data.title)
                         return
                       }
@@ -179,46 +179,46 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                 <div className='grid grid-cols-2 gap-3'>
                   <div className='space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast '>
                     <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
-                      {t('Created By')}
+                      {t("Created By")}
                     </p>
                     <p className='font-bold'>{data.data.createdBy}</p>
                   </div>
                   <div className='space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast '>
                     <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
-                      {t('Created At')}
+                      {t("Created At")}
                     </p>
                     <p className='font-bold'>
-                      {moment(data.data.createdAt).add('hour', 1).format('ddd DD MMMM YYYY, HH:mm')}
+                      {moment(data.data.createdAt).add("hour", 1).format("ddd DD MMMM YYYY, HH:mm")}
                     </p>
                   </div>
                   {data.data.lastUpdatedBy && (
                     <div className='space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast '>
                       <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
-                        {t('Last Update By')}
+                        {t("Last Update By")}
                       </p>
                       <p className='font-bold'>{data.data.lastUpdatedBy}</p>
                     </div>
                   )}
                   <div className='space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast '>
                     <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
-                      {t('Assignee')}
+                      {t("Assignee")}
                     </p>
-                    <p className='font-bold'>{data.data.assignedTo || t('No Assignee')}</p>
+                    <p className='font-bold'>{data.data.assignedTo || t("No Assignee")}</p>
                   </div>
                   <div className='space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast '>
                     <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
-                      {t('Potential Deal Value')}
+                      {t("Potential Deal Value")}
                     </p>
                     <TextField
                       type='number'
                       defaultValue={data.data.potentialDealValue}
                       value={potentialDealValue}
                       onChange={(e) =>
-                        setPotentialDealValue(Number(e.target.value !== '' ? e.target.value : 0))
+                        setPotentialDealValue(Number(e.target.value !== "" ? e.target.value : 0))
                       }
                       onBlur={(e) => {
                         if (
-                          e.target.value === '' ||
+                          e.target.value === "" ||
                           e.target.value === data.data.potentialDealValue.toString()
                         ) {
                           return
@@ -227,7 +227,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                           ...data.data,
                           boardId,
                           leadIds: data.data.leads.map((lead) => lead.id),
-                          potentialDealValue: Number(e.target.value !== '' ? e.target.value : 0),
+                          potentialDealValue: Number(e.target.value !== "" ? e.target.value : 0),
                         })
                       }}
                       className='!border-0 font-bold'
@@ -235,18 +235,18 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                   </div>
                   <div className='space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast '>
                     <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
-                      {t('Success Probability')}
+                      {t("Success Probability")}
                     </p>
                     <TextField
                       type='number'
                       defaultValue={data.data.successProbability}
                       value={successProbability}
                       onChange={(e) =>
-                        setSuccessProbability(Number(e.target.value !== '' ? e.target.value : 0))
+                        setSuccessProbability(Number(e.target.value !== "" ? e.target.value : 0))
                       }
                       onBlur={(e) => {
                         if (
-                          e.target.value === '' ||
+                          e.target.value === "" ||
                           e.target.value === data.data.successProbability.toString()
                         ) {
                           return
@@ -255,7 +255,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                           ...data.data,
                           boardId,
                           leadIds: data.data.leads.map((lead) => lead.id),
-                          successProbability: Number(e.target.value !== '' ? e.target.value : 0),
+                          successProbability: Number(e.target.value !== "" ? e.target.value : 0),
                         })
                       }}
                       className='!border-0 font-bold'
@@ -264,14 +264,14 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                 </div>
                 <div className='space-y-2 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast '>
                   <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
-                    {t('Type')}
+                    {t("Type")}
                   </p>
                   <div className='flex items-center gap-2'>
                     {DEALTYPES.map((item) => (
                       <Button
                         variant='outlined'
                         className='!rounded-md !px-3 !py-2 !text-xs'
-                        intent={type === item.value ? 'secondary' : 'default'}
+                        intent={type === item.value ? "secondary" : "default"}
                         startIcon={
                           type === item.value ? (
                             <Icon icon='ic:round-check' />
@@ -297,7 +297,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                 {type === 1 && (
                   <div className='space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast '>
                     <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
-                      {t('Leads')}
+                      {t("Leads")}
                     </p>
                     <AutoComplete name='leadIds'>
                       <Select
@@ -338,7 +338,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                 {type === 2 && (
                   <div className='space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast '>
                     <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
-                      {t('Contacts')}
+                      {t("Contacts")}
                     </p>
                     <AutoComplete name='leadIds'>
                       <Select
@@ -376,7 +376,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                 )}
                 <div className='space-y-1 rounded-md bg-gray-100 p-2 dark:bg-paper-dark-contrast '>
                   <p className='text-sm font-medium text-gray-500 dark:text-gray-400'>
-                    {t('Description')}
+                    {t("Description")}
                   </p>
                   <TextArea
                     defaultValue={data.data.description}
@@ -384,7 +384,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                     onChange={(e) => setDescription(e.target.value)}
                     onBlur={(e) => {
                       if (
-                        (e.target.value !== '' && e.target.value.trim() === '') ||
+                        (e.target.value !== "" && e.target.value.trim() === "") ||
                         e.target.value === data.data.title
                       ) {
                         e.target.value = data.data.description
@@ -397,7 +397,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
                         description: e.target.value.trim(),
                       })
                     }}
-                    rows={description.split('\n').length || 1}
+                    rows={description.split("\n").length || 1}
                     className='h-auto rounded-md bg-transparent py-1 font-bold transition-all focus-within:px-1 hover:px-1'
                     inputClassName='resize-none'
                   />
@@ -427,27 +427,27 @@ export default function DealPreview({ boardId }: { boardId: string }) {
           <div className='flex flex-1 flex-col rounded-lg border border-gray-400 py-2 px-3 dark:border-gray-600'>
             <textarea
               className='w-full resize-none bg-transparent outline-none'
-              placeholder={t('Type a comment')}
+              placeholder={t("Type a comment")}
             />
             <div className='flex justify-end'>
-              <Button>{t('Comment')}</Button>
+              <Button>{t("Comment")}</Button>
             </div>
           </div>
         </div>
       </Sheet>
       <AlertDialog
-        title={t('Confirm Delete')}
+        title={t("Confirm Delete")}
         description={
           <p className='py-1 text-sm text-red-500 dark:text-red-400'>
-            {t('This action cannot be undone. This will permanently delete this deal.')}
+            {t("This action cannot be undone. This will permanently delete this deal.")}
           </p>
         }
-        cancelText={t('Cancel')}
-        confirmText={t('Yes, Delete')}
+        cancelText={t("Cancel")}
+        confirmText={t("Yes, Delete")}
         onConfirm={handleDelete}
         open={openDeleteDialog}
         onClose={() => setOpenDeleteDialog(false)}
-        buttonProps={{ intent: 'error' }}
+        buttonProps={{ intent: "error" }}
       />
     </>
   )

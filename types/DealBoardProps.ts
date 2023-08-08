@@ -1,6 +1,6 @@
-import type { UniqueIdentifier } from '@dnd-kit/core'
-import DealBoardColumnProps from './DealBoardColumnProps'
-import Deal from './Deal'
+import type { UniqueIdentifier } from "@dnd-kit/core"
+import DealBoardColumnProps from "./DealBoardColumnProps"
+import Deal from "./Deal"
 
 export interface DealBoard {
   id: string

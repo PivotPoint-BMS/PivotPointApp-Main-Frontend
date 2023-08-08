@@ -4,49 +4,49 @@ export default function makeData() {
     amount: number | string
     interestRate: number | string
     percentage: string
-  }[] = [{ amount: '', interestRate: '', source: '', percentage: '' }]
+  }[] = [{ amount: "", interestRate: "", source: "", percentage: "" }]
   // eslint-disable-next-line no-plusplus
 
   const columns = [
     {
-      id: 'source',
-      label: 'Nature of financial contributions',
-      accessor: 'source',
+      id: "source",
+      label: "Nature of financial contributions",
+      accessor: "source",
       minWidth: 100,
-      dataType: 'text',
-      placeholder: 'Enter Nature of financial contributions',
+      dataType: "text",
+      placeholder: "Enter Nature of financial contributions",
       disabled: false,
-      align: 'left',
+      align: "left",
     },
     {
-      id: 'percentage',
-      label: 'Percentage',
-      accessor: 'percentage',
+      id: "percentage",
+      label: "Percentage",
+      accessor: "percentage",
       minWidth: 100,
-      dataType: 'number',
-      placeholder: '',
+      dataType: "number",
+      placeholder: "",
       disabled: true,
-      align: 'right',
+      align: "right",
     },
     {
-      id: 'amount',
-      label: 'Amount',
-      accessor: 'amount',
+      id: "amount",
+      label: "Amount",
+      accessor: "amount",
       minWidth: 100,
-      dataType: 'number',
-      placeholder: 'Enter the Amount',
+      dataType: "number",
+      placeholder: "Enter the Amount",
       disabled: false,
-      align: 'right',
+      align: "right",
     },
     {
-      id: 'interestRate',
-      label: 'Interest Rate',
-      accessor: 'interestRate',
+      id: "interestRate",
+      label: "Interest Rate",
+      accessor: "interestRate",
       minWidth: 100,
-      dataType: 'number',
-      placeholder: 'Enter the interest Rate',
+      dataType: "number",
+      placeholder: "Enter the interest Rate",
       disabled: false,
-      align: 'right',
+      align: "right",
     },
   ]
   return { columns, data }

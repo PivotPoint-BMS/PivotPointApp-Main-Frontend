@@ -1,25 +1,25 @@
 /* eslint-disable no-param-reassign */
-import { arrayMove } from '@dnd-kit/sortable'
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { HYDRATE } from 'next-redux-wrapper'
+import { arrayMove } from "@dnd-kit/sortable"
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { HYDRATE } from "next-redux-wrapper"
 // config
-import { PIVOTPOINT_API } from 'config'
+import { PIVOTPOINT_API } from "config"
 // types
-import { Deal, IGenericResponse } from 'types'
-import DealBoardProps, { DealBoard, DealBoardResponse } from 'types/DealBoardProps'
+import { Deal, IGenericResponse } from "types"
+import DealBoardProps, { DealBoard, DealBoardResponse } from "types/DealBoardProps"
 // store
-import { RootState } from 'store'
-import DealBoardColumnProps from 'types/DealBoardColumnProps'
+import { RootState } from "store"
+import DealBoardColumnProps from "types/DealBoardColumnProps"
 
 export const dealsBoardsApi = createApi({
-  reducerPath: 'dealsBoardsApi',
+  reducerPath: "dealsBoardsApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${PIVOTPOINT_API.baseUrl}/crm`,
     prepareHeaders: (headers, { getState }) => {
       const { token } = (getState() as RootState).session
 
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
+        headers.set("Authorization", `Bearer ${token}`)
       }
 
       return headers
@@ -31,15 +31,15 @@ export const dealsBoardsApi = createApi({
       return action.payload[reducerPath]
     }
   },
-  tagTypes: ['DealsBoards'],
+  tagTypes: ["DealsBoards"],
   endpoints: (builder) => ({
     getDealBoards: builder.query<DealBoard[], void>({
-      query: () => 'DealBoards',
+      query: () => "DealBoards",
       transformResponse: (response: IGenericResponse<DealBoardResponse>) =>
         response.data.dealBoards,
     }),
     getDealBoard: builder.query<
-      Omit<DealBoardProps, 'dealBoards'> & { dealBoards: { [key: string]: DealBoard } },
+      Omit<DealBoardProps, "dealBoards"> & { dealBoards: { [key: string]: DealBoard } },
       string
     >({
       query: (id) => `DealBoards/Board/${id}`,
@@ -79,10 +79,10 @@ export const dealsBoardsApi = createApi({
       }
     >({
       query: (data) => ({
-        url: 'DealBoards',
-        method: 'POST',
+        url: "DealBoards",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
@@ -90,7 +90,7 @@ export const dealsBoardsApi = createApi({
             data: { data },
           } = await queryFulfilled
           dispatch(
-            dealsBoardsApi.util.updateQueryData('getDealBoards', undefined, (draftedList) => {
+            dealsBoardsApi.util.updateQueryData("getDealBoards", undefined, (draftedList) => {
               draftedList.push(data)
             })
           )
@@ -108,15 +108,15 @@ export const dealsBoardsApi = createApi({
     >({
       query: ({ title, id }) => ({
         url: `DealBoards/Title/${id}`,
-        method: 'PUT',
+        method: "PUT",
         body: { title },
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ title, id }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
           dispatch(
-            dealsBoardsApi.util.updateQueryData('getDealBoards', undefined, (draftedList) => {
+            dealsBoardsApi.util.updateQueryData("getDealBoards", undefined, (draftedList) => {
               const board = draftedList.find((item) => item.id === id)
               if (board) board.title = title
             })
@@ -129,14 +129,14 @@ export const dealsBoardsApi = createApi({
     deleteDealBoard: builder.mutation<IGenericResponse<unknown>, string>({
       query: (id) => ({
         url: `DealBoards/${id}`,
-        method: 'DELETE',
-        responseHandler: 'content-type',
+        method: "DELETE",
+        responseHandler: "content-type",
       }),
       async onQueryStarted(id, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
           dispatch(
-            dealsBoardsApi.util.updateQueryData('getDealBoards', undefined, (draftedList) =>
+            dealsBoardsApi.util.updateQueryData("getDealBoards", undefined, (draftedList) =>
               draftedList.filter((board) => board.id !== id)
             )
           )
@@ -151,9 +151,9 @@ export const dealsBoardsApi = createApi({
     >({
       query: ({ columnTitle, boardId }) => ({
         url: `BoardColumns/${boardId}`,
-        method: 'POST',
+        method: "POST",
         body: { columnTitle },
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ boardId }, { dispatch, queryFulfilled }) {
         try {
@@ -162,7 +162,7 @@ export const dealsBoardsApi = createApi({
           } = await queryFulfilled
 
           dispatch(
-            dealsBoardsApi.util.updateQueryData('getDealBoard', boardId, (draft) => {
+            dealsBoardsApi.util.updateQueryData("getDealBoard", boardId, (draft) => {
               const { columns } = draft
 
               const newColumns = columns
@@ -185,16 +185,16 @@ export const dealsBoardsApi = createApi({
     >({
       query: ({ columnTitle, id }) => ({
         url: `BoardColumns/${id}`,
-        method: 'PUT',
+        method: "PUT",
         body: { columnTitle },
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ boardId, id, columnTitle }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
 
           dispatch(
-            dealsBoardsApi.util.updateQueryData('getDealBoard', boardId, (draft) => {
+            dealsBoardsApi.util.updateQueryData("getDealBoard", boardId, (draft) => {
               const { columns } = draft
 
               const newColumns = {}
@@ -234,15 +234,15 @@ export const dealsBoardsApi = createApi({
     >({
       query: ({ id }) => ({
         url: `BoardColumns/Success/${id}`,
-        method: 'PUT',
-        responseHandler: 'content-type',
+        method: "PUT",
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ boardId, id }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
 
           dispatch(
-            dealsBoardsApi.util.updateQueryData('getDealBoard', boardId, (draft) => {
+            dealsBoardsApi.util.updateQueryData("getDealBoard", boardId, (draft) => {
               const { columns } = draft
 
               const newColumns = {}
@@ -291,15 +291,15 @@ export const dealsBoardsApi = createApi({
     >({
       query: ({ id }) => ({
         url: `BoardColumns/Failure/${id}`,
-        method: 'PUT',
-        responseHandler: 'content-type',
+        method: "PUT",
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ boardId, id }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
 
           dispatch(
-            dealsBoardsApi.util.updateQueryData('getDealBoard', boardId, (draft) => {
+            dealsBoardsApi.util.updateQueryData("getDealBoard", boardId, (draft) => {
               const { columns } = draft
 
               const newColumns = {}
@@ -348,15 +348,15 @@ export const dealsBoardsApi = createApi({
     >({
       query: ({ id }) => ({
         url: `BoardColumns/Normal/${id}`,
-        method: 'PUT',
-        responseHandler: 'content-type',
+        method: "PUT",
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ boardId, id }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
 
           dispatch(
-            dealsBoardsApi.util.updateQueryData('getDealBoard', boardId, (draft) => {
+            dealsBoardsApi.util.updateQueryData("getDealBoard", boardId, (draft) => {
               const { columns } = draft
 
               const newColumns = {}
@@ -396,15 +396,15 @@ export const dealsBoardsApi = createApi({
     >({
       query: ({ id }) => ({
         url: `BoardColumns/${id}`,
-        method: 'DELETE',
-        responseHandler: 'content-type',
+        method: "DELETE",
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ boardId, id }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
 
           dispatch(
-            dealsBoardsApi.util.updateQueryData('getDealBoard', boardId, (draft) => {
+            dealsBoardsApi.util.updateQueryData("getDealBoard", boardId, (draft) => {
               const { columns, columnsOrder } = draft
 
               const newColumns = {}
@@ -435,17 +435,17 @@ export const dealsBoardsApi = createApi({
       { id: string; order: number; boardId: string }
     >({
       query: ({ id, order }) => ({
-        url: 'BoardColumns',
-        method: 'PUT',
+        url: "BoardColumns",
+        method: "PUT",
         body: { id, order: order + 1 },
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ id, boardId, order }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
 
           dispatch(
-            dealsBoardsApi.util.updateQueryData('getDealBoard', boardId, (draft) => {
+            dealsBoardsApi.util.updateQueryData("getDealBoard", boardId, (draft) => {
               const { columnsOrder } = draft
 
               const activeIndex = columnsOrder.indexOf(id)
@@ -481,10 +481,10 @@ export const dealsBoardsApi = createApi({
       Partial<Deal> & { columnId: string; boardId: string }
     >({
       query: (data) => ({
-        url: 'Deals',
-        method: 'POST',
+        url: "Deals",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ boardId, columnId }, { dispatch, queryFulfilled }) {
         try {
@@ -493,7 +493,7 @@ export const dealsBoardsApi = createApi({
           } = await queryFulfilled
 
           dispatch(
-            dealsBoardsApi.util.updateQueryData('getDealBoard', boardId, (draft) => {
+            dealsBoardsApi.util.updateQueryData("getDealBoard", boardId, (draft) => {
               const { columns, deals } = draft
 
               const newColumns = columns
@@ -516,16 +516,16 @@ export const dealsBoardsApi = createApi({
     editDeal: builder.mutation<IGenericResponse<boolean>, Deal & { boardId: string }>({
       query: ({ id, ...data }) => ({
         url: `Deals/${id}`,
-        method: 'PUT',
+        method: "PUT",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ boardId, id, ...data }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
 
           dispatch(
-            dealsBoardsApi.util.updateQueryData('getDealBoard', boardId, (draft) => {
+            dealsBoardsApi.util.updateQueryData("getDealBoard", boardId, (draft) => {
               const { deals } = draft
 
               const newDeals = deals
@@ -548,21 +548,21 @@ export const dealsBoardsApi = createApi({
     >({
       query: ({ id, ...data }) => ({
         url: `Deals/Column/${id}`,
-        method: 'PUT',
+        method: "PUT",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ boardId, id, columnId }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
 
           dispatch(
-            dealsBoardsApi.util.updateQueryData('getDealBoard', boardId, (draft) => {
+            dealsBoardsApi.util.updateQueryData("getDealBoard", boardId, (draft) => {
               const { columns } = draft
 
               const newColumns = columns
 
-              let oldColumnId = ''
+              let oldColumnId = ""
 
               Object.keys(columns).forEach((column) => {
                 if (columns[column].deals.includes(id)) oldColumnId = columns[column].id.toString()
@@ -591,15 +591,15 @@ export const dealsBoardsApi = createApi({
     deleteDeal: builder.mutation<IGenericResponse<unknown>, { dealId: string; boardId: string }>({
       query: ({ dealId }) => ({
         url: `Deals/${dealId}`,
-        method: 'DELETE',
-        responseHandler: 'content-type',
+        method: "DELETE",
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ dealId, boardId }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
 
           dispatch(
-            dealsBoardsApi.util.updateQueryData('getDealBoard', boardId, (draft) => {
+            dealsBoardsApi.util.updateQueryData("getDealBoard", boardId, (draft) => {
               const { columns, deals } = draft
 
               const newDeals = {}
@@ -616,7 +616,7 @@ export const dealsBoardsApi = createApi({
               })
 
               const newColumns = columns
-              let columnId = ''
+              let columnId = ""
               Object.keys(columns).forEach((key) => {
                 if (columns[key].deals.includes(dealId)) columnId = key
               })

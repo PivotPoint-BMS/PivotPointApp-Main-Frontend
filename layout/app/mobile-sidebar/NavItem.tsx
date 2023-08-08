@@ -1,17 +1,17 @@
-import clsx from 'clsx'
-import { useState } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
+import clsx from "clsx"
+import { useState } from "react"
+import Link from "next/link"
+import { useRouter } from "next/router"
 // radix
-import * as CollapsiblePrimitive from '@radix-ui/react-collapsible'
+import * as CollapsiblePrimitive from "@radix-ui/react-collapsible"
 // hooks
-import useTranslate from 'hooks/useTranslate'
-import { useAppSelector } from 'store/hooks'
+import useTranslate from "hooks/useTranslate"
+import { useAppSelector } from "store/hooks"
 // utils
-import getActivePath from 'utils/getActivePath'
+import getActivePath from "utils/getActivePath"
 // utils
-import { Icon as Iconify } from '@iconify/react'
-import { Badge } from 'components'
+import { Icon as Iconify } from "@iconify/react"
+import { Badge } from "components"
 
 type Props =
   | {
@@ -28,7 +28,7 @@ type Props =
         icon?: string
         disabled?: boolean
         badge?: {
-          color?: 'primary' | 'secondary' | 'info' | 'warning' | 'error' | 'success' | 'default'
+          color?: "primary" | "secondary" | "info" | "warning" | "error" | "success" | "default"
           label: string
         }
         onClick?: () => void
@@ -51,7 +51,7 @@ function NavItemMobile({
   icon,
   asLink = false,
   disabled,
-  href = '',
+  href = "",
   onClick,
   subItems,
   roles,
@@ -67,16 +67,16 @@ function NavItemMobile({
       <CollapsiblePrimitive.Trigger
         disabled={disabled || (roles && user?.position.every((item) => !roles?.includes(item)))}
         className={clsx(
-          'group flex w-full items-center gap-2 rounded-xl p-4 text-secondary-900 dark:text-white',
-          active && 'bg-primary-500/10 dark:bg-gray-300/10'
+          "group flex w-full items-center gap-2 rounded-xl p-4 text-secondary-900 dark:text-white",
+          active && "bg-primary-500/10 dark:bg-gray-300/10"
         )}
       >
         {subItems ? (
           <div
             className={clsx(
-              'flex flex-1 items-center whitespace-normal',
+              "flex flex-1 items-center whitespace-normal",
               (disabled || (roles && user?.position.every((item) => !roles?.includes(item)))) &&
-                'pointer-events-none cursor-not-allowed opacity-40'
+                "pointer-events-none cursor-not-allowed opacity-40"
             )}
           >
             {icon}
@@ -90,8 +90,8 @@ function NavItemMobile({
           <Link
             href={href}
             className={clsx(
-              'flex flex-1 items-center whitespace-normal',
-              disabled && 'pointer-events-none cursor-not-allowed opacity-40'
+              "flex flex-1 items-center whitespace-normal",
+              disabled && "pointer-events-none cursor-not-allowed opacity-40"
             )}
             onClick={onClick}
           >
@@ -119,11 +119,11 @@ function NavItemMobile({
           item.href ? (
             <Link
               key={i}
-              href={item.disabled ? '' : item.href}
+              href={item.disabled ? "" : item.href}
               className={clsx(
-                'flex items-center gap-2 rounded-lg py-2 px-2 ltr:ml-2 rtl:mr-2',
-                !getActivePath(item.href, pathname, asPath) && 'text-gray-500 dark:text-gray-400',
-                item.disabled && 'pointer-events-none cursor-not-allowed opacity-40'
+                "flex items-center gap-2 rounded-lg py-2 px-2 ltr:ml-2 rtl:mr-2",
+                !getActivePath(item.href, pathname, asPath) && "text-gray-500 dark:text-gray-400",
+                item.disabled && "pointer-events-none cursor-not-allowed opacity-40"
               )}
               onClick={onClick}
             >
@@ -132,14 +132,14 @@ function NavItemMobile({
                 height={20}
                 width={20}
                 className={clsx(
-                  getActivePath(item.href, pathname, asPath) && 'scale-[2.5] text-primary-600',
-                  'transition-all'
+                  getActivePath(item.href, pathname, asPath) && "scale-[2.5] text-primary-600",
+                  "transition-all"
                 )}
               />
               <label
                 className={clsx(
-                  'flex-1 cursor-pointer text-xs',
-                  getActivePath(item.href, pathname, asPath) ? 'font-semibold' : 'font-medium'
+                  "flex-1 cursor-pointer text-xs",
+                  getActivePath(item.href, pathname, asPath) ? "font-semibold" : "font-medium"
                 )}
               >
                 {t(item.name)}
@@ -147,7 +147,7 @@ function NavItemMobile({
               {item.badge && (
                 <Badge
                   label={t(item.badge?.label)}
-                  intent={item.badge?.color || 'primary'}
+                  intent={item.badge?.color || "primary"}
                   className='truncate text-[10px]'
                 />
               )}
@@ -156,8 +156,8 @@ function NavItemMobile({
             <button
               key={i}
               className={clsx(
-                'flex items-center gap-2 rounded-lg py-2 px-2 ltr:ml-2 rtl:mr-2',
-                item.disabled && 'pointer-events-none cursor-not-allowed opacity-40'
+                "flex items-center gap-2 rounded-lg py-2 px-2 ltr:ml-2 rtl:mr-2",
+                item.disabled && "pointer-events-none cursor-not-allowed opacity-40"
               )}
               onClick={item.onClick}
             >

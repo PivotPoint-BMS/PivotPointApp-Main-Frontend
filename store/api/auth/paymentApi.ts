@@ -1,17 +1,17 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { HYDRATE } from 'next-redux-wrapper'
-import { RootState } from 'store'
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { HYDRATE } from "next-redux-wrapper"
+import { RootState } from "store"
 // config
-import { PIVOTPOINT_API } from 'config'
+import { PIVOTPOINT_API } from "config"
 
 export const paymentApi = createApi({
-  reducerPath: 'payment',
+  reducerPath: "payment",
   baseQuery: fetchBaseQuery({
     baseUrl: `${PIVOTPOINT_API.baseUrl}/identity/Payment`,
     prepareHeaders: (headers, { getState }) => {
       const { token } = (getState() as RootState).session
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
+        headers.set("Authorization", `Bearer ${token}`)
       }
       return headers
     },
@@ -26,7 +26,7 @@ export const paymentApi = createApi({
   endpoints: (builder) => ({
     checkPayment: builder.query<{ tier: number; startDate: string; endDate: string }, void>({
       query: () => ({
-        url: '/Subscription',
+        url: "/Subscription",
       }),
     }),
   }),

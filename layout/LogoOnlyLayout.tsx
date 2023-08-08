@@ -1,10 +1,10 @@
-import React from 'react'
+import React from "react"
 // next
-import Link from 'next/link'
+import Link from "next/link"
 // routes
-import { PATH_DASHBOARD } from 'routes/paths'
+import { PATH_DASHBOARD } from "routes/paths"
 // components
-import { Logo } from 'components'
+import { Logo } from "components"
 
 export default function LogoOnlyLayout({
   children,

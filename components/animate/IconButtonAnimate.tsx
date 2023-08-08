@@ -1,10 +1,10 @@
-import { m } from 'framer-motion'
-import { forwardRef } from 'react'
-import IconButton, { IconButtonProps } from '../IconButton'
+import { m } from "framer-motion"
+import { forwardRef } from "react"
+import IconButton, { IconButtonProps } from "../IconButton"
 
 interface AnimateWrapProps {
   children: React.ReactNode
-  size?: 'small' | 'medium' | 'large'
+  size?: "small" | "medium" | "large"
 }
 
 const varSmall = {
@@ -23,8 +23,8 @@ const varLarge = {
 }
 
 function AnimateWrap({ size, children }: AnimateWrapProps) {
-  const isSmall = size === 'small'
-  const isLarge = size === 'large'
+  const isSmall = size === "small"
+  const isLarge = size === "large"
 
   return (
     <m.div
@@ -40,12 +40,12 @@ function AnimateWrap({ size, children }: AnimateWrapProps) {
 
 interface IconButtonAnimateProps extends IconButtonProps {
   children: React.ReactNode
-  color?: 'inherit' | 'default' | 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'error'
-  size?: 'small' | 'medium' | 'large'
+  color?: "inherit" | "default" | "primary" | "secondary" | "info" | "success" | "warning" | "error"
+  size?: "small" | "medium" | "large"
 }
 
 const IconButtonAnimate = forwardRef<HTMLButtonElement, IconButtonAnimateProps>(
-  ({ children, size = 'medium', ...other }: IconButtonAnimateProps, ref) => (
+  ({ children, size = "medium", ...other }: IconButtonAnimateProps, ref) => (
     <AnimateWrap size={size}>
       <IconButton size={size} ref={ref} {...other}>
         {children}

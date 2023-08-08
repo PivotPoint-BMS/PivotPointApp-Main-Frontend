@@ -1,16 +1,16 @@
 /* eslint-disable quotes */
 /* eslint-disable no-plusplus */
-import React, { useEffect, useState } from 'react'
-import { BusinessPlan } from 'types'
-import useTranslate from 'hooks/useTranslate'
-import { Card, CardContent, CardHeader } from 'components'
-import Table from './Table'
+import React, { useEffect, useState } from "react"
+import { BusinessPlan } from "types"
+import useTranslate from "hooks/useTranslate"
+import { Card, CardContent, CardHeader } from "components"
+import Table from "./Table"
 
 export default function index({
   data,
   years,
 }: {
-  data: BusinessPlan['balanceSheetForecasts']
+  data: BusinessPlan["balanceSheetForecasts"]
   years: number[]
 }) {
   const { t } = useTranslate()
@@ -28,10 +28,10 @@ export default function index({
   useEffect(() => {
     setColumns([
       {
-        id: 'label',
-        label: '',
-        accessor: 'label',
-        align: 'left',
+        id: "label",
+        label: "",
+        accessor: "label",
+        align: "left",
       },
     ])
 
@@ -40,7 +40,7 @@ export default function index({
         id: i.toString(),
         label: years[i],
         accessor: i.toString(),
-        align: 'right',
+        align: "right",
       }
 
       setColumns((prev) => [...prev, { ...column }])
@@ -63,7 +63,7 @@ export default function index({
   return (
     <Card fullWidth>
       <CardHeader
-        title={t('Balance Sheet Forecasts')}
+        title={t("Balance Sheet Forecasts")}
         className='!pb-2'
         subheader={t(
           " A balance sheet forecasts table provides a projected snapshot of an organization's assets, liabilities, and equity over a specific period, offering insights into its financial position and potential future performance."

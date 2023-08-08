@@ -1,23 +1,23 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from "react"
 
 // next
-import Head from 'next/head'
+import Head from "next/head"
 // api
-import { useGetCrmStatsQuery } from 'store/api/stats/statsApi'
+import { useGetCrmStatsQuery } from "store/api/stats/statsApi"
 // hooks
-import useTranslate from 'hooks/useTranslate'
-import useSnackbar from 'hooks/useSnackbar'
+import useTranslate from "hooks/useTranslate"
+import useSnackbar from "hooks/useSnackbar"
 // sections
 import {
   CustomerSatisfaction,
   Conversions,
   TopCustomerComplaints,
-} from 'sections/dashboard/crm/dashbord'
+} from "sections/dashboard/crm/dashbord"
 // layout
-import Layout from 'layout/Index'
+import Layout from "layout/Index"
 // components
-import { HeaderBreadcrumbs, Card, CardHeader, CardContent, LoadingIndicator } from 'components'
-import RoleBasedGuard from 'guards/RoleBasedGuard'
+import { HeaderBreadcrumbs, Card, CardHeader, CardContent, LoadingIndicator } from "components"
+import RoleBasedGuard from "guards/RoleBasedGuard"
 
 function Dashboard() {
   const { t } = useTranslate()
@@ -29,9 +29,9 @@ function Dashboard() {
   useEffect(() => {
     if (isError) {
       open({
-        message: t('A problem has occurred while retrieving data.'),
-        type: 'error',
-        variant: 'contained',
+        message: t("A problem has occurred while retrieving data."),
+        type: "error",
+        variant: "contained",
       })
     }
   }, [isError, isSuccess, isFetching, isLoading])
@@ -39,7 +39,7 @@ function Dashboard() {
   return (
     <>
       <Head>
-        <title>{t('Customer Relationship')} | Pivot Point BMS</title>
+        <title>{t("Customer Relationship")} | Pivot Point BMS</title>
       </Head>
       <div className='px-5'>
         {isLoading ? (
@@ -48,11 +48,11 @@ function Dashboard() {
           </div>
         ) : (
           <>
-            <HeaderBreadcrumbs heading={t('Customer Relationship')} />
+            <HeaderBreadcrumbs heading={t("Customer Relationship")} />
             <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4'>
               <Card fullWidth className='h-full'>
                 <CardHeader
-                  title={t('Total Contacts')}
+                  title={t("Total Contacts")}
                   // actions={
                   //   <div className='flex items-start gap-1'>
                   //     <Icon
@@ -70,7 +70,7 @@ function Dashboard() {
               </Card>
               <Card fullWidth className='h-full'>
                 <CardHeader
-                  title={t('Total Leads')}
+                  title={t("Total Leads")}
                   // actions={
                   //   <div className='flex items-start gap-1'>
                   //     <Icon
@@ -88,7 +88,7 @@ function Dashboard() {
               </Card>
               <Card fullWidth className='h-full'>
                 <CardHeader
-                  title={t('Successful Conversions')}
+                  title={t("Successful Conversions")}
                   // actions={
                   //   <div className='flex items-start gap-1'>
                   //     <Icon
@@ -106,7 +106,7 @@ function Dashboard() {
               </Card>
               <Card fullWidth className='h-full'>
                 <CardHeader
-                  title={t('Total Deals')}
+                  title={t("Total Deals")}
 
                   // actions={
                   //   <div className='flex items-start gap-1'>
@@ -149,7 +149,7 @@ function Dashboard() {
 Dashboard.getLayout = function getLayout(page: JSX.Element) {
   return (
     <Layout variant='dashboard'>
-      <RoleBasedGuard accessibleRoles={['Owner', 'CRM']}>{page}</RoleBasedGuard>
+      <RoleBasedGuard accessibleRoles={["Owner", "CRM"]}>{page}</RoleBasedGuard>
     </Layout>
   )
 }

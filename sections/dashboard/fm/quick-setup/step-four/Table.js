@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react'
+import React from "react"
 // react table
-import { useTable, useFlexLayout, useResizeColumns, useSortBy } from 'react-table'
+import { useTable, useFlexLayout, useResizeColumns, useSortBy } from "react-table"
 // components
-import Cell from './Cell'
-import Header from './Header'
+import Cell from "./Cell"
+import Header from "./Header"
 
 const defaultColumn = {
   minWidth: 50,
@@ -12,7 +12,7 @@ const defaultColumn = {
   maxWidth: 400,
   Cell,
   Header,
-  sortType: 'alphanumericFalsyLast',
+  sortType: "alphanumericFalsyLast",
 }
 
 export default function Table({ columns, data, dispatch: dataDispatch }) {
@@ -49,7 +49,7 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
                       className='border-b bg-gray-100 dark:bg-paper-dark'
                       key={`table-head-cell-${index}`}
                     >
-                      {column.render('Header')}
+                      {column.render("Header")}
                     </th>
                   ))}
                 </tr>
@@ -66,7 +66,7 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
                   >
                     {row.cells.map((cell, index) => (
                       <td {...cell.getCellProps()} key={`table-row-cell-${index}`}>
-                        {cell.render('Cell')}
+                        {cell.render("Cell")}
                       </td>
                     ))}
                   </tr>

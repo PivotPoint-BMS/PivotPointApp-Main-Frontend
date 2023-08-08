@@ -1,16 +1,16 @@
 /* eslint-disable no-plusplus */
-import React, { useEffect, useState } from 'react'
-import { sentenceCase } from 'text-case'
-import { BusinessPlan } from 'types'
-import useTranslate from 'hooks/useTranslate'
-import { Card, CardContent, CardHeader } from 'components'
-import Table from './Table'
+import React, { useEffect, useState } from "react"
+import { sentenceCase } from "text-case"
+import { BusinessPlan } from "types"
+import useTranslate from "hooks/useTranslate"
+import { Card, CardContent, CardHeader } from "components"
+import Table from "./Table"
 
 export default function index({
   data,
   years,
 }: {
-  data: BusinessPlan['profitabilityThresholds']
+  data: BusinessPlan["profitabilityThresholds"]
   years: number[]
 }) {
   const { t } = useTranslate()
@@ -27,10 +27,10 @@ export default function index({
   useEffect(() => {
     setColumns([
       {
-        id: 'label',
-        label: '',
-        accessor: 'label',
-        align: 'left',
+        id: "label",
+        label: "",
+        accessor: "label",
+        align: "left",
       },
     ])
 
@@ -39,7 +39,7 @@ export default function index({
         id: i.toString(),
         label: years[i],
         accessor: i.toString(),
-        align: 'right',
+        align: "right",
       }
 
       setColumns((prev) => [...prev, { ...column }])
@@ -55,7 +55,7 @@ export default function index({
           else
             prev.push({
               index: i,
-              label: key !== 'neutral' ? sentenceCase(key) : 'SR/CA * 12',
+              label: key !== "neutral" ? sentenceCase(key) : "SR/CA * 12",
               [year.toString()]: Number(item[key]),
             })
           return prev
@@ -67,10 +67,10 @@ export default function index({
   return (
     <Card fullWidth>
       <CardHeader
-        title={t('Profitability Thresholds')}
+        title={t("Profitability Thresholds")}
         className='!pb-2'
         subheader={t(
-          'A profitability thresholds table presents the minimum levels of profitability that need to be achieved in order to ensure financial viability and success of the business.'
+          "A profitability thresholds table presents the minimum levels of profitability that need to be achieved in order to ensure financial viability and success of the business."
         )}
       />
       <CardContent>

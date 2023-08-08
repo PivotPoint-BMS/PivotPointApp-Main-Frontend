@@ -1,8 +1,8 @@
-import React from 'react'
-import clsx from 'clsx'
+import React from "react"
+import clsx from "clsx"
 // hooks
-import useTranslate from 'hooks/useTranslate'
-import Select from 'react-select'
+import useTranslate from "hooks/useTranslate"
+import Select from "react-select"
 
 export default function Cell({
   value: initialValue,
@@ -18,7 +18,7 @@ export default function Cell({
   }
 
   const onBlur = () => {
-    dataDispatch({ type: 'update_cell', columnId: id, rowIndex: index, value })
+    dataDispatch({ type: "update_cell", columnId: id, rowIndex: index, value })
   }
 
   React.useEffect(() => {
@@ -33,7 +33,7 @@ export default function Cell({
     )
 
   switch (dataType) {
-    case 'text':
+    case "text":
       return (
         <input
           value={value}
@@ -42,12 +42,12 @@ export default function Cell({
           type={dataType}
           placeholder={t(placeholder)}
           className={clsx(
-            'box-border w-full flex-auto resize-none whitespace-nowrap border-0 bg-transparent p-2',
-            dataType === 'number' && 'ltr:text-right rtl:text-left'
+            "box-border w-full flex-auto resize-none whitespace-nowrap border-0 bg-transparent p-2",
+            dataType === "number" && "ltr:text-right rtl:text-left"
           )}
         />
       )
-    case 'number':
+    case "number":
       return (
         <input
           value={value}
@@ -56,12 +56,12 @@ export default function Cell({
           type={dataType}
           placeholder={t(placeholder)}
           className={clsx(
-            'box-border w-full flex-auto resize-none whitespace-nowrap border-0 bg-transparent p-2',
-            dataType === 'number' && 'ltr:text-right rtl:text-left'
+            "box-border w-full flex-auto resize-none whitespace-nowrap border-0 bg-transparent p-2",
+            dataType === "number" && "ltr:text-right rtl:text-left"
           )}
         />
       )
-    case 'select':
+    case "select":
       return (
         <Select
           options={options}
@@ -71,7 +71,7 @@ export default function Cell({
           getOptionLabel={(option) => t(option.label)}
           onChange={(val) => {
             dataDispatch({
-              type: 'update_cell',
+              type: "update_cell",
               columnId: id,
               rowIndex: index,
               value: val.value,

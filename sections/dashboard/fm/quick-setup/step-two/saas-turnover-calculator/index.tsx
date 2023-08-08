@@ -1,18 +1,18 @@
-import React, { useEffect, useReducer, useState } from 'react'
-import * as Yup from 'yup'
-import { merge, round } from 'lodash'
+import React, { useEffect, useReducer, useState } from "react"
+import * as Yup from "yup"
+import { merge, round } from "lodash"
 // form
-import { FieldValues, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { FieldValues, useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
 // hooks
-import useTranslate from 'hooks/useTranslate'
-import useSnackbar from 'hooks/useSnackbar'
+import useTranslate from "hooks/useTranslate"
+import useSnackbar from "hooks/useSnackbar"
 // components
-import { FormProvider, RHFTextField } from 'components/hook-form'
-import ReactApexChart, { BaseOptionChart } from 'components/chart'
-import { Button } from 'components'
-import makeData from './makeData'
-import Table from './Table'
+import { FormProvider, RHFTextField } from "components/hook-form"
+import ReactApexChart, { BaseOptionChart } from "components/chart"
+import { Button } from "components"
+import makeData from "./makeData"
+import Table from "./Table"
 
 function reducer(
   state: {
@@ -29,41 +29,41 @@ function reducer(
   action: { type: string; rowIndex?: number; columnId?: string; value?: string; profit?: number[] }
 ) {
   switch (action.type) {
-    case 'add_row':
+    case "add_row":
       if (
         state.data.every(
           (cell) =>
             Object.keys(cell).length > 0 &&
-            cell.name !== '' &&
-            cell.price !== '' &&
-            cell.userPercentage !== ''
+            cell.name !== "" &&
+            cell.price !== "" &&
+            cell.userPercentage !== ""
         )
       )
         return {
           ...state,
-          data: [...state.data, { name: '', price: '', userPercentage: '' }],
+          data: [...state.data, { name: "", price: "", userPercentage: "" }],
         }
       return state
-    case 'update_cell':
+    case "update_cell":
       return {
         ...state,
         data: state.data.map((row, i) => {
           if (i === action.rowIndex) {
             return {
               ...state.data[action.rowIndex],
-              [action.columnId || '']: action.value,
+              [action.columnId || ""]: action.value,
             }
           }
           return row
         }),
       }
-    case 'delete_row':
+    case "delete_row":
       return {
         ...state,
         data: state.data.filter((_, i) => i !== action.rowIndex),
         rowIndex: action.rowIndex,
       }
-    case 'delete_last_cell':
+    case "delete_last_cell":
       return {
         ...state,
         data: state.data.slice(0, -1),
@@ -87,17 +87,17 @@ function index({
   const [income, setIncome] = useState<number[]>([])
 
   const calculatorSchema = Yup.object().shape({
-    growthPercentage: Yup.string().required(t('This field is required')),
-    acquisationCost: Yup.string().required(t('This field is required')),
-    startingUsers: Yup.string().required(t('This field is required')),
-    costDeploy: Yup.string().required(t('This field is required')),
+    growthPercentage: Yup.string().required(t("This field is required")),
+    acquisationCost: Yup.string().required(t("This field is required")),
+    startingUsers: Yup.string().required(t("This field is required")),
+    costDeploy: Yup.string().required(t("This field is required")),
   })
 
   const defaultValues = {
-    growthPercentage: '',
-    acquisationCost: '',
-    startingUsers: '',
-    costDeploy: '',
+    growthPercentage: "",
+    acquisationCost: "",
+    startingUsers: "",
+    costDeploy: "",
   }
 
   const methods = useForm<FieldValues>({
@@ -110,7 +110,7 @@ function index({
   const onSubmit = async (data: FieldValues) => {
     if (
       state.data.every(
-        (cell) => Object.keys(cell).length > 0 && cell.name !== '' && cell.price !== ''
+        (cell) => Object.keys(cell).length > 0 && cell.name !== "" && cell.price !== ""
       )
     ) {
       const { growthPercentage, acquisationCost, startingUsers, costDeploy } = data
@@ -154,8 +154,8 @@ function index({
       open({
         autoHideDuration: 1000,
         closeButton: true,
-        message: t('Please fill all the fields'),
-        type: 'error',
+        message: t("Please fill all the fields"),
+        type: "error",
       })
     }
   }
@@ -164,8 +164,8 @@ function index({
   }, [income])
 
   const chartOptions = merge(BaseOptionChart(), {
-    legend: { position: 'top', horizontalAlign: 'right' },
-    colors: ['#1FAA69', '#FF0800'],
+    legend: { position: "top", horizontalAlign: "right" },
+    colors: ["#1FAA69", "#FF0800"],
     xaxis: {
       categories: Array(estimationRange)
         .fill(0)
@@ -181,29 +181,29 @@ function index({
             <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4'>
               <RHFTextField
                 name='growthPercentage'
-                label={t('Growth Percentage')}
-                placeholder={`${t('Ex: ')}150`}
+                label={t("Growth Percentage")}
+                placeholder={`${t("Ex: ")}150`}
               />
 
               <RHFTextField
                 name='acquisationCost'
-                label={t('Customer Acquisition Cost')}
-                placeholder={`${t('Ex: ')}3`}
+                label={t("Customer Acquisition Cost")}
+                placeholder={`${t("Ex: ")}3`}
               />
               <RHFTextField
                 name='startingUsers'
-                label={t('Starting Users')}
-                placeholder={`${t('Ex: ')}100`}
+                label={t("Starting Users")}
+                placeholder={`${t("Ex: ")}100`}
               />
               <RHFTextField
                 name='costDeploy'
-                label={t('Cost Deploy/Month/User')}
-                placeholder={`${t('Ex: ')}5`}
+                label={t("Cost Deploy/Month/User")}
+                placeholder={`${t("Ex: ")}5`}
               />
             </div>
             <Table columns={state.columns} data={state.data} dispatch={dispatch} />
             <Button type='submit' size='large' variant='outlined'>
-              {t('Calculate')}
+              {t("Calculate")}
             </Button>
           </div>
         </FormProvider>
@@ -213,8 +213,8 @@ function index({
         <ReactApexChart
           type='area'
           series={[
-            { name: t('Income'), data: income },
-            { name: t('Expense'), data: expence },
+            { name: t("Income"), data: income },
+            { name: t("Expense"), data: expence },
           ]}
           options={chartOptions}
           height={364}

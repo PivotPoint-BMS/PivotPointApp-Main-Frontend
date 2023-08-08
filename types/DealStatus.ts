@@ -1,3 +1,3 @@
-type DealStatus = 'qualification' | 'in progress' | 'done' | 'testing'
+type DealStatus = "qualification" | "in progress" | "done" | "testing"
 
 export default DealStatus

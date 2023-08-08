@@ -1,12 +1,12 @@
-import React from 'react'
+import React from "react"
 // redux
-import { useAppDispatch } from 'store/hooks'
-import { open } from 'store/slices/sideBarSlice'
+import { useAppDispatch } from "store/hooks"
+import { open } from "store/slices/sideBarSlice"
 // config
-import { HEADER } from 'config'
+import { HEADER } from "config"
 // components
-import { Icon as Iconify } from '@iconify/react'
-import { IconButton } from 'components'
+import { Icon as Iconify } from "@iconify/react"
+import { IconButton } from "components"
 
 // const categories = ['crm', 'hrm', 'pm', 'im', 'scm', 'fm']
 

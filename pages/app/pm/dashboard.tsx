@@ -1,8 +1,8 @@
-import Head from 'next/head'
-import React from 'react'
+import Head from "next/head"
+import React from "react"
 // layout
-import Layout from 'layout/Index'
-import RoleBasedGuard from 'guards/RoleBasedGuard'
+import Layout from "layout/Index"
+import RoleBasedGuard from "guards/RoleBasedGuard"
 
 function index() {
   return (
@@ -19,7 +19,7 @@ function index() {
 index.getLayout = function getLayout(page: JSX.Element) {
   return (
     <Layout variant='dashboard'>
-      <RoleBasedGuard accessibleRoles={['Owner', 'PM']}>{page}</RoleBasedGuard>
+      <RoleBasedGuard accessibleRoles={["Owner", "PM"]}>{page}</RoleBasedGuard>
     </Layout>
   )
 }

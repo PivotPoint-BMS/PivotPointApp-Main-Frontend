@@ -1,11 +1,11 @@
-import React from 'react'
-import { HTMLMotionProps, motion } from 'framer-motion'
+import React from "react"
+import { HTMLMotionProps, motion } from "framer-motion"
 //
-import { varContainer } from './variants'
+import { varContainer } from "./variants"
 
 // ----------------------------------------------------------------------
 
-interface MotionContainerProps extends HTMLMotionProps<'div'> {
+interface MotionContainerProps extends HTMLMotionProps<"div"> {
   action?: boolean
 }
 
@@ -19,7 +19,7 @@ export default function MotionContainer({
     return (
       <motion.div
         initial={false}
-        animate={animate ? 'animate' : 'exit'}
+        animate={animate ? "animate" : "exit"}
         variants={varContainer()}
         {...other}
       >

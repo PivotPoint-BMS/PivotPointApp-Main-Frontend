@@ -1,21 +1,21 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { HYDRATE } from 'next-redux-wrapper'
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { HYDRATE } from "next-redux-wrapper"
 // config
-import { PIVOTPOINT_API } from 'config'
+import { PIVOTPOINT_API } from "config"
 // types
-import { IGenericResponse } from 'types'
+import { IGenericResponse } from "types"
 // store
-import { RootState } from 'store'
+import { RootState } from "store"
 
 export const addressApi = createApi({
-  reducerPath: 'addressApi',
+  reducerPath: "addressApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${PIVOTPOINT_API.baseUrl}/crm`,
     prepareHeaders: (headers, { getState }) => {
       const { token } = (getState() as RootState).session
 
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
+        headers.set("Authorization", `Bearer ${token}`)
       }
 
       return headers
@@ -27,15 +27,15 @@ export const addressApi = createApi({
       return action.payload[reducerPath]
     }
   },
-  tagTypes: ['Countries', 'Cities'],
+  tagTypes: ["Countries", "Cities"],
   endpoints: (builder) => ({
     getCountries: builder.query<IGenericResponse<string[]>, void>({
-      query: () => 'Address/Country',
-      providesTags: [{ type: 'Countries', id: 'LIST' }],
+      query: () => "Address/Country",
+      providesTags: [{ type: "Countries", id: "LIST" }],
     }),
     getCities: builder.query<IGenericResponse<string[]>, string>({
       query: (country) => `Address/City/${country}`,
-      providesTags: [{ type: 'Cities', id: 'LIST' }],
+      providesTags: [{ type: "Cities", id: "LIST" }],
     }),
     // createLead: builder.mutation<string[], FormData>({
     //   query: (data) => ({

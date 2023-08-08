@@ -1,25 +1,25 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { HYDRATE } from 'next-redux-wrapper'
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { HYDRATE } from "next-redux-wrapper"
 // config
-import { PIVOTPOINT_API } from 'config'
+import { PIVOTPOINT_API } from "config"
 // types
-import { ListGenericResponse, RequestParams, IGenericResponse, Warehouse } from 'types'
+import { ListGenericResponse, RequestParams, IGenericResponse, Warehouse } from "types"
 // store
-import { RootState } from 'store'
-import RequestSearchParams from 'types/RequestSearchParams'
+import { RootState } from "store"
+import RequestSearchParams from "types/RequestSearchParams"
 // import { assign } from 'lodash'
 
 export const warehousingApi = createApi({
-  reducerPath: 'warehousingApi',
+  reducerPath: "warehousingApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${PIVOTPOINT_API.baseUrl}/scm`,
     prepareHeaders: (headers, { getState }) => {
       const { token } = (getState() as RootState).session
 
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
+        headers.set("Authorization", `Bearer ${token}`)
       }
 
       return headers
@@ -34,7 +34,7 @@ export const warehousingApi = createApi({
   endpoints: (builder) => ({
     getWarehouses: builder.query<ListGenericResponse<Warehouse[]>, RequestSearchParams>({
       query: (params) => ({
-        url: 'Warehousing',
+        url: "Warehousing",
         params,
       }),
     }),
@@ -43,13 +43,13 @@ export const warehousingApi = createApi({
     }),
     createWarehouse: builder.mutation<
       IGenericResponse<Warehouse>,
-      Omit<Warehouse, 'id'> & RequestParams
+      Omit<Warehouse, "id"> & RequestParams
     >({
       query: (data) => ({
-        url: 'Warehousing',
-        method: 'POST',
+        url: "Warehousing",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ PageNumber, PageSize }, { dispatch, queryFulfilled }) {
         try {
@@ -58,7 +58,7 @@ export const warehousingApi = createApi({
           } = await queryFulfilled
           dispatch(
             warehousingApi.util.updateQueryData(
-              'getWarehouses',
+              "getWarehouses",
               { PageNumber, PageSize },
               (draftedList) => {
                 draftedList.data.push(data)
@@ -72,13 +72,13 @@ export const warehousingApi = createApi({
     }),
     editWarehouse: builder.mutation<
       ListGenericResponse<Warehouse>,
-      { data: Omit<Warehouse, 'id'>; id: string } & RequestParams
+      { data: Omit<Warehouse, "id">; id: string } & RequestParams
     >({
       query: ({ data, id }) => ({
         url: `Warehousing/${id}`,
-        method: 'PUT',
+        method: "PUT",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
 
       async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
@@ -89,7 +89,7 @@ export const warehousingApi = createApi({
 
           dispatch(
             warehousingApi.util.updateQueryData(
-              'getWarehouses',
+              "getWarehouses",
               { PageNumber, PageSize },
               (draftedList) => {
                 Object.assign(draftedList.data.find((item) => item.id === id)!, data)
@@ -99,7 +99,7 @@ export const warehousingApi = createApi({
           )
 
           dispatch(
-            warehousingApi.util.updateQueryData('getWarehouse', id, (draft) => {
+            warehousingApi.util.updateQueryData("getWarehouse", id, (draft) => {
               Object.assign(draft.data, data)
             })
           )
@@ -114,15 +114,15 @@ export const warehousingApi = createApi({
     >({
       query: ({ id }) => ({
         url: `Warehousing/${id}`,
-        method: 'DELETE',
-        responseHandler: 'content-type',
+        method: "DELETE",
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
           dispatch(
             warehousingApi.util.updateQueryData(
-              'getWarehouses',
+              "getWarehouses",
               { PageNumber, PageSize },
               (draftedList) => ({
                 ...draftedList,

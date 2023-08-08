@@ -1,8 +1,8 @@
-import clsx from 'clsx'
+import clsx from "clsx"
 // redux
-import { useAppSelector } from 'store/hooks'
+import { useAppSelector } from "store/hooks"
 // components
-import Snackbar from './Snackbar'
+import Snackbar from "./Snackbar"
 
 export default function SnackbarProvider({
   children,
@@ -14,7 +14,7 @@ export default function SnackbarProvider({
       {snackbars.length > 0 && (
         <div
           className={clsx(
-            'fixed bottom-0 left-0 z-[9999] ml-5 mb-5 flex flex-col-reverse flex-wrap items-start justify-center gap-4'
+            "fixed bottom-0 left-0 z-[9999] ml-5 mb-5 flex flex-col-reverse flex-wrap items-start justify-center gap-4"
           )}
         >
           {snackbars.map(({ id, autoHideDuration, message, type, variant, closeButton }) => (

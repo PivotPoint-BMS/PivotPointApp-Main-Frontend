@@ -1,7 +1,7 @@
-import { ReactNode } from 'react'
-import { clsx } from 'clsx'
+import { ReactNode } from "react"
+import { clsx } from "clsx"
 // radix
-import * as TooltipPrimitive from '@radix-ui/react-tooltip'
+import * as TooltipPrimitive from "@radix-ui/react-tooltip"
 
 interface TooltipProps extends TooltipPrimitive.TooltipContentProps {
   title: string
@@ -16,13 +16,13 @@ export default function Tooltip({ children, title, className, open, ...props }: 
         <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
         <TooltipPrimitive.Content
           className={clsx(
-            'data-[side=top]:animate-slide-down-fade',
-            'data-[side=right]:animate-slide-left-fade',
-            'data-[side=bottom]:animate-slide-up-fade',
-            'data-[side=left]:animate-slide-right-fade',
-            'inline-flex items-center rounded-md px-4 py-2.5',
-            'bg-white dark:bg-paper-dark-contrast',
-            ' z-[99999] drop-shadow-xl',
+            "data-[side=top]:animate-slide-down-fade",
+            "data-[side=right]:animate-slide-left-fade",
+            "data-[side=bottom]:animate-slide-up-fade",
+            "data-[side=left]:animate-slide-right-fade",
+            "inline-flex items-center rounded-md px-4 py-2.5",
+            "bg-white dark:bg-paper-dark-contrast",
+            " z-[99999] drop-shadow-xl",
             className
           )}
           {...props}

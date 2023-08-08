@@ -1,30 +1,30 @@
 /* eslint-disable no-constant-condition */
-import { useEffect, useState } from 'react'
-import clsx from 'clsx'
-import { motion, Variant } from 'framer-motion'
+import { useEffect, useState } from "react"
+import clsx from "clsx"
+import { motion, Variant } from "framer-motion"
 // next
-import Image from 'next/image'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { useTheme } from 'next-themes'
+import Image from "next/image"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import { useTheme } from "next-themes"
 // config
-import { LANGS, NAVBAR, PIVOTPOINT_API } from 'config'
+import { LANGS, NAVBAR, PIVOTPOINT_API } from "config"
 // icons
-import { Icon as Iconify } from '@iconify/react'
+import { Icon as Iconify } from "@iconify/react"
 // assets
-import logo from 'public/logo.svg'
+import logo from "public/logo.svg"
 // redux
-import { logout } from 'store/slices/sessionSlice'
+import { logout } from "store/slices/sessionSlice"
 // routes
-import { PATH_ACCOUNT, PATH_AUTH } from 'routes/paths'
+import { PATH_ACCOUNT, PATH_AUTH } from "routes/paths"
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 // redux
-import { useAppDispatch, useAppSelector } from 'store/hooks'
-import { close } from 'store/slices/sideBarSlice'
+import { useAppDispatch, useAppSelector } from "store/hooks"
+import { close } from "store/slices/sideBarSlice"
 // Components
-import { Scrollbar, IconButton } from 'components'
-import NavItem from './NavItem'
+import { Scrollbar, IconButton } from "components"
+import NavItem from "./NavItem"
 
 export default function SidebarMobile() {
   const { theme, setTheme } = useTheme()
@@ -37,8 +37,8 @@ export default function SidebarMobile() {
   const { t, locale } = useTranslate()
 
   const variants: { [key: string]: Variant } = {
-    closed: { x: locale === 'ar' ? '100%' : '-100%' },
-    opened: { x: '0%' },
+    closed: { x: locale === "ar" ? "100%" : "-100%" },
+    opened: { x: "0%" },
   }
 
   useEffect(() => {
@@ -63,15 +63,15 @@ export default function SidebarMobile() {
   return (
     <div
       className={clsx(
-        'fixed top-0 right-0 z-50 flex h-screen w-screen backdrop-blur-sm transition-all',
-        isOpen ? 'block' : 'hidden'
+        "fixed top-0 right-0 z-50 flex h-screen w-screen backdrop-blur-sm transition-all",
+        isOpen ? "block" : "hidden"
       )}
     >
       <motion.div
         initial='closed'
-        animate={opened ? 'opened' : 'closed'}
+        animate={opened ? "opened" : "closed"}
         variants={variants}
-        transition={{ type: 'keyframes' }}
+        transition={{ type: "keyframes" }}
       >
         <Scrollbar
           className='z-50 m-0 h-screen border-r border-dashed bg-white py-6 px-4 transition-all delay-100 dark:border-gray-600 dark:bg-paper-dark'
@@ -109,7 +109,7 @@ export default function SidebarMobile() {
               name={`${user?.firstName} ${user?.lastName}`}
               icon={
                 <div className='relative h-[22px] w-[22px] '>
-                  {user && user?.profilePicture && user?.profilePicture !== '' ? (
+                  {user && user?.profilePicture && user?.profilePicture !== "" ? (
                     <Image
                       alt='avatar'
                       width={22}
@@ -130,36 +130,36 @@ export default function SidebarMobile() {
               asLink
               subItems={[
                 {
-                  name: 'Profile',
+                  name: "Profile",
                   href: PATH_ACCOUNT.profile,
-                  icon: 'ion:person-circle',
+                  icon: "ion:person-circle",
                   onClick: () => {
                     handleClose()
                   },
                 },
                 {
-                  name: 'Company',
+                  name: "Company",
                   href: PATH_ACCOUNT.company,
-                  icon: 'ion:settings',
+                  icon: "ion:settings",
                   onClick: () => {
                     handleClose()
                   },
                   disabled: !user?.isOwner,
                 },
                 {
-                  name: 'Logout',
+                  name: "Logout",
                   onClick: () => {
                     handleClose()
                     dispatch(logout())
                     push(PATH_AUTH.login)
                   },
-                  icon: 'ion:exit',
+                  icon: "ion:exit",
                 },
               ]}
             />
             <NavItem
               href='#'
-              name={t('Language')}
+              name={t("Language")}
               icon={<Iconify icon='fluent:globe-16-filled' height={22} width={22} />}
               asLink
               subItems={LANGS.map((language) => ({
@@ -174,13 +174,13 @@ export default function SidebarMobile() {
               <NavItem
                 icon={
                   <Iconify
-                    icon={theme === 'dark' ? 'tabler:sun-filled' : 'ph:moon-fill'}
+                    icon={theme === "dark" ? "tabler:sun-filled" : "ph:moon-fill"}
                     height={22}
                     width={22}
                   />
                 }
-                onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                name={theme === 'dark' ? t('Light Mode') : t('Dark Mode')}
+                onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+                name={theme === "dark" ? t("Light Mode") : t("Dark Mode")}
               />
             )}
           </div>

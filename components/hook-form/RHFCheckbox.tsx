@@ -1,12 +1,12 @@
-import React from 'react'
-import clsx from 'clsx'
+import React from "react"
+import clsx from "clsx"
 // radix
-import * as LabelPrimitive from '@radix-ui/react-label'
-import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
+import * as LabelPrimitive from "@radix-ui/react-label"
+import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
 // form
-import { Controller, useFormContext } from 'react-hook-form'
+import { Controller, useFormContext } from "react-hook-form"
 // components
-import { Icon as Iconify } from '@iconify/react'
+import { Icon as Iconify } from "@iconify/react"
 
 interface CheckboxProps
   extends CheckboxPrimitive.CheckboxProps,
@@ -30,10 +30,10 @@ export default function RHFCheckbox({ name, label, disabled }: CheckboxProps) {
             {...field}
             onCheckedChange={field.onChange}
             className={clsx(
-              'flex h-5 w-5 items-center justify-center rounded',
-              'data-[state=unchecked]: data-[state=unchecked]:border data-[state=checked]:bg-primary-600 dark:data-[state=unchecked]:bg-transparent',
-              'focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-900',
-              disabled && '!bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-600'
+              "flex h-5 w-5 items-center justify-center rounded",
+              "data-[state=unchecked]: data-[state=unchecked]:border data-[state=checked]:bg-primary-600 dark:data-[state=unchecked]:bg-transparent",
+              "focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-900",
+              disabled && "!bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-600"
             )}
           >
             <CheckboxPrimitive.Indicator>

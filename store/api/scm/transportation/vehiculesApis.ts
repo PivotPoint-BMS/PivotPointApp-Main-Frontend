@@ -1,25 +1,25 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { HYDRATE } from 'next-redux-wrapper'
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { HYDRATE } from "next-redux-wrapper"
 // config
-import { PIVOTPOINT_API } from 'config'
+import { PIVOTPOINT_API } from "config"
 // types
-import { ListGenericResponse, Vehicle, RequestParams, IGenericResponse } from 'types'
+import { ListGenericResponse, Vehicle, RequestParams, IGenericResponse } from "types"
 // store
-import { RootState } from 'store'
-import RequestSearchParams from 'types/RequestSearchParams'
+import { RootState } from "store"
+import RequestSearchParams from "types/RequestSearchParams"
 // import { assign } from 'lodash'
 
 export const vehiculesApi = createApi({
-  reducerPath: 'vehiculesApi',
+  reducerPath: "vehiculesApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${PIVOTPOINT_API.baseUrl}/scm`,
     prepareHeaders: (headers, { getState }) => {
       const { token } = (getState() as RootState).session
 
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
+        headers.set("Authorization", `Bearer ${token}`)
       }
 
       return headers
@@ -34,7 +34,7 @@ export const vehiculesApi = createApi({
   endpoints: (builder) => ({
     getVehicles: builder.query<ListGenericResponse<Vehicle[]>, RequestSearchParams>({
       query: (params) => ({
-        url: '/Vehicules',
+        url: "/Vehicules",
         params,
       }),
     }),
@@ -43,13 +43,13 @@ export const vehiculesApi = createApi({
     }),
     createVehicle: builder.mutation<
       ListGenericResponse<Vehicle>,
-      Omit<Vehicle, 'id'> & RequestParams
+      Omit<Vehicle, "id"> & RequestParams
     >({
       query: (data) => ({
-        url: 'Vehicules',
-        method: 'POST',
+        url: "Vehicules",
+        method: "POST",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ PageNumber, PageSize }, { dispatch, queryFulfilled }) {
         try {
@@ -58,7 +58,7 @@ export const vehiculesApi = createApi({
           } = await queryFulfilled
           dispatch(
             vehiculesApi.util.updateQueryData(
-              'getVehicles',
+              "getVehicles",
               { PageNumber, PageSize },
               (draftedList) => {
                 draftedList.data.push(data)
@@ -72,13 +72,13 @@ export const vehiculesApi = createApi({
     }),
     editVehicle: builder.mutation<
       ListGenericResponse<Vehicle>,
-      { data: Omit<Vehicle, 'id'>; id: string } & RequestParams
+      { data: Omit<Vehicle, "id">; id: string } & RequestParams
     >({
       query: ({ data, id }) => ({
         url: `Vehicules/${id}`,
-        method: 'PUT',
+        method: "PUT",
         body: data,
-        responseHandler: 'content-type',
+        responseHandler: "content-type",
       }),
 
       async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
@@ -89,7 +89,7 @@ export const vehiculesApi = createApi({
 
           dispatch(
             vehiculesApi.util.updateQueryData(
-              'getVehicles',
+              "getVehicles",
               { PageNumber, PageSize },
               (draftedList) => {
                 Object.assign(draftedList.data.find((item) => item.id === id)!, data)
@@ -99,7 +99,7 @@ export const vehiculesApi = createApi({
           )
 
           dispatch(
-            vehiculesApi.util.updateQueryData('getVehicle', id, (draft) => {
+            vehiculesApi.util.updateQueryData("getVehicle", id, (draft) => {
               Object.assign(draft.data, data)
             })
           )
@@ -111,15 +111,15 @@ export const vehiculesApi = createApi({
     deleteVehicle: builder.mutation<ListGenericResponse<Vehicle>, { id: string } & RequestParams>({
       query: ({ id }) => ({
         url: `Vehicules/${id}`,
-        method: 'DELETE',
-        responseHandler: 'content-type',
+        method: "DELETE",
+        responseHandler: "content-type",
       }),
       async onQueryStarted({ id, PageNumber, PageSize }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled
           dispatch(
             vehiculesApi.util.updateQueryData(
-              'getVehicles',
+              "getVehicles",
               { PageNumber, PageSize },
               (draftedList) => ({
                 ...draftedList,
