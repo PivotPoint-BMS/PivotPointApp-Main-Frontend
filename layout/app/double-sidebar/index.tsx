@@ -22,8 +22,8 @@ import { logout } from 'store/slices/sessionSlice'
 import { PATH_ACCOUNT, PATH_AUTH, PATH_DASHBOARD } from 'routes/paths'
 // Components
 import { Scrollbar } from 'components'
-import NavItemOne from './NavItemOne'
-import SubNavItemTwo from './SubNavItemTwo'
+import NavItemOne from './NavItem'
+import SubNavItemTwo from './SubNavItem'
 // import LanguageDropdown from '../header/LanguageDropdown'
 // import AccountDropdown from '../header/AccountDropdown'
 

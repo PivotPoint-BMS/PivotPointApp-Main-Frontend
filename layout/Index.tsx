@@ -14,8 +14,8 @@ import { HEADER } from 'config'
 // components
 import { AlertDialog } from 'components'
 import Header from './app/header/Header'
-import SidebarDesktop from './app/double-sidebar/SidebarDesktop'
-import SidebarMobile from './app/double-sidebar/SidebarMobile'
+import SidebarDesktop from './app/double-sidebar'
+import SidebarMobile from './app/mobile-sidebar'
 import LogoOnlyLayout from './LogoOnlyLayout'
 import SidebarVertical from './app/vertical-sidebar'
 

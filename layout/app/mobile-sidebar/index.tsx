@@ -24,7 +24,7 @@ import { useAppDispatch, useAppSelector } from 'store/hooks'
 import { close } from 'store/slices/sideBarSlice'
 // Components
 import { Scrollbar, IconButton } from 'components'
-import MobileNavItem from './MobileNavItem'
+import NavItem from './NavItem'
 
 export default function SidebarMobile() {
   const { theme, setTheme } = useTheme()
@@ -74,7 +74,7 @@ export default function SidebarMobile() {
         transition={{ type: 'keyframes' }}
       >
         <Scrollbar
-          className='z-50 m-0 h-screen border-r   bg-white py-6 px-4 transition-all delay-100 dark:border-gray-600 dark:bg-paper-dark'
+          className='z-50 m-0 h-screen border-r border-dashed bg-white py-6 px-4 transition-all delay-100 dark:border-gray-600 dark:bg-paper-dark'
           style={{ width: NAVBAR.MAIN_NAVBAR_WIDTH_MOBILE }}
         >
           <div className='flex flex-col items-start'>
@@ -88,7 +88,7 @@ export default function SidebarMobile() {
             </div>
             <nav className='flex w-full flex-1 flex-col items-start gap-2'>
               {items.map((item, i) => (
-                <MobileNavItem
+                <NavItem
                   key={i}
                   name={t(item.name)}
                   icon={<Iconify icon={item.icon} height={22} width={22} />}
@@ -102,8 +102,9 @@ export default function SidebarMobile() {
               ))}
             </nav>
           </div>
+
           <div className='flex w-full flex-col items-start justify-between gap-1'>
-            <MobileNavItem
+            <NavItem
               href='#'
               name={`${user?.firstName} ${user?.lastName}`}
               icon={
@@ -156,7 +157,7 @@ export default function SidebarMobile() {
                 },
               ]}
             />
-            <MobileNavItem
+            <NavItem
               href='#'
               name={t('Language')}
               icon={<Iconify icon='fluent:globe-16-filled' height={22} width={22} />}
@@ -170,7 +171,7 @@ export default function SidebarMobile() {
               }))}
             />
             {mounted && (
-              <MobileNavItem
+              <NavItem
                 icon={
                   <Iconify
                     icon={theme === 'dark' ? 'tabler:sun-filled' : 'ph:moon-fill'}

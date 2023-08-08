@@ -21,13 +21,13 @@ export default function Tooltip({ children, title, className, open, ...props }: 
             'data-[side=bottom]:animate-slide-up-fade',
             'data-[side=left]:animate-slide-right-fade',
             'inline-flex items-center rounded-md px-4 py-2.5',
-            'bg-white dark:bg-gray-800',
+            'bg-white dark:bg-paper-dark-contrast',
             ' z-[99999] drop-shadow-xl',
             className
           )}
           {...props}
         >
-          <TooltipPrimitive.Arrow className='fill-current text-white dark:text-gray-800' />
+          <TooltipPrimitive.Arrow className='fill-current text-white dark:text-paper-dark-contrast' />
           <span className='block text-xs leading-none text-gray-700 dark:text-gray-100'>
             {title}
           </span>
