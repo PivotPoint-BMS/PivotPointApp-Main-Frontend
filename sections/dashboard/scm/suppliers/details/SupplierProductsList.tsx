@@ -1,21 +1,21 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { useEffect, useState } from 'react'
-import clsx from 'clsx'
+import React, { useEffect, useState } from "react"
+import clsx from "clsx"
 // next
-import Link from 'next/link'
+import Link from "next/link"
 // hooks
-import useTranslate from 'hooks/useTranslate'
-import useSnackbar from 'hooks/useSnackbar'
+import useTranslate from "hooks/useTranslate"
+import useSnackbar from "hooks/useSnackbar"
 // api
-import { useGetAllProductsQuery } from 'store/api/scm/products-service/productsApi'
+import { useGetAllProductsQuery } from "store/api/scm/products-service/productsApi"
 import {
   useAppSupplierProductMutation,
   useDeleteSupplierProductMutation,
-} from 'store/api/scm/products-service/suppliersApis'
+} from "store/api/scm/products-service/suppliersApis"
 // types
-import { Supplier } from 'types'
+import { Supplier } from "types"
 // routes
-import { PATH_DASHBOARD } from 'routes/paths'
+import { PATH_DASHBOARD } from "routes/paths"
 // components
 import {
   useReactTable,
@@ -25,8 +25,8 @@ import {
   RowSelectionState,
   SortingState,
   getSortedRowModel,
-} from '@tanstack/react-table'
-import { Icon, Icon as Iconify } from '@iconify/react'
+} from "@tanstack/react-table"
+import { Icon, Icon as Iconify } from "@iconify/react"
 import {
   AlertDialog,
   IconButton,
@@ -36,14 +36,14 @@ import {
   LoadingIndicator,
   TextField,
   Backdrop,
-} from 'components'
+} from "components"
 
 export default function SupplierProductsList({
   id,
   itemsList,
 }: {
   id: string
-  itemsList: Supplier['supplierItems']
+  itemsList: Supplier["supplierItems"]
 }) {
   const { t } = useTranslate()
   const { open } = useSnackbar()
@@ -58,8 +58,8 @@ export default function SupplierProductsList({
   } | null>(null)
 
   const [searchTerm, setSearchTerm] = useState<string | undefined>(undefined)
-  const [searchValue, setSearchValue] = useState('')
-  const [cost, setCost] = useState('')
+  const [searchValue, setSearchValue] = useState("")
+  const [cost, setCost] = useState("")
 
   // Queries
   const {
@@ -84,32 +84,32 @@ export default function SupplierProductsList({
   }>()
 
   const columns = [
-    columnHelper.accessor('name', {
-      id: 'name',
-      header: () => t('Name'),
+    columnHelper.accessor("name", {
+      id: "name",
+      header: () => t("Name"),
       cell: (info) => <p>{info.getValue()}</p>,
     }),
-    columnHelper.accessor('cost', {
-      id: 'cost',
-      header: () => t('Cost'),
+    columnHelper.accessor("cost", {
+      id: "cost",
+      header: () => t("Cost"),
       cell: (info) => <p>{info.getValue()}</p>,
     }),
 
-    columnHelper.accessor('id', {
-      id: 'actions ',
+    columnHelper.accessor("id", {
+      id: "actions ",
       size: 1,
       enableSorting: false,
-      header: () => <p className='w-full text-right'>{t('Actions')}</p>,
+      header: () => <p className='w-full text-right'>{t("Actions")}</p>,
       cell: (info) => (
         <div className='flex items-center justify-end gap-2'>
-          <Tooltip title={t('View Details')} side='bottom'>
-            <Link href={PATH_DASHBOARD.scm['product-service'].product(info.getValue())}>
+          <Tooltip title={t("View Details")} side='bottom'>
+            <Link href={PATH_DASHBOARD.scm["product-service"].product(info.getValue())}>
               <IconButton>
                 <Iconify icon='mingcute:external-link-fill' height={18} />
               </IconButton>
             </Link>
           </Tooltip>
-          <Tooltip title={t('Delete')} side='bottom'>
+          <Tooltip title={t("Delete")} side='bottom'>
             <IconButton onClick={() => setIdToDelete(info.getValue())}>
               <Iconify
                 icon='ic:round-delete'
@@ -144,10 +144,10 @@ export default function SupplierProductsList({
   useEffect(() => {
     if (isAddProductError || isDeleteProductError) {
       open({
-        message: t('A problem has occurred.'),
+        message: t("A problem has occurred."),
         autoHideDuration: 4000,
-        type: 'error',
-        variant: 'contained',
+        type: "error",
+        variant: "contained",
       })
     }
   }, [isAddProductError, isDeleteProductError])
@@ -155,17 +155,17 @@ export default function SupplierProductsList({
   return (
     <>
       <div className='col-span-2'>
-        <h6 className='px-2 text-lg font-semibold'>{t('Supplier Items')}</h6>
+        <h6 className='px-2 text-lg font-semibold'>{t("Supplier Items")}</h6>
         {itemsList && itemsList.length > 0 ? (
           <>
             <div className='w-full overflow-x-scroll'>
               <div className='w-max min-w-full'>
                 <div className='flex w-full gap-2 p-3'>
                   <div className='flex-1'>
-                    <TextField placeholder={t('Search...')} />
+                    <TextField placeholder={t("Search...")} />
                   </div>
 
-                  <Button onClick={() => setOpenAddProductDialog(true)}>{t('Add Product')}</Button>
+                  <Button onClick={() => setOpenAddProductDialog(true)}>{t("Add Product")}</Button>
                 </div>
                 <table className='w-full'>
                   <thead className='bg-gray-100 ltr:text-left rtl:text-right dark:!bg-paper-dark-contrast dark:text-white'>
@@ -183,8 +183,8 @@ export default function SupplierProductsList({
                               <div
                                 {...{
                                   className: header.column.getCanSort()
-                                    ? 'cursor-pointer select-none flex items-center gap-2'
-                                    : '',
+                                    ? "cursor-pointer select-none flex items-center gap-2"
+                                    : "",
                                   onClick: header.column.getToggleSortingHandler(),
                                 }}
                               >
@@ -215,8 +215,8 @@ export default function SupplierProductsList({
                       <tr
                         key={row.id}
                         className={clsx(
-                          'cursor-pointer border-b last-of-type:border-b-0 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-paper-hover-dark',
-                          row.getIsSelected() && 'bg-gray-50 dark:bg-paper-hover-dark/80'
+                          "cursor-pointer border-b last-of-type:border-b-0 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-paper-hover-dark",
+                          row.getIsSelected() && "bg-gray-50 dark:bg-paper-hover-dark/80"
                         )}
                       >
                         {row.getVisibleCells().map((cell) => (
@@ -240,28 +240,28 @@ export default function SupplierProductsList({
           </>
         ) : (
           <div className='flex h-56 flex-col items-center justify-center gap-2 px-4 py-2'>
-            <h1 className='text-xl font-semibold'>{t('No Product Found')}</h1>
-            <Button onClick={() => setOpenAddProductDialog(true)}>{t('Add Product')}</Button>
+            <h1 className='text-xl font-semibold'>{t("No Product Found")}</h1>
+            <Button onClick={() => setOpenAddProductDialog(true)}>{t("Add Product")}</Button>
           </div>
         )}
       </div>
       <Dialog
         open={openAddProductDialog}
-        title={t('Add Product')}
+        title={t("Add Product")}
         handleClose={() => setOpenAddProductDialog(false)}
       >
         <div className='flex flex-col items-center  justify-center gap-2 py-2'>
           <TextField
-            placeholder={t('Search...')}
+            placeholder={t("Search...")}
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter')
-                setSearchTerm(e.currentTarget.value === '' ? undefined : e.currentTarget.value)
+              if (e.key === "Enter")
+                setSearchTerm(e.currentTarget.value === "" ? undefined : e.currentTarget.value)
             }}
             endAdornment={
               <IconButton
-                onClick={() => setSearchTerm(searchValue === '' ? undefined : searchValue)}
+                onClick={() => setSearchTerm(searchValue === "" ? undefined : searchValue)}
               >
                 <Iconify icon='ion:search-outline' height={18} className='text-gray-500' />
               </IconButton>
@@ -271,24 +271,27 @@ export default function SupplierProductsList({
             <LoadingIndicator />
           ) : (
             isProductsSuccess &&
-            data.data.map((product) => (
-              <div className='flex w-full items-center justify-between rounded-lg border p-4'>
+            data.data.map((product, i) => (
+              <div
+                key={i}
+                className='flex w-full items-center justify-between rounded-lg border p-4'
+              >
                 <div>
                   <p>{product.name}</p>
                   <p className='text-sm text-gray-400 dark:text-gray-600'>
-                    {product.type === 1 && t('Product')} {product.type === 2 && t('Service')}
+                    {product.type === 1 && t("Product")} {product.type === 2 && t("Service")}
                   </p>
                 </div>
                 <Button
                   intent={
-                    !itemsList.every((item) => item.id !== product.id) ? 'secondary' : 'primary'
+                    !itemsList.every((item) => item.id !== product.id) ? "secondary" : "primary"
                   }
                   startIcon={
                     <Icon
                       icon={
                         !itemsList.every((item) => item.id !== product.id)
-                          ? 'ic:round-check'
-                          : 'ic:round-add'
+                          ? "ic:round-check"
+                          : "ic:round-add"
                       }
                       height={24}
                     />
@@ -301,7 +304,7 @@ export default function SupplierProductsList({
                       : () => {}
                   }
                 >
-                  {!itemsList.every((item) => item.id !== product.id) ? t('Added') : t('Add')}
+                  {!itemsList.every((item) => item.id !== product.id) ? t("Added") : t("Add")}
                 </Button>
               </div>
             ))
@@ -310,29 +313,29 @@ export default function SupplierProductsList({
       </Dialog>
       <Dialog
         open={selectedProduct !== null}
-        title={t('Enter Cost')}
+        title={t("Enter Cost")}
         handleClose={() => setSelectedProduct(null)}
       >
         <div className='flex flex-col items-center justify-center gap-2'>
           <TextField
             type='number'
             onChange={(e) => setCost(e.target.value)}
-            endAdornment={t('Da')}
+            endAdornment={t("Da")}
           />
           <Button
             onClick={() => {
-              if (cost !== '')
+              if (cost !== "")
                 addSupplierProduct({
                   supplierId: id,
                   cost: Number(cost),
-                  name: selectedProduct?.name || '',
+                  name: selectedProduct?.name || "",
                   type: selectedProduct?.type || 1,
-                  itemId: selectedProduct?.id || '',
+                  itemId: selectedProduct?.id || "",
                 })
               setSelectedProduct(null)
             }}
           >
-            {t('Add Product')}
+            {t("Add Product")}
           </Button>
         </div>
       </Dialog>
@@ -341,17 +344,17 @@ export default function SupplierProductsList({
         loading={isAddProductLoading || isDeleteProductLoading}
       />
       <AlertDialog
-        title={t('Confirm Delete')}
-        description={t('This action cannot be undone. This will permanently delete this product.')}
-        cancelText={t('Cancel')}
-        confirmText={t('Yes, Delete')}
+        title={t("Confirm Delete")}
+        description={t("This action cannot be undone. This will permanently delete this product.")}
+        cancelText={t("Cancel")}
+        confirmText={t("Yes, Delete")}
         onConfirm={() => {
-          deleteSupplierProduct({ itemId: idToDelete || '', supplierId: id })
+          deleteSupplierProduct({ itemId: idToDelete || "", supplierId: id })
           setIdToDelete(null)
         }}
         open={idToDelete !== null}
         onClose={() => setIdToDelete(null)}
-        buttonProps={{ intent: 'error' }}
+        buttonProps={{ intent: "error" }}
       />
     </>
   )

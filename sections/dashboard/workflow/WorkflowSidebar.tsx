@@ -1,23 +1,23 @@
 /* eslint-disable no-param-reassign */
-import React from 'react'
+import React from "react"
 // hooks
-import useTranslate from 'hooks/useTranslate'
+import useTranslate from "hooks/useTranslate"
 // components
-import { Icon } from '@iconify/react'
-import { Card, CardContent, TextField } from 'components'
+import { Icon } from "@iconify/react"
+import { Card, CardContent, TextField } from "components"
 
 const TRIGGERS: { name: string; icon: string }[] = [
-  { name: 'Daily', icon: 'material-symbols:calendar-month-rounded' },
-  { name: 'New Lead Created', icon: 'material-symbols:person-add-rounded' },
-  { name: 'Lead Status Change', icon: 'tabler:status-change' },
-  { name: 'Deal Won', icon: 'material-symbols:check-circle-rounded' },
-  { name: 'Deal Lost', icon: 'material-symbols:error-rounded' },
+  { name: "Daily", icon: "material-symbols:calendar-month-rounded" },
+  { name: "New Lead Created", icon: "material-symbols:person-add-rounded" },
+  { name: "Lead Status Change", icon: "tabler:status-change" },
+  { name: "Deal Won", icon: "material-symbols:check-circle-rounded" },
+  { name: "Deal Lost", icon: "material-symbols:error-rounded" },
 ]
 const ACTIONS: { name: string; icon: string }[] = [
-  { name: 'Send Email', icon: 'mdi:email-send' },
-  { name: 'Assign Task', icon: 'material-symbols:assignment-add' },
-  { name: 'Create Note', icon: 'material-symbols:note-add-rounded' },
-  { name: 'Change Lead Status', icon: 'tabler:status-change' },
+  { name: "Send Email", icon: "mdi:email-send" },
+  { name: "Assign Task", icon: "material-symbols:assignment-add" },
+  { name: "Create Note", icon: "material-symbols:note-add-rounded" },
+  { name: "Change Lead Status", icon: "tabler:status-change" },
 ]
 
 export default function WorkflowSidebar() {
@@ -29,11 +29,11 @@ export default function WorkflowSidebar() {
     icon: string,
     extra?: string
   ) => {
-    event.dataTransfer.setData('reactflow/nodeType', nodeType)
-    event.dataTransfer.setData('reactflow/name', name)
-    event.dataTransfer.setData('reactflow/icon', icon)
-    if (extra) event.dataTransfer.setData('reactflow/type', extra)
-    event.dataTransfer.effectAllowed = 'move'
+    event.dataTransfer.setData("reactflow/nodeType", nodeType)
+    event.dataTransfer.setData("reactflow/name", name)
+    event.dataTransfer.setData("reactflow/icon", icon)
+    if (extra) event.dataTransfer.setData("reactflow/type", extra)
+    event.dataTransfer.effectAllowed = "move"
   }
 
   return (
@@ -41,12 +41,13 @@ export default function WorkflowSidebar() {
       <div className='mb-4'>
         <TextField placeholder='Search Node...' startAdornment={<Icon icon='uil:search' />} />
       </div>
-      <h1 className='mb-2 font-medium'>{t('Triggers')}</h1>
+      <h1 className='mb-2 font-medium'>{t("Triggers")}</h1>
       <div className='mb-3 flex h-48 w-full flex-col  gap-2 overflow-y-scroll'>
-        {TRIGGERS.map((trigger) => (
+        {TRIGGERS.map((trigger, i) => (
           <div
+            key={i}
             className='w-full cursor-grab'
-            onDragStart={(event) => onDragStart(event, 'trigger', trigger.name, trigger.icon)}
+            onDragStart={(event) => onDragStart(event, "trigger", trigger.name, trigger.icon)}
             draggable
           >
             <Card variant='outlined' fullWidth>
@@ -62,12 +63,12 @@ export default function WorkflowSidebar() {
           </div>
         ))}
       </div>
-      <h1 className='mb-2 font-medium'>{t('Actions')}</h1>
+      <h1 className='mb-2 font-medium'>{t("Actions")}</h1>
       <div className='mb-3 flex h-48 w-full flex-col gap-2 overflow-y-scroll'>
         {ACTIONS.map((action) => (
           <div
             className='w-full cursor-grab'
-            onDragStart={(event) => onDragStart(event, 'action', action.name, action.icon)}
+            onDragStart={(event) => onDragStart(event, "action", action.name, action.icon)}
             draggable
           >
             <Card variant='outlined' fullWidth>
