@@ -50,7 +50,7 @@ function index() {
             </span>
           </p>
           <RegisterForm />
-          <p className='text-center text-xs text-gray-600 dark:text-gray-400'>
+          {/* <p className='text-center text-xs text-gray-600 dark:text-gray-400'>
             {t("By registering, I agree to PivotPoint BMS's")}{" "}
             <Link
               href={PATH_PAGE.termOfService}
@@ -66,7 +66,7 @@ function index() {
               {t("Privacy Policy")}
             </Link>
             .
-          </p>
+          </p> */}
         </div>
       </main>
     </>
