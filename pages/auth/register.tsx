@@ -4,7 +4,7 @@ import React, { useEffect } from "react"
 import Link from "next/link"
 import Head from "next/head"
 // routes
-import { PATH_AUTH, PATH_DASHBOARD, PATH_PAGE } from "routes/paths"
+import { PATH_AUTH, PATH_DASHBOARD } from "routes/paths"
 // hooks
 import useResponsive from "hooks/useResponsive"
 import useTranslate from "hooks/useTranslate"
