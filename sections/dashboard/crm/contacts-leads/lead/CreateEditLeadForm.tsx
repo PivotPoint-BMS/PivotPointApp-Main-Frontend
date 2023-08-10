@@ -17,6 +17,7 @@ import {
   useGetCitiesQuery,
   useGetCountriesQuery,
 } from "store/api/crm/contact-leads/addressApi"
+import { skipToken } from "@reduxjs/toolkit/dist/query"
 import { wrapper } from "store"
 import {
   getAllLeadSources,
@@ -122,7 +123,7 @@ export default function CreateEditLeadForm({
     defaultValues,
   })
 
-  const { handleSubmit, setValue, getValues, reset } = methods
+  const { handleSubmit, setValue, reset } = methods
 
   const onSubmit = async (data: FieldValues) => {
     const formData = new FormData()
@@ -147,7 +148,7 @@ export default function CreateEditLeadForm({
     isLoading: isCitiesLoading,
     isSuccess: isCitiesSuccess,
     refetch,
-  } = useGetCitiesQuery(getValues("country"), { refetchOnMountOrArgChange: true })
+  } = useGetCitiesQuery(country ? country.label : skipToken, { refetchOnMountOrArgChange: true })
 
   // ImageUpload
   const handleDrop = useCallback(
