@@ -122,6 +122,7 @@ function CreateEditInvoiceForm({
       status: 0,
     }
     createInvoice({ PageNumber, PageSize, ...invoice })
+      .unwrap()
       .then(() => {
         open({
           message: t("Invoice Created Successfully."),
@@ -163,13 +164,10 @@ function CreateEditInvoiceForm({
                 <div className='mb-2 flex items-center justify-between'>
                   <h6 className='text-lg font-bold'>{t("From")}:</h6>
                 </div>
-                <div className='space-y-2'>
+                <div className='space-y-1'>
                   <p className='font-medium capitalize'>{companyDetails?.data.name}</p>
-                  <p className='text-sm capitalize'>
-                    {/* {companyDetails?.data.address} */}
-                    {companyDetails?.data.website}
-                  </p>
-                  <p className='text-sm capitalize'>{/* {companyDetails?.data.phoneNumber} */}</p>
+                  <p className='text-sm capitalize'>{companyDetails?.data.address}</p>
+                  <p className='text-sm capitalize'>{companyDetails?.data.contactPhoneNum}</p>
                 </div>
               </div>
               <div className='ltr:sm:pl-4 rtl:sm:pr-4'>
@@ -182,7 +180,7 @@ function CreateEditInvoiceForm({
                     />
                   </IconButton>
                 </div>
-                <div className='space-y-2'>
+                <div className='space-y-1'>
                   <p className='text-sm capitalize'>{to.clientName}</p>
                 </div>
                 {errors.contactId && (
@@ -435,7 +433,7 @@ function CreateEditInvoiceForm({
               <button
                 key={customer.id}
                 className={clsx(
-                  "flex w-full flex-col items-start space-y-1 rounded-lg border p-4 dark:border-gray-600",
+                  "flex w-full flex-col items-start space-y-1 rounded border p-4 dark:border-gray-600",
                   "hover:bg-gray-100 active:bg-gray-200",
                   "dark:hover:bg-paper-hover-dark dark:active:bg-paper-dark-contrast",
                   to.contactId === customer.id &&
@@ -525,7 +523,7 @@ function CreateEditInvoiceForm({
               .map((product) => (
                 <div
                   key={product.id}
-                  className='flex w-full items-center justify-between rounded-lg border p-4'
+                  className='flex w-full items-center justify-between rounded border p-4'
                 >
                   <div className='flex items-center gap-2'>
                     {product.picture ? (
