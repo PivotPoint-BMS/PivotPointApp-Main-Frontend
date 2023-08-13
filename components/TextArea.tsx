@@ -38,7 +38,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       </label>
       <div
         className={clsx(
-          "flex w-full items-center justify-center rounded-lg bg-transparent",
+          "flex w-full items-center justify-center rounded bg-transparent",
           "border border-gray-400 outline-none ring-black transition-all focus-within:ring-1 hover:border-black",
           "dark:border-gray-600 dark:ring-white dark:hover:border-white",
           error &&
@@ -55,7 +55,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
           id={name}
           name={name}
           disabled={disabled}
-          className={clsx("flex-1 rounded-lg bg-transparent p-2 outline-none", inputClassName)}
+          className={clsx("flex-1 rounded bg-transparent p-2 outline-none", inputClassName)}
         />
         {endAdornment && <span className='mx-2'>{endAdornment}</span>}
       </div>

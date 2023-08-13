@@ -91,7 +91,7 @@ export default function Notes() {
   return (
     <CardContent className='h-full'>
       <h1 className='mb-4 text-lg font-medium'>{t("Add new note")}</h1>
-      <div className='mb-4 flex w-full flex-col overflow-hidden rounded-lg border'>
+      <div className='mb-4 flex w-full flex-col overflow-hidden rounded border'>
         <input
           className='px-3 py-2 text-lg font-medium outline-none'
           placeholder={t("Note Title")}
@@ -100,14 +100,14 @@ export default function Notes() {
         <div className='flex w-full justify-between border-t px-3 py-2'>
           <div className='flex items-center gap-1'>
             <IconButton
-              className={clsx("rounded-lg", editor?.isActive("orderedList") && "bg-gray-200")}
+              className={clsx("rounded", editor?.isActive("orderedList") && "bg-gray-200")}
               onClick={() => editor?.chain().focus().toggleOrderedList().run()}
               disabled={!editor?.can().chain().focus().toggleOrderedList().run()}
             >
               <Iconify icon='material-symbols:format-list-numbered' height={20} />
             </IconButton>
             <IconButton
-              className={clsx("rounded-lg", editor?.isActive("bulletList") && "bg-gray-200")}
+              className={clsx("rounded", editor?.isActive("bulletList") && "bg-gray-200")}
               onClick={() => editor?.chain().focus().toggleBulletList().run()}
               disabled={!editor?.can().chain().focus().toggleBulletList().run()}
             >
@@ -115,28 +115,28 @@ export default function Notes() {
             </IconButton>
             <div className='h-full w-px bg-gray-200'></div>
             <IconButton
-              className={clsx("rounded-lg", editor?.isActive("bold") && "bg-gray-200")}
+              className={clsx("rounded", editor?.isActive("bold") && "bg-gray-200")}
               onClick={() => editor?.chain().focus().toggleBold().run()}
               disabled={!editor?.can().chain().focus().toggleBold().run()}
             >
               <Iconify icon='material-symbols:format-bold-rounded' height={20} />
             </IconButton>
             <IconButton
-              className={clsx("rounded-lg", editor?.isActive("italic") && "bg-gray-200")}
+              className={clsx("rounded", editor?.isActive("italic") && "bg-gray-200")}
               onClick={() => editor?.chain().focus().toggleItalic().run()}
               disabled={!editor?.can().chain().focus().toggleItalic().run()}
             >
               <Iconify icon='material-symbols:format-italic-rounded' height={20} />
             </IconButton>
             <IconButton
-              className={clsx("rounded-lg", editor?.isActive("underline") && "bg-gray-200")}
+              className={clsx("rounded", editor?.isActive("underline") && "bg-gray-200")}
               onClick={() => editor?.chain().focus().toggleUnderline().run()}
               disabled={!editor?.can().chain().focus().toggleUnderline().run()}
             >
               <Iconify icon='material-symbols:format-underlined-rounded' height={20} />
             </IconButton>
             <IconButton
-              className={clsx("rounded-lg", editor?.isActive("strike") && "bg-gray-200")}
+              className={clsx("rounded", editor?.isActive("strike") && "bg-gray-200")}
               onClick={() => editor?.chain().focus().toggleStrike().run()}
               disabled={!editor?.can().chain().focus().toggleStrike().run()}
             >

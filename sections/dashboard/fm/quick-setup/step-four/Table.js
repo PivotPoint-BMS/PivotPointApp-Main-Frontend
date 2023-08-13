@@ -34,7 +34,7 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
   return (
     <div className='w-full flex-1 overflow-visible'>
       <div className='flex w-full justify-center overflow-x-scroll'>
-        <div className='container min-w-fit max-w-full rounded-lg border'>
+        <div className='container min-w-fit max-w-full rounded border'>
           <table {...getTableProps()} className='w-full'>
             <thead className='overflow-x-scroll'>
               {headerGroups.map((headerGroup, i) => (

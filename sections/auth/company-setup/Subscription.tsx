@@ -34,7 +34,7 @@ export default function Subscription({ handleNext }: SubscriptionProps) {
             <div className='flex items-center justify-between'>
               <MotionContainer>
                 <div
-                  className='grid grid-cols-1 items-center justify-around divide-x divide-y divide-dashed divide-gray-400 overflow-hidden rounded-lg border border-dashed rtl:divide-x-reverse
+                  className='grid grid-cols-1 items-center justify-around divide-x divide-y divide-dashed divide-gray-400 overflow-hidden rounded border border-dashed rtl:divide-x-reverse
                 lg:grid-cols-2'
                 >
                   <div className='flex h-full flex-col p-10 transition-all'>

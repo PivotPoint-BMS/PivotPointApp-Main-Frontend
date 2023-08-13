@@ -85,7 +85,7 @@ export default function LeadPreview() {
               )}
             </Link>
           </div>
-          <div className='mx-6 grid grid-cols-2 divide-x divide-y   rounded-lg border rtl:divide-x-reverse sm:grid-cols-4'>
+          <div className='mx-6 grid grid-cols-2 divide-x divide-y   rounded border rtl:divide-x-reverse sm:grid-cols-4'>
             <div className='col-span-2 flex flex-col items-start justify-between gap-4 p-3 sm:col-span-4 sm:flex-row'>
               <div className='flex w-full flex-col items-center justify-center gap-4 truncate sm:flex-row sm:items-start sm:justify-start'>
                 <Image

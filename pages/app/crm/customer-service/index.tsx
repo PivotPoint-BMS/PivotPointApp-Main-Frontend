@@ -44,7 +44,7 @@ function index() {
           }
         />
         <TabsPrimitive.Root defaultValue='unassined' dir={locale === "ar" ? "rtl" : "ltr"}>
-          <TabsPrimitive.List className=' scrollbar-none flex w-full items-center gap-4 overflow-x-scroll   rounded-lg border bg-gray-50 p-1 dark:bg-gray-800'>
+          <TabsPrimitive.List className=' scrollbar-none flex w-full items-center gap-4 overflow-x-scroll   rounded border bg-gray-50 p-1 dark:bg-gray-800'>
             {TABS.map((item, i) => (
               <TabsPrimitive.Trigger
                 key={i}

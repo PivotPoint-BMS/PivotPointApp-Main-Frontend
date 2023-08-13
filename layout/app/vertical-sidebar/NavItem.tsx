@@ -70,7 +70,7 @@ function NavItem({
       <CollapsiblePrimitive.Trigger
         disabled={disabled || (roles && user?.position.every((item) => !roles?.includes(item)))}
         className={clsx(
-          "group flex w-full items-center gap-2 rounded-lg p-4 hover:bg-gray-500/10 dark:text-white",
+          "group flex w-full items-center gap-2 rounded p-4 hover:bg-gray-500/10 dark:text-white",
           active && "bg-primary-600/20 text-primary-900 hover:!bg-primary-500/25"
         )}
       >
@@ -121,7 +121,7 @@ function NavItem({
               key={i}
               href={item.disabled ? "" : item.href}
               className={clsx(
-                "flex items-center gap-2 rounded-lg py-3 px-2 hover:bg-gray-500/10 ltr:ml-2 rtl:mr-2 dark:hover:bg-gray-500/30",
+                "flex items-center gap-2 rounded py-3 px-2 hover:bg-gray-500/10 ltr:ml-2 rtl:mr-2 dark:hover:bg-gray-500/30",
                 !getActivePath(item.href, pathname, asPath) && "text-gray-500 dark:text-gray-400",
                 item.disabled &&
                   "pointer-events-none cursor-not-allowed opacity-40 hover:bg-secondary-500/10 dark:hover:bg-gray-300/10"
@@ -157,7 +157,7 @@ function NavItem({
             <button
               key={i}
               className={clsx(
-                "flex items-center gap-3 rounded-lg py-3 px-5",
+                "flex items-center gap-3 rounded py-3 px-5",
                 "bg-gray-100 text-secondary-900 hover:bg-gray-100/60 dark:bg-secondary-100/20 dark:text-white dark:hover:bg-secondary-200/50",
                 item.disabled &&
                   "pointer-events-none cursor-not-allowed opacity-40 hover:bg-secondary-500/10 dark:hover:bg-gray-300/10"
@@ -175,7 +175,7 @@ function NavItem({
     </CollapsiblePrimitive.Root>
   ) : (
     <button
-      className='relative flex w-full items-center rounded-lg p-4 text-secondary-900 transition-colors dark:text-white'
+      className='relative flex w-full items-center rounded p-4 text-secondary-900 transition-colors dark:text-white'
       onClick={onClick}
     >
       {icon}

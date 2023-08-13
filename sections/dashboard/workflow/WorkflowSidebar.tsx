@@ -52,7 +52,7 @@ export default function WorkflowSidebar() {
           >
             <Card variant='outlined' fullWidth>
               <CardContent className='flex w-full items-center gap-1'>
-                <div className='flex items-center justify-center rounded-lg border border-primary-500 p-2 text-primary-500'>
+                <div className='flex items-center justify-center rounded border border-primary-500 p-2 text-primary-500'>
                   <Icon icon={trigger.icon} height={18} />
                 </div>
                 <div className='ml-2'>
@@ -73,7 +73,7 @@ export default function WorkflowSidebar() {
           >
             <Card variant='outlined' fullWidth>
               <CardContent className='flex w-full items-center gap-1'>
-                <div className='flex items-center justify-center rounded-lg border border-blue-500 p-2 text-blue-500'>
+                <div className='flex items-center justify-center rounded border border-blue-500 p-2 text-blue-500'>
                   <Icon icon={action.icon} height={18} />
                 </div>
                 <div className='ml-2'>

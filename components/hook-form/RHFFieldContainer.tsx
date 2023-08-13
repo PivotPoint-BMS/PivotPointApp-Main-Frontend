@@ -31,7 +31,7 @@ export default function RHFFieldContainer({
           </label>
           <div
             className={clsx(
-              "flex w-full items-center justify-center rounded-lg bg-transparent",
+              "flex w-full items-center justify-center rounded bg-transparent",
               error &&
                 "!border-red-500 focus-within:!border-black hover:!border-current dark:border-red-500"
             )}

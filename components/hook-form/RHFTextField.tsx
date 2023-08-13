@@ -65,7 +65,7 @@ export default function RHFTextField({
           </label>
           <div
             className={clsx(
-              "flex w-full items-center justify-center rounded-lg bg-transparent",
+              "flex w-full items-center justify-center rounded bg-transparent",
               "border border-gray-400 outline-none ring-black transition-all focus-within:ring-1 hover:border-black",
               "dark:border-gray-600 dark:ring-white dark:hover:border-white",
               error &&
@@ -82,7 +82,7 @@ export default function RHFTextField({
               id={name}
               name={name}
               type={type}
-              className='w-full flex-1 rounded-lg border-none bg-transparent p-2 outline-none'
+              className='w-full flex-1 rounded border-none bg-transparent p-2 outline-none'
             />
             {endAdornment && <span className='mx-2'>{endAdornment}</span>}
           </div>

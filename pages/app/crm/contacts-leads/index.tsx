@@ -21,9 +21,9 @@ import { HeaderBreadcrumbs, Card, Button } from "components"
 import { TabsContent, TabsRoot, TabsList, TabsTrigger } from "components/Tabs"
 
 const TABS = [
-  { name: "Leads Sources", value: "sources", icon: "mdi:person-tie" },
   { name: "Leads", value: "leads", icon: "mdi:person-tie" },
   { name: "Contacts", value: "contacts", icon: "material-symbols:contacts-rounded" },
+  { name: "Leads Sources", value: "sources", icon: "ic:round-featured-play-list" },
 ]
 
 function index() {

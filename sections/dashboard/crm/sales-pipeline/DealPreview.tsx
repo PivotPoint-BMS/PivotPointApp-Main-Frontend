@@ -424,7 +424,7 @@ export default function DealPreview({ boardId }: { boardId: string }) {
               className='aspect-square rounded-full object-cover transition-all group-hover:scale-110 motion-reduce:transition-none'
             />
           </div>
-          <div className='flex flex-1 flex-col rounded-lg border border-gray-400 py-2 px-3 dark:border-gray-600'>
+          <div className='flex flex-1 flex-col rounded border border-gray-400 py-2 px-3 dark:border-gray-600'>
             <textarea
               className='w-full resize-none bg-transparent outline-none'
               placeholder={t("Type a comment")}

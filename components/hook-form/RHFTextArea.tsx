@@ -37,7 +37,7 @@ export default function RHFTextArea({
           </label>
           <div
             className={clsx(
-              "flex w-full items-center justify-center rounded-lg bg-transparent",
+              "flex w-full items-center justify-center rounded bg-transparent",
               "border border-gray-400 outline-none ring-black transition-all focus-within:ring-1 hover:border-black",
               "dark:border-gray-600 dark:ring-white dark:hover:border-white",
               error &&
@@ -53,7 +53,7 @@ export default function RHFTextArea({
               {...other}
               id={name}
               name={name}
-              className='flex-1 rounded-lg bg-transparent p-2 outline-none'
+              className='flex-1 rounded bg-transparent p-2 outline-none'
             />
             {endAdornment && <span className='mx-2'>{endAdornment}</span>}
           </div>

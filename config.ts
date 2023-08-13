@@ -80,10 +80,10 @@ export const DELIVERY_STATUS = [
 ]
 
 export const INVOICE_STATUS = [
-  { value: 0, label: "Initiated" },
-  { value: 1, label: "In Transit" },
-  { value: 2, label: "Arrived At Destination" },
-  { value: 3, label: "Delivery Complete" },
+  { value: 0, label: "Created" },
+  { value: 1, label: "Is Pending" },
+  { value: 2, label: "Is Paid" },
+  { value: 3, label: "Completed" },
 ]
 
 export const BANK_ACCOUNT_TYPES = [

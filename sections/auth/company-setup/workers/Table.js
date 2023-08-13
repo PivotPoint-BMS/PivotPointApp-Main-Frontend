@@ -38,7 +38,7 @@ export default function Table({ columns, data, dispatch: dataDispatch }) {
   return (
     <>
       <div className='flex w-full justify-center'>
-        <div className='container w-full rounded-lg border border-b-0'>
+        <div className='container w-full rounded border border-b-0'>
           <table {...getTableProps()} className='w-full'>
             <thead>
               {headerGroups.map((headerGroup) => (

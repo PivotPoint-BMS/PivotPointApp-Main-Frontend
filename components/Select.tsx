@@ -19,7 +19,7 @@ const Select = ({ buttonProps, items, ...props }: SelectProps) => (
         </SelectPrimitive.Icon>
       </Button>
     </SelectPrimitive.Trigger>
-    <SelectPrimitive.Content className='z-50 rounded-lg border bg-paper-light p-2 shadow-lg dark:border-gray-500 dark:bg-paper-dark'>
+    <SelectPrimitive.Content className='z-50 rounded border bg-paper-light p-2 shadow-lg dark:border-gray-500 dark:bg-paper-dark'>
       <SelectPrimitive.ScrollUpButton className='flex items-center justify-center'>
         <Iconify icon='ion:chevron-up' />
       </SelectPrimitive.ScrollUpButton>

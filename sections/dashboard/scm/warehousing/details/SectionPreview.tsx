@@ -222,7 +222,7 @@ export default function SectionPreview({ warehouseId }: { warehouseId: string })
                   </div>
                   <div className='space-y-2'>
                     {data.data.sectionItems.map((item) => (
-                      <div className='flex items-center gap-5 rounded-lg bg-gray-100 p-2 dark:bg-paper-dark-contrast'>
+                      <div className='flex items-center gap-5 rounded bg-gray-100 p-2 dark:bg-paper-dark-contrast'>
                         {item.picture ? (
                           <div className='h-12 w-12'>
                             <Image
@@ -299,7 +299,7 @@ export default function SectionPreview({ warehouseId }: { warehouseId: string })
                 products.data
                   .filter((product) => product.type !== 2)
                   .map((product) => (
-                    <div className='flex w-full items-center justify-between rounded-lg border p-4'>
+                    <div className='flex w-full items-center justify-between rounded border p-4'>
                       <div className='flex items-center gap-2'>
                         {product.picture ? (
                           <div className='h-12 w-12'>

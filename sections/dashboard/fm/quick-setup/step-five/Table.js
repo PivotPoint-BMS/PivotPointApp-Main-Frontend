@@ -54,7 +54,7 @@ export default function Table({ columns, data, dispatch: dataDispatch, total }) 
   return (
     <div className='w-full flex-1'>
       <div className='flex w-full justify-center'>
-        <div className='container min-w-fit max-w-full rounded-lg border border-b-0'>
+        <div className='container min-w-fit max-w-full rounded border border-b-0'>
           <table {...getTableProps()} className='w-full'>
             <thead>
               {headerGroups.map((headerGroup, i) => (

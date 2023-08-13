@@ -114,7 +114,7 @@ export default function Notes({ leadId }: { leadId: string }) {
   return (
     <CardContent className='h-full'>
       <h1 className='mb-4 text-lg font-medium'>{t("Add new note")}</h1>
-      <div className='mb-4 flex w-full flex-col overflow-hidden rounded-lg border'>
+      <div className='mb-4 flex w-full flex-col overflow-hidden rounded border'>
         <input
           className='mb-2 bg-transparent px-3 py-2 text-lg font-bold outline-none'
           placeholder={t("Note Title")}
@@ -127,7 +127,7 @@ export default function Notes({ leadId }: { leadId: string }) {
           <div className='flex items-center gap-1'>
             <IconButton
               className={clsx(
-                "rounded-lg",
+                "rounded",
                 editor?.isActive("orderedList") && "bg-gray-200 dark:bg-paper-dark-contrast"
               )}
               onClick={() => editor?.chain().focus().toggleOrderedList().run()}
@@ -137,7 +137,7 @@ export default function Notes({ leadId }: { leadId: string }) {
             </IconButton>
             <IconButton
               className={clsx(
-                "rounded-lg",
+                "rounded",
                 editor?.isActive("bulletList") && "bg-gray-200 dark:bg-paper-dark-contrast"
               )}
               onClick={() => editor?.chain().focus().toggleBulletList().run()}
@@ -148,7 +148,7 @@ export default function Notes({ leadId }: { leadId: string }) {
             <div className='h-full w-px bg-gray-200 dark:bg-paper-dark-contrast'></div>
             <IconButton
               className={clsx(
-                "rounded-lg",
+                "rounded",
                 editor?.isActive("bold") && "bg-gray-200 dark:bg-paper-dark-contrast"
               )}
               onClick={() => editor?.chain().focus().toggleBold().run()}
@@ -158,7 +158,7 @@ export default function Notes({ leadId }: { leadId: string }) {
             </IconButton>
             <IconButton
               className={clsx(
-                "rounded-lg",
+                "rounded",
                 editor?.isActive("italic") && "bg-gray-200 dark:bg-paper-dark-contrast"
               )}
               onClick={() => editor?.chain().focus().toggleItalic().run()}
@@ -168,7 +168,7 @@ export default function Notes({ leadId }: { leadId: string }) {
             </IconButton>
             <IconButton
               className={clsx(
-                "rounded-lg",
+                "rounded",
                 editor?.isActive("underline") && "bg-gray-200 dark:bg-paper-dark-contrast"
               )}
               onClick={() => editor?.chain().focus().toggleUnderline().run()}
@@ -178,7 +178,7 @@ export default function Notes({ leadId }: { leadId: string }) {
             </IconButton>
             <IconButton
               className={clsx(
-                "rounded-lg",
+                "rounded",
                 editor?.isActive("strike") && "bg-gray-200 dark:bg-paper-dark-contrast"
               )}
               onClick={() => editor?.chain().focus().toggleStrike().run()}

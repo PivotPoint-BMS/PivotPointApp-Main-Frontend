@@ -141,7 +141,7 @@ function index() {
             {() => (
               <>
                 <div
-                  className='fixed bottom-12 z-10 overflow-hidden rounded-lg border border-dashed border-gray-600 ltr:right-12 rtl:left-12 dark:border-gray-200'
+                  className='fixed bottom-12 z-10 overflow-hidden rounded border border-dashed border-gray-600 ltr:right-12 rtl:left-12 dark:border-gray-200'
                   style={{
                     position: "fixed",
                     zIndex: 5,

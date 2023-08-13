@@ -78,7 +78,7 @@ export default function LeadTableToolbar({
         className='fixed bottom-10 left-1/2 z-50 h-fit max-w-full px-4'
       >
         <div className='overflow-x-scroll'>
-          <div className='flex h-full w-max flex-wrap items-center justify-center divide-x whitespace-pre-wrap rounded-lg border border-r bg-white py-1 px-4 drop-shadow-xl rtl:divide-x-reverse dark:divide-gray-600 dark:border-gray-600 dark:bg-paper-dark'>
+          <div className='flex h-full w-max flex-wrap items-center justify-center divide-x whitespace-pre-wrap rounded border border-r bg-white py-1 px-4 drop-shadow-xl rtl:divide-x-reverse dark:divide-gray-600 dark:border-gray-600 dark:bg-paper-dark'>
             <p className='font-medium ltr:mr-10 rtl:ml-10'>
               {selectedCount} {t("Items Selected")}
             </p>

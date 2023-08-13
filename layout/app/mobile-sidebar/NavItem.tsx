@@ -121,7 +121,7 @@ function NavItemMobile({
               key={i}
               href={item.disabled ? "" : item.href}
               className={clsx(
-                "flex items-center gap-2 rounded-lg py-2 px-2 ltr:ml-2 rtl:mr-2",
+                "flex items-center gap-2 rounded py-2 px-2 ltr:ml-2 rtl:mr-2",
                 !getActivePath(item.href, pathname, asPath) && "text-gray-500 dark:text-gray-400",
                 item.disabled && "pointer-events-none cursor-not-allowed opacity-40"
               )}
@@ -156,7 +156,7 @@ function NavItemMobile({
             <button
               key={i}
               className={clsx(
-                "flex items-center gap-2 rounded-lg py-2 px-2 ltr:ml-2 rtl:mr-2",
+                "flex items-center gap-2 rounded py-2 px-2 ltr:ml-2 rtl:mr-2",
                 item.disabled && "pointer-events-none cursor-not-allowed opacity-40"
               )}
               onClick={item.onClick}
