@@ -109,7 +109,7 @@ function index() {
         />
         <Card fullWidth>
           <TabsRoot defaultValue='deliveries' value={tab} onValueChange={(value) => setTab(value)}>
-            <TabsList className='rounded-lg border dark:border-gray-600'>
+            <TabsList className='rounded border dark:border-gray-600'>
               {TABS.map((item, i) => (
                 <TabsTrigger key={i} value={item.value}>
                   <div className='flex w-max cursor-pointer items-center gap-2'>

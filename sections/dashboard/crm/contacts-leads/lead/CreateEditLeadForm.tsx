@@ -17,6 +17,7 @@ import {
   useGetCitiesQuery,
   useGetCountriesQuery,
 } from "store/api/crm/contact-leads/addressApi"
+import { skipToken } from "@reduxjs/toolkit/dist/query"
 import { wrapper } from "store"
 import {
   getAllLeadSources,
@@ -68,7 +69,7 @@ export default function CreateEditLeadForm({
     useEditLeadMutation()
 
   const [sourcesList, setSourcesList] = useState<{ value: string; label: string }[]>([])
-  const [coutriesList, setCoutriesList] = useState<{ value: string; label: string }[]>([])
+  const [countriesList, setCountriesList] = useState<{ value: string; label: string }[]>([])
   const [citiesList, setCitiesList] = useState<{ value: string; label: string }[]>([])
   const [city, setCity] = useState<{ value: string; label: string } | null>(null)
   const [country, setCountry] = useState<{ value: string; label: string } | null>(null)
@@ -122,7 +123,7 @@ export default function CreateEditLeadForm({
     defaultValues,
   })
 
-  const { handleSubmit, setValue, getValues, reset } = methods
+  const { handleSubmit, setValue, reset } = methods
 
   const onSubmit = async (data: FieldValues) => {
     const formData = new FormData()
@@ -146,8 +147,10 @@ export default function CreateEditLeadForm({
     data: cities,
     isLoading: isCitiesLoading,
     isSuccess: isCitiesSuccess,
+    isFetching: isCitiesFetching,
     refetch,
-  } = useGetCitiesQuery(getValues("country"), { refetchOnMountOrArgChange: true })
+    status,
+  } = useGetCitiesQuery(country ? country.value : skipToken, { refetchOnMountOrArgChange: true })
 
   // ImageUpload
   const handleDrop = useCallback(
@@ -236,14 +239,14 @@ export default function CreateEditLeadForm({
   }, [isLoading])
   useEffect(() => {
     if (isCountriesSuccess)
-      setCoutriesList(
+      setCountriesList(
         countries.data.map((newCountry) => ({ value: newCountry, label: newCountry }))
       )
   }, [isCountriesLoading])
   useEffect(() => {
     if (isCitiesSuccess)
       setCitiesList(cities.data.map((newCity) => ({ value: newCity, label: newCity })))
-  }, [isCitiesLoading])
+  }, [isCitiesLoading, isCitiesFetching])
 
   return isLoading ? (
     <div className='flex h-56 w-full items-center justify-center'>
@@ -309,12 +312,12 @@ export default function CreateEditLeadForm({
             <div className='mb-6 grid grid-cols-1 gap-6 sm:grid-cols-2 '>
               <RHFFieldContainer label={t("Country")} name='country'>
                 <CreatableSelect
-                  options={coutriesList}
+                  options={countriesList}
                   isLoading={isCountriesLoading}
                   onChange={(newValue) => {
                     setValue("country", newValue?.value)
                     setCountry(newValue)
-                    refetch()
+                    if (status === "fulfilled") refetch()
                   }}
                   value={country}
                   className='react-select-container'
@@ -325,7 +328,7 @@ export default function CreateEditLeadForm({
               <RHFFieldContainer label={t("City")} name='city'>
                 <CreatableSelect
                   options={citiesList}
-                  isLoading={isCitiesLoading}
+                  isLoading={isCitiesLoading || isCitiesFetching}
                   onChange={(newValue) => {
                     setValue("city", newValue?.value)
                     setCity(newValue)

@@ -30,7 +30,7 @@ input[type="number"] {
 /* Chart */
 
 .apexcharts-canvas .apexcharts-xaxistooltip {
-  @apply rounded-lg border-0 bg-gray-50/10 text-primary-600 shadow-md !backdrop-blur before:border-b-transparent after:border-b-white/10 dark:after:border-b-dark/10;
+  @apply rounded border-0 bg-gray-50/10 text-primary-600 shadow-md !backdrop-blur before:border-b-transparent after:border-b-white/10 dark:after:border-b-dark/10;
 }
 
 .apexcharts-canvas .apexcharts-tooltip-title {
@@ -52,7 +52,7 @@ input[type="number"] {
 
 .apexcharts-canvas .apexcharts-tooltip.apexcharts-theme-light,
 .apexcharts-canvas .apexcharts-tooltip.apexcharts-theme-dark {
-  @apply rounded-lg border-0 !bg-white/20 text-rich-black shadow-lg backdrop-blur  dark:!bg-dark/50 dark:text-white;
+  @apply rounded border-0 !bg-white/20 text-rich-black shadow-lg backdrop-blur  dark:!bg-dark/50 dark:text-white;
 }
 
 .apexcharts-canvas .apexcharts-text.apexcharts-xaxis-label,
@@ -216,11 +216,11 @@ html[class*="dark"] {
 
 /* Autosuggest */
 .react-autosuggest__container {
-  @apply relative w-full items-center justify-center  rounded-lg bg-transparent outline outline-1 outline-gray-400 focus-within:outline-2 focus-within:outline-primary-600 hover:outline-primary-600 dark:outline-gray-300 dark:focus-within:outline-primary-300 dark:hover:outline-primary-300;
+  @apply relative w-full items-center justify-center  rounded bg-transparent outline outline-1 outline-gray-400 focus-within:outline-2 focus-within:outline-primary-600 hover:outline-primary-600 dark:outline-gray-300 dark:focus-within:outline-primary-300 dark:hover:outline-primary-300;
 }
 
 .react-autosuggest__input {
-  @apply w-full flex-1 rounded-lg bg-transparent p-2 outline-none;
+  @apply w-full flex-1 rounded bg-transparent p-2 outline-none;
 }
 
 .react-autosuggest__suggestions-container {
@@ -228,11 +228,11 @@ html[class*="dark"] {
 }
 
 .react-autosuggest__container--open .react-autosuggest__suggestions-container {
-  @apply absolute -bottom-px z-10 block w-full translate-y-full rounded-lg border bg-paper-light shadow-lg dark:bg-paper-dark;
+  @apply absolute -bottom-px z-10 block w-full translate-y-full rounded border bg-paper-light shadow-lg dark:bg-paper-dark;
 }
 
 .react-autosuggest__suggestions-list {
-  @apply overflow-hidden rounded-lg py-2;
+  @apply overflow-hidden rounded py-2;
 }
 .react-autosuggest__suggestion {
   @apply cursor-pointer;
@@ -252,7 +252,7 @@ html[class*="dark"] {
   @apply !w-full;
 }
 .react-select-container .react-select__control {
-  @apply rounded-lg border border-gray-400 bg-transparent shadow-none ring-black focus-within:border-black focus-within:ring-1 hover:border-black dark:!border-gray-500 dark:!text-white dark:hover:!border-white dark:focus:!border-white;
+  @apply rounded border border-gray-400 bg-transparent shadow-none ring-black focus-within:border-black focus-within:ring-1 hover:border-black dark:!border-gray-500 dark:!text-white dark:hover:!border-white dark:focus:!border-white;
 }
 
 .react-select-container .react-select__control .react-select__value-container {
@@ -271,11 +271,11 @@ html[class*="dark"] {
 }
 
 .react-select__menu {
-  @apply !z-50 overflow-hidden !rounded-lg border bg-paper-light shadow-md dark:bg-paper-dark;
+  @apply !z-50 overflow-hidden !rounded border bg-paper-light shadow-md dark:bg-paper-dark;
 }
 
 .react-select__menu-list {
-  @apply overflow-hidden !rounded-lg;
+  @apply overflow-hidden !rounded;
 }
 .react-select__option {
   @apply rounded-none bg-paper-dark !text-black hover:!bg-gray-200 ltr:text-left rtl:text-right dark:bg-paper-dark dark:!text-white dark:hover:!bg-paper-hover-dark;
@@ -331,7 +331,7 @@ html[class*="dark"] {
   @apply w-full;
 }
 .react-date-picker .react-date-picker__wrapper {
-  @apply w-full rounded-lg px-2 py-1 ring-black focus-within:ring-1 dark:ring-white;
+  @apply w-full rounded px-2 py-1 ring-black focus-within:ring-1 dark:ring-white;
 }
 
 .react-date-picker .react-date-picker__button {
@@ -345,13 +345,13 @@ html[class*="dark"] {
   @apply !right-0;
 }
 .react-date-picker .react-calendar {
-  @apply mt-1 rounded-lg border-gray-300 bg-paper-light font-sans shadow-xl dark:border-gray-600 dark:bg-paper-dark;
+  @apply mt-1 rounded border-gray-300 bg-paper-light font-sans shadow-xl dark:border-gray-600 dark:bg-paper-dark;
 }
 .react-date-picker .react-calendar .react-calendar__navigation {
   @apply p-1;
 }
 .react-date-picker .react-calendar .react-calendar__navigation button {
-  @apply mx-1 flex aspect-square items-center justify-center rounded-lg p-2 outline-none transition-colors hover:bg-gray-200 focus-visible:bg-gray-200 active:bg-gray-300 dark:hover:bg-gray-700 dark:focus-visible:bg-gray-700 dark:active:bg-gray-500;
+  @apply mx-1 flex aspect-square items-center justify-center rounded p-2 outline-none transition-colors hover:bg-gray-200 focus-visible:bg-gray-200 active:bg-gray-300 dark:hover:bg-gray-700 dark:focus-visible:bg-gray-700 dark:active:bg-gray-500;
 }
 .react-date-picker
   .react-calendar
@@ -373,7 +373,7 @@ button.react-calendar__tile.react-calendar__tile--now.react-calendar__century-vi
 }
 
 .react-date-picker .react-calendar .react-calendar__viewContainer button {
-  @apply flex items-center justify-center rounded-lg outline-none transition-colors hover:bg-gray-200 hover:text-rich-black focus-visible:bg-gray-200 active:bg-gray-300 dark:hover:bg-gray-700 dark:hover:text-white dark:focus-visible:bg-gray-700 dark:active:bg-gray-500;
+  @apply flex items-center justify-center rounded outline-none transition-colors hover:bg-gray-200 hover:text-rich-black focus-visible:bg-gray-200 active:bg-gray-300 dark:hover:bg-gray-700 dark:hover:text-white dark:focus-visible:bg-gray-700 dark:active:bg-gray-500;
 }
 
 button.react-calendar__tile.react-calendar__tile--now.react-calendar__decade-view__years__year {
@@ -428,7 +428,7 @@ button.react-calendar__tile.react-calendar__tile--now.react-calendar__month-view
 }
 
 .CSVImporter_TextButton {
-  @apply flex select-none items-center justify-center gap-2 rounded-lg !border-none !bg-primary-600 font-semibold capitalize !text-white outline-none ring-primary-600 transition-all hover:bg-primary-700 focus-visible:bg-primary-500 focus-visible:ring active:bg-primary-500 dark:bg-primary-700 dark:ring-primary-500 dark:hover:bg-primary-500  dark:focus-visible:bg-primary-600 dark:active:bg-primary-600;
+  @apply flex select-none items-center justify-center gap-2 rounded !border-none !bg-primary-600 font-semibold capitalize !text-white outline-none ring-primary-600 transition-all hover:bg-primary-700 focus-visible:bg-primary-500 focus-visible:ring active:bg-primary-500 dark:bg-primary-700 dark:ring-primary-500 dark:hover:bg-primary-500  dark:focus-visible:bg-primary-600 dark:active:bg-primary-600;
 }
 
 .CSVImporter_ImporterFrame__headerSubtitle {
@@ -451,7 +451,7 @@ button.react-calendar__tile.react-calendar__tile--now.react-calendar__month-view
 }
 
 .CSVImporter_ColumnDragTargetArea__boxValue {
-  @apply overflow-hidden rounded-lg;
+  @apply overflow-hidden rounded;
 }
 
 .CSVImporter_ColumnDragSourceArea__page {
@@ -475,7 +475,7 @@ button.react-calendar__tile.react-calendar__tile--now.react-calendar__month-view
 }
 
 .CSVImporter_ProgressDisplay__progressBar {
-  @apply overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-400;
+  @apply overflow-hidden rounded bg-gray-100 dark:bg-gray-400;
 }
 .CSVImporter_ProgressDisplay__progressBarIndicator {
   @apply bg-primary-600 dark:bg-primary-700;

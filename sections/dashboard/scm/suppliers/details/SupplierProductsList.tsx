@@ -272,10 +272,7 @@ export default function SupplierProductsList({
           ) : (
             isProductsSuccess &&
             data.data.map((product, i) => (
-              <div
-                key={i}
-                className='flex w-full items-center justify-between rounded-lg border p-4'
-              >
+              <div key={i} className='flex w-full items-center justify-between rounded border p-4'>
                 <div>
                   <p>{product.name}</p>
                   <p className='text-sm text-gray-400 dark:text-gray-600'>

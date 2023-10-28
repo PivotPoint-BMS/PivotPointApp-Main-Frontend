@@ -18,7 +18,7 @@ const Popover = ({ trigger, children, className }: PopoverProps) => (
         sideOffset={4}
         className={clsx(
           "border data-[side=top]:animate-slide-up data-[side=bottom]:animate-slide-down",
-          "z-50 w-fit rounded-lg p-4 shadow-lg",
+          "z-50 w-fit rounded p-4 shadow-lg",
           "bg-paper-light dark:bg-paper-dark",
           className
         )}

@@ -46,28 +46,16 @@ const initialState: SideBarConfig = {
           name: "Monitoring",
           href: PATH_DASHBOARD.crm.dashboard,
           icon: "solar:graph-bold",
-          badge: {
-            label: "New",
-            color: "success",
-          },
         },
         {
           name: "Contacts & Leads",
           href: PATH_DASHBOARD.crm["contacts-leads"].root,
           icon: "material-symbols:contact-page",
-          badge: {
-            label: "New",
-            color: "success",
-          },
         },
         {
           name: "Sales Pipeline",
           href: PATH_DASHBOARD.crm["sales-pipeline"],
           icon: "icon-park-solid:sales-report",
-          badge: {
-            label: "New",
-            color: "success",
-          },
         },
         {
           name: "Customer Segmentation",
@@ -91,46 +79,26 @@ const initialState: SideBarConfig = {
           name: "Monitoring",
           href: PATH_DASHBOARD.scm.dashboard,
           icon: "solar:graph-bold",
-          badge: {
-            label: "New",
-            color: "success",
-          },
         },
         {
           name: "Suppliers",
           href: PATH_DASHBOARD.scm.suppliers,
           icon: "fa6-solid:boxes-packing",
-          badge: {
-            label: "New",
-            color: "success",
-          },
         },
         {
           name: "Product/Service",
           href: PATH_DASHBOARD.scm["product-service"].list,
           icon: "fa6-solid:boxes-stacked",
-          badge: {
-            label: "New",
-            color: "success",
-          },
         },
         {
           name: "Warehousing",
           href: PATH_DASHBOARD.scm.warehousing.list,
           icon: "fa6-solid:warehouse",
-          badge: {
-            label: "New",
-            color: "success",
-          },
         },
         {
           name: "Transportation",
           href: PATH_DASHBOARD.scm.transportation.root,
           icon: "fluent:vehicle-truck-profile-20-filled",
-          badge: {
-            label: "New",
-            color: "success",
-          },
         },
         {
           name: "Invoices",

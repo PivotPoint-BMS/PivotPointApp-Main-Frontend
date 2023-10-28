@@ -3,7 +3,7 @@ import { cva, VariantProps } from "class-variance-authority"
 import { ClassProp } from "class-variance-authority/dist/types"
 
 export const buttonContained = cva(
-  "select-none outline-none flex items-center justify-center gap-2 font-semibold rounded-lg capitalize transition-all focus-visible:ring",
+  "select-none outline-none flex items-center justify-center gap-2 font-semibold rounded capitalize transition-all focus-visible:ring",
   {
     variants: {
       intent: {
@@ -45,7 +45,7 @@ export const buttonContained = cva(
 )
 
 export const buttonOutlined = cva(
-  "select-none outline-none flex items-center justify-center gap-2 font-semibold rounded-lg capitalize border transition-all",
+  "select-none outline-none flex items-center justify-center gap-2 font-semibold rounded capitalize border transition-all",
   {
     variants: {
       intent: {
@@ -84,7 +84,7 @@ export const buttonOutlined = cva(
 )
 
 export const buttonText = cva(
-  "select-none outline-none flex items-center justify-center gap-2 font-semibold rounded-lg capitalize transition-all",
+  "select-none outline-none flex items-center justify-center gap-2 font-semibold rounded capitalize transition-all",
   {
     variants: {
       intent: {

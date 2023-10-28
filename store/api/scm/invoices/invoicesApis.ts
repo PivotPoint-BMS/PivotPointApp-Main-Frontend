@@ -133,7 +133,7 @@ export const invoicesApi = createApi({
           )
 
           dispatch(
-            invoicesApi.util.updateQueryData("getInvoices", { PageNumber, PageSize }, (draft) => {
+            invoicesApi.util.updateQueryData("getInvoice", id, (draft) => {
               Object.assign(draft.data, {
                 ...draft.data,
                 status: 1,
@@ -171,7 +171,7 @@ export const invoicesApi = createApi({
           )
 
           dispatch(
-            invoicesApi.util.updateQueryData("getInvoices", { PageNumber, PageSize }, (draft) => {
+            invoicesApi.util.updateQueryData("getInvoice", id, (draft) => {
               Object.assign(draft.data, {
                 ...draft.data,
                 status: 2,
@@ -212,7 +212,7 @@ export const invoicesApi = createApi({
           )
 
           dispatch(
-            invoicesApi.util.updateQueryData("getInvoices", { PageNumber, PageSize }, (draft) => {
+            invoicesApi.util.updateQueryData("getInvoice", id, (draft) => {
               Object.assign(draft.data, {
                 ...draft.data,
                 status: 3,

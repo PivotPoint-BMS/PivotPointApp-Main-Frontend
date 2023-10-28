@@ -1,7 +1,7 @@
 import React, { forwardRef } from "react"
 import { cva, VariantProps } from "class-variance-authority"
 
-const card = cva("rounded-lg divide-gray-300 bg-paper-light dark:bg-paper-dark", {
+const card = cva("rounded divide-gray-300 bg-paper-light dark:bg-paper-dark", {
   variants: {
     variant: {
       elevated: "drop-shadow-lg",

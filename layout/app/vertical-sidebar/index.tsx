@@ -89,7 +89,7 @@ function SidebarVertical() {
                 variant='outlined'
                 intent='default'
                 className={clsx(
-                  "my-3 w-full !justify-start rounded-lg border border-dashed transition-all dark:border-gray-600",
+                  "my-3 w-full !justify-start rounded border border-dashed transition-all dark:border-gray-600",
                   isCollapsed && "aspect-square border-none"
                 )}
               >

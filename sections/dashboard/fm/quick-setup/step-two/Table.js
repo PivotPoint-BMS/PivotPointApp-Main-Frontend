@@ -65,7 +65,7 @@ export default function Table({ columns, data, dispatch: dataDispatch, isSaaS })
   return (
     <div className='w-full flex-1 overflow-visible'>
       <div className='flex w-full justify-center overflow-x-scroll'>
-        <div className='container min-w-fit max-w-full rounded-lg border border-b-0'>
+        <div className='container min-w-fit max-w-full rounded border border-b-0'>
           <table {...getTableProps()} className='w-full'>
             <thead className='overflow-x-scroll'>
               {headerGroups.map((headerGroup, i) => (

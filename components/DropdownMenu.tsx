@@ -192,7 +192,7 @@ export default function DropdownMenu({
             {...contentProps}
             className={clsx(
               "data-[side=top]:animate-slide-up data-[side=bottom]:animate-slide-down",
-              "w-fit min-w-[150px] rounded-lg border px-1.5 py-1 drop-shadow-lg dark:border-gray-600",
+              "w-fit min-w-[150px] rounded border px-1.5 py-1 drop-shadow-lg dark:border-gray-600",
               "bg-white dark:bg-paper-dark",
               "flex flex-col gap-1"
             )}

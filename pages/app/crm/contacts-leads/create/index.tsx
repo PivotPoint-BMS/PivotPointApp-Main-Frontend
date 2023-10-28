@@ -12,6 +12,8 @@ import Layout from "layout/Index"
 import { HeaderBreadcrumbs } from "components"
 import RoleBasedGuard from "guards/RoleBasedGuard"
 
+// TODO: Remove
+
 function index() {
   const { t } = useTranslate()
 

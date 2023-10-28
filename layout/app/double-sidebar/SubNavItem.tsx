@@ -31,7 +31,7 @@ export default function SubNavItemTwo({ name, href, icon, badge, disabled, isCol
     <Link
       href={disabled ? "" : href}
       className={clsx(
-        "group flex w-full items-center gap-2 rounded-lg p-4 hover:bg-gray-500/10 dark:text-white",
+        "group flex w-full items-center gap-2 rounded p-4 hover:bg-gray-500/10 dark:text-white",
         active && "bg-primary-600/20 text-primary-900 hover:!bg-primary-500/25",
         disabled &&
           "pointer-events-none cursor-not-allowed opacity-40 hover:bg-gray-100/40 dark:hover:bg-secondary-100/60"

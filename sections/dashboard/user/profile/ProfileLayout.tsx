@@ -18,7 +18,7 @@ export default function ProfileLayout() {
       <CardContent className='flex items-center gap-10 p-5'>
         <div className='flex flex-col items-center justify-center gap-2'>
           <button
-            className='flex h-28 w-28 divide-x divide-dashed rounded-lg border border-dashed dark:divide-gray-600 dark:border-gray-600'
+            className='flex h-28 w-28 divide-x divide-dashed rounded border border-dashed dark:divide-gray-600 dark:border-gray-600'
             onClick={() => dispatch(setThemeLayout("vertical"))}
           >
             <div className='items-starts flex h-full w-8 flex-col gap-2 p-1'>
@@ -70,7 +70,7 @@ export default function ProfileLayout() {
         </div>
         <div className='flex flex-col items-center justify-center gap-2'>
           <button
-            className='flex h-28 w-28 divide-x divide-dashed rounded-lg border border-dashed dark:divide-gray-600 dark:border-gray-600'
+            className='flex h-28 w-28 divide-x divide-dashed rounded border border-dashed dark:divide-gray-600 dark:border-gray-600'
             onClick={() => dispatch(setThemeLayout("double"))}
           >
             <div className='items-starts flex h-full w-4 flex-col gap-2 p-1'>
@@ -148,7 +148,7 @@ export default function ProfileLayout() {
         </div>
         <div className='flex flex-col items-center justify-center gap-2'>
           <button
-            className='flex h-28 w-28 flex-col divide-y divide-dashed rounded-lg border border-dashed dark:divide-gray-600 dark:border-gray-600'
+            className='flex h-28 w-28 flex-col divide-y divide-dashed rounded border border-dashed dark:divide-gray-600 dark:border-gray-600'
             // onClick={() => dispatch(setThemeLayout('horizontal'))}
           >
             <div className='items-starts flex h-4 w-full items-end gap-2 p-1'>

@@ -68,7 +68,7 @@ function index() {
             {isSuccess && (
               <>
                 <h6 className='text-lg'>{data?.data.name}</h6>
-                <Link href={data?.data.website} target='_blank'>
+                <Link href={data?.data.website ?? ""} target='_blank'>
                   <h6 className='hover:underline'>{data?.data.website}</h6>
                 </Link>
               </>

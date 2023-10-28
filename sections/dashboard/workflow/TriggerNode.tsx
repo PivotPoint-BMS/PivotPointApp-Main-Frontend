@@ -65,7 +65,7 @@ export default function TriggerNode({ data }: NodeProps<TriggerNodeData>) {
         <ContextMenuPrimitive.Content
           className={clsx(
             "radix-side-top:animate-slide-up radix-side-bottom:animate-slide-down",
-            "w-48 rounded-lg px-1.5 py-1 shadow-md ",
+            "w-48 rounded px-1.5 py-1 shadow-md ",
             "bg-white dark:bg-gray-800"
           )}
         >

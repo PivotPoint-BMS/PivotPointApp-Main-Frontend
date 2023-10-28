@@ -70,7 +70,7 @@ function CollapsedNavItem({
       trigger={
         <div
           className={clsx(
-            "flex aspect-square w-full cursor-pointer items-center justify-center rounded-lg p-3 hover:bg-gray-500/10",
+            "flex aspect-square w-full cursor-pointer items-center justify-center rounded p-3 hover:bg-gray-500/10",
             active &&
               "bg-primary-600/20 text-primary-900 hover:!bg-primary-500/25 dark:bg-primary-800/25 dark:text-primary-100",
             disabled ||
@@ -117,7 +117,7 @@ function CollapsedNavItem({
     />
   ) : (
     <button
-      className='relative flex w-full items-center rounded-lg p-4 text-secondary-900 transition-colors dark:text-white'
+      className='relative flex w-full items-center rounded p-4 text-secondary-900 transition-colors dark:text-white'
       onClick={onClick}
     >
       {icon}

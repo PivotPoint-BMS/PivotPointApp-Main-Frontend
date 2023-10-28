@@ -498,7 +498,7 @@ function CreateEditW2CDeliveryForm() {
                 warehouses.data.map((warehouse) => (
                   <button
                     className={clsx(
-                      "flex w-full flex-col items-start space-y-1 rounded-lg border p-4 dark:border-gray-600",
+                      "flex w-full flex-col items-start space-y-1 rounded border p-4 dark:border-gray-600",
                       "hover:bg-gray-100 active:bg-gray-200",
                       "dark:hover:bg-paper-hover-dark dark:active:bg-paper-dark-contrast",
                       from.startWarehouseId === warehouse.id &&
@@ -560,7 +560,7 @@ function CreateEditW2CDeliveryForm() {
             customers.data.map((customer) => (
               <button
                 className={clsx(
-                  "flex w-full flex-col items-start space-y-1 rounded-lg border p-4 dark:border-gray-600",
+                  "flex w-full flex-col items-start space-y-1 rounded border p-4 dark:border-gray-600",
                   "hover:bg-gray-100 active:bg-gray-200",
                   "dark:hover:bg-paper-hover-dark dark:active:bg-paper-dark-contrast",
                   to.contactId === customer.id &&
@@ -646,7 +646,7 @@ function CreateEditW2CDeliveryForm() {
               .map((product, i) => (
                 <div
                   key={i}
-                  className='flex w-full items-center justify-between rounded-lg border p-4'
+                  className='flex w-full items-center justify-between rounded border p-4'
                 >
                   <div className='flex items-center gap-2'>
                     {product.picture ? (

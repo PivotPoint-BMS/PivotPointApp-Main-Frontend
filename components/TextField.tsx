@@ -58,7 +58,7 @@ export default function TextField({
       </label>
       <div
         className={clsx(
-          "flex w-full items-center justify-center rounded-lg bg-transparent",
+          "flex w-full items-center justify-center rounded bg-transparent",
           "border border-gray-400 outline-none ring-black transition-all focus-within:ring-1 hover:border-black",
           "dark:border-gray-600 dark:ring-white dark:hover:border-white",
           error &&
@@ -78,7 +78,7 @@ export default function TextField({
           name={name}
           type={type}
           className={clsx(
-            "w-full flex-1 rounded-lg border-none bg-transparent p-2 outline-none",
+            "w-full flex-1 rounded border-none bg-transparent p-2 outline-none",
             className
           )}
           {...other}

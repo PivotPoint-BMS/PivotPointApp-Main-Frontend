@@ -69,7 +69,7 @@ export default function SettingsApi() {
             <div className='flex items-end gap-2'>
               <FieldContainer label={t("API KEY")} className='flex-1'>
                 <p
-                  className='w-full rounded-lg border p-2 dark:border-gray-600'
+                  className='w-full rounded border p-2 dark:border-gray-600'
                   onClick={() =>
                     copy(data?.data.key || "").then(() =>
                       open({ message: t("API Key Copied to clipboard.") })
